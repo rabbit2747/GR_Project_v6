@@ -1,0 +1,1049 @@
+# GR 프레임워크 - 기능 코드 분류 체계 v5.0.1
+# 10개 도메인, 137개 코드에 대한 기계 판독 가능 정의
+# 최종 업데이트: 2026-02-09
+#
+# 변경 이력:
+#   v5.0 - C 도메인: Compute → Compliance (v2.0 마크다운 소스 반영)
+#        - T 도메인: 마크다운 소스(Domain_T_TechStack.md) 구조로 재구성
+#        - I 도메인: 마크다운 소스(Domain_I_Interface.md) 구조로 재구성
+#   v5.0.1 - typical_components, security_considerations 제거 (구현 참조 → atom 시스템으로 이관)
+#          - 순수 분류 체계(taxonomy)만 유지
+#
+# 참조 문서:
+#   - 02_framework/03_function/00_차원3_개요.md (차원 3 개요)
+#   - 02_framework/03_function/Domain_*.md (도메인별 상세 정의)
+
+version: "5.0.1"
+dimension: "Function"
+dimension_code: 3
+axis: "Functional"
+question: "어떤 기능을 제공하는가?"
+total_domains: 10
+total_codes: 137
+
+# ─────────────────────────────────────────────
+# 차원 정의
+# ─────────────────────────────────────────────
+
+definition: >
+  Function 코드는 인프라 구성요소가 수행하는 실제 기능을 분류하는 체계이다.
+  Layer(어디에 위치하는가)와 Zone(어떤 신뢰 경계에 속하는가)이 구성요소의 물리적/논리적 위치를 정의한다면,
+  Function은 "무엇을 하는가"를 정의한다. 하나의 구성요소는 정확히 하나의 주요 Function 코드를 가지며,
+  추가 기능은 atom_tags의 secondary_function으로 표현한다.
+
+core_philosophy:
+  - "좌표화 우선: 구성요소의 기능을 분석하면 Function 코드가 결정되고, Layer/Zone과 결합하여 3D 좌표가 완성된다"
+  - "계층적 구조: 도메인(M) → 하위 도메인(M1) → 코드(M1.1)의 3단계 계층"
+  - "코드 불변성: 한번 할당된 코드의 의미는 절대 변경되지 않음. 새 코드만 추가 가능"
+  - "단일 주요 기능: 각 atom은 정확히 하나의 주요 Function 코드를 가짐"
+
+type_system:
+  description: "Function 코드는 4가지 타입으로 분류된다"
+  types:
+    - type: "Capability"
+      description: "시스템이 제공하는 핵심 기술 역량"
+      domains: ["N (Network)", "A (Application)", "D (Data)", "R (Resource)"]
+    - type: "Control"
+      description: "보안, 규정 준수를 위한 통제 메커니즘"
+      domains: ["S (Security)", "C (Compliance)"]
+    - type: "Service"
+      description: "운영 지원 및 플랫폼 서비스"
+      domains: ["M (Monitoring)", "P (Platform)"]
+    - type: "Metadata"
+      description: "기술 스택 및 인터페이스 식별 (주로 atom_tags로 사용)"
+      domains: ["T (Tech Stack)", "I (Interface)"]
+
+# ─────────────────────────────────────────────
+# 도메인 정의 (10개)
+# ─────────────────────────────────────────────
+
+domains:
+
+  # ═══════════════════════════════════════════
+  # Domain 1: M — Monitoring (모니터링)
+  # ═══════════════════════════════════════════
+  - id: 1
+    code: "M"
+    name_en: "Monitoring"
+    name_kr: "모니터링"
+    type: "Service"
+    description: "IT 인프라 전반의 가시성(Observability)을 제공하는 기능 집합. 메트릭 수집, 로그 집계, 분산 추적, 알림, 보안 모니터링을 포함한다."
+    typical_layer: "Cross-Layer"
+    typical_zone: "Z4"
+    core_objectives:
+      - "실시간 가시성: 모든 Layer/Zone의 상태 추적"
+      - "성능 최적화: 병목 지점 식별 및 개선"
+      - "이상 탐지: AI/ML 기반 자동 탐지"
+      - "보안 위협 탐지: SIEM 연동"
+
+    subdomains:
+      - group: "M1"
+        name: "Data Collection"
+        description: "시스템/애플리케이션/비즈니스 메트릭 및 로그 수집"
+        codes:
+          - code: "M1.1"
+            name: "Metrics Collection"
+            description: "시스템 및 애플리케이션 메트릭 수집 (CPU, 메모리, 디스크, 네트워크 I/O, 요청 비율)"
+          - code: "M1.2"
+            name: "Log Aggregation"
+            description: "중앙 집중식 로그 수집, 파싱 및 저장. 다양한 소스의 로그를 통합 관리"
+          - code: "M1.3"
+            name: "Distributed Tracing"
+            description: "마이크로서비스 전반에 걸친 요청 흐름 추적. Trace ID 전파 및 Span 분석"
+          - code: "M1.4"
+            name: "APM (Application Performance Monitoring)"
+            description: "애플리케이션 수준의 성능 추적, 진단 및 최적화. 트랜잭션 추적, 에러율, 응답 시간 분석"
+
+      - group: "M2"
+        name: "Visualization & Alerting"
+        description: "수집된 데이터의 시각화 및 임계값 기반 알림"
+        codes:
+          - code: "M2.1"
+            name: "Alerting & Notification"
+            description: "임계값 기반 알림 및 인시던트 알림. 에스컬레이션 정책, 온콜 연동"
+          - code: "M2.2"
+            name: "Dashboard & Visualization"
+            description: "실시간 대시보드 및 메트릭 시각화. 커스텀 패널, 임계값 표시"
+
+      - group: "M3"
+        name: "Security Monitoring"
+        description: "보안 이벤트 모니터링, 위협 탐지, 인시던트 대응"
+        codes:
+          - code: "M3.1"
+            name: "SIEM"
+            description: "보안 정보 및 이벤트 관리. 로그 상관분석, 보안 이벤트 탐지, 인시던트 대응 워크플로"
+          - code: "M3.2"
+            name: "Threat Intelligence"
+            description: "위협 피드 집계 및 상관분석. IoC(Indicator of Compromise) 관리, 위협 헌팅"
+
+  # ═══════════════════════════════════════════
+  # Domain 2: N — Network (네트워크)
+  # ═══════════════════════════════════════════
+  - id: 2
+    code: "N"
+    name_en: "Network"
+    name_kr: "네트워크"
+    type: "Capability"
+    description: "데이터 전송, 연결 관리, 트래픽 제어를 담당하는 기능 집합. 부하 분산, 프록시, 서비스 검색, DNS, VPN을 포함한다."
+    typical_layer: "L2"
+    typical_zone: "Z1-Z2"
+    core_objectives:
+      - "고가용성: 99.99% 네트워크 업타임"
+      - "성능 최적화: 지연 시간 최소화 (RTT <50ms)"
+      - "보안: 네트워크 레벨 격리 및 암호화"
+      - "확장성: 트래픽 증가에 대응 가능한 구조"
+
+    subdomains:
+      - group: "N1"
+        name: "Load Balancing"
+        description: "트래픽 분산 및 고가용성 보장"
+        codes:
+          - code: "N1.1"
+            name: "L4 Load Balancing (TCP/UDP)"
+            description: "전송 계층 부하 분산. Round Robin, Least Connections, IP Hash 알고리즘"
+          - code: "N1.2"
+            name: "L7 Load Balancing (HTTP/HTTPS)"
+            description: "콘텐츠 라우팅을 포함한 애플리케이션 계층 부하 분산. URL Path, Header, Cookie 기반 라우팅"
+
+      - group: "N2"
+        name: "Proxying"
+        description: "트래픽 중개 및 프록시"
+        codes:
+          - code: "N2.1"
+            name: "Reverse Proxy"
+            description: "백엔드 서버를 위한 클라이언트 대면 프록시. SSL Termination, 캐싱, 압축"
+          - code: "N2.2"
+            name: "Forward Proxy"
+            description: "내부 클라이언트를 위한 아웃바운드 프록시. URL 필터링, DLP, 캐싱"
+
+      - group: "N3"
+        name: "Discovery & Resolution"
+        description: "서비스 검색 및 이름 해석"
+        codes:
+          - code: "N3.1"
+            name: "Service Discovery"
+            description: "동적 서비스 등록 및 검색. 마이크로서비스 환경에서 서비스 위치 자동 탐색"
+          - code: "N3.2"
+            name: "DNS Resolution"
+            description: "도메인 이름에서 IP 주소로의 해석. 캐싱, 부하 분산, 장애 조치"
+
+      - group: "N4"
+        name: "VPN"
+        description: "가상 사설망 연결"
+        codes:
+          - code: "N4.1"
+            name: "VPN Gateway (IPSec)"
+            description: "IPSec을 통한 사이트 간 또는 원격 접근 VPN. IKEv2, ESP 터널링"
+          - code: "N4.2"
+            name: "VPN Gateway (SSL/TLS)"
+            description: "원격 접근을 위한 SSL/TLS 기반 VPN. 브라우저 기반 접근 가능"
+
+  # ═══════════════════════════════════════════
+  # Domain 3: S — Security (보안)
+  # ═══════════════════════════════════════════
+  - id: 3
+    code: "S"
+    name_en: "Security"
+    name_kr: "보안"
+    type: "Control"
+    description: "기밀성(Confidentiality), 무결성(Integrity), 가용성(Availability) 보장을 위한 보안 통제 집합. 경계 보안, ID/접근 관리, 속도 제한, 암호화, TLS를 포함한다."
+    typical_layer: "L2 or Cross"
+    typical_zone: "Z1-Z4"
+    core_objectives:
+      - "Zero Trust Architecture: 절대 신뢰하지 말고, 항상 검증하라"
+      - "Defense in Depth: 다층 보안 방어"
+      - "Least Privilege: 최소 권한 원칙"
+      - "Security by Design: 설계 단계부터 보안 고려"
+
+    subdomains:
+      - group: "S1"
+        name: "Perimeter Security"
+        description: "외부 위협 차단 — Zone 0 → Zone 1 경계 보호"
+        codes:
+          - code: "S1.1"
+            name: "NGFW (Next-Gen Firewall)"
+            description: "심층 패킷 검사가 가능한 애플리케이션 인식 방화벽. L3-L7 트래픽 필터링"
+          - code: "S1.2"
+            name: "WAF (Web Application Firewall)"
+            description: "웹 애플리케이션 보호를 위한 HTTP/HTTPS 트래픽 필터링. OWASP Top 10 방어"
+          - code: "S1.3"
+            name: "IDS/IPS"
+            description: "침입 탐지 및 방지 시스템. 서명 기반 + 행동 기반 탐지"
+          - code: "S1.4"
+            name: "DDoS Protection"
+            description: "분산 서비스 거부 공격 완화. L3/L4(SYN Flood) 및 L7(HTTP Flood) 방어"
+          - code: "S1.5"
+            name: "Bot Management"
+            description: "악성 봇 탐지 및 차단. User-Agent 분석, 행동 분석, CAPTCHA"
+
+      - group: "S2"
+        name: "Identity & Access"
+        description: "사용자 신원 확인 및 접근 권한 관리"
+        codes:
+          - code: "S2.1"
+            name: "RBAC"
+            description: "역할 기반 접근 통제. 사용자에게 역할 할당, 역할에 권한 매핑"
+          - code: "S2.2"
+            name: "OAuth 2.0 / OIDC"
+            description: "OAuth 2.0 인가 및 OpenID Connect 인증. Authorization Code Flow, Client Credentials"
+          - code: "S2.3"
+            name: "SAML 2.0 SSO"
+            description: "SAML 기반 싱글 사인온 연합. 엔터프라이즈 SSO, ID Federation"
+
+      - group: "S3"
+        name: "Rate Control"
+        description: "트래픽 속도 제한 및 남용 방지"
+        codes:
+          - code: "S3.1"
+            name: "Rate Limiting (Request)"
+            description: "요청 횟수 기반 속도 제한. Token Bucket, Sliding Window 알고리즘"
+          - code: "S3.2"
+            name: "Rate Limiting (Bandwidth)"
+            description: "대역폭 기반 속도 제한. 전송 용량 제한, QoS"
+
+      - group: "S4"
+        name: "Encryption"
+        description: "데이터 암호화 — 저장 시(at rest) 및 전송 시(in transit)"
+        codes:
+          - code: "S4.1"
+            name: "Encryption at Rest"
+            description: "저장된 데이터에 대한 암호화. AES-256, 키 관리(KMS) 연동"
+          - code: "S4.2"
+            name: "Encryption in Transit"
+            description: "전송 중 데이터에 대한 암호화. TLS 1.3, mTLS, IPSec"
+
+      - group: "S5"
+        name: "TLS Management"
+        description: "TLS/SSL 인증서 수명 주기 관리"
+        codes:
+          - code: "S5.1"
+            name: "TLS/SSL Termination"
+            description: "TLS 핸드셰이크 처리 및 인증서 관리. SNI, OCSP Stapling"
+
+  # ═══════════════════════════════════════════
+  # Domain 4: A — Application (애플리케이션)
+  # ═══════════════════════════════════════════
+  - id: 4
+    code: "A"
+    name_en: "Application"
+    name_kr: "애플리케이션"
+    type: "Capability"
+    description: "애플리케이션 서빙, 실행 환경, AI/ML 워크로드를 포함하는 기능 집합. 정적 파일 서빙부터 LLM 추론까지 애플리케이션 계층의 모든 기능을 다룬다."
+    typical_layer: "L7"
+    typical_zone: "Z2"
+    core_objectives:
+      - "안정적 서빙: 고가용성, 무중단 배포"
+      - "확장성: 수평/수직 스케일링 지원"
+      - "보안: 입력 검증, 인증/인가 적용"
+      - "AI 통합: LLM, RAG, 에이전트 워크로드 지원"
+
+    subdomains:
+      - group: "A1"
+        name: "Serving"
+        description: "콘텐츠 및 API 서빙"
+        codes:
+          - code: "A1.1"
+            name: "Static File Serving"
+            description: "정적 자산 전달 (HTML, CSS, JS, 이미지). CDN 연동, 캐시 최적화"
+          - code: "A1.2"
+            name: "API Gateway"
+            description: "API 요청 라우팅, 집계 및 관리. 인증, 속도 제한, 변환"
+          - code: "A1.3"
+            name: "GraphQL Gateway"
+            description: "GraphQL 쿼리 연합 및 라우팅. 스키마 스티칭, Federation"
+          - code: "A1.4"
+            name: "Service Mesh Ingress"
+            description: "서비스 메시 진입점 및 트래픽 관리. 카나리 배포, 트래픽 미러링"
+          - code: "A1.5"
+            name: "Backend API Server"
+            description: "서버 측 비즈니스 로직 및 API 엔드포인트 처리"
+          - code: "A1.6"
+            name: "Frontend Web Server"
+            description: "클라이언트 측 웹 애플리케이션 서빙. SPA, PWA"
+          - code: "A1.7"
+            name: "Server-Side Rendering (SSR)"
+            description: "웹 애플리케이션을 위한 서버 렌더링 HTML. SEO 최적화, 초기 로드 성능"
+
+      - group: "A2"
+        name: "Execution"
+        description: "애플리케이션 실행 환경"
+        codes:
+          - code: "A2.1"
+            name: "Containerization"
+            description: "애플리케이션의 컨테이너 패키징. 이미지 빌드, 레이어 최적화"
+          - code: "A2.2"
+            name: "Container Orchestration"
+            description: "컨테이너 수명 주기 관리 및 스케줄링. 서비스 디스커버리, 오토스케일링"
+          - code: "A2.3"
+            name: "Serverless Functions"
+            description: "이벤트 기반, 자동 확장 함수 실행. 콜드 스타트 최적화"
+
+      - group: "A3"
+        name: "AI/ML"
+        description: "AI/ML 워크로드 서빙 및 오케스트레이션"
+        codes:
+          - code: "A3.1"
+            name: "LLM Inference"
+            description: "대규모 언어 모델 서빙 및 추론. 배치/실시간 추론, 양자화"
+          - code: "A3.2"
+            name: "Vector Search"
+            description: "벡터 임베딩에 대한 유사도 검색. ANN 알고리즘, 인덱싱"
+          - code: "A3.3"
+            name: "RAG Pipeline"
+            description: "검색 증강 생성 오케스트레이션. 문서 청킹, 임베딩, 검색, 생성"
+          - code: "A3.4"
+            name: "AI Agent Framework"
+            description: "자율 AI 에이전트 오케스트레이션 및 도구 사용. 멀티 에이전트 시스템"
+
+  # ═══════════════════════════════════════════
+  # Domain 5: D — Data (데이터)
+  # ═══════════════════════════════════════════
+  - id: 5
+    code: "D"
+    name_en: "Data"
+    name_kr: "데이터"
+    type: "Capability"
+    description: "데이터 저장, 캐싱, 메시징, 스토리지, 분석을 포함하는 기능 집합. 관계형 DB부터 이벤트 스트리밍, 데이터 레이크까지 데이터 생명주기 전반을 다룬다."
+    typical_layer: "L5"
+    typical_zone: "Z3"
+    core_objectives:
+      - "데이터 무결성: ACID 보장, 일관성 유지"
+      - "가용성: 복제, 페일오버, 백업"
+      - "성능: 쿼리 최적화, 캐시 전략"
+      - "보안: 암호화, 접근 통제, 감사 로깅"
+
+    subdomains:
+      - group: "D1"
+        name: "Database"
+        description: "구조화/비구조화 데이터 영구 저장"
+        codes:
+          - code: "D1.1"
+            name: "Key-Value Store"
+            description: "단순 키-값 데이터 저장. 고속 조회, 세션 관리"
+          - code: "D1.2"
+            name: "Document Store (NoSQL)"
+            description: "유연한 스키마의 문서 지향 저장. JSON/BSON 문서"
+          - code: "D1.3"
+            name: "Relational Storage (SQL)"
+            description: "ACID를 준수하는 관계형 데이터베이스 저장. 트랜잭션, JOIN, 인덱싱"
+          - code: "D1.4"
+            name: "Wide-Column Store"
+            description: "컬럼 패밀리 분산 저장. 대규모 분산 데이터, 시계열"
+          - code: "D1.5"
+            name: "Graph Database"
+            description: "그래프 구조 데이터 저장 및 순회. 노드-엣지 관계 탐색"
+          - code: "D1.6"
+            name: "Vector Database"
+            description: "벡터 임베딩 저장 및 유사도 검색. ANN 인덱스, 하이브리드 검색"
+
+      - group: "D2"
+        name: "Caching"
+        description: "데이터 캐싱을 통한 성능 최적화"
+        codes:
+          - code: "D2.1"
+            name: "In-Memory Caching"
+            description: "고속 인메모리 데이터 캐싱. 세션, 조회 결과, 계산 결과 캐싱"
+          - code: "D2.2"
+            name: "CDN Caching"
+            description: "엣지 기반 콘텐츠 전달 캐싱. 지리적 분산, TTL 관리"
+          - code: "D2.3"
+            name: "Application Caching"
+            description: "애플리케이션 수준의 결과 및 객체 캐싱. ORM 캐시, HTTP 캐시"
+          - code: "D2.4"
+            name: "Browser Caching"
+            description: "클라이언트 측 브라우저 캐시 관리. Cache-Control, ETag, Service Worker"
+          - code: "D2.5"
+            name: "Static Content Caching"
+            description: "정적 자산 캐싱 및 무효화. Content Hash, 버전 관리"
+
+      - group: "D3"
+        name: "Messaging"
+        description: "비동기 메시징 및 이벤트 처리"
+        codes:
+          - code: "D3.1"
+            name: "Message Queue (FIFO)"
+            description: "선입선출 메시지 큐잉. 작업 분배, 비동기 처리"
+          - code: "D3.2"
+            name: "Pub/Sub Messaging"
+            description: "발행-구독 메시지 배포. 토픽 기반, 팬아웃"
+          - code: "D3.3"
+            name: "Event Streaming"
+            description: "연속 이벤트 스트림 처리. 로그 집계, 실시간 분석, CDC"
+
+      - group: "D4"
+        name: "Storage"
+        description: "파일/객체/블록 스토리지"
+        codes:
+          - code: "D4.1"
+            name: "Object Storage"
+            description: "비정형 데이터 객체 저장 (S3 호환). 이미지, 문서, 백업"
+          - code: "D4.2"
+            name: "Block Storage"
+            description: "블록 수준 영구 저장 볼륨. VM/컨테이너 디스크"
+          - code: "D4.3"
+            name: "File Storage (NFS/SMB)"
+            description: "네트워크 파일 시스템 공유 저장. 다중 접근, POSIX 호환"
+
+      - group: "D5"
+        name: "Analytics"
+        description: "데이터 분석 및 검색"
+        codes:
+          - code: "D5.1"
+            name: "Data Warehouse"
+            description: "BI/보고용 분석 데이터 웨어하우스. OLAP, 컬럼형 저장"
+          - code: "D5.2"
+            name: "Data Lake"
+            description: "다양한 데이터 형식을 위한 원시 데이터 레이크. Parquet, Delta Lake"
+          - code: "D5.3"
+            name: "Search & Analytics"
+            description: "전문 검색 및 로그 분석 엔진. 역인덱스, 집계"
+
+  # ═══════════════════════════════════════════
+  # Domain 6: R — Resource (리소스)
+  # ═══════════════════════════════════════════
+  - id: 6
+    code: "R"
+    name_en: "Resource"
+    name_kr: "리소스"
+    type: "Capability"
+    description: "컴퓨트 리소스 인스턴스, 스케일링, 가속기를 포함하는 기능 집합. 가상/물리 서버 인스턴스와 리소스 관리를 다룬다."
+    typical_layer: "L3"
+    typical_zone: "Z2-Z4"
+    core_objectives:
+      - "리소스 효율성: 적정 크기 산정, 비용 최적화"
+      - "확장성: 수요 기반 자동 확장"
+      - "가용성: 리전/AZ 분산, 페일오버"
+      - "보안: 하드웨어 수준 격리, 전용 인스턴스"
+
+    subdomains:
+      - group: "R1"
+        name: "Compute Instances"
+        description: "가상/물리 컴퓨트 인스턴스"
+        codes:
+          - code: "R1.1"
+            name: "Virtual Machine"
+            description: "가상화된 컴퓨트 인스턴스. 다양한 OS 지원, 스냅샷/복원"
+          - code: "R1.2"
+            name: "Bare Metal Server"
+            description: "가상화 없는 전용 물리 서버. 최대 성능, 하드웨어 직접 제어"
+
+      - group: "R2"
+        name: "Scaling"
+        description: "리소스 확장 및 쿼터 관리"
+        codes:
+          - code: "R2.1"
+            name: "Auto Scaling"
+            description: "수요에 따른 자동 컴퓨트 리소스 확장. CPU/메모리/커스텀 메트릭 기반"
+          - code: "R2.2"
+            name: "Resource Quota Management"
+            description: "리소스 한도 적용 및 쿼터 할당. 네임스페이스/프로젝트별 제한"
+
+      - group: "R3"
+        name: "Accelerators"
+        description: "AI/ML 및 고성능 컴퓨팅 가속기"
+        codes:
+          - code: "R3.1"
+            name: "GPU Compute"
+            description: "ML/AI 워크로드를 위한 GPU 가속 컴퓨팅. CUDA, cuDNN"
+          - code: "R3.2"
+            name: "TPU/ASIC"
+            description: "전용 AI 가속기 하드웨어. 추론/학습 최적화 칩셋"
+
+  # ═══════════════════════════════════════════
+  # Domain 7: C — Compliance (컴플라이언스)
+  # ═══════════════════════════════════════════
+  # NOTE: v2.0에서 C = Compute → C = Compliance로 변경됨
+  #       Compute 기능은 R(Resource)와 A(Application) 도메인으로 통합
+  #       참조: Domain_C_Compliance.md, 00_차원3_개요.md
+  - id: 7
+    code: "C"
+    name_en: "Compliance"
+    name_kr: "컴플라이언스"
+    type: "Control"
+    description: "규제 준수, 보안 표준, 정책 거버넌스, 감사, 데이터 상주성을 포함하는 통제 집합. GDPR, PCI-DSS, SOC 2, ISO 27001 등 규제 준수와 Policy as Code를 다룬다."
+    typical_layer: "Cross-Layer"
+    typical_zone: "Z3-Z4"
+    core_objectives:
+      - "규제 준수: GDPR, PCI-DSS, SOC 2, ISO 27001 충족"
+      - "감사 추적: 모든 변경 이력의 불변 기록"
+      - "정책 자동화: Policy as Code로 규정 자동 적용"
+      - "데이터 주권: 지역별 데이터 상주 요건 충족"
+
+    subdomains:
+      - group: "C1"
+        name: "Regulatory Compliance"
+        description: "산업별/지역별 규제 준수"
+        codes:
+          - code: "C1.1"
+            name: "GDPR"
+            description: "EU 일반 데이터 보호 규정. 개인정보 처리, 동의 관리, 잊힐 권리, 데이터 이동성"
+          - code: "C1.2"
+            name: "PCI-DSS"
+            description: "결제 카드 산업 데이터 보안 표준. 카드 소유자 데이터 보호, 네트워크 분리"
+          - code: "C1.3"
+            name: "HIPAA"
+            description: "미국 건강 보험 이동성 및 책임법. PHI(보호 대상 건강 정보) 암호화, 접근 통제"
+
+      - group: "C2"
+        name: "Security Standards"
+        description: "보안 인증 및 벤치마크"
+        codes:
+          - code: "C2.1"
+            name: "SOC 2"
+            description: "서비스 조직 통제. Type I(설계 유효성), Type II(운영 유효성) 감사"
+          - code: "C2.2"
+            name: "ISO 27001"
+            description: "정보 보안 관리 시스템(ISMS). 리스크 평가, 통제 구현, 지속적 개선"
+          - code: "C2.3"
+            name: "CIS Benchmarks"
+            description: "Center for Internet Security 벤치마크. OS 하드닝, DB 보안, 클라우드 설정 기준"
+
+      - group: "C3"
+        name: "Policy & Governance"
+        description: "정책 정의, 구성 관리, 변경 통제"
+        codes:
+          - code: "C3.1"
+            name: "Policy as Code"
+            description: "코드로 정의된 정책 자동 적용. 인프라 규정 위반 차단"
+          - code: "C3.2"
+            name: "Configuration Management"
+            description: "인프라 구성 상태 관리 및 드리프트 탐지. 원하는 상태(desired state) 적용"
+          - code: "C3.3"
+            name: "Change Management"
+            description: "변경 승인 워크플로, 롤백 계획, 영향 분석"
+
+      - group: "C4"
+        name: "Audit & Logging"
+        description: "감사 추적, 로그 보존, 감사 보고서"
+        codes:
+          - code: "C4.1"
+            name: "Audit Trail"
+            description: "모든 API 호출 및 사용자 행위의 불변 감사 로그. Who/What/When/Where 기록"
+          - code: "C4.2"
+            name: "Log Retention"
+            description: "규정 준수를 위한 장기 로그 보존. 핫/웜/콜드 스토리지 계층화"
+          - code: "C4.3"
+            name: "Audit Reports"
+            description: "자동화된 감사 보고서 생성. 분기/연간 규정 준수 증거 수집"
+
+      - group: "C5"
+        name: "Data Residency & Sovereignty"
+        description: "데이터 상주성 및 주권 관리"
+        codes:
+          - code: "C5.1"
+            name: "Geographic Data Isolation"
+            description: "지역별 데이터 격리. EU 데이터는 EU 리전, 국가별 데이터 분리"
+          - code: "C5.2"
+            name: "Cross-Border Data Transfer"
+            description: "국경 간 데이터 이전 규정 준수. SCC(표준 계약 조항), BCR(구속력 있는 기업 규칙)"
+          - code: "C5.3"
+            name: "Local Data Laws"
+            description: "각국 데이터 보호법 준수. 중국 사이버보안법, 러시아 데이터 현지화법 등"
+
+  # ═══════════════════════════════════════════
+  # Domain 8: P — Platform (플랫폼)
+  # ═══════════════════════════════════════════
+  - id: 8
+    code: "P"
+    name_en: "Platform"
+    name_kr: "플랫폼"
+    type: "Service"
+    description: "CI/CD, IaC, 시크릿 관리, 백업, 기능 관리를 포함하는 플랫폼 서비스 집합. 개발/운영 생산성과 안정성을 지원하는 기반 서비스를 다룬다."
+    typical_layer: "L4"
+    typical_zone: "Z4"
+    core_objectives:
+      - "자동화: 수동 작업 최소화, 반복 가능한 프로세스"
+      - "안정성: 백업, 복구, 장애 조치"
+      - "보안: 시크릿 관리, 인증서 수명 주기"
+      - "실험: 기능 플래그, A/B 테스트를 통한 안전한 릴리스"
+
+    subdomains:
+      - group: "P1"
+        name: "DevOps"
+        description: "CI/CD, IaC, GitOps"
+        codes:
+          - code: "P1.1"
+            name: "CI/CD Pipeline"
+            description: "지속적 통합 및 배포 파이프라인. 빌드, 테스트, 배포 자동화"
+          - code: "P1.2"
+            name: "IaC (Infrastructure as Code)"
+            description: "코드를 통한 인프라 프로비저닝. 선언적/명령적 구성, 상태 관리"
+          - code: "P1.3"
+            name: "GitOps"
+            description: "Git 기반 인프라 및 애플리케이션 배포. Git을 단일 소스 오브 트루스로 활용"
+
+      - group: "P2"
+        name: "Reliability"
+        description: "백업, 복구, 재해 대비"
+        codes:
+          - code: "P2.1"
+            name: "Backup & Recovery"
+            description: "데이터 백업 및 복원 서비스. 스냅샷, 증분 백업, 복원 테스트"
+          - code: "P2.2"
+            name: "Disaster Recovery"
+            description: "교차 리전/사이트 장애 조치 및 복구. RPO/RTO 목표, DR 계획"
+
+      - group: "P3"
+        name: "Secrets & Certificates"
+        description: "시크릿 및 인증서 수명 주기 관리"
+        codes:
+          - code: "P3.1"
+            name: "Secrets Management"
+            description: "시크릿, 키, 자격 증명의 안전한 저장 및 순환. 동적 시크릿, 리스 관리"
+          - code: "P3.2"
+            name: "Certificate Management"
+            description: "TLS/SSL 인증서 수명 주기 관리. 발급, 갱신, 폐기 자동화"
+
+      - group: "P4"
+        name: "Feature Management"
+        description: "기능 릴리스 제어 및 실험"
+        codes:
+          - code: "P4.1"
+            name: "Feature Flag Management"
+            description: "동적 기능 토글 및 롤아웃 제어. 카나리, 점진적 롤아웃, 킬 스위치"
+          - code: "P4.2"
+            name: "A/B Testing Platform"
+            description: "실험 관리 및 트래픽 분할. 통계적 유의성 분석, 실험 결과 추적"
+
+  # ═══════════════════════════════════════════
+  # Domain 9: T — Tech Stack (기술 스택)
+  # ═══════════════════════════════════════════
+  # NOTE: T 코드는 주로 atom_tags 속성으로 사용됨
+  #       CVE-MITRE ATT&CK 매핑의 핵심 도메인
+  #       참조: Domain_T_TechStack.md
+  - id: 9
+    code: "T"
+    name_en: "Tech Stack"
+    name_kr: "기술 스택"
+    type: "Metadata"
+    description: "소프트웨어 구성요소의 구체적 기술 스택을 나타내는 도메인. CVE 취약점 매핑의 핵심 도메인으로, 기술 스택 → 기능 → Layer/Zone 매핑을 가능하게 한다."
+    typical_layer: "varies"
+    typical_zone: "varies"
+    note: "T 코드는 기술 자체가 주요 기능이 아닌 한, 일반적으로 주요 기능 코드가 아닌 atom_tags 속성으로 사용됩니다. 핵심 목적은 CVE 취약점을 구체적 기술 스택에 매핑하는 것입니다."
+    core_objectives:
+      - "CVE 매핑: 취약점 → 기술 스택 → 영향 범위 파악"
+      - "버전 관리: 모든 구성요소의 기술 스택 버전 추적"
+      - "패치 우선순위: CVSS + 영향 범위 기반 패치 우선순위 결정"
+
+    subdomains:
+      - group: "T1"
+        name: "Programming Languages & Frameworks"
+        description: "애플리케이션 프레임워크 및 언어. CVE 매핑의 최전선"
+        codes:
+          - code: "T1.1"
+            name: "JavaScript / TypeScript"
+            description: "JS/TS 생태계. React, Vue.js, Angular, Node.js, Express, NestJS 포함"
+          - code: "T1.2"
+            name: "Java / Kotlin"
+            description: "JVM 기반 언어. Spring Boot, Spring Cloud, Tomcat, JBoss 포함"
+          - code: "T1.3"
+            name: "Python"
+            description: "Python 생태계. FastAPI, Django, Flask, Celery, pandas 포함"
+          - code: "T1.4"
+            name: "Go"
+            description: "Go 생태계. Gin, Echo, Fiber 등 웹 프레임워크 포함"
+          - code: "T1.5"
+            name: "Rust"
+            description: "Rust 생태계. Actix, Axum, Rocket 등 웹 프레임워크 포함"
+
+      - group: "T2"
+        name: "Databases"
+        description: "데이터베이스 소프트웨어. 버전별 CVE 추적"
+        codes:
+          - code: "T2.1"
+            name: "PostgreSQL"
+            description: "PostgreSQL 관계형 데이터베이스. Extensions(pgvector, PostGIS) 포함"
+          - code: "T2.2"
+            name: "MongoDB"
+            description: "MongoDB 문서 데이터베이스. Atlas, Compass 포함"
+          - code: "T2.3"
+            name: "Redis"
+            description: "Redis 인메모리 데이터 스토어. Sentinel, Cluster 포함"
+          - code: "T2.4"
+            name: "MySQL / MariaDB"
+            description: "MySQL 및 MariaDB 관계형 데이터베이스"
+
+      - group: "T3"
+        name: "Web Servers & Reverse Proxies"
+        description: "웹 서버 및 리버스 프록시. HTTP/2 Rapid Reset 등 프로토콜 레벨 CVE"
+        codes:
+          - code: "T3.1"
+            name: "NGINX"
+            description: "NGINX 웹 서버 및 리버스 프록시. OpenResty 포함"
+          - code: "T3.2"
+            name: "Apache HTTP Server"
+            description: "Apache 웹 서버. mod_security, mod_ssl 포함"
+          - code: "T3.3"
+            name: "Envoy Proxy"
+            description: "Envoy 서비스 프록시. 서비스 메시, xDS API 포함"
+
+      - group: "T4"
+        name: "Infrastructure & DevOps Tools"
+        description: "인프라 및 DevOps 도구. 광범위한 CVE 영향"
+        codes:
+          - code: "T4.1"
+            name: "Docker / containerd"
+            description: "컨테이너 런타임. 이미지 빌드, 실행 환경"
+          - code: "T4.2"
+            name: "Authentication (Keycloak, Auth0)"
+            description: "인증 서버 소프트웨어. IdP, SSO, 토큰 관리"
+          - code: "T4.3"
+            name: "API Gateway (Kong, Tyk)"
+            description: "API 게이트웨이 소프트웨어. 라우팅, 인증, 속도 제한"
+          - code: "T4.4"
+            name: "Kubernetes"
+            description: "컨테이너 오케스트레이션 플랫폼. 관리형(EKS, AKS, GKE) 포함"
+          - code: "T4.5"
+            name: "Monitoring (Prometheus, Grafana)"
+            description: "모니터링 소프트웨어 스택"
+          - code: "T4.6"
+            name: "Service Mesh (Istio, Linkerd)"
+            description: "서비스 메시 소프트웨어. mTLS, 트래픽 관리"
+          - code: "T4.7"
+            name: "Secrets Management (Vault)"
+            description: "시크릿 관리 소프트웨어"
+          - code: "T4.8"
+            name: "IaC (Terraform, Pulumi)"
+            description: "인프라 코드 도구"
+          - code: "T4.9"
+            name: "GitOps (ArgoCD, Flux)"
+            description: "GitOps 도구"
+
+      - group: "T5"
+        name: "AI/ML Stack"
+        description: "AI/ML 관련 소프트웨어 스택. 모델 포이즈닝, 프롬프트 인젝션 등 신규 CVE 유형"
+        codes:
+          - code: "T5.1"
+            name: "ML Frameworks"
+            description: "머신러닝 프레임워크. 모델 학습/추론 엔진"
+          - code: "T5.2"
+            name: "LLM APIs & Libraries"
+            description: "대규모 언어 모델 API 및 라이브러리"
+          - code: "T5.3"
+            name: "Vector Databases"
+            description: "벡터 데이터베이스 소프트웨어"
+          - code: "T5.4"
+            name: "GPU Drivers & CUDA"
+            description: "GPU 드라이버 및 CUDA 툴킷. 하드웨어 레벨 CVE"
+
+  # ═══════════════════════════════════════════
+  # Domain 10: I — Interface (인터페이스)
+  # ═══════════════════════════════════════════
+  # NOTE: I 코드는 주로 atom_tags 속성으로 사용됨
+  #       시스템 통신 흐름 매핑의 핵심 도메인
+  #       참조: Domain_I_Interface.md
+  - id: 10
+    code: "I"
+    name_en: "Interface"
+    name_kr: "인터페이스"
+    type: "Metadata"
+    description: "시스템 간 통신 프로토콜, API 스타일, 데이터 포맷, 인증 프로토콜을 나타내는 도메인. 통신 흐름의 가시화, 보안 통제 매핑, 성능 최적화를 가능하게 한다."
+    typical_layer: "L2 or L7"
+    typical_zone: "varies"
+    note: "I 코드는 인터페이스 자체가 주요 기능이 아닌 한, 일반적으로 주요 기능 코드가 아닌 atom_tags 속성으로 사용됩니다. 핵심 목적은 시스템 통신 흐름을 명확하게 매핑하는 것입니다."
+    core_objectives:
+      - "통신 흐름 가시화: 시스템 간 통신 프로토콜 명확화"
+      - "보안 통제 매핑: 인증/암호화 프로토콜 추적"
+      - "성능 최적화: 프로토콜별 성능 특성 파악"
+
+    subdomains:
+      - group: "I1"
+        name: "HTTP-based Protocols"
+        description: "HTTP/HTTPS 기반 통신 프로토콜"
+        codes:
+          - code: "I1.1"
+            name: "RESTful API"
+            description: "HTTP REST API. GET/POST/PUT/DELETE, JSON/XML, 상태 비저장"
+          - code: "I1.2"
+            name: "GraphQL"
+            description: "GraphQL 쿼리 언어. Query, Mutation, Subscription, 스키마"
+          - code: "I1.3"
+            name: "WebSocket"
+            description: "양방향 실시간 통신. 채팅, 알림, 라이브 업데이트"
+          - code: "I1.4"
+            name: "Server-Sent Events (SSE)"
+            description: "서버 → 클라이언트 단방향 스트리밍. 라이브 업데이트, 대시보드"
+
+      - group: "I2"
+        name: "RPC (Remote Procedure Call)"
+        description: "효율적인 서비스 간 통신 프로토콜"
+        codes:
+          - code: "I2.1"
+            name: "gRPC"
+            description: "HTTP/2 기반 고성능 RPC. Protocol Buffers, 양방향 스트리밍, mTLS"
+          - code: "I2.2"
+            name: "Apache Thrift"
+            description: "크로스 언어 바이너리 RPC. 다언어 지원, 바이너리 프로토콜"
+
+      - group: "I3"
+        name: "Message Queue Protocols"
+        description: "비동기 메시징 프로토콜"
+        codes:
+          - code: "I3.1"
+            name: "AMQP"
+            description: "Advanced Message Queuing Protocol. 신뢰성 있는 메시지 전달, 라우팅"
+          - code: "I3.2"
+            name: "Kafka Protocol"
+            description: "Apache Kafka 프로토콜. 이벤트 스트리밍, 파티션, 컨슈머 그룹"
+          - code: "I3.3"
+            name: "MQTT"
+            description: "Message Queuing Telemetry Transport. IoT 경량 메시징, QoS 레벨"
+
+      - group: "I4"
+        name: "Authentication & Authorization Protocols"
+        description: "인증/인가 프로토콜"
+        codes:
+          - code: "I4.1"
+            name: "OAuth 2.0"
+            description: "인가 프레임워크. Authorization Code Flow, Client Credentials, PKCE"
+          - code: "I4.2"
+            name: "OpenID Connect (OIDC)"
+            description: "OAuth 2.0 위의 인증 레이어. ID Token(JWT), UserInfo 엔드포인트"
+          - code: "I4.3"
+            name: "SAML 2.0"
+            description: "엔터프라이즈 SSO. XML 기반, Assertion, IdP/SP 연합"
+          - code: "I4.4"
+            name: "LDAP / Active Directory"
+            description: "디렉터리 서비스 프로토콜. 사용자/그룹 관리, 조직 구조"
+
+      - group: "I5"
+        name: "Database Protocols"
+        description: "데이터베이스 통신 프로토콜"
+        codes:
+          - code: "I5.1"
+            name: "PostgreSQL Wire Protocol"
+            description: "PostgreSQL 통신 프로토콜. 포트 5432, SCRAM-SHA-256 인증"
+          - code: "I5.2"
+            name: "MySQL Protocol"
+            description: "MySQL 통신 프로토콜. 포트 3306, mysql_native_password/caching_sha2"
+          - code: "I5.3"
+            name: "MongoDB Wire Protocol"
+            description: "MongoDB 통신 프로토콜. 포트 27017, SCRAM 인증"
+          - code: "I5.4"
+            name: "Redis Protocol (RESP)"
+            description: "Redis Serialization Protocol. 포트 6379, ACL 인증"
+
+      - group: "I6"
+        name: "File Transfer & Storage Protocols"
+        description: "파일 전송 및 스토리지 접근 프로토콜"
+        codes:
+          - code: "I6.1"
+            name: "S3 API"
+            description: "AWS S3 호환 REST API. 객체 CRUD, 멀티파트 업로드, 프리사인드 URL"
+          - code: "I6.2"
+            name: "FTP / SFTP"
+            description: "파일 전송 프로토콜. SFTP(SSH 기반 보안 전송) 권장"
+          - code: "I6.3"
+            name: "NFS / SMB"
+            description: "네트워크 파일 시스템. NFS v4(Linux), SMB 3.0(Windows)"
+
+# ─────────────────────────────────────────────
+# 코드 할당 규칙
+# ─────────────────────────────────────────────
+
+assignment_rules:
+  - rule: 1
+    text: "컴포넌트의 주요 기능에 가장 구체적으로 일치하는 코드를 사용"
+    example: "PostgreSQL → D1.3 (Relational Storage), Redis Cache → D2.1 (In-Memory Caching)"
+  - rule: 2
+    text: "각 아톰은 정확히 하나의 주요 기능 코드를 가짐"
+    example: "Redis가 캐시와 세션 스토어로 사용되면, 각 역할(Archetype)이 별도 atom"
+  - rule: 3
+    text: "하위 도메인 그룹 (.1, .2, .3)은 기능적 하위 범주를 나타냄"
+    example: "D1 = Database, D1.3 = Relational, D1.5 = Graph"
+  - rule: 4
+    text: "T(기술 스택)와 I(인터페이스) 코드는 해당 기술/인터페이스가 컴포넌트의 주요 목적이 아닌 한, 일반적으로 주요 기능이 아닌 atom_tags로 사용됨"
+    example: "Node.js API 서버: 주요 코드 = A1.5, atom_tags에 T1.1(Node.js), I1.1(REST)"
+  - rule: 5
+    text: "두 도메인 사이에서 모호한 경우, 컴포넌트의 주요 가치 제안(primary value proposition)을 나타내는 도메인을 선택"
+    example: "Kong: API 라우팅이 주요 목적 → A1.2 (API Gateway), 보안 기능은 부차적"
+  - rule: 6
+    text: "새 코드는 마이너 버전에서 추가할 수 있으나, 기존 코드의 의미는 변경 불가"
+    example: "D1.7을 새로 추가할 수 있지만, D1.3의 의미를 변경할 수 없음"
+  - rule: 7
+    text: "Compliance(C) 코드는 기능 코드가 아닌 통제 코드로, 인프라 atom의 주요 기능 코드로 사용하지 않음. scope나 atom_tags로 연결"
+    example: "GDPR 준수 요건은 별도의 COMP atom으로, 관련 INFRA atom에 scope로 연결"
+
+# ─────────────────────────────────────────────
+# 도메인 선택 가이드
+# ─────────────────────────────────────────────
+
+domain_selection_guide:
+  description: "구성요소의 주요 기능에 따라 적합한 도메인을 선택하는 결정 트리"
+  decision_tree:
+    - question: "구성요소가 시스템 상태를 관찰/추적하는가?"
+      yes: "M (Monitoring)"
+      no: "다음 질문"
+    - question: "구성요소가 네트워크 트래픽을 전달/분산/라우팅하는가?"
+      yes: "N (Network)"
+      no: "다음 질문"
+    - question: "구성요소가 보안 통제(방화벽, 인증, 암호화)를 제공하는가?"
+      yes: "S (Security)"
+      no: "다음 질문"
+    - question: "구성요소가 애플리케이션 코드를 실행하거나 서빙하는가?"
+      yes: "A (Application)"
+      no: "다음 질문"
+    - question: "구성요소가 데이터를 저장, 캐싱, 또는 전달하는가?"
+      yes: "D (Data)"
+      no: "다음 질문"
+    - question: "구성요소가 컴퓨트 리소스(VM, 서버, GPU)를 제공하는가?"
+      yes: "R (Resource)"
+      no: "다음 질문"
+    - question: "구성요소가 규정 준수, 감사, 정책 적용을 담당하는가?"
+      yes: "C (Compliance)"
+      no: "다음 질문"
+    - question: "구성요소가 개발/운영 플랫폼 서비스(CI/CD, 백업, 시크릿)를 제공하는가?"
+      yes: "P (Platform)"
+      no: "다음 질문"
+    - question: "특정 기술 스택의 CVE/버전 추적이 목적인가?"
+      yes: "T (Tech Stack) — atom_tags로 사용 권장"
+      no: "다음 질문"
+    - question: "통신 프로토콜/인터페이스 매핑이 목적인가?"
+      yes: "I (Interface) — atom_tags로 사용 권장"
+      no: "위 결정 트리로 판단 불가능한 경우, 구성요소의 주요 가치 제안을 기준으로 가장 가까운 도메인 선택"
+
+  common_edge_cases:
+    - case: "API Gateway (Kong, Tyk)"
+      analysis: "네트워크 라우팅(N)인가 애플리케이션 서빙(A)인가?"
+      decision: "A1.2 — API 요청 관리가 주요 가치이므로 Application 도메인"
+    - case: "Redis"
+      analysis: "데이터 저장(D)인가 캐싱(D)인가?"
+      decision: "Archetype 기반 — 캐시 역할이면 D2.1, 데이터 스토어 역할이면 D1.1"
+    - case: "WAF (Cloudflare)"
+      analysis: "네트워크 보호(N)인가 보안 통제(S)인가?"
+      decision: "S1.2 — 보안 통제가 주요 목적이므로 Security 도메인"
+    - case: "Grafana"
+      analysis: "데이터 시각화(D)인가 모니터링(M)인가?"
+      decision: "M2.2 — 모니터링 대시보드가 주요 목적이므로 Monitoring 도메인"
+    - case: "Vault"
+      analysis: "보안(S)인가 플랫폼(P)인가?"
+      decision: "P3.1 — 시크릿 관리 플랫폼 서비스이므로 Platform 도메인"
+    - case: "Kubernetes"
+      analysis: "리소스(R)인가 애플리케이션(A)인가?"
+      decision: "A2.2 — 컨테이너 오케스트레이션이 주요 기능이므로 Application 도메인"
+
+# ─────────────────────────────────────────────
+# 도메인 요약 테이블
+# ─────────────────────────────────────────────
+
+domain_summary:
+  - code: "M"
+    name: "Monitoring"
+    type: "Service"
+    codes_count: 8
+    typical_layer: "Cross"
+    typical_zone: "Z4"
+  - code: "N"
+    name: "Network"
+    type: "Capability"
+    codes_count: 8
+    typical_layer: "L2"
+    typical_zone: "Z1-Z2"
+  - code: "S"
+    name: "Security"
+    type: "Control"
+    codes_count: 12
+    typical_layer: "Cross"
+    typical_zone: "Z1-Z4"
+  - code: "A"
+    name: "Application"
+    type: "Capability"
+    codes_count: 14
+    typical_layer: "L7"
+    typical_zone: "Z2"
+  - code: "D"
+    name: "Data"
+    type: "Capability"
+    codes_count: 19
+    typical_layer: "L5"
+    typical_zone: "Z3"
+  - code: "R"
+    name: "Resource"
+    type: "Capability"
+    codes_count: 6
+    typical_layer: "L3"
+    typical_zone: "Z2-Z4"
+  - code: "C"
+    name: "Compliance"
+    type: "Control"
+    codes_count: 15
+    typical_layer: "Cross"
+    typical_zone: "Z3-Z4"
+  - code: "P"
+    name: "Platform"
+    type: "Service"
+    codes_count: 9
+    typical_layer: "L4"
+    typical_zone: "Z4"
+  - code: "T"
+    name: "Tech Stack"
+    type: "Metadata"
+    codes_count: 25
+    typical_layer: "varies"
+    typical_zone: "varies"
+  - code: "I"
+    name: "Interface"
+    type: "Metadata"
+    codes_count: 21
+    typical_layer: "varies"
+    typical_zone: "varies"
+
+# ─────────────────────────────────────────────
+# 확장 원칙
+# ─────────────────────────────────────────────
+
+expansion_principles:
+  immutable:
+    - "기존 Function 코드의 의미는 절대 변경되지 않음"
+    - "10개 도메인 구조(M, N, S, A, D, R, C, P, T, I)는 불변"
+    - "도메인 코드(알파벳)와 그 의미는 불변"
+  expandable:
+    - "새 Function 코드는 마이너 버전에서 추가 가능 (예: D1.7)"
+    - "경계 사례 판단 가이드(common_edge_cases)는 새 사례 발견 시 추가"
+    - "이 확장은 재귀적으로 반복됨 — 새 구성요소 좌표화 → 모호한 사례 → 가이드 추가 → 규칙 정밀화"
+  implementation_details_note: >
+    구체적 제품(typical_components), 보안 구현(security_considerations)은 이 taxonomy에 포함하지 않음.
+    해당 데이터는 04_db/atom_data/ 의 12-prefix atom 시스템으로 관리.
+    예: PostgreSQL → INFRA atom, Prometheus → TOOL atom, OWASP 방어 → DEF atom.
+
+# Document Version: v5.0.1 | Last Updated: 2026-02-09

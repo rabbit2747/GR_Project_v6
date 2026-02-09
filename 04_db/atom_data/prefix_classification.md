@@ -1,0 +1,5623 @@
+# GR Prefix Classification — 1단계 결과
+
+> 원자화 대상 5,537개 항목에 대한 12-Prefix 1단계 분류 결과.
+> 분류 기준: GR_CLASSIFICATION_RULES.md 1단계 (본질적 성격 파악)
+
+---
+
+## 분포 요약
+
+| Prefix | 항목 수 | 비율 |
+|--------|---------|------|
+| ATK | 1743 | 31.5% |
+| TECH | 810 | 14.6% |
+| TOOL | 610 | 11.0% |
+| DEF | 607 | 11.0% |
+| MALWARE | 497 | 9.0% |
+| VUL | 344 | 6.2% |
+| INFRA | 301 | 5.4% |
+| ACTOR | 250 | 4.5% |
+| DETECT | 184 | 3.3% |
+| PROTO | 112 | 2.0% |
+| COMP | 69 | 1.2% |
+| PRI | 10 | 0.2% |
+| **합계** | **5537** | **100%** |
+
+---
+
+## ATK (공격 기법) — 1743개
+
+- 51 Attack
+- Active Directory Attack
+- Active Logical Link Mapping
+- Active Malware Energy
+- Active Physical Link Mapping
+- Active Script Event Consumer
+- AD Certificate Enrollment Agent
+- ADB Commands
+- Adjust Token Privileges
+- Adversary Emulation
+- Agent Hijacking
+- AI Generated Phishing
+- AI Red Teaming
+- AMSI Bypass
+- AMSI Bypass Techniques
+- Android Bypass
+- Anti-Forensics
+- Anti-Forensics Techniques
+- Anti-Sandbox
+- Anti-Sandbox Techniques
+- Antivirus Bypass
+- APC Injection
+- APC Injection Any Process
+- APC Injection New Process
+- API Attack
+- API Injection Attack
+- API Rate Limiting Bypass
+- App Path Bypass
+- AppCert DLLs
+- AppDomain Manager Inject
+- AppInit
+- Apple Persistence
+- Application Impersonation
+- Application Shim
+- AppLocker Bypass
+- ARP Attacks
+- ARP Poisoning
+- ARP Spoofing
+- Assembly Builder Access
+- Assume Role With Web Identity
+- AST Injection
+- Authentication Attack
+- Authentication Bypass
+- Authorization Execute With Privileges
+- AutoRun
+- AWS Lambda Execution Role Abuse
+- Azure Discovery
+- Azure Stealth
+- Backdoor
+- Bad USB Attack
+- BadSuccessor
+- Bash Profile Persist
+- BEAST Attack
+- BGP Hijacking
+- BITS Transfer
+- Blind Boolean-Based SQL Injection
+- Blind SQL Injection
+- Blind Time-Based SQL Injection
+- Blind XSS
+- Boolean-Based SQLi
+- Boot Execute
+- Bootkit UEFI Persistence
+- Bridge Attack
+- Bronze Bit Attack
+- Browser Fingerprinting
+- Brute Force
+- Brute Force Attack
+- Buffer Overflow
+- Bypass
+- Callback-Based Shellcode Execution
+- Case and Whitespace Manipulation Bypass
+- Certificate Abuse
+- Clear Event Log
+- ClickFake
+- ClickFix
+- Clickjacking Attack
+- Clickjacking UI Redressing
+- Client Side Attack
+- Client Side Prototype Pollution DOM XSS
+- Clipboard Hijacking
+- Cloud Attack
+- Cloud Cost Abuse
+- Cloud IMDS Attack
+- Cloud Metadata Service Attack
+- Cloud Privilege Escalation
+- Cloud Storage Misconfiguration Attack
+- Code Execution
+- Coerced Authentication
+- Coercion Attacks
+- Cold Boot Attack
+- COM Hijacking
+- COM Object Hijacking
+- Command and Control Technique
+- Command Injection
+- Command Line Event Consumer
+- Comment Based WAF Bypass
+- Compmgmt Bypass
+- Compressed DLL
+- Constrained Delegation Backdoor
+- Container Breakout
+- Container Escape
+- Content Modification
+- Content Security Policy Bypass Techniques
+- Content Substitution
+- Cookie Jar Overflow
+- Creating Launchd Jobs
+- Creating Login Items
+- Credential Access Technique
+- Credential Dump
+- Credential Dumping
+- Credential Guard Disable
+- Credential Injection
+- Credential Phish
+- CRLF Injection
+- Cron Jobs
+- Cross Account Boundary
+- Cross Account Usage
+- Cross Site Request Forgery CSRF
+- Cross Site Scripting XSS
+- Cryptographic Attack
+- CSP Bypass Techniques
+- CSRF
+- CSS Injection
+- Cyber Action
+- Cyber Espionage
+- Dangling Markup Injection
+- Data Encrypted for Impact Ransomware
+- DCSync
+- DCSync Attack
+- DCSync Attack Prerequisites
+- DDoS
+- Deauthentication Attack
+- Deceptive Development
+- Defense Evasion Technique
+- DeFi Exploit Patterns
+- Delegate Execute
+- Deliver to Mailbox and Forward
+- Dependency Confusion Attack
+- Dependency Resolution Attack
+- Developer Unlock
+- Diamond Ticket
+- Dictionary Attack
+- Disable Anti Spyware
+- Disable Anti Spyware Realtime Protection
+- Disable Antivirus
+- Disable Antivirus Signatures
+- Disable Archive Scanning
+- Disable Audit Logs
+- Disable Behavior Monitoring
+- Disable Block at First Seen
+- Disable Change Password
+- Disable Cloud Protection
+- Disable Domain Transfer Lock
+- Disable EBS Encryption by Default
+- Disable Exception Chain Validation
+- Disable Hypervisor Enforced Paging Translation
+- Disable Intrusion Prevention System
+- Disable MFA Policy
+- Disable Monitoring
+- Disable Network Protection
+- Disable On Access Protection
+- Disable Realtime Monitoring
+- Disable Registry Tools
+- Disable Remote Access
+- Disable Remote Desktop Anti Alias
+- Disable Removable Drive Scanning
+- Disable Restricted Admin
+- Disable Runtime Monitoring
+- Disable Scanning Mapped Network Drives for Full Scan
+- Disable Scanning Network Files
+- Disable Script Scanning
+- Disable Security Center
+- Disable Security Service
+- Disable Task Manager
+- Disk Formatting
+- Display Name Spoofing
+- DLL Hijacking
+- DLL Injection
+- DLL Search Order Hijacking
+- DNS Amplification
+- DNS Attacks
+- DNS Exfiltration
+- DNS Hijacking
+- DNS Rebinding
+- DNS Spoofing
+- DNS Tunneling
+- DNS Zone Transfer
+- DPAPI Master Keys
+- DRS Add Entry
+- DRS Replica Add
+- DS Add SID History
+- DS Edit Group
+- Dump Creds
+- Dump LSASS
+- Dumpster Diving
+- Duplicate Token
+- Duplicate Token Ex
+- Early Bird Injection
+- EFS Potato
+- EFS RPC Open File Raw
+- EL Injection
+- Elevate Access
+- Email Attachment
+- Email Deletion
+- Email Removal
+- Email Rule
+- Embedding Inversion Attack
+- Enable SE Debug Privilege
+- Enable Unsafe Client Mail Rules
+- Encoded Command
+- Encoding Based WAF Bypass
+- Encrypted Script
+- Enum Child Windows
+- Enum Classes Of Categories
+- Enum Device Drivers
+- Enum Processes
+- Enum Windows
+- Enumerate Administrators
+- Enumerate Azure Blobs
+- Enumerate Directories
+- Enumerate Files
+- Enumerate Local Admin
+- Enumerate Security Packages
+- Error Based SQL Injection
+- Error Based SQLi
+- ETW Bypass
+- EtwpCreateEtwThread
+- EtwpNotificationThread
+- Event Viewer Bypass
+- Eventvwr Bypass
+- Evil Twin Attack
+- EvtMute Hook
+- Excel Plugin Shell
+- Execution Chain
+- Exfiltration
+- Exfiltration Over Alternative Protocol
+- Exfiltration Over C2 Channel
+- Exfiltration TA0010
+- Exit Process
+- Exit Windows Ex
+- Exploit Public Facing Application
+- Exploiting Android
+- Expression Language Injection
+- External Content Inclusion Function
+- External Control
+- External Payloads
+- Extra SIDs
+- Fancy Bear Tracks Ukrainian Artillery
+- Fast Flux DNS
+- Fast Symbolic Link
+- Fault Injection
+- Federated Learning Attack
+- File Extension Deception
+- File System Link
+- File Upload Attack
+- Fileless
+- Fine Tuning Attack
+- FireEye Supply Chain
+- Firefox Creds Location
+- Firefox History
+- Flash Loan Attack
+- FodHelper Bypass
+- Format String Attack
+- Gather Network Info
+- General Recon
+- Ghost Task
+- Ghost Tasks
+- Ghost Token
+- Git Dorking
+- Glitching Attack
+- Golden Certificate
+- Golden Ticket
+- Golden Ticket Attack
+- Google Chrome Extension
+- Google Hacking
+- Governance Attack
+- Governance Token Attack
+- GraphQL Batching Attack
+- GraphQL Field Suggestion Leak
+- GraphQL Injection
+- Grim Resource
+- Groovy Bypass
+- GRSec CON00003 WAF Bypass Technique
+- GRSec TEC00001 Union Based SQLi
+- GRSec TEC00002 Blind Boolean Based SQLi
+- GRSec TEC00003 Blind Time Based SQLi
+- GRSec TEC00004 Error Based SQLi
+- GRSec TEC00005 Stacked Queries SQLi
+- GRSec TEC00006 Out of Band SQLi
+- GRSec TEC00007 Second Order SQLi
+- GRSec TEC00008 Comment Based WAF Bypass
+- GRSec TEC00009 Encoding Based WAF Bypass
+- H2C Smuggling
+- Harvest Now Decrypt Later
+- Header Injection
+- Heap Alloc
+- Heap Create
+- Heap Overflow
+- Hex Eval
+- Hidden Directories
+- Hijack DLL
+- Hijack Libs
+- Homoglyph Attack
+- Homograph Attack
+- Hooking
+- Host Header Attack
+- Host Header Injection
+- Hot Potato
+- Hot Potatoes
+- HTTP Add URL
+- HTTP Create HTTP Handle
+- HTTP Desync
+- HTTP Header Injection
+- HTTP Parameter Pollution
+- HTTP Request Smuggling
+- HTTP Response Splitting
+- HTTP Smuggling
+- IAT Injection
+- ICMP Attacks
+- ICMP Tunneling
+- Image Trick
+- Impact Technique
+- Impersonate Logged On User
+- Impersonate Named Pipe Client
+- Impersonate System
+- Impersonate User
+- In Memory Module
+- Inbox Rule
+- Indirect Prompt Injection
+- Injection Attack
+- Insider Threat
+- Interactive Shell Usage
+- Introspection Query
+- IoT Attack
+- IoT Firmware Analysis Attack
+- IP Fragmentation Attack
+- Juice Jacking
+- Jumbled Path
+- JWT Attack
+- JWT Attack Vectors
+- Kaminsky Attack
+- Karma Attack
+- Kerberoasting
+- Kerberoasting Attack
+- Kerberos Attack
+- Kerbertoast
+- Kernel Callback Table
+- KRACK Attack
+- Kubernetes Attack
+- Kubernetes RBAC Exploitation
+- Lambda Attack
+- Lateral Movement
+- Lateral Movement TA0008
+- Lateral Movement Technique
+- Launch Agent
+- Launch Agent Persistence
+- Launch Agents
+- Launch Daemon Path
+- Launch Daemons
+- LDAP Injection
+- LDAP Injection via JNDI
+- LFI
+- Linux Privilege Escalation
+- Living off the Land
+- LLM Token Smuggling
+- Local Area Network Attacker
+- Local Attacker
+- Local File Inclusion
+- Local File Inclusion LFI
+- Local Privilege Escalation
+- Local Recon
+- Lockfile Injection
+- Log4Shell Kill Chain
+- LOLBin
+- LOLBin Execution
+- LSASS Dump
+- Macro Malware
+- Man in the Middle Attack MITM
+- Man on the Side
+- Manifest Confusion Attack
+- Mass Assignment Attack
+- mDNS Poisoning
+- Membership Inference Attack
+- Memcached Amplification
+- MFA Bypass Techniques
+- MFA Fatigue
+- MFA Fatigue Attack
+- Mobile Attack
+- Mobile Deep Link Exploitation
+- Model Backdoor
+- Model Serialization Attack
+- MOFComp
+- Msiexec
+- MSSQL xp_cmdshell
+- Mutation XSS
+- Namespace Escape Pattern
+- Native Shim
+- Netsh Helper
+- Network Attack
+- Network Mapping
+- NoSQL Injection
+- NTLM Downgrade Attack
+- NTLM Relay
+- NTLM Relay Attack
+- NTLMv1 Downgrade via GPO
+- NTP Amplification
+- Null Byte Injection
+- Null Session Pipes
+- OAB Virtual Directory PowerShell
+- OAuth Consent Phishing
+- Obfuscated String Command
+- Offensive Action
+- Offensive Tactic
+- Offensive Technique
+- OGNL Injection
+- ORM Injection
+- OS Command Injection
+- OS Credential Dumping MITRE T1003
+- Out-of-Band SQL Injection
+- Out-of-Band SQLi
+- Overpass the Hash
+- PAC File Injection
+- Padding Oracle Attack
+- Pass the Hash
+- Pass the Hash Attack
+- Pass the Ticket
+- Password Dump
+- Password Stealing
+- Path Normalization Attack
+- Path Traversal
+- Path Traversal Directory Traversal
+- PayPal Scam
+- Persistence
+- Persistence TA0003
+- Persistence Technique
+- Phishing
+- Phishing as a Service
+- Phishing Attachment
+- Phishing Attack
+- Phishing MITRE T1566
+- Phishing on Mobile Devices
+- Piggyback
+- Pivoting
+- PMKID Attack
+- POODLE Attack
+- Port Proxy
+- Port Scan
+- Power Analysis Attack
+- PowerShell Cradle
+- PowerShell ICMP
+- PowerShell Kerberos
+- PowerShell Profile Script
+- PowerShell TCP One-Liner
+- PowerShell TCP One-Liner Bind
+- PowerShell UDP
+- PowerShell UDP One-Liner
+- PowerShell YAML Serializer
+- PPID Spoofing
+- Pretexting Attack
+- Printer Bug
+- Privilege Escalation
+- Privilege Escalation TA0004
+- Privilege Escalation Technique
+- Prompt Injection
+- Protocol Downgrade Attack
+- Prototype Pollution RCE Chain
+- Proxy Command
+- Proxy Not Shell
+- Ptrace Invocation
+- Purge Audit Logs
+- PutBucketLifecycle
+- PutBucketLogging
+- PutBucketPolicy
+- PutBucketVersioning
+- PutBucketWebsite
+- PutEncryptionConfiguration
+- PutGroupPolicy
+- PutIdentityPolicy
+- PutLifecycleConfiguration
+- PutReplicationConfiguration
+- PutRolePolicy
+- PutUserPolicy
+- QR Code Phishing
+- Quarantine Bypass
+- Queue User APC
+- RCE
+- Reconnaissance Technique
+- Red Injection
+- Reflected XSS
+- Reflective DLL Injection
+- Reg Backdoor
+- Reg Connect Registry
+- Regex Injection
+- Registry Key Deletion
+- Remote Boot Key
+- Remote Cached Credential
+- Remote Command
+- Remote Command Execution
+- Remote Database Query
+- Remote Exec
+- Remote File Inclusion RFI
+- Remote Hash Retrieval
+- Remote Install
+- Remote Kerberos Relay
+- Remote Local Account Hash
+- Remote Machine Account Hash
+- Remote PowerShell Execution
+- Remote Reg Backdoor
+- Remote Service Installation
+- Remote Services MITRE T1021
+- Remote Shell Command
+- Remote Tunnel Persistence
+- Remote User Shell
+- Replay Attack
+- Resource Based Constrained Delegation
+- Resource Development
+- Resource Development Technique
+- Reverse Shell
+- Reverse SSH Tunnel
+- RFI
+- RFID Cloning
+- Root Jailbreak Detection Bypass
+- RPC Add Monitor
+- RPC Add Print Processor
+- RPC Async Add Monitor
+- RPC Async Add Print Processor
+- Rtl Create Process Reflection
+- Rtl Create User Thread
+- Run As
+- Run at Load
+- Run Command
+- Run Handler COM Server
+- Run Instances
+- Run Key
+- Run Macro
+- Run Services
+- Run Services Once
+- Run Task
+- RunDLL Command
+- RunOnce
+- RunOnce Key
+- RunOnceEx
+- SAM Account Name Spoofing
+- SAML Attack
+- SAML Response Wrapping Attack
+- Sandbox Escape
+- Sandbox Evasion
+- Sandwich Attack
+- Sapphire Ticket
+- Schedule Task
+- SchrPC Enable Task
+- SchrPC Register Task
+- SchrPC Run
+- Screen Shoulder Surfing
+- Script Injection Path
+- ScrnSave Backdoor
+- SE Backup Privilege
+- SE Enabled Delegation Privilege
+- SE Load Driver Privilege
+- Second Order Injection
+- Second Order SQL Injection
+- Second Order SQLi
+- SeCreateSymbolicLinkPrivilege
+- Security Attack
+- Security Feature Enumeration
+- Self Destruct Attack
+- Send As
+- Send Keys
+- Send Notify Message
+- Send on Behalf Of
+- Server Side Attack
+- Server Side Prototype Pollution RCE
+- Server Side Request Forgery SSRF
+- Server Side Template Injection
+- Server Side Template Injection SSTI
+- Serverless Function Attack
+- Service Abuse
+- Service Unquoted
+- Session Hijacking
+- Session Replay Attack
+- Shadow Access Pattern
+- Shadow Spray
+- Sharp Impersonation
+- Shell Access
+- Shell Command
+- Shell Command Line Interface
+- Shell Command Payload
+- Shell Execute
+- Shell Execute Hooks
+- Shell Icon Overlay Identifiers
+- Shell Run As
+- Shell Service Object Delay Load
+- Shellcode
+- Shim Database
+- Shim Flush Cache
+- Shoulder Surfing
+- SID History Injection
+- Side Channel Attack
+- Sideloading
+- Signature Replay Attack
+- Silent Cleanup
+- Silent Process Exit
+- Silver Ticket
+- Silver Ticket Attack
+- Smart Install
+- SMB Mapping
+- SMB Relay
+- Sneaky Pastes
+- Solar Storm
+- Spawn Chain
+- Spearphishing
+- Spoofed Scholars
+- SQL Injection
+- Squiblydoo Two
+- SSDP Amplification
+- SSH Tunnel
+- SSH Tunneling
+- SSL Strip
+- SSL Stripping
+- SSRF
+- SSTI
+- Stack Spoofing
+- Stack Strings
+- Stellar Particle
+- Sticky Keys
+- Stored XSS
+- STP Attack
+- Streaming Phish
+- Subject Target Mismatch
+- Sunshine Moonlight
+- SunShop FireEye
+- Supply Chain Attack
+- Supply Chain Attack via CDN
+- Supply Chain Attacker
+- Supply Chain Hardware Tampering
+- Sybil Attack
+- SYN Flood
+- SYN Flood Attack
+- System Discovery Command List
+- System Information
+- System Mapping
+- System Process Information
+- T1001
+- T1001.001
+- T1001.002
+- T1001.003
+- T1002
+- T1003
+- T1003.001
+- T1003.002
+- T1003.003
+- T1003.004
+- T1003.005
+- T1003.006
+- T1003.007
+- T1003.008
+- T1004
+- T1005
+- T1006
+- T1007
+- T1008
+- T1009
+- T1010
+- T1011
+- T1011.001
+- T1012
+- T1013
+- T1014
+- T1015
+- T1016
+- T1016.001
+- T1016.002
+- T1017
+- T1018
+- T1019
+- T1020
+- T1020.001
+- T1021
+- T1021.001
+- T1021.002
+- T1021.003
+- T1021.004
+- T1021.005
+- T1021.006
+- T1021.007
+- T1021.008
+- T1022
+- T1023
+- T1024
+- T1025
+- T1026
+- T1027
+- T1027.001
+- T1027.002
+- T1027.003
+- T1027.004
+- T1027.005
+- T1027.006
+- T1027.007
+- T1027.008
+- T1027.009
+- T1027.010
+- T1027.011
+- T1027.012
+- T1027.013
+- T1027.014
+- T1027.015
+- T1027.016
+- T1027.017
+- T1028
+- T1029
+- T1030
+- T1031
+- T1032
+- T1033
+- T1034
+- T1035
+- T1035.006
+- T1036
+- T1036.001
+- T1036.002
+- T1036.003
+- T1036.004
+- T1036.005
+- T1036.006
+- T1036.007
+- T1036.008
+- T1036.009
+- T1036.010
+- T1036.011
+- T1036.012
+- T1037
+- T1037.001
+- T1037.002
+- T1037.003
+- T1037.004
+- T1037.005
+- T1038
+- T1039
+- T1040
+- T1041
+- T1042
+- T1043
+- T1044
+- T1045
+- T1046
+- T1047
+- T1048
+- T1048.001
+- T1048.002
+- T1048.003
+- T1049
+- T1050
+- T1051
+- T1052
+- T1052.001
+- T1053
+- T1053.001
+- T1053.002
+- T1053.003
+- T1053.004
+- T1053.005
+- T1053.006
+- T1053.007
+- T1054
+- T1055
+- T1055.001
+- T1055.002
+- T1055.003
+- T1055.004
+- T1055.005
+- T1055.008
+- T1055.009
+- T1055.011
+- T1055.012
+- T1055.013
+- T1055.014
+- T1055.015
+- T1056
+- T1056.001
+- T1056.002
+- T1056.003
+- T1056.004
+- T1057
+- T1058
+- T1059
+- T1059.001
+- T1059.002
+- T1059.003
+- T1059.004
+- T1059.005
+- T1059.006
+- T1059.007
+- T1059.008
+- T1059.009
+- T1059.010
+- T1059.011
+- T1059.012
+- T1059.013
+- T1060
+- T1061
+- T1062
+- T1063
+- T1064
+- T1065
+- T1066
+- T1067
+- T1068
+- T1069
+- T1069.001
+- T1069.002
+- T1069.003
+- T1070
+- T1070.001
+- T1070.002
+- T1070.003
+- T1070.004
+- T1070.005
+- T1070.006
+- T1070.007
+- T1070.008
+- T1070.009
+- T1070.010
+- T1071
+- T1071.001
+- T1071.002
+- T1071.003
+- T1071.004
+- T1071.005
+- T1072
+- T1073
+- T1074
+- T1074.001
+- T1074.002
+- T1075
+- T1076
+- T1077
+- T1078
+- T1078.001
+- T1078.002
+- T1078.003
+- T1078.004
+- T1079
+- T1080
+- T1081
+- T1082
+- T1083
+- T1084
+- T1085
+- T1086
+- T1087
+- T1087.001
+- T1087.002
+- T1087.003
+- T1087.004
+- T1088
+- T1089
+- T1090
+- T1090.001
+- T1090.002
+- T1090.003
+- T1090.004
+- T1091
+- T1092
+- T1093
+- T1094
+- T1095
+- T1096
+- T1097
+- T1098
+- T1098.001
+- T1098.002
+- T1098.003
+- T1098.004
+- T1098.005
+- T1098.006
+- T1098.007
+- T1099
+- T1100
+- T1101
+- T1102
+- T1102.001
+- T1102.002
+- T1102.003
+- T1103
+- T1104
+- T1105
+- T1106
+- T1107
+- T1108
+- T1109
+- T1110
+- T1110.001
+- T1110.002
+- T1110.003
+- T1110.004
+- T1111
+- T1112
+- T1113
+- T1114
+- T1114.001
+- T1114.002
+- T1114.003
+- T1115
+- T1116
+- T1117
+- T1118
+- T1119
+- T1120
+- T1121
+- T1122
+- T1123
+- T1124
+- T1125
+- T1126
+- T1127
+- T1127.001
+- T1127.002
+- T1127.003
+- T1128
+- T1129
+- T1130
+- T1131
+- T1132
+- T1132.001
+- T1132.002
+- T1133
+- T1134
+- T1134.001
+- T1134.002
+- T1134.003
+- T1134.004
+- T1134.005
+- T1135
+- T1136
+- T1136.001
+- T1136.002
+- T1136.003
+- T1137
+- T1137.001
+- T1137.002
+- T1137.003
+- T1137.004
+- T1137.005
+- T1137.006
+- T1138
+- T1139
+- T1140
+- T1141
+- T1142
+- T1143
+- T1144
+- T1145
+- T1146
+- T1147
+- T1148
+- T1149
+- T1150
+- T1151
+- T1152
+- T1153
+- T1154
+- T1155
+- T1156
+- T1157
+- T1158
+- T1159
+- T1160
+- T1161
+- T1162
+- T1163
+- T1164
+- T1165
+- T1166
+- T1167
+- T1168
+- T1169
+- T1170
+- T1171
+- T1172
+- T1173
+- T1174
+- T1175
+- T1176
+- T1176.001
+- T1176.002
+- T1177
+- T1178
+- T1179
+- T1180
+- T1181
+- T1182
+- T1183
+- T1184
+- T1185
+- T1186
+- T1187
+- T1188
+- T1189
+- T1190
+- T1191
+- T1192
+- T1193
+- T1194
+- T1195
+- T1195.001
+- T1195.002
+- T1195.003
+- T1196
+- T1197
+- T1198
+- T1199
+- T1200
+- T1201
+- T1202
+- T1203
+- T1204
+- T1204.001
+- T1204.002
+- T1204.003
+- T1204.004
+- T1204.005
+- T1205
+- T1205.001
+- T1205.002
+- T1206
+- T1207
+- T1208
+- T1209
+- T1210
+- T1211
+- T1212
+- T1213
+- T1213.001
+- T1213.002
+- T1213.003
+- T1213.004
+- T1213.005
+- T1213.006
+- T1214
+- T1215
+- T1216
+- T1216.001
+- T1216.002
+- T1217
+- T1218
+- T1218.001
+- T1218.002
+- T1218.003
+- T1218.004
+- T1218.005
+- T1218.007
+- T1218.008
+- T1218.009
+- T1218.010
+- T1218.011
+- T1218.012
+- T1218.013
+- T1218.014
+- T1218.015
+- T1219
+- T1219.001
+- T1219.002
+- T1219.003
+- T1220
+- T1221
+- T1222
+- T1222.001
+- T1222.002
+- T1223
+- T1398
+- T1399
+- T1400
+- T1401
+- T1402
+- T1403
+- T1404
+- T1405
+- T1406
+- T1406.001
+- T1406.002
+- T1407
+- T1408
+- T1409
+- T1410
+- T1411
+- T1412
+- T1413
+- T1414
+- T1415
+- T1416
+- T1417
+- T1417.001
+- T1417.002
+- T1418
+- T1418.001
+- T1419
+- T1420
+- T1421
+- T1422
+- T1422.001
+- T1422.002
+- T1423
+- T1424
+- T1425
+- T1426
+- T1427
+- T1428
+- T1429
+- T1430
+- T1430.001
+- T1430.002
+- T1431
+- T1432
+- T1433
+- T1434
+- T1435
+- T1436
+- T1437
+- T1437.001
+- T1438
+- T1439
+- T1440
+- T1441
+- T1442
+- T1443
+- T1444
+- T1445
+- T1446
+- T1447
+- T1448
+- T1449
+- T1450
+- T1451
+- T1452
+- T1453
+- T1454
+- T1455
+- T1456
+- T1457
+- T1458
+- T1459
+- T1460
+- T1461
+- T1462
+- T1463
+- T1464
+- T1465
+- T1466
+- T1467
+- T1468
+- T1469
+- T1470
+- T1471
+- T1472
+- T1473
+- T1474
+- T1474.001
+- T1474.002
+- T1474.003
+- T1475
+- T1476
+- T1477
+- T1478
+- T1480
+- T1480.001
+- T1480.002
+- T1481
+- T1481.001
+- T1481.002
+- T1481.003
+- T1482
+- T1483
+- T1484
+- T1484.001
+- T1484.002
+- T1485
+- T1485.001
+- T1486
+- T1487
+- T1488
+- T1489
+- T1490
+- T1491
+- T1491.001
+- T1491.002
+- T1492
+- T1493
+- T1494
+- T1495
+- T1496
+- T1496.001
+- T1496.002
+- T1496.003
+- T1496.004
+- T1497
+- T1497.001
+- T1497.002
+- T1497.003
+- T1498
+- T1498.001
+- T1498.002
+- T1499
+- T1499.001
+- T1499.002
+- T1499.003
+- T1499.004
+- T1500
+- T1501
+- T1502
+- T1503
+- T1504
+- T1505
+- T1505.001
+- T1505.002
+- T1505.003
+- T1505.004
+- T1505.005
+- T1505.006
+- T1506
+- T1507
+- T1508
+- T1509
+- T1510
+- T1512
+- T1513
+- T1514
+- T1516
+- T1517
+- T1518
+- T1518.001
+- T1518.002
+- T1519
+- T1520
+- T1521
+- T1521.001
+- T1521.002
+- T1521.003
+- T1522
+- T1523
+- T1525
+- T1526
+- T1527
+- T1528
+- T1529
+- T1530
+- T1531
+- T1532
+- T1533
+- T1534
+- T1535
+- T1536
+- T1537
+- T1538
+- T1539
+- T1540
+- T1541
+- T1542
+- T1542.001
+- T1542.002
+- T1542.003
+- T1542.004
+- T1542.005
+- T1543
+- T1543.001
+- T1543.002
+- T1543.003
+- T1543.004
+- T1543.005
+- T1544
+- T1546
+- T1546.001
+- T1546.002
+- T1546.003
+- T1546.004
+- T1546.005
+- T1546.006
+- T1546.007
+- T1546.008
+- T1546.009
+- T1546.010
+- T1546.011
+- T1546.012
+- T1546.013
+- T1546.014
+- T1546.015
+- T1546.016
+- T1546.017
+- T1546.018
+- T1547
+- T1547.001
+- T1547.002
+- T1547.003
+- T1547.004
+- T1547.005
+- T1547.006
+- T1547.007
+- T1547.008
+- T1547.009
+- T1547.010
+- T1547.011
+- T1547.012
+- T1547.013
+- T1547.014
+- T1547.015
+- T1548
+- T1548.001
+- T1548.002
+- T1548.003
+- T1548.004
+- T1548.005
+- T1548.006
+- T1550
+- T1550.001
+- T1550.002
+- T1550.003
+- T1550.004
+- T1551
+- T1551.006
+- T1552
+- T1552.001
+- T1552.002
+- T1552.003
+- T1552.004
+- T1552.005
+- T1552.006
+- T1552.007
+- T1552.008
+- T1553
+- T1553.001
+- T1553.002
+- T1553.003
+- T1553.004
+- T1553.005
+- T1553.006
+- T1554
+- T1555
+- T1555.001
+- T1555.002
+- T1555.003
+- T1555.004
+- T1555.005
+- T1555.006
+- T1556
+- T1556.001
+- T1556.002
+- T1556.003
+- T1556.004
+- T1556.005
+- T1556.006
+- T1556.007
+- T1556.008
+- T1556.009
+- T1557
+- T1557.001
+- T1557.002
+- T1557.003
+- T1557.004
+- T1558
+- T1558.001
+- T1558.002
+- T1558.003
+- T1558.004
+- T1558.005
+- T1559
+- T1559.001
+- T1559.002
+- T1559.003
+- T1560
+- T1560.001
+- T1560.002
+- T1560.003
+- T1561
+- T1561.001
+- T1561.002
+- T1562
+- T1562.001
+- T1562.002
+- T1562.003
+- T1562.004
+- T1562.006
+- T1562.007
+- T1562.008
+- T1562.009
+- T1562.010
+- T1562.011
+- T1562.012
+- T1562.013
+- T1563
+- T1563.001
+- T1563.002
+- T1564
+- T1564.001
+- T1564.002
+- T1564.003
+- T1564.004
+- T1564.005
+- T1564.006
+- T1564.007
+- T1564.008
+- T1564.009
+- T1564.010
+- T1564.011
+- T1564.012
+- T1564.013
+- T1564.014
+- T1565
+- T1565.001
+- T1565.002
+- T1565.003
+- T1566
+- T1566.001
+- T1566.002
+- T1566.003
+- T1566.004
+- T1567
+- T1567.001
+- T1567.002
+- T1567.003
+- T1567.004
+- T1568
+- T1568.001
+- T1568.002
+- T1568.003
+- T1569
+- T1569.001
+- T1569.002
+- T1569.003
+- T1570
+- T1571
+- T1572
+- T1573
+- T1573.001
+- T1573.002
+- T1574
+- T1574.001
+- T1574.002
+- T1574.004
+- T1574.005
+- T1574.006
+- T1574.007
+- T1574.008
+- T1574.009
+- T1574.010
+- T1574.011
+- T1574.012
+- T1574.013
+- T1574.014
+- T1575
+- T1576
+- T1577
+- T1578
+- T1578.001
+- T1578.002
+- T1578.003
+- T1578.004
+- T1578.005
+- T1579
+- T1580
+- T1581
+- T1582
+- T1583
+- T1583.001
+- T1583.002
+- T1583.003
+- T1583.004
+- T1583.005
+- T1583.006
+- T1583.007
+- T1583.008
+- T1584
+- T1584.001
+- T1584.002
+- T1584.003
+- T1584.004
+- T1584.005
+- T1584.006
+- T1584.007
+- T1584.008
+- T1585
+- T1585.001
+- T1585.002
+- T1585.003
+- T1586
+- T1586.001
+- T1586.002
+- T1586.003
+- T1587
+- T1587.001
+- T1587.002
+- T1587.003
+- T1587.004
+- T1588
+- T1588.001
+- T1588.002
+- T1588.003
+- T1588.004
+- T1588.005
+- T1588.006
+- T1588.007
+- T1589
+- T1589.001
+- T1589.002
+- T1589.003
+- T1590
+- T1590.001
+- T1590.002
+- T1590.003
+- T1590.004
+- T1590.005
+- T1590.006
+- T1591
+- T1591.001
+- T1591.002
+- T1591.003
+- T1591.004
+- T1592
+- T1592.001
+- T1592.002
+- T1592.003
+- T1592.004
+- T1593
+- T1593.001
+- T1593.002
+- T1593.003
+- T1594
+- T1595
+- T1595.001
+- T1595.002
+- T1595.003
+- T1596
+- T1596.001
+- T1596.002
+- T1596.003
+- T1596.004
+- T1596.005
+- T1597
+- T1597.001
+- T1597.002
+- T1598
+- T1598.001
+- T1598.002
+- T1598.003
+- T1598.004
+- T1599
+- T1599.001
+- T1600
+- T1600.001
+- T1600.002
+- T1601
+- T1601.001
+- T1601.002
+- T1602
+- T1602.001
+- T1602.002
+- T1603
+- T1604
+- T1605
+- T1606
+- T1606.001
+- T1606.002
+- T1608
+- T1608.001
+- T1608.002
+- T1608.003
+- T1608.004
+- T1608.005
+- T1608.006
+- T1609
+- T1610
+- T1611
+- T1611.002
+- T1612
+- T1613
+- T1614
+- T1614.001
+- T1615
+- T1616
+- T1617
+- T1618
+- T1619
+- T1620
+- T1621
+- T1622
+- T1623
+- T1623.001
+- T1624
+- T1624.001
+- T1625
+- T1625.001
+- T1626
+- T1626.001
+- T1627
+- T1627.001
+- T1628
+- T1628.001
+- T1628.002
+- T1628.003
+- T1629
+- T1629.001
+- T1629.002
+- T1629.003
+- T1630
+- T1630.001
+- T1630.002
+- T1630.003
+- T1631
+- T1631.001
+- T1632
+- T1632.001
+- T1633
+- T1633.001
+- T1634
+- T1634.001
+- T1635
+- T1635.001
+- T1636
+- T1636.001
+- T1636.002
+- T1636.003
+- T1636.004
+- T1636.005
+- T1637
+- T1637.001
+- T1638
+- T1639
+- T1639.001
+- T1640
+- T1641
+- T1641.001
+- T1642
+- T1643
+- T1644
+- T1645
+- T1646
+- T1647
+- T1648
+- T1649
+- T1650
+- T1651
+- T1652
+- T1653
+- T1654
+- T1655
+- T1655.001
+- T1656
+- T1657
+- T1658
+- T1659
+- T1660
+- T1661
+- T1662
+- T1663
+- T1664
+- T1665
+- T1666
+- T1667
+- T1668
+- T1669
+- T1670
+- T1671
+- T1672
+- T1673
+- T1674
+- T1675
+- T1676
+- T1677
+- T1678
+- T1679
+- T1680
+- T1681
+- Take Ownership
+- TCP Reset Attack
+- TCP Window Size Attack
+- Telecom Attack
+- Text to EXE
+- Thread Hide From Debugger
+- Thread Hijack
+- Thread Hijacking
+- Thread Pool Injection
+- Thread Stack Spoofing
+- Time Bandit Attack
+- Time Bomb
+- Time-Based SQLi
+- Timing Attack
+- TLS Fingerprinting Evasion
+- Tomcat Bypass
+- Tomcat Memshell
+- Truncation
+- Trusted Location Bypass
+- Trusted Types Bypass
+- Typosquatting Attack
+- UAC Bypass
+- UAC Method Cor Profiler
+- UAC Method Debug Object
+- UAC Method Disk Silent Cleanup
+- UAC Method Shell SDCLT
+- UI Redressing
+- Unattend XML Password
+- Unattended Install File
+- Unicode Normalization Attack
+- Union-Based SQL Injection
+- Union-Based SQLi
+- Unix Hard Link
+- Unsigned Binary Execution
+- URL Search Hooks
+- USB Drop Attack
+- User Impersonation
+- Username Enumeration
+- Valid Accounts
+- Virtualization Sandbox Evasion
+- VLAN Hopping
+- Voice Cloning Attack
+- Vulnerability Chaining
+- WAF Bypass
+- Weak Cryptography Exploitation
+- Web Access Token
+- Web Attack
+- Web Credentials
+- Web Server Scan
+- WebLogic Memshell
+- WebSocket Hijacking
+- WebSocket Security Attacks
+- WebSocket Smuggling
+- WebSphere Bypass
+- WebSphere Memshell
+- Windows Batch File
+- Windows Command Shell
+- Windows Create Remote Thread
+- Windows Duplicate Token
+- Windows Privilege Escalation
+- Wireless Network Attacks
+- Wiretap
+- WMI Event Subscription Persistence
+- Word Warping
+- Wordlist Scan
+- XML External Entity Injection XXE
+- XML Injection
+- XPath Injection
+- xp_cmdshell
+- XSS
+- XSS Payloads
+- XXE
+
+---
+
+## TECH (기술 개념) — 810개
+
+- Access Modeling
+- Access Vector
+- ActionScript
+- Active Learning
+- ActiveRecord
+- AdaBoost
+- Adaptive Resonance Theory Clustering
+- Address Space
+- Advanced Device Matching System
+- AES-GCM
+- Agglomerative Clustering
+- AI Supply Chain
+- AirDrop
+- AMSI Utils
+- Android Security Architecture
+- Anonymous Pipe
+- Answer Set Programming
+- API Controller
+- API Key vs OAuth Token vs JWT
+- aPLib
+- AppCompat
+- AppCompat Flags
+- AppDomain Manager
+- Apple Camera
+- AppleEvents
+- AppleScript
+- Approximate String Matching
+- Art of Memory Forensics
+- Artificial Neural Net Classification
+- ASP.NET
+- ASP.NET Core
+- ASP.NET MVC
+- Assembly Load
+- Association Rule Learning
+- Asymmetric Encryption
+- Asymmetric Key
+- Attack Surface
+- Attack Tree Modeling
+- Authentication Technology
+- Authenticator App vs Hardware Key vs SMS
+- Autoregressive Model
+- AWS Cross Account Access Patterns
+- AWS ECS Task Role vs Execution Role
+- AWS IAM Policy Evaluation Logic
+- AWS Resource Policy vs Identity Policy
+- AWS Security Group vs NACL
+- AWS WAF vs Third Party WAF
+- Azure RBAC vs Azure AD Role
+- Barcode Scanner Input Device
+- Batch Encryption
+- Bayes Optimal Classifier
+- Bayesian Analysis
+- Bayesian Estimation
+- Bayesian Hypothesis Testing
+- Bayesian Linear Regression
+- Bayesian Linear Regression Learning
+- Bayesian Method
+- Bayesian Model Averaging
+- Bayesian Model Combination
+- Beacon Frame
+- Big Data
+- Binary Classification
+- Binary Entropy
+- Binary Large Object
+- BitBlt
+- Black Hat Robin Sage
+- Blowfish
+- Blue Hat
+- Boot Key
+- Boot Record
+- Boot Sector
+- Bootloader
+- Bootstrap Aggregating
+- Botnet
+- Broadcom WiFi
+- Browser Extension
+- Browser Forensic Artifacts
+- Business Logic
+- C2
+- C2 Framework
+- C2 Matrix
+- Cache Memory
+- Canopy Clustering
+- CD-ROM
+- Center Clustering
+- Central Processing Unit
+- Certificate
+- Certificate Chain
+- ChaCha
+- Cheat Sheet
+- Chocolatey Warning
+- Chromium Based
+- Chromium Bookmarks
+- Chromium History
+- Cipher Suite
+- Cipher Suites
+- Circuit Breaker
+- Client Hello
+- Client Key Exchange
+- Client Side vs Server Side Validation
+- Cloud
+- Cloud Forensics
+- Cloud Forensics Challenges
+- Cloud Pentest Cheatsheets
+- Cloud Workload Fingerprinting
+- Cluster Analysis
+- Cocoa Application Layer
+- Cocoa Touch
+- Collaborative Software
+- COM Object
+- Command Line
+- Command Line Interface
+- Command Processor
+- Computer Cabinet
+- Computer Case
+- Computer Defaults
+- Computer Enclosure
+- Computer Motherboard Having Peripheral Security Functions
+- Computer Network Node
+- Computer Platform
+- ComputerCraft
+- COMSPEC
+- Configuration Database Record
+- Configuration File
+- ConHost
+- Container
+- Container Forensics
+- Container Image
+- Container Image Analysis
+- Container Runtime Interface
+- Container Technology
+- Containerization
+- Content Format Conversion
+- Covert Network
+- Crash Dump
+- Crash Loop Backoff
+- Crash Reporter
+- Cryptographic Key
+- CSP Nonce vs Hash
+- CT Pre-Certificate
+- CVE
+- CWE
+- Cyber Technique
+- Cyber Threat Intelligence CTI
+- Cyber Threat Landscape Report
+- Cyber Vaccine and Predictive Malware Defensive Methods and Systems
+- Cybercrime
+- Dagger Fact Sheet
+- Data Acquisition Agent
+- Data Encryption
+- Data Exchange Mapping
+- Data Type Converter
+- Database File
+- Database Query
+- Database Record
+- Dataset
+- Dead Code Elimination
+- Debug Privilege
+- Decision Tree
+- Deep Neural Net Classification
+- Dependency Injection
+- Developer Mode
+- Device Admin Info
+- Device Drivers
+- Device I/O Control
+- DevOps
+- Dex Class Loader
+- DFIR
+- Diamond Model
+- Diamond Model Application
+- Diamond Model Infrastructure Pivot
+- Diamond Model of Intrusion Analysis
+- Digital Artifact
+- Digital Audio
+- Digital Audio Visual Media
+- Digital Certificate
+- Digital Document
+- Digital Event
+- Digital Event Record
+- Digital Fingerprint
+- Digital Forensics
+- Digital Identity
+- Digital Image
+- Digital Information
+- Digital Information Bearer
+- Digital Media
+- Digital Message
+- Digital Multimedia
+- Digital Signature
+- Digital System
+- Digital Text
+- Digital Video
+- Dimension Reduction
+- Directory Entry
+- DirectShow
+- Disk Forensics
+- Disk Image
+- Disk Partitioning
+- Display Device Driver
+- Display Switch
+- Distinguished Name
+- DNS Record Types
+- DNS Recursion
+- DNS Resolver vs Authoritative
+- Driver Frameworks
+- DSRole Get Primary Domain Information
+- DTD Processing
+- Dynamic Libraries
+- East-West Traffic vs North-South Traffic
+- Electrical Signal
+- Electromagnetic Signal
+- ElGamal
+- Else If
+- Encrypted Data
+- Encrypted DNS Bootstrapping
+- Encrypted Pre-Master Secret
+- Encryption
+- Encryption Technology
+- Ensemble Learning
+- Entity Resolver
+- Entropy Source
+- Entry Point
+- Environment Variables
+- Ephemeral Port Range
+- Ethereum Classic
+- Event Consumer
+- Event Filter
+- Exception Handling
+- Execution Technique
+- Exfiltration Technique
+- Exploit
+- Exploit Development Lifecycle
+- External Knowledge Base
+- External Threat Model
+- FIDO Authentication
+- File Disposition Information
+- File Handle
+- File Hash
+- File Input Stream
+- File Metadata
+- File Section
+- File Stream
+- File System
+- File System Object
+- File Type
+- Fileless Malware
+- Filter to Consumer Binding
+- Flash Memory
+- Free Library
+- FreeMarker
+- Fulcio Keyless Signing
+- Gated Recurrent Unit
+- Generative Adversarial Network
+- Geolocation
+- Golang
+- Gradient Boosted Decision Tree
+- Graphical User Interface
+- Graphics Card Firmware
+- Graphics Processing Unit
+- Group Membership
+- Hard Disk Firmware
+- Hard Link
+- Hardware Device
+- Hardware Driver
+- Hardware Profiles
+- Hidden Layer
+- Hierarchical Clustering
+- Homomorphic Encryption
+- HTML Help
+- HTTP Client
+- HTTP Foundation
+- HTTP Initialize
+- HTTP Kernel
+- HTTP Servlet
+- HTTP Session
+- Human Input Device Firmware
+- Hybrid Connection
+- Hybrid Decrypt
+- Hybrid Encrypt
+- Identification of Traceroute Nodes and Associated Devices
+- Identification of Visual International Domain Name Collisions
+- Identifier Activity Analysis
+- Identifier Analysis
+- Identifier Reputation Analysis
+- ImageNet
+- IMDSv1 vs IMDSv2
+- IMDSv1 vs v2
+- Inbound Network Traffic
+- Inbound Session Volume Analysis
+- Indirect Branch Call Analysis
+- Indirect Branching Calls
+- InfoSec
+- Infostealer
+- Interactive Session
+- Internationalized Domain Name
+- Internet File Transfer Traffic
+- Internet Persona
+- Internet Shortcut
+- Interprocess Communication
+- IOC
+- IOCs
+- IP Address
+- IronPython
+- Java Archive
+- JavaScript Blob
+- JavaScript File
+- JavaScript Interface
+- JavaScriptCore
+- JNDI Manager
+- Job Function Access Pattern Analysis
+- Kerberos Delegation
+- Kerberos Pre-Authentication
+- Kerberos Realm vs AD Domain
+- Kerberos Ticket
+- Kerberos Ticket Granting Service Ticket
+- Kerberos Ticket Granting Ticket
+- Kernel Mode
+- Kernel Module
+- Kernel Process Table
+- Key Agreement
+- Key Credential
+- Key Credential Link
+- Key Derivation
+- Key Exchange Algorithm
+- Key ISO
+- Keychain
+- Kill Chain Mapping
+- Known DLLs
+- LangChain
+- LangFlow
+- LanmanServer
+- LanmanWorkstation
+- Launch Pad
+- Launch Services
+- LDAP Active Directory
+- LDAP Search
+- Legacy System
+- LibreSSL
+- Live Forensics vs Dead Forensics
+- Local Account
+- Local Admin
+- Local Admin Access
+- Local Area Network
+- Local Area Network Traffic
+- LSA Backup Key
+- LSA Logon User
+- LSA Policy
+- LSA Policy Information
+- LSA Register Logon Process
+- LSASRV
+- LSASS
+- Malware
+- Master Boot Record
+- Memory Forensics
+- Memory Management Unit
+- Metamorphic Malware
+- Mobile Forensics
+- Mobile Malware
+- Motion Detector
+- MoveFileEx
+- MpClient
+- MpCmpRun
+- MpDefender Core Service
+- MpEngine
+- MpSvc
+- MpThreat
+- MsDtServer
+- MSI Installer
+- MSI Server
+- MSIX Registry Compatibility
+- MsMpEng
+- MsMpSvc
+- MSO Password Hash
+- MsOHTMed
+- MSOL Federated Domain
+- MSOL Role
+- MSOL Role Member
+- MSOL Service
+- MSOL Service Principal
+- MSOL User
+- MsSense
+- MSXML
+- Multi-Domain Certificate
+- Multi-Signature
+- Multidex
+- Named Pipe System
+- Named Pipes
+- Namespace
+- Nearest Neighbors
+- Net Session
+- Network Activity
+- Network Card Firmware
+- Network Connection
+- Network Credential
+- Network Extension
+- Network Flow
+- Network Forensics
+- Network Interface
+- Network Interface Card
+- Network Packet
+- Network Protocol
+- Network Relay
+- Network Service
+- Network Session
+- Network Traffic
+- Network Traffic Community Deviation
+- Node.js
+- NtAllocateVirtualMemory
+- NtAllocateVirtualMemoryEx
+- NtCreateFile
+- NtCreateMailslotFile
+- NtCreateNamedPipeFile
+- NtCreatePagingFile
+- NtCreateProcess
+- NtCreateProcessEx
+- NtCreateThread
+- NtCreateThreadEx
+- NtCurrentPEB
+- NtDelayExecution
+- NtDeleteFile
+- NTDLL Pipe
+- NtDuplicateToken
+- NtFilterToken
+- NtFlushInstructionCache
+- NtFreeVirtualMemory
+- NtGetThreadContext
+- NtImpersonateThread
+- NTLM Hash
+- NTLMv1 vs NTLMv2
+- NTLMv2
+- NtOpenFile
+- NtOpenProcess
+- NtOpenThread
+- NtProtectVirtualMemory
+- NtQueryDirectoryFile
+- NtQueryInformationProcess
+- NtQuerySystemProcessInformation
+- NtQuerySystemTime
+- NtQueueApcThread
+- NtQueueApcThreadEx
+- NtRaiseHardError
+- NtReadFile
+- NtReadFileScatter
+- NtResumeThread
+- NtSetInformationFile
+- NtSetInformationProcess
+- NtSetInformationSymbolicLink
+- NtSetThreadContext
+- NtSuspendProcess
+- NtSuspendThread
+- NtTerminateProcess
+- NtTestAlert
+- NtUnmapViewOfSection
+- NtUserMessageCall
+- NtWriteFile
+- NtWriteFileGather
+- NtWriteVirtualMemory
+- OAB Virtual Directory
+- OAuth 2.0 Flow
+- OAuth 2.0 Grant Types
+- OAuth 2.0 Scope
+- OAuth 2.0 Token Types
+- Object Storage Presigned URL
+- Office Application
+- Office Application File
+- Office Click-to-Run
+- Office Product Version
+- Office Telemetry
+- Office Template Paths
+- Office Update Service
+- OLE Converter
+- Open Directory
+- Open Source Intelligence OSINT
+- Operating System Executable File
+- Operating System File
+- Operating System Log File
+- Operating System Process
+- Operating System Shared Library File
+- Optical Disc Image
+- Oracle UTL_HTTP
+- Outlook Add-in
+- Packet Capture File
+- Passive DNS
+- Password
+- Password Change Notify
+- Password File
+- Password Hash
+- Password Recovery Packet
+- Password Vault Credentials
+- Pattern Matching
+- PCA Patch SDB Task
+- Pentest
+- Peripheral Firmware
+- Peripheral Hub Firmware
+- Physical Artifact
+- Physical Attacker
+- Physical Key
+- Physical Key Lock
+- Physical Link
+- Physical Location
+- Physical Lock
+- PlayReady
+- Polymorphic Malware
+- PowerShell
+- PowerShell Core
+- PowerShell History
+- PowerShell Script File
+- Predicted DGA with Long Short
+- Privacy Sandbox
+- Privileged Container
+- Prompt Leaking vs Prompt Injection
+- Protocol Support Module
+- Proximity Card
+- Proximity Sensor
+- Pwsh
+- PyCrypto
+- Python Script File
+- PyTorch
+- Qualcomm Keymaster
+- Qualys Network Passive Sensor Getting Started Guide
+- Query Performance Counter
+- Random Forest
+- Random Number Generator
+- Ransomware
+- Ransomware Negotiation
+- Raw Disk
+- React
+- Recurrent Neural Network
+- Red Team
+- Red Team Grimoire
+- Red Team Operations
+- Red Team Rules of Engagement
+- Red Teaming
+- Red Teaming LLM
+- Reg Idle Backup
+- RegBack
+- Registry Mounted Drive
+- Regression Analysis
+- Reinforcement Learning
+- Remote Agent
+- Remote Attacker
+- Remote Code
+- Remote Login Session
+- Remote Session
+- Remote Terminal Session
+- Removable Media Device
+- RepUX
+- Residual Neural Network
+- ResNet
+- Resource Fork
+- Reverse DNS Lookup
+- Reverse Lookup
+- Revert to Self
+- RFID
+- RimArts
+- Rootkit
+- Rtl Copy Memory
+- Rtl Decompress Buffer
+- Rtl Get Version
+- Run Level
+- Runtime Broker
+- Safari for WebKit Development
+- SAM Account Name
+- Samba Wiki
+- SameSite
+- SAML Assertion Structure
+- SAML Flow
+- SAML Security Assertion Markup Language
+- SanDisk
+- SASAut
+- SchCache
+- Scheduled Job
+- Scheduled Jobs
+- Scheduled Task Action
+- Scheduled Task Principal
+- Scheduled Task Settings Set
+- Scheduled Task Trigger
+- Scheduled Tasks
+- SciPy
+- Screen Saver
+- Screen Sharing
+- Script Block
+- Script Engine
+- Script Interpreter
+- Scripting Engine
+- Scripting Object Model
+- SE DLL
+- SeaMonkey
+- Search Protocol Host
+- SecAudit Log
+- SecItemCopyMatching
+- SecKeychainFindInternetPassword
+- SecKeychainItemCopyAttributesAndData
+- SecKeyCreateRandomKey
+- SecOps
+- SecRandomCopyBytes
+- Secure Random
+- Secure String
+- Security Context
+- Security Descriptor
+- Security Descriptor SDDL
+- Security Identifier
+- Security Packages
+- Security Protocol Type
+- Security Providers
+- Security Token
+- Self Signed Certificate
+- SemiBoost
+- Serialization Binder
+- Server Signature
+- Server XML HTTP
+- Serverless
+- Service DLL
+- Service Point Manager
+- Service Principal Names
+- Service Provider
+- Session Cookie
+- Session Manager
+- Session Storage
+- Shell Browser
+- Shell Browser Window
+- Shell Dispatch
+- Shell Service Objects
+- ShellEx
+- SID History
+- Sigma Pipelines
+- Signal Double Ratchet
+- Signature
+- Signature Algorithm
+- Signature and Hash Algorithm
+- Signature Scheme
+- Signed Certificate Timestamp
+- Singular Value Decomposition
+- SiriKit
+- SLDB
+- Software Identity
+- Software Library
+- Software Package
+- Soundex Matching
+- Spearman's Rank Correlation Coefficient
+- Spectral Clustering
+- SpiderMonkey
+- Splunk SPL
+- Spring Board
+- Stealer Malware
+- Subspace Clustering
+- Supply Chain
+- Svchost
+- Symbolic Link
+- Symmetric Encryption
+- Symmetric Key
+- SynthNet
+- SysAdmin
+- Sysmon Driver
+- System Call
+- System Configuration Database
+- System Firmware
+- System Init Process
+- System Init Script
+- System Password Database
+- SysVinit
+- Table Input Services
+- Tablet Computer
+- Tablet Input Services
+- TabTip
+- TCP 3-Way Handshake
+- TCP Simultaneous Open
+- TensorFlow
+- The Pyramid of Pain
+- Threat Actor Classification
+- Threat Actor Profiling
+- Threat Hunter
+- Threat Hunting Methodology
+- Threat Hunting Project
+- Threat Intel
+- Threat Intelligence Lifecycle
+- Ticket Granting Ticket
+- Time Series Analysis
+- TLS 1.2 vs TLS 1.3
+- TLS False Start
+- TLS Session Resumption
+- Token Elevation Context
+- Tokenless Biometric Transaction Authorization Method and System
+- TPM vs CMgr
+- Transfer Encoding
+- Transfer Learning
+- Translation Lookaside Buffer
+- Trojan
+- Trojan Spy
+- Trusted Installer
+- TrustZone
+- U2F vs FIDO2 vs WebAuthn
+- Ultimate AppLocker Bypass List
+- Unsupervised Learning
+- User Agent
+- USN Journal
+- VBA Project
+- VBoxDrv
+- ViewState
+- Virtual Alloc
+- Virtual Free
+- Virtual Memory Space
+- Virtual Protect
+- VirtualAllocEx
+- VirtualAllocExNuma
+- Virtualization Software
+- VirtualProtectEx
+- Visual Basic
+- VLAN
+- Volume Boot Record
+- Volume Snapshot
+- VPN Split Tunneling
+- Vulnerability
+- Vulnerability Assessment vs Penetration Test
+- Web Access
+- Web Cache
+- Web Identity Token
+- WebAssembly
+- WebAuthn
+- WebClient
+- Webhooks
+- WebKit
+- WebSockets
+- Well-Known SIDs
+- White Box
+- White Hat
+- Wide Area Network
+- Wildcard Certificate
+- WiMAX
+- WinAPI
+- Windows Driver
+- Windows Installer
+- Windows Internals
+- Windows Logon
+- Windows NtAllocateVirtualMemory
+- Windows NtAllocateVirtualMemoryEx
+- Windows NtCreateFile
+- Windows NtCreateMailslotFile
+- Windows NtCreateNamedPipeFile
+- Windows NtCreatePagingFile
+- Windows NtCreateProcess
+- Windows NtCreateProcessEx
+- Windows NtCreateThread
+- Windows NtCreateThreadEx
+- Windows NtDeleteFile
+- Windows NtDuplicateToken
+- Windows NtFlushInstructionCache
+- Windows NtFreeVirtualMemory
+- Windows NtOpenFile
+- Windows NtOpenProcess
+- Windows NtOpenThread
+- Windows NtProtectVirtualMemory
+- Windows NtQuerySystemTime
+- Windows NtReadFile
+- Windows NtReadFileScatter
+- Windows NtResumeThread
+- Windows NtSetThreadContext
+- Windows NtSuspendProcess
+- Windows NtSuspendThread
+- Windows NtTerminateProcess
+- Windows NtWriteFile
+- Windows NtWriteFileGather
+- Windows NtWriteVirtualMemory
+- Windows OpenProcess
+- Windows OpenThread
+- Windows Optional Feature
+- Windows Registry Key
+- Windows Registry Value
+- Windows Resume Thread
+- Windows Set Thread Context
+- Windows Shell Bags
+- Windows Shortcut File
+- Windows Suspend Thread
+- Windows Terminate Process
+- Windows VirtualAllocEx
+- Windows VirtualFree
+- Windows VirtualProtectEx
+- Windows WriteFile
+- Windows WriteProcessMemory
+- WinExec
+- WinHTTP
+- WinINet
+- WinLogon
+- WinSock
+- WinVerifyTrust
+- WinWord
+- Wiper Malware
+- WireGuard vs IPSec vs OpenVPN
+- Wireless Attacker
+- WMIPrvSE
+- Worm
+- X.509 Certificate
+- XDR Architecture
+- YARA Modules
+- YARA Rule Structure
+- YARAL
+- Zero Trust Architecture
+- ZwAlertResumeThread
+- ZwLoadDriver
+- ZwOpenProcess
+- ZwProtectVirtualMemory
+- ZwQueryDirectoryFile
+- ZwQueryEaFile
+- ZwQuerySystemInformation
+- ZwQueueApcThread
+- ZwRaiseHardError
+- ZwSetEaFile
+- ZwSetValueKey
+- ZwUnmapViewOfSection
+- ZwWriteVirtualMemory
+
+---
+
+## TOOL (보안 도구) — 610개
+
+- Acronis Agent
+- AD Display
+- AD Exp
+- AD Find
+- AD Guard
+- AD Plus
+- AD Security
+- AD Self Service
+- Address Sanitizer
+- ADMPWD
+- Adobe Reader
+- Aggressor Scripts
+- Aircrack-ng
+- AirDroid
+- AirMirror
+- Al-Khaser
+- Amigo Browser
+- Ammyy Admin
+- AntiSamy
+- AntiVir
+- AntSword
+- AnyDesk
+- AnyRun
+- AppCmd
+- Application Installer
+- AppOmni
+- AppSensor
+- ASP.NET Compiler
+- Assembly Installer
+- Asset Inventory Agent
+- AT Broker
+- Atera Agent
+- Atomic Red Team
+- Attack Surface Analyzer
+- AuditPol
+- AutoCAD
+- AutoHotKey
+- AutoIt
+- Autopsy Digital Forensics Platform
+- AutoRecon
+- Avast Browser
+- AzCopy
+- Azure Bicep
+- Azure Connected Machine Agent
+- AzureHound
+- Backup Exec
+- BadBlood
+- BadPotato
+- BestCrypt
+- BetterSafetyKatz
+- BigFix
+- Black Bullet
+- Black Duck
+- Blisk Browser
+- BloodHound
+- Blue Defenzer
+- Browser Collector
+- BrowserGhost
+- BrowserPwn
+- Brute Ratel
+- Burp Suite
+- Bushido Token
+- BusyBox
+- ByteGuard
+- CB Defense
+- Cent Browser
+- Certificate Pinner
+- Certify
+- Certipy
+- CertMgr
+- CertReq
+- CertStealer
+- CertStream
+- Chkdsk
+- Chrome Dump
+- Chrome Pass
+- Chrome Plus
+- Chrome Recovery
+- Chromium Viewer
+- CI Tool
+- Cipher Scan
+- Citrix Receiver Updater
+- Clean Wipe
+- CleverHans
+- Click to Run
+- Clipboard Manager
+- Cloud Bucket List
+- Cloud Mapper
+- Cloud Security Tool
+- CloudGoat
+- CloudKnox
+- CloudLook
+- CloudSploit
+- Cmdlets
+- Cobalt Strike
+- Coc Coc
+- Coc Coc Browser
+- Code Analyzer
+- Code Ripper
+- Coerced Potato
+- Compat Telemetry Runner
+- Compliance Search Action
+- Compmgmt
+- Compression Binaries
+- ConfuserEx
+- ConnectWise Control
+- ConPtyShell
+- Container Build Tool
+- CookieCutter
+- Cosign Verification
+- CrackMapExec
+- CrackMapExec Win
+- CrackStation
+- CrashPlan
+- Cred Enumerate
+- CredEnum
+- CryptCheck
+- CryptoLyzer
+- CSExec
+- CyberGhost
+- CyberMonitor
+- CyberRaiju
+- CyberSponse
+- DameWare
+- Data DVantage
+- Datasvc Util
+- DebugView
+- DeepFreeze
+- DefectDojo
+- Defender Check
+- Dependency Check
+- DevCon
+- Developer Tools
+- DevShell
+- DevTools
+- DiagCab
+- dInvoke Katz
+- DirLister
+- DirSync
+- Disk Cleanup
+- DiskCryptor
+- DiskView
+- Dissect Malware
+- DNS Cmd
+- Drive Audit
+- Driver Query
+- Dump Certs
+- Dump It
+- Dump Pert
+- Dyn Calc
+- Dyn Gate
+- Dynamic Analysis Tool
+- Eagle Eye
+- Echo Trail
+- EchoSec
+- EFS Dump
+- Egress Check
+- Empire Project
+- EmPyre
+- EnCase
+- ESET Update
+- ESXCli
+- Event Hunter
+- Event Kit
+- Event Log Crasher
+- Event Sentry
+- Event Viewer
+- Eventvwr
+- EvtMute
+- Exchange Online Management
+- Exchange PowerShell
+- Exe Protector
+- Exe To Text
+- ExifTool
+- Exploit Kit
+- ExtraHop
+- EyeCon
+- Fast Pass
+- Fast Reverse Proxy
+- Fast STunnel
+- File Finder
+- File Fix
+- File Info
+- File Observer
+- File PAK Monitor
+- File Saver
+- Find Sec Bugs
+- Find Security Bugs
+- Firesheep
+- Firewalld
+- Firmware Verification Eclypsium
+- Firmware Verification Trapezoid
+- FoolBox
+- Forensics Tool
+- ForFiles
+- FortiAnalyzer
+- FortiManager
+- Fox Dump
+- FoxyProxy
+- Frida
+- GCloud
+- Geo Proxy
+- Ghidra
+- Ghost Browser
+- Ghost Pack
+- Git Guardian
+- GitHub Desktop
+- GitLeaks
+- Google Container Tools
+- Google Translate
+- Google Update
+- GoTo Assist
+- GreyNoise
+- Guard Dog
+- Hack Browser Data
+- Hack Tool
+- HackSys
+- HackTheBox
+- HackTricks
+- Handle Katz
+- Havoc Framework
+- Help Assistant
+- Help Ctr
+- Help Pane
+- Hidden Reg
+- Hijack Scanner
+- HTTP Browser
+- HTTP Dump
+- HTTP Interceptor
+- HTTPX
+- Hunter Playbook
+- Hybrid Analysis
+- Hybrid Connection Manager
+- IDA
+- IDA Pro
+- ImgBurn
+- ImmuniWeb
+- Impacket
+- InsightConnect
+- InstallShield
+- IntelliTrace
+- Inveigh Relay
+- Invoke Kerberoast
+- IriusRisk
+- JamPlus
+- Java Serial Killer
+- JetBrains Toolbox
+- JexBoss
+- Juicy Potato
+- KeeFarce
+- KeeThief
+- KeyHacks
+- KeyScrambler
+- KnockKnock
+- KrbRelay
+- Lazange
+- LDM Dump
+- Little Snitch
+- Local Potato
+- Log Rhythm
+- Lulu
+- MacKeeper
+- MailRaider
+- MailSniper
+- Mavinject
+- MEGA Sync
+- MeshAgent
+- MeshCentral
+- Metasploit
+- Metasploit Framework
+- MetaTwin
+- MicroBurst
+- Mimikatz
+- Mimikatz Lite
+- MimiPenguin
+- MiniDump
+- MirrorDump
+- Mixmaster
+- ModSec
+- MpCmdRun
+- MSF Shell
+- MultiDump
+- MxToolbox
+- MySQLoit
+- NanoDump
+- Native Dump
+- Nessus Vulnerability Scanner
+- NetExec
+- NetRipper
+- NetScan
+- NetSupport
+- Network Agent
+- Network Miner
+- Network Protocol Analyzer
+- Network Scanner
+- Network Traffic Analysis Software
+- NimGrab
+- NimScan
+- NinjaCopy
+- NinjaOne
+- NirCmd
+- Nmap Network Scanner
+- Node.js Tools
+- NotSoSerial
+- NTLMRelayx
+- Offensive Notion
+- OpenBullet
+- OpenCanary
+- OpenConnect
+- OpenSSL
+- OpenVAS Vulnerability Scanner
+- OpenVPN
+- Operating System Packaging Tool
+- OSQuery
+- Outflank
+- OWASP ZAP
+- OWASP ZAP Zed Attack Proxy
+- Package Manager
+- Packet Streamer
+- PadBuster
+- Panda Aether Agent
+- PassiveTotal
+- Password Manager
+- Payloads All The Things
+- PeaZip
+- Pentest PowerShell
+- Persistence Sniper
+- Phishing Kit
+- PingCastle
+- PingCastle Cloud
+- PingCastle Reporting
+- PingInfoView
+- PkgMgr
+- PktMon
+- PlistBuddy
+- PoisonTap
+- PortQry
+- PoshC2
+- PowerCat
+- PowerCfg
+- PowerDump
+- PowerEdit
+- PowerKatz
+- PowerPick
+- PowerRunAsSystem
+- PowerSharp Binaries
+- PowerSharp Pack
+- PowerShDLL
+- PowerShell Empire
+- PowerTool
+- PowerUp
+- ProcDump
+- Proguard
+- ProxFlow
+- ProxyChains
+- PSExec
+- PsGcat
+- PsTools
+- PSUACMe
+- PubPrn
+- PurpleSharp
+- PwDump
+- Pwned Passwords
+- Pwned Passwords Downloader
+- PyArmor
+- PyInstaller
+- PySoxy
+- Python Responder
+- Qualys Agent
+- Quarks PwDump
+- Quick Assist
+- QuickZip
+- Radmin Viewer
+- RailsGoat
+- Raindance
+- RdrLeakDiag
+- ReAgentC
+- Red Tips
+- RedLock
+- RedSnarf
+- Reg Logged On
+- RegBoost
+- ReGeorg
+- RegSvr
+- RemCom
+- RemComSvc
+- Remote Desktop Manager
+- Remote Desktop Manager Free
+- Remote Utilities
+- RepMgr
+- RepUtils
+- Resource Monitor
+- RipZip
+- Robocopy
+- RoboForm
+- RocketReach
+- Rogue Potato
+- Rotten Potato
+- Royal Road
+- RPC Ping
+- RstRtMgr
+- Rubeus
+- Ruby BeEF
+- Ruby Installer
+- Run Installer
+- Rust RedOps
+- RustDesk
+- Rustive Dump
+- RustScan
+- Safety Dump
+- Safety Katz
+- SamrDump
+- Sauron Eye
+- ScanBox
+- ScanLine
+- Scanner Tooling
+- ScreenCap
+- ScreenConnect
+- Script Runner
+- SeaDesk
+- Search Text Harvester
+- SecEdit
+- SecGuide
+- SecHack
+- SecLists
+- Secret Dump
+- Secret Scanner
+- Secrets Dump
+- SecTools
+- Secure Anywhere
+- Secure Deletion Tool
+- SecureAuth
+- SecureLine
+- Security Audit Tool
+- Security Aura
+- Security Essentials
+- Security Health
+- Security Health Setup
+- Security Health SysTray
+- Security Log Agent
+- Security Manager
+- Security Scorecard
+- Security Trails
+- Security Xploded
+- Select My Parent
+- Sense Sample Uploader
+- SenseNdr
+- Sentinel Agent
+- Sentinel Agent Worker
+- Sentinel Browser Native Host
+- Sentinel Helper Service
+- Sentinel Ranger
+- Sentinel Scan from Context Menu
+- Sentinel Service Host
+- Sentinel Static Engine
+- Sentinel Static Engine Scanner
+- SentinelOne Scan
+- Server Manager
+- Service Monitor
+- Session Gopher
+- ShareFinder
+- SharpChisel
+- SharpChrome
+- SharpCloud
+- SharpDump
+- SharPersist
+- SharpEvtHook
+- SharpEvtMute
+- SharpHound
+- SharpKatz
+- SharpLDAP WhoAmI
+- SharpMapExec
+- SharpMove
+- SharpPick
+- SharpPrintNightmare
+- SharpShares
+- SharpSuccessor
+- SharpUp
+- SharpView
+- SharpWatson
+- Shellcode Encoder
+- ShellIntel
+- ShInstUtil
+- ShMonitor
+- Sideload Hunter
+- SigFlip
+- Signature Check
+- Silent Trinity
+- Silent Trynity
+- Simuland
+- SkyArk
+- SmadHook
+- Smart Assembly
+- Smart Console
+- Smart Mon Tools
+- Smart Scanner
+- SMB RelayX
+- SMBExec
+- SmokeScreen
+- Snaffcon
+- SniffPass
+- Snipping Tool
+- Snort
+- SoftEther
+- SoftPerfect
+- Software Deployment Tool
+- Software Packaging Tool
+- SonarLint
+- Source Code Analyzer Tool
+- SpiderFoot
+- Splashtop Remote Service
+- Splunk
+- Splunk Universal Forwarder
+- SQL Dumper
+- StandIn
+- Star Proxy
+- Static Analysis Tool
+- Sticky Notes Extract
+- Stratus Red Team
+- StrongBox
+- SubInACL
+- Surfshark
+- Suricata
+- SwitchyOmega
+- SwitchySharp
+- Sysinternals
+- Sysinternals Suite
+- SysKey
+- Sysmon
+- System Informer
+- Tanium Client
+- Tanium Detect Engine
+- TCPView
+- TeamViewer
+- Tenable Passive Network Monitoring
+- Terraform Command
+- Terrascan
+- ThreadFix
+- Threat Intelligence Platform
+- Threat Mapper
+- Threat Modeler
+- ThreatConnect
+- ThreatLocker Service
+- ThreatStream
+- Ticketer
+- Time Machine
+- TinyPilot
+- TokenSmith
+- Tor EXE
+- Towelroot
+- Toxigen
+- Tracert
+- TrickDump
+- TripleCross
+- Trivy Container Scanner
+- TrueKey
+- TruffleHog
+- TruffleSnout
+- Trukno
+- TrustKit
+- Tunnel Bear
+- UltraViewer
+- UltraVNC
+- Unmanaged Exports
+- Unpac the Hash
+- USOClient
+- Varonis Work Directory Collector
+- Vault CMD
+- VeraCrypt
+- VerifyCtl
+- Version Control Tool
+- Virtual Shield
+- VirusScan
+- VirusTotal
+- Visual Studio
+- Volatility
+- Volatility Plugins
+- Volume Shadow Copy Tools
+- VS Code
+- Vulnerability Scanner
+- Web Browser PassView
+- Webcam Recorder
+- WebGoat
+- WebKnight
+- WhatWeb
+- WhiteSource
+- WinDbg
+- WinDivert
+- Windows PowerShell
+- Windows Terminal
+- WinEnum
+- WinExe
+- WinPcap
+- WinPMem
+- WinPwn
+- WinPwnage
+- WinRS
+- WinZip
+- Wireshark
+- Wireshark Network Analyzer
+- WizTree
+- WrongSecrets
+- XSoar
+- XSS Hunter
+- YARA
+- YubiKey
+- ZenMate
+- Zero Stresser
+- ZipExec
+- ZoomIt
+
+---
+
+## DEF (방어 기법) — 607개
+
+- ABAC
+- Access Control
+- Access Control List
+- Access Mediation
+- Access Rights
+- Account Locking
+- Account Management
+- Active Certificate Analysis
+- AD Default Domain Password Policy
+- AD Honeypot Account
+- Adaptive Authentication
+- ADCS Auditing
+- Administrative Network Activity Analysis
+- Advanced Hunting
+- Advanced Hunting Queries
+- Adversary Emulation Plan
+- Agent Authentication
+- AI Firewall
+- Anonymous Authentication
+- Anti-Forgery Token
+- Anti-Malware
+- Anti-Phish Rule
+- Anti-Spyware Product
+- Anti-XSS Encoder
+- Anti-XSS Library
+- Antivirus
+- Antivirus Product
+- API Authentication
+- API Schema Validation
+- AppContainer
+- Application Allowlist
+- Application Configuration Hardening
+- Application Firewall
+- Application Guard
+- Application Hardening
+- Application Layer Firewall
+- Application Performance Monitoring
+- Application Permissions
+- Application Profile Baseline
+- Application Protocol Command Analysis
+- AppLocker Policy
+- AppSec
+- ARP Inspection
+- Asset Vulnerability Enumeration
+- Attack Path Analysis
+- Attack Surface Management
+- Attack Surface Reduction (ASR) Rules
+- Audit Log
+- Audit Logs
+- Audit Report
+- Audit Trail
+- Authentication Cache Invalidation
+- Authentication Defense
+- Authentication Policy Silo
+- Authenticode Signature
+- Authorization Matrix
+- Authorization Policy
+- Automated Computer Vulnerability Resolution System
+- AWS CloudFront Signed URL
+- AWS IMDSv2 Hop Limit
+- AWS Permission Boundary
+- AWS SCP
+- AWS Tag Based Access Control
+- AWS VPC Endpoint Policy
+- Azure Authentication
+- Azure Conditional Access Policy
+- Azure Policy
+- Azure Resource Lock
+- Basic Authentication
+- Behavioral Analysis Sandbox
+- BGP ASPA
+- BGP Blackholing
+- Binary Authorization
+- Biometric Authentication
+- BitLocker
+- BitLocker To Go
+- Blue Team
+- Blue Team Operations
+- Blue Team Playbook
+- Boot Verification Program
+- Bootloader Authentication
+- Breach and Attack Simulation
+- Broadcast Domain Isolation
+- Canary
+- Canary Deployment
+- Canary Token
+- Capability Access Manager
+- CASB
+- Certificate Analysis
+- Certificate and Public Key Pinning
+- Certificate Lessless Authentication
+- Certificate Lifecycle Management
+- Certificate Management
+- Certificate Pinning
+- Certificate Revocation
+- Certificate Rotation
+- Certificate Transparency
+- Certificate Trust Store
+- Change Default Password
+- Cisco Applied Mitigation Bulletin
+- Cloud Access Security Broker
+- Cloud Access Security Broker CASB
+- Cloud Configuration
+- Cloud Credentials
+- Cloud Defense
+- Cloud DLP
+- Cloud Egress Filtering
+- Cloud IAM Security
+- Cloud Infrastructure Entitlement Management
+- Cloud Instance Metadata Hardening
+- Cloud Key Management
+- Cloud Metadata Proxy
+- Cloud Native Application Protection Platform
+- Cloud Ops
+- Cloud Security
+- Cloud Security Posture Management CSPM
+- Cloud Service Authentication
+- Cloud Service Authorization
+- Cloud User Account
+- Cloud Workload Identity
+- Cloud Workload Protection Platform
+- Code Integrity
+- Code Signing
+- Code Signing Certificate
+- Conditional Access
+- Connected Honeynet
+- Container as a Service Security
+- Container Image Signing
+- Container Runtime Security
+- Container Security
+- Content Excision
+- Content Policy
+- Content Quarantine
+- Content Rebuild
+- Content Validation
+- Context Aware Access
+- Continuous Automated Red Teaming
+- Controlled Folder Access Protected Folders
+- Cookie HTTPOnly
+- Credential Compromise Scope Analysis
+- Credential Eviction
+- Credential Hardening
+- Credential Revocation
+- Credential Scrubbing
+- CredGuard
+- Cross Origin Embedder Policy
+- Cross Origin Opener Policy
+- Cross Origin Protection
+- Cross Origin Resource Policy
+- Cross Tenant Access Monitor
+- CryptoGuard
+- Data Inventory
+- Data Loss Prevention DLP
+- Data Protection Policy
+- DDoS Protection
+- Decoy Artifact
+- Decoy Environment
+- Decoy File
+- Decoy Network
+- Decoy Network Resource
+- Decoy Object
+- Decoy Persona
+- Decoy Public Release
+- Decoy Session Token
+- Decoy User Credential
+- Defensive Action
+- Defensive Tactic
+- Defensive Technique
+- Delegated Admin
+- Delegated Admin Relationship
+- Device Check
+- Device Credential Deployment
+- Device Guard
+- Device Policy Manager
+- Device Registration
+- DevSec
+- Digital Access Badge
+- Digitally Signed
+- Direct Defense
+- Disk Encryption
+- Disk Erasure
+- DLP
+- DNS Admins
+- DNS Client Cache
+- DNS Firewall
+- DNS Security
+- DNS Sinkholing
+- DNSSEC
+- Driver Allowlist
+- Driver Load Integrity Checking
+- Driver Signature Status
+- DSRM Admin Logon Behavior
+- EDR
+- Electronic Lock Monitoring
+- Email DLP
+- Email Filtering
+- Email Header Forensics
+- Email Sandbox
+- Emulated File Analysis
+- Enable Controlled Folder Access
+- Enable Firewall
+- Enable Module Logging
+- Enable Periodic Backup
+- Enable Script Block Invocation Logging
+- Enable Script Block Logging
+- Enable Secure Boot
+- Enable Smart Screen
+- Enable Transcripting
+- Enable Virtualization Based Security
+- Encrypted Credential
+- Encrypted Password
+- Encrypted Shared Preferences
+- Encrypted Storage
+- Encrypted Tunnels
+- Endpoint Detection and Response EDR
+- Endpoint Security
+- Enterprise Certificates
+- Exception Handler Pointer Validation
+- Executable Allowlisting
+- Executable Baselining
+- Executable Deny Listing
+- Execution Isolation
+- Execution Origin Check
+- Execution Policy
+- Execution Prevention Svc
+- Exploit Guard
+- Extended Detection and Response XDR
+- External Security Challenge
+- File Analysis
+- File and Folder Permissions
+- File Block Executable
+- File Block Shredding
+- File Content Analysis
+- File Content Decomposition Checking
+- File Encryption
+- File Format Verification
+- File Hashing
+- File Info Minifilter
+- File Integrity
+- File Integrity Baseline
+- File Integrity Monitoring
+- File Integrity Monitoring in Microsoft Defender for Cloud
+- File Internal Structure Verification
+- File Magic Byte Verification
+- File Metadata Consistency Validation
+- File Metadata Value Verification
+- File Permission Profile
+- File Sensitivity Context
+- File System Access Rule
+- File Upload Validation
+- FileVault
+- Filter Manager
+- Firewall
+- Firewall Policy
+- Firmware Behavior Analysis
+- Firmware Checksum
+- Firmware Embedded Monitoring Code
+- Firmware Embedded Monitoring Code Red Balloon
+- Firmware Embedded Monitoring Code Symbiotes
+- Firmware Image Baseline
+- Firmware Verification
+- Firmware Version Baseline
+- Forensic Analysis
+- Forms Authentication
+- Forward Resolution Domain Denylisting
+- Frame Ancestors
+- Gatekeeper
+- GCP Binary Authorization
+- GCP IAM Conditions
+- GCP Security Command Center
+- GCP VPC Service Controls
+- GCP Workload Identity Federation
+- Geolocation Baseline
+- GraphQL Persisted Queries
+- Group Managed Service Account
+- Group Policy
+- Guest Configuration
+- Hard Disk Volume Shadow Copy
+- Hardware Component Inventory
+- Hardware Fingerprint Baseline
+- HIDS
+- Hierarchical Domain Denylisting
+- High Risk Accounts
+- High Risk Extensions
+- HIPS
+- Homoglyph Denylisting
+- Honey Hash
+- Honeypot
+- HSTS HTTP Strict Transport Security
+- HTTP Caching
+- HTTP Configuration
+- HTTP Logging Module
+- HTTP Only
+- HTTP Strict Transport Security
+- HTTPS TLS Enforcement
+- Hypervisor Enforced Code Integrity
+- Hypervisor Environment Baseline
+- IAM
+- IDPS
+- IDS
+- Iframe Sandboxing
+- Inbound Traffic Filtering
+- Incident Response Lifecycle
+- Input Validation
+- Integrated Honeynet
+- Integrity Baseline
+- Integrity Check
+- Intrusion Detection System IDS
+- Intrusion Prevention System
+- IPS
+- Just in Time Administration
+- Kubernetes Audit Log
+- Kubernetes ETCD Encryption at Rest
+- Kubernetes Network Policy
+- Kubernetes Pod Security Admission
+- Kubernetes RBAC
+- Kubernetes Secrets Encryption
+- Kubernetes Security
+- Kubernetes Validating Admission Policy
+- LAPS Local Administrator Password Solution
+- LavaMoat
+- LDAP Channel Binding Token
+- LDAP Firewall
+- LDAP Sign Check
+- LDAP Signing
+- Local Account Monitoring
+- Local Account Token Filter Policy
+- Local Authentication Service
+- Local Authorization Service
+- Local File Access Mediation
+- Local File Permissions
+- Lookahead Object Input Stream
+- LSA ISO
+- MAC Control
+- Memory Protection Unit
+- Message Authentication
+- Message Encryption
+- Message Hardening
+- MFA
+- Microsegmentation
+- Mobile App Sandboxing
+- Mobile Code Signing
+- Modbus TCP Security
+- Modification Detection
+- Monitor Process
+- Monitoring Agent
+- MSOL Password Policy
+- Multi-Cloud Security Challenges
+- Multi-Factor Authentication
+- Mutating Admission Webhook
+- Net Firewall Profile
+- Net Firewall Rule
+- Net Firewall Setting
+- Network Access Mediation
+- Network Beaconing Detection
+- Network Configuration Baseline
+- Network Discovery Baseline
+- Network Firewall Security
+- Network Isolation
+- Network Node Inventory
+- Network Policy
+- Network Segmentation
+- Network Traffic Analysis
+- Network Traffic Filtering
+- Network Traffic Policy Mapping
+- Network Traffic Signature Analysis
+- Network Vulnerability Assessment
+- NIDS
+- NTDS Audit
+- Null Pointer Checking
+- Operating System Configuration
+- Operating System Monitoring
+- Operational Activity Mapping
+- Operational Dependency Mapping
+- Operational Logic Validation
+- Operational Process Monitoring
+- Operational Risk Assessment
+- Operational Technology Honeypot
+- OPSEC
+- Outbound Traffic Filtering
+- Outlook Add-in Monitor
+- Output Guardrails
+- Password and Key Rotation
+- Password Authentication
+- Password Filter
+- Password Guidance
+- Password Hashing
+- Password Policy
+- Password Quality
+- Password Rotation
+- Passwordless Authentication Strategy
+- PatchGuard
+- Peer Authentication
+- Peripheral Firmware Verification
+- Phishing Filter
+- Phishing Simulation
+- Physical Access Mediation
+- Physical Access Monitoring
+- Physical Data Diode
+- Physical Enclosure Hardening
+- Physical Link Mapping
+- Physical Locking
+- Platform Hardening
+- Platform Monitoring
+- Pod Security Context
+- Pod Security Policies
+- Pod-to-Pod Encryption
+- Pointer Authentication
+- Pointer Validation
+- Port Monitor
+- Post-Incident Review
+- Power Management
+- Pre-Authentication
+- Privileged Accounts
+- Privileged Session
+- Privileged User Account
+- Privileged Users
+- Prompt Armor
+- Prompt Context Validation
+- Prompt Injection Filter
+- Protecting Against Distributed Denial of Service Attacks
+- Protecting Against Distributed Network Flood Attacks
+- Protection Management
+- Public Key Authentication
+- Quarantine Policy
+- Rate Limiter
+- RBAC
+- Recovery Services
+- Registry Key Security and Access Rights
+- Registry Scan
+- Remote Access Filter
+- Remote Authentication Service
+- Remote Authorization Service
+- Remote Cert Trust
+- Remote File Access Mediation
+- Remote Firmware Update Monitoring
+- Remote Management
+- Remotely Triggered Black Hole Filtering
+- Request Authentication
+- Request Filtering Module
+- Resource Quota
+- Restricted Admin
+- Restricted Admin Mode
+- Risk Based Authentication
+- Risk Based Vulnerability Management
+- Role Binding
+- Role Management
+- Rootless Container
+- Routing Access Mediation
+- Safe Boot
+- Safe DLL Search Mode
+- SafetyNet
+- SAM Password Policy
+- Sandbox
+- Sandboxing
+- SBOM Vulnerability Matching
+- Scan with Antivirus
+- Scheduled Job Analysis
+- Script Control
+- Secondary Authentication Factor
+- Secrets Management Cheat Sheet
+- SecRule
+- SecRule Engine
+- SecRule Remove By ID
+- Secure Agent Bus
+- Secure Agent Memory
+- Secure Coding Guide
+- Secure Design Patterns
+- Secure LangChain Pipeline
+- Secure One Way Data Transfer Using Communication Interface Circuitry
+- Securing Web Transactions
+- Security Assessment
+- Security Audit
+- Security Certification Landscape
+- Security Compliance
+- Security Considerations for Exchanging Files Over the Internet
+- Security Design
+- Security Framework Operation Patterns
+- Security Improvement Module
+- Security Intelligence
+- Security Layer
+- Security Middleware
+- Security Vulnerability Information Aggregation
+- Segment Address Offset Randomization
+- Selective Authentication
+- Self Subject Access Review
+- Sender Reputation Analysis
+- Server Side Encryption
+- Serverless Architecture Security
+- Serverless Security
+- Service Binary Verification
+- Service Dependency Mapping
+- Service File Permission
+- Service Interaction Baseline
+- Service Permission
+- Session Authentication
+- Session Termination
+- Shadow Stack
+- Shell Profiles
+- Shell Smart Screen Level
+- SIEM
+- SIEM Use Case Library
+- Signature Based Detection
+- Signature Detection
+- Signature Enforcement
+- Signature Validation
+- Signature Verification Depth
+- Signed Image Validation
+- Single Sign On
+- Site Isolation Design Document
+- Smart App Control
+- SmartScreen
+- SOAR
+- SOAR Playbook
+- Software Inventory
+- Software Patch
+- Software Protection Platform
+- Software Restriction Policies
+- Software Update
+- Software Vulnerability Graph Database
+- Source Address Validation
+- Source Code Hardening
+- Spectrum Protect
+- Splunk Risk Based Alerting
+- SpyNet Reporting
+- SSH Host Keys
+- SSL Termination
+- SSL VPN
+- SSO
+- Stack Canary
+- Stack Frame Canary
+- Stack Frame Canary Validation
+- Stack Frame Canary Verification
+- Stack Guard
+- Standalone Honeynet
+- Step-Up Authentication
+- Strong Authentication Requirement
+- Strong Password Policy
+- Subresource Integrity
+- Supply Chain Cyber
+- Supply Chain Security
+- Sysmon Community Guide
+- Sysmon Configuration Best Practices
+- System Call Analysis
+- System Call Filtering
+- System Configuration
+- System Daemon Monitoring
+- System Dependency Mapping
+- System Error Reporting
+- System File Analysis
+- System Firewall Configuration
+- System Firmware Verification
+- System Init Config Analysis
+- System Init Configuration
+- System Policy Configuration
+- System Restore
+- System Vulnerability Assessment
+- Tamper Protection
+- Third Party Risk Management
+- Threat Hunting
+- Threat Intelligence
+- Threat Intelligence Sharing
+- Tiered Administration Model
+- Time Password System
+- TLS Inspection
+- Token Binding
+- Trend Micro Update
+- Unified Audit Log
+- URL Filtering
+- User Account Control
+- User Authentication
+- User Behavior Analysis
+- Username Spray Threshold
+- Verified Boot
+- Verify Apps
+- Verify CSRF Token
+- Video Surveillance
+- ViewState User Key
+- Virtual Smart Card
+- VPN Security
+- Vulnerability Assessment
+- Vulnerability Management
+- Vulnerability Prioritization
+- Vulnerability Scanning
+- Vulnerable Driver Blocklist Enable
+- WAF
+- WAF False Positive
+- WAF Rule Writing
+- WAF Rules and Configuration
+- Web Application Firewall
+- Web Application Firewall WAF
+- Web Authentication
+- Web Session Access Mediation
+- WinDefend
+- WinDefender
+- Windows App MAC
+- Windows Backup
+- Windows Defender
+- Windows Firewall
+- Windows Hello for Business
+- Windows Sensor
+- Windows Update
+- Windows Update Client
+- Wireless IDS
+- X-XSS-Protection
+- XDR
+- Zope Security
+
+---
+
+## MALWARE (악성 소프트웨어) — 497개
+
+- Aberebot
+- AcidBox
+- AcidPour
+- AcidRain
+- AcroTranscoder
+- Agent Flayer
+- Agent Smith
+- Agent Tesla
+- AhMyth
+- AhRAT
+- Akairy
+- AlienSpy
+- Android Spyware
+- AppleJeus
+- AppleSeed
+- Ares Loader
+- AsyncRAT
+- Atomic Snake
+- AvosLinux
+- AvosLocker
+- Baby Shark
+- BackSwap
+- Bad Rabbit
+- BadPatch
+- BankBot
+- Banker Google Chrome Extension Targeting Brazil
+- BaronZor
+- BazaLoader
+- Bazar Backdoor
+- Beacon
+- BearHeart
+- BeaverTail
+- BeetleJuice
+- Bibi
+- BitPaymer
+- Black Hawk
+- Black Lotus
+- Black Mould
+- Black Water
+- BlackCat
+- BlackEnergy
+- BlackWorm
+- Boombox
+- BouldSpy
+- BoxCaon
+- BrainTest
+- BrazKing
+- BrickerBot
+- Browser Stealer
+- Bunny Loader
+- Bunny Stealer
+- BusyGasper
+- CaddyWiper
+- CameraShy
+- CarbonSteal
+- Cardinal RAT
+- ChaosNet
+- CharmPower
+- ChChes
+- Chopstick
+- Chrome Update
+- Cisco Angler
+- ClearFake
+- Client Side Trojan
+- Cloud Duke
+- CloudMensis
+- Cobra Locker
+- CoinLoader
+- CoinMiner
+- CoinTicker
+- ContiCrypt
+- CookieMiner
+- CorkLog
+- CosmicDuke
+- Cozy Car
+- Cozy Duke
+- CramTray
+- CrashOverride
+- CredManCreds
+- CredRaptor
+- CreepyBox
+- CreepyDrive
+- CreepySnail
+- CronTrap
+- Crossover
+- CryptoMix
+- CryptoNe
+- CyberGate
+- CylanceSvc
+- CylancRypt
+- Cytec
+- DanBot
+- DarkCloud
+- DarkComet
+- DarkGate
+- DarkKomet
+- DarkSeoul
+- DarkSide
+- DarkTortilla
+- DarkWatchman
+- DashCore
+- DealersChoice
+- DeepPayload
+- DeepSea
+- DelfsCake
+- DelShad
+- Destructive Malware
+- DiceLoader
+- DieNet
+- Dress Code
+- Drip Loader
+- Drive Slayer
+- Droid Chameleon
+- Droid Jack
+- Drop Book
+- Dual Toy
+- Dub Robber
+- DUC Fabulous
+- Duck Tales
+- Dusty Sky
+- Earth Worm
+- Egg Shell
+- Eldritch Nexus
+- Email Stealer
+- Endpoint Basecamp
+- Entry Shell
+- Envy Scout
+- Eternal Rocks
+- Event Bot
+- Evil Agent
+- Evil Bunny
+- Evil Grab
+- Evil Num
+- Evil Proxy
+- Evil Quest
+- Evil Startup
+- Expetr
+- Explorer Sync
+- Eye of Ra
+- Fairy Tale
+- Fat Duke
+- Feel the Burn
+- File Read Zip Send
+- File Recv Write Rand
+- FinFisher
+- FinSpy
+- Fire Buster
+- Fire Mal V
+- Firmware Malware
+- Firmware Rootkit
+- Five Hands
+- Fjord Phantom
+- Flappy Bird
+- Flawed Ammyy
+- Flawed Grace
+- Flex Spy
+- FlexiSpy
+- Flix Online
+- FluBot
+- Fly Trap
+- Foggy Web
+- Font On Lake
+- FormBook
+- Former First RAT
+- Free Conference
+- Free Milk
+- Friar Fox
+- Friedex
+- Fritz Frog
+- Frosty Goop
+- Frozen Cell
+- FruitFly
+- GandCrab
+- Gelo Snake
+- Gemini Duke
+- Ghost Push
+- Ghost Secret
+- Globe Imposter
+- GnatSpy
+- GoBear
+- Godfather
+- Gold Finder
+- Golden Axe
+- Golden Cup
+- Golden Eagle
+- Golden Spy
+- GoldenEye
+- GoldMax
+- Golf Spy
+- Grand Crab
+- Greet Cake
+- Grey Energy
+- Grid Collector
+- Grim Agent
+- Guest Agent
+- GuLoader
+- Hammer Duke
+- Hardware Trojan
+- HatMan
+- HatMan Safety
+- HawkEye
+- Hello Bridge
+- HenBox
+- Hermetic Wiper
+- Hermetic Wizard
+- Hidden Key
+- Hidden Wasp
+- Hollow Reaper
+- Horse Shell
+- Hot Croissant
+- Hummingbad
+- Hummingwhale
+- Hydra LSPipe
+- Hydracrypt
+- HyperBro
+- HyperSine
+- HyperStack
+- IceApple
+- IceDragon
+- IceNova
+- Iconic Stealer
+- Implant
+- Invisible Ferret
+- InvisiMole
+- Iranian Botnet
+- Irish Death
+- IronNet Injector
+- Jack of Hearts
+- Jetty MemShell
+- JSP Spy
+- JSSCHlp
+- Kasper Agent
+- KDCSponge
+- KeepsGoing
+- Kerrdown
+- KeyBoy
+- KeyBoys
+- KeyRaider
+- KillDisk
+- KillDisks
+- Kite Runner
+- Knuckle Touch
+- KOH Client
+- Ladongo
+- LameHug
+- LdPinch
+- LemonDuck
+- LightNeuron
+- LightSpy
+- Liquid Snake
+- LiteDuke
+- LitePower
+- Little Corporal
+- LockBit
+- LockerGoga
+- Lojax
+- LokiBot
+- LOLZarus
+- Lookback
+- LoudMiner
+- Luma Stealer
+- Lumma Stealer
+- Lunar Loader
+- Lunar Mail
+- Lunar Web
+- Mac Downloader
+- Mac Ransom
+- MacMa
+- MacSpy
+- MagicWeb
+- McRAT
+- MechaFlounder
+- MedusaLocker
+- MegaCortex
+- Metallic Hack
+- Meteor Express
+- Metetool
+- Midnight Eclipse
+- Mini Web Cmd Shell
+- MiniDionis
+- MiniDogz
+- MiniDuke
+- MirageFox
+- MirrorBlast
+- MoleNet
+- Moonwind
+- Moookitty
+- MoqHao
+- Mousocore Worker
+- MyDoom
+- Mythic Agent
+- Mythic Agents
+- NanHaiShu
+- NanoCore
+- Nemesis Gemina
+- Net Traveler
+- NetDuke
+- NetScreen Dead
+- Netsh Helper Beacon
+- Netsky
+- NetWire
+- Network Implant
+- Ninja Paranoid
+- Node Relay DLL
+- NotPetya
+- NukeSped
+- OceanSalt
+- Office MemScraper
+- Office Scrape
+- OfficeCrackros
+- Offline Scanner Shell
+- OilBooster
+- OilCheck
+- Omerya
+- OpFake
+- OtterCookie
+- OutSteel
+- PCShare
+- Pegasus Android
+- PinchDuke
+- PingPull
+- PipeMon
+- PlayCrypt
+- PoetRAT
+- PoisonIvy
+- PolyglotDuke
+- PoshRAT
+- PoshRAT HTTP
+- PoshRAT HTTPS
+- PowerBreach
+- PowerDuke
+- PowerExchange
+- PowerLess
+- PowerLoader
+- PowerPunch
+- PowerShower
+- PowerStallion
+- PowGoop
+- ProLock
+- ProxyBot
+- PsGcat Agent
+- PSH Surrogate
+- PSHLSpy
+- PureLocker
+- PwnDLocker
+- Pyeongchang
+- Qakbot
+- QuackBot
+- Quiet Sieve
+- Rainbow Miner
+- Rainy Day
+- RansomHub
+- RarStar
+- Raspberry Robin
+- Rational Edge
+- RatMilad
+- Red Drop
+- Red Leaves
+- Redline
+- RegDuke
+- RobbinHood
+- Rogue Robin
+- RokRAT
+- RomCom
+- Rooting Malware
+- RotaJakiro
+- Royal CLI
+- Russian Doll
+- Ryuk Readme
+- SaintBot
+- SamSam
+- Scout Eagle
+- ScumBots
+- Sea Daddy
+- SeaDuke
+- Secure Peacock
+- Sense CNC Proxy
+- Serial Killer
+- ServHelper
+- Shadow Steal
+- ShadowLink
+- ShadowPad
+- SharkBot
+- SharpDisco
+- SharpExShell
+- SharpStage
+- ShellTea
+- Shifty Bug
+- ShimRat
+- ShimRat Reporter
+- ShrinkLocker
+- SideTwist
+- SideWalk
+- Sierra Alfa
+- Sierra Bravo
+- Sierra Charlie
+- SigLoader
+- Silk Bean
+- SimBad
+- Sino Chopper
+- SkidMap
+- Slothful Media
+- SmokeLoader
+- Snow Globe
+- SOCGholish
+- SodaMaster
+- Sofacy Carberp
+- SoreFang
+- SpeakUp
+- Spicy Omelette
+- Splat Cloak
+- Splat Dropper
+- Split Loader
+- Spring MemShell
+- SpyAgent
+- SpyDealer
+- SpyNet
+- SpyNote
+- SquirrelWaffle
+- StealBit
+- Stealth Mango
+- StoneDrill
+- StreamEx
+- StrelaStealer
+- StrifeWater
+- StrongPity
+- SunOrcal
+- SuperBlack
+- SynAck
+- SysUpdate
+- Tactical Agent
+- TajMahal
+- TakeMyPainBack
+- Talkbox
+- TangleBot
+- TayBot
+- TeamSpy
+- Terraloader
+- TeslaCrypt
+- ThiefQuest
+- ThreatNeedle
+- ThunderGun Express
+- Thunderstruck
+- TianySpy
+- TinyBaron
+- TinyMet
+- TinyTurla
+- ToneShell
+- TrailBlazer
+- Trellix QakBot
+- TrickBoot
+- TrickBot
+- TrickMo
+- TriggerMan
+- TrollAgent
+- Trolley Express
+- Trop Chaud
+- TrueBot
+- Turtle Loader
+- Urban Bishop
+- Vapor Rage
+- VersaMem
+- ViroBot
+- VirTool
+- VoiceTroll
+- Wailing Crab
+- WannaCry
+- WannaCry (WanaCry variant)
+- WannaCrypt
+- WastedLocker
+- Webshell
+- WellMail
+- WellMess
+- Whiskey Alfa
+- Whiskey Bravo
+- Whiskey Delta
+- WhisperGate
+- White Bear
+- White Chocolate Macademia Nut
+- Wily Supply
+- WindTail
+- WinEggDrop
+- WireLurker
+- WizardUpdate
+- Woody Power Session
+- Woody Sharp Executor
+- XcodeGhost
+- XOR DDoS
+- YamaBot
+- YiSpecter
+- YouiE Loader
+- ZergHelper
+- ZeroAccess
+- ZeroClearE
+- ZoomerHulkHogan
+- ZxShell
+- ZzNetSvc
+
+---
+
+## VUL (취약점) — 344개
+
+- Access Control Vulnerability
+- Always Install Elevated
+- API Vulnerability
+- Arcane Door
+- Authentication Vulnerability
+- AWS Confused Deputy Problem
+- BlueBorne
+- BlueKeep
+- Breach
+- Broken Authentication
+- Broken Function Level Authorization (BFLA)
+- Broken Object Level Authorization (BOLA)
+- Broken Object Property Level Authorization
+- Business Logic Flaw
+- Business Logic Vulnerability
+- CertiFried
+- Cloud IAM Misconfiguration
+- Cloud Misconfiguration
+- Cloud Vulnerability
+- Configuration Vulnerability
+- Cross Site Scripting XSS Vulnerability
+- CrossTalk
+- Cryptographic Vulnerability
+- CVE-1999-0082
+- CVE-1999-0095
+- CVE-1999-0449
+- CVE-1999-1122
+- CVE-1999-1467
+- CVE-1999-1471
+- CVE-2001-0507
+- CVE-2002-0559
+- CVE-2002-0561
+- CVE-2002-20001
+- CVE-2004-0200
+- CVE-2004-0597
+- CVE-2006-0265
+- CVE-2007-5633
+- CVE-2008-0166
+- CVE-2008-1084
+- CVE-2009-0927
+- CVE-2009-3129
+- CVE-2009-3555
+- CVE-2009-4324
+- CVE-2010-0232
+- CVE-2010-1871
+- CVE-2010-1885
+- CVE-2010-2568
+- CVE-2010-2743
+- CVE-2010-3332
+- CVE-2010-3333
+- CVE-2010-3338
+- CVE-2010-4398
+- CVE-2010-5326
+- CVE-2011-0609
+- CVE-2011-0611
+- CVE-2011-1255
+- CVE-2011-2005
+- CVE-2011-2462
+- CVE-2011-3389
+- CVE-2011-3544
+- CVE-2011-4369
+- CVE-2012-0158
+- CVE-2012-0874
+- CVE-2012-1525
+- CVE-2012-1856
+- CVE-2012-1889
+- CVE-2012-4681
+- CVE-2012-4792
+- CVE-2012-4818
+- CVE-2012-5579
+- CVE-2012-5612
+- CVE-2013-2460
+- CVE-2013-2465
+- CVE-2013-3163
+- CVE-2013-3660
+- CVE-2013-3893
+- CVE-2013-3906
+- CVE-2013-4152
+- CVE-2013-7315
+- CVE-2014-0160
+- CVE-2014-0322
+- CVE-2014-1761
+- CVE-2014-1776
+- CVE-2014-3566
+- CVE-2014-4076
+- CVE-2014-4114
+- CVE-2014-6321
+- CVE-2014-6324
+- CVE-2014-6352
+- CVE-2014-6517
+- CVE-2014-7169
+- CVE-2014-8730
+- CVE-2014-9195
+- CVE-2015-0204
+- CVE-2015-1641
+- CVE-2015-1701
+- CVE-2015-2291
+- CVE-2015-2387
+- CVE-2015-3113
+- CVE-2015-4000
+- CVE-2015-4902
+- CVE-2015-5119
+- CVE-2015-5374
+- CVE-2015-7450
+- CVE-2015-8651
+- CVE-2016-0051
+- CVE-2016-0099
+- CVE-2016-0167
+- CVE-2016-3088
+- CVE-2016-3720
+- CVE-2016-4117
+- CVE-2016-6662
+- CVE-2016-7255
+- CVE-2016-9192
+- CVE-2017-0005
+- CVE-2017-0144
+- CVE-2017-0147
+- CVE-2017-0176
+- CVE-2017-0199
+- CVE-2017-0213
+- CVE-2017-0262
+- CVE-2017-0263
+- CVE-2017-1000486
+- CVE-2017-10271
+- CVE-2017-11774
+- CVE-2017-11882
+- CVE-2017-12149
+- CVE-2017-12617
+- CVE-2017-15303
+- CVE-2017-3066
+- CVE-2017-5638
+- CVE-2017-7269
+- CVE-2017-8570
+- CVE-2017-8625
+- CVE-2017-8759
+- CVE-2018-0114
+- CVE-2018-0171
+- CVE-2018-0798
+- CVE-2018-0802
+- CVE-2018-1270
+- CVE-2018-13379
+- CVE-2018-20250
+- CVE-2018-20781
+- CVE-2018-2894
+- CVE-2018-4878
+- CVE-2018-8174
+- CVE-2019-0604
+- CVE-2019-0708
+- CVE-2019-0803
+- CVE-2019-0859
+- CVE-2019-11510
+- CVE-2019-16098
+- CVE-2019-18935
+- CVE-2019-19781
+- CVE-2019-19871
+- CVE-2019-20634
+- CVE-2019-3396
+- CVE-2019-3568
+- CVE-2019-3610
+- CVE-2019-5736
+- CVE-2019-7161
+- CVE-2019-9489
+- CVE-2019-9670
+- CVE-2020-0601
+- CVE-2020-0674
+- CVE-2020-0688
+- CVE-2020-10148
+- CVE-2020-10189
+- CVE-2020-12812
+- CVE-2020-1350
+- CVE-2020-1380
+- CVE-2020-1472
+- CVE-2020-14750
+- CVE-2020-14882
+- CVE-2020-15257
+- CVE-2020-15368
+- CVE-2020-1938
+- CVE-2020-2551
+- CVE-2020-2555
+- CVE-2020-26411
+- CVE-2020-4450
+- CVE-2020-4490
+- CVE-2020-5902
+- CVE-2020-7315
+- CVE-2020-8468
+- CVE-2021-1675
+- CVE-2021-1732
+- CVE-2021-21974
+- CVE-2021-26084
+- CVE-2021-26411
+- CVE-2021-26855
+- CVE-2021-26857
+- CVE-2021-26858
+- CVE-2021-27065
+- CVE-2021-30724
+- CVE-2021-31207
+- CVE-2021-3129
+- CVE-2021-32648
+- CVE-2021-34473
+- CVE-2021-34523
+- CVE-2021-34527
+- CVE-2021-35464
+- CVE-2021-36934
+- CVE-2021-36942
+- CVE-2021-4034
+- CVE-2021-40444
+- CVE-2021-40539
+- CVE-2021-42287
+- CVE-2021-42292
+- CVE-2021-44207
+- CVE-2021-44228
+- CVE-2021-44832
+- CVE-2021-45046
+- CVE-2021-45105
+- CVE-2022-0185
+- CVE-2022-0609
+- CVE-2022-0847
+- CVE-2022-0847 CVE-2022-22965
+- CVE-2022-1471
+- CVE-2022-21449
+- CVE-2022-21894
+- CVE-2022-22948
+- CVE-2022-22965
+- CVE-2022-26134
+- CVE-2022-26923
+- CVE-2022-26931
+- CVE-2022-27518
+- CVE-2022-30190
+- CVE-2022-34151
+- CVE-2022-34691
+- CVE-2022-38028
+- CVE-2022-40735
+- CVE-2022-41040
+- CVE-2022-41082
+- CVE-2022-41120
+- CVE-2022-41328
+- CVE-2022-42475
+- CVE-2022-47966
+- CVE-2022-49475
+- CVE-2023-1389
+- CVE-2023-20867
+- CVE-2023-21554
+- CVE-2023-23397
+- CVE-2023-29300
+- CVE-2023-32434
+- CVE-2023-32435
+- CVE-2023-34048
+- CVE-2023-34362
+- CVE-2023-3519
+- CVE-2023-38203
+- CVE-2023-38606
+- CVE-2023-38831
+- CVE-2023-41990
+- CVE-2023-42793
+- CVE-2023-46604
+- CVE-2023-46747
+- CVE-2023-46805
+- CVE-2023-48022
+- CVE-2023-48023
+- CVE-2023-48788
+- CVE-2023-4966
+- CVE-2023-50224
+- CVE-2023-6019
+- CVE-2023-6020
+- CVE-2023-6021
+- CVE-2024-12084
+- CVE-2024-1708
+- CVE-2024-1709
+- CVE-2024-20353
+- CVE-2024-20359
+- CVE-2024-20399
+- CVE-2024-21626
+- CVE-2024-21887
+- CVE-2024-21893
+- CVE-2024-30088
+- CVE-2024-3400
+- CVE-2024-37085
+- CVE-2024-39717
+- CVE-2024-55591
+- CVE-2025-21590
+- CVE-2025-32463
+- CVE-2025-33073
+- CVE-2025-49704
+- CVE-2025-49706
+- CVE-2025-53770
+- CVE-2025-53771
+- CVE-2025-59287
+- CVE-2025-6218
+- CVE-2025-8088
+- CVE-2025-8217
+- CVE-2025-9377
+- Dangling DNS
+- Delegate Call Vulnerability
+- Dependency Vulnerability
+- Deserialization
+- DigiNotar Compromise
+- Dirty Cow
+- Dirty Pipe
+- Endpoint Token Sync Gap
+- ESC2
+- Eternal Blue
+- Eternal Romance
+- Eternal Synergy
+- Exynos Abuse
+- File Upload Vulnerabilities
+- HackSys Extreme Vulnerable Driver
+- Hijackable Paths
+- Hive Nightmare
+- IDOR
+- IDOR Insecure Direct Object Reference
+- Injection Vulnerability
+- Insecure Deserialization
+- Insecure Secret Key Access
+- Integer Overflow
+- Kubernetes Dashboard Exposure
+- Log4Shell
+- Mass Assignment
+- Memory Vulnerability
+- Open Redirect Vulnerability
+- OS Command Injection Vulnerability
+- Password Not Required
+- Password Reuse Pattern
+- Password Security Vulnerabilities
+- Path Traversal Vulnerability
+- Pre-Auth Not Required
+- ProxyLogon
+- ProxyShell
+- PwnKit
+- Race Condition Vulnerability
+- Security Vulnerability
+- ShadowRay
+- SigRed
+- Smart Contract Vulnerability
+- SQL Injection Vulnerability
+- Stagefright
+- Unsafe Inline
+- Vulnerable Application
+- Vulnerable AutoRun
+- Vulnerable Components
+- Vulnerable Scheduled Task
+- Weak Password Policy
+- Web Vulnerability
+- XXE Vulnerability
+- ZeroLogon
+
+---
+
+## INFRA (인프라) — 301개
+
+- AD Certificate Template
+- AD Federation Service
+- AD IDNS Zone
+- AKS
+- Application Configuration Database
+- Application Container
+- Arch Linux
+- Authentication Server
+- Authentication Service
+- Authorization Service
+- AWS
+- AWS CloudWatch
+- AWS EKS IRSA
+- AWS GuardDuty
+- AWS IAM Identity and Access Management
+- AWS KMS
+- AWS Nitro Enclave
+- AWS Organizations
+- AWS S3 Object Lock
+- AWS SSM Parameter Store
+- AWS Verified Access
+- AWS VPC
+- AWS VPC Lattice
+- Azure
+- Azure Active Directory
+- Azure Active Directory Entra ID
+- Azure AD
+- Azure Cloud
+- Azure Confidential Computing
+- Azure Diagnostics
+- Azure Entra Workload ID
+- Azure Key Vault
+- Azure Managed Identity
+- Azure NSG
+- Azure PIM
+- Azure Sentinel
+- BigQuery
+- Bitbucket
+- Branch Cache
+- Captive Portal Domains
+- Certificate Authority
+- Certification Authority
+- Cloud HSM
+- Cloud Infrastructure
+- Cloud Instance Metadata
+- Cloud Metadata API
+- Cloud Network Firewall
+- Cloud Region
+- Cloud Run
+- Cloud Service Provider
+- Cloud Service Sensor
+- Cloud Shell
+- Cloud Storage
+- CloudFormation
+- CloudFront
+- CloudMe
+- CloudTrail
+- CloudWatch
+- Cluster Role
+- Cluster Role Binding
+- Cluster Role Bindings
+- Cluster Roles
+- CocoaPods
+- Code Repository
+- CodeBuild
+- Cognitive Services
+- ColdFusion
+- COMSysApp
+- Configuration Database
+- Configuration Management Database
+- Container Orchestration Software
+- Container Registry
+- Container Runtime
+- Containerd
+- ControlLogix
+- Credential Management System
+- CubeSats
+- Cyber Sensor
+- DaemonSet
+- DaemonSets
+- Data Acquisition Unit
+- Data Power
+- Data Store
+- Database Application
+- Database Server
+- Database Service
+- Database Service Application
+- Desktop Computer
+- Device Census
+- Device Enroller
+- DevTunnel
+- DevTunnels
+- Diagnostics Hub
+- Dialup Modem
+- Digital Camera
+- DigitalOcean
+- Directional Network Link
+- Directory Listing Module
+- Directory Service
+- Directory Services
+- Disk Drive
+- DISM Core
+- DISM Host
+- Display Adapter
+- Display Server
+- DLL Host
+- DMZ
+- DNS System
+- Driver Store
+- Dropbox
+- EC2
+- EcoStruxure
+- Edge Transport
+- Elastic
+- ElastiCache
+- Elasticsearch
+- Electronic Combination Lock
+- Embedded Computer
+- Embedded Database Application
+- Endpoint Sensor
+- Enterprise Apps
+- Enterprise Services
+- Exchange Certificate
+- Exchange Online
+- Exchange Server
+- Exchange Settings Provider
+- FaceTime
+- FactoryTalk
+- File Repository
+- File Server
+- File Share
+- File Share Service
+- File System Sensor
+- Fingerprint Scanner Input Device
+- Firebase Cloud Messaging
+- Firefox
+- Firewall Product
+- Firmware Sensor
+- Flash Player
+- Forest Domain
+- Forest Global Catalog
+- Forest Trust
+- FortiGate
+- FortiWeb
+- Forward Proxy
+- Forward Proxy Server
+- FreeDesktop
+- GCP
+- GCP Assured Workloads
+- GCP Cloud IAM
+- GCP Confidential VMs
+- GKE
+- GlassFish
+- Global Address List
+- Global Protect
+- Google Chrome
+- Google Cloud Messaging
+- Google Cloud Platform GCP
+- Google Drive
+- Google Play Services
+- GuardLogix
+- Hacker News
+- HTTP Cache Module
+- HTTP Proxy
+- ImageMagick
+- IMDS
+- IncrediMail
+- Internet Explorer
+- Intune
+- JumpCloud
+- Key Vault
+- Kiosk Computer
+- Kometa Browser
+- Kubernetes
+- Kubernetes Ephemeral Container
+- Kubernetes External Secrets Operator
+- Kubernetes Runtime Class
+- Kubernetes Secrets
+- Kubernetes Service Account
+- Lambda
+- LANDESK
+- Let's Encrypt
+- LibreOffice
+- Liebao Browser
+- macOS
+- McAfee Engine Service
+- McAfee Framework
+- McShield
+- MediaWiki
+- Message Transfer Agent
+- Microsoft Azure
+- Microsoft Edge
+- MobileIron
+- MySQL
+- NetScaler
+- NetWeaver
+- Network Flow Sensor
+- Network Sensor
+- NuGet
+- OpenOffice
+- OpenStack
+- Oracle OCI Lib
+- Oracle Service
+- Oracle VSS Writer
+- Orchestration Controller
+- Orchestration Server
+- OXID Resolver
+- PagerDuty
+- Password Database
+- Password Store
+- Password Vault
+- PayPal
+- Pentest Lab
+- Pentest Labs
+- Phishing Simulation Platform
+- Print Server
+- Prisma Cloud
+- ProtonMail
+- Proxy Server
+- Pulse Secure
+- PyPI
+- QuickBooks
+- Radio Modem
+- RealNetworks
+- Remote App
+- Remote Connection Manager
+- Remote Printing
+- Remote Registry
+- Remote Service
+- Replica Sets
+- Restart Manager
+- Reverse Proxy Server
+- Router Hosting
+- RPC Endpoint Mapper
+- RPC Proxy
+- RubyGems
+- SafeNet
+- SamSS
+- SandBlast
+- ScSecSvc
+- Search Indexer
+- Secrets Manager
+- Security Compliance Center
+- Security Health Service
+- SendGrid
+- SEP Master Service
+- Service Desk
+- Service Host
+- ServiceNow
+- SharePoint
+- Shell App Runtime
+- Shell Experience Host
+- Sign Server
+- Slim Browser
+- SMB File Shares
+- SMB Share
+- SMC Service
+- Snowflake
+- Software Artifact Server
+- Software Distribution
+- Software Repository
+- SourceForge
+- Spark Gateway
+- Spring Boot
+- SysAid Server
+- Task Scheduler
+- TeamCity
+- Telnet Server
+- TeraBox
+- Terminal Services
+- TikTok
+- Time Series Database
+- TransferNow
+- Try Cloudflare
+- TryHackMe
+- Unifi
+- Veeam Backup
+- Veeam Deploy SVC
+- VirtualBox
+- VPC
+- VPN
+- VxWorks
+- Web Proxy
+- Web Server Application
+- Webex
+- WebLogic
+- WebSphere
+- WeChat
+- WeTransfer
+- WhatsApp
+- WildFly
+- Windows Azure
+- Windows Azure Guest Agent
+- Windows PowerShell Web Access
+- Windows Subsystem for Linux
+- Wireless Access Point
+- Wireless Router
+- WordPress
+- YesWeHack
+- YouTube
+- Zoom Video App
+
+---
+
+## ACTOR (행위자/조직) — 250개
+
+- AhnLab
+- AlienVault
+- Amazon Technologies
+- Aon Cyber Labs
+- Aqua Sec
+- Arid Viper
+- Ars Technica
+- arXiv
+- Auth0
+- Backdoor Diplomacy
+- BadPilot
+- Beagle Boyz
+- Bendy Bear
+- BeyondTrust
+- BianLian
+- Bishop Fox
+- Bitdefender
+- BitGo
+- Bizone
+- Black Basta
+- Black Hat
+- Black Hills InfoSec
+- Black Oasis
+- Black Shadow
+- BlackBerry
+- BlackByte
+- BlackMatter
+- BlackTech
+- Blotchy Quasar
+- BlueNoroff
+- BugCrowd
+- CactusPete
+- CAN CAN Community
+- Carbon Black Inc
+- CardinalOps
+- Catalina Group
+- Citizen Lab
+- ClearSky
+- Cloudflare
+- Computer Weekly
+- ConfCrew
+- ConnectWise
+- Contagious Interview
+- Conti Leaks
+- Copy Kitten
+- Copy Kittens
+- CostaRicto
+- Countercept
+- Cozy Bear
+- CuckooBees
+- CyberBit
+- CyberLink
+- CyberMerchants
+- CyberScoop
+- CyberWarCon
+- CyCognito
+- CyCraft
+- CyLab
+- Dark Reading
+- DarkCoderSC
+- DarkHalo
+- DarkHotel
+- DarkHydrus
+- DarkVishnya
+- DeepSeek
+- DeepSight
+- Dell Inc
+- DeputyDog
+- DerbyCon
+- Diamond Sleet
+- DigiCert
+- DigiNinja
+- DigiNotar
+- Digital Shadows
+- DigiTrust
+- Dragon Force
+- DrayTek
+- Drifting Cloud
+- Dusty Squad
+- Earth Lusca
+- ElevenLabs
+- Evasive Panda
+- Evil Corp
+- ExaTrack
+- Exploit Broker
+- Falcon Force Team
+- Famous Chollima
+- FireEye
+- FortiGard
+- FortiGuard
+- Forty North Security
+- Foxglove
+- Global Sign
+- Google Project Zero
+- Grizzly Steppe
+- Gruesome Larch
+- HackerOne
+- Hackers Arise
+- Hacking Team
+- Help Systems
+- HuggingFace
+- Huntress Labs
+- INC Cyber
+- Indigo Zebra
+- InfoSec Institute
+- InfoSecurity
+- Inky Squid
+- Intel Techniques
+- Iran Threats
+- IronNet
+- JetBrains
+- Joe Security
+- JumpSec Labs
+- Kaspersky Carbanak
+- Kaspersky Lab
+- Lazy Scripter
+- Lotus Blossom
+- Lucky Mouse
+- Luminous Moth
+- Luna Road
+- McAfee
+- MenuPass
+- Micro Focus
+- Microsoft
+- MirrorFace
+- Moses Staff
+- Moustached Bouncer
+- MSFT Sec Intel
+- MuddyWater
+- NetSarang
+- Nextron Systems
+- NibbleSec
+- NirSoft
+- Noble Baron
+- NowSecure
+- NullBulge
+- Objective-See
+- OceanLotus
+- OilRig
+- Op Jerusalem
+- Op Poisoned Handover
+- Op Triangulation
+- Operation Cuckoo Bees
+- Palo Alto Networks
+- Pegasus Citizen Lab
+- Pentester Academy
+- Pink Panther
+- Pitty Tiger
+- Pointer Authentication Project Zero
+- PortSwigger
+- PowerPool
+- Project Discovery
+- Project Sauron
+- Project Zero
+- Proofpoint
+- Purple Bravo
+- Purple Urchin
+- PurpleSec
+- QianXin
+- Queen of Clubs
+- Ransom House
+- ReaQta
+- ReasonLabs
+- Recorded Future
+- Red Canary
+- Red Curl
+- Red Delta
+- Red Echo
+- Red Hat
+- Red Hotel
+- Red Lark
+- Red Mimicry
+- Red October
+- Red Penguin
+- RedHunt Labs
+- ReliaQuest
+- Reversing Lab
+- Reversing Labs
+- Rhino Security Labs
+- Romeo Delta
+- Rose Security
+- SafeBreach
+- Safety Detectives
+- SagieSec
+- SailPoint
+- SandCat
+- ScarCruft
+- Scarlet Eel
+- Sea Lotus
+- SecureAuth Corp
+- SecureBrain
+- SecureList
+- Secureworks
+- Security Boulevard
+- Security Innovation
+- Security Joes
+- Security News
+- Security Week
+- SensePost
+- SentinelLabs
+- ShmOOCon
+- SideCopy
+- SideWinder
+- Silent Break
+- Silver Terrier
+- SingHealth
+- SolarWinds
+- SonarSource
+- SonicWall
+- Sophos Labs
+- Spacehuhn Tech
+- SpecterOps
+- SpectorOps
+- SpiderLabs
+- Star Blizzard
+- Tango Delta
+- Tao Security
+- TeleBots
+- Threat Expert
+- ThreatFabric
+- ThreatGeek
+- ThreatLabZ
+- ThreatPost
+- ToddyCat
+- TomNomNom
+- Trend Labs
+- Trend Micro
+- Trend Micro Hideouts Lease
+- Trimarc Research
+- Tropic Trooper
+- TrueSec
+- Trusted Sec
+- Tunnel Snake
+- VectorSec
+- Velvet Ant
+- VeriSign
+- VerSprite
+- Viasat
+- Vice Leaker
+- Virus Bulletin
+- WatchGuard
+- WeLiveSecurity
+- White Company Operation Shaheen Report
+- White Oak Security
+- White Ops
+- WinDShift
+- WinterVivern
+- WithSecure
+- WithSecure Labs
+- ZecOps
+
+---
+
+## DETECT (탐지) — 184개
+
+- Administrative Network Traffic
+- Anomalous Consent Patterns
+- Anomalous Launch Agent
+- Anomalous Parent
+- Anomalous Process
+- App Protocol Abuse Pattern
+- Audit Policy Changes
+- Authentication Event Thresholding
+- AWS Console Sign-In
+- Beaconing
+- Behavioral Correlation Window
+- Child Process Count
+- Conditional Access Policy Evaluated
+- Data Exfiltration Detection
+- Detecting Encrypted Botnet Traffic
+- Detecting Network Reconnaissance by Tracking Intranet Dark
+- DNS Beaconing
+- EDR Telemetry
+- Egress Heuristics
+- Email Pattern Analysis
+- Embedded Content Indicators
+- Endpoint Health Beacon
+- Entropy Score
+- Error Pages
+- ETW Trace Provider
+- Event Log Archive Event
+- Event Log Clear Event
+- Event Log Delete Event
+- Event Log Disable Event
+- Event Log Enable Event
+- Event Log Export Event
+- Event Log Restart Event
+- Event Log Rotate Event
+- Event Log Start Event
+- Event Log Stop Event
+- Exploit Guard Non-Microsoft Signed Blocked
+- Extension Mismatch
+- Falcon Friday
+- File Access
+- File Access Event
+- File Access Pattern Analysis
+- File Content Rules
+- File Copy Event
+- File Create
+- File Creation
+- File Creation Analysis
+- File Creation Event
+- File Decryption Event
+- File Delete
+- File Deletion Event
+- File Download
+- File Encryption Event
+- File Entropy
+- File Event
+- File Executable Detected
+- File Footer Block
+- File Footer Block Signature
+- File Get Attributes Event
+- File Get Permissions Event
+- File Hash Reputation Analysis
+- File Header Block
+- File Header Block Signature
+- File Magic Bytes
+- File Mount Event
+- File Name Anomalies
+- File Name Entropy
+- File Path Indicators
+- File Renaming Event
+- File Risk Scoring
+- File Set Attributes Event
+- File Set Permissions Event
+- File Stream Created
+- File System Metadata
+- File System Read
+- File Transfer Indicator
+- File Transfer Network Traffic
+- File Unmount Event
+- File Update Event
+- Firmware Build Hash
+- Firmware Logs
+- Flow Logs
+- Fraud Alert Financial Institution Employee Credentials Targeted
+- Gatekeeper Bypass Flag
+- Gatekeeper Bypass Indicators
+- Geo Anomaly
+- Geo Velocity
+- Geolocation Alerts
+- Geolocation Anomaly Score
+- Geolocation Risk
+- Group Membership Changes
+- GRSec CTL00010 WAF Union
+- Hardening Event
+- Hardware Device Bind Event
+- Hardware Device Connection Event
+- Hardware Device Disabled Event
+- Hardware Device Disconnection Event
+- Hardware Device Enabled Event
+- Hardware Device Event
+- Hardware Device Move Event
+- Hardware Device State Event
+- Hardware Device Unbind Event
+- Hardware Device Update Event
+- Homoglyph Detection
+- HTTP Event
+- Hunt Report
+- Inbound Internet Encrypted Traffic
+- Inbound Internet Encrypted Web Traffic
+- Inbound Internet Mail Traffic
+- Inbound Internet Network Traffic
+- Inbound Internet Web Traffic
+- Insider Threat Indicators
+- Interactive Shell Indicator
+- Near Memory In-Memory Detection of Fileless Malware
+- Network Port Anomaly
+- Outbound Internet Encrypted Remote Terminal Traffic
+- Outbound Internet Encrypted Traffic
+- Outbound Internet Encrypted Web Traffic
+- Outbound Internet File Transfer Traffic
+- Outbound Internet Mail Traffic
+- Outbound Internet Network Traffic
+- Outbound Internet Web Traffic
+- Outbound Network Traffic
+- Peripheral Device Event
+- Phishing Indicators
+- Physical Access Alarm Event
+- PowerShell Obfuscation Score
+- Privileged Account Patterns
+- Protocol Metadata Anomaly Detection
+- Protocol-Based Detection of Suspicious Network Traffic
+- Relay Chain Signature
+- Relay Pattern Analysis
+- Remote Terminal Session Detection
+- Scheduled Job Creation Event
+- Scheduled Job Deletion Event
+- Scheduled Job Disable Event
+- Scheduled Job Enable Event
+- Scheduled Job Event
+- Scheduled Job Start Event
+- Scheduled Job Update Event
+- Security Event
+- Security Event Log Cleared
+- Security Violation
+- Service Deletion Event
+- Service Disable Event
+- Service Enable Event
+- Service Event
+- Service Installation Event
+- Service Restart Event
+- Service Start Event
+- Service Stop Event
+- Service Update Event
+- SIEM Correlation Rules
+- Sigma Correlation Rules
+- Sigma Rule Modifiers
+- Sigma Rule Structure
+- Sigma Rules
+- Snort Rule Structure
+- Suricata Rule Keywords
+- Sysmon DNS ETW Session
+- Sysmon Event ID
+- Unsigned Binary Network Usage
+- Username Enumeration Pattern
+- WAF Detection Rules
+- Web Network Traffic
+- Web Session Activity Analysis
+- Windows Registry Event
+- Windows Registry Key Creation Event
+- Windows Registry Key Deletion Event
+- Windows Registry Key Event
+- Windows Registry Key Export Event
+- Windows Registry Key Import Event
+- Windows Registry Key Read Event
+- Windows Registry Key Renaming Event
+- Windows Registry Key Restore Event
+- Windows Registry Key Set Security Event
+- Windows Registry Key Update Event
+- Windows Registry Value Deletion Event
+- Windows Registry Value Event
+- Windows Registry Value Get Event
+- Windows Registry Value Set Event
+- Windows Registry Value Update Event
+- WinEvent
+- WinEventLog
+- YARA Rules
+
+---
+
+## PROTO (프로토콜) — 112개
+
+- ActiveSync
+- AppleTalk
+- Application Layer Protocol
+- ARP
+- BGP
+- BGP Protocol
+- BitTorrent
+- C2 Protocol
+- Change Cipher Spec
+- CoAP Protocol
+- Direct Connect
+- Direct Send
+- DNP3 Secure Authentication
+- DNS
+- DNS Cookie
+- DNS Domain Name System
+- DNS EDNS Client Subnet
+- DNS HTTPS Record
+- DNS Over HTTPS
+- DNS TXT
+- EAP-TLS
+- Email Authentication Method Extension
+- Encrypted Extensions
+- EtherCAT
+- FireWire
+- FTP File Transfer Protocol
+- Google Talk
+- Heartbeat
+- HTTP
+- HTTP Cookie
+- HTTP Delete
+- HTTP Get
+- HTTP Head
+- HTTP Header
+- HTTP Headers
+- HTTP Hypertext Transfer Protocol
+- HTTP Methods
+- HTTP Patch
+- HTTP Post
+- HTTP Put
+- HTTP Status Code
+- HTTP/2
+- HTTP/3
+- HTTPS
+- HTTPS HTTP Secure
+- Hybrid TLS
+- ICMP
+- ICMP Protocol
+- ICMPv6
+- IPSec
+- KEMTLS
+- Kerberos
+- Kerberos Authentication Protocol
+- Kerberos Protocol
+- LDAP
+- LDAP Lightweight Directory Access Protocol
+- LDAPS
+- Lightweight Directory Access Protocol
+- mDNS
+- Modbus Protocol
+- MQTT Protocol
+- mTLS
+- Multicast DNS
+- NetBIOS
+- Noise Protocol Handshake Patterns
+- NTLM
+- NTLM Protocol
+- NTLMSSP
+- NTP Protocol
+- OAuth
+- OAuth 2.0
+- OAuth 2.0 Protocol
+- OPC UA Protocol
+- OpenID
+- OSPF
+- Post-Quantum TLS
+- Protobuf
+- RDP
+- Remote Procedure Call
+- RPKI Resource Public Key Infrastructure
+- SAML
+- SAML 2.0
+- Secure Transport
+- Sender Policy Framework
+- Server Hello
+- Server Hello Done
+- Server Key Exchange
+- Signal Protocol
+- SMB
+- SMB Protocol
+- SMBv1
+- SMBv2
+- SMTP Simple Mail Transfer Protocol
+- SNMP Protocol
+- SSH
+- SSH Secure Shell
+- SSL
+- TCP
+- TCP Transmission Control Protocol
+- TCP-AO
+- TLS
+- TLS 1.0
+- TLS 1.1
+- TLS 1.2
+- TLS 1.3
+- TLS Transport Layer Security
+- Transfer Protocol
+- TriStation
+- UDP
+- UDP Protocol
+- WebDAV
+- WebSocket Protocol
+
+---
+
+## COMP (컴플라이언스) — 69개
+
+- Audit Compliance
+- Cloud Governance Framework
+- Compliance
+- Consequence Driven Risk Assessment
+- Control Catalog
+- Control Correlation Identifier Catalog
+- Cybersecurity Incident and Vulnerability Response Playbooks
+- Digital Safety Certification
+- FedRAMP
+- FIDO Alliance Certification
+- FIPS 140-2
+- GCP Organization Policy Constraints
+- GDPR
+- GDPR Article 25
+- GDPR Article 32
+- GDPR Data Transfer Mechanisms
+- GDPR General Data Protection Regulation
+- GRSec Compliance 001
+- Guide to Storage Encryption Technologies for End User Devices
+- HIPAA
+- HIPAA Security Rule vs Privacy Rule
+- Industry Compliance
+- Kubernetes CIS Benchmark
+- License Compliance
+- MITRE ATLAS
+- MITRE ATT&CK Coverage Heatmap
+- MITRE ATT&CK Evaluation
+- MITRE ATT&CK Framework
+- MITRE ATT&CK Software Mapping
+- MITRE D3FEND
+- MITRE Engage
+- NIST
+- NIST CSF 2.0
+- NIST CSF Core Functions
+- NIST Cybersecurity Framework
+- NIST RMF
+- NIST SP 800-171
+- NIST SP 800-207
+- NIST SP 800-53
+- NIST SP 800-53 1200 Controls
+- NIST SP 800-61
+- NIST SP 800-63B
+- OWASP
+- OWASP ASVS
+- OWASP Cheat Sheet Series
+- OWASP Mobile Top 10
+- OWASP SAMM
+- OWASP Testing Guide
+- OWASP Top 10
+- OWASP Top 10 for LLM
+- PCI 3DS
+- PCI DSS
+- PCI DSS Compliance Framework
+- PCI DSS v4.0
+- PCI P2PE
+- PCI PIN Security
+- Privacy Compliance
+- Security Compliance Frameworks
+- Security Framework Compliance
+- Sigma
+- SLA for Security Incidents
+- SOC 2
+- SOC 2 Compliance Framework
+- SOC 2 Trust Service Criteria
+- SOC 2 Type I vs Type II
+- SOX Compliance
+- Vulnerability Disclosure
+- Vulnerability Disclosure Policy
+- WebTrust
+
+---
+
+## PRI (원칙) — 10개
+
+- Best Practices
+- Defensive Depth
+- Human in the Loop Controller
+- Privacy by Design
+- Security by Design
+- Zero Trust
+- Zero Trust Data Access
+- Zero Trust Pillars
+- Zero Trust Principle
+- Zero Trust Principles
+
+---

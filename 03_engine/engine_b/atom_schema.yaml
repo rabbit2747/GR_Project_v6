@@ -1,0 +1,361 @@
+# GR Atom Schema v5.1
+# GR 온톨로지의 모든 아톰 구조를 정의합니다.
+# 모든 아톰은 반드시 이 스키마에 대해 유효성 검증을 통과해야 합니다.
+
+schema_version: "5.1"
+last_updated: "2026-02-06"
+
+# ==============================================================================
+# 섹션 1: 아이덴티티
+# GR 온톨로지 내에서 아톰을 고유하게 식별합니다.
+# ==============================================================================
+identity:
+  id:
+    type: string
+    required: true
+    pattern: "^((INFRA|ATK|DEF|VUL|TOOL|COMP|TECH|ACTOR|MALWARE|DETECT|PROTO)-[A-Z]+-[A-Z0-9]+-[0-9]{3}|PRI-[A-Z0-9]+-[0-9]{3})$"
+    description: "고유 식별자. 형식: {PREFIX}-{SUBDOMAIN}-{NAME}-{###} (PRI만 {PREFIX}-{NAME}-{###})"
+    examples:
+      - "INFRA-SEC-WAF-001"
+      - "ATK-INJECT-SQL-001"
+      - "DETECT-SIGNATURE-PSEXEC-001"
+      - "PROTO-MSG-HTTP2-001"
+      - "PRI-ZEROTRUST-001"
+
+  name:
+    type: string
+    required: true
+    description: "사람이 읽을 수 있는 표시 이름"
+    examples:
+      - "Web Application Firewall"
+      - "SQL Injection"
+
+  normalized_name:
+    type: string
+    required: true
+    pattern: "^[a-z][a-z0-9_]*$"
+    description: "기계가 읽을 수 있는 이름, 소문자와 밑줄 사용"
+    examples:
+      - "web_application_firewall"
+      - "sql_injection"
+
+  aliases:
+    type: array
+    items: string
+    required: false
+    description: "대체 이름 또는 약어"
+    examples:
+      - ["WAF", "Web App Firewall"]
+      - ["SQLi", "SQL Injection Attack"]
+
+# ==============================================================================
+# 섹션 2: 분류
+# GR 타입 시스템 내에서 아톰의 위치를 결정합니다.
+# ==============================================================================
+classification:
+  is_infrastructure:
+    type: boolean
+    required: true
+    description: "INFRA-* 아톰에만 true, 나머지는 모두 false"
+    rule: "접두사에 의해 결정됨. INFRA-* = true, 나머지는 모두 false. 예외 없음."
+
+  type:
+    type: string
+    required: true
+    enum:
+      # 인프라 타입 (INFRA-* 전용)
+      - component            # 핵심 인프라 (서버, DB, 라우터)
+      - component_tool       # 인프라로 배포된 운영/보안 도구 (SIEM, EDR)
+      - component_control    # 인프라로 배포된 보안 통제 (WAF, IDS)
+      # 지식 타입 (비INFRA 전용)
+      - concept              # 추상적 개념 또는 범주
+      - technique            # 실행 가능한 공격/방어 기법
+      - vulnerability        # 약점 또는 결함
+      - principle            # 보안 철학 또는 공리
+      - pattern              # 시그니처, 페이로드, 탐지 규칙
+      - protocol             # 통신 표준
+      - tool_knowledge       # 도구 사용에 관한 지식
+      - control_policy       # 정책, 절차, 규정
+    description: "11개 타입 중 하나. 아톰의 접두사에 유효해야 함."
+
+  abstraction_level:
+    type: integer
+    required: true
+    enum: [1, 2, 3, 4]
+    description: "4=원칙, 3=개념, 2=기법, 1=인스턴스"
+
+  atom_tags:
+    type: array
+    items: string
+    required: true
+    min_items: 2
+    max_items: 10
+    description: "통제된 어휘에서 가져온 태그 (atom_tags.yaml). 최소 2개 필수."
+
+# ==============================================================================
+# 섹션 3: 좌표 (인프라 아톰 전용)
+# GR 좌표 공간에서의 3차원 위치.
+# ==============================================================================
+gr_coordinates:
+  required_when: "is_infrastructure == true"
+  forbidden_when: "is_infrastructure == false"
+
+  layer:
+    type: string
+    required: true
+    enum: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+    description: "배포 레이어 — 기술 스택에서의 수직 위치"
+
+  zone:
+    type: string
+    required: true
+    enum: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+    description: "보안 존 — 수평적 신뢰 경계"
+
+  function:
+    type: string
+    required: true
+    pattern: "^[MNSADRCPTI][0-9]+\\.[0-9]+$"
+    description: "주요 기능 코드. 형식: {Domain}{Category}.{Sequence}. 단일 문자 사용 금지."
+    examples:
+      - "S1.2"   # WAF
+      - "D1.3"   # 관계형 스토리지
+      - "A3.1"   # LLM 추론
+      - "N1.2"   # L7 로드 밸런싱
+
+# ==============================================================================
+# 섹션 4: 범위 (지식 아톰 전용)
+# 이 지식이 인프라에서 적용되는 위치를 정의합니다.
+# ==============================================================================
+scope:
+  required_when: "is_infrastructure == false"
+  forbidden_when: "is_infrastructure == true"
+
+  target_layers:
+    type: array
+    items: string
+    enum_items: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+    required: false
+    description: "이 지식이 적용되는 배포 레이어"
+
+  target_zones:
+    type: array
+    items: string
+    enum_items: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+    required: false
+    description: "이 지식이 적용되는 보안 존"
+
+  target_components:
+    type: array
+    items: string
+    required: false
+    description: "이 지식이 적용되는 특정 인프라 아톰 ID"
+    examples:
+      - ["INFRA-SEC-WAF-001", "INFRA-APP-API-001"]
+
+  constraint: "target_layers 또는 target_zones 중 하나 이상이 반드시 채워져야 합니다"
+
+# ==============================================================================
+# 섹션 5: 정의
+# 이 아톰이 무엇인지, 왜 중요한지, 어떻게 작동하는지.
+# ==============================================================================
+definition:
+  what:
+    type: string
+    required: true
+    min_length: 100
+    max_length: 800
+    description: "이 아톰이 무엇인지에 대한 사실적 설명. 1~3문장."
+
+  why:
+    type: string
+    required: false
+    max_length: 500
+    description: "보안 맥락에서 이것이 중요한 이유"
+
+  how:
+    type: string
+    required: false
+    max_length: 600
+    description: "작동 방식, 구현 방법, 또는 사용 방법"
+
+  core_concepts:
+    type: array
+    items:
+      key:
+        type: string
+        description: "개념 이름"
+      value:
+        type: string
+        description: "개념 설명 (100~200자)"
+    required: false
+    description: "이 아톰을 이해하기 위한 핵심 개념"
+
+# ==============================================================================
+# 섹션 6: 관계
+# 지식 그래프에서 다른 아톰과의 연결.
+# ==============================================================================
+relations:
+  type: array
+  min_items: 1
+  required: true
+  description: "최소 1개의 관계 필수. 정방향 관계만 저장."
+
+  items:
+    type:
+      type: string
+      required: true
+      enum:
+        # 구조적
+        - is_a              # 하위 → 상위 (분류 체계)
+        - part_of           # 부분 → 전체 (구성)
+        - instance_of       # 인스턴스 → 클래스 (인스턴스화)
+        - abstracts         # 추상 → 구체 (일반화)
+        # 인과적
+        - causes            # 원인 → 결과
+        - enables           # 활성화자 → 활성화 대상
+        - prevents          # 방지자 → 방지 대상
+        # 조건적
+        - requires          # 종속자 → 의존성
+        - conflicts_with    # 대칭 (한 번만 저장)
+        - alternative_to    # 대칭 (한 번만 저장)
+        # 시간적
+        - precedes          # 이전 → 이후
+        - supersedes        # 신규 → 기존
+        # 적용성
+        - applies_to        # 지식 → 인프라
+        - effective_against # 방어 → 공격/취약점
+        # 구현
+        - implements        # 구현 → 명세
+        # 인식론적
+        - contradicts       # 대칭 (한 번만 저장)
+        - disputes          # 대칭 (한 번만 저장)
+        - refines           # 정제됨 → 원본
+      description: "관계 유형. 'related_to'는 사용 금지."
+
+    target:
+      type: string
+      required: true
+      description: "대상 아톰 ID. 존재해야 하거나 프론티어로 플래그 표시되어야 함."
+
+    description:
+      type: string
+      required: false
+      description: "이 특정 관계에 대한 선택적 컨텍스트"
+
+  forbidden_types:
+    - related_to          # 너무 모호함 — 구체적 유형 사용
+
+  rules:
+    - "is_a, part_of, requires 체인에서 순환 참조 금지"
+    - "대칭 관계(conflicts_with, alternative_to, contradicts, disputes)는 한 번만 저장"
+    - "역방향 관계는 절대 저장하지 않음 — 쿼리 시 계산"
+
+# ==============================================================================
+# 섹션 7: 보안 프로필 (선택 사항, 보안 관련 아톰용)
+# ==============================================================================
+security_profile:
+  required: false
+
+  mitre_mapping:
+    technique_id:
+      type: string
+      pattern: "^T[0-9]{4}(\\.[0-9]{3})?$"
+      description: "MITRE ATT&CK 기법 ID"
+    tactic:
+      type: array
+      items: string
+      description: "관련 MITRE 전술"
+    sub_techniques:
+      type: array
+      items: string
+      description: "관련 하위 기법"
+
+  cve_mapping:
+    cve_id:
+      type: string
+      pattern: "^CVE-[0-9]{4}-[0-9]+$"
+    cvss_score:
+      type: number
+      min: 0.0
+      max: 10.0
+    cwe_id:
+      type: string
+      pattern: "^CWE-[0-9]+$"
+
+  attack_context:
+    target_layers:
+      type: array
+      items: string
+    target_zones:
+      type: array
+      items: string
+    attack_path:
+      type: string
+      description: "인프라 좌표를 통한 공격 흐름을 설명"
+
+  defense_context:
+    effectiveness:
+      type: string
+      enum: ["high", "medium", "low"]
+    d3fend_mapping:
+      type: string
+      description: "D3FEND 기법 ID"
+
+# ==============================================================================
+# 섹션 8: 메타데이터
+# 관리 및 운영 정보.
+# ==============================================================================
+metadata:
+  created:
+    type: string
+    format: date
+    required: true
+
+  updated:
+    type: string
+    format: date
+    required: false
+
+  version:
+    type: string
+    required: true
+    default: "1.0"
+
+  confidence:
+    type: string
+    required: true
+    enum: ["high", "medium", "low"]
+    description: "high=검증됨/다중 출처, medium=단일 출처/논리적, low=추론됨"
+
+  trust_source:
+    type: string
+    required: true
+    enum: ["primary", "secondary", "derived"]
+    description: "primary=공식 출처, secondary=신뢰할 수 있는 참고 자료, derived=추론"
+
+  sources:
+    type: array
+    items: string
+    min_items: 1
+    required: true
+    description: "참고 출처. 최소 1개 필수."
+
+  search_keywords:
+    type: array
+    items: string
+    min_items: 5
+    required: true
+    description: "검색 가능성을 위한 검색 키워드. 최소 5개."
+
+  embedding_text:
+    type: string
+    required: true
+    min_words: 50
+    max_words: 200
+    description: "벡터 임베딩 및 시맨틱 검색에 최적화된 요약 텍스트"
+
+  quality_notes:
+    type: string
+    required: false
+    description: "품질 관련 우려 사항 또는 알려진 제한 사항"

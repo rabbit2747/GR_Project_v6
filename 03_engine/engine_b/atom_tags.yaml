@@ -1,0 +1,303 @@
+# GR 아톰 태그 - 통제된 어휘 v5.0
+# 모든 atom_tags 값은 반드시 이 파일에서 가져와야 합니다.
+# 자유 형식 태그는 사용 금지입니다.
+# 아톰당 최소 2개, 최대 10개 태그.
+
+schema_version: "5.0"
+last_updated: "2026-02-06"
+
+# ==============================================================================
+# 카테고리 1: 공격 단계
+# 사이버 킬 체인 / MITRE ATT&CK 전술에 매핑
+# ==============================================================================
+attack_phase:
+  - tag: RECON
+    description: "정찰 — 정보 수집"
+  - tag: INITIAL
+    description: "초기 접근 — 진입 확보"
+  - tag: EXEC
+    description: "실행 — 악성 코드 실행"
+  - tag: PERSIST
+    description: "지속성 — 접근 유지"
+  - tag: PRIV
+    description: "권한 상승 — 더 높은 권한 획득"
+  - tag: EVADE
+    description: "방어 회피 — 탐지 우회"
+  - tag: CRED
+    description: "자격 증명 접근 — 자격 증명 탈취"
+  - tag: DISC
+    description: "탐색 — 환경 조사"
+  - tag: LATERAL
+    description: "측면 이동 — 네트워크 내 이동"
+  - tag: COLLECT
+    description: "수집 — 대상 데이터 수집"
+  - tag: C2
+    description: "명령 및 제어 — 공격자와의 통신"
+  - tag: EXFIL
+    description: "유출 — 데이터 외부 반출"
+  - tag: IMPACT
+    description: "영향 — 방해, 파괴, 조작"
+
+# ==============================================================================
+# 카테고리 2: 취약점 유형
+# 일반적인 취약점 분류
+# ==============================================================================
+vulnerability_type:
+  - tag: INJ
+    description: "인젝션 (SQL, Command, LDAP, XPath)"
+  - tag: XSS
+    description: "크로스 사이트 스크립팅"
+  - tag: AUTHN
+    description: "인증 취약점"
+  - tag: AUTHZ
+    description: "인가 / 접근 제어 취약점"
+  - tag: CRYPTO
+    description: "암호화 취약점"
+  - tag: CONFIG
+    description: "설정 오류"
+  - tag: DESER
+    description: "역직렬화 취약점"
+  - tag: SSRF
+    description: "서버 측 요청 위조"
+  - tag: XXE
+    description: "XML 외부 엔티티"
+  - tag: PATH
+    description: "경로 탐색 / 디렉터리 탐색"
+  - tag: RACE
+    description: "경쟁 조건"
+  - tag: OVERFLOW
+    description: "버퍼 오버플로우 / 메모리 손상"
+  - tag: CSRF
+    description: "크로스 사이트 요청 위조"
+  - tag: UPLOAD
+    description: "파일 업로드 취약점"
+  - tag: INFO_LEAK
+    description: "정보 노출 / 유출"
+  - tag: DOS
+    description: "서비스 거부"
+
+# ==============================================================================
+# 카테고리 3: 기술 스택
+# 기술 영역 분류
+# ==============================================================================
+technology_stack:
+  - tag: WEB
+    description: "웹 애플리케이션 기술"
+  - tag: API
+    description: "API / 마이크로서비스 기술"
+  - tag: CLOUD
+    description: "클라우드 인프라"
+  - tag: CONTAINER
+    description: "컨테이너 / 오케스트레이션 기술"
+  - tag: MOBILE
+    description: "모바일 애플리케이션"
+  - tag: IOT
+    description: "사물 인터넷"
+  - tag: AI
+    description: "인공지능 / 머신러닝"
+  - tag: NETWORK
+    description: "네트워크 인프라"
+  - tag: DATABASE
+    description: "데이터베이스 기술"
+  - tag: OS
+    description: "운영체제 수준"
+  - tag: FIRMWARE
+    description: "펌웨어 / 임베디드 시스템"
+  - tag: BLOCKCHAIN
+    description: "블록체인 / 분산 원장"
+  - tag: ICS
+    description: "산업 제어 시스템 / SCADA"
+
+# ==============================================================================
+# 카테고리 4: 플랫폼
+# 특정 플랫폼 / 벤더 분류
+# ==============================================================================
+platform:
+  - tag: WINDOWS
+    description: "Microsoft Windows"
+  - tag: LINUX
+    description: "Linux 배포판"
+  - tag: MACOS
+    description: "Apple macOS"
+  - tag: AWS
+    description: "Amazon Web Services"
+  - tag: AZURE
+    description: "Microsoft Azure"
+  - tag: GCP
+    description: "Google Cloud Platform"
+  - tag: K8S
+    description: "Kubernetes"
+  - tag: DOCKER
+    description: "Docker 컨테이너"
+  - tag: ANDROID
+    description: "Android 모바일"
+  - tag: IOS
+    description: "Apple iOS"
+  - tag: VMWARE
+    description: "VMware 가상화"
+
+# ==============================================================================
+# 카테고리 5: 데이터베이스 유형
+# 특정 데이터베이스 기술 태그
+# ==============================================================================
+dbms:
+  - tag: MYSQL
+    description: "MySQL / MariaDB"
+  - tag: PGSQL
+    description: "PostgreSQL"
+  - tag: MSSQL
+    description: "Microsoft SQL Server"
+  - tag: ORACLE
+    description: "Oracle Database"
+  - tag: MONGODB
+    description: "MongoDB"
+  - tag: REDIS
+    description: "Redis"
+  - tag: NEO4J
+    description: "Neo4j 그래프 데이터베이스"
+  - tag: ELASTIC
+    description: "Elasticsearch"
+  - tag: SQLITE
+    description: "SQLite"
+
+# ==============================================================================
+# 카테고리 6: 프로토콜
+# 통신 프로토콜 태그
+# ==============================================================================
+protocol:
+  - tag: HTTP
+    description: "HTTP/HTTPS 프로토콜"
+  - tag: DNS
+    description: "도메인 네임 시스템"
+  - tag: SSH
+    description: "시큐어 셸"
+  - tag: TLS
+    description: "TLS/SSL 암호화"
+  - tag: FTP
+    description: "파일 전송 프로토콜"
+  - tag: SMTP
+    description: "단순 메일 전송 프로토콜"
+  - tag: LDAP
+    description: "경량 디렉터리 접근 프로토콜"
+  - tag: RDP
+    description: "원격 데스크톱 프로토콜"
+  - tag: SMB
+    description: "서버 메시지 블록"
+  - tag: SNMP
+    description: "단순 네트워크 관리 프로토콜"
+  - tag: GRPC
+    description: "gRPC 프로토콜"
+  - tag: MQTT
+    description: "MQTT IoT 프로토콜"
+  - tag: WEBSOCKET
+    description: "WebSocket 프로토콜"
+  - tag: OAUTH
+    description: "OAuth / OIDC 프로토콜"
+  - tag: SAML
+    description: "SAML 프로토콜"
+  - tag: KERBEROS
+    description: "Kerberos 인증"
+
+# ==============================================================================
+# 카테고리 7: 방어
+# 보안 도구 및 방어 메커니즘 태그
+# ==============================================================================
+defense:
+  - tag: WAF
+    description: "웹 애플리케이션 방화벽"
+  - tag: IDS
+    description: "침입 탐지 시스템"
+  - tag: IPS
+    description: "침입 방지 시스템"
+  - tag: SIEM
+    description: "보안 정보 및 이벤트 관리"
+  - tag: EDR
+    description: "엔드포인트 탐지 및 대응"
+  - tag: DLP
+    description: "데이터 손실 방지"
+  - tag: PAM
+    description: "특권 접근 관리"
+  - tag: MFA
+    description: "다중 인증"
+  - tag: SANDBOX
+    description: "샌드박싱 / 격리"
+  - tag: ENCRYPT
+    description: "암호화 (저장 시 또는 전송 시)"
+  - tag: BACKUP
+    description: "백업 및 복구"
+  - tag: PATCH
+    description: "패치 관리"
+  - tag: AUDIT
+    description: "감사 로깅 및 모니터링"
+  - tag: FIREWALL
+    description: "네트워크 방화벽 (WAF 제외)"
+  - tag: VPN
+    description: "가상 사설 네트워크"
+  - tag: ZTNA
+    description: "제로 트러스트 네트워크 접근"
+
+# ==============================================================================
+# 카테고리 8: 일반
+# 교차 관심사 및 일반 속성
+# ==============================================================================
+general:
+  - tag: PROXY
+    description: "프록시 기능 (포워드 또는 리버스)"
+  - tag: CACHE
+    description: "캐싱 기능"
+  - tag: LOG
+    description: "로깅 및 로그 관리"
+  - tag: MONITOR
+    description: "모니터링 및 관측성"
+  - tag: LB
+    description: "로드 밸런싱"
+  - tag: HA
+    description: "고가용성"
+  - tag: DR
+    description: "재해 복구"
+  - tag: CICD
+    description: "CI/CD 파이프라인"
+  - tag: IAC
+    description: "코드형 인프라"
+  - tag: GITOPS
+    description: "GitOps 워크플로우"
+  - tag: SERVERLESS
+    description: "서버리스 / FaaS"
+  - tag: MICROSERVICE
+    description: "마이크로서비스 아키텍처"
+  - tag: COMPLIANCE
+    description: "컴플라이언스 및 규제"
+  - tag: PRIVACY
+    description: "개인정보 보호 및 데이터 보호"
+  - tag: SUPPLY_CHAIN
+    description: "소프트웨어 공급망"
+  - tag: DEVSECOPS
+    description: "DevSecOps 실천 방법"
+  - tag: THREAT_INTEL
+    description: "위협 인텔리전스"
+  - tag: INCIDENT
+    description: "인시던트 대응"
+  - tag: FORENSICS
+    description: "디지털 포렌식"
+  - tag: PENTEST
+    description: "침투 테스트"
+  - tag: RED_TEAM
+    description: "레드 팀 운영"
+  - tag: BLUE_TEAM
+    description: "블루 팀 운영"
+
+# ==============================================================================
+# 사용 규칙
+# ==============================================================================
+rules:
+  minimum_tags_per_atom: 2
+  maximum_tags_per_atom: 10
+  free_form_tags: FORBIDDEN
+  tag_assignment_guide: |
+    5가지 질문 방법을 사용하세요:
+    1. 어떤 공격 단계인가? (attack_phase 카테고리)
+    2. 어떤 기술 스택인가? (technology_stack 카테고리)
+    3. 어떤 플랫폼인가? (platform 카테고리)
+    4. 어떤 취약점 유형인가? (vulnerability_type 카테고리)
+    5. 어떤 방어/프로토콜인가? (defense 또는 protocol 카테고리)
+    모든 질문이 모든 아톰에 적용되는 것은 아닙니다. 관련된 질문에만 답하세요.

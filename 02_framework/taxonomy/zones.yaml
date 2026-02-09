@@ -1,0 +1,741 @@
+# GR 프레임워크 - 보안 존 분류 체계 v5.0
+# Z0A-Z5에 대한 기계 판독 가능한 분류 정의 (7-Zone Model)
+# 최종 업데이트: 2026-02-09
+#
+# 이 파일은 순수 분류 체계(Taxonomy)만 포함합니다.
+# 구체적 제품, 도구, 공격/방어 기법 등의 구현 참조 데이터는
+# 04_db/atom_data/ 의 개별 atom으로 관리됩니다.
+# (INFRA, ATK, DEF, TOOL, COMP, PROTO 등 12-prefix 체계)
+
+version: "5.0"
+dimension: "Zone"
+axis: "Horizontal"
+question: "어떤 신뢰 경계인가?"
+
+definition: "Security Zone은 동일한 보안 요구사항을 가진 네트워크 및 시스템 자원의 논리적 그룹"
+
+core_concepts:
+  - "보안 경계: 각 Zone은 명확한 보안 경계를 가짐"
+  - "신뢰 수준: Zone별로 차등화된 신뢰 수준 적용"
+  - "접근 통제: Zone 간 트래픽은 명시적 규칙으로 제어"
+  - "정책 일관성: 동일 Zone 내 모든 자원은 동일한 보안 정책 적용"
+
+model_history:
+  v1_0: "6-Zone Model (Zone 0-5) — 모든 외부 요소를 Zone 0으로 통합"
+  v2_0: "7-Zone Model (Zone 0-A, 0-B, 1-5) — Zone 0 세분화, AI/ML 워크로드 통합"
+
+zone_0_segmentation_rationale:
+  security_policy_differentiation:
+    zone_0a:
+      - "모든 트래픽을 잠재적 위협으로 간주"
+      - "최대 수준의 필터링 및 Rate Limiting"
+      - "익명 접근 허용"
+    zone_0b:
+      - "계약 기반 신뢰 관계"
+      - "API Key/Token 검증"
+      - "IP Allowlist 적용 가능"
+      - "SLA 및 보안 인증서 보유"
+  risk_management_improvement:
+    - "외부 SaaS 장애 시 Zone 0-A와 독립적 대응"
+    - "Trusted Partner의 보안 사고 발생 시 격리 가능"
+    - "비용 모니터링 및 사용량 추적 용이"
+  regulatory_compliance:
+    - "데이터 처리 위치 추적 (Zone 0-B → GDPR, CCPA)"
+    - "제3자 데이터 공유 투명성"
+
+# ============================================================
+# Zone 정의 (Zone Definitions)
+# ============================================================
+zones:
+  # ============================================================
+  # Zone 0-A: Untrusted External (비신뢰 외부 영역)
+  # ============================================================
+  - id: "Z0A"
+    name_en: "Untrusted External"
+    name_kr: "비신뢰 외부"
+    trust_level_percent: 0
+    trust_level_label: "None"
+    attack_exposure: "N/A (우리가 통제하지 않는 영역)"
+    definition: "조직이 전혀 통제할 수 없는 완전 비신뢰 영역. 조직 외부의 인터넷 공간으로 공격의 출발지."
+    v2_status: "신규 (Zone 0 세분화)"
+
+    characteristics:
+      - "제로 트러스트 — 인증 불가, 통제 불가"
+      - "모든 트래픽을 잠재적 위협으로 간주"
+      - "익명성이 높음"
+      - "악의적 행위자 존재 가능"
+      - "대규모 트래픽 발생원"
+
+    trust_principles:
+      - "모든 요청 검증 필수"
+      - "최소 권한 접근만 허용"
+      - "철저한 로깅 및 모니터링"
+      - "이상 징후 자동 차단"
+
+    typical_component_categories:
+      - "일반 인터넷 사용자"
+      - "악의적 행위자 인프라 (공격자, 봇넷)"
+      - "익명 접근 (Tor, VPN, Proxy)"
+      - "합법적 봇 & 크롤러 (검색 엔진, 소셜 미디어)"
+
+    traffic_direction: "Inbound (external → internal)"
+
+    access_control:
+      allowed:
+        - "Zone 1 (Perimeter)로만 접근 가능"
+        - "HTTPS 프로토콜만 허용"
+        - "공개 API Endpoint만 노출"
+      blocked:
+        - "Zone 2, 3, 4, 5 직접 접근 절대 차단"
+        - "비표준 포트 접근 차단"
+
+    required_control_categories:
+      - "DDoS Protection"
+      - "WAF (Web Application Firewall)"
+      - "NGFW (Next-Generation Firewall)"
+      - "Rate Limiting"
+      - "Bot Detection"
+      - "IP Reputation"
+
+    classification_criteria:
+      question_1: "이 접근의 출처를 우리가 통제할 수 있는가? → NO → Zone 0-A 가능성"
+      question_2: "이 접근이 계약 기반 신뢰 관계가 있는가? → NO → Zone 0-A"
+      question_3: "이 접근이 인증되었는가? → NO → Zone 0-A"
+      conclusion: "통제 불가 + 계약 없음 + 인증 없음 → Zone 0-A"
+
+  # ============================================================
+  # Zone 0-B: Trusted Partner (신뢰 파트너 영역)
+  # ============================================================
+  - id: "Z0B"
+    name_en: "Trusted Partner"
+    name_kr: "신뢰 파트너"
+    trust_level_percent: 10
+    trust_level_label: "Very Low"
+    attack_exposure: "N/A (외부 서비스)"
+    definition: "계약 기반으로 제한적 신뢰를 부여할 수 있는 외부 서비스 제공자 영역. API Key, OAuth 또는 SAML로 인증된 외부 SaaS/파트너 서비스."
+    v2_status: "신규 (Zone 0 세분화)"
+
+    characteristics:
+      - "계약 기반 신뢰 (SLA, DPA 계약)"
+      - "API Key/OAuth/SAML 인증 필수"
+      - "사용량 모니터링 필수"
+      - "보안 인증서 보유 (SOC 2, ISO 27001)"
+      - "제한적 신뢰 (10%)"
+
+    trust_principle: "신뢰하되 검증 (Trust but Verify)"
+
+    trust_conditions:
+      required:
+        - "명시적 서비스 계약 체결"
+        - "SLA 보장 (가용성, 성능, 보안)"
+        - "보안 인증서 (SOC 2, ISO 27001, PCI-DSS 중 1개 이상)"
+        - "GDPR, CCPA 준수"
+        - "API 인증 체계 (API Key, OAuth)"
+      recommended:
+        - "Bug Bounty Program 운영"
+        - "보안 사고 대응 계획 (Incident Response)"
+        - "정기 보안 감사 보고서 제공"
+        - "데이터 처리 계약 (DPA)"
+
+    vs_zone_0a:
+      zone_0a: "익명, 계약 없음, 완전 비신뢰 (0%)"
+      zone_0b: "계약 기반, SLA 보장, 제한적 신뢰 (10%)"
+
+    typical_component_categories:
+      - "LLM & AI API (추론, 임베딩)"
+      - "SaaS (CRM, 협업, 마케팅)"
+      - "Payment Gateway (결제)"
+      - "CDN (콘텐츠 전송)"
+      - "외부 인증 제공자 (SSO, Social Login)"
+      - "외부 모니터링 서비스"
+
+    traffic_direction: "Outbound (internal → external)"
+    typical_layers: ["L0"]
+
+    required_control_categories:
+      - "API Key Management"
+      - "Usage Monitoring"
+      - "Outbound Proxy"
+      - "Rate Limiting"
+      - "DLP (Data Loss Prevention)"
+
+    classification_decision_tree:
+      step_1: "이 서비스를 우리가 직접 운영하는가? YES → Zone 1-5, NO → 2단계"
+      step_2: "계약 관계가 있는가? NO → Zone 0-A, YES → 3단계"
+      step_3: "SLA 및 보안 인증서가 있는가? NO → Zone 0-A, YES → 4단계"
+      step_4: "API 인증 체계가 있는가? NO → Zone 0-A, YES → Zone 0-B"
+
+  # ============================================================
+  # Zone 1: Perimeter / Boundary (경계 영역)
+  # ============================================================
+  - id: "Z1"
+    name_en: "Perimeter / Boundary"
+    name_kr: "경계"
+    trust_level_percent: 20
+    trust_level_label: "Low"
+    attack_exposure: "Highest"
+    definition: "외부(Zone 0-A/0-B)와 내부 네트워크 간의 첫 번째 방어선. 외부에 직접 노출된 자체 관리 인프라."
+
+    characteristics:
+      - "1차 방어선 — 모든 외부 트래픽이 반드시 통과"
+      - "외부에 직접 노출된 자체 관리 인프라"
+      - "높은 공격 표면"
+      - "외부 트래픽 필터링 및 검증"
+      - "검증된 트래픽만 Zone 2로 전달"
+      - "신뢰 수준: 20% (낮은 신뢰)"
+
+    trust_principles:
+      - "Zero Trust: 모든 요청 검증"
+      - "Defense in Depth: 다층 방어"
+      - "Fail Secure: 오류 시 차단 (Allow 대신 Deny)"
+
+    typical_component_categories:
+      - "WAF (Web Application Firewall)"
+      - "Load Balancer"
+      - "Reverse Proxy"
+      - "CDN (Content Delivery Network)"
+      - "DDoS Protection"
+      - "Public DNS"
+      - "Internet Gateway"
+      - "Bastion Host"
+      - "NGFW (Next-Generation Firewall)"
+
+    traffic_direction: "Bidirectional (gateway)"
+    typical_layers: ["L2", "L7"]
+
+    required_control_categories:
+      - "DPI (Deep Packet Inspection)"
+      - "WAF Rules"
+      - "IPS Signatures"
+      - "DDoS Mitigation"
+      - "Rate Limiting"
+      - "Bot Management"
+
+    network_policy:
+      inbound:
+        allowed:
+          - "Zone 0-A/0-B → Zone 1: HTTPS"
+        blocked:
+          - "비표준 포트 접근"
+          - "알려진 악성 IP"
+      outbound:
+        allowed:
+          - "Zone 1 → Zone 2: HTTP/HTTPS (검증된 트래픽)"
+          - "Zone 1 → Zone 4: 로그/메트릭 전송"
+        blocked:
+          - "Zone 1 → Zone 3: 직접 접근 금지"
+          - "Zone 1 → Zone 5: 직접 접근 금지"
+
+    authentication_policy:
+      - "API Key/Token 검증"
+      - "Rate Limiting"
+      - "IP Allowlist/Blocklist"
+
+  # ============================================================
+  # Zone 2: Service / Application (서비스/애플리케이션 영역)
+  # ============================================================
+  - id: "Z2"
+    name_en: "Service / Application"
+    name_kr: "서비스"
+    trust_level_percent: 40
+    trust_level_label: "Medium"
+    attack_exposure: "Medium"
+    definition: "비즈니스 로직을 실행하고 API를 제공하는 애플리케이션 계층. 웹/모바일/백엔드 API, 마이크로서비스 존."
+
+    characteristics:
+      - "제한된 신뢰 — 애플리케이션 수준 인증 필수"
+      - "주요 비즈니스 로직 실행"
+      - "서비스 간 통신"
+      - "API 제공 (REST, GraphQL, gRPC)"
+      - "인증 및 인가"
+      - "외부 서비스 연동 (Zone 0-B)"
+      - "신뢰 수준: 40% (중간 신뢰)"
+
+    trust_principles:
+      - "인증 필수 (JWT, OAuth)"
+      - "입력 값 철저한 검증"
+      - "민감 데이터 암호화"
+      - "에러 메시지 최소화 (내부 정보 노출 금지)"
+
+    typical_component_categories:
+      - "API Server (Backend API)"
+      - "App Server (애플리케이션 서버)"
+      - "Message Queue"
+      - "Service Mesh"
+      - "Cache (In-Memory)"
+      - "Self-hosted LLM Inference"
+      - "RAG Pipeline"
+      - "API Gateway"
+
+    traffic_direction: "Internal"
+    typical_layers: ["L2", "L6", "L7"]
+
+    required_control_categories:
+      - "JWT/OAuth Token Validation"
+      - "API Rate Limiting"
+      - "Application-level Firewall"
+      - "Session Management"
+      - "Audit Logging"
+
+    network_policy:
+      inbound:
+        allowed:
+          - "Zone 1 → Zone 2: HTTP/HTTPS (검증된 트래픽)"
+        blocked:
+          - "Zone 0-A/0-B → Zone 2: 직접 접근 절대 금지"
+          - "Zone 5 → Zone 2: 직접 접근 금지 (Zone 1 경유 필수)"
+      outbound:
+        allowed:
+          - "Zone 2 → Zone 3: TLS (Database 쿼리)"
+          - "Zone 2 → Zone 0-B: HTTPS (외부 API 호출)"
+          - "Zone 2 → Zone 4: 로그/메트릭 전송"
+        blocked:
+          - "Zone 2 → Zone 0-A: 일반 인터넷 직접 접근 금지"
+
+    authentication_policy:
+      - "JWT Token 검증"
+      - "OAuth 2.0 / OIDC"
+      - "Service-to-Service 인증 (mTLS)"
+
+  # ============================================================
+  # Zone 3: Data / Storage (데이터 영역)
+  # ============================================================
+  - id: "Z3"
+    name_en: "Data / Storage"
+    name_kr: "데이터"
+    trust_level_percent: 60
+    trust_level_label: "High"
+    attack_exposure: "Low"
+    definition: "민감한 데이터의 저장 및 처리를 담당하는 고신뢰 영역. 정형 및 비정형 데이터 저장 및 처리 핵심."
+
+    characteristics:
+      - "민감한 데이터 거주지 — 암호화 필수"
+      - "외부 존으로부터 완전한 네트워크 격리"
+      - "최소 권한 접근 적용"
+      - "데이터 감사 (Audit Log) 필수"
+      - "신뢰 수준: 60% (높은 신뢰)"
+
+    trust_principles:
+      - "Defense in Depth (다층 방어)"
+      - "Encryption Everywhere (저장/전송 모두 암호화)"
+      - "Audit Everything (모든 접근 로깅)"
+      - "Backup Regularly (정기 백업)"
+
+    typical_component_categories:
+      - "Relational Database"
+      - "NoSQL Database (Document, Key-Value, Wide-Column, Graph)"
+      - "Vector Database"
+      - "Cache (In-Memory)"
+      - "Object Storage"
+      - "Data Warehouse"
+      - "Backup Storage"
+      - "ML Model Checkpoint Storage"
+
+    traffic_direction: "Internal only"
+    typical_layers: ["L1", "L3", "L5", "L6"]
+
+    required_control_categories:
+      - "Private Subnet Isolation"
+      - "TDE (Transparent Data Encryption)"
+      - "Database Firewall"
+      - "Least Privilege Access"
+      - "Query Audit Logging"
+
+    network_policy:
+      inbound:
+        allowed:
+          - "Zone 2 → Zone 3: TLS (인증된 연결만)"
+        blocked:
+          - "Zone 0-A/0-B → Zone 3: 외부 직접 접근 절대 금지"
+          - "Zone 1 → Zone 3: Perimeter에서 직접 접근 금지"
+          - "Zone 5 → Zone 3: Endpoint에서 직접 접근 금지"
+      outbound:
+        allowed:
+          - "Zone 3 → Zone 4: 로그/메트릭 전송"
+          - "Zone 3 → Zone 2: 쿼리 응답"
+        blocked:
+          - "Zone 3 → Zone 0-A/0-B: 외부 직접 통신 금지"
+
+    authentication_policy:
+      - "Database 계정별 권한 분리"
+      - "연결 암호화 (TLS/SSL)"
+      - "쿼리 로깅 및 감사"
+
+    data_classification:
+      public:
+        description: "공개 (상품 정보, 블로그 글)"
+        encryption: "선택적"
+      internal:
+        description: "내부 (주문 정보, 사용자 활동 로그)"
+        encryption: "Encryption at Rest"
+      confidential:
+        description: "기밀 (사용자 이메일, 전화번호)"
+        encryption: "Encryption at Rest + in Transit"
+      restricted:
+        description: "제한 (주민번호, 카드 번호)"
+        encryption: "컬럼 레벨 암호화"
+        access: "최소 권한 (관리자만)"
+
+  # ============================================================
+  # Zone 4: Management / Platform (관리 영역)
+  # ============================================================
+  - id: "Z4"
+    name_en: "Management / Platform"
+    name_kr: "관리"
+    trust_level_percent: 80
+    trust_level_label: "Very High"
+    attack_exposure: "Lowest"
+    definition: "시스템 전체의 통제, 모니터링, 보안 관리를 담당하는 최고 신뢰 영역. 인프라 관리, 운영, 배포 및 모니터링 존."
+
+    characteristics:
+      - "내부 관리 시스템 — VPN 필수"
+      - "최고 권한 운영"
+      - "침해 시 조직 전체에 피해 가능"
+      - "가장 엄격한 접근 통제"
+      - "다중 인증 (MFA) 필수"
+      - "모든 접근 로깅 및 감사"
+      - "신뢰 수준: 80% (매우 높은 신뢰)"
+
+    trust_principles:
+      - "Least Privilege (최소 권한)"
+      - "MFA Everywhere (모든 접근 MFA 필수)"
+      - "Audit Everything (모든 활동 로깅)"
+      - "Segregation of Duties (업무 분리)"
+
+    typical_component_categories:
+      - "SIEM (Security Information & Event Management)"
+      - "IAM (Identity & Access Management)"
+      - "Secrets Management"
+      - "Monitoring & Observability"
+      - "ITSM (IT Service Management)"
+      - "CI/CD Pipeline"
+      - "IaC (Infrastructure as Code)"
+      - "PAM (Privileged Access Management)"
+      - "MLOps Platform"
+
+    traffic_direction: "Internal with VPN"
+    typical_layers: ["L1", "L3", "L4", "Cross"]
+
+    required_control_categories:
+      - "VPN Mandatory (Zero Trust)"
+      - "MFA Enforced"
+      - "PAM (Privileged Access Management)"
+      - "Full Access Audit"
+      - "Network Segmentation"
+
+    network_policy:
+      inbound:
+        allowed:
+          - "Zone 1-3, 5 → Zone 4: 로그/메트릭 전송"
+          - "Zone 5 (관리자) → Zone 4: HTTPS (MFA 인증 후)"
+        blocked:
+          - "Zone 0-A → Zone 4: 외부 직접 접근 절대 금지"
+      outbound:
+        allowed:
+          - "Zone 4 → Zone 1-3, 5: 보안 정책 배포"
+          - "Zone 4 → Zone 0-B: 위협 인텔리전스, 업데이트 (극도로 제한적)"
+        blocked:
+          - "Zone 4 → Zone 0-A: 일반 인터넷 접근 금지"
+
+    access_control:
+      authentication:
+        - "MFA 필수 (TOTP, Hardware Key)"
+        - "Certificate-based (선택적)"
+        - "IP Allowlist"
+      roles:
+        security_admin: "SIEM, IAM, Secrets 관리"
+        monitoring_admin: "모니터링 대시보드 관리"
+        itsm_admin: "ITSM 관리"
+        general_user: "읽기 전용 (Dashboard)"
+      session:
+        timeout: "15분 (비활성 시)"
+        re_auth: "2시간마다"
+
+    alert_severity_levels:
+      critical:
+        response_time: "즉시 대응"
+        description: "보안 사고, 시스템 다운, 권한 변경"
+      high:
+        response_time: "30분 내 대응"
+        description: "이상 로그인, 리소스 임계값 초과, Backup 실패"
+      medium:
+        response_time: "1시간 내 검토"
+        description: "일반 에러 증가, 디스크 사용량 증가, 외부 API 지연"
+
+  # ============================================================
+  # Zone 5: Internal Endpoints (내부 엔드포인트 영역)
+  # ============================================================
+  - id: "Z5"
+    name_en: "Internal Endpoints"
+    name_kr: "내부 엔드포인트"
+    trust_level_percent: 50
+    trust_level_label: "Variable"
+    attack_exposure: "High"
+    definition: "최종 사용자 및 디바이스가 위치하는 가변 신뢰 영역. 조직이 관리하는 내부 사용자 엔드포인트 및 워크스테이션."
+    note: "Z5(50%)는 '내부'임에도 Z4(80%)와 Z3(60%)보다 낮은데, 이는 사용자 엔드포인트가 가장 일반적인 위협 진입점이기 때문. 신뢰는 근접성이 아닌 위험도에 기반."
+
+    characteristics:
+      - "내부 위협 발생지 — 피싱, 악성코드 감염 시작점"
+      - "가변적 신뢰 — 관리형 디바이스 vs BYOD"
+      - "인적 요소 = 가장 높은 예측 불가능성"
+      - "Zero Trust 접근 필수"
+      - "디바이스 관리 필요"
+      - "신뢰 수준: 50% (가변)"
+
+    trust_levels_by_user_type:
+      general_user: "40%"
+      authenticated_user: "60%"
+      admin: "70%"
+      iot_device: "30%"
+
+    zero_trust_principles:
+      - "Never Trust, Always Verify"
+      - "지속적 검증 (Continuous Verification)"
+      - "최소 권한 접근 (Least Privilege)"
+      - "디바이스 신뢰도 평가"
+
+    typical_component_categories:
+      - "Web Browser (데스크톱, 모바일)"
+      - "Mobile Application (네이티브, 크로스플랫폼)"
+      - "VPN Client"
+      - "IoT Devices"
+      - "Employee PCs/Laptops"
+      - "VDI (Virtual Desktop Infrastructure)"
+      - "Admin Workstations"
+      - "MDM (Mobile Device Management)"
+      - "EDR (Endpoint Detection & Response)"
+
+    traffic_direction: "Internal outbound"
+    typical_layers: ["L7"]
+
+    required_control_categories:
+      - "Zero Trust Access Control"
+      - "Device Compliance Verification"
+      - "EDR (Endpoint Detection & Response)"
+      - "MDM (Mobile Device Management)"
+      - "Conditional Access"
+
+    network_policy:
+      inbound:
+        allowed:
+          - "Zone 0-A (인터넷) → Zone 5: HTTPS (일반 사용자)"
+          - "Zone 1 → Zone 5: HTTPS (응답)"
+        blocked:
+          - "Zone 2, 3, 4 → Zone 5: 직접 접근 금지"
+      outbound:
+        allowed:
+          - "Zone 5 → Zone 0-A: HTTPS (일반 인터넷)"
+          - "Zone 5 → Zone 1: HTTPS (우리 서비스)"
+          - "Zone 5 (관리자, VPN) → Zone 4: MFA 인증 후"
+        blocked:
+          - "Zone 5 → Zone 2, 3: 직접 접근 절대 금지 (Zone 1 경유 필수)"
+
+    authentication_policy:
+      - "사용자 인증 (Username/Password, SSO)"
+      - "디바이스 인증 (Certificate)"
+      - "다중 인증 (MFA) 권장 (관리자 필수)"
+
+# ============================================================
+# 신뢰 순서 (Trust Order)
+# ============================================================
+trust_order: ["Z0A(0%)", "Z0B(10%)", "Z1(20%)", "Z2(40%)", "Z5(50%)", "Z3(60%)", "Z4(80%)"]
+trust_order_note: "Z5(50%)는 '내부'임에도 Z3(60%)보다 낮음. 사용자 엔드포인트가 가장 일반적인 위협 진입점이기 때문. 신뢰는 근접성이 아닌 위험도에 기반."
+
+# ============================================================
+# Zone 배치 규칙 (Assignment Rules)
+# ============================================================
+assignment_rules:
+  - rule: 1
+    text: "신뢰 수준이 존을 결정 — 물리적 위치가 아닌 위험도에 기반"
+  - rule: 2
+    text: "외부 비관리 = Z0A; 외부 파트너 = Z0B"
+  - rule: 3
+    text: "공개 대면 인프라 = Z1 (경계)"
+  - rule: 4
+    text: "애플리케이션/비즈니스 로직 = Z2 (서비스)"
+  - rule: 5
+    text: "데이터 저장/처리 = Z3 (데이터)"
+  - rule: 6
+    text: "관리/운영/모니터링 = Z4 (관리)"
+  - rule: 7
+    text: "사용자 엔드포인트 = Z5 (엔드포인트)"
+  - rule: 8
+    text: "동일 제품, 다른 노출 = 다른 존"
+
+# ============================================================
+# Zone 분류 기준 (Classification Decision Tree)
+# ============================================================
+classification_steps:
+  step_1_controllability:
+    question: "이 구성요소를 우리가 통제할 수 있는가?"
+    uncontrollable_external:
+      zone_0a: "통제 불가 + 계약 관계 없음 → Zone 0-A"
+      zone_0b: "통제 불가 + 계약 관계 존재 (SLA, 보안 인증서) → Zone 0-B"
+    controllable_internal: "통제 가능 (내부) → Zone 1-5"
+  step_2_external_trust_evaluation:
+    question: "외부 서비스가 신뢰할 수 있는가?"
+    zone_0b_conditions:
+      - "계약 관계 존재"
+      - "SLA 보장"
+      - "보안 인증서 보유"
+      - "GDPR/CCPA 준수"
+      - "API 인증 체계"
+    zone_0a_conditions: "위 조건 미충족, 익명 접근, 불특정 다수"
+  step_3_data_sensitivity:
+    question: "이 구성요소가 다루는 데이터의 민감도는?"
+    public: "→ Zone 1 (Perimeter)"
+    authenticated: "→ Zone 2 (Application)"
+    highly_sensitive: "→ Zone 3 (Data)"
+    management: "→ Zone 4 (Management)"
+    user_controlled: "→ Zone 5 (Endpoint)"
+  step_4_attack_exposure:
+    question: "이 구성요소가 외부에 노출되는가?"
+    fully_external: "→ Zone 0-A/0-B"
+    internet_facing: "→ Zone 1"
+    authenticated_only: "→ Zone 2"
+    internal_only: "→ Zone 3"
+    management_only: "→ Zone 4"
+
+# ============================================================
+# Zone별 배치 패턴 (Deployment Patterns)
+# ============================================================
+deployment_patterns:
+  very_common:
+    description: "해당 Zone에 거의 항상 배치되는 구성요소 유형"
+    Z0A: ["일반 인터넷 사용자", "공격자", "봇넷"]
+    Z0B: ["외부 SaaS", "LLM API", "Payment Gateway", "CDN"]
+    Z1: ["WAF", "Load Balancer"]
+    Z2: ["API Server", "App Server", "Message Queue"]
+    Z3: ["Relational DB", "NoSQL DB", "Object Storage"]
+    Z4: ["SIEM", "IAM", "Monitoring", "Secrets Management"]
+    Z5: ["브라우저", "모바일 앱"]
+  common:
+    description: "해당 Zone에 자주 배치되지만 선택적인 구성요소 유형"
+    Z0A: ["크롤러", "스캐너"]
+    Z0B: ["외부 인증 제공자", "Email Service"]
+    Z1: ["Reverse Proxy", "DDoS Protection"]
+    Z2: ["Service Mesh", "API Gateway", "Self-hosted LLM"]
+    Z3: ["Cache", "Data Warehouse", "Vector DB"]
+    Z4: ["ITSM", "Configuration Management"]
+    Z5: ["VPN Client", "IoT 디바이스"]
+  rare:
+    description: "특수한 경우에만 해당 Zone에 배치되는 구성요소 유형"
+    Z0A: "N/A (우리가 배치하지 않음)"
+    Z0B: "외부 Analytics"
+    Z1: "Message Queue (보통 Zone 2)"
+    Z2: "Database Replica (읽기 전용)"
+    Z3: "App Server (특수한 데이터 처리)"
+    Z4: "Backup Server (보통 Zone 3)"
+    Z5: "Edge Computing Device"
+
+# ============================================================
+# Zone 간 트래픽 매트릭스 (Traffic Matrix)
+# ============================================================
+traffic_matrix:
+  description: "존 간 허용되는 트래픽 흐름 — Zone 분류 체계의 핵심 규칙"
+  rules:
+    # Z0A →
+    - { from: "Z0A", to: "Z1",  allowed: true,  protocol: "HTTPS",          note: "WAF/NGFW를 통해서만 가능" }
+    - { from: "Z0A", to: "Z2",  allowed: false,                              note: "반드시 Z1을 통과해야 함" }
+    - { from: "Z0A", to: "Z3",  allowed: false,                              note: "외부에서 직접 Database 접근 금지" }
+    - { from: "Z0A", to: "Z4",  allowed: false,                              note: "외부에서 Management Zone 접근 절대 금지" }
+    - { from: "Z0A", to: "Z5",  allowed: false,                              note: "외부에서 내부 Endpoint 직접 접근 금지" }
+    # Z0B →
+    - { from: "Z0B", to: "Z1",  allowed: true,  protocol: "HTTPS",          note: "Webhook, CDN 등 인증된 접근" }
+    - { from: "Z0B", to: "Z2",  allowed: false,                              note: "Z1 경유 필수" }
+    - { from: "Z0B", to: "Z3",  allowed: false }
+    - { from: "Z0B", to: "Z4",  allowed: false }
+    - { from: "Z0B", to: "Z5",  allowed: false }
+    # Z1 →
+    - { from: "Z1",  to: "Z2",  allowed: true,  protocol: "HTTP/HTTPS",     note: "검증된 트래픽 전달" }
+    - { from: "Z1",  to: "Z3",  allowed: false,                              note: "Perimeter에서 직접 Data Zone 접근 금지" }
+    - { from: "Z1",  to: "Z5",  allowed: false }
+    # Z2 →
+    - { from: "Z2",  to: "Z3",  allowed: true,  protocol: "TLS",            note: "인증된 서비스 호출, Database 쿼리" }
+    - { from: "Z2",  to: "Z0B", allowed: true,  protocol: "HTTPS",          note: "외부 API 호출 (LLM, Payment 등)" }
+    - { from: "Z2",  to: "Z0A", allowed: false,                              note: "일반 인터넷으로 직접 접근 금지" }
+    - { from: "Z2",  to: "Z4",  allowed: true,  protocol: "Syslog/Metrics", note: "로그/메트릭 전송만 허용" }
+    - { from: "Z2",  to: "Z5",  allowed: false }
+    # Z3 →
+    - { from: "Z3",  to: "Z2",  allowed: true,  protocol: "TLS",            note: "쿼리 응답" }
+    - { from: "Z3",  to: "Z4",  allowed: true,  protocol: "Syslog/Metrics", note: "로그/메트릭 전송" }
+    - { from: "Z3",  to: "Z0A", allowed: false }
+    - { from: "Z3",  to: "Z0B", allowed: false }
+    - { from: "Z3",  to: "Z1",  allowed: false }
+    # Z4 →
+    - { from: "Z4",  to: "Z1-3,5", allowed: true, protocol: "정책 API",     note: "보안 정책 배포 (감사 로깅 적용)" }
+    - { from: "Z4",  to: "Z0B", allowed: true,  protocol: "HTTPS",          note: "위협 인텔리전스, 업데이트 (극도로 제한적)" }
+    - { from: "Z4",  to: "Z0A", allowed: false }
+    # Z5 →
+    - { from: "Z5",  to: "Z0A", allowed: true,  protocol: "HTTPS",          note: "일반 인터넷 접근" }
+    - { from: "Z5",  to: "Z1",  allowed: true,  protocol: "HTTPS/VPN",      note: "우리 서비스 접근 (WAF 경유)" }
+    - { from: "Z5",  to: "Z2",  allowed: false,                              note: "Z1 경유 필수" }
+    - { from: "Z5",  to: "Z3",  allowed: false }
+    - { from: "Z5",  to: "Z4",  allowed: true,  protocol: "VPN + MFA",      note: "관리자만 (VPN + MFA 필수)" }
+    # Logging (all → Z4)
+    - { from: "Z1-3,5", to: "Z4", allowed: true, protocol: "Syslog/Metrics", note: "로그/메트릭 전송" }
+
+# ============================================================
+# 정상적인 트래픽 흐름 패턴 (Traffic Flow Patterns)
+# ============================================================
+traffic_flows:
+  normal_request:
+    description: "정상적인 외부 사용자 요청 흐름"
+    flow: "사용자(Z0A) → Z1(필터링) → Z2(비즈니스 로직) → Z3(데이터) → 역순 응답"
+  internal_user_request:
+    description: "내부 사용자 요청 흐름"
+    flow: "내부 사용자(Z5) → Z1(인증) → Z2(비즈니스 로직) → Z3(데이터)"
+  ai_ml_workflow:
+    description: "AI/ML 워크로드 흐름"
+    flow: "사용자 → Z1 → Z2(API) → Z0B(LLM/Embedding) → Z3(Vector Search) → Z2(RAG) → 응답"
+  management_traffic:
+    description: "관리 트래픽 흐름"
+    flow: "관리자(Z5) → Z4(MFA+IAM) → 정책 배포(Z1-3,5) / 로그 수집(Z1-3,5→Z4)"
+
+# ============================================================
+# Zero Trust 원칙 (Zero Trust Principles)
+# ============================================================
+zero_trust:
+  principle_1:
+    name: "Never Trust, Always Verify"
+    application: "Zone 내부라도 모든 연결 검증, Service-to-Service 인증 필수"
+  principle_2:
+    name: "Least Privilege"
+    application: "Zone 간 통신은 필요한 최소한만 허용, 명시적 Allowlist"
+  principle_3:
+    name: "Micro-Segmentation"
+    application: "Zone 내부도 더 작은 세그먼트로 분리, 애플리케이션별 격리"
+  principle_4:
+    name: "Continuous Monitoring"
+    application: "모든 Zone의 트래픽 실시간 분석, 이상 징후 자동 탐지"
+
+# ============================================================
+# Zone별 모니터링 원칙 요약
+# ============================================================
+monitoring_principles:
+  Z0A: "수집 불가 — Zone 1에서 유입 트래픽 분석으로 대체"
+  Z0B: "API 호출, 응답 시간, 에러율, 비용 모니터링"
+  Z1: "모든 인바운드/아웃바운드 트래픽, 실시간 위협 탐지"
+  Z2: "API 호출, 에러, 비즈니스 로직 실행, 외부 API 호출"
+  Z3: "모든 데이터 접근, 쿼리, 변경 이력 — 감사 필수"
+  Z4: "모든 관리 활동, 정책 변경, 접근 시도 — 영구 보존"
+  Z5: "사용자 활동, 디바이스 접근, 이상 행동 탐지"
+
+# ============================================================
+# 확장 원칙 (Expansion Principles)
+# ============================================================
+expansion_principles:
+  immutable:
+    - "7-Zone 모델 (Z0A, Z0B, Z1-Z5) 구조"
+    - "각 Zone의 정의와 신뢰 수준"
+    - "Zone 간 트래픽 규칙 (traffic_matrix)"
+    - "분류 결정 트리 (classification_steps)"
+  expandable:
+    - "typical_component_categories: 새로운 기술 카테고리 추가 가능"
+    - "deployment_patterns: 새로운 배치 패턴 추가 가능"
+    - "classification_steps: 새로운 판단 기준 추가 가능"
+  note: >
+    구체적 제품, 도구, 공격/방어 기법은 이 taxonomy에 포함하지 않음.
+    해당 데이터는 04_db/atom_data/ 의 12-prefix atom 시스템으로 관리.
+    예: Cloudflare WAF → INFRA atom (Z1), SQL Injection → ATK atom,
+    OWASP Top 10 → COMP atom, Prometheus → TOOL atom (Z4).

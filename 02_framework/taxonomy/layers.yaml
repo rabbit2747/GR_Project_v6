@@ -1,0 +1,493 @@
+# GR 프레임워크 - 배포 레이어 분류 체계 v5.0
+# Dimension 1: Deployment Layer (배포 계층) - 수직적 기술 스택 좌표화
+# Layer는 수직 기술 스택을 나타내며, 하단의 물리적 인프라부터 상단의 비즈니스 애플리케이션까지 포함한다.
+# 이것은 OSI 네트워크 모델이 아니라 인프라 배포 스택이다.
+# L0-L7 + Cross-Layer에 대한 기계 판독 가능 정의
+#
+# 이 파일은 순수 분류 체계(Taxonomy)만 포함합니다.
+# 구체적 제품, 도구, 공격/방어 기법 등의 구현 참조 데이터는
+# 04_db/atom_data/ 의 개별 atom으로 관리됩니다.
+# (INFRA, ATK, DEF, TOOL, COMP, PROTO 등 12-prefix 체계)
+#
+# 최종 업데이트: 2026-02-09
+
+version: "5.0"
+dimension: "Layer"
+dimension_code: "DIM1"
+axis: "Vertical"
+purpose: "기술 스택의 수직적 계층 구조 분류 — 각 인프라 구성요소에 배포 계층 좌표를 부여"
+question: "기술 스택에서 어디에 위치하는가?"
+layer_count: 9  # Layer 0-7 + Cross-Layer
+
+# 프레임워크 핵심 가치
+core_values:
+  - name: "시스템 배포 위치 명확화"
+    description: "각 구성요소가 어느 계층에 배치되는지 정의하며, 외부 서비스부터 물리 인프라까지 전체 스택 커버 (Layer 0-7 + Cross)"
+  - name: "기술적 역할 구분"
+    description: "계층별 고유한 책임과 기능 정의, 계층 간 의존성 및 인터페이스 명확화, 외부 서비스 vs 내부 인프라 명확한 구분"
+  - name: "아키텍처 설계 가이드"
+    description: "수직적 구조를 통한 시각화, 계층 간 데이터 흐름 추적 용이, AI/ML 워크로드 아키텍처 지원"
+
+# 수직적 의존성 구조
+vertical_dependency:
+  description: "Layer 7이 최상단, Layer 1이 최하단이며 상위 계층이 하위 계층에 의존한다. Layer 0은 외부 서비스로 별도 의존성을 가진다."
+  order:
+    - "L7 (Application & AI) → L6 의존 (실행 환경 제공)"
+    - "L6 (Runtime) → L5 의존 (데이터 서비스 제공)"
+    - "L5 (Data) → L4 의존 (개발 플랫폼 제공)"
+    - "L4 (Platform) → L3 의존 (컴퓨팅 리소스 제공)"
+    - "L3 (Computing) → L2 의존 (네트워크 연결 제공)"
+    - "L2 (Network) → L1 의존 (물리적 자원 제공)"
+    - "L0 (External) → L1-L7 (별도 의존성, API 호출)"
+    - "Cross-Layer → L0-L7 모든 계층 관통 (모니터링, IAM, SIEM)"
+
+# 화살표 표기법 (다이어그램 기준)
+arrow_notation:
+  solid_arrow: "→ — 동기 통신, 직접 의존성"
+  dashed_arrow: "⇢ — 비동기 통신, 이벤트 기반"
+  bidirectional: "↔ — 상호 통신"
+  upward: "↑ — 상위 계층 의존"
+  downward: "↓ — 하위 계층 서비스 제공"
+  external: "⤴ — Layer 0 (외부 서비스) 호출"
+
+# 변경 빈도 요약
+change_frequency_summary:
+  high:
+    layers: ["L7"]
+    period: "주 단위"
+    reason: "비즈니스 요구사항, AI 모델 업데이트"
+  medium:
+    layers: ["L2", "L4", "L5", "L6", "Cross"]
+    period: "월 단위"
+    reason: "기술 업데이트, 보안 패치"
+  low:
+    layers: ["L0", "L1", "L3"]
+    period: "분기/연 단위"
+    reason: "외부 공급자 결정, 하드웨어 교체 주기"
+
+# 복잡도 요약
+complexity_summary:
+  high:
+    layers: ["L2", "L5", "L6", "L7", "Cross"]
+    reason: "다양한 기술 스택, AI/ML 통합, 보안 요구사항"
+  medium:
+    layers: ["L0", "L1", "L3", "L4"]
+    reason: "외부 의존, 표준화된 인프라, 자동화 도구"
+
+# 통제 수준 (v2.0 신규)
+control_level_summary:
+  limited:
+    layers: ["L0"]
+    description: "외부 공급자 통제, SLA 계약 기반 (통제 0-20%)"
+  full:
+    layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+    description: "우리가 직접 관리 및 운영 (통제 100%)"
+
+layers:
+  # ============================================================
+  # Layer 0: External Services (외부 서비스)
+  # v2.0에서 신설됨
+  # ============================================================
+  - id: "L0"
+    name_en: "External Services"
+    name_kr: "외부 서비스"
+    position: "우리 인프라 외부 (별도 영역)"
+    definition: "우리 조직이 직접 관리하거나 통제하지 못하는 외부 공급자가 제공하는 SaaS 및 API 서비스"
+    key_characteristic: "인프라에 대한 통제 불가; 신뢰는 계약 기반; 우리는 API 클라이언트로서 사용만 가능; 장애 발생 시 직접 복구 불가능"
+    core_question: "우리의 통제 범위 밖에 있는가?"
+    trust_direction: "Outbound trust"
+    default_zone: "Z0B"
+    change_frequency: "Low (외부 공급자 결정)"
+    complexity: "Medium"
+    control_level: "제한적 (0-20%)"
+    v2_new: true
+    security_implication: "내부 정책을 시행할 수 없음; API 보안, 계약 SLA, 아웃바운드 통제에 의존해야 함"
+
+    # Layer 0 신설 배경
+    rationale:
+      - "전통적 Layer 1-7은 '우리가 통제하는 인프라' 가정이었으나, SaaS 및 Public LLM 등 외부 서비스 증가 추세"
+      - "의존성 및 위험을 명확히 식별 필요"
+      - "데이터 유출, 서비스 중단 위험 인식, 백업 전략 및 대체 계획 수립 근거"
+      - "시스템 다이어그램에 외부 서비스를 명시하여 아키텍처 투명성 확보"
+      - "Dependency 추적 용이, 비용 및 벤더 락인 위험 가시화"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 7 → Layer 0 (API 호출)"
+      description: "Backend API (Layer 7)가 HTTP/REST를 통해 Layer 0 외부 서비스를 호출하고 응답을 수신"
+
+    # 대표 구성요소 카테고리 (카테고리명만, 제품 목록은 atom으로 관리)
+    typical_component_categories:
+      - "SaaS"
+      - "Public AI/ML API"
+      - "Payment Gateway"
+      - "CDN"
+      - "External API"
+
+  # ============================================================
+  # Layer 1: Physical Infrastructure (물리 인프라)
+  # ============================================================
+  - id: "L1"
+    name_en: "Physical Infrastructure"
+    name_kr: "물리 인프라"
+    position: "최하단 계층"
+    definition: "물리적 하드웨어, 케이블링, 전원 및 데이터센터 시설. 모든 IT 시스템의 물리적 기반을 제공하는 최하단 계층."
+    key_characteristic: "모든 컴퓨팅의 기반이 되는 유형의 물리적 자산. 물리적 하드웨어 및 시설, 데이터센터 인프라, 전원/냉각/네트워크 케이블링. 변경 빈도가 가장 낮음 (년 단위)."
+    core_question: "물리적으로 만질 수 있는가?"
+    trust_direction: "Foundation"
+    typical_zones: ["Z3", "Z4"]
+    change_frequency: "Low (분기/연 단위)"
+    complexity: "Medium"
+    control_level: "완전 (100%) — 온프레미스: 직접 소유 및 관리, 코로케이션: 공간 임대/장비 소유, 클라우드: 추상화됨 (AWS, Azure, GCP가 관리)"
+    security_implication: "물리적 접근 통제, 환경 모니터링, 하드웨어 무결성"
+    zone_note: "Layer 1은 물리적 위치이므로 전통적 Zone 분류 대상이 아님. 대신 Physical Security 적용."
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 1 → Layer 2, Layer 3 (물리적 기반 제공)"
+      description: "서버 하드웨어가 네트워크 장비와 연결되고, 하이퍼바이저를 통해 가상화 계층을 지원"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Data Center Facility"
+      - "Server Hardware"
+      - "Storage Hardware"
+      - "Network Equipment"
+      - "Power & Cooling"
+
+  # ============================================================
+  # Layer 2: Network Infrastructure (네트워크 인프라)
+  # ============================================================
+  - id: "L2"
+    name_en: "Network Infrastructure"
+    name_kr: "네트워크 인프라"
+    position: "하단 계층"
+    definition: "네트워크 연결, 라우팅, 스위칭 및 네트워크 수준 보안. 시스템 간 네트워크 통신과 보안 경계를 제공하는 계층."
+    key_characteristic: "모든 다른 레이어 간의 통신 경로를 제공. 네트워크 트래픽 라우팅 및 필터링, Zone 경계 제어 핵심 계층, 부하 분산 및 고가용성."
+    core_question: "트래픽을 라우팅/필터링하는가?"
+    trust_direction: "Perimeter"
+    typical_zones: ["Z1", "Z2"]
+    change_frequency: "Medium (월 단위)"
+    complexity: "High"
+    security_implication: "네트워크 세그멘테이션, 트래픽 필터링, DDoS 방어, 전송 중 암호화"
+    zone_note: "Layer 2는 Zone 간 경계 제어의 핵심 계층이다."
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "모든 Layer 간 통신 경로 제공"
+      description: "네트워크 장비가 Zone 간 트래픽을 라우팅하고 보안 정책을 적용하여 계층 간 통신을 제어"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Load Balancer"
+      - "Firewall"
+      - "Reverse Proxy"
+      - "VPN Gateway"
+      - "CDN (Self-hosted)"
+      - "DNS"
+      - "IDS/IPS"
+
+  # ============================================================
+  # Layer 3: Computing Infrastructure (컴퓨팅 인프라)
+  # ============================================================
+  - id: "L3"
+    name_en: "Computing Infrastructure"
+    name_kr: "컴퓨팅 인프라"
+    position: "중하단 계층"
+    definition: "컴퓨팅 리소스 프로비저닝 — 가상화, 클라우드 플랫폼, 컴퓨트 인스턴스. 애플리케이션 실행을 위한 컴퓨팅 리소스를 제공하는 계층."
+    key_characteristic: "상위 레이어에 컴퓨트 리소스를 제공하는 추상화 계층. 가상화된 컴퓨팅 리소스, Auto Scaling (자동 확장/축소), 클라우드/온프레미스 모두 지원."
+    core_question: "컴퓨트 리소스를 제공하는가?"
+    trust_direction: "Resource"
+    typical_zones: ["Z2", "Z3", "Z4"]
+    change_frequency: "Low (분기 단위)"
+    complexity: "Medium"
+    security_implication: "하이퍼바이저 보안, 인스턴스 격리, 리소스 쿼터, 이미지 무결성"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 3 → Layer 4-7 (컴퓨팅 리소스 제공)"
+      description: "클라우드 플랫폼 및 가상 머신이 상위 계층의 플랫폼, 데이터, 런타임, 애플리케이션에 컴퓨트 기반을 제공"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Cloud Platform (IaaS)"
+      - "Virtual Machine"
+      - "Hypervisor"
+      - "Bare Metal"
+      - "Auto Scaling"
+
+  # ============================================================
+  # Layer 4: Platform Services (플랫폼 서비스)
+  # ============================================================
+  - id: "L4"
+    name_en: "Platform Services"
+    name_kr: "플랫폼 서비스"
+    position: "중단 계층"
+    definition: "개발 플랫폼, CI/CD 파이프라인, 자동화 및 오케스트레이션 서비스. 소프트웨어 개발 및 배포를 위한 플랫폼과 도구를 제공하는 계층."
+    key_characteristic: "애플리케이션의 배포 및 수명 주기 관리를 가능하게 함. CI/CD (지속적 통합 및 배포), IaC (Infrastructure as Code), Version Control (소스 코드 관리), Container Registry, Artifact Management."
+    core_question: "배포/수명 주기를 관리하는가?"
+    trust_direction: "Operations"
+    typical_zones: ["Z4"]
+    change_frequency: "Medium (월 단위)"
+    complexity: "Medium"
+    security_implication: "파이프라인 보안, 시크릿 관리, 공급망 무결성, 접근 통제"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 4 → Layer 5-7 (배포 및 수명 주기 관리)"
+      description: "CI/CD 파이프라인과 IaC 도구가 상위 계층의 인프라 프로비저닝, 코드 빌드, 배포를 자동화"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "CI/CD Pipeline"
+      - "IaC Tools"
+      - "Version Control"
+      - "Container Registry"
+      - "ML Platform"
+
+  # ============================================================
+  # Layer 5: Data Services (데이터 서비스)
+  # ============================================================
+  - id: "L5"
+    name_en: "Data Services"
+    name_kr: "데이터 서비스"
+    position: "중단 계층"
+    definition: "데이터 저장, 처리 및 분석 시스템. 데이터 저장 및 처리를 담당하는 계층."
+    key_characteristic: "영구적 데이터를 관리 — 가장 가치 있고 민감한 자산. 관계형/비관계형 데이터베이스, 캐싱, 벡터 검색 (AI/ML 지원), Object Storage, 백업 및 복구."
+    core_question: "영구적 데이터를 저장/처리하는가?"
+    trust_direction: "Data gravity"
+    typical_zones: ["Z3"]
+    change_frequency: "Medium (월 단위)"
+    complexity: "High"
+    security_implication: "저장 데이터 암호화, 접근 통제, 감사 로깅, 백업 무결성, 데이터 분류"
+
+    # v2.0 업데이트 사항
+    v2_updates:
+      - "Vector Database 추가 (AI/ML 벡터 검색 지원)"
+      - "pgvector: PostgreSQL에서 벡터 검색 지원 → AI/ML 워크로드 통합"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 6-7 → Layer 5 (데이터 읽기/쓰기)"
+      description: "런타임 및 애플리케이션 계층이 데이터 서비스에 접근하여 영구 데이터를 저장하고 조회"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Relational DB"
+      - "NoSQL DB"
+      - "Cache"
+      - "Vector DB"
+      - "Object Storage"
+      - "Data Warehouse"
+      - "Search Engine"
+      - "Backup"
+
+  # ============================================================
+  # Layer 6: Application Runtime (애플리케이션 런타임)
+  # ============================================================
+  - id: "L6"
+    name_en: "Application Runtime"
+    name_kr: "애플리케이션 런타임"
+    position: "중상단 계층"
+    definition: "애플리케이션 실행 환경, 컨테이너, 오케스트레이션 및 미들웨어. 애플리케이션이 실행되는 환경을 제공하는 계층."
+    key_characteristic: "애플리케이션이 실행되는 런타임 환경을 제공. Container 실행, Orchestration (Kubernetes), Message Queue, Service Mesh."
+    core_question: "실행 중인 애플리케이션을 호스팅하는가?"
+    trust_direction: "Execution"
+    typical_zones: ["Z2", "Z3"]
+    change_frequency: "Medium (월 단위)"
+    complexity: "High"
+    security_implication: "컨테이너 보안, 오케스트레이션 정책, 런타임 보호, 서비스 간 인증"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Layer 7 → Layer 6 (실행 환경 의존)"
+      description: "애플리케이션이 컨테이너 런타임 및 오케스트레이션 플랫폼 위에서 실행되며, 메시지 큐와 서비스 메시를 통해 통신"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Container Runtime"
+      - "Container Orchestration"
+      - "Message Queue"
+      - "Service Mesh"
+      - "Application Server"
+
+  # ============================================================
+  # Layer 7: Business Logic & Application (비즈니스 로직 & 애플리케이션)
+  # v2.0에서 AI/ML 워크로드 추가
+  # ============================================================
+  - id: "L7"
+    name_en: "Business Logic & Application"
+    name_kr: "비즈니스 로직 & 애플리케이션"
+    alt_name_en: "Application & AI"
+    alt_name_kr: "애플리케이션 & AI"
+    position: "최상단 계층"
+    definition: "사용자 대면 애플리케이션, 비즈니스 로직, API 및 AI 워크로드. 사용자와 직접 상호작용하거나 AI/ML 추론을 수행하는 최상위 계층."
+    key_characteristic: "비즈니스 가치를 구현 — 다른 모든 레이어가 존재하는 이유. v2.0에서 AI/ML 워크로드 통합 (LLM 추론, Vector Search/RAG, AI Agent, Fine-tuning Pipeline)."
+    core_question: "비즈니스 로직을 구현하는가?"
+    trust_direction: "User-facing"
+    typical_zones: ["Z1", "Z2"]
+    change_frequency: "High (주 단위)"
+    complexity: "High"
+    v2_expanded: true
+    security_implication: "애플리케이션 수준 보안, 입력 유효성 검사, 인증/인가, 비즈니스 로직 보호"
+
+    # v2.0 변경사항
+    v2_changes:
+      previous: "전통적 애플리케이션만 포함 (Frontend, Backend API, Mobile)"
+      current: "AI/ML 워크로드 통합 — LLM 추론 엔진, Vector Search (RAG), AI Agent, Fine-tuning Pipeline"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "사용자 → Layer 7 (직접 상호작용), Layer 7 → Layer 0 (외부 API 호출)"
+      description: "사용자 대면 애플리케이션이 비즈니스 로직을 처리하고, 필요 시 외부 서비스(L0)를 호출하며, 하위 계층(L5, L6)의 서비스를 활용"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Frontend Framework"
+      - "Backend API Framework"
+      - "Mobile App"
+      - "Serverless"
+      - "LLM Inference"
+      - "RAG Pipeline"
+      - "AI Agent"
+      - "Model Serving"
+
+  # ============================================================
+  # Cross-Layer: Management & Security (관리 & 보안)
+  # ============================================================
+  - id: "Cross"
+    name_en: "Management & Security"
+    name_kr: "관리 & 보안"
+    position: "모든 계층 관통"
+    definition: "모든 레이어에 걸쳐 작동하는 시스템 — 모니터링, 보안 및 관리 인프라. Layer 1-7 모두 관통하는 횡단 관심사 (Horizontal Concerns)."
+    key_characteristic: "전체 스택에 걸쳐 운영됨; 여러 레이어에 대한 가시성 보유. 모니터링, IAM, SIEM, ITSM 등."
+    core_question: "여러 레이어에 걸쳐 작동하는가?"
+    trust_direction: "Oversight"
+    default_zone: "Z4"
+    change_frequency: "Medium (월 단위)"
+    complexity: "High"
+    security_implication: "최고 수준의 권한 필요; 침해 시 전체 스택에 영향"
+
+    # 통신 패턴
+    communication_pattern:
+      direction: "Cross-Layer ↔ L0-L7 (모든 계층 관통)"
+      description: "모니터링, IAM, SIEM 등이 모든 계층의 메트릭, 로그, 접근 제어를 통합 관리"
+
+    # 대표 구성요소 카테고리
+    typical_component_categories:
+      - "Monitoring/Metrics"
+      - "Logging"
+      - "APM/Tracing"
+      - "IAM"
+      - "Secrets Management"
+      - "SIEM"
+      - "ITSM"
+      - "PAM"
+      - "Testing"
+
+# ============================================================
+# Layer 할당 규칙
+# ============================================================
+assignment_rules:
+  - rule: 1
+    text: "주요 기능이 레이어를 결정: 기술 스택에서 구성요소의 핵심 목적을 파악"
+  - rule: 2
+    text: "배포 스택에서 어디에 위치하는가? Physical → Network → Compute → Platform → Data → Runtime → Application"
+  - rule: 3
+    text: "동일 제품, 다른 역할 = 다른 레이어 (예: 캐시로서의 Redis = L6, 영구 저장소로서의 Redis = L5)"
+  - rule: 4
+    text: "외부 서비스는 항상 L0: 우리가 통제하지 않는 모든 서비스는 L0에 배치"
+  - rule: 5
+    text: "관리/모니터링 도구 → 여러 레이어에 걸쳐 있으면 Cross-Layer 사용"
+  - rule: 6
+    text: "모호한 경우, 구성요소가 주요 가치를 제공하는 레이어를 선택"
+
+# ============================================================
+# Layer 선택 가이드 (의사결정 프로세스)
+# ============================================================
+layer_selection_guide:
+  - question: "우리가 직접 통제할 수 있는가?"
+    answer_no: "Layer 0 (External: SaaS, Public LLM, Payment Gateway)"
+    answer_yes: "다음 질문"
+  - question: "사용자와 직접 상호작용하거나 AI/ML 추론을 수행하는가?"
+    answer_yes: "Layer 7 (Frontend, Backend API, AI Agent, LLM Inference)"
+    answer_no: "다음 질문"
+  - question: "애플리케이션 실행 환경인가?"
+    answer_yes: "Layer 6 (Container, Message Queue, Service Mesh)"
+    answer_no: "다음 질문"
+  - question: "데이터를 저장/처리하는가?"
+    answer_yes: "Layer 5 (Database, Storage, Vector DB, Cache)"
+    answer_no: "다음 질문"
+  - question: "개발/배포 플랫폼인가?"
+    answer_yes: "Layer 4 (CI/CD, IaC, GitOps, MLflow)"
+    answer_no: "다음 질문"
+  - question: "컴퓨팅 리소스를 제공하는가?"
+    answer_yes: "Layer 3 (Cloud, VM, Auto Scaling)"
+    answer_no: "다음 질문"
+  - question: "네트워크 연결/보안을 담당하는가?"
+    answer_yes: "Layer 2 (Firewall, Load Balancer, VPN)"
+    answer_no: "다음 질문"
+  - question: "물리적 하드웨어인가?"
+    answer_yes: "Layer 1 (Data Center, Server Hardware)"
+    answer_no: "Cross-Layer (모니터링, IAM, SIEM 등)"
+
+# ============================================================
+# Layer 요약 표
+# ============================================================
+layer_summary_table:
+  - layer: "L0"
+    name: "External Services"
+    core_question: "우리의 통제 밖에 있는가?"
+    trust_direction: "아웃바운드 신뢰"
+  - layer: "L1"
+    name: "Physical"
+    core_question: "물리적으로 접촉할 수 있는가?"
+    trust_direction: "기반"
+  - layer: "L2"
+    name: "Network"
+    core_question: "트래픽을 라우팅/필터링하는가?"
+    trust_direction: "경계"
+  - layer: "L3"
+    name: "Computing"
+    core_question: "컴퓨팅 자원을 제공하는가?"
+    trust_direction: "자원"
+  - layer: "L4"
+    name: "Platform"
+    core_question: "배포/생명주기를 관리하는가?"
+    trust_direction: "운영"
+  - layer: "L5"
+    name: "Data"
+    core_question: "영구 데이터를 저장/처리하는가?"
+    trust_direction: "데이터 중력"
+  - layer: "L6"
+    name: "Runtime"
+    core_question: "실행 중인 애플리케이션을 호스팅하는가?"
+    trust_direction: "실행"
+  - layer: "L7"
+    name: "Application"
+    core_question: "비즈니스 로직을 구현하는가?"
+    trust_direction: "사용자 대면"
+  - layer: "Cross"
+    name: "Management & Security"
+    core_question: "여러 Layer에 걸쳐 있는가?"
+    trust_direction: "감독"
+
+# ============================================================
+# 확장 원칙 (Expansion Principles)
+# ============================================================
+expansion_principles:
+  immutable:
+    - "L0-L7 + Cross-Layer 구조 (9-Layer Model)"
+    - "각 Layer의 정의, 핵심 특성, 핵심 질문"
+    - "수직적 의존성 구조 (vertical_dependency)"
+    - "Layer 할당 규칙 (assignment_rules)"
+    - "Layer 선택 가이드 (layer_selection_guide)"
+  expandable:
+    - "typical_component_categories: 새로운 기술 카테고리 추가 가능"
+    - "communication_pattern: 새로운 통신 패턴 추가 가능"
+    - "layer_selection_guide: 새로운 판단 기준 추가 가능"
+  note: >
+    구체적 제품, 도구, 공격/방어 기법, 보안 구현 상세는 이 taxonomy에 포함하지 않음.
+    해당 데이터는 04_db/atom_data/ 의 12-prefix atom 시스템으로 관리.
+    예: Dell PowerEdge → INFRA atom (L1), Kubernetes → INFRA atom (L6),
+    OpenAI API → INFRA atom (L0), Prometheus → INFRA atom (Cross).
