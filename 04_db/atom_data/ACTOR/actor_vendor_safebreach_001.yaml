@@ -1,0 +1,70 @@
+# GR Atom: SafeBreach
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SAFEBREACH-001"
+  name: "SafeBreach"
+  normalized_name: "safebreach"
+  aliases:
+    - "SafeBreach Inc."
+    - "SafeBreach Labs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RED_TEAM
+    - BLUE_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SafeBreach is a breach and attack simulation (BAS) platform that continuously validates an organization's security controls by safely executing real attack scenarios across the kill chain. The platform simulates thousands of attack methods including network attacks, endpoint compromises, email-based threats, and data exfiltration scenarios to identify gaps in security coverage. SafeBreach Labs is the company's research division that publishes vulnerability research and novel attack technique discoveries."
+  why: "SafeBreach is significant in cybersecurity because breach and attack simulation addresses the fundamental gap between deploying security controls and validating their effectiveness against real-world attack techniques. Their platform enables organizations to continuously test their security posture without relying solely on periodic penetration tests. SafeBreach Labs has contributed notable vulnerability research including discoveries in Windows security mechanisms and enterprise software."
+  how: "SafeBreach deploys simulators across an organization's network that safely execute attack playbooks mimicking real threat actor TTPs without causing actual damage. The platform tests security controls at each stage of the kill chain, measures detection and prevention rates, identifies coverage gaps, and provides remediation guidance. Attack scenarios are continuously updated based on the latest threat intelligence. SafeBreach Labs conducts independent security research, discovering vulnerabilities and novel attack techniques that feed into the simulation platform."
+  core_concepts:
+    - key: "Breach and attack simulation"
+      value: "Continuous automated validation of security controls against real attack techniques"
+    - key: "Security control validation"
+      value: "Measuring detection and prevention effectiveness across the full kill chain"
+    - key: "SafeBreach Labs research"
+      value: "Vulnerability research and novel attack technique discovery"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-BAS-001"
+    description: "SafeBreach provides breach and attack simulation for security control validation"
+  - type: "enables"
+    target: "ARTIFACT-VULNRPT-001"
+    description: "SafeBreach Labs produces vulnerability research and attack technique discoveries"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "SafeBreach Official Website"
+    - "SafeBreach Labs Research Blog"
+    - "Gartner - Breach and Attack Simulation Market Guide"
+  search_keywords:
+    - "safebreach"
+    - "safebreach labs"
+    - "breach and attack simulation"
+    - "safebreach bas"
+    - "safebreach security validation"
+    - "attack simulation platform"
+    - "safebreach research"
+  embedding_text: "SafeBreach is a breach and attack simulation platform that continuously validates an organization's security controls by safely executing real attack scenarios across the entire kill chain. The platform deploys simulators across an organization's network that execute attack playbooks mimicking real threat actor tactics, techniques, and procedures without causing actual damage, testing security controls at each stage and measuring detection and prevention rates. SafeBreach identifies coverage gaps in security posture and provides remediation guidance, with attack scenarios continuously updated based on the latest threat intelligence. SafeBreach Labs is the company's research division that conducts independent security research, discovering vulnerabilities in Windows security mechanisms and enterprise software, and publishing novel attack techniques that feed into the simulation platform. The breach and attack simulation approach addresses the fundamental gap between deploying security controls and validating their effectiveness, enabling organizations to continuously test their security posture against real-world attack methods."

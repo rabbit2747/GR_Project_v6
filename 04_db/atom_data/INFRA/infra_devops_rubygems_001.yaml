@@ -1,0 +1,75 @@
+# GR Atom: RubyGems
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-RUBYGEMS-001"
+  name: "RubyGems"
+  normalized_name: "rubygems"
+  aliases:
+    - "RubyGems.org"
+    - "Ruby Package Manager"
+    - "Gem Repository"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SUPPLY_CHAIN
+    - LINUX
+    - CICD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "RubyGems is the package manager and hosting service for the Ruby programming language, providing a centralized repository (rubygems.org) for distributing Ruby libraries (gems). It manages gem versioning, dependency resolution, and installation through the gem CLI and Bundler dependency manager. RubyGems hosts over 170,000 gems used in Ruby on Rails applications, DevOps tools (Chef, Puppet, Vagrant), and security tools (Metasploit)."
+  why: "RubyGems is a significant supply chain attack vector because Ruby is widely used in web applications (Rails), infrastructure automation (Chef, Puppet), and security tools. Malicious gems can execute arbitrary code during installation through extension building and post-install hooks. RubyGems has experienced supply chain attacks including typosquatting, account takeovers, and gem hijacking. The widespread use of Ruby in DevOps and infrastructure tools means compromised gems can affect entire deployment pipelines and production environments."
+  how: "Developers declare gem dependencies in Gemfiles processed by Bundler. gem install downloads and installs gems from rubygems.org. Gems can execute native extension compilation during installation, providing code execution opportunities. RubyGems.org enforces MFA for privileged operations. Gem signing uses X.509 certificates but adoption is limited. Bundler lockfiles (Gemfile.lock) pin exact versions for reproducible installs. Private gem servers (Gemfury, Artifactory) host internal gems. gem push publishes new versions using API keys."
+  core_concepts:
+    - key: "Gem"
+      value: "Packaged Ruby library containing code, metadata, and optional native extensions distributed through RubyGems repositories"
+    - key: "Bundler"
+      value: "Dependency management tool that resolves and locks gem versions through Gemfiles and Gemfile.lock for reproducible environments"
+    - key: "Native Extensions"
+      value: "C/C++ code compiled during gem installation that provides a code execution vector during the dependency installation process"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-SOFTREPO-001"
+    description: "RubyGems is a specific software repository for the Ruby ecosystem"
+  - type: is_a
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "RubyGems is a software distribution mechanism for Ruby libraries"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-PYPI-001"
+    description: "RubyGems serves a similar package management role for Ruby as PyPI does for Python"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RubyGems Documentation - https://guides.rubygems.org/"
+    - "RubyGems Security - https://rubygems.org/pages/security"
+    - "MITRE ATT&CK T1195.001 - Supply Chain Compromise: Compromise Software Dependencies"
+  search_keywords:
+    - "RubyGems"
+    - "RubyGems.org"
+    - "Ruby package manager"
+    - "gem install security"
+    - "RubyGems supply chain"
+    - "Bundler security"
+    - "Ruby gem dependency"
+    - "gem typosquatting"
+  embedding_text: "RubyGems is the package manager and hosting service for Ruby, providing a centralized repository (rubygems.org) for distributing gems (Ruby libraries). It manages versioning, dependency resolution, and installation through gem CLI and Bundler. Security significance centers on supply chain attacks where malicious gems execute arbitrary code during installation through native extensions and post-install hooks. Ruby's use in Rails, Chef, Puppet, and Metasploit means compromised gems affect web applications, infrastructure automation, and security tools. RubyGems has experienced typosquatting and account takeover attacks. Bundler lockfiles pin versions for reproducibility."

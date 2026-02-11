@@ -1,0 +1,76 @@
+# GR Atom: Hardening Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDENING-001"
+  name: "Hardening Event"
+  normalized_name: "hardening_event"
+  aliases:
+    - "System Hardening Status Event"
+    - "Security Configuration Change"
+    - "Endpoint Hardening Compliance Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - AUDIT
+    - MONITOR
+    - BLUE_TEAM
+    - OS
+
+scope:
+  target_layers: ["L2", "L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Hardening Event is an endpoint detection pattern that captures changes to system security configuration settings that affect the overall security posture of an endpoint. This includes modifications to security policies, firewall rules, audit configurations, service hardening settings, kernel security parameters, user account control settings, password policies, and compliance benchmark configurations. The pattern monitors both intentional hardening activities performed by administrators and unauthorized weakening of security controls by adversaries or misconfiguration."
+  why: "System hardening is a foundational security control, and monitoring changes to hardening configurations is critical for detecting adversary attempts to weaken defenses. Attackers frequently disable security features such as Windows Defender, modify firewall rules to allow command-and-control traffic, weaken audit policies to reduce logging visibility, or change UAC settings to enable silent privilege escalation. Hardening event monitoring ensures that security baselines are maintained and that any degradation of security posture is immediately detected and investigated."
+  how: "Detection systems monitor hardening-related changes through multiple sources including Windows Group Policy change events, registry modifications to security-related keys, Linux sysctl parameter changes, firewall rule modifications, SELinux or AppArmor policy changes, and audit configuration updates. Endpoint agents compare current hardening state against CIS Benchmarks or organizational security baselines and generate alerts when deviations are detected. Detection rules flag disabling of security features, weakening of password policies, reduction of audit verbosity, addition of permissive firewall rules, and changes to kernel security parameters such as ASLR or DEP settings."
+  core_concepts:
+    - key: "Security Baseline"
+      value: "A defined set of security configuration settings that represents the minimum acceptable security posture for an endpoint, typically aligned with CIS Benchmarks or organizational standards"
+    - key: "Configuration Drift Detection"
+      value: "Continuous monitoring to identify when system configurations deviate from established security baselines, indicating either misconfiguration or adversary tampering"
+    - key: "Defense Weakening"
+      value: "Detection of changes that reduce the effectiveness of security controls, such as disabling antivirus, weakening firewall rules, or reducing audit logging"
+
+relations:
+  - type: effective_against
+    target: "ATK-EVASION-DISDEF-001"
+    description: "Detects attempts to disable or weaken security defenses through hardening configuration changes"
+  - type: requires
+    target: "DETECT-ENDPOINT-AUDPOLCHA-001"
+    description: "Audit policy monitoring provides a critical data source for detecting hardening-related changes"
+  - type: enables
+    target: "DETECT-ENDPOINT-ENDHEABEA-001"
+    description: "Hardening events contribute to overall endpoint health beacon assessments"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "CIS Benchmarks - https://www.cisecurity.org/cis-benchmarks"
+    - "NIST SP 800-123 - Guide to General Server Security"
+  search_keywords:
+    - "system hardening event"
+    - "security configuration change"
+    - "hardening compliance"
+    - "defense weakening detection"
+    - "security baseline drift"
+    - "CIS benchmark monitoring"
+    - "endpoint hardening"
+    - "security policy change"
+  embedding_text: "Hardening Event detection captures changes to endpoint security configuration settings including security policies, firewall rules, audit configurations, service hardening, kernel security parameters, and UAC settings. Monitored through Group Policy change events, registry modifications, sysctl parameter changes, and audit configuration updates, this pattern detects both legitimate administrative hardening and unauthorized defense weakening by adversaries. Detection compares current state against CIS Benchmarks or organizational baselines, flagging disabled security features, weakened password policies, reduced audit verbosity, permissive firewall rules, and changes to ASLR or DEP settings."

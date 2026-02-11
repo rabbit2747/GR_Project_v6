@@ -1,0 +1,100 @@
+# GR Atom: HTTP Status Code
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTSTACOD-001"
+  name: "HTTP Status Code"
+  normalized_name: "http_status_code"
+  aliases:
+    - "HTTP Response Code"
+    - "HTTP Status"
+    - "Response Status Code"
+    - "HTTP Error Code"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP status codes are three-digit integer codes returned in the first line of an HTTP response
+    to indicate the result of the server's attempt to process the client's request. Defined in
+    RFC 9110, status codes are grouped into five classes: 1xx (Informational), 2xx (Success),
+    3xx (Redirection), 4xx (Client Error), and 5xx (Server Error). Key codes include 200 OK,
+    301 Moved Permanently, 302 Found, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404
+    Not Found, 500 Internal Server Error, and 503 Service Unavailable. Custom and extension
+    status codes are registered through IANA.
+  why: >-
+    HTTP status codes have significant security implications. Verbose error responses (500 with
+    stack traces) disclose internal server details useful for attacker reconnaissance. Status
+    code analysis enables user enumeration (different codes for valid vs. invalid usernames),
+    directory enumeration (200 vs. 404), and technology fingerprinting. Improper use of 3xx
+    redirects creates open redirect vulnerabilities. Status code 403 vs. 404 inconsistencies
+    reveal resource existence. Rate limiting is communicated via 429 Too Many Requests. Security
+    monitoring correlates status code patterns with attack indicators.
+  how: >-
+    HTTP status codes are returned as the first element of the response status line (e.g.,
+    "HTTP/1.1 200 OK"). Applications implement status codes through web framework response
+    objects, web server configuration, and error handling middleware. Security best practices
+    include: returning consistent error responses (avoid information leakage), using generic
+    error pages for 4xx/5xx, implementing proper 401/403 distinction (authentication vs.
+    authorization), configuring custom error pages, and logging status code distributions for
+    anomaly detection. API implementations should follow RFC 7807 Problem Details for error
+    responses.
+  core_concepts:
+    - key: "Status Code Classes"
+      value: "Five classes defined by first digit: 1xx informational, 2xx success, 3xx redirection, 4xx client error, 5xx server error."
+    - key: "Information Leakage"
+      value: "Verbose error responses revealing internal details (stack traces, database names, file paths) through 4xx/5xx status codes aid attacker reconnaissance."
+    - key: "User Enumeration"
+      value: "Different status codes or response patterns for valid vs. invalid credentials enable attackers to identify valid usernames before password attacks."
+    - key: "Open Redirect"
+      value: "Improper use of 3xx redirect codes with user-controlled destination URLs enables phishing attacks via trusted domain redirection."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP status codes are a fundamental sub-component of the HTTP protocol response format"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPHEAD-002"
+    description: "Status codes are transmitted in the response status line alongside HTTP response headers"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 15: Status Codes"
+    - "IANA — HTTP Status Code Registry"
+    - "OWASP — Testing for Error Handling"
+    - "IETF RFC 7807 — Problem Details for HTTP APIs"
+  search_keywords:
+    - "HTTP status code"
+    - "HTTP response code"
+    - "200 OK"
+    - "404 not found"
+    - "500 internal server error"
+    - "401 unauthorized"
+    - "403 forbidden"
+    - "HTTP error code"
+    - "status code classes"
+  embedding_text: >-
+    HTTP status codes are three-digit response codes defined in RFC 9110 indicating request
+    processing results: 1xx informational, 2xx success, 3xx redirection, 4xx client error, 5xx
+    server error. Status codes have significant security implications — verbose 5xx errors leak
+    internal details, different codes enable user enumeration, and improper 3xx redirects create
+    open redirect vulnerabilities. Security best practices include consistent error responses,
+    generic error pages, proper 401/403 distinction, and status code pattern monitoring for
+    anomaly detection. APIs should use RFC 7807 Problem Details for structured error responses.

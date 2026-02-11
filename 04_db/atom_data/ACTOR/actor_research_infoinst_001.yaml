@@ -1,0 +1,73 @@
+# GR Atom: InfoSec Institute
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-INFOINST-001"
+  name: "InfoSec Institute"
+  normalized_name: "infosec_institute"
+  aliases:
+    - "Infosec"
+    - "Infosec Institute"
+    - "Infosec Learning"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - PENTEST
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "InfoSec Institute is a cybersecurity education and training organization that provides professional development through certification boot camps, online courses, skills assessments, and security awareness training. Founded in 2004, the organization offers training for major security certifications including CISSP, CEH, CompTIA Security+, and OSCP, alongside role-based training paths for security analysts, penetration testers, incident responders, and security engineers. InfoSec Institute also operates the Infosec IQ platform for enterprise security awareness programs and publishes educational articles through its resources section."
+  why: "InfoSec Institute plays an important role in addressing the cybersecurity skills shortage by providing structured training and certification preparation for security professionals at all career stages. Their enterprise security awareness platform helps organizations reduce human-factor security risks through phishing simulations and educational campaigns."
+  how: "InfoSec Institute delivers training through live online boot camps, self-paced courses, hands-on cyber ranges, and phishing simulation platforms. The organization maintains a library of courses aligned with certification objectives and role-based skill requirements, employing experienced instructors and subject matter experts. Their Infosec IQ platform provides organizations with security awareness training, phishing simulations, and compliance reporting."
+  core_concepts:
+    - key: "Certification Training"
+      value: "Boot camps and courses preparing professionals for CISSP, CEH, Security+, OSCP, and other certifications"
+    - key: "Security Awareness"
+      value: "Enterprise security awareness platform with phishing simulations and employee training"
+    - key: "Cybersecurity Education"
+      value: "Role-based training paths for security analysts, penetration testers, and incident responders"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-PENTACAD-001"
+    description: "Fellow cybersecurity training and education organization"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Trains professionals who attend and present at major security conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for training organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.infosecinstitute.com"
+  search_keywords:
+    - "infosec institute"
+    - "security training"
+    - "cybersecurity certification"
+    - "CISSP training"
+    - "CEH boot camp"
+    - "security awareness"
+    - "phishing simulation"
+    - "cybersecurity education"
+  embedding_text: "InfoSec Institute is a cybersecurity education and training organization founded in 2004 that provides professional development through certification boot camps, online courses, skills assessments, and security awareness training. The organization offers training for major certifications including CISSP, CEH, CompTIA Security+, and OSCP alongside role-based training paths for security analysts, penetration testers, incident responders, and security engineers. InfoSec Institute operates the Infosec IQ platform for enterprise security awareness programs featuring phishing simulations and compliance reporting. The organization addresses the cybersecurity skills shortage by providing structured training and certification preparation while helping organizations reduce human-factor security risks through educational campaigns."

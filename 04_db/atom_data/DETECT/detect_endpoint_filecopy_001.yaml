@@ -1,0 +1,89 @@
+# GR Atom: File Copy Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILECOPY-001"
+  name: "File Copy Event"
+  normalized_name: "file_copy_event"
+  aliases:
+    - "File Duplication Event"
+    - "File Copy Detection"
+    - "File Replication Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a file is duplicated or copied from one location to another on an endpoint. The file copy event captures the source file path, destination file path, the process performing the copy operation, user context, file size, and timestamps. File copy operations may be explicit (CopyFile API, cp command) or implicit through read-then-write sequences that EDR agents reconstruct as logical copy operations."
+  why: "File copy events are critical indicators for detecting data staging, lateral movement tool deployment, and persistence mechanism installation. Attackers copy sensitive data to staging directories before exfiltration, deploy tools and malware to remote systems during lateral movement, and copy persistence payloads to startup locations. Monitoring copy operations to removable media and network shares is especially important for data loss prevention."
+  how: "EDR mini-filter drivers intercept file system copy operations and emit structured events with source and destination paths. Monitor for copies involving sensitive directories, removable media, and network shares. Correlate copy events with process ancestry to identify automation tools and scripts performing bulk copy operations. Track volume-based thresholds to detect mass data staging activity."
+  core_concepts:
+    - key: "Data Staging"
+      value: "The attacker practice of collecting and copying sensitive files to a central location on the compromised system prior to exfiltration"
+    - key: "Lateral Movement Deployment"
+      value: "Copying attack tools and malware from a compromised system to newly accessed systems during lateral movement"
+    - key: "Copy-on-Write Tracking"
+      value: "File system mechanism and detection approach for tracking when files are duplicated, including reconstructing logical copies from constituent read-write operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File copy events are a specific type of file event"
+  - type: effective_against
+    target: "ATK-EXFIL-STAGING-001"
+    description: "Detects data staging through file copy operations prior to exfiltration"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILECREA-003"
+    description: "File copy operations generate file creation events at the destination"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1074.001"
+    tactic:
+      - "Collection"
+      - "Lateral Movement"
+    sub_techniques:
+      - "T1074.001"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1074.001 - Data Staged: Local Data Staging"
+    - "OCSF File Activity Event Schema"
+    - "Microsoft Documentation - File System Mini-Filter Drivers"
+  search_keywords:
+    - "file copy event"
+    - "file duplication"
+    - "data staging"
+    - "file replication"
+    - "copy operation"
+    - "lateral movement tool copy"
+    - "removable media copy"
+    - "bulk file copy"
+  embedding_text: "File Copy Event is an endpoint detection pattern for events generated when files are duplicated or copied from one location to another. The event captures source and destination paths, the copying process, user context, file size, and timestamps. File copy detection is critical for identifying data staging before exfiltration, lateral movement tool deployment, and persistence mechanism installation. EDR mini-filter drivers intercept copy operations and emit structured events. Monitoring focuses on copies involving sensitive directories, removable media, and network shares, with volume-based thresholds to detect mass data staging activity and correlation with process ancestry to identify automated bulk copy operations."

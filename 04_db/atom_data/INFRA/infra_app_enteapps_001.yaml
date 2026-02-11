@@ -1,0 +1,117 @@
+# GR Atom: Enterprise Apps
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-ENTEAPPS-001"
+  name: "Enterprise Apps"
+  normalized_name: "enterprise_apps"
+  aliases:
+    - "Enterprise Applications"
+    - "Business Applications"
+    - "Corporate Applications"
+    - "LOB Applications"
+    - "Line-of-Business Apps"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - API
+    - AUTHN
+    - AUTHZ
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Enterprise Applications is a broad category encompassing software systems deployed within
+    organizations to support business operations, including ERP systems, CRM platforms,
+    collaboration tools, human resources management, financial systems, and line-of-business
+    applications. These applications typically integrate with identity providers, databases,
+    and other enterprise infrastructure to deliver business functionality to authenticated
+    users across the organization.
+  why: >-
+    Enterprise applications represent high-value targets because they process sensitive business
+    data, manage financial transactions, and store employee and customer information. They
+    often have complex integration points with multiple systems creating a broad attack surface.
+    Common vulnerabilities include misconfigured access controls, insufficient input validation,
+    insecure API integrations, and outdated components. Compromised enterprise applications
+    provide attackers with access to critical business data, financial systems, and lateral
+    movement opportunities across the organization.
+  how: >-
+    Enterprise applications operate through multi-tier architectures with web frontends,
+    application servers, and backend databases. They authenticate users through enterprise
+    identity providers (Active Directory, SAML, OAuth/OIDC) and enforce role-based access
+    controls. Applications communicate through APIs, message queues, and database connections.
+    Modern enterprise apps may be deployed as cloud SaaS, on-premises, or hybrid configurations.
+    Attack vectors target authentication mechanisms, API endpoints, integration connectors,
+    and the underlying application server infrastructure.
+  core_concepts:
+    - key: "Business-Critical Application Infrastructure"
+      value: "Software systems processing sensitive business data including financial transactions, HR records, and customer information across organizational workflows"
+    - key: "Complex Integration Surface"
+      value: "Enterprise apps integrate with identity providers, databases, APIs, and other systems creating broad attack surfaces at integration boundaries"
+    - key: "Multi-Tier Architecture"
+      value: "Layered architecture with web frontends, application servers, and databases each presenting distinct security considerations and attack vectors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "Enterprise applications run on enterprise service infrastructure including application servers and middleware"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Enterprise applications typically authenticate through centralized identity providers for SSO and access control"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Application Security Verification Standard"
+    - "NIST SP 800-53 - Security Controls for Enterprise Systems"
+    - "MITRE ATT&CK - Enterprise Application Attack Techniques"
+  search_keywords:
+    - "enterprise applications"
+    - "business applications"
+    - "LOB applications"
+    - "enterprise app security"
+    - "business application vulnerability"
+    - "enterprise software"
+    - "corporate application"
+    - "line of business application"
+  embedding_text: >-
+    Enterprise Applications encompass business software systems including ERP, CRM,
+    collaboration tools, HR management, and line-of-business applications deployed within
+    organizations. They operate through multi-tier architectures integrating with identity
+    providers, databases, and APIs. Enterprise apps are high-value targets processing
+    sensitive business data, financial transactions, and personal information. Common attack
+    surfaces include authentication mechanisms, API integrations, access control
+    misconfigurations, and outdated components. Compromised enterprise applications enable
+    access to critical business data and lateral movement across organizational infrastructure.
+    Security teams should enforce strong authentication through enterprise identity providers,
+    implement role-based access controls, monitor API usage, and maintain patch currency
+    across all enterprise application deployments.

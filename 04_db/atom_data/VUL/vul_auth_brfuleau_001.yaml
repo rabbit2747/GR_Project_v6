@@ -1,0 +1,122 @@
+# GR Atom: Broken Function Level Authorization (BFLA)
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-BRFULEAU-001"
+  name: "Broken Function Level Authorization (BFLA)"
+  normalized_name: "broken_function_level_authorization_bfla"
+  aliases:
+    - "BFLA"
+    - "Missing Function Level Access Control"
+    - "OWASP API5"
+    - "Vertical Privilege Escalation"
+    - "Administrative Function Exposure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - API
+    - PRIV
+    - WEB
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "API endpoints"
+    - "Administrative interfaces"
+    - "REST API controllers"
+    - "GraphQL resolvers"
+    - "Middleware authorization layers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Broken Function Level Authorization (BFLA) is an API security vulnerability ranked OWASP
+    API Security Top 10 API5:2023 where applications fail to enforce proper authorization
+    checks at the function or endpoint level. This allows regular users to access administrative
+    endpoints or privileged functions by simply changing the HTTP method, URL path, or guessing
+    the endpoint structure. The vulnerability occurs when complex access control policies with
+    different hierarchies, groups, and roles are not properly implemented, creating a gap between
+    administrative and regular functions.
+  why: >-
+    BFLA enables vertical privilege escalation where low-privilege users can execute high-privilege
+    operations. Attackers can access administrative functions to manage users, modify system
+    configurations, access sensitive data, or disrupt services. The impact is severe because
+    administrative functions typically have unrestricted access to critical system operations
+    and data, making a single BFLA vulnerability equivalent to full administrative compromise.
+  how: >-
+    Exploitation involves identifying administrative or privileged API endpoints through
+    documentation review, predictable URL patterns, or API discovery tools, then sending
+    legitimate requests to those endpoints from a low-privilege account. Common techniques
+    include replacing standard API paths with admin variants, changing HTTP methods from GET
+    to PUT or DELETE, and accessing endpoints that rely solely on client-side enforcement.
+    Mitigation requires implementing consistent server-side authorization for every function,
+    denying all access by default, ensuring administrative controllers inherit from an
+    administrative abstract controller with authorization checks, and regularly testing
+    authorization on all endpoints.
+  core_concepts:
+    - key: "Vertical Escalation"
+      value: "Accessing higher-privilege functions such as administrative capabilities from a standard user context"
+    - key: "Endpoint Discovery"
+      value: "Identifying hidden or administrative API endpoints through predictable naming patterns, documentation leaks, or enumeration"
+    - key: "Server-Side Enforcement"
+      value: "Implementing authorization checks on the server for every function call rather than relying on client-side controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "BFLA is a type of authentication and authorization vulnerability involving function-level access control failure"
+  - type: "enables"
+    target: "VUL-AUTH-BROBLEAU-001"
+    description: "Broken function-level authorization frequently co-occurs with and enables broken object-level authorization"
+  - type: "instance_of"
+    target: "VUL-AUTH-BROBPRLEAU-001"
+    description: "BFLA and broken object property level authorization share the common pattern of insufficient authorization granularity"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1548"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP API Security Top 10 2023 - API5 Broken Function Level Authorization"
+    - "CWE-285 Improper Authorization"
+    - "CWE-269 Improper Privilege Management"
+    - "MITRE ATT&CK T1548 - Abuse Elevation Control Mechanism"
+  search_keywords:
+    - "broken function level authorization"
+    - "BFLA"
+    - "missing function level access control"
+    - "vertical privilege escalation"
+    - "API authorization bypass"
+    - "admin endpoint exposure"
+    - "OWASP API5"
+  embedding_text: >-
+    Broken Function Level Authorization (BFLA) is an API security vulnerability ranked OWASP
+    API Security API5:2023 where applications fail to enforce authorization checks at the
+    function level. Regular users can access administrative endpoints by changing URL paths,
+    HTTP methods, or guessing endpoint structures. Exploitation involves discovering privileged
+    API endpoints and sending requests from low-privilege accounts. This enables vertical
+    privilege escalation to administrative functions. Mitigation requires consistent server-side
+    authorization for every function, deny-by-default policies, administrative controller
+    inheritance patterns, and regular authorization testing. Impacts include unauthorized
+    administrative access, data manipulation, and system compromise.

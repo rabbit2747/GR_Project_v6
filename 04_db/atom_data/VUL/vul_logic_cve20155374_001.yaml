@@ -1,0 +1,98 @@
+# GR Atom: CVE-2015-5374
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20155374-001"
+  name: "CVE-2015-5374"
+  normalized_name: "cve_2015_5374"
+  aliases:
+    - "Siemens SIPROTEC Denial of Service"
+    - "SIPROTEC EN100 Ethernet Module DoS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - DOS
+    - NETWORK
+    - FIRMWARE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z4", "Z5"]
+  target_components:
+    - "Siemens SIPROTEC 4"
+    - "Siemens SIPROTEC Compact"
+    - "EN100 Ethernet module"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-5374 is a denial-of-service vulnerability in Siemens SIPROTEC 4 and SIPROTEC
+    Compact protective relay devices with the EN100 Ethernet module. Sending specially crafted
+    packets to port 50000/UDP causes the device to enter a denial-of-service state requiring a
+    manual restart. The firmware logic fails to properly validate or handle malformed network
+    packets, causing the protection relay to become unresponsive. CVSS v2 base score: 7.8 (High).
+  why: >-
+    SIPROTEC devices are protection relays used in electrical substations to monitor power
+    grid conditions and trip circuit breakers during fault conditions. A denial of service
+    against these devices removes protective functions from electrical infrastructure, potentially
+    allowing equipment damage or cascading power failures. This vulnerability was demonstrated
+    in the 2016 Ukraine power grid attack context.
+  how: >-
+    An attacker sends specially crafted UDP packets to port 50000 on the SIPROTEC EN100 Ethernet
+    module. The firmware packet processing logic fails to handle the malformed input, causing
+    the device to crash into an unresponsive state. Recovery requires physical manual restart
+    of the device, which in remote substation environments may take considerable time.
+  core_concepts:
+    - key: "ICS Firmware Logic Failure"
+      value: "Protection relay firmware crashes on malformed UDP packets, removing safety functions from electrical infrastructure"
+    - key: "Physical Safety Impact"
+      value: "Denial of service against protection relays removes fault detection capability, risking equipment damage and power grid instability"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Firmware packet processing logic failure causing denial of service in safety-critical ICS equipment"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0814"
+    tactic:
+      - "Inhibit Response Function"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2015-5374"
+    - "ICS-CERT Advisory ICSA-15-202-01"
+    - "Siemens ProductCERT Advisory SSA-732541"
+    - "NIST NVD - CVE-2015-5374"
+  search_keywords:
+    - "CVE-2015-5374"
+    - "SIPROTEC vulnerability"
+    - "Siemens protection relay"
+    - "EN100 Ethernet module"
+    - "ICS denial of service"
+    - "power grid vulnerability"
+    - "substation attack"
+  embedding_text: >-
+    CVE-2015-5374 is a denial-of-service vulnerability in Siemens SIPROTEC protection relays
+    with EN100 Ethernet modules. Malformed UDP packets to port 50000 crash the device, requiring
+    manual restart. SIPROTEC relays protect electrical substations by tripping circuit breakers
+    during faults. DoS removes safety functions risking equipment damage and power grid
+    instability. CVSS v2 7.8 High. Related to Ukraine power grid attack context. Firmware
+    packet processing logic failure. Siemens ICS equipment. Year 2015.

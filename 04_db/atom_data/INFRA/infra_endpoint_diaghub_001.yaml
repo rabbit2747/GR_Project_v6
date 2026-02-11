@@ -1,0 +1,113 @@
+# GR Atom: Diagnostics Hub
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-DIAGHUB-001"
+  name: "Diagnostics Hub"
+  normalized_name: "diagnostics_hub"
+  aliases:
+    - "Microsoft Diagnostics Hub"
+    - "Diagnostics Hub Standard Collector"
+    - "DiagnosticsHub.StandardCollector.Service"
+    - "VS Diagnostics Hub"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - MONITOR
+    - LOG
+    - PRIV
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Diagnostics Hub (DiagnosticsHub.StandardCollector.Service) is a Windows service that provides
+    a standardized framework for collecting diagnostic data including performance profiling, memory
+    diagnostics, CPU usage analysis, and event tracing. Originally integrated into Visual Studio
+    for application performance profiling, the Diagnostics Hub Standard Collector Service runs on
+    Windows as a system service that manages diagnostic data collection sessions, ETW (Event
+    Tracing for Windows) trace capture, and dump file generation.
+  why: >-
+    The Diagnostics Hub Standard Collector Service has been subject to multiple privilege escalation
+    vulnerabilities (CVE-2020-1257, CVE-2020-1278, CVE-2020-1293, CVE-2021-28313, CVE-2021-28321)
+    that allow local attackers to elevate from standard user to SYSTEM privileges. Because the
+    service runs as SYSTEM and handles file operations including creating and writing diagnostic
+    files, vulnerabilities in its file handling logic have been exploited for arbitrary file write
+    and DLL hijacking attacks. It is a known target for local privilege escalation in post-exploitation.
+  how: >-
+    The Diagnostics Hub operates as a Windows service (DiagnosticsHub.StandardCollector.Service)
+    running under the LOCAL SYSTEM account. It manages diagnostic sessions through COM interfaces,
+    collecting ETW traces, performance counters, and memory diagnostic data. Collection sessions
+    write diagnostic artifacts to configurable output directories. The service exposes APIs that
+    Visual Studio and other diagnostic tools use to initiate, manage, and terminate collection
+    sessions. Privilege escalation attacks exploit the service's file write operations by
+    manipulating symbolic links to redirect writes to privileged locations.
+  core_concepts:
+    - key: "ETW Trace Collection"
+      value: "Manages Event Tracing for Windows sessions for capturing detailed system and application diagnostic events"
+    - key: "Privilege Escalation Vector"
+      value: "Service runs as SYSTEM and performs file operations that have been exploited through symlink attacks for arbitrary file write escalation"
+    - key: "Diagnostic Session Management"
+      value: "COM-based API for creating, managing, and terminating diagnostic data collection sessions used by developer tools"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-ENDPOINT-DEVICENS-001"
+    description: "Diagnostics Hub is a diagnostic system component similar to Device Census in collecting system telemetry"
+  - type: "enables"
+    target: "DEF-DETECT-PRIVESC-001"
+    description: "Monitoring Diagnostics Hub service for anomalous file operations enables detection of privilege escalation attempts"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Security Response Center - CVE-2021-28321 Diagnostics Hub Elevation of Privilege"
+    - "Microsoft Documentation - Diagnostics Hub Standard Collector Service"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "Diagnostics Hub"
+    - "DiagnosticsHub.StandardCollector.Service"
+    - "Diagnostics Hub privilege escalation"
+    - "CVE-2021-28321"
+    - "CVE-2020-1257"
+    - "Windows diagnostic service"
+    - "ETW trace collection"
+    - "Visual Studio diagnostics"
+  embedding_text: >-
+    Diagnostics Hub (DiagnosticsHub.StandardCollector.Service) is a Windows service providing
+    a standardized framework for collecting diagnostic data including performance profiling,
+    memory diagnostics, CPU analysis, and ETW trace capture. Running under LOCAL SYSTEM, the
+    service manages diagnostic collection sessions through COM interfaces used by Visual Studio
+    and other tools. The Diagnostics Hub has been subject to multiple critical privilege
+    escalation vulnerabilities (CVE-2020-1257, CVE-2020-1278, CVE-2021-28313, CVE-2021-28321)
+    where attackers exploit the service's file write operations through symbolic link manipulation
+    to achieve arbitrary file write as SYSTEM. It is a known local privilege escalation target
+    in Windows post-exploitation. Security teams should monitor the service for anomalous file
+    operations and ensure timely patching of the collector service.

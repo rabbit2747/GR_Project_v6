@@ -1,0 +1,151 @@
+# GR Atom: Zero Trust Pillars
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-ZERTRUPIL-001"
+  name: "Zero Trust Pillars"
+  normalized_name: "zero_trust_pillars"
+  aliases:
+    - "ZT Pillars"
+    - "Zero Trust Foundation Pillars"
+    - "CISA Zero Trust Pillars"
+    - "Five Pillars of Zero Trust"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 3
+  atom_tags:
+    - ZTNA
+    - MFA
+    - ENCRYPT
+    - EDR
+    - NETWORK
+    - CLOUD
+    - MONITOR
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Zero Trust Pillars define the five foundational domains across which Zero Trust principles
+    must be systematically applied: Identity, Devices, Networks, Applications and Workloads, and
+    Data. As established by the CISA Zero Trust Maturity Model and aligned with NIST SP 800-207,
+    each pillar represents a distinct security domain requiring independent verification,
+    continuous monitoring, and least-privilege enforcement. Three cross-cutting capabilities —
+    Visibility and Analytics, Automation and Orchestration, and Governance — span all five
+    pillars. The pillars provide a structured framework for organizations to assess maturity,
+    plan implementation roadmaps, and ensure comprehensive coverage of Zero Trust controls
+    across the entire technology stack.
+  why: >-
+    Zero Trust cannot be achieved by securing only one domain. Attackers exploit the weakest
+    link, so all five pillars must be addressed to eliminate implicit trust across the
+    environment. The pillar framework prevents organizations from adopting a fragmented approach
+    by providing a holistic structure that ensures no domain is overlooked. Each pillar
+    represents a potential attack surface that, if left unaddressed, undermines the entire
+    Zero Trust posture regardless of investments in other areas.
+  how: >-
+    Organizations assess their current maturity level across each pillar using the CISA maturity
+    model (Traditional, Initial, Advanced, Optimal), identify gaps, and develop prioritized
+    implementation roadmaps. Each pillar requires specific technical controls: Identity demands
+    strong authentication and identity governance; Devices requires endpoint health verification
+    and compliance enforcement; Networks mandates micro-segmentation and encrypted communications;
+    Applications and Workloads needs secure development practices and runtime protection; Data
+    requires classification, encryption, and access control. The three cross-cutting capabilities
+    provide the supporting functions: Visibility and Analytics enables continuous monitoring,
+    Automation and Orchestration enables rapid response, and Governance ensures policy compliance
+    across all pillars.
+  core_concepts:
+    - key: "Identity Pillar"
+      value: "Verification of all users and non-person entities through strong authentication (MFA), identity governance, risk-based conditional access, and continuous identity validation throughout sessions."
+    - key: "Devices Pillar"
+      value: "Assessment and enforcement of device health, compliance posture, and security configuration before and during access to resources, including endpoint detection and response (EDR) integration."
+    - key: "Networks Pillar"
+      value: "Micro-segmentation, encrypted communications, software-defined perimeters, and network traffic inspection to eliminate implicit trust based on network location or connectivity."
+    - key: "Applications and Workloads Pillar"
+      value: "Secure application development, runtime protection, workload isolation, API security, and continuous vulnerability management for all applications and compute workloads."
+    - key: "Data Pillar"
+      value: "Data classification, encryption at rest and in transit, granular access controls, data loss prevention, and continuous monitoring of data access patterns and anomalies."
+    - key: "Cross-Cutting Capabilities"
+      value: "Visibility and Analytics, Automation and Orchestration, and Governance that span all five pillars and enable coordinated Zero Trust enforcement across the entire environment."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PRI-ZEROTRUS-001"
+    description: "Structural decomposition of Zero Trust into five foundational security domains plus three cross-cutting capabilities"
+  - type: "refines"
+    target: "PRI-ZERTRUPRI-001"
+    description: "Refines the abstract Never Trust Always Verify principle into five concrete implementation domains"
+  - type: "requires"
+    target: "PRI-ZERTRUPRI-001"
+    description: "Each pillar requires the core Zero Trust principle as its guiding tenet"
+  - type: "enables"
+    target: "PRI-ZETRDAAC-001"
+    description: "The Data pillar specifically enables Zero Trust Data Access implementation"
+  - type: "enables"
+    target: "PRI-DEFEDEPT-001"
+    description: "Multi-pillar coverage enables defense in depth across all technology domains"
+  - type: "enables"
+    target: "PRI-SECUDESI-001"
+    description: "Pillar-based approach enables Security by Design through structured domain coverage"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-ZTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-207 — Zero Trust Architecture (2020)"
+    - "CISA Zero Trust Maturity Model v2.0 (2023)"
+    - "DoD Zero Trust Reference Architecture v2.0 (2022)"
+    - "Executive Order 14028 — Improving the Nation's Cybersecurity (2021)"
+    - "OMB Memorandum M-22-09 — Moving the U.S. Government Toward Zero Trust Cybersecurity Principles"
+    - "Forrester Zero Trust eXtended (ZTX) Framework"
+  search_keywords:
+    - "zero trust pillars"
+    - "CISA zero trust maturity model"
+    - "identity pillar"
+    - "device pillar"
+    - "network pillar"
+    - "application workload pillar"
+    - "data pillar"
+    - "infrastructure pillar"
+    - "zero trust domains"
+    - "ZT maturity assessment"
+    - "zero trust implementation framework"
+    - "NIST 800-207 pillars"
+    - "zero trust architecture pillars"
+    - "cross-cutting capabilities"
+    - "zero trust roadmap"
+  embedding_text: >-
+    Zero Trust Pillars define the five foundational security domains that must be addressed
+    to achieve a comprehensive Zero Trust architecture: Identity, Devices, Networks, Applications
+    and Workloads, and Data. Established by the CISA Zero Trust Maturity Model and aligned with
+    NIST SP 800-207, each pillar represents an independent verification domain requiring its
+    own set of security controls, monitoring capabilities, and least-privilege enforcement
+    mechanisms. The Identity pillar focuses on strong authentication and identity governance.
+    The Devices pillar addresses endpoint health and compliance verification. The Networks
+    pillar mandates micro-segmentation and encrypted communications. The Applications and
+    Workloads pillar covers secure development and runtime protection. The Data pillar requires
+    classification, encryption, and granular access controls. Three cross-cutting capabilities —
+    Visibility and Analytics, Automation and Orchestration, and Governance — span all five
+    pillars. Organizations use this framework to assess maturity levels from Traditional through
+    Optimal, identify gaps, and build prioritized Zero Trust implementation roadmaps ensuring
+    no domain is left unprotected.

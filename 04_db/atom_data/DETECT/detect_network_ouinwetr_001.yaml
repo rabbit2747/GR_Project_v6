@@ -1,0 +1,93 @@
+# GR Atom: Outbound Internet Web Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINWETR-001"
+  name: "Outbound Internet Web Traffic"
+  normalized_name: "outbound_internet_web_traffic"
+  aliases:
+    - "Outbound HTTP/HTTPS Traffic"
+    - "Web Browsing Egress Detection"
+    - "Outgoing Web Traffic Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - MONITOR
+    - DLP
+    - C2
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring all outbound web traffic (HTTP and HTTPS) from internal hosts to internet destinations. This encompasses web browsing, API calls, web application communications, software updates, and any traffic using web protocols. The pattern analyzes outbound web activity for indicators of C2 over HTTP/HTTPS, data exfiltration through web uploads, connections to malicious or unauthorized websites, and policy violations including access to prohibited content categories."
+  why: "Web traffic is the most common and voluminous outbound protocol, making it the preferred channel for adversaries to hide C2 communications and data exfiltration. Monitoring outbound web traffic enables detection of malware callbacks, drive-by download infections, web-based C2 frameworks, data theft through cloud storage and paste sites, and employee access to malicious or unauthorized web resources. This is a critical detection layer for both threat detection and policy enforcement."
+  how: "Detection captures outbound HTTP/HTTPS traffic through web proxies, secure web gateways, and network sensors. Analysis includes URL categorization and reputation scoring, domain age and registration analysis, user-agent validation, request pattern behavioral analysis, content-type inspection, data volume upload monitoring, and connection timing analysis for beaconing patterns. Web proxy logs provide rich metadata for threat hunting and forensic investigation. Integration with threat intelligence enriches destination analysis with known malicious indicators."
+  core_concepts:
+    - key: "Web Proxy Visibility"
+      value: "Capturing all outbound web traffic through proxy infrastructure for comprehensive logging and analysis."
+    - key: "URL Reputation"
+      value: "Evaluating destination URLs against categorization databases and threat intelligence for risk assessment."
+    - key: "Web C2 Detection"
+      value: "Identifying command-and-control communications that use HTTP/HTTPS to blend with legitimate web browsing."
+    - key: "Policy Enforcement"
+      value: "Enforcing acceptable use policies by monitoring and controlling access to web content categories."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINNETR-001"
+    description: "Outbound web traffic is a specific type of outbound internet network traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-WEBNETTRA-001"
+    description: "Outbound web traffic is a component of overall web network traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-OUINENWETR-001"
+    description: "Web traffic monitoring enables specific encrypted web traffic analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.001"
+    tactic:
+      - "Command and Control"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Web Protocols T1071.001"
+    - "SANS Institute - Web Traffic Analysis for Threat Detection"
+    - "NIST SP 800-53 Rev 5 - SC-7 Boundary Protection"
+  search_keywords:
+    - "outbound web traffic"
+    - "HTTP egress"
+    - "web browsing monitoring"
+    - "outbound HTTP"
+    - "web proxy detection"
+    - "outgoing web traffic"
+    - "web C2 detection"
+    - "outbound web analysis"
+    - "web egress monitoring"
+    - "URL filtering"
+  embedding_text: "Outbound internet web traffic detection monitors all HTTP and HTTPS traffic from internal hosts to internet destinations. It analyzes outbound web activity through URL categorization, domain reputation scoring, user-agent validation, request pattern analysis, and upload volume monitoring to detect C2 communications, data exfiltration through web uploads, connections to malicious websites, and policy violations. Web proxy logs provide rich metadata for threat hunting. This is a critical detection layer as web traffic is the most common outbound protocol and the preferred channel for adversaries to hide malicious activity."

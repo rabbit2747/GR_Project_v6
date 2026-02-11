@@ -1,0 +1,72 @@
+# GR Atom: CyberScoop
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-CYBERSCOOP-001"
+  name: "CyberScoop"
+  normalized_name: "cyberscoop"
+  aliases:
+    - "CyberScoop Media"
+    - "Scoop News Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyberScoop is a cybersecurity news publication founded in 2015 as part of the Scoop News Group, focusing on cybersecurity policy, threat intelligence, government cyber operations, and the intersection of technology and national security. The publication covers nation-state threat actor campaigns, federal cybersecurity programs, intelligence community activities, critical infrastructure protection, and emerging cyber policy legislation. CyberScoop is widely read by government cybersecurity professionals, policy makers, and the defense and intelligence communities."
+  why: "CyberScoop fills a critical niche in cybersecurity journalism by focusing on the policy and government dimensions of cyber threats. Its coverage of federal cybersecurity initiatives, CISA directives, intelligence community assessments, and nation-state operations provides essential context for understanding the geopolitical aspects of the threat landscape."
+  how: "CyberScoop publishes daily news coverage, investigative reports, and analysis of cybersecurity policy developments. Journalists cultivate sources within government agencies, intelligence organizations, and the private sector to report on cyber operations, policy decisions, and emerging threats. The publication also hosts events and conferences connecting government and industry cybersecurity leaders."
+  core_concepts:
+    - key: "Cybersecurity Policy Journalism"
+      value: "Coverage of government cyber policy, legislation, and regulatory developments"
+    - key: "Nation-State Threat Reporting"
+      value: "Investigative coverage of state-sponsored cyber operations and intelligence activities"
+    - key: "Federal Cybersecurity Coverage"
+      value: "Reporting on CISA, NSA, FBI, and other federal agency cybersecurity programs and directives"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow cybersecurity news publication with policy and government focus"
+  - type: enables
+    target: "ACTOR-RESEARCH-CYBERWARCO-001"
+    description: "Covers nation-state cyber operations that are discussed at CyberWarCon"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://cyberscoop.com"
+    - "https://www.scoopnewsgroup.com"
+  search_keywords:
+    - "cyberscoop"
+    - "cybersecurity policy"
+    - "government cybersecurity"
+    - "nation-state threats"
+    - "CISA"
+    - "federal cyber"
+    - "intelligence community"
+    - "cyber policy news"
+  embedding_text: "CyberScoop is a cybersecurity news publication founded in 2015 as part of the Scoop News Group, focusing on cybersecurity policy, threat intelligence, government cyber operations, and the intersection of technology and national security. The publication covers nation-state threat actor campaigns, federal cybersecurity programs, intelligence community activities, critical infrastructure protection, and emerging cyber policy legislation. Widely read by government cybersecurity professionals, policy makers, and defense communities, CyberScoop fills a critical niche by providing coverage of CISA directives, intelligence community assessments, and the geopolitical aspects of the cyber threat landscape through daily news coverage, investigative reports, and policy analysis."

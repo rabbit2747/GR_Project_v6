@@ -1,0 +1,90 @@
+# GR Atom: Red October
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDOCTO-001"
+  name: "Red October"
+  normalized_name: "red_october"
+  aliases:
+    - "Operation Red October"
+    - "Rocra"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - EXFIL
+    - CRED
+    - WINDOWS
+    - MOBILE
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red October (Operation Red October) was a sophisticated cyber-espionage campaign discovered by Kaspersky Lab in January 2013, assessed to have been active since at least 2007. The operation targeted diplomatic embassies, government agencies, scientific research institutions, military organizations, nuclear and energy infrastructure, and oil and gas companies across Eastern Europe, Central Asia, and former Soviet republics. The campaign's origin remains debated, with indicators pointing to Russian-speaking operators using Chinese-origin exploit code."
+  why: "Red October was significant as one of the most extensive and sophisticated cyber-espionage operations discovered at the time, demonstrating the ability to harvest intelligence from a wide range of device types including computers, smartphones, and network equipment. The campaign's multi-year duration and broad targeting of diplomatic and government entities across dozens of countries highlighted the scale of state-sponsored cyber-espionage threats."
+  how: "Red October delivered weaponized Microsoft Office documents exploiting known vulnerabilities (CVE-2009-3129, CVE-2010-3333, CVE-2012-0158) via spear-phishing. The modular malware framework supported over 30 plugin modules for data collection from various sources including local files, email databases, smartphones, USB drives, and network equipment. The infrastructure used over 60 domain names across multiple countries. Data was exfiltrated through a complex proxy chain to command-and-control servers."
+  core_concepts:
+    - key: "Modular Collection Framework"
+      value: "Over 30 specialized plugin modules for harvesting data from computers, smartphones, network equipment, USB drives, and email databases"
+    - key: "Multi-Device Targeting"
+      value: "Capability to collect intelligence from Windows computers, Nokia and Windows Mobile smartphones, Cisco network equipment, and removable storage"
+    - key: "Diplomatic Intelligence Campaign"
+      value: "Seven-year espionage operation targeting embassies, government agencies, and research institutions across Eastern Europe and Central Asia"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Sophisticated cyber-espionage operation attributed to Russian-speaking operators"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Used spear-phishing with weaponized Office documents exploiting known CVEs for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "collection"
+      - "exfiltration"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - Operation Red October research report (2013)"
+    - "Kaspersky Lab - Red October detailed technical analysis"
+    - "MITRE ATT&CK - associated threat intelligence"
+  search_keywords:
+    - "red october"
+    - "operation red october"
+    - "rocra"
+    - "cyber espionage"
+    - "kaspersky"
+    - "diplomatic targeting"
+    - "embassy hacking"
+    - "modular malware"
+    - "eastern europe espionage"
+    - "russian speaking apt"
+    - "smartphone data collection"
+  embedding_text: "Red October, also known as Operation Red October or Rocra, was a sophisticated cyber-espionage campaign discovered by Kaspersky Lab in 2013 that had been active since at least 2007. The operation targeted diplomatic embassies, government agencies, scientific research institutions, and military organizations across Eastern Europe, Central Asia, and former Soviet republics. Red October used spear-phishing with weaponized Microsoft Office documents and deployed a modular malware framework with over 30 plugin modules capable of harvesting data from computers, smartphones, network equipment, and removable storage. The campaign's seven-year duration and broad multi-device intelligence collection demonstrated unprecedented scale in cyber-espionage operations."

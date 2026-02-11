@@ -1,0 +1,71 @@
+# GR Atom: OpenStack
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-OPENSTACK-001"
+  name: "OpenStack"
+  normalized_name: "openstack"
+  aliases: ["OpenStack Cloud", "OpenStack Platform", "Open Stack"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags: [CLOUD, LINUX, IAC, VMWARE]
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    OpenStack is an open-source cloud infrastructure platform for building and managing public
+    and private clouds. It consists of modular services including Nova (compute), Neutron
+    (networking), Cinder (block storage), Swift (object storage), Keystone (identity), Glance
+    (image service), and Heat (orchestration). OpenStack provides IaaS capabilities comparable
+    to public cloud providers but deployed on-premises or in colocation environments, giving
+    organizations full control over their cloud infrastructure.
+  why: >-
+    OpenStack deployments are targeted because they host critical workloads with full
+    administrative control available to the operator. Security concerns include Keystone
+    authentication bypass, Nova compute injection, Neutron network isolation failures,
+    misconfigured security groups, exposed management APIs, insecure inter-service
+    communication, and image tampering in Glance. The complexity of OpenStack deployments
+    (dozens of services, configuration files) makes misconfiguration a primary attack vector.
+  how: >-
+    Keystone provides centralized identity, authentication, and service catalog. Nova manages
+    VM lifecycle using libvirt/KVM, Xen, or VMware hypervisors. Neutron provides software-
+    defined networking with security groups, floating IPs, and network namespaces. Barbican
+    manages secrets and encryption keys. Oslo.policy defines RBAC across all services. TLS
+    encrypts inter-service communication. Security groups filter network traffic at the
+    hypervisor level. Audit middleware logs all API requests. Hardening guides (CIS, NIST)
+    provide security baselines for OpenStack deployments.
+  core_concepts:
+    - key: "Modular Service Architecture"
+      value: "Dozens of loosely coupled services with independent APIs, configuration, and security policies create a complex attack surface requiring comprehensive hardening"
+    - key: "Keystone Identity Service"
+      value: "Centralized authentication and authorization for all OpenStack services; Keystone compromise grants access to the entire cloud infrastructure"
+    - key: "Tenant Network Isolation"
+      value: "Neutron provides network isolation between tenants via VLANs, VXLAN, or GRE tunnels; isolation failures enable cross-tenant data access"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "OpenStack is a cloud infrastructure platform for private and public clouds"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "OpenStack provides private cloud IaaS as an alternative to public cloud providers"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["OpenStack Security Guide", "CIS OpenStack Benchmark", "NIST SP 800-144 - Cloud Computing Security"]
+  search_keywords: ["OpenStack", "openstack security", "Keystone", "Nova", "Neutron", "private cloud", "openstack hardening", "open source cloud"]
+  embedding_text: >-
+    OpenStack is an open-source cloud infrastructure platform with modular services including
+    Nova (compute), Neutron (networking), Keystone (identity), Cinder (storage), and Swift
+    (object storage). Deployed for private and public clouds with full operator control.
+    Security concerns include Keystone authentication bypass, Nova injection, Neutron isolation
+    failures, misconfigured security groups, exposed management APIs, and image tampering.
+    Configuration complexity makes misconfiguration a primary attack vector. Barbican manages
+    secrets. Oslo.policy defines RBAC. TLS encrypts inter-service communication.

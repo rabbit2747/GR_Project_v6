@@ -1,0 +1,74 @@
+# GR Atom: CVE-2022-34691
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202234691-001"
+  name: "CVE-2022-34691"
+  normalized_name: "cve_2022_34691"
+  aliases:
+    - "AD CS Privilege Escalation via Certificate Enrollment"
+    - "Active Directory Certificate Services EoP"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - CRED
+    - WINDOWS
+    - NETWORK
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Active Directory Certificate Services (AD CS)"
+    - "Microsoft Windows Server 2008 through 2022"
+    - "Active Directory Domain Services"
+
+definition:
+  what: "CVE-2022-34691 is a privilege escalation vulnerability in Active Directory Certificate Services that allows a low-privileged authenticated user to obtain certificates for higher-privileged accounts. The vulnerability exists in how AD CS processes certificate enrollment requests, enabling an attacker to manipulate certificate request attributes to obtain a certificate for a different account than the requesting principal. CVSS v3: 8.8 (High). Disclosed in July 2022."
+  why: "This vulnerability continues the pattern of AD CS abuse that emerged from the Certified Pre-Owned research by SpecterOps. Active Directory Certificate Services is a critical authentication infrastructure component in enterprise environments, and weaknesses in certificate issuance can bypass all other authentication controls. The vulnerability is related to the broader set of certificate mapping and enrollment issues addressed throughout 2022, including CVE-2022-26923 (Certifried) and CVE-2022-26931. It underscores the systemic nature of AD CS security weaknesses."
+  how: "The attacker, authenticated as a low-privileged domain user, submits a certificate enrollment request to AD CS with manipulated attributes. The certificate template and enrollment process fail to properly validate that the requesting principal matches the subject of the certificate being issued. By crafting specific certificate request attributes, the attacker obtains a certificate that can authenticate as a higher-privileged account, such as a domain administrator. The certificate is then used for PKINIT Kerberos authentication or LDAP/S authentication to access resources as the impersonated account. Microsoft addressed this in the July 2022 security update."
+  core_concepts:
+    - key: "Certificate Enrollment Attribute Manipulation"
+      value: "AD CS fails to properly validate certificate request attributes against the requesting principal, allowing low-privileged users to obtain certificates for higher-privileged accounts"
+    - key: "Systemic AD CS Weakness Pattern"
+      value: "Part of a broader pattern of Active Directory Certificate Services vulnerabilities discovered throughout 2022 that enable privilege escalation through certificate-based authentication abuse"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2022-34691 is an authentication privilege escalation vulnerability through AD CS certificate enrollment manipulation"
+  - type: enables
+    target: "VUL-AUTH-CVE202226923-001"
+    description: "CVE-2022-34691 shares the same AD CS privilege escalation pattern as Certifried through certificate enrollment abuse"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1649"
+    tactic: ["Privilege Escalation", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-34691 - NVD NIST"
+    - "Microsoft Security Advisory - AD CS Privilege Escalation"
+    - "SpecterOps - Certified Pre-Owned AD CS Abuse"
+    - "MITRE ATT&CK T1649 - Steal or Forge Authentication Certificates"
+  search_keywords:
+    - "CVE-2022-34691"
+    - "AD CS privilege escalation"
+    - "certificate enrollment vulnerability"
+    - "Active Directory Certificate Services EoP"
+    - "AD CS certificate abuse"
+    - "certificate-based privilege escalation"
+    - "Windows AD CS vulnerability 2022"
+  embedding_text: "CVE-2022-34691 is a privilege escalation vulnerability in Active Directory Certificate Services that allows low-privileged authenticated users to obtain certificates for higher-privileged accounts by manipulating certificate enrollment request attributes. CVSS v3 score is 8.8 High. Part of the broader pattern of AD CS abuse discovered throughout 2022 alongside CVE-2022-26923 Certifried and CVE-2022-26931. The certificate template and enrollment process fail to validate that the requesting principal matches the certificate subject. Obtained certificates enable PKINIT authentication as impersonated accounts. Affects all Windows Server versions with AD CS. Maps to MITRE ATT&CK T1649 Steal or Forge Authentication Certificates. Patched July 2022."

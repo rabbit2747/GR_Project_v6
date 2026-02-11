@@ -1,0 +1,132 @@
+# GR Atom: BlackByte
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BLACKBYTE-001"
+  name: "BlackByte"
+  normalized_name: "blackbyte"
+  aliases:
+    - "Black Byte"
+    - "BlackByte Ransomware Group"
+    - "Storm-0396"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PRIV
+    - EVADE
+    - PERSIST
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BlackByte is a ransomware-as-a-service (RaaS) group that emerged in July 2021 and is known for
+    exploiting software vulnerabilities for initial access rather than relying solely on phishing.
+    The group has iteratively developed its ransomware through multiple versions written in C#, Go,
+    and C/C++, demonstrating technical sophistication. BlackByte targets critical infrastructure
+    including government, financial services, food and agriculture, and manufacturing sectors. The
+    group employs a double-extortion model and is notable for its bring-your-own-vulnerable-driver
+    (BYOVD) technique to disable endpoint security products by exploiting legitimate but vulnerable
+    kernel drivers such as RTCore64.sys (MSI Afterburner) and other signed drivers.
+  why: >-
+    BlackByte was highlighted in a February 2022 joint CISA and FBI advisory (AA22-057A) for
+    targeting US critical infrastructure, including a notable attack against the San Francisco 49ers
+    NFL team. The group's sophisticated BYOVD technique (documented by Sophos as "Bring Your Own
+    Driver") to disable EDR and security products represents a significant escalation in ransomware
+    operator capabilities. BlackByte's continuous development of new ransomware variants across
+    multiple programming languages demonstrates adaptive technical capability. Their exploitation
+    of ProxyShell (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) and ProxyLogon vulnerabilities
+    for initial access differentiates them from phishing-dependent groups.
+  how: >-
+    BlackByte gains initial access primarily through exploitation of internet-facing vulnerabilities,
+    particularly Microsoft Exchange ProxyShell and ProxyLogon vulnerabilities, and more recently
+    through VMware ESXi vulnerabilities. Post-compromise, the group uses Cobalt Strike for command
+    and control, AnyDesk for remote access, and deploys the ExByte custom exfiltration tool to steal
+    data before encryption. The BYOVD technique leverages the RTCore64.sys driver (CVE-2019-16098)
+    to gain kernel-level access and disable security products including EDR agents. The ransomware
+    enumerates network shares, deletes volume shadow copies, disables Windows Firewall, and modifies
+    registry settings before encrypting files. Recent variants have targeted VMware ESXi hypervisors
+    to maximize impact across virtualized environments.
+  core_concepts:
+    - key: "BYOVD (Bring Your Own Vulnerable Driver)"
+      value: >-
+        BlackByte pioneered the widespread use of the BYOVD technique in ransomware operations,
+        loading legitimate but vulnerable signed kernel drivers to gain kernel-level access and
+        disable endpoint detection and response (EDR) security products.
+    - key: "Multi-Language Ransomware Evolution"
+      value: >-
+        The group has rewritten their ransomware across C#, Go, and C/C++ languages, demonstrating
+        continuous development effort and adaptability in their encryption tooling.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "BlackByte is a financially motivated ransomware-as-a-service cybercriminal group"
+  - type: "enables"
+    target: "ATK-EVADE"
+    description: "BlackByte BYOVD techniques enable evasion of endpoint security products"
+  - type: "applies_to"
+    target: "SECTOR-CRITICAL-INFRA"
+    description: "BlackByte targets US critical infrastructure sectors"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Defense Evasion"
+      - "Initial Access"
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Advisory AA22-057A - BlackByte Ransomware. https://www.cisa.gov/news-events/cybersecurity-advisories/aa22-057a"
+    - "Sophos - BlackByte Ransomware BYOVD Analysis. https://news.sophos.com/en-us/2023/10/04/blackbyte-ransomware-returns/"
+    - "Microsoft - Storm-0396 Threat Intelligence. https://www.microsoft.com/en-us/security/blog/threat-intelligence/"
+    - "Cisco Talos - BlackByte ExByte Exfiltration Tool. https://blog.talosintelligence.com/blackbyte-blends-tried-and-true/"
+  search_keywords:
+    - "blackbyte ransomware"
+    - "blackbyte BYOVD"
+    - "CISA AA22-057A"
+    - "storm-0396"
+    - "blackbyte RTCore64"
+    - "blackbyte proxyshell"
+    - "blackbyte exbyte"
+    - "blackbyte ESXi"
+    - "blackbyte bring your own driver"
+  embedding_text: >-
+    BlackByte is a ransomware-as-a-service group active since July 2021 known for exploiting
+    software vulnerabilities like ProxyShell and ProxyLogon for initial access and pioneering the
+    BYOVD (Bring Your Own Vulnerable Driver) technique to disable endpoint security products. The
+    group targets US critical infrastructure including government, financial services, and
+    manufacturing sectors. BlackByte has evolved its ransomware through multiple versions in C#, Go,
+    and C/C++. CISA and FBI issued joint advisory AA22-057A addressing the threat. Post-compromise
+    operations include Cobalt Strike deployment, AnyDesk for remote access, and the custom ExByte
+    exfiltration tool. The BYOVD technique leverages legitimate signed drivers like RTCore64.sys to
+    gain kernel access and neutralize EDR products. Recent operations have expanded to target VMware
+    ESXi hypervisors. The group operates a double-extortion model with a Tor-based leak site for
+    publishing stolen data.

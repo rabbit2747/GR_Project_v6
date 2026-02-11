@@ -1,0 +1,112 @@
+# GR Atom: HTTP Hypertext Transfer Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTHYPTRA-001"
+  name: "HTTP Hypertext Transfer Protocol"
+  normalized_name: "http_hypertext_transfer_protocol"
+  aliases:
+    - "HTTP"
+    - "HTTP/1.1"
+    - "Hypertext Transfer Protocol"
+    - "RFC 9110"
+    - "RFC 2616"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    The Hypertext Transfer Protocol (HTTP) is the foundational application layer protocol for
+    the World Wide Web, enabling communication between web clients (browsers, APIs) and servers.
+    Originally defined by Tim Berners-Lee in 1991 and standardized as HTTP/1.1 in RFC 2616
+    (1999, revised as RFC 9110-9112 in 2022), HTTP is a stateless, text-based request-response
+    protocol operating over TCP on port 80 (cleartext) or port 443 (HTTPS). HTTP defines methods
+    (GET, POST, PUT, DELETE, etc.), status codes (1xx-5xx), headers, and content negotiation
+    mechanisms. It serves as the transport for HTML documents, APIs (REST, GraphQL), file
+    downloads, streaming media, and virtually all modern web communication.
+  why: >-
+    HTTP is the most widely used application layer protocol on the internet and the primary attack
+    surface for web application security. The vast majority of cyber attacks target HTTP-based
+    services: injection attacks, cross-site scripting, CSRF, session hijacking, directory
+    traversal, and server-side request forgery all exploit HTTP mechanisms. HTTP's stateless
+    nature requires cookie-based session management, introducing authentication vulnerabilities.
+    Unencrypted HTTP traffic is susceptible to eavesdropping, man-in-the-middle attacks, and
+    credential theft. HTTP is also the dominant transport for C2 communications. Understanding
+    HTTP is fundamental to web security, network defense, and application penetration testing.
+  how: >-
+    HTTP operates as a request-response protocol: (1) Client establishes TCP connection to server
+    (port 80/443); (2) Client sends request with method, URI, headers, and optional body; (3)
+    Server processes the request and returns a response with status code, headers, and body; (4)
+    Connection may be kept alive for subsequent requests (HTTP/1.1 persistent connections) or
+    closed. HTTP/1.1 introduced persistent connections, chunked transfer encoding, host header
+    (virtual hosting), and content negotiation. Security is provided by layering TLS underneath
+    HTTP (HTTPS). Modern HTTP usage includes REST APIs with JSON payloads, WebSocket upgrade,
+    and server-sent events for real-time communication.
+  core_concepts:
+    - key: "Request-Response Model"
+      value: "Client sends an HTTP request (method + URI + headers + body) and server returns an HTTP response (status code + headers + body) in a synchronous exchange."
+    - key: "Statelessness"
+      value: "Each HTTP request is independent — the server does not retain session state between requests, requiring cookies or tokens for session management."
+    - key: "HTTP Status Codes"
+      value: "Three-digit response codes indicating request outcome: 1xx informational, 2xx success, 3xx redirection, 4xx client error, 5xx server error."
+    - key: "Persistent Connections"
+      value: "HTTP/1.1 default behavior keeping TCP connections open for multiple request-response exchanges, reducing connection establishment overhead."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "HTTP is the foundational application layer protocol for web communication"
+  - type: "is_a"
+    target: "PROTO-MSG-TRANSFER-001"
+    description: "HTTP is a transfer protocol specifically designed for hypertext and web resource exchange"
+  - type: "enables"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "HTTP provides the protocol semantics that HTTPS secures with TLS encryption"
+  - type: "enables"
+    target: "PROTO-MSG-WEBSOCKET-001"
+    description: "WebSocket connections are established via HTTP Upgrade handshake mechanism"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics"
+    - "IETF RFC 9112 — HTTP/1.1"
+    - "IETF RFC 9111 — HTTP Caching"
+    - "Berners-Lee, T. et al. — Hypertext Transfer Protocol -- HTTP/1.0 (RFC 1945)"
+    - "OWASP — Web Security Testing Guide"
+  search_keywords:
+    - "HTTP"
+    - "hypertext transfer protocol"
+    - "HTTP/1.1"
+    - "RFC 9110"
+    - "web protocol"
+    - "HTTP request response"
+    - "HTTP methods"
+    - "HTTP status codes"
+    - "port 80"
+    - "web application protocol"
+  embedding_text: >-
+    HTTP (Hypertext Transfer Protocol) is the foundational application layer protocol for the
+    World Wide Web, standardized in RFC 9110. HTTP is a stateless text-based request-response
+    protocol operating over TCP on port 80 (cleartext) or 443 (HTTPS). It defines methods (GET,
+    POST, PUT, DELETE), status codes (1xx-5xx), headers, and content negotiation. HTTP is the
+    primary attack surface for web security — injection, XSS, CSRF, session hijacking, and SSRF
+    all exploit HTTP mechanisms. Statelessness requires cookie-based session management. HTTP
+    serves as transport for HTML, REST APIs, streaming media, and is the dominant C2 transport.
+    Understanding HTTP is fundamental to web security, network defense, and penetration testing.

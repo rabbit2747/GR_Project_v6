@@ -1,0 +1,115 @@
+# GR Atom: Deserialization
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-DESERIALIZ-001"
+  name: "Deserialization Vulnerability"
+  normalized_name: "deserialization"
+  aliases:
+    - "Deserialization Vulnerability Class"
+    - "Object Deserialization Weakness"
+    - "Unmarshalling Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - DESER
+    - EXEC
+    - WEB
+    - API
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Java Serialization"
+    - ".NET Serialization"
+    - "PHP Serialization"
+    - "Python Pickle"
+    - "YAML/XML/JSON Parsers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Deserialization vulnerabilities are a class of security weaknesses that occur when applications
+    convert serialized data (byte streams, JSON, XML, YAML) back into objects without adequate
+    validation or filtering. This process can trigger arbitrary code execution, denial of service,
+    or other unintended operations when the serialized data contains malicious payloads that exploit
+    classes available in the application's classpath or runtime environment. The vulnerability
+    affects all programming languages and frameworks that support object serialization.
+  why: >-
+    Deserialization is fundamental to distributed computing, data persistence, and inter-process
+    communication. The vulnerability class is exceptionally dangerous because exploitation
+    typically leads directly to remote code execution without authentication. Deserialization
+    attacks have become one of the most prolific vulnerability categories, responsible for hundreds
+    of critical CVEs in Java application servers, .NET applications, and other platforms.
+  how: >-
+    Attackers craft serialized payloads that chain together existing classes (gadgets) in the target
+    application's classpath to achieve unintended actions during deserialization. In Java, this
+    involves constructing ObjectInputStream payloads using gadget chains from libraries like Apache
+    Commons Collections. In .NET, BinaryFormatter and related formatters are exploited. In PHP,
+    unserialize() with magic methods creates the attack surface. In Python, pickle.loads() allows
+    arbitrary code execution through __reduce__ methods.
+  core_concepts:
+    - name: "Gadget Chain"
+      value: "A sequence of existing classes chained together during deserialization to achieve unintended code execution"
+    - name: "Type Confusion"
+      value: "The deserialization process instantiates attacker-specified types that perform dangerous operations during construction"
+    - name: "Language-Agnostic Risk"
+      value: "Deserialization vulnerabilities exist across all major programming languages with object serialization capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Deserialization vulnerability class abstracts the specific insecure deserialization attack pattern"
+  - type: "abstracts"
+    target: "VUL-DESER-CVE20163720-001"
+    description: "Deserialization class abstracts specific instances like Jackson databind vulnerabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1059"
+      tactic: ["Execution", "Initial Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Insecure Deserialization (Top 10 2017 A08)"
+    - "MITRE CWE-502: Deserialization of Untrusted Data"
+    - "PortSwigger Web Security - Insecure Deserialization"
+  search_keywords:
+    - "deserialization vulnerability"
+    - "object deserialization attack"
+    - "gadget chain exploitation"
+    - "Java deserialization RCE"
+    - ".NET deserialization"
+    - "insecure unmarshalling"
+    - "serialization vulnerability"
+    - "CWE-502"
+  embedding_text: >-
+    Deserialization vulnerabilities are a class of security weaknesses occurring when applications
+    convert serialized data back into objects without adequate validation. Attackers craft
+    serialized payloads that chain together existing classes (gadgets) to achieve unintended code
+    execution during the deserialization process. This vulnerability class affects all programming
+    languages with object serialization: Java (ObjectInputStream), .NET (BinaryFormatter), PHP
+    (unserialize), Python (pickle), and data formats like JSON, XML, and YAML. Exploitation
+    typically leads to remote code execution without authentication. Deserialization attacks have
+    become one of the most prolific vulnerability categories, responsible for hundreds of critical
+    CVEs in Java application servers like WebLogic and WebSphere, .NET web applications, and
+    other platforms. Defenses include avoiding native serialization of untrusted data, implementing
+    type allowlists, using safe serialization formats, and deploying serialization filters.

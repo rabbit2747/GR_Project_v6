@@ -1,0 +1,70 @@
+# GR Atom: CVE-2020-7315
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20207315-001"
+  name: "CVE-2020-7315"
+  normalized_name: "cve_2020_7315"
+  aliases:
+    - "McAfee Agent DLL Injection"
+    - "McAfee Agent DLL Search Order Hijacking"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - EVADE
+    - WINDOWS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "McAfee Agent"
+    - "McAfee ePolicy Orchestrator Agent"
+
+definition:
+  what: "CVE-2020-7315 is a DLL search order hijacking vulnerability in McAfee Agent prior to version 5.6.6 that allows a local attacker with administrative privileges to execute arbitrary code with SYSTEM privileges by placing a malicious DLL in a directory searched by the McAfee Agent service before the legitimate DLL location."
+  why: "McAfee Agent is the management component deployed on endpoints to receive policies and updates from McAfee ePolicy Orchestrator (ePO). As a security product running with SYSTEM privileges, DLL hijacking in McAfee Agent allows attackers to execute code as SYSTEM while appearing as a legitimate security process, making detection extremely difficult. This can be used to disable security controls, exfiltrate data, or establish persistent backdoor access through the trusted security infrastructure."
+  how: "The vulnerability is exploited by placing a specially crafted DLL in a location that McAfee Agent searches before finding the legitimate DLL. When the McAfee Agent service starts or loads the affected DLL, it loads the attacker's malicious version instead. Since McAfee Agent runs as SYSTEM, the malicious DLL executes with SYSTEM privileges. The attacker needs local administrative access to place the DLL. McAfee addressed this in Agent version 5.6.6. CVSS v3: 6.7 (Medium)."
+  core_concepts:
+    - key: "DLL Search Order Hijacking"
+      value: "Attack technique where a malicious DLL is placed in a directory that Windows searches before the intended DLL location, causing the application to load the malicious version"
+    - key: "Security Product Subversion"
+      value: "Exploitation of security software's privileged execution context to execute attacker code while masquerading as a legitimate security process"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2020-7315 is a configuration vulnerability in McAfee Agent's DLL loading behavior"
+  - type: is_a
+    target: "VUL-CONFIG-HIJAPATH-001"
+    description: "CVE-2020-7315 is a specific instance of path hijacking through DLL search order manipulation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1574.001"
+    tactic: ["Privilege Escalation", "Persistence", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-7315 - NVD NIST"
+    - "McAfee Security Bulletin SB10326"
+    - "MITRE ATT&CK T1574.001 - Hijack Execution Flow: DLL Search Order Hijacking"
+  search_keywords:
+    - "CVE-2020-7315"
+    - "McAfee Agent DLL hijacking"
+    - "McAfee Agent privilege escalation"
+    - "McAfee ePO Agent vulnerability"
+    - "DLL search order hijacking"
+    - "security agent DLL injection"
+  embedding_text: "CVE-2020-7315 is a DLL search order hijacking vulnerability in McAfee Agent prior to version 5.6.6 that allows local attackers to execute arbitrary code with SYSTEM privileges by placing a malicious DLL in a directory searched before the legitimate location. McAfee Agent runs as SYSTEM, so the malicious DLL gains SYSTEM privileges while appearing as a legitimate security process. This enables attackers to disable security controls, exfiltrate data, or maintain persistent backdoor access through trusted security infrastructure. CVSS v3 score is 6.7 Medium. Remediation requires updating to McAfee Agent 5.6.6. Maps to MITRE ATT&CK T1574.001 DLL Search Order Hijacking."

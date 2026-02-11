@@ -1,0 +1,74 @@
+# GR Atom: Microsoft
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-MICROSOFT-001"
+  name: "Microsoft"
+  normalized_name: "microsoft"
+  aliases:
+    - "Microsoft Corporation"
+    - "MSFT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - CLOUD
+    - WINDOWS
+    - AZURE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Microsoft is the world's largest technology company and a dominant cybersecurity vendor through its Microsoft Security division. Security products include Microsoft Defender (endpoint, identity, cloud, Office 365), Microsoft Sentinel (cloud SIEM/SOAR), Entra ID (identity and access management), Intune (device management), and Azure security services. Microsoft is both the largest attack surface vendor (Windows, Office, Azure, Active Directory) and one of the largest security solution providers, processing over 65 trillion security signals daily."
+  why: "Microsoft is uniquely important in cybersecurity as both the primary target of cyber attacks due to Windows, Active Directory, and Office ubiquity, and simultaneously a major security solution provider. Most enterprise environments depend on Microsoft infrastructure, making their security posture critical. Microsoft's vulnerability disclosures through Patch Tuesday directly drive patch management priorities globally, and their threat intelligence informs industry-wide defense strategies."
+  how: "Microsoft provides security through integrated platform capabilities: Defender XDR for extended detection and response across endpoints, identity, email, and cloud workloads; Sentinel for cloud-native SIEM with AI-driven analytics; Entra ID for identity governance and conditional access; and Azure security services for cloud workload protection. Microsoft Threat Intelligence Center (MSTIC) tracks nation-state actors, publishes threat research, and coordinates vulnerability disclosure through MSRC."
+  core_concepts:
+    - key: "Security platform integration"
+      value: "Unified XDR across endpoints, identity, email, and cloud through Microsoft 365 Defender"
+    - key: "Largest attack surface"
+      value: "Windows, Active Directory, Office, and Azure as primary targets for cyber attacks"
+    - key: "Patch Tuesday"
+      value: "Monthly security update cycle driving global patch management priorities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-EDR-DEFENDER-001"
+    description: "Microsoft produces Defender XDR for endpoint, identity, and cloud protection"
+  - type: "enables"
+    target: "INFRA-CLOUD-AZURE-001"
+    description: "Microsoft provides Azure cloud infrastructure with integrated security services"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Security Official Website"
+    - "Microsoft Security Response Center (MSRC)"
+    - "Microsoft Threat Intelligence Blog"
+  search_keywords:
+    - "microsoft security"
+    - "microsoft defender"
+    - "microsoft sentinel"
+    - "azure security"
+    - "microsoft threat intelligence"
+    - "patch tuesday"
+    - "msrc"
+    - "entra id"
+    - "active directory security"
+  embedding_text: "Microsoft is the world's largest technology company and a dominant force in cybersecurity, serving as both the largest enterprise attack surface vendor and one of the most comprehensive security solution providers. Microsoft Security products include Defender XDR for extended detection and response across endpoints, identity, email, and cloud workloads; Sentinel for cloud-native SIEM and SOAR with AI-driven analytics; Entra ID for identity and access management; Intune for device management; and extensive Azure security services for cloud workload protection. The company processes over 65 trillion security signals daily through its global telemetry network. Microsoft's Windows operating system, Active Directory, Office 365, and Azure cloud platform constitute the primary attack surface for most enterprise environments, making their monthly Patch Tuesday security updates a critical driver of global patch management priorities. Microsoft Threat Intelligence Center tracks nation-state threat actors, publishes threat research, and coordinates vulnerability disclosure through the Microsoft Security Response Center, making the company a foundational entity in both the defensive and offensive cybersecurity landscape."

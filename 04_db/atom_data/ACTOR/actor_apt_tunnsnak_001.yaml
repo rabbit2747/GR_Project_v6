@@ -1,0 +1,86 @@
+# GR Atom: Tunnel Snake
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-TUNNSNAK-001"
+  name: "Tunnel Snake"
+  normalized_name: "tunnel_snake"
+  aliases:
+    - "TunnelSnake"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - PERSIST
+    - EVADE
+    - PRIV
+    - C2
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Tunnel Snake is a sophisticated threat actor identified by Kaspersky Lab in 2021, associated with the deployment of the Moriya rootkit. The group conducted espionage operations against diplomatic entities and organizations in Asia and Africa. Tunnel Snake is notable for using a Windows kernel-mode rootkit that intercepts network traffic at the driver level to establish covert command-and-control channels, representing one of the rare instances of kernel-level rootkit deployment in modern APT operations."
+  why: "Tunnel Snake demonstrates the continued relevance and danger of kernel-level rootkits in modern cyber-espionage. The Moriya rootkit's ability to establish covert C2 channels by intercepting network traffic at the kernel driver level makes it extremely difficult to detect with standard security tools. This technique represents a high-skill capability that can evade most endpoint detection and response solutions."
+  how: "Tunnel Snake deploys the Moriya rootkit, a passive Windows kernel-mode driver that hooks into the network stack to inspect incoming TCP packets. The rootkit identifies specially crafted magic packets from the attacker and creates a covert reverse shell channel, bypassing standard firewall rules and network monitoring. The rootkit is installed as a Windows driver and maintains persistence through the Windows service manager. The group also uses additional tools including China Chopper webshell, BOUNCER, and other lateral movement utilities within compromised networks."
+  core_concepts:
+    - key: "Moriya Kernel Rootkit"
+      value: "Windows kernel-mode rootkit that hooks the network stack to intercept TCP traffic and create covert C2 channels via magic packet identification"
+    - key: "Passive Network Interception"
+      value: "Covert communication method where the rootkit passively monitors incoming traffic for specially crafted packets, eliminating the need for outbound C2 connections"
+    - key: "Kernel-Level Evasion"
+      value: "Operating at the Windows kernel level to bypass endpoint detection, application-level security controls, and standard network monitoring"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Sophisticated APT group using kernel-level rootkits for covert espionage operations"
+  - type: enables
+    target: "ATK-EVADE-ROOTKIT-001"
+    description: "Deploys kernel-mode rootkits to evade endpoint detection and establish covert network communications"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1014"
+    tactic:
+      - "defense-evasion"
+      - "persistence"
+      - "privilege-escalation"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - TunnelSnake / Moriya rootkit analysis (2021)"
+    - "Kaspersky Lab - Operation TunnelSnake detailed report"
+  search_keywords:
+    - "tunnel snake"
+    - "tunnelsnake"
+    - "moriya rootkit"
+    - "kernel rootkit"
+    - "windows driver rootkit"
+    - "passive backdoor"
+    - "magic packet"
+    - "network interception"
+    - "covert c2"
+    - "kernel-mode malware"
+    - "diplomatic espionage"
+  embedding_text: "Tunnel Snake is a sophisticated threat actor identified by Kaspersky Lab in 2021, known for deploying the Moriya Windows kernel-mode rootkit against diplomatic entities in Asia and Africa. The Moriya rootkit hooks into the network stack at the driver level to intercept incoming TCP traffic, identifying specially crafted magic packets to establish covert reverse shell C2 channels that bypass firewalls and network monitoring. The rootkit's kernel-level operation evades most endpoint detection solutions. Tunnel Snake also deploys China Chopper webshells and lateral movement tools, representing one of the rare instances of kernel-level rootkit deployment in modern APT espionage operations."

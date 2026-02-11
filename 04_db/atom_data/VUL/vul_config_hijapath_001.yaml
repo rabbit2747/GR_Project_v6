@@ -1,0 +1,108 @@
+# GR Atom: Hijackable Paths
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-HIJAPATH-001"
+  name: "Hijackable Paths"
+  normalized_name: "hijackable_paths"
+  aliases:
+    - "Path Hijacking Vulnerability"
+    - "DLL Search Order Hijacking"
+    - "Unquoted Service Paths"
+    - "Binary Path Interception"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - PATH
+    - EXEC
+    - PERSIST
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Service Configurations"
+    - "Linux PATH Environment"
+    - "Application Binary Paths"
+    - "Shared Library Search Paths"
+
+definition:
+  what: >-
+    Hijackable Paths is a vulnerability class where system or application search path configurations
+    allow an attacker to place malicious executables, libraries, or scripts in locations that will be
+    loaded or executed instead of legitimate ones. This includes DLL search order hijacking on Windows,
+    unquoted service paths, PATH environment variable manipulation on Linux/macOS, LD_PRELOAD injection,
+    and Python/Node.js module search path poisoning. The attacker exploits the order in which the
+    operating system or runtime searches for executables and libraries.
+  why: >-
+    Path hijacking vulnerabilities are a persistent and widespread privilege escalation vector because
+    they exploit fundamental operating system behaviors that are difficult to change. These
+    vulnerabilities are particularly dangerous when they affect services running as SYSTEM/root,
+    scheduled tasks, or setuid binaries, as they enable privilege escalation from standard user to
+    administrative access. They are commonly found during penetration tests and are exploited by
+    both commodity malware and advanced persistent threats for privilege escalation and persistence.
+  how: >-
+    On Windows, DLL hijacking exploits the search order: application directory, system directories,
+    PATH directories. Unquoted service paths with spaces allow intermediate executables to be placed
+    (e.g., C:\Program.exe for "C:\Program Files\service.exe"). On Linux, PATH variable manipulation
+    places malicious binaries ahead of legitimate ones. LD_PRELOAD injection forces loading of
+    attacker-controlled shared libraries. Module search path poisoning affects Python (sys.path),
+    Node.js (NODE_PATH), and other runtimes. Mitigation includes quoting all service paths, using
+    absolute paths for binaries, restricting write access to PATH directories, implementing DLL
+    safe search mode, and auditing service configurations.
+  core_concepts:
+    - key: "Search Order Exploitation"
+      value: "Abusing the operating system or runtime's search order for executables and libraries to load malicious code instead of legitimate binaries"
+    - key: "Privilege Escalation via Service Paths"
+      value: "Exploiting misconfigured service paths that run with elevated privileges to execute attacker-controlled code as SYSTEM or root"
+    - key: "Persistence through Path Interception"
+      value: "Maintaining persistent access by placing malicious binaries in search paths that are loaded on every system boot or application start"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Hijackable Paths is a class of configuration vulnerability in system and application path handling"
+  - type: enables
+    target: "ATK-PRIV-HIJACK-001"
+    description: "Path hijacking enables privilege escalation by executing malicious code in the context of elevated services"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1574"
+    tactic: ["Persistence", "Privilege Escalation", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1574 - Hijack Execution Flow"
+    - "CWE-426 - Untrusted Search Path"
+    - "CWE-427 - Uncontrolled Search Path Element"
+    - "OWASP - Binary Planting"
+  search_keywords:
+    - "hijackable paths"
+    - "DLL hijacking"
+    - "unquoted service path"
+    - "PATH hijacking"
+    - "binary path interception"
+    - "DLL search order"
+    - "LD_PRELOAD injection"
+    - "module path poisoning"
+  embedding_text: >-
+    Hijackable Paths is a vulnerability class where system or application search path configurations
+    allow attackers to place malicious executables or libraries in locations that are loaded instead
+    of legitimate ones. Includes DLL search order hijacking, unquoted service paths on Windows, PATH
+    environment variable manipulation on Linux, LD_PRELOAD injection, and module search path poisoning
+    for Python and Node.js. Exploits fundamental OS search behaviors for privilege escalation when
+    affecting services running as SYSTEM or root. Common in penetration tests, exploited by commodity
+    malware and APTs. Mitigation includes quoting service paths, using absolute paths, restricting
+    directory permissions, and DLL safe search mode. Maps to MITRE ATT&CK T1574 Hijack Execution Flow.

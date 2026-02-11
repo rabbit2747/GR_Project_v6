@@ -1,0 +1,71 @@
+# GR Atom: Hardware Device Enabled Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVENA-001"
+  name: "Hardware Device Enabled Event"
+  normalized_name: "hardware_device_enabled_event"
+  aliases:
+    - "Device Enable Detection"
+    - "Hardware Component Activated"
+    - "Device Manager Enable Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Enabled Event is an endpoint detection pattern that captures when a previously disabled hardware device is re-enabled through the operating system, making it operational again. This includes re-enabling devices through Device Manager on Windows, writing to sysfs control files on Linux, or through system preferences on macOS. The event records the device identifier, device type, the user or process that initiated the enable operation, the driver loaded upon re-enabling, and the timestamp. Upon enabling, the appropriate driver is loaded and the device becomes available for use."
+  why: "Monitoring device enable events is important for detecting scenarios where adversaries re-enable previously disabled devices to regain capabilities. This includes re-enabling network adapters to establish covert communication channels after initial compromise, enabling webcams or microphones for surveillance, or enabling previously blocked USB ports for data exfiltration. Device enable events also serve as a recovery indicator when investigating device disable events, helping analysts understand the full lifecycle of device state manipulation."
+  how: "Detection systems capture device enable events through Windows SetupAPI and Device Installation event logs, WMI event subscriptions for device state changes, Linux kernel uevent notifications with ACTION=add for software rebinding, and macOS IOKit notifications for device activation. Detection rules flag enabling of devices that were disabled as part of a security policy, enabling of devices by non-administrative users, device enabling through command-line tools or scripts suggesting automation, enabling of network devices on air-gapped or restricted systems, and re-enabling of devices that were previously disabled in response to security alerts."
+  core_concepts:
+    - key: "Device Re-Activation"
+      value: "The process of restoring a software-disabled device to operational status by loading its driver and making it available to the system"
+    - key: "Security Policy Violation"
+      value: "Detection of device enable operations that violate organizational policies such as enabling USB storage on restricted workstations or network adapters on air-gapped systems"
+    - key: "State Transition Tracking"
+      value: "Monitoring the full lifecycle of device state changes from disabled to enabled to detect suspicious patterns of device manipulation"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device enabled events are a specific state change within the broader hardware device event category"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-HARDEVDIS-001"
+    description: "Device enabled events are the inverse of device disabled events, tracking the opposite state transition"
+  - type: requires
+    target: "DETECT-ENDPOINT-HARDEVBIN-001"
+    description: "Enabling a device requires driver binding to make the device operational"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Device Manager Operations - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/device-manager"
+    - "Linux Kernel Documentation - Sysfs Device Control"
+    - "NIST SP 800-53 - CM-7 Least Functionality"
+  search_keywords:
+    - "hardware device enabled"
+    - "device enable event"
+    - "device manager enable"
+    - "hardware activation"
+    - "device re-enable detection"
+    - "USB port enable"
+    - "device state change"
+    - "hardware policy violation"
+  embedding_text: "Hardware Device Enabled Event detection captures when previously disabled hardware devices are re-enabled through the operating system, restoring them to operational status. Monitored through Windows SetupAPI logs, WMI device state subscriptions, Linux kernel uevent notifications, and macOS IOKit activation events, this telemetry records device identifiers, initiating users/processes, loaded drivers, and timestamps. Detection flags enabling of security-policy-restricted devices, non-administrative enable operations, command-line device enabling, network device activation on air-gapped systems, and re-enabling of devices previously disabled in response to security alerts."

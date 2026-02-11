@@ -1,0 +1,114 @@
+# GR Atom: Configuration Database
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-CONFDATA-001"
+  name: "Configuration Database"
+  normalized_name: "configuration_database"
+  aliases:
+    - "Config DB"
+    - "Configuration Store"
+    - "Config Repository"
+    - "Settings Database"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - CONFIG
+    - AUDIT
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z4"
+  function: "D1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Configuration Database is a general-purpose data store that holds system, network, and
+    infrastructure configuration data including device settings, network parameters, service
+    configurations, and operational parameters. Unlike application-specific configuration
+    databases, a configuration database typically serves infrastructure-level configuration
+    for routers, switches, firewalls, servers, and other network devices. Examples include
+    RANCID databases, Oxidized backends, network device configuration repositories, and
+    infrastructure-as-code state backends such as Terraform state files stored in databases.
+  why: >-
+    Configuration databases provide a centralized and authoritative record of how infrastructure
+    components are configured. This centralization enables configuration auditing, change
+    tracking, compliance verification, disaster recovery, and drift detection. Without a
+    configuration database, organizations risk configuration sprawl where device and service
+    settings diverge from intended states, leading to security gaps, outages, and compliance
+    failures.
+  how: >-
+    Configuration databases collect and store configuration data through automated polling,
+    agent-based collection, API integration, or manual entry. Data is typically organized by
+    device, service, or component with versioning to track changes over time. Access is
+    restricted to authorized administrators through role-based access control. Configuration
+    data may be stored in relational databases, key-value stores, or version-controlled file
+    systems. Comparison and diff capabilities enable detection of unauthorized or unexpected
+    changes. Integration with change management workflows ensures configurations are modified
+    only through approved processes.
+  core_concepts:
+    - key: "Configuration Centralization"
+      value: >-
+        Aggregates configuration data from heterogeneous infrastructure components into a
+        single authoritative repository, providing a unified view of system state.
+    - key: "Change Tracking and Auditing"
+      value: >-
+        Records all configuration changes with timestamps, authorship, and change descriptions
+        to support compliance auditing, troubleshooting, and forensic investigation.
+    - key: "Configuration Drift Detection"
+      value: >-
+        Compares current device configurations against stored baselines to identify unauthorized
+        or unintended changes that may introduce security vulnerabilities or operational issues.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A configuration database is a specialized data store for infrastructure and system configuration data"
+  - type: "enables"
+    target: "INFRA-DATA-CONMANDAT-001"
+    description: "A configuration database enables a CMDB by providing the underlying storage for configuration items"
+  - type: "abstracts"
+    target: "INFRA-DATA-APPCONDAT-001"
+    description: "A configuration database is a broader abstraction that encompasses application-specific configuration databases"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-128 - Guide for Security-Focused Configuration Management of Information Systems."
+    - "CIS Controls v8 - Control 4: Secure Configuration of Enterprise Assets and Software."
+    - "ITIL Configuration Management documentation."
+  search_keywords:
+    - "configuration database"
+    - "config DB"
+    - "infrastructure configuration store"
+    - "device configuration repository"
+    - "configuration management"
+    - "configuration drift"
+    - "network config backup"
+  embedding_text: >-
+    A Configuration Database is a data store that holds system, network, and infrastructure
+    configuration data including device settings, network parameters, service configurations,
+    and operational parameters. It serves infrastructure-level configuration for routers,
+    switches, firewalls, servers, and other network devices. Configuration databases enable
+    centralized auditing, change tracking, compliance verification, disaster recovery, and
+    drift detection. They collect data through automated polling, agent-based collection, or
+    API integration, organizing it by device or service with versioning. Access is restricted
+    through role-based controls. Configuration drift detection compares current states against
+    baselines to identify unauthorized changes. Examples include RANCID, Oxidized backends,
+    and Terraform state storage. Configuration databases are critical for security compliance
+    frameworks like CIS Controls and NIST 800-128 which mandate configuration management.

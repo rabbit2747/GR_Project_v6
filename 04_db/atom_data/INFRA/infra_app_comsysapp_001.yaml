@@ -1,0 +1,116 @@
+# GR Atom: COMSysApp
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-COMSYSAPP-001"
+  name: "COMSysApp"
+  normalized_name: "comsysapp"
+  aliases:
+    - "COM+ System Application"
+    - "COMSysApp Service"
+    - "COM+ System Application Service"
+    - "DCOM System Application"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - OS
+    - PRIV
+    - LATERAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    COMSysApp (COM+ System Application) is a Windows system service that manages the
+    configuration and tracking of Component Object Model (COM+) based components. It handles
+    component activation, transaction management, event notification, and object pooling for
+    COM+ applications. The service runs as LOCAL SYSTEM and is responsible for managing the
+    COM+ catalog, which stores configuration data for COM+ applications and components
+    registered on the system.
+  why: >-
+    The COMSysApp service is a known target for privilege escalation and lateral movement
+    attacks. Running as LOCAL SYSTEM, it provides a high-privilege execution context that
+    attackers seek to exploit. DCOM (Distributed COM) and COM+ have been used for lateral
+    movement through techniques like DCOM-based remote execution. The service has been
+    targeted by malware for persistence through COM object hijacking and has been involved
+    in privilege escalation through COM+ component manipulation. Attackers may abuse COM+
+    catalog modifications to inject malicious components.
+  how: >-
+    COMSysApp operates as a Windows service managing the COM+ runtime environment. It maintains
+    the COM+ catalog database containing component registration, security roles, and transaction
+    configuration. When COM+ applications are activated, COMSysApp creates surrogate processes
+    (dllhost.exe) to host the components. The service coordinates distributed transactions
+    through the Microsoft Distributed Transaction Coordinator (MSDTC) and manages object
+    lifetime through pooling and just-in-time activation. Attack vectors exploit DCOM remote
+    activation for lateral movement, COM object hijacking for persistence, and catalog
+    manipulation for privilege escalation.
+  core_concepts:
+    - key: "COM+ Runtime Management"
+      value: "System service managing component activation, transactions, object pooling, and event notification for COM+ applications on Windows"
+    - key: "DCOM Lateral Movement"
+      value: "Distributed COM functionality enables remote component activation that attackers exploit for lateral movement across Windows networks"
+    - key: "COM Object Hijacking"
+      value: "COM+ catalog and registry entries can be manipulated to redirect component loading for persistence and privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-DLLHOST-001"
+    description: "COMSysApp creates dllhost.exe surrogate processes to host COM+ application components"
+  - type: "is_a"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "COMSysApp is a core Windows enterprise system service managing distributed component infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.003"
+    tactic:
+      - "Lateral Movement"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - COM+ System Application Service"
+    - "MITRE ATT&CK T1021.003 - Distributed Component Object Model"
+    - "MITRE ATT&CK T1546.015 - Component Object Model Hijacking"
+  search_keywords:
+    - "COMSysApp"
+    - "COM+ System Application"
+    - "DCOM lateral movement"
+    - "COM object hijacking"
+    - "COM+ privilege escalation"
+    - "Windows COM+ service"
+    - "DCOM remote execution"
+    - "COM+ catalog"
+  embedding_text: >-
+    COMSysApp (COM+ System Application) is a Windows system service running as LOCAL SYSTEM
+    that manages COM+ component configuration, activation, transactions, and object pooling.
+    It maintains the COM+ catalog database and creates dllhost.exe surrogate processes to host
+    components. The service is significant in cybersecurity as DCOM (Distributed COM) is used
+    for lateral movement through remote component activation, COM object hijacking provides
+    persistence through registry or catalog manipulation, and the service's SYSTEM-level
+    privileges make it a target for privilege escalation. Attackers leverage DCOM for remote
+    code execution across Windows networks and manipulate COM+ registrations for malicious
+    component injection. Security teams should monitor for anomalous DCOM activation, COM
+    registry modifications, and suspicious dllhost.exe process creation.

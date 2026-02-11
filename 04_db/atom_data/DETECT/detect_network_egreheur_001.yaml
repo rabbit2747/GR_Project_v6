@@ -1,0 +1,101 @@
+# GR Atom: Egress Heuristics
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-EGREHEUR-001"
+  name: "Egress Heuristics"
+  normalized_name: "egress_heuristics"
+  aliases:
+    - "Outbound Traffic Heuristics"
+    - "Egress Anomaly Detection"
+    - "Outbound Behavioral Analysis"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - FIREWALL
+    - IDS
+    - DLP
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection strategy that applies heuristic rules and behavioral analysis to outbound (egress) network traffic to identify suspicious activity including data exfiltration, command-and-control communications, unauthorized external services, and policy violations. Egress heuristics move beyond simple allow/deny firewall rules to analyze traffic patterns, volumes, destinations, protocols, and timing characteristics for indicators of malicious or unauthorized outbound activity."
+  why: "Most security architectures focus heavily on inbound threat prevention while egress monitoring remains underdeveloped. Adversaries exploit this asymmetry by establishing outbound C2 channels, exfiltrating data, and communicating with external infrastructure through allowed egress paths. Egress heuristics provide a critical detection layer for identifying post-compromise activity that has already bypassed perimeter defenses."
+  how: "Implementation involves establishing baselines for normal egress traffic patterns per host, subnet, and protocol. Heuristic rules evaluate outbound connections against multiple criteria: destination reputation and categorization, protocol compliance for declared port usage, data volume thresholds and transfer rates, connection timing patterns and session durations, user-agent strings and application identification, geographic destination analysis, and connections to newly observed domains. Scores are aggregated across multiple heuristic dimensions to produce risk ratings for individual sessions and hosts."
+  core_concepts:
+    - key: "Behavioral Baseline"
+      value: "Establishing normal outbound traffic patterns for hosts and subnets against which anomalies are measured."
+    - key: "Heuristic Scoring"
+      value: "Combining multiple weak indicators across dimensions to produce aggregate risk scores for egress traffic."
+    - key: "Protocol-Port Validation"
+      value: "Verifying that traffic on declared ports matches the expected protocol behavior rather than tunneling other protocols."
+    - key: "Destination Intelligence"
+      value: "Enriching egress traffic analysis with threat intelligence, domain reputation, and geographic context."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Egress heuristics provide foundational analysis for data exfiltration detection"
+  - type: enables
+    target: "DETECT-NETWORK-OUTNETTRA-001"
+    description: "Egress heuristics enable comprehensive outbound network traffic monitoring"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow log data for egress traffic pattern analysis"
+  - type: effective_against
+    target: "ATK-EXFIL-DATA-001"
+    description: "Heuristic egress analysis detects data exfiltration attempts"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1048"
+    tactic:
+      - "Exfiltration"
+      - "Command and Control"
+    sub_techniques:
+      - "T1048.001"
+      - "T1048.002"
+      - "T1048.003"
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over Alternative Protocol T1048"
+    - "SANS Institute - Egress Filtering Best Practices"
+    - "NIST SP 800-41 Rev 1 - Guidelines on Firewalls and Firewall Policy"
+  search_keywords:
+    - "egress heuristics"
+    - "outbound traffic analysis"
+    - "egress filtering"
+    - "outbound anomaly"
+    - "egress monitoring"
+    - "outbound behavioral analysis"
+    - "egress detection"
+    - "outbound security"
+    - "traffic baseline"
+    - "egress risk scoring"
+  embedding_text: "Egress heuristics is a detection strategy applying behavioral analysis and heuristic rules to outbound network traffic to identify suspicious activity including data exfiltration, C2 communications, and policy violations. It establishes baselines for normal egress patterns and evaluates outbound connections across multiple dimensions including destination reputation, protocol compliance, data volumes, timing patterns, and geographic analysis. Risk scores are aggregated across heuristic dimensions to rate individual sessions and hosts. This approach addresses the common security gap where perimeter defenses focus on inbound threats while egress paths exploited by adversaries remain under-monitored."

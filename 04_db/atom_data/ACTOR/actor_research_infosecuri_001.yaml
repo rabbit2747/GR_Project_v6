@@ -1,0 +1,71 @@
+# GR Atom: InfoSecurity
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-INFOSECURI-001"
+  name: "InfoSecurity"
+  normalized_name: "infosecurity"
+  aliases:
+    - "Infosecurity Magazine"
+    - "Infosecurity Europe"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Infosecurity Magazine is an online cybersecurity publication and media brand that provides news, features, and analysis on information security topics including data breaches, threat intelligence, vulnerability disclosures, compliance and regulation, and security technology. The brand also encompasses Infosecurity Europe, one of the largest information security exhibitions and conferences held annually in London. The publication covers enterprise security strategy, emerging threats, vendor developments, and regulatory changes across the global cybersecurity landscape."
+  why: "Infosecurity Magazine and the Infosecurity Europe conference are important to the cybersecurity community for providing comprehensive security news coverage and a major European industry event that brings together security vendors, practitioners, and thought leaders. The publication serves as a key information source for security professionals tracking global threats and European regulatory developments."
+  how: "Infosecurity Magazine publishes daily news articles, expert opinions, and analysis covering the full spectrum of cybersecurity topics. The Infosecurity Europe conference hosts keynote presentations, panel discussions, product demonstrations, and networking events, connecting security professionals with industry vendors and thought leaders. Both channels provide educational content and practical insights for security decision-makers."
+  core_concepts:
+    - key: "Cybersecurity Media"
+      value: "Online publication providing daily news, analysis, and expert commentary on information security"
+    - key: "Industry Conference"
+      value: "Infosecurity Europe as a major annual exhibition connecting vendors, practitioners, and researchers"
+    - key: "Compliance Coverage"
+      value: "Reporting on regulatory developments, compliance requirements, and data protection legislation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow cybersecurity news publication and media brand"
+  - type: enables
+    target: "ACTOR-RESEARCH-COMPWEEK-001"
+    description: "Part of the European cybersecurity media landscape"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.infosecurity-magazine.com"
+  search_keywords:
+    - "infosecurity magazine"
+    - "infosecurity europe"
+    - "cybersecurity news"
+    - "information security"
+    - "security conference europe"
+    - "compliance news"
+    - "data protection"
+    - "security media"
+  embedding_text: "Infosecurity Magazine is an online cybersecurity publication and media brand providing news, features, and analysis on information security topics including data breaches, threat intelligence, vulnerability disclosures, compliance and regulation, and security technology. The brand encompasses Infosecurity Europe, one of the largest information security exhibitions and conferences held annually in London. The publication covers enterprise security strategy, emerging threats, vendor developments, and regulatory changes across the global cybersecurity landscape, serving as a key information source for security professionals tracking global threats and European regulatory developments. Both the magazine and conference provide educational content and practical insights for security decision-makers."

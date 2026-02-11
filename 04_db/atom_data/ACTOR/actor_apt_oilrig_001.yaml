@@ -1,0 +1,87 @@
+# GR Atom: OilRig
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OILRIG-001"
+  name: "OilRig"
+  normalized_name: "oilrig"
+  aliases:
+    - "APT34"
+    - "Hazel Sandstorm"
+    - "EUROPIUM"
+    - "Helix Kitten"
+    - "Crambus"
+    - "Cobalt Gypsy"
+    - "IRN2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "CRED"
+    - "PERSIST"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+    - "WEB"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "Exchange servers"
+    - "web servers"
+    - "DNS infrastructure"
+    - "government networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "OilRig (also known as APT34, Hazel Sandstorm, and Helix Kitten) is an Iranian state-sponsored cyber espionage group attributed to Iran's Ministry of Intelligence and Security (MOIS). Active since at least 2014, the group primarily targets organizations in the Middle East including government agencies, financial institutions, telecommunications, energy, and chemical sectors, with a particular focus on Gulf state nations and Israel."
+  why: "OilRig conducts intelligence collection operations supporting Iranian state interests in the Middle East, focusing on political intelligence from regional adversaries, economic and trade intelligence particularly regarding energy sector competitors, financial intelligence for sanctions evasion support, and technological intelligence from critical infrastructure operators."
+  how: "OilRig is known for extensive credential harvesting through fake login pages mimicking legitimate services, spear-phishing with weaponized documents, and exploitation of public-facing web applications. The group deploys numerous custom malware families including POWBAT, BONDUPDATER, Shark, Milan, Marlin, and SideTwist. A signature technique is DNS tunneling for C2 and data exfiltration, implemented through various custom tools. The group also uses web shells extensively and has developed sophisticated supply chain compromise capabilities. Internal tools were leaked in 2019 by a group calling themselves Lab Dookhtegan."
+  core_concepts:
+    - "MOIS-attributed cyber espionage"
+    - "DNS tunneling for C2"
+    - "credential harvesting campaigns"
+    - "Gulf state targeting"
+    - "energy sector intelligence"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-IRANTHRE-001"
+    description: "Core Iranian MOIS espionage group within the Iran Threats ecosystem"
+  - type: "enables"
+    target: "ACTOR-APT-MUDDYWATER-001"
+    description: "Both MOIS groups with overlapping Middle Eastern targets and shared infrastructure"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - OilRig (G0049)"
+    - "FireEye - APT34 New Targeted Attack in the Middle East"
+    - "Palo Alto Unit 42 - OilRig Campaign Analysis"
+    - "Symantec - Crambus: New Toolset Targets Middle Eastern Government"
+  search_keywords:
+    - "oilrig"
+    - "APT34"
+    - "hazel sandstorm"
+    - "helix kitten"
+    - "crambus"
+    - "iranian espionage"
+    - "DNS tunneling APT"
+    - "lab dookhtegan leak"
+    - "cobalt gypsy"
+  embedding_text: "OilRig is an Iranian state-sponsored cyber espionage group also known as APT34, Hazel Sandstorm, Helix Kitten, and Crambus, attributed to Iran's Ministry of Intelligence and Security. Active since at least 2014, the group primarily targets Middle Eastern organizations including government agencies, financial institutions, telecommunications, and energy sectors in Gulf states and Israel. OilRig is characterized by extensive credential harvesting through fake login pages, spear-phishing with weaponized documents, and a signature use of DNS tunneling for command and control and data exfiltration. Custom malware families include POWBAT, BONDUPDATER, Shark, Milan, Marlin, and SideTwist. The group deploys web shells extensively and has conducted supply chain operations. Internal tools were leaked in 2019 by the Lab Dookhtegan persona. OilRig represents one of Iran's most capable and persistent espionage groups focused on regional intelligence collection in the Middle East."

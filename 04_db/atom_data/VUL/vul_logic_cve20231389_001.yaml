@@ -1,0 +1,97 @@
+# GR Atom: CVE-2023-1389
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20231389-001"
+  name: "CVE-2023-1389"
+  normalized_name: "cve_2023_1389"
+  aliases:
+    - "TP-Link Archer AX21 Command Injection"
+    - "TP-Link Router RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - IOT
+    - NETWORK
+    - FIRMWARE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "TP-Link Archer AX21"
+    - "TP-Link router firmware"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-1389 is a command injection vulnerability in the TP-Link Archer AX21 WiFi router's
+    web management interface. The locale API endpoint in the router firmware fails to properly
+    sanitize the country parameter, allowing an unauthenticated attacker to inject and execute
+    arbitrary commands on the router with root privileges. CVSS v3 base score: 8.8 (High).
+    Actively exploited by the Mirai botnet.
+  why: >-
+    The TP-Link Archer AX21 is a popular consumer WiFi 6 router deployed in millions of
+    households and small businesses. The vulnerability is exploitable without authentication
+    from the local network and was quickly weaponized by the Mirai botnet for mass recruitment
+    of IoT devices into DDoS botnets. Compromised routers serve as DDoS nodes, network
+    pivots, and proxy infrastructure.
+  how: >-
+    An attacker sends a crafted HTTP request to the locale API endpoint on the router's
+    management interface with a malicious country parameter containing shell commands. The
+    firmware's input processing logic passes the unsanitized parameter to a system command,
+    enabling arbitrary command execution with root privileges on the router's Linux-based
+    operating system.
+  core_concepts:
+    - key: "Firmware Input Validation Failure"
+      value: "Router firmware passes unsanitized user input to system commands through the locale API, enabling command injection"
+    - key: "IoT Botnet Vector"
+      value: "Unauthenticated RCE on consumer routers enables mass botnet recruitment for DDoS attacks and proxy infrastructure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Input validation logic failure in router firmware API enabling command injection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-1389"
+    - "TP-Link Security Advisory"
+    - "NIST NVD - CVE-2023-1389"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2023-1389"
+    - "TP-Link Archer AX21"
+    - "router command injection"
+    - "TP-Link vulnerability"
+    - "Mirai botnet"
+    - "IoT command injection"
+  embedding_text: >-
+    CVE-2023-1389 is a command injection vulnerability in TP-Link Archer AX21 WiFi routers.
+    Locale API endpoint fails to sanitize the country parameter, enabling unauthenticated
+    root command execution. CVSS v3 8.8 High. Actively exploited by Mirai botnet for mass
+    IoT recruitment. Affects millions of consumer and small business routers. CISA Known
+    Exploited. Firmware input validation logic failure. Year 2023.

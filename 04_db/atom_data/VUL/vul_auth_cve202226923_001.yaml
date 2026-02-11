@@ -1,0 +1,77 @@
+# GR Atom: CVE-2022-26923
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202226923-001"
+  name: "CVE-2022-26923"
+  normalized_name: "cve_2022_26923"
+  aliases:
+    - "Certifried"
+    - "AD CS Domain Escalation"
+    - "Active Directory Certificate Services Privilege Escalation"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - CRED
+    - WINDOWS
+    - NETWORK
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Active Directory Certificate Services (AD CS)"
+    - "Microsoft Windows Server 2008 through 2022"
+    - "Active Directory Domain Services"
+
+definition:
+  what: "CVE-2022-26923 (Certifried) is a privilege escalation vulnerability in Active Directory Certificate Services that allows any authenticated domain user to escalate to domain administrator by exploiting certificate enrollment. A low-privileged user can manipulate the dNSHostName attribute of a machine account to match a domain controller and request a certificate that enables domain controller authentication. CVSS v3: 8.8 (High). Disclosed in May 2022."
+  why: "Active Directory Certificate Services is widely deployed in enterprise Windows environments for internal PKI operations. This vulnerability allows any domain user to obtain domain admin privileges through a straightforward attack that requires no special tools beyond standard AD and certificate utilities. The vulnerability bypasses traditional privilege escalation protections because it exploits the trust relationship between AD DS and AD CS. It was widely publicized alongside the broader AD CS abuse research by SpecterOps."
+  how: "The attacker creates a machine account (default domain user privilege) and modifies its dNSHostName attribute to match the DNS name of a domain controller. The attacker then requests a certificate from AD CS using the machine account. Because the certificate template uses dNSHostName for the Subject Alternative Name (SAN), the resulting certificate contains the domain controller's DNS name. This certificate can then be used for Kerberos PKINIT authentication to impersonate the domain controller, enabling DCSync to extract all domain credentials. Microsoft patched this by enforcing stronger mapping between certificates and AD objects."
+  core_concepts:
+    - key: "dNSHostName Certificate Spoofing"
+      value: "Modifying a machine account's dNSHostName to match a domain controller causes AD CS to issue certificates with the DC's identity, enabling authentication impersonation"
+    - key: "AD CS Trust Chain Exploitation"
+      value: "The trust relationship between Active Directory Domain Services and Certificate Services is exploited to escalate from domain user to domain admin through certificate-based authentication"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Certifried is an authentication escalation vulnerability exploiting AD CS certificate enrollment"
+  - type: enables
+    target: "VUL-AUTH-CVE202142287-001"
+    description: "Certificate-based domain controller impersonation achieves similar domain compromise as noPac through different mechanism"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1649"
+    tactic: ["Privilege Escalation", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-26923 - NVD NIST"
+    - "Oliver Lyak - Certifried Research"
+    - "SpecterOps - Certified Pre-Owned AD CS Abuse"
+    - "Microsoft Security Advisory - AD DS Privilege Escalation"
+    - "MITRE ATT&CK T1649 - Steal or Forge Authentication Certificates"
+  search_keywords:
+    - "CVE-2022-26923"
+    - "Certifried"
+    - "AD CS privilege escalation"
+    - "Active Directory certificate abuse"
+    - "dNSHostName spoofing"
+    - "certificate enrollment escalation"
+    - "AD CS domain compromise"
+    - "PKINIT impersonation"
+  embedding_text: "CVE-2022-26923 known as Certifried is a privilege escalation vulnerability in Active Directory Certificate Services allowing any authenticated domain user to escalate to domain administrator. The attacker creates a machine account, modifies its dNSHostName to match a domain controller, and requests a certificate from AD CS. The certificate contains the DC DNS name in the SAN field, enabling PKINIT authentication as the domain controller. CVSS v3 score is 8.8 High. Enables DCSync for complete domain credential extraction. Affects all Windows Server versions with AD CS deployed. Maps to MITRE ATT&CK T1649 Steal or Forge Authentication Certificates. Part of broader AD CS abuse research. Patched May 2022."

@@ -1,0 +1,104 @@
+# GR Atom: Device Census
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-DEVICENS-001"
+  name: "Device Census"
+  normalized_name: "device_census"
+  aliases:
+    - "Windows Device Census"
+    - "DeviceCensus.exe"
+    - "Microsoft Device Census"
+    - "Device Census Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - MONITOR
+    - OS
+    - DISC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Device Census (DeviceCensus.exe) is a Windows operating system component that inventories
+    hardware and software characteristics of the local device. It collects system information
+    including hardware specifications, installed drivers, OS version, device capabilities, and
+    peripheral configurations. The telemetry data gathered by Device Census is used by Windows
+    Update, compatibility assessment, and Microsoft diagnostic services to determine update
+    eligibility and device health status.
+  why: >-
+    Device Census is security-relevant because it collects detailed hardware and software
+    inventory data that, if exfiltrated, provides attackers with comprehensive reconnaissance
+    about target systems. The process runs with SYSTEM privileges and its telemetry data reveals
+    installed security software, OS patch levels, hardware configurations, and driver versions.
+    Attackers may abuse or impersonate DeviceCensus.exe for persistence or to blend malicious
+    activity with legitimate system processes. Understanding Device Census is critical for
+    asset inventory and patch management security programs.
+  how: >-
+    Device Census runs as a scheduled task under Windows Task Scheduler, typically triggered
+    during system startup and periodically thereafter. It queries WMI, registry keys, and system
+    APIs to enumerate device hardware (CPU, GPU, storage, memory), installed drivers, OS build
+    information, and peripheral devices. The collected telemetry is stored locally and transmitted
+    to Microsoft telemetry endpoints when Windows diagnostic data sharing is enabled. The process
+    executes from %SystemRoot%\System32\DeviceCensus.exe with SYSTEM-level privileges.
+  core_concepts:
+    - key: "Hardware Inventory"
+      value: "Systematic enumeration of device hardware capabilities, specifications, and configurations for compatibility and update assessment"
+    - key: "Windows Telemetry Integration"
+      value: "Device Census feeds into the Windows diagnostic data pipeline used for update targeting, compatibility checking, and reliability monitoring"
+    - key: "Asset Discovery"
+      value: "Provides granular device information useful for enterprise asset management, patch compliance, and security posture assessment"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-ENDPOINT-DEVIENRO-001"
+    description: "Device Census provides inventory data used during the device enrollment process for management platforms"
+  - type: "enables"
+    target: "INFRA-ENDPOINT-DIAGHUB-001"
+    description: "Device Census telemetry feeds into diagnostics systems for device health assessment"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Microsoft Documentation - Windows Diagnostic Data"
+    - "Microsoft - Configure Windows diagnostic data in your organization"
+    - "MITRE ATT&CK T1082 - System Information Discovery"
+  search_keywords:
+    - "Device Census"
+    - "DeviceCensus.exe"
+    - "Windows device inventory"
+    - "Windows telemetry"
+    - "hardware inventory"
+    - "system information collection"
+    - "Windows diagnostic data"
+    - "device enumeration"
+  embedding_text: >-
+    Device Census (DeviceCensus.exe) is a Windows operating system component that inventories
+    hardware and software characteristics of the local device. Running as a scheduled task with
+    SYSTEM privileges, it queries WMI, registry keys, and system APIs to enumerate CPU, GPU,
+    storage, memory, installed drivers, OS build information, and peripheral devices. The
+    collected telemetry is used by Windows Update for compatibility assessment and transmitted
+    to Microsoft diagnostic endpoints. From a security perspective, Device Census data reveals
+    detailed system configurations including installed security software, OS patch levels, and
+    hardware specifications that could aid attacker reconnaissance. The process may be
+    impersonated for persistence or living-off-the-land techniques. It is relevant to enterprise
+    asset inventory, patch management, and endpoint security monitoring programs.

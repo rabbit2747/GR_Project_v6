@@ -1,0 +1,87 @@
+# GR Atom: File Encryption Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEENCR-001"
+  name: "File Encryption Event"
+  normalized_name: "file_encryption_event"
+  aliases:
+    - "File Encrypt Detection"
+    - "File Encryption Activity"
+    - "Encryption Operation Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - FORENSICS
+    - INCIDENT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a file encryption operation occurs on an endpoint. This includes encryption through Windows EFS, BitLocker, application-level encryption using CryptoAPI or CNG, and third-party encryption tools. The event captures the file being encrypted, the encryption algorithm used, the encrypting process, user context, and key material references. Critically, this detection pattern is essential for identifying ransomware activity where mass file encryption is the primary attack objective."
+  why: "File encryption events are dual-use indicators. Legitimate encryption protects sensitive data, while malicious encryption (ransomware) destroys data availability. Rapid detection of anomalous encryption patterns enables early ransomware response before widespread damage. Monitoring encryption also supports data loss prevention by tracking when sensitive files are encrypted for potential exfiltration and detection of unauthorized encryption of shared resources."
+  how: "Monitor CryptoAPI and CNG ETW providers for encryption function calls. Track EFS encryption events in Windows Security event logs. Detect rapid sequential encryption of multiple files as a ransomware indicator using rate-based alerting. Monitor for encryption of file types commonly targeted by ransomware (documents, databases, backups). Correlate with process behavior including ransom note creation and shadow copy deletion."
+  core_concepts:
+    - key: "Ransomware Detection"
+      value: "Identifying mass file encryption activity through rate analysis, file type targeting patterns, and correlation with ransomware behavioral indicators"
+    - key: "Encryption Rate Analysis"
+      value: "Monitoring the frequency and volume of encryption operations to distinguish normal business encryption from malicious mass encryption events"
+    - key: "CNG Provider Monitoring"
+      value: "Tracking Cryptography Next Generation API calls to detect application-level encryption operations and the algorithms being used"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File encryption is a specific type of file event"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-FILEDECR-001"
+    description: "Encryption is the inverse operation of decryption, both monitored for security"
+  - type: effective_against
+    target: "ATK-IMPACT-RANSOMWARE-001"
+    description: "Detects ransomware through mass file encryption pattern analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1486 - Data Encrypted for Impact"
+    - "Microsoft Documentation - CNG Cryptographic Primitives"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file encryption"
+    - "ransomware detection"
+    - "EFS encryption"
+    - "CryptoAPI"
+    - "mass encryption"
+    - "encryption monitoring"
+    - "file encrypt event"
+    - "encryption rate analysis"
+  embedding_text: "File Encryption Event is an endpoint detection pattern for events generated during file encryption operations. This covers Windows EFS, BitLocker, CryptoAPI, CNG, and third-party encryption tools. The detection is critical for identifying ransomware activity through mass file encryption pattern analysis using rate-based alerting and file type targeting correlation. Monitoring includes CryptoAPI and CNG ETW providers, EFS events in Security logs, and behavioral indicators such as ransom note creation and shadow copy deletion. Encryption rate analysis distinguishes normal business encryption from malicious mass encryption, enabling early ransomware response before widespread damage occurs."

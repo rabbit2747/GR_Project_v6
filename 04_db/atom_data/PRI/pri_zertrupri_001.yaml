@@ -1,0 +1,156 @@
+# GR Atom: Zero Trust Principle
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-ZERTRUPRI-001"
+  name: "Zero Trust Principle"
+  normalized_name: "zero_trust_principle"
+  aliases:
+    - "Never Trust Always Verify"
+    - "Assume Breach Principle"
+    - "Zero Trust Security Principle"
+    - "Verify Explicitly"
+    - "Least Privilege Access Principle"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 3
+  atom_tags:
+    - ZTNA
+    - MFA
+    - PAM
+    - AUDIT
+    - MONITOR
+    - COMPLIANCE
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Zero Trust Principle is the core security axiom stating that no entity — whether user,
+    device, application, or network flow — should be implicitly trusted regardless of its
+    location, ownership, or prior authentication status. Formalized by NIST SP 800-207 and
+    rooted in John Kindervag's 2010 Forrester research, this principle mandates three
+    foundational tenets: verify explicitly (authenticate and authorize every access request
+    based on all available data points), use least-privilege access (limit access to the
+    minimum necessary with just-in-time and just-enough-access controls), and assume breach
+    (minimize blast radius, segment access, verify end-to-end encryption, and use analytics
+    for threat detection and response).
+  why: >-
+    Traditional network security models that grant implicit trust based on network location
+    have been systematically defeated by modern attacks including insider threats, compromised
+    credentials, lateral movement, and supply chain attacks. The dissolution of the traditional
+    perimeter through cloud adoption, remote work, and BYOD policies renders perimeter-based
+    trust models fundamentally inadequate. The Zero Trust Principle addresses these failures
+    by eliminating implicit trust entirely, requiring continuous verification that adapts to
+    evolving threat conditions and organizational risk posture.
+  how: >-
+    Implementation follows the three tenets: (1) Verify Explicitly by collecting and evaluating
+    signals including user identity, location, device health, service or workload classification,
+    data classification, and anomaly detection before every access decision; (2) Use Least
+    Privilege Access by enforcing just-in-time (JIT) and just-enough-access (JEA) policies,
+    risk-based adaptive policies, and data protection controls to limit exposure;
+    (3) Assume Breach by segmenting network, user, device, and application access,
+    encrypting all sessions end-to-end, and using analytics to drive threat detection,
+    improve defenses, and accelerate incident response. A Policy Decision Point (PDP) and
+    Policy Enforcement Point (PEP) architecture is deployed to evaluate and enforce access
+    decisions in real time.
+  core_concepts:
+    - key: "Verify Explicitly"
+      value: "Every access request must be authenticated and authorized based on all available data points including identity, location, device health, data classification, and behavioral anomalies."
+    - key: "Least Privilege Access"
+      value: "Access is limited to the minimum permissions necessary to complete a task, enforced through just-in-time (JIT) provisioning, just-enough-access (JEA), and risk-based adaptive policies."
+    - key: "Assume Breach"
+      value: "Design and operate as if the environment is already compromised. Minimize blast radius through segmentation, enforce end-to-end encryption, and use analytics to detect and respond to threats."
+    - key: "Elimination of Implicit Trust"
+      value: "No entity receives trust based on network location, IP address, ownership, or prior successful authentication. Trust must be continuously earned and verified through real-time signals."
+    - key: "Policy Decision Point (PDP)"
+      value: "The logical component that evaluates access requests against policies using identity, context, and risk signals to make allow, deny, or step-up authentication decisions."
+    - key: "Policy Enforcement Point (PEP)"
+      value: "The enforcement component positioned inline with data flows that executes the access decisions made by the PDP, enabling or blocking resource access in real time."
+    - key: "Continuous Evaluation"
+      value: "Access decisions are not one-time events. Sessions and permissions are continuously re-evaluated based on changing risk signals, with access revoked when conditions change."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PRI-ZEROTRUS-001"
+    description: "Core axiom of the Zero Trust security model, expressing the fundamental never trust always verify tenet"
+  - type: "enables"
+    target: "PRI-ZERTRUPIL-001"
+    description: "The core principle drives the implementation requirements across all six Zero Trust pillars"
+  - type: "enables"
+    target: "PRI-ZETRDAAC-001"
+    description: "The verify explicitly and least privilege tenets directly enable data-centric access controls"
+  - type: "enables"
+    target: "PRI-DEFEDEPT-001"
+    description: "Assume breach tenet drives layered defense strategies and defense in depth architectures"
+  - type: "enables"
+    target: "PRI-SECUDESI-001"
+    description: "Never trust always verify philosophy informs Security by Design practices from inception"
+  - type: "requires"
+    target: "PRI-ZEROTRUS-001"
+    description: "Requires the overarching Zero Trust architecture and governance framework for effective implementation"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-207 — Zero Trust Architecture (2020)"
+    - "Forrester Research — No More Chewy Centers: Introducing The Zero Trust Model (John Kindervag, 2010)"
+    - "CISA Zero Trust Maturity Model v2.0 (2023)"
+    - "DoD Zero Trust Reference Architecture v2.0 (2022)"
+    - "Executive Order 14028 — Improving the Nation's Cybersecurity (2021)"
+    - "OMB Memorandum M-22-09 — Moving the U.S. Government Toward Zero Trust Cybersecurity Principles"
+    - "Microsoft Zero Trust Security Model Documentation"
+  search_keywords:
+    - "zero trust principle"
+    - "never trust always verify"
+    - "assume breach"
+    - "verify explicitly"
+    - "least privilege access"
+    - "zero trust axiom"
+    - "implicit trust elimination"
+    - "continuous verification"
+    - "policy decision point"
+    - "policy enforcement point"
+    - "PDP PEP"
+    - "NIST 800-207 principle"
+    - "John Kindervag zero trust"
+    - "just-in-time access"
+    - "zero trust tenets"
+  embedding_text: >-
+    The Zero Trust Principle is the foundational security axiom that no entity should be
+    implicitly trusted regardless of its location, ownership, or prior authentication status.
+    Formalized in NIST SP 800-207 and originating from John Kindervag's 2010 Forrester
+    research, this principle is expressed through three core tenets. Verify Explicitly requires
+    authenticating and authorizing every access request based on all available data points
+    including user identity, device health, location, data sensitivity, and behavioral
+    anomalies. Least Privilege Access limits permissions to the minimum necessary using
+    just-in-time and just-enough-access controls with risk-based adaptive policies. Assume
+    Breach directs organizations to operate as if their environment is already compromised,
+    minimizing blast radius through micro-segmentation, enforcing end-to-end encryption,
+    and employing analytics for continuous threat detection. Implementation relies on a
+    Policy Decision Point and Policy Enforcement Point architecture that evaluates and
+    enforces access decisions in real time. The principle eliminates the traditional
+    perimeter-based trust model that has been systematically defeated by insider threats,
+    credential compromise, lateral movement, and supply chain attacks in modern environments.

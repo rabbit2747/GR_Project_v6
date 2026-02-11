@@ -1,0 +1,82 @@
+# GR Atom: Cloud Misconfiguration
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CLOUMISC-001"
+  name: "Cloud Misconfiguration"
+  normalized_name: "cloud_misconfiguration"
+  aliases:
+    - "Cloud Security Misconfiguration"
+    - "Cloud Infrastructure Misconfiguration"
+    - "Cloud Posture Weakness"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - CLOUD
+    - INFO_LEAK
+    - AUTHZ
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "AWS Services"
+    - "Azure Services"
+    - "GCP Services"
+    - "Cloud Storage"
+    - "Cloud Networking"
+
+definition:
+  what: "Cloud Misconfiguration is a broad vulnerability category encompassing insecure default settings, open storage buckets, exposed management ports, disabled logging, unencrypted data stores, permissive network security groups, and other configuration errors in cloud service deployments across AWS, Azure, and GCP. It is consistently ranked as the top cloud security risk by industry reports."
+  why: "Cloud misconfigurations account for the majority of cloud data breaches and security incidents. The complexity of cloud services, rapid deployment cycles, infrastructure-as-code drift, and the shared responsibility model create fertile ground for configuration errors. A single misconfigured S3 bucket or security group can expose entire datasets or provide network-level access to internal infrastructure. The scale and automation of cloud environments means misconfigurations can propagate rapidly across accounts and regions."
+  how: "Cloud misconfigurations manifest across all service layers: storage (public S3 buckets, unencrypted EBS volumes), networking (permissive security groups, missing VPC flow logs, public subnets for private workloads), compute (exposed metadata services, default credentials, unrestricted instance profiles), databases (public RDS endpoints, disabled encryption at rest), and governance (disabled CloudTrail/Azure Monitor logging, missing resource tagging). Detection uses Cloud Security Posture Management (CSPM) tools, CIS benchmarks, and native cloud security services like AWS Security Hub, Azure Defender, or GCP Security Command Center."
+  core_concepts:
+    - key: "Shared Responsibility Model"
+      value: "Cloud security framework where the provider secures the infrastructure and customers are responsible for configuring their workloads, data, and access controls securely"
+    - key: "Cloud Security Posture Management"
+      value: "Automated tools and processes that continuously monitor cloud configurations against security benchmarks and compliance frameworks to detect and remediate misconfigurations"
+    - key: "Infrastructure as Code Drift"
+      value: "Divergence between declared infrastructure state in IaC templates and actual deployed configuration, often introducing unintended misconfigurations"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "Cloud misconfiguration is a specific category of configuration vulnerability applied to cloud environments"
+  - type: abstracts
+    target: "VUL-CONFIG-CLOIAMMIS-001"
+    description: "Cloud misconfiguration is a broader category that includes IAM misconfigurations as a subset"
+  - type: enables
+    target: "VUL-CONFIG-CLOUD-001"
+    description: "Cloud misconfigurations create the conditions that enable cloud-specific vulnerability exploitation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic: ["Collection", "Discovery"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "OWASP Top 10 Cloud Security Risks"
+    - "CIS Benchmarks - AWS, Azure, GCP"
+    - "MITRE ATT&CK T1530 - Data from Cloud Storage"
+    - "CSA Cloud Controls Matrix"
+  search_keywords:
+    - "cloud misconfiguration"
+    - "cloud security posture"
+    - "S3 bucket exposure"
+    - "cloud storage misconfiguration"
+    - "CSPM"
+    - "cloud security group"
+    - "cloud data breach"
+    - "infrastructure as code security"
+  embedding_text: "Cloud Misconfiguration encompasses insecure default settings, open storage buckets, exposed management ports, disabled logging, unencrypted data stores, and permissive network security groups across AWS, Azure, and GCP deployments. It is the top cloud security risk, accounting for the majority of cloud data breaches. The shared responsibility model means customers must correctly configure their workloads, and complexity combined with rapid deployment creates configuration errors. Detection uses CSPM tools, CIS benchmarks, and native cloud security services. Remediation requires infrastructure-as-code enforcement, automated compliance scanning, least-privilege networking, encryption by default, and continuous monitoring of cloud configuration drift."

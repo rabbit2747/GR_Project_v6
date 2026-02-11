@@ -1,0 +1,132 @@
+# GR Atom: TCP-AO
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-TRANSPORT-TCPAO-001"
+  name: "TCP-AO"
+  normalized_name: "tcp_ao"
+  aliases:
+    - "TCP Authentication Option"
+    - "TCP-AO Protocol"
+    - "RFC 5925"
+    - "TCP Auth Option"
+    - "TCP Segment Authentication"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TCP-AO (TCP Authentication Option) is a TCP extension defined in RFC 5925 that provides
+    per-segment cryptographic authentication for TCP connections. TCP-AO replaces the deprecated
+    TCP MD5 Signature Option (RFC 2385) with a more robust mechanism supporting modern
+    cryptographic algorithms, key rotation without connection disruption, and protection against
+    replay attacks. It uses a Message Authentication Code (MAC) computed over TCP segment data
+    and header fields, stored in a TCP option field. TCP-AO is primarily deployed to authenticate
+    long-lived TCP sessions such as BGP peering sessions between routers.
+  why: >-
+    Long-lived TCP sessions, particularly BGP sessions between Internet routers, are vulnerable
+    to TCP reset attacks (RFC 5765), session hijacking, and data injection by off-path or
+    on-path attackers. The original TCP MD5 option (RFC 2385) addressed this but suffered from
+    critical limitations: single algorithm (MD5, increasingly weak), no key rotation mechanism
+    (requiring session teardown to change keys), no key identifier (preventing key negotiation),
+    and vulnerability to replay attacks. TCP-AO resolves all these deficiencies with algorithm
+    agility, seamless key rollover via key IDs, and replay protection through sequence number
+    extensions. Given that a compromised BGP session can redirect Internet traffic affecting
+    millions of users, TCP-AO provides essential session-layer authentication for critical
+    routing infrastructure.
+  how: >-
+    TCP-AO operates by computing a MAC over each TCP segment: (1) a Master Key Table (MKT)
+    stores shared secrets with associated key IDs, algorithms, and connection parameters for
+    each peer; (2) traffic keys are derived from the master key using a Key Derivation Function
+    (KDF) incorporating connection-specific data (IP addresses, ports); (3) a MAC algorithm
+    (HMAC-SHA-1-96 or AES-128-CMAC-96 per RFC 5926) computes an authentication tag over the
+    TCP pseudo-header, header, options, and payload; (4) the MAC is placed in the TCP-AO option
+    (kind 29) with a KeyID identifying the master key and RNextKeyID indicating the next key
+    for rollover; (5) the receiver validates the MAC using its local MKT, rejecting segments with
+    invalid authentication; (6) key rotation is achieved by advertising a new RNextKeyID, allowing
+    both peers to transition to new keys without session disruption; (7) replay protection uses
+    a Sequence Number Extension (SNE) counter that extends the TCP sequence number space.
+  core_concepts:
+    - key: "Master Key Table (MKT)"
+      value: >-
+        A local database on each TCP-AO endpoint storing the shared secrets, key identifiers,
+        MAC algorithms, and connection parameters used for segment authentication. MKT entries
+        enable key management and rotation without disrupting active connections.
+    - key: "Key Rotation"
+      value: >-
+        The ability to change cryptographic keys on an active TCP connection without tearing
+        down the session, implemented through KeyID and RNextKeyID fields that signal key
+        transitions between peers, addressing a critical limitation of TCP MD5.
+    - key: "Traffic Key Derivation"
+      value: >-
+        The process of generating connection-specific authentication keys from master keys
+        using a KDF that incorporates IP addresses and TCP ports, ensuring that keys are
+        unique to each connection even when master keys are shared across multiple peers.
+    - key: "Sequence Number Extension (SNE)"
+      value: >-
+        A counter mechanism that extends the 32-bit TCP sequence number space for MAC
+        computation, providing replay protection by making it computationally infeasible
+        for an attacker to forge valid authenticated segments from captured traffic.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "TCP-AO is a TCP option extension that operates within the TCP protocol framework for segment authentication"
+  - type: "supersedes"
+    target: "PROTO-TRANSPORT-TCPMD5-001"
+    description: "TCP-AO supersedes the deprecated TCP MD5 Signature Option with algorithm agility and key rotation capabilities"
+  - type: "enables"
+    target: "PROTO-ROUTING-BGP-001"
+    description: "TCP-AO provides session authentication for BGP peering connections protecting against reset and hijacking attacks"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 5925 - The TCP Authentication Option (June 2010). IETF. https://datatracker.ietf.org/doc/html/rfc5925"
+    - "RFC 5926 - Cryptographic Algorithms for TCP-AO (June 2010). IETF. https://datatracker.ietf.org/doc/html/rfc5926"
+    - "RFC 2385 - Protection of BGP Sessions via the TCP MD5 Signature Option (August 1998). IETF. https://datatracker.ietf.org/doc/html/rfc2385"
+    - "RFC 4953 - Defending TCP Against Spoofing Attacks (July 2007). IETF. https://datatracker.ietf.org/doc/html/rfc4953"
+  search_keywords:
+    - "TCP-AO"
+    - "TCP authentication option"
+    - "RFC 5925"
+    - "TCP segment authentication"
+    - "BGP session security"
+    - "TCP MD5 replacement"
+    - "TCP key rotation"
+    - "routing session authentication"
+    - "TCP session hijacking prevention"
+    - "master key table"
+    - "TCP replay protection"
+  embedding_text: >-
+    TCP-AO (TCP Authentication Option) is defined in RFC 5925 as the cryptographic authentication
+    mechanism for TCP segments, replacing the deprecated TCP MD5 option. It computes a MAC over
+    each TCP segment using configurable algorithms (HMAC-SHA-1-96 or AES-128-CMAC-96), with
+    traffic keys derived from a Master Key Table via connection-specific KDF. TCP-AO supports
+    key rotation without session disruption through KeyID/RNextKeyID signaling, and provides
+    replay protection via Sequence Number Extensions. It is primarily deployed to protect BGP
+    peering sessions against TCP reset attacks, session hijacking, and data injection. TCP-AO
+    addresses critical limitations of TCP MD5 including single-algorithm restriction, inability
+    to rotate keys, and lack of replay protection, making it essential for securing the routing
+    infrastructure that underpins Internet connectivity.

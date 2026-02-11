@@ -1,0 +1,107 @@
+# GR Atom: TeleBots
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-TELEBOTS-001"
+  name: "TeleBots"
+  normalized_name: "telebots"
+  aliases:
+    - "Sandworm"
+    - "Voodoo Bear"
+    - "IRIDIUM"
+    - "Seashell Blizzard"
+    - "Iron Viking"
+    - "BlackEnergy Group"
+    - "Quedagh"
+    - "APT44"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - IMPACT
+    - PERSIST
+    - C2
+    - WINDOWS
+    - LINUX
+    - ICS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "TeleBots, most widely known as Sandworm, is a Russia-nexus advanced persistent threat group attributed to the Russian GRU Main Centre for Special Technologies (GTsST, Unit 74455). Active since at least 2009, the group is responsible for some of the most destructive cyberattacks in history, including BlackEnergy attacks on the Ukrainian power grid (2015-2016), NotPetya (2017), Olympic Destroyer (2018), and Industroyer/CrashOverride attacks against industrial control systems. The group conducts both espionage and destructive operations."
+  why: "TeleBots/Sandworm represents the most destructive state-sponsored threat actor in the cyber domain, responsible for billions of dollars in damage through NotPetya alone. The group's proven capability to cause physical disruption through cyberattacks on power grids and industrial systems, combined with destructive wiper malware campaigns, makes it the primary example of cyber warfare operations. Multiple GRU officers have been indicted by the U.S. Department of Justice."
+  how: "TeleBots employs a wide range of capabilities including exploitation of public-facing applications, supply chain compromise (e.g., MEDoc software update in NotPetya), spear-phishing, and credential theft. The group deploys custom destructive malware including BlackEnergy, KillDisk, NotPetya, Industroyer/CrashOverride, Olympic Destroyer, WhisperGate, CaddyWiper, and HermeticWiper. It maintains ICS-specific attack capabilities targeting SCADA systems and has conducted operations against critical infrastructure worldwide, with particular focus on Ukraine."
+  core_concepts:
+    - key: "Destructive Cyber Operations"
+      value: "Development and deployment of destructive wiper malware and ICS attacks capable of causing physical damage and massive economic disruption"
+    - key: "Industrial Control System Attacks"
+      value: "Specialized capability to target SCADA and ICS environments with tools like Industroyer/CrashOverride, causing power grid disruptions"
+    - key: "Supply Chain Compromise"
+      value: "Demonstrated ability to compromise software supply chains, as exemplified by the NotPetya attack via MEDoc accounting software update"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Russian GRU Unit 74455 conducting destructive cyber operations and espionage"
+  - type: enables
+    target: "ATK-IMPACT-WIPER-001"
+    description: "Develops and deploys destructive wiper malware including NotPetya, HermeticWiper, and CaddyWiper"
+  - type: enables
+    target: "ATK-ICS-DISRUPT-001"
+    description: "Conducts attacks against industrial control systems causing physical disruption to power grids"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "impact"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Sandworm Team"
+    - "ESET - TeleBots / Sandworm research"
+    - "U.S. DOJ - GRU Unit 74455 indictments"
+    - "Mandiant - APT44 Sandworm analysis"
+    - "Dragos - Industroyer ICS attack analysis"
+  search_keywords:
+    - "telebots"
+    - "sandworm"
+    - "voodoo bear"
+    - "apt44"
+    - "seashell blizzard"
+    - "notpetya"
+    - "industroyer"
+    - "blackenergy"
+    - "gru unit 74455"
+    - "ukraine power grid attack"
+    - "olympic destroyer"
+    - "hermeticwiper"
+    - "destructive malware"
+    - "ics attack"
+    - "russia apt"
+  embedding_text: "TeleBots, most widely known as Sandworm, is a Russian GRU-attributed advanced persistent threat group (Unit 74455) responsible for some of the most destructive cyberattacks in history. Active since at least 2009, the group conducted BlackEnergy attacks on Ukrainian power grids, the NotPetya global wiper attack, Olympic Destroyer, and Industroyer/CrashOverride ICS attacks. TeleBots deploys destructive wiper malware including NotPetya, HermeticWiper, and CaddyWiper, and maintains specialized ICS attack capabilities targeting SCADA systems. The group conducts both espionage and destructive operations, with billions of dollars in damage attributed to NotPetya alone, making it the primary example of state-sponsored cyber warfare operations."

@@ -1,0 +1,79 @@
+# GR Atom: Telnet Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-TELNSERV-001"
+  name: "Telnet Server"
+  normalized_name: "telnet_server"
+  aliases:
+    - "Telnet Daemon"
+    - "telnetd"
+    - "Telnet Service"
+    - "Remote Terminal Server"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - CRED
+    - INITIAL
+
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "N4.2"
+
+definition:
+  what: "A Telnet Server is a network service that provides remote command-line access to a system using the Telnet protocol on TCP port 23. The Telnet protocol transmits all data including usernames, passwords, and commands in cleartext without encryption, making it inherently insecure for any environment where network traffic can be intercepted. Telnet servers are implemented as system daemons (telnetd on Unix/Linux) or optional features on Windows Server and are still found on legacy network equipment (routers, switches, firewalls), embedded systems, IoT devices, industrial control systems, and mainframe environments. Despite being widely deprecated in favor of SSH, Telnet remains present in numerous infrastructure components where firmware constraints, legacy compatibility requirements, or configuration oversights prevent migration to secure alternatives."
+  why: "Telnet servers represent one of the most significant security risks in network infrastructure because all authentication credentials and session data are transmitted in cleartext, enabling trivial credential theft through network sniffing. The Mirai botnet and its variants have demonstrated the massive-scale exploitation of Telnet services on IoT devices using default credentials. Telnet is frequently targeted in initial access attacks against network equipment and embedded systems. Identifying and disabling unnecessary Telnet services, or replacing them with SSH, is a fundamental security hardening practice. The continued presence of Telnet in production environments is a significant indicator of security maturity gaps."
+  how: "A Telnet server listens for incoming TCP connections on port 23. When a client connects, the server performs a three-way TCP handshake, negotiates Telnet options through the Network Virtual Terminal (NVT) protocol including terminal type, echo mode, and line mode, and presents a login prompt. The client sends the username and password in cleartext, which the server validates against the local user database or authentication service. Upon successful authentication, the server spawns a shell process and relays all input and output between the client and the shell over the unencrypted TCP connection. Session data including all typed commands and their output is visible to anyone capturing packets on the network path. Telnet option negotiation uses in-band signaling with IAC (Interpret As Command) escape sequences."
+  core_concepts:
+    - key: "Cleartext Transmission"
+      value: "All Telnet communication including authentication credentials and session data is transmitted without encryption, making it vulnerable to network sniffing and man-in-the-middle attacks"
+    - key: "Network Virtual Terminal"
+      value: "The abstract terminal device specification used by Telnet protocol to negotiate terminal capabilities and provide a common interface between different client and server systems"
+    - key: "Default Credential Exploitation"
+      value: "The widespread presence of factory-default Telnet credentials on network equipment and IoT devices, enabling automated mass exploitation as demonstrated by the Mirai botnet"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-NET-VPN-001"
+    description: "Telnet provides insecure remote access that should be replaced by VPN-protected SSH connections"
+  - type: part_of
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Telnet servers are commonly present on network router and switch management interfaces as a legacy access method"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Telnet servers may use DNS for hostname-based access control and reverse DNS validation of connecting clients"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.002"
+    tactic: ["Lateral Movement", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 854 - Telnet Protocol Specification - https://datatracker.ietf.org/doc/html/rfc854"
+    - "NIST SP 800-123 - Guide to General Server Security"
+    - "CIS Controls v8 - Control 4: Secure Configuration of Enterprise Assets and Software"
+    - "MITRE ATT&CK - T1021 Remote Services"
+  search_keywords:
+    - "Telnet server"
+    - "telnetd"
+    - "Telnet service"
+    - "port 23"
+    - "cleartext protocol"
+    - "Telnet security risk"
+    - "Mirai botnet Telnet"
+    - "legacy remote access"
+    - "Telnet default credentials"
+  embedding_text: "A Telnet Server provides remote command-line access using the Telnet protocol on TCP port 23, transmitting all data including credentials in cleartext without encryption. Still found on legacy network equipment, embedded systems, IoT devices, and industrial control systems, Telnet represents a significant security risk due to trivial credential theft through network sniffing. The Mirai botnet demonstrated mass exploitation of Telnet services with default credentials on IoT devices. Telnet is widely deprecated in favor of SSH but persists where firmware constraints or legacy requirements prevent migration. Identifying and disabling unnecessary Telnet services is a fundamental security hardening practice."

@@ -1,0 +1,76 @@
+# GR Atom: CVE-2021-34523
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202134523-001"
+  name: "CVE-2021-34523"
+  normalized_name: "cve_2021_34523"
+  aliases:
+    - "ProxyShell - Exchange PowerShell Backend Elevation"
+    - "Exchange PowerShell Privilege Escalation"
+    - "ProxyShell Stage 2"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - EXEC
+    - WINDOWS
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+definition:
+  what: "CVE-2021-34523 is a privilege escalation vulnerability in the Microsoft Exchange Server PowerShell backend. It is the second stage of the ProxyShell exploit chain. After gaining access to the Exchange backend via CVE-2021-34473, an attacker can exploit improper token serialization to impersonate the Exchange administrator and execute arbitrary Exchange PowerShell cmdlets. CVSS v3: 9.8 (Critical). Patched in April 2021, disclosed publicly in August 2021."
+  why: "This vulnerability bridges the gap between unauthenticated backend access (ProxyShell Stage 1) and arbitrary code execution. By escalating privileges to the Exchange administrator context, it enables the attacker to run Exchange Management Shell cmdlets that control mailbox operations, including the ability to export mailbox contents to arbitrary file paths. This privilege escalation is essential to the ProxyShell chain's effectiveness and was mass-exploited alongside CVE-2021-34473 by ransomware operators."
+  how: "After reaching the Exchange PowerShell backend via CVE-2021-34473, the attacker exploits a flaw in how Exchange deserializes the CommonAccessToken used for PowerShell session authentication. The attacker crafts a X-CommonAccessToken header with a serialized token that specifies the Exchange administrator SID. Exchange trusts this self-supplied token without proper validation, granting the attacker full Exchange Management Shell access. From this position, the attacker can execute New-ManagementRoleAssignment to grant mailbox import/export rights, then use New-MailboxExportRequest to write arbitrary files to the server."
+  core_concepts:
+    - key: "CommonAccessToken Forgery"
+      value: "Exchange PowerShell backend accepts self-supplied CommonAccessToken headers without proper validation, allowing privilege escalation to Exchange administrator through crafted token serialization"
+    - key: "ProxyShell Chain Escalation"
+      value: "Bridges unauthenticated backend access to Exchange Management Shell control, enabling mailbox export operations used for web shell deployment in the ProxyShell attack chain"
+
+relations:
+  - type: part_of
+    target: "VUL-AUTH-CVE202134473-001"
+    description: "CVE-2021-34523 is the second stage of the ProxyShell exploit chain after CVE-2021-34473 path confusion"
+  - type: requires
+    target: "VUL-AUTH-CVE202134473-001"
+    description: "Exploitation requires prior access to Exchange backend via CVE-2021-34473 path confusion"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-34523 - NVD NIST"
+    - "Orange Tsai - ProxyShell Black Hat USA 2021"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Microsoft Security Advisory - Exchange Server EoP"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2021-34523"
+    - "ProxyShell privilege escalation"
+    - "Exchange PowerShell escalation"
+    - "Exchange CommonAccessToken"
+    - "ProxyShell Stage 2"
+    - "Exchange Management Shell exploit"
+    - "ProxyShell chain"
+  embedding_text: "CVE-2021-34523 is a privilege escalation vulnerability in the Microsoft Exchange Server PowerShell backend, the second stage of the ProxyShell exploit chain. After reaching the Exchange backend via CVE-2021-34473, attackers forge CommonAccessToken headers to impersonate the Exchange administrator and execute Management Shell cmdlets. CVSS v3 score is 9.8 Critical. Enables mailbox export operations used for web shell deployment. Mass-exploited by ransomware operators alongside other ProxyShell components. Affects Exchange Server 2013, 2016, and 2019. Patched April 2021, publicly disclosed August 2021. Maps to MITRE ATT&CK T1068 Exploitation for Privilege Escalation. Discovered by Orange Tsai of DEVCORE."

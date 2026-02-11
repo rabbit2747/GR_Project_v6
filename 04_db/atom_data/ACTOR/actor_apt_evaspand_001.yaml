@@ -1,0 +1,90 @@
+# GR Atom: Evasive Panda
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-EVASPAND-001"
+  name: "Evasive Panda"
+  normalized_name: "evasive_panda"
+  aliases:
+    - "Bronze Highland"
+    - "Daggerfly"
+    - "StormBamboo"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - SUPPLY_CHAIN
+    - PERSIST
+    - EVADE
+    - WINDOWS
+    - MACOS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Evasive Panda (Daggerfly) is a Chinese APT group active since at least 2012, targeting telecommunications, government, NGOs, universities, and individuals across East and Southeast Asia, as well as diaspora communities worldwide. The group is notable for its sophisticated MgBot modular malware framework, supply chain compromise of legitimate software update mechanisms, and ISP-level attacks to redirect legitimate update traffic to deliver malware. In 2023-2024, the group compromised ISP infrastructure to conduct adversary-in-the-middle attacks on software updates."
+  why: "Evasive Panda represents a significant escalation in Chinese APT capabilities through their ISP-level compromise and abuse of legitimate software update mechanisms. By hijacking update processes at the ISP level, the group can target broad populations or specific individuals without traditional phishing. Their targeting of Tibetan, Uyghur, and Taiwanese communities demonstrates the use of cyber operations for political surveillance of diaspora populations."
+  how: "The group compromises ISP infrastructure to redirect legitimate software update requests (DNS poisoning/BGP hijacking), delivering trojanized updates containing the MgBot backdoor. MgBot is a modular framework supporting multiple plugins for keylogging, screen capture, audio recording, file theft, and browser credential extraction. The group also conducts watering hole attacks and supply chain compromise of legitimate Chinese software products. Recent operations include macOS and Linux variants of their toolset. They use custom code-signed malware and exploit legitimate applications for DLL sideloading."
+  core_concepts:
+    - key: "ISP-Level Compromise"
+      value: "Compromises ISP infrastructure to redirect legitimate software updates for malware delivery"
+    - key: "MgBot Framework"
+      value: "Modular malware platform with extensive plugin ecosystem for comprehensive surveillance"
+    - key: "Diaspora Targeting"
+      value: "Targets Tibetan, Uyghur, and Taiwanese diaspora communities for political surveillance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses supply chain compromise and ISP-level attacks for initial access"
+  - type: is_a
+    target: "ACTOR-APT-EVASPAND-001"
+    description: "Chinese APT group with ISP-level compromise and supply chain attack capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Collection"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "ESET - Evasive Panda MgBot Framework Analysis"
+    - "Volexity - StormBamboo ISP Compromise Report"
+    - "Symantec - Daggerfly Campaign Analysis"
+  search_keywords:
+    - "evasive panda"
+    - "daggerfly"
+    - "stormbamboo"
+    - "bronze highland"
+    - "mgbot malware"
+    - "isp compromise apt"
+    - "software update hijacking"
+    - "tibetan surveillance"
+    - "chinese apt supply chain"
+    - "update mechanism abuse"
+    - "diaspora targeting"
+  embedding_text: "Evasive Panda (Daggerfly/StormBamboo) is a Chinese APT group active since at least 2012, targeting telecommunications, government, NGOs, universities, and diaspora communities across East and Southeast Asia. The group is distinguished by its ISP-level compromise capabilities, hijacking legitimate software update mechanisms through DNS poisoning at the ISP level to deliver the MgBot modular malware framework. MgBot supports extensive plugins for keylogging, screen capture, audio recording, and credential theft across Windows, macOS, and Linux. The group targets Tibetan, Uyghur, and Taiwanese communities for political surveillance. Additional techniques include watering hole attacks, supply chain compromise of Chinese software products, and DLL sideloading with code-signed malware."

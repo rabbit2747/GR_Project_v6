@@ -1,0 +1,92 @@
+# GR Atom: Windows Registry Key Deletion Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKEDE-001"
+  name: "Windows Registry Key Deletion Event"
+  normalized_name: "windows_registry_key_deletion_event"
+  aliases:
+    - "Registry Key Delete"
+    - "RegDeleteKey Detection"
+    - "Registry Key Removal Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that captures the deletion of registry keys on a Windows endpoint. This is detected via Sysmon Event ID 12 (RegistryEvent - Object create and delete) when the event type indicates deletion, and through Windows Security Event ID 4657 with DELETE access. The event records the full registry key path that was deleted, the deleting process, user context, and timestamp. Deletion of security-related registry keys such as those under Security, Audit, or Defender configurations is particularly concerning."
+  why: "Registry key deletion is used by adversaries for defense evasion by removing evidence of their persistence mechanisms, anti-forensics by deleting keys that would reveal their activity, and security control tampering by removing configuration keys for security tools. Monitoring key deletions detects cleanup operations where attackers remove registry-based persistence after completing their objectives, as well as destructive attacks targeting system stability through removal of critical configuration keys."
+  how: "Detection monitors Sysmon Event ID 12 for registry key deletion operations filtering on EventType 'DeleteKey'. Windows Security Event ID 4657 with DELETE access mask captures deletions when SACLs are configured. EDR agents detect key deletion operations with full process context. SIEM rules alert on deletion of keys in protected locations including security tool configurations, audit policies, and known persistence paths. Baseline comparison identifies unexpected key deletions that may indicate compromise or anti-forensics activity."
+  core_concepts:
+    - key: "evidence_destruction"
+      value: "Adversaries delete registry keys to remove evidence of their persistence mechanisms and other artifacts of compromise"
+    - key: "security_configuration_removal"
+      value: "Deletion of registry keys that configure security tools, audit policies, or defensive features to impair detection"
+    - key: "critical_key_protection"
+      value: "Identifying and protecting registry keys whose deletion would impact system stability or security posture"
+    - key: "deletion_correlation"
+      value: "Correlating key deletions with prior creation or modification events to reconstruct the full lifecycle of suspicious registry activity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key deletion is a specific type of registry key operation event"
+  - type: "prevents"
+    target: "DETECT-ENDPOINT-WIREKERE-001"
+    description: "Key deletion prevents subsequent read operations on the deleted key"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Event ID 12 RegistryEvent"
+    - "Microsoft Documentation - RegDeleteKey Function"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Windows Security Audit Event Reference"
+  search_keywords:
+    - "registry key deletion"
+    - "RegDeleteKey"
+    - "Sysmon Event ID 12"
+    - "registry key delete"
+    - "registry evidence removal"
+    - "anti-forensics registry"
+    - "registry cleanup"
+    - "defense evasion registry"
+    - "security key deletion"
+    - "registry key removal"
+  embedding_text: "Windows registry key deletion event detection pattern captures removal of registry keys via Sysmon Event ID 12 and Windows Security Event ID 4657 with DELETE access. Records the deleted key path, deleting process, user context, and timestamp. Key deletion is used by adversaries for defense evasion to remove persistence evidence, anti-forensics cleanup, and security control tampering by deleting configuration keys for security tools. Maps to MITRE ATT&CK T1112 Modify Registry. Detection focuses on deletions in protected locations including security configurations, audit policies, and persistence paths, with baseline comparison to identify unexpected removals indicating compromise."

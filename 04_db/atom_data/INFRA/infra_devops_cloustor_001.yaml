@@ -1,0 +1,78 @@
+# GR Atom: Cloud Storage
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-CLOUSTOR-001"
+  name: "Cloud Storage"
+  normalized_name: "cloud_storage"
+  aliases:
+    - "Cloud Object Storage"
+    - "Managed Cloud Storage"
+    - "Cloud Storage Service"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CLOUD
+    - BACKUP
+    - ENCRYPT
+    - CONFIG
+
+gr_coordinates:
+  layer: "L3"
+  zone: "Z2"
+  function: "D4.1"
+
+definition:
+  what: "Cloud Storage is the general infrastructure category encompassing managed object, block, and file storage services provided by cloud platforms such as AWS S3, Azure Blob Storage, and Google Cloud Storage. These services provide scalable, durable, and highly available data storage with built-in redundancy, encryption, access controls, lifecycle management, and API-based access for applications, backups, and data lakes."
+  why: "Cloud storage is one of the most frequently misconfigured and attacked infrastructure components. Publicly exposed storage buckets have caused numerous high-profile data breaches. Storage services hold sensitive data including backups, logs, database exports, application assets, and personally identifiable information. Attackers target storage misconfigurations for data exfiltration, ransomware via encryption key manipulation, and persistence through stored payloads. Proper access controls, encryption, and monitoring are essential for protecting stored data."
+  how: "Cloud storage services operate through REST APIs with authentication via cloud IAM systems. Data is organized in buckets or containers with object-level or prefix-based access policies. Server-side encryption protects data at rest using provider-managed or customer-managed keys. Access logging and monitoring track all data operations. Lifecycle policies automate data tiering and deletion. Versioning enables recovery from accidental deletion. Cross-region replication provides disaster recovery. Access is controlled through bucket policies, IAM policies, ACLs, and signed URLs."
+  core_concepts:
+    - key: "Object Storage"
+      value: "Flat-namespace storage model where data is stored as objects with metadata, accessed via unique keys rather than file system hierarchy"
+    - key: "Bucket Policy"
+      value: "Resource-based access control policy defining who can perform what operations on storage resources, critical for preventing public exposure"
+    - key: "Server-Side Encryption"
+      value: "Automatic encryption of stored data using provider-managed or customer-managed encryption keys for data-at-rest protection"
+    - key: "Storage Lifecycle"
+      value: "Automated policies that transition data between storage tiers or delete data based on age, reducing costs and enforcing retention"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-AWS3OBLO-001"
+    description: "Cloud Storage is the general category that AWS S3 Object Lock specializes for immutable storage"
+  - type: enables
+    target: "INFRA-DEVOPS-SOFARTSER-001"
+    description: "Cloud storage provides the underlying data persistence for software artifact servers"
+  - type: requires
+    target: "INFRA-DEVOPS-KEYVAUL-001"
+    description: "Cloud storage services require key management systems for customer-managed encryption keys"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "AWS S3 Documentation - https://docs.aws.amazon.com/s3/"
+    - "Azure Blob Storage Documentation - https://learn.microsoft.com/en-us/azure/storage/blobs/"
+    - "MITRE ATT&CK T1530 - Data from Cloud Storage"
+  search_keywords:
+    - "cloud storage"
+    - "object storage"
+    - "cloud storage security"
+    - "S3 bucket"
+    - "Azure Blob Storage"
+    - "GCS bucket"
+    - "cloud storage misconfiguration"
+    - "cloud data protection"
+  embedding_text: "Cloud Storage encompasses managed object, block, and file storage services provided by cloud platforms including AWS S3, Azure Blob Storage, and Google Cloud Storage. These services provide scalable, durable storage with built-in encryption, access controls, lifecycle management, and API-based access. Security significance centers on frequent misconfiguration leading to data breaches through publicly exposed buckets, ransomware via key manipulation, and data exfiltration. Protection requires proper bucket policies, server-side encryption with managed keys, access logging, versioning, and lifecycle policies. Cloud storage holds sensitive data including backups, logs, database exports, and PII."

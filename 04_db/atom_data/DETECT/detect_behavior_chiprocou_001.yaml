@@ -1,0 +1,74 @@
+# GR Atom: Child Process Count
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-CHIPROCOU-001"
+  name: "Child Process Count"
+  normalized_name: "child_process_count"
+  aliases:
+    - "Process Spawning Rate Detection"
+    - "Child Process Threshold Analysis"
+    - "Excessive Process Creation Detection"
+    - "Subprocess Count Anomaly"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - EDR
+    - MONITOR
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Child Process Count detection is a behavioral pattern that monitors the number of child processes spawned by a given parent process and alerts when the count exceeds expected thresholds for that process type. Each process on an operating system can create child processes, and legitimate applications have predictable child process creation patterns. This detection tracks the rate and total count of child processes per parent, identifying anomalies such as a web browser spawning dozens of command shells, an Office application creating multiple scripting interpreter instances, or a system service generating an unusual number of worker processes within a short timeframe."
+  why: "An abnormally high child process count is a strong behavioral indicator of malicious activity including process injection, fork bombs, cryptocurrency mining, brute-force attack tools, automated exploitation frameworks, and mass command execution. Legitimate applications rarely spawn large numbers of child processes rapidly. By monitoring child process creation rates and counts against per-application baselines, security teams can detect exploitation, lateral movement tools like PsExec running commands across multiple hosts, and malware that spawns multiple worker processes for parallel operations such as data exfiltration or encryption during ransomware attacks."
+  how: "Detection systems maintain per-process baselines of normal child process creation rates by tracking process creation events from OS telemetry. For each parent process, the detection engine counts child processes created within configurable time windows. Static thresholds are set for known applications, while dynamic thresholds adapt based on historical behavior. Alerts trigger when the child process count exceeds the threshold, with severity adjusted based on the parent process type, the child process types, and the rate of creation. Additional context is gathered from command-line arguments, network connections, and file system activity of the child processes. Integration with process tree analysis provides full chain-of-execution visibility."
+  core_concepts:
+    - key: "Process Creation Rate"
+      value: "The frequency at which a parent process spawns new child processes, measured within configurable time windows"
+    - key: "Per-Application Baseline"
+      value: "Expected child process creation patterns specific to each parent application, derived from historical normal behavior"
+    - key: "Fork Bomb"
+      value: "A denial-of-service attack where a process continuously replicates itself, creating exponentially growing child processes"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "Child process count is a specific metric within broader anomalous process detection"
+  - type: requires
+    target: "DETECT-BEHAVIOR-ANOMPARE-001"
+    description: "Child process count analysis depends on parent process identification to establish context"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Process Creation - https://attack.mitre.org/datasources/DS0009/"
+    - "Microsoft Sysmon - Event ID 1 Process Creation - https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    - "Elastic Security - Process Monitoring Rules - https://www.elastic.co/guide/en/security/current/detection-engine-overview.html"
+  search_keywords:
+    - "child process count detection"
+    - "excessive process spawning"
+    - "process creation rate"
+    - "subprocess count anomaly"
+    - "fork bomb detection"
+    - "process threshold monitoring"
+    - "rapid process creation"
+    - "parent child process rate"
+  embedding_text: "Child Process Count detection monitors the number and rate of child processes spawned by parent processes, alerting when counts exceed expected thresholds. Legitimate applications have predictable child process creation patterns, while anomalous counts indicate exploitation, process injection, fork bombs, cryptocurrency mining, or mass command execution. Detection maintains per-application baselines using OS-level process creation telemetry, counting child processes within configurable time windows. Static and dynamic thresholds trigger alerts adjusted by parent process type, child process types, and creation rate. This pattern is valuable for detecting lateral movement tools, ransomware encryption operations, and automated exploitation frameworks."

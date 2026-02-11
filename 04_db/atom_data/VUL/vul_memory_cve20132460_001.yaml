@@ -1,0 +1,101 @@
+# GR Atom: CVE-2013-2460
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20132460-001"
+  name: "CVE-2013-2460"
+  normalized_name: "cve_2013_2460"
+  aliases:
+    - "Java ProviderSkeleton Invoke Method Sandbox Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Java SE 7 Update 21 and earlier"
+    - "Java browser plugin"
+    - "javax.management.remote.rmi.RMIConnectionImpl"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-2460 is a sandbox bypass vulnerability (CVSS 10.0) in Oracle Java SE 7 Update 21
+    and earlier versions. The flaw exists in the Java Management Extensions (JMX) implementation,
+    specifically in the ProviderSkeleton invoke method handling. It allows untrusted Java applets
+    to escape the security sandbox and execute arbitrary code on the target system. Patched in
+    the June 2013 Critical Patch Update, this vulnerability was exploited in the wild and
+    integrated into exploit kits.
+  why: >-
+    This vulnerability continued the pattern of critical Java sandbox bypasses that plagued the
+    platform throughout 2012-2013. With CVSS 10.0, it provided another reliable entry point for
+    exploit kit authors. The JMX component was a recurring source of Java security issues, and
+    this vulnerability reinforced the growing consensus that Java browser plugins were
+    fundamentally insecure and should be disabled by default.
+  how: >-
+    The exploit leverages a flaw in the JMX ProviderSkeleton invoke method to gain access to
+    restricted Java API calls. By chaining this with reflection-based techniques, the attacker
+    escalates privileges within the Java runtime to disable the security manager. Once the
+    sandbox is bypassed, the untrusted applet can execute arbitrary operating system commands
+    with the privileges of the user running the browser.
+  core_concepts:
+    - key: "JMX ProviderSkeleton Sandbox Escape"
+      value: "Flaw in JMX ProviderSkeleton invoke method allows privilege escalation within Java runtime to disable security manager"
+    - key: "Continuing Java Browser Plugin Security Crisis"
+      value: "Another CVSS 10.0 Java sandbox bypass reinforcing the fundamental insecurity of the Java browser plugin model"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Java sandbox bypass vulnerability in JMX ProviderSkeleton implementation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-2460 - CVSS 10.0"
+    - "Oracle Critical Patch Update June 2013"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2013-2460"
+    - "Java sandbox bypass"
+    - "JMX"
+    - "ProviderSkeleton"
+    - "Oracle Java SE"
+    - "exploit kit"
+    - "Java applet"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2013-2460 is a critical Java sandbox bypass vulnerability with CVSS 10.0 in Oracle
+    Java SE 7 Update 21 and earlier. The flaw exploits the JMX ProviderSkeleton invoke method
+    to gain access to restricted Java APIs, enabling privilege escalation to disable the
+    security manager. Untrusted applets can then execute arbitrary system commands with user
+    privileges. Patched in the June 2013 Critical Patch Update, this vulnerability was
+    exploited in the wild and integrated into exploit kits. It continued the series of
+    critical Java sandbox bypasses that demonstrated fundamental weaknesses in the Java
+    browser plugin security model during 2012-2013.

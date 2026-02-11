@@ -1,0 +1,118 @@
+# GR Atom: Remote Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-REMOTE-001"
+  name: "Remote Service"
+  normalized_name: "remote_service"
+  aliases:
+    - "Windows Remote Services"
+    - "Remote Access Service"
+    - "Remote Management Service"
+    - "WinRM"
+    - "Remote Procedure Call"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - LATERAL
+    - EXEC
+    - NETWORK
+    - AUTHN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Remote Service is a general category encompassing Windows services and daemons that
+    enable remote administration, command execution, and management across networked systems.
+    This includes Windows Remote Management (WinRM), Remote Procedure Call (RPC), SSH services,
+    remote registry, and other remote administration interfaces. These services allow
+    administrators to manage systems without physical access, execute commands remotely,
+    transfer files, and query system state across the network.
+  why: >-
+    Remote services are among the most commonly exploited attack vectors for lateral movement
+    and remote code execution. Attackers abuse legitimate remote management protocols like
+    WinRM, PsExec (via SMB/RPC), and SSH to move through compromised networks. Pass-the-Hash
+    and Pass-the-Ticket attacks leverage remote service authentication. Exposed remote services
+    on the internet are constantly scanned and targeted by automated attack tools. Misconfigured
+    remote services with weak authentication or excessive permissions create entry points for
+    initial access and privilege escalation.
+  how: >-
+    Remote services operate through various protocols and port combinations. WinRM uses HTTP/HTTPS
+    (ports 5985/5986) with WS-Management protocol. RPC uses dynamic port allocation with endpoint
+    mapper on port 135. SSH typically listens on port 22. These services authenticate through
+    Windows integrated authentication (Kerberos/NTLM), certificate-based auth, or username/password
+    combinations. Service configurations are managed through Group Policy, Windows Security
+    Policy, and service-specific configuration tools. Network-level controls include firewall
+    rules, network segmentation, and VPN requirements.
+  core_concepts:
+    - key: "Lateral Movement Infrastructure"
+      value: "Remote services provide the legitimate management channels that attackers abuse for lateral movement using stolen credentials or pass-the-hash techniques"
+    - key: "Authentication Attack Surface"
+      value: "Multiple authentication mechanisms (Kerberos, NTLM, certificates) create diverse attack vectors including relay attacks and credential theft"
+    - key: "Service Exposure Risk"
+      value: "Internet-facing remote services are continuously targeted by automated scanning and brute-force attacks against authentication"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-REMOAPP-001"
+    description: "Remote services provide the underlying remote access infrastructure that application delivery depends on"
+  - type: "enables"
+    target: "INFRA-APP-TERMSERV-001"
+    description: "Remote service infrastructure enables Terminal Services remote access functionality"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021"
+    tactic:
+      - "Lateral Movement"
+      - "Execution"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Windows Remote Management Documentation"
+    - "MITRE ATT&CK T1021 - Remote Services"
+    - "CISA Guidance on Securing Remote Access Services"
+  search_keywords:
+    - "remote service"
+    - "WinRM"
+    - "Windows Remote Management"
+    - "remote code execution"
+    - "lateral movement"
+    - "PsExec"
+    - "remote administration"
+    - "pass the hash"
+    - "remote service exploitation"
+  embedding_text: >-
+    Remote Service encompasses Windows services enabling remote administration and command
+    execution including WinRM, RPC, SSH, and remote registry. These services use various
+    protocols and ports (WinRM 5985/5986, RPC 135, SSH 22) with multiple authentication
+    mechanisms. Remote services are heavily targeted for lateral movement using stolen
+    credentials, pass-the-hash, and pass-the-ticket attacks. Exposed services face
+    continuous automated scanning and brute-force attempts. PsExec, WinRM, and SSH are
+    commonly used by both administrators and attackers. Security considerations include
+    authentication hardening, network segmentation, firewall restrictions, VPN requirements
+    for access, and monitoring for anomalous remote service usage patterns indicating
+    lateral movement or unauthorized access.

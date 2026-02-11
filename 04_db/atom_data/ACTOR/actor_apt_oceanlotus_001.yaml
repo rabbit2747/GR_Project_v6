@@ -1,0 +1,87 @@
+# GR Atom: OceanLotus
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OCEANLOTUS-001"
+  name: "OceanLotus"
+  normalized_name: "oceanlotus"
+  aliases:
+    - "APT32"
+    - "Canvas Cyclone"
+    - "BISMUTH"
+    - "SeaLotus"
+    - "Cobalt Kitty"
+    - "Ocean Buffalo"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PERSIST"
+    - "EVADE"
+    - "EXFIL"
+    - "WINDOWS"
+    - "MACOS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "web browsers"
+    - "macOS systems"
+    - "Windows workstations"
+    - "mobile devices"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "OceanLotus (also known as APT32, Canvas Cyclone, and BISMUTH) is a Vietnamese state-sponsored cyber espionage group that has been active since at least 2012. The group targets private sector companies, dissidents, journalists, foreign governments, and organizations with interests in Vietnam, particularly in Southeast Asia but also extending to Europe and North America."
+  why: "OceanLotus operations serve Vietnamese government intelligence priorities including monitoring political dissidents and journalists critical of the Vietnamese government, collecting intelligence on foreign government policies affecting Vietnam, conducting economic espionage against automotive, hospitality, and technology companies, and surveilling human rights activists and civil society organizations."
+  how: "The group uses sophisticated spear-phishing campaigns with highly targeted social engineering, watering hole attacks on websites frequented by targets, and custom malware for both Windows and macOS platforms. Notable tools include Denis/Cobalt Kitty backdoor, KerrDown, Ratsnif, and custom macOS backdoors. OceanLotus demonstrates advanced techniques including steganography for payload delivery, living-off-the-land binaries, and abuse of legitimate cloud services. They have developed sophisticated macOS malware delivered through fake application installers and watering hole frameworks."
+  core_concepts:
+    - "Vietnamese state espionage"
+    - "dissident and journalist surveillance"
+    - "cross-platform malware development"
+    - "macOS-targeted attacks"
+    - "economic espionage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "OceanLotus and Lotus Blossom have overlapping targets in Southeast Asian government entities"
+  - type: "applies_to"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "OceanLotus targets Chinese interests in Vietnam while Lucky Mouse conducts reverse espionage"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - APT32 (G0050)"
+    - "FireEye - APT32 New Cyber Espionage Operations"
+    - "Amnesty International - Vietnamese Hackers Target Human Rights Activists"
+    - "ESET - OceanLotus macOS Backdoor Analysis"
+  search_keywords:
+    - "oceanlotus"
+    - "APT32"
+    - "canvas cyclone"
+    - "BISMUTH"
+    - "sealotus"
+    - "cobalt kitty"
+    - "vietnamese APT"
+    - "vietnam cyber espionage"
+    - "ocean buffalo"
+  embedding_text: "OceanLotus is a Vietnamese state-sponsored cyber espionage group also known as APT32, Canvas Cyclone, BISMUTH, and Cobalt Kitty. Active since at least 2012, the group targets private sector companies, political dissidents, journalists, foreign governments, and organizations with interests in Vietnam. Operations span Southeast Asia, Europe, and North America. OceanLotus employs sophisticated spear-phishing, watering hole attacks, and custom cross-platform malware for both Windows and macOS. Notable tools include the Denis backdoor, KerrDown, Ratsnif, and custom macOS implants. Advanced techniques include steganography for payload delivery, living-off-the-land techniques, and cloud service abuse. The group conducts economic espionage against automotive, hospitality, and technology sectors while also surveilling human rights activists and journalists critical of the Vietnamese government. OceanLotus is notable for its advanced macOS malware capabilities, uncommon among APT groups."

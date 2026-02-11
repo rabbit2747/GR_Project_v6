@@ -1,0 +1,111 @@
+# GR Atom: CVE-2025-21590
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202521590-001"
+  name: "CVE-2025-21590"
+  normalized_name: "cve_2025_21590"
+  aliases:
+    - "Juniper Junos OS Improper Isolation Vulnerability"
+    - "Junos OS Kernel Isolation Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - NETWORK
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Juniper Junos OS (multiple versions)"
+    - "Juniper Networks routers and switches"
+    - "Junos OS kernel isolation layer"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2025-21590 is an improper isolation or compartmentalization vulnerability in the Juniper
+    Junos OS kernel affecting multiple versions across Juniper Networks routing and switching
+    platforms. The vulnerability allows a local attacker with shell access to execute arbitrary
+    code by exploiting weaknesses in the kernel's process isolation mechanisms. This can lead to
+    device compromise and integrity violations. CVSS v3.1 score is 4.4 (Medium). Juniper confirmed
+    the vulnerability has been exploited in the wild, with CISA adding it to the Known Exploited
+    Vulnerabilities catalog in March 2025.
+  why: >-
+    Juniper Networks routers and switches form the backbone of enterprise and service provider
+    networks globally. While requiring local shell access limits the attack surface, sophisticated
+    threat actors who gain initial access to network infrastructure devices can leverage this
+    vulnerability for privilege escalation and persistent compromise. The exploitation of Junos OS
+    vulnerabilities by state-sponsored actors targeting telecommunications and critical
+    infrastructure has been a growing concern, as network infrastructure devices provide strategic
+    vantage points for traffic interception and espionage.
+  how: >-
+    A local attacker with shell access to the Junos OS device exploits improper isolation in the
+    kernel to break out of process compartmentalization boundaries and execute arbitrary code with
+    elevated privileges. This can be used to inject code into trusted processes, modify system
+    configurations, or install persistent backdoors. Mitigation includes applying Juniper security
+    patches, restricting shell access to authorized administrators only, implementing strong
+    authentication for device management, monitoring for unauthorized process execution, and
+    performing regular integrity checking of Junos OS system files.
+  core_concepts:
+    - key: "Kernel Isolation Bypass"
+      value: "Exploiting weaknesses in Junos OS kernel process isolation to break compartmentalization boundaries and execute arbitrary code"
+    - key: "Network Infrastructure Compromise"
+      value: "Compromising core routing and switching infrastructure provides strategic positioning for traffic interception and network-wide espionage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2025-21590 exploits authentication and privilege boundaries in the Junos OS kernel"
+  - type: "enables"
+    target: "VUL-AUTH-CVE202420359-001"
+    description: "Similar to Cisco ASA persistence, Junos OS compromise enables persistent implants on network infrastructure devices"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2025-21590"
+    - "NIST NVD CVE-2025-21590 (CVSS v3.1: 4.4)"
+    - "Juniper Networks Security Advisory JSA92300"
+    - "CISA KEV Catalog - CVE-2025-21590"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2025-21590"
+    - "Juniper Junos OS vulnerability"
+    - "Junos kernel isolation bypass"
+    - "Juniper router exploit"
+    - "Junos OS privilege escalation"
+    - "Juniper network infrastructure compromise"
+  embedding_text: >-
+    CVE-2025-21590 is an improper isolation vulnerability in the Juniper Junos OS kernel with
+    CVSS v3.1 score 4.4. A local attacker with shell access exploits weaknesses in kernel process
+    isolation to execute arbitrary code with elevated privileges. Affects multiple Junos OS
+    versions across Juniper routing and switching platforms. Confirmed exploited in the wild with
+    CISA adding it to the KEV catalog in March 2025. Juniper infrastructure forms the backbone
+    of enterprise and service provider networks, making compromise valuable for traffic
+    interception and espionage. Mitigation includes patching, restricting shell access, strong
+    management authentication, monitoring for unauthorized processes, and regular integrity
+    checking of system files.

@@ -1,0 +1,72 @@
+# GR Atom: GKE
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-GKE-001"
+  name: "GKE"
+  normalized_name: "gke"
+  aliases: ["Google Kubernetes Engine", "GKE Cluster", "Google GKE"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [K8S, CONTAINER, GCP, CLOUD]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+definition:
+  what: >-
+    Google Kubernetes Engine (GKE) is a managed Kubernetes service on Google Cloud Platform
+    that provides automated cluster provisioning, scaling, upgrades, and management. GKE
+    offers Standard mode (user-managed node pools) and Autopilot mode (fully managed nodes).
+    It integrates with GCP networking (VPC-native clusters), security (Workload Identity,
+    Binary Authorization), and observability (Cloud Logging, Cloud Monitoring) services.
+  why: >-
+    GKE clusters are high-value targets due to the workloads they orchestrate. Security
+    concerns include exposed Kubernetes API servers, overly permissive RBAC, container escape
+    vulnerabilities, supply chain attacks through compromised container images, and metadata
+    server credential theft from pods. GKE Autopilot reduces attack surface by restricting
+    node-level access but introduces different trust boundaries. Workload Identity eliminates
+    service account key exposure risks.
+  how: >-
+    GKE manages the Kubernetes control plane (API server, etcd, scheduler) while customers
+    manage workloads. VPC-native networking provides pod IP addresses from VPC subnets.
+    Workload Identity maps Kubernetes service accounts to GCP IAM service accounts without
+    key files. Binary Authorization enforces container image signing policies. GKE Sandbox
+    (gVisor) provides kernel-level container isolation. Shielded GKE nodes use Secure Boot
+    and vTPM. Network policies and Anthos Service Mesh control pod-to-pod communication.
+  core_concepts:
+    - key: "Managed Kubernetes Control Plane"
+      value: "Google manages the API server, etcd, and control plane components with automatic upgrades, patching, and high availability"
+    - key: "Workload Identity"
+      value: "Maps Kubernetes service accounts to GCP IAM service accounts, eliminating the need for service account key files that can be stolen"
+    - key: "Binary Authorization"
+      value: "Enforces deploy-time security policies requiring container images to be signed by trusted authorities before running in GKE"
+relations:
+  - type: "instance_of"
+    target: "INFRA-COMPUTE-CONORCSOF-001"
+    description: "GKE is a managed instance of container orchestration software"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "GKE is the managed Kubernetes service within GCP"
+  - type: "implements"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "GKE implements the Kubernetes container orchestration platform"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["GKE Security Documentation", "CIS Google Kubernetes Engine Benchmark", "MITRE ATT&CK Containers Matrix"]
+  search_keywords: ["GKE", "google kubernetes engine", "GKE security", "GKE autopilot", "workload identity", "binary authorization", "managed kubernetes GCP"]
+  embedding_text: >-
+    Google Kubernetes Engine (GKE) is a managed Kubernetes service on GCP offering Standard
+    and Autopilot modes with automated provisioning, scaling, and upgrades. Security concerns
+    include exposed API servers, permissive RBAC, container escapes, supply chain attacks,
+    and metadata credential theft. Workload Identity eliminates service account key exposure.
+    Binary Authorization enforces container image signing. GKE Sandbox (gVisor) provides
+    kernel-level isolation. Shielded nodes use Secure Boot and vTPM. VPC-native networking
+    and network policies control pod communication.

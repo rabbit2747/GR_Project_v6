@@ -1,0 +1,116 @@
+# GR Atom: CVE-2015-0204
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20150204-001"
+  name: "CVE-2015-0204"
+  normalized_name: "cve_2015_0204"
+  aliases:
+    - "FREAK Attack"
+    - "Factoring RSA Export Keys"
+    - "SMACK FREAK"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - TLS
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "OpenSSL TLS Client"
+    - "Apple SecureTransport"
+    - "Microsoft SChannel"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-0204 (FREAK - Factoring RSA Export Keys) is a vulnerability where TLS clients,
+    including OpenSSL, Apple SecureTransport, and Microsoft SChannel, can be forced to accept
+    export-grade RSA keys (512-bit) through a man-in-the-middle downgrade attack. The vulnerability
+    exists because clients accept RSA_EXPORT cipher suites even when they were not offered in the
+    ClientHello. CVSS score is 4.3. Disclosed in March 2015, the vulnerability traces back to 1990s
+    US export restrictions on cryptography.
+  why: >-
+    FREAK demonstrated that decades-old export cryptography restrictions continued to undermine
+    modern security. Export-grade 512-bit RSA keys can be factored in hours using cloud computing
+    for approximately $100, making the downgraded connection trivially breakable. The vulnerability
+    affected approximately 37% of HTTPS sites and multiple major client implementations, showing
+    how legacy cipher suite support creates ongoing security risks.
+  how: >-
+    The attacker intercepts the TLS handshake and modifies the ClientHello to request an RSA_EXPORT
+    cipher suite. When the server supports export ciphers, it responds with a 512-bit RSA key. The
+    vulnerable client accepts this weak key despite not having requested export ciphers. The attacker
+    then factors the 512-bit RSA key (feasible in hours with cloud computing), recovers the TLS
+    master secret, and can decrypt all traffic. The client vulnerability is the acceptance of the
+    unexpected ServerKeyExchange message with export-grade parameters.
+  core_concepts:
+    - name: "Export Cipher Downgrade"
+      value: "Forcing TLS clients to accept 512-bit export-grade RSA keys through man-in-the-middle handshake manipulation"
+    - name: "Legacy Cipher Suite Risk"
+      value: "1990s-era US cryptography export restrictions created deliberately weakened cipher suites that remain exploitable today"
+    - name: "RSA Key Factoring"
+      value: "512-bit RSA keys can be factored using modern computing resources in hours, breaking the connection's confidentiality"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "FREAK is an instance of cryptographic downgrade vulnerability exploiting export cipher suites"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "FREAK affects TLS implementations that support or accept RSA_EXPORT cipher suites"
+  - type: "enables"
+    target: "VUL-CRYPTO-CVE20154000-001"
+    description: "FREAK and Logjam are related export cipher downgrade attacks; FREAK targets RSA while Logjam targets DH"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2015-0204"
+    - "SMACK: State Machine AttaCKs - freakattack.com"
+    - "OpenSSL Security Advisory 2015-01-08"
+  search_keywords:
+    - "CVE-2015-0204"
+    - "FREAK attack"
+    - "Factoring RSA Export Keys"
+    - "export cipher vulnerability"
+    - "RSA 512-bit factoring"
+    - "TLS downgrade attack"
+    - "export grade cryptography"
+    - "SMACK FREAK"
+  embedding_text: >-
+    CVE-2015-0204, known as FREAK (Factoring RSA Export Keys), is a TLS downgrade vulnerability
+    where clients including OpenSSL, Apple SecureTransport, and Microsoft SChannel can be forced
+    to accept export-grade 512-bit RSA keys. A man-in-the-middle attacker modifies the TLS
+    handshake to request RSA_EXPORT cipher suites, and vulnerable clients accept the weak key
+    despite not requesting it. The 512-bit RSA key can then be factored in hours using cloud
+    computing, allowing the attacker to decrypt all traffic. The vulnerability traces back to
+    1990s US export restrictions that mandated deliberately weakened cryptography. Disclosed in
+    March 2015, FREAK affected approximately 37 percent of HTTPS sites. The fix involves
+    removing export cipher suite support from both clients and servers. FREAK demonstrated how
+    legacy cryptographic policy decisions continue to undermine modern security and accelerated
+    the removal of export cipher suites from TLS implementations. CVSS score is 4.3.

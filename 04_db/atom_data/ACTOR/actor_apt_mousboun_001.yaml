@@ -1,0 +1,73 @@
+# GR Atom: Moustached Bouncer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-MOUSBOUN-001"
+  name: "Moustached Bouncer"
+  normalized_name: "moustached_bouncer"
+  aliases:
+    - "MoustachedBouncer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "C2"
+    - "EXFIL"
+    - "EVADE"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "ISP infrastructure"
+    - "network traffic"
+    - "Windows workstations"
+    - "embassy networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Moustached Bouncer is a Belarus-aligned APT group discovered by ESET in 2023 that has been active since at least 2014, specifically targeting foreign diplomats and embassy staff in Belarus. The group is notable for its suspected use of ISP-level adversary-in-the-middle (AitM) attacks to intercept and modify network traffic, a capability suggesting cooperation with Belarusian telecommunications infrastructure operators."
+  why: "The group conducts espionage against foreign diplomatic missions in Belarus to monitor diplomatic communications, track foreign intelligence activities, and collect information on foreign government positions regarding Belarus and its allies. This intelligence supports Belarusian state security and foreign policy objectives, potentially in coordination with Russian intelligence interests."
+  how: "Moustached Bouncer's most distinctive capability is suspected ISP-level network interception enabling adversary-in-the-middle attacks at the telecommunications infrastructure level. This allows them to redirect targeted users to fake Windows Update pages or captive portals to deliver malware. The group deploys custom malware frameworks including NightClub and Disco, which feature modular plugin architectures supporting keylogging, screenshot capture, audio recording, and file exfiltration. Data exfiltration uses SMTP email protocols and SMB file shares for covert data transfer."
+  core_concepts:
+    - "ISP-level adversary-in-the-middle attacks"
+    - "diplomatic mission espionage"
+    - "Belarusian state-aligned operations"
+    - "NightClub and Disco malware"
+    - "network traffic manipulation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-GRIZSTEP-001"
+    description: "Suspected cooperation with Russian intelligence through shared Belarusian-Russian security apparatus"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "ESET - MoustachedBouncer: Espionage Against Foreign Diplomats in Belarus (2023)"
+    - "ESET - Black Hat USA 2023 Presentation"
+  search_keywords:
+    - "moustached bouncer"
+    - "MoustachedBouncer"
+    - "belarus APT"
+    - "NightClub malware"
+    - "Disco malware"
+    - "ISP adversary in the middle"
+    - "embassy espionage"
+    - "diplomatic targeting belarus"
+  embedding_text: "Moustached Bouncer is a Belarus-aligned APT group discovered by ESET active since at least 2014, targeting foreign diplomats and embassy staff in Belarus. The group's most distinctive capability is suspected ISP-level adversary-in-the-middle attacks using Belarusian telecommunications infrastructure to intercept and redirect targeted network traffic. Victims are redirected to fake Windows Update pages or captive portals to deliver malware. The group deploys custom modular malware frameworks named NightClub and Disco, featuring plugins for keylogging, screenshot capture, audio recording, and file exfiltration. Data exfiltration leverages SMTP email protocols and SMB file shares. Moustached Bouncer specifically targets foreign diplomatic missions to monitor diplomatic communications and track foreign intelligence activities within Belarus. The ISP-level interception capability suggests cooperation with Belarusian state telecommunications operators, distinguishing this group from typical APT actors that rely on conventional initial access methods."

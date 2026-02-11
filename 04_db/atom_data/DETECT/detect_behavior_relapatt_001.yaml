@@ -1,0 +1,75 @@
+# GR Atom: Relay Pattern Analysis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-RELAPATT-001"
+  name: "Relay Pattern Analysis"
+  normalized_name: "relay_pattern_analysis"
+  aliases:
+    - "NTLM Relay Detection"
+    - "Authentication Relay Pattern"
+    - "Credential Relay Analysis"
+    - "Pass-the-Hash Relay Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - LATERAL
+    - NETWORK
+    - MONITOR
+    - SMB
+
+scope:
+  target_layers: ["L4", "L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Relay Pattern Analysis is a behavioral detection technique that identifies authentication relay attacks where an adversary intercepts authentication messages between a client and server and forwards them to a different target to gain unauthorized access. The most common variant is NTLM relay where an attacker captures NTLM authentication handshakes and relays them to other network services. This detection monitors for characteristic patterns including authentication requests where the source of the challenge differs from the destination of the response, timing anomalies in authentication handshakes, authentication attempts from hosts that did not initiate the original connection, and mismatches between the apparent source and the network-level source of authentication traffic."
+  why: "Authentication relay attacks are among the most effective and widely used techniques for lateral movement and privilege escalation in Windows Active Directory environments. NTLM relay can be performed without knowledge of the target password, requiring only the ability to intercept or coerce authentication attempts. Tools like ntlmrelayx and Responder make these attacks accessible even to less sophisticated adversaries. Relay attacks are particularly dangerous because they can escalate privileges by relaying authentication from a high-privilege account to a sensitive service, potentially gaining domain administrator access from a single compromised network position."
+  how: "Detection systems monitor authentication traffic patterns across the network using multiple data sources. Network-level analysis examines NTLM authentication exchanges captured from SMB, HTTP, LDAP, and MSSQL traffic, identifying cases where the authentication challenge originates from one host but the response is directed to a different target. Host-level analysis correlates authentication events from Windows Security Event Logs including Event IDs 4624, 4625, and 4648, identifying patterns where authentication source IPs do not match expected communication patterns. Timing analysis detects the characteristic microsecond-level delays introduced by relay proxying between the original authentication and the relayed version. The detection also monitors for indicators of authentication coercion such as LLMNR/NBT-NS poisoning and printer bug exploitation that attackers use to trigger authentication attempts. Integration with network flow analysis identifies suspicious authentication patterns crossing trust boundaries."
+  core_concepts:
+    - key: "NTLM Relay"
+      value: "An attack where captured NTLM authentication handshakes are forwarded to different services, gaining access without knowing the password"
+    - key: "Authentication Coercion"
+      value: "Techniques like LLMNR poisoning and printer bug that force target systems to initiate authentication to attacker-controlled endpoints"
+    - key: "Channel Binding"
+      value: "A defense mechanism that ties authentication tokens to the specific network channel, preventing relay to different destinations"
+
+relations:
+  - type: effective_against
+    target: "ATK-CRED-NTLMRELA-001"
+    description: "Directly detects NTLM relay attacks used for lateral movement and privilege escalation"
+  - type: requires
+    target: "DETECT-BEHAVIOR-BEHCORWIN-001"
+    description: "Relay detection requires correlation of authentication events within tight time windows"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557.001"
+    tactic: ["Credential Access", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1557.001 - LLMNR/NBT-NS Poisoning and SMB Relay - https://attack.mitre.org/techniques/T1557/001/"
+    - "Microsoft - NTLM Relay Attack Detection - https://learn.microsoft.com/en-us/defender-for-identity/"
+    - "SpecterOps - NTLM Relay Detection Techniques - https://posts.specterops.io/"
+  search_keywords:
+    - "NTLM relay detection"
+    - "authentication relay pattern"
+    - "credential relay analysis"
+    - "relay attack detection"
+    - "pass-the-hash relay"
+    - "LLMNR poisoning detection"
+    - "SMB relay detection"
+    - "authentication coercion"
+  embedding_text: "Relay Pattern Analysis detects authentication relay attacks where adversaries intercept and forward authentication messages to gain unauthorized access. NTLM relay is the most common variant, capturing handshakes and relaying them to different services without password knowledge. Detection monitors for authentication challenges sourced differently from responses, timing anomalies in handshakes, authentication from non-initiating hosts, and source-network mismatches. Analysis covers SMB, HTTP, LDAP, and MSSQL traffic, correlating with Windows Security Event Logs. Detection also monitors for authentication coercion indicators like LLMNR poisoning and printer bug exploitation. This technique addresses critical lateral movement and privilege escalation attacks in Active Directory environments."

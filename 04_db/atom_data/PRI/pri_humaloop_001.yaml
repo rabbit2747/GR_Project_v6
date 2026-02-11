@@ -1,0 +1,101 @@
+# GR Atom: Human in the Loop Controller
+# Schema: atom_schema.yaml v5.1
+# Status: enriched (AI enrichment complete)
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-HUMALOOP-001"
+  name: "Human in the Loop Controller"
+  normalized_name: "human_in_the_loop_controller"
+  aliases:
+    - "Human in the Loop"
+    - "HITL"
+    - "Human-in-the-Loop"
+    - "Human Oversight"
+    - "Human-on-the-Loop"
+    - "Manual Override Principle"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 4
+  atom_tags:
+    - AI
+    - AUDIT
+    - MONITOR
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Human in the Loop Controller is a cybersecurity and AI governance principle that mandates human oversight, review, and approval authority over automated systems, particularly for decisions with significant security, safety, or operational impact. This principle requires that automated processes — including AI-driven threat detection, automated incident response, access provisioning, and machine learning-based decision systems — incorporate defined checkpoints where qualified human operators can review, validate, override, or halt automated actions before they are executed or at critical decision boundaries."
+  why: "Automated security systems, while essential for speed and scale, can produce false positives that disrupt operations, false negatives that miss genuine threats, or unintended actions that cause collateral damage. AI and machine learning models may exhibit bias, drift, or adversarial manipulation that automated safeguards alone cannot reliably detect. Regulatory frameworks including the EU AI Act, NIST AI RMF, and ISO/IEC 42001 increasingly mandate human oversight for high-risk automated decision systems. Human judgment provides contextual understanding, ethical reasoning, and accountability that purely automated systems cannot replicate, ensuring that critical security decisions align with organizational policy and legal requirements."
+  how: "Implementation follows a risk-tiered approach: (1) classify automated processes by impact level — high-impact decisions (access to critical systems, incident containment, data destruction) require pre-execution human approval; medium-impact decisions require human review within defined time windows; low-impact decisions allow automation with post-action audit trails. (2) Design approval workflows with clear escalation paths, role-based authorization, and time-bound response requirements. (3) Implement override mechanisms that allow authorized operators to halt, reverse, or modify automated actions at any stage. (4) Establish monitoring dashboards that present automated decision rationale, confidence scores, and anomaly indicators to human reviewers. (5) Conduct regular audits of automated decision outcomes to identify drift, bias, or systematic errors. (6) Train operators on the automated systems they oversee, including known failure modes and edge cases."
+  core_concepts:
+    - key: "Tiered Oversight Model"
+      value: "Classifying automated decisions into risk tiers (high, medium, low) with corresponding levels of human involvement ranging from pre-approval to post-action audit."
+    - key: "Override Authority"
+      value: "Ensuring that authorized human operators always retain the ability to halt, reverse, or modify automated actions, with override mechanisms that are accessible, reliable, and auditable."
+    - key: "Decision Transparency"
+      value: "Requiring automated systems to provide explainable outputs including confidence scores, decision rationale, and data sources so human reviewers can make informed judgments."
+    - key: "Accountability Chain"
+      value: "Maintaining clear assignment of responsibility for automated decisions, ensuring that a designated human is accountable for every high-impact action taken by or approved through automated systems."
+    - key: "Continuous Validation"
+      value: "Performing ongoing assessment of automated system accuracy, bias, and drift through regular audits, outcome analysis, and adversarial testing to ensure human oversight remains calibrated."
+    - key: "Escalation Protocols"
+      value: "Defining clear escalation paths for situations where automated systems encounter edge cases, low-confidence decisions, or scenarios outside their training parameters that require human expertise."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "DEF-MONITOR-SIEM-001"
+    description: "Human in the loop controls apply to SIEM alert triage processes, requiring human analysts to validate and contextualize automated alerts before escalation or response actions."
+  - type: "applies_to"
+    target: "DEF-ENDPOINT-EDR-001"
+    description: "EDR automated response actions such as host isolation or process termination require human oversight controls for high-impact containment decisions."
+  - type: "enables"
+    target: "DEF-MONITOR-AUDITRAI-001"
+    description: "Human oversight decisions create audit trail entries that document approval rationale, override justifications, and accountability records for compliance."
+  - type: "enables"
+    target: "DEF-MONITOR-SECUAUDI-001"
+    description: "Human review checkpoints generate auditable decision records that support security audit processes and regulatory compliance demonstrations."
+  - type: "requires"
+    target: "DEF-ACCESS-RBAC-002"
+    description: "Role-based access control is required to ensure that only authorized personnel with appropriate training and clearance can exercise human override and approval authority."
+  - type: "implements"
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "Human in the loop controls implement regulatory compliance requirements from frameworks such as the EU AI Act, GDPR automated decision provisions, and NIST AI RMF."
+  - type: "part_of"
+    target: "PRI-BESTPRAC-001"
+    description: "Human in the loop oversight is a recognized best practice in cybersecurity operations, AI governance, and critical infrastructure protection."
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST AI Risk Management Framework (AI RMF 1.0) — Govern, Map, Measure, Manage Functions"
+    - "ISO/IEC 42001:2023 — Artificial Intelligence Management System (AIMS)"
+    - "EU AI Act (Regulation 2024/1689) — Article 14: Human Oversight of High-Risk AI Systems"
+    - "NIST SP 800-53 Rev. 5 — Security and Privacy Controls (AC-6, AU-6, IR-4, IR-5)"
+    - "DoD Directive 3000.09 — Autonomy in Weapon Systems (Human Control Requirements)"
+  search_keywords:
+    - "human in the loop"
+    - "HITL"
+    - "human oversight"
+    - "human-on-the-loop"
+    - "manual override"
+    - "AI governance"
+    - "automated decision oversight"
+    - "human review"
+    - "AI safety"
+    - "accountability"
+  embedding_text: "Human in the Loop Controller is a cybersecurity and AI governance principle requiring that automated systems incorporate mandatory human oversight at critical decision points. This principle ensures that qualified human operators retain the authority to review, approve, override, or halt automated actions, particularly those with significant security, safety, or operational impact. Implementation follows a risk-tiered model where high-impact automated decisions such as critical system access changes, incident containment actions, and data destruction operations require pre-execution human approval, while lower-impact actions allow automation with post-action audit trails. The principle mandates decision transparency through explainable AI outputs with confidence scores, clear accountability chains assigning responsibility for every automated decision, and reliable override mechanisms accessible to authorized personnel. Regulatory frameworks including the EU AI Act, NIST AI Risk Management Framework, and ISO/IEC 42001 increasingly require human oversight for high-risk automated systems. In cybersecurity operations, this principle applies to SIEM alert triage, EDR automated response, automated access provisioning, and AI-driven threat hunting. Continuous validation through regular audits ensures that automated systems remain accurate and unbiased, and that human oversight remains appropriately calibrated to evolving threat landscapes and system capabilities."

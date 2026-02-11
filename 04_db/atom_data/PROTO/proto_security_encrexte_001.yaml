@@ -1,0 +1,121 @@
+# GR Atom: Encrypted Extensions
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-ENCREXTE-001"
+  name: "Encrypted Extensions"
+  normalized_name: "encrypted_extensions"
+  aliases:
+    - "EncryptedExtensions"
+    - "TLS EncryptedExtensions Message"
+    - "EE Message"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Encrypted Extensions is a TLS 1.3 handshake message defined in RFC 8446 Section 4.3.1 that
+    carries server handshake extensions which are not required for cryptographic parameter
+    negotiation but do need confidentiality protection. It is the first encrypted handshake
+    message sent by the server after the ServerHello, transmitted immediately after the server
+    derives the handshake traffic keys. This message replaces the plaintext extension delivery
+    mechanism used in TLS 1.2 ServerHello, where extensions such as ALPN (Application-Layer
+    Protocol Negotiation), server_name acknowledgment, and supported_groups were transmitted
+    in cleartext, exposing metadata to passive observers.
+  why: >-
+    In TLS 1.2, all ServerHello extensions were transmitted in plaintext, allowing passive
+    network observers to extract metadata about the connection including the negotiated
+    application protocol (HTTP/2, SPDY), supported elliptic curve groups, and server name
+    indication acknowledgments. This metadata leakage enabled traffic analysis, fingerprinting,
+    and censorship. TLS 1.3 introduced Encrypted Extensions to protect this non-cryptographic
+    handshake metadata by encrypting it under the handshake traffic keys derived from the
+    key exchange. This design reflects the TLS 1.3 principle of encrypting as much of the
+    handshake as possible, minimizing the information visible to network intermediaries.
+  how: >-
+    After the TLS 1.3 ServerHello establishes the shared secret through key exchange, the
+    server derives handshake traffic keys using HKDF-Expand-Label. The EncryptedExtensions
+    message is then constructed containing all server extensions that respond to ClientHello
+    extensions but are not needed for key establishment. These include: server_name (SNI
+    acknowledgment), max_fragment_length, supported_groups, use_srtp, heartbeat, ALPN,
+    client_certificate_type, server_certificate_type, and early_data indication. The message
+    is encrypted using the server handshake traffic secret and sent immediately after
+    ServerHello. Extensions that must remain in cleartext for key establishment (key_share,
+    supported_versions, pre_shared_key) stay in ServerHello. The client decrypts and processes
+    EncryptedExtensions to configure the connection parameters.
+  core_concepts:
+    - key: "Handshake Metadata Protection"
+      value: >-
+        EncryptedExtensions protects server response extensions from passive observation by
+        encrypting them under handshake traffic keys, preventing metadata leakage about
+        application protocols, server capabilities, and session parameters.
+    - key: "Extension Partitioning"
+      value: >-
+        TLS 1.3 partitions server extensions between ServerHello (cryptographic parameters
+        needed for key derivation) and EncryptedExtensions (all other parameters), establishing
+        a clear security boundary based on confidentiality requirements.
+    - key: "First Encrypted Server Message"
+      value: >-
+        EncryptedExtensions is the first message encrypted under handshake keys in the server's
+        flight, immediately following the plaintext ServerHello and preceding Certificate and
+        CertificateVerify messages.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-SECURITY-TLS13-001"
+    description: "Encrypted Extensions is a handshake message introduced exclusively in TLS 1.3"
+  - type: "part_of"
+    target: "PROTO-SECURITY-SERVHELL-001"
+    description: "Encrypted Extensions carries server extensions that were previously included in the ServerHello message in TLS 1.2"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "Encrypted Extensions requires TLS handshake key derivation to encrypt its contents"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 8446 - The Transport Layer Security (TLS) Protocol Version 1.3, Section 4.3.1. IETF. https://datatracker.ietf.org/doc/html/rfc8446#section-4.3.1"
+    - "Rescorla, E. (2018). The Illustrated TLS 1.3 Connection. https://tls13.xargs.org/"
+  search_keywords:
+    - "encrypted extensions"
+    - "TLS 1.3 encrypted extensions"
+    - "EncryptedExtensions message"
+    - "handshake metadata protection"
+    - "TLS extension encryption"
+    - "RFC 8446 section 4.3.1"
+    - "ALPN encryption"
+    - "server extensions confidentiality"
+  embedding_text: >-
+    Encrypted Extensions is a TLS 1.3 handshake message defined in RFC 8446 that carries
+    server extensions requiring confidentiality protection. Sent immediately after ServerHello
+    once handshake traffic keys are derived, it is the first encrypted message in the server's
+    handshake flight. The message contains server response extensions that do not participate
+    in cryptographic negotiation, including ALPN, server_name acknowledgment, supported_groups,
+    max_fragment_length, and early_data indication. In TLS 1.2, these extensions were transmitted
+    in plaintext within ServerHello, exposing metadata to passive observers for traffic analysis
+    and fingerprinting. TLS 1.3 partitions extensions between ServerHello for cryptographic
+    parameters needed before encryption and EncryptedExtensions for all other parameters,
+    implementing the design principle of encrypting maximum handshake content. The client
+    decrypts EncryptedExtensions using the handshake traffic secret to configure connection
+    parameters before proceeding to certificate verification.

@@ -1,0 +1,73 @@
+# GR Atom: Trend Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TRENLABS-001"
+  name: "Trend Labs"
+  normalized_name: "trend_labs"
+  aliases:
+    - "TrendLabs"
+    - "Trend Micro Research"
+    - "Trend Micro Threat Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Trend Labs is the threat research and intelligence division of Trend Micro, one of the world's largest cybersecurity vendors. The research team produces detailed analysis of malware families, ransomware operations, APT campaigns, vulnerability disclosures, and emerging cyber threats, operating from research centers worldwide. Trend Labs powers Trend Micro's Smart Protection Network threat intelligence infrastructure and provides threat data to the company's endpoint, network, and cloud security products."
+  why: "Trend Labs is significant because it produces some of the most comprehensive threat research in the industry, with particular expertise in analyzing threats targeting the Asia-Pacific region, industrial control systems, and underground cybercrime markets. The team's research on underground economies and cybercrime-as-a-service models has provided unique insights into the business of cybercrime."
+  how: "Trend Labs operates through global research centers that collect and analyze threat data from Trend Micro's Smart Protection Network, processing billions of threats daily. Researchers perform malware reverse engineering, track APT campaigns, monitor underground forums, and discover vulnerabilities. Findings feed directly into Trend Micro's security products and are published through the Trend Micro Research blog and annual security roundup reports."
+  core_concepts:
+    - key: "Smart Protection Network"
+      value: "Cloud-based threat intelligence infrastructure processing billions of daily threats to provide real-time protection"
+    - key: "Underground Research"
+      value: "Pioneering research into cybercrime underground markets, services, and economic models"
+    - key: "Global Threat Analysis"
+      value: "Worldwide research operations with particular expertise in Asia-Pacific regional threats and ICS/SCADA security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "ACTOR-VENDOR-TRENMICR-001"
+    description: "Threat research division of Trend Micro providing intelligence for the company's security products"
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow vendor threat research division producing malware analysis and threat intelligence"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.trendmicro.com/en_us/research.html"
+  search_keywords:
+    - "trend labs"
+    - "trendlabs"
+    - "trend micro research"
+    - "smart protection network"
+    - "threat intelligence"
+    - "malware research"
+    - "underground research"
+    - "cybercrime research"
+  embedding_text: "Trend Labs is the threat research and intelligence division of Trend Micro, producing detailed analysis of malware families, ransomware operations, APT campaigns, vulnerability disclosures, and emerging cyber threats from research centers worldwide. The team powers Trend Micro's Smart Protection Network threat intelligence infrastructure, processing billions of daily threats. Trend Labs is particularly known for pioneering research into cybercrime underground markets, Asia-Pacific regional threats, and industrial control system security."

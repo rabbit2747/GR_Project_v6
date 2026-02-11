@@ -1,0 +1,133 @@
+# GR Atom: SSH Secure Shell
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-SSHSECSHE-001"
+  name: "SSH Secure Shell"
+  normalized_name: "ssh_secure_shell"
+  aliases:
+    - "Secure Shell Protocol Family"
+    - "SSH Protocol Suite"
+    - "Secure Shell Framework"
+    - "SSH Architecture"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 3
+  atom_tags:
+    - SSH
+    - ENCRYPT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SSH Secure Shell is the overarching protocol category encompassing all versions and
+    implementations of the Secure Shell cryptographic network protocol for secure remote
+    access, file transfer, and network tunneling. The category includes SSH-1 (the original
+    1995 protocol by Tatu Ylonen, now deprecated due to cryptographic weaknesses), SSH-2
+    (the IETF-standardized version in RFC 4251-4254 that is the current standard), and various
+    implementation-specific extensions including OpenSSH extensions for certificate authentication,
+    FIDO2/U2F hardware key support, and post-quantum key exchange. As a protocol category,
+    SSH Secure Shell represents the complete ecosystem of secure remote access protocols that
+    replaced plaintext predecessors like Telnet, rlogin, and rsh.
+  why: >-
+    The SSH Secure Shell category exists to provide a unified reference for the family of
+    protocols, implementations, and extensions that constitute the secure remote access
+    ecosystem. While SSH-2 (the specific protocol) defines the wire format and cryptographic
+    operations, the broader SSH Secure Shell category encompasses implementation choices
+    (OpenSSH, PuTTY, Dropbear, libssh), operational patterns (key management, certificate
+    authorities, jump hosts), and evolving extensions (FIDO2 keys, post-quantum algorithms).
+    Understanding the full SSH ecosystem is essential for security architecture because SSH
+    represents one of the largest deployed authentication and encryption systems, with SSH
+    keys often providing privileged access to critical infrastructure.
+  how: >-
+    The SSH Secure Shell ecosystem operates through multiple layers: (1) Protocol Standards -
+    RFC 4251-4254 defining the SSH-2 architecture, transport, authentication, and connection
+    protocols; (2) Implementations - OpenSSH (dominant on Unix/Linux/macOS/Windows), PuTTY
+    (Windows GUI client), Dropbear (embedded systems), and libssh/libssh2 (programming
+    libraries); (3) Key Management - generation (ssh-keygen), distribution (ssh-copy-id,
+    authorized_keys), and lifecycle management per NIST IR 7966; (4) Extensions - OpenSSH
+    certificates (ssh-keygen -s), FIDO2/U2F hardware authenticator support (sk-ssh-ed25519),
+    jump/proxy command chaining, and agent forwarding; (5) File Transfer - SFTP (SSH File
+    Transfer Protocol, RFC 4254 subsystem) and SCP (Secure Copy Protocol); (6) Configuration
+    Management - sshd_config for server hardening, ssh_config for client defaults, and
+    Match blocks for conditional configuration.
+  core_concepts:
+    - key: "SSH-1 vs SSH-2"
+      value: >-
+        SSH-1 (1995) used a single monolithic protocol with known cryptographic weaknesses
+        including CRC-32 integrity checks. SSH-2 (RFC 4251, 2006) redesigned the architecture
+        into three layered protocols with modern cryptographic primitives.
+    - key: "Implementation Ecosystem"
+      value: >-
+        OpenSSH is the dominant implementation maintained by the OpenBSD project. Other
+        implementations include PuTTY for Windows, Dropbear for embedded systems, and
+        libssh/libssh2 as programming libraries.
+    - key: "SSH Key Management Lifecycle"
+      value: >-
+        Enterprise SSH deployments require key generation, secure distribution, authorized_keys
+        management, periodic rotation, and orphaned key remediation as defined in NIST IR 7966.
+    - key: "OpenSSH Certificate Authority"
+      value: >-
+        OpenSSH supports its own certificate format (not X.509) allowing centralized CA-based
+        authentication without distributing individual public keys to every server.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "PROTO-SECURITY-SSH-001"
+    description: "SSH Secure Shell is the protocol category that SSH-2 implements as the current standardized version"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "SSH Secure Shell provides a complete alternative to TLS for secure remote access and encrypted tunneling"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-IPSEC-001"
+    description: "SSH Secure Shell provides application-layer secure tunneling as an alternative to IPSec network-layer encryption"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4251 - The Secure Shell (SSH) Protocol Architecture. IETF. https://datatracker.ietf.org/doc/html/rfc4251"
+    - "Ylonen, T. (1996). SSH - Secure Login Connections over the Internet. USENIX Security Symposium."
+    - "NIST IR 7966 - Security of Interactive and Automated Access Management Using Secure Shell (SSH). https://csrc.nist.gov/publications/detail/nistir/7966/final"
+    - "OpenSSH Project. https://www.openssh.com/"
+  search_keywords:
+    - "SSH Secure Shell"
+    - "SSH protocol family"
+    - "OpenSSH"
+    - "SSH-1 SSH-2"
+    - "Tatu Ylonen SSH"
+    - "SSH key management"
+    - "SSH certificate authority"
+    - "SFTP SCP"
+    - "SSH ecosystem"
+    - "NIST IR 7966"
+  embedding_text: >-
+    SSH Secure Shell is the overarching protocol category for all versions and implementations
+    of the Secure Shell cryptographic network protocol. It encompasses SSH-1 (1995, deprecated),
+    SSH-2 (RFC 4251-4254, current standard), and implementation-specific extensions. The
+    ecosystem includes OpenSSH as the dominant implementation on Unix/Linux/macOS/Windows,
+    PuTTY for Windows, Dropbear for embedded systems, and libssh programming libraries. Key
+    management involves generation, distribution via authorized_keys, certificate authorities
+    using OpenSSH's own format, and FIDO2/U2F hardware authenticator support. File transfer
+    uses SFTP and SCP subsystems. Created by Tatu Ylonen in 1995 to replace insecure plaintext
+    Telnet and rlogin, SSH became one of the largest deployed authentication and encryption
+    systems. NIST IR 7966 provides enterprise SSH key management guidance. The category
+    represents the complete secure remote access ecosystem including protocol standards,
+    implementations, operational patterns, and evolving extensions for post-quantum
+    cryptography.

@@ -1,0 +1,78 @@
+# GR Atom: Edge Transport
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-EDGETRAN-001"
+  name: "Edge Transport"
+  normalized_name: "edge_transport"
+  aliases:
+    - "Edge Transport Server"
+    - "Exchange Edge Transport"
+    - "Mail Edge Server"
+    - "SMTP Edge Gateway"
+    - "Edge Transport Role"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - SMTP
+    - CONFIG
+    - FIREWALL
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "N2.1"
+
+definition:
+  what: "Edge Transport is a server role in Microsoft Exchange Server architecture that is deployed in the DMZ or perimeter network to handle all internet-facing mail flow. The Edge Transport server processes inbound SMTP mail from the internet, applies anti-spam and anti-malware filtering, enforces message hygiene policies, and routes clean messages to internal Mailbox servers. For outbound mail, it receives messages from internal Exchange servers, applies transport rules and address rewriting, and delivers them to external recipients. The Edge Transport role operates as a standalone non-domain-joined server that synchronizes recipient and configuration data from Active Directory through the EdgeSync process, minimizing the exposure of internal directory information to the DMZ."
+  why: "Edge Transport servers provide a critical security boundary for email infrastructure by ensuring that internal Exchange servers are never directly exposed to internet SMTP traffic. This architecture reduces the attack surface by placing message hygiene processing and anti-spam filtering at the network perimeter before potentially malicious content reaches the internal mail infrastructure. The Edge Transport role also prevents direct LDAP or Active Directory access from the DMZ, protecting directory information from exposure in the event of a perimeter compromise."
+  how: "The Edge Transport server is installed on a standalone Windows Server in the DMZ, not joined to the internal Active Directory domain. The EdgeSync service establishes a secure LDAP connection to an internal Exchange Mailbox server to replicate recipient information, accepted domains, and safe sender lists. Inbound mail arrives via SMTP on port 25, passes through connection filtering, sender filtering, recipient filtering, content filtering, and attachment filtering agents before being relayed to internal Mailbox servers. Outbound mail received from internal servers is processed through address rewriting and transport rules before delivery to external MX destinations. TLS encryption is used for both inbound and outbound SMTP connections where supported."
+  core_concepts:
+    - key: "EdgeSync"
+      value: "The synchronization process that securely replicates Active Directory recipient data and configuration to the Edge Transport server without requiring domain membership"
+    - key: "Message Hygiene"
+      value: "The collection of anti-spam, anti-malware, and content filtering agents that process messages at the network edge before they reach internal mail infrastructure"
+    - key: "Transport Rules"
+      value: "Policy-based rules applied to messages transiting the Edge Transport server for compliance enforcement, content inspection, and message routing decisions"
+
+relations:
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Edge Transport servers are deployed within the DMZ to process internet-facing email traffic"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Edge Transport requires DNS for MX record lookups, sender verification, and outbound mail delivery routing"
+  - type: implements
+    target: "INFRA-NET-REVPROSER-001"
+    description: "Edge Transport acts as a reverse proxy for SMTP traffic by mediating between external senders and internal mail servers"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1114.002"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Edge Transport Servers - https://learn.microsoft.com/en-us/exchange/architecture/edge-transport-servers/edge-transport-servers"
+    - "Microsoft - EdgeSync Configuration - https://learn.microsoft.com/en-us/exchange/architecture/edge-transport-servers/edge-subscriptions"
+    - "NIST SP 800-177 Rev. 1 - Trustworthy Email"
+  search_keywords:
+    - "Edge Transport server"
+    - "Exchange Edge Transport"
+    - "SMTP edge gateway"
+    - "mail edge server"
+    - "EdgeSync"
+    - "message hygiene"
+    - "Exchange DMZ deployment"
+    - "anti-spam filtering"
+  embedding_text: "Edge Transport is a Microsoft Exchange Server role deployed in the DMZ to handle all internet-facing mail flow. It processes inbound SMTP mail with anti-spam and anti-malware filtering before routing clean messages to internal Mailbox servers, and handles outbound mail delivery with transport rules and address rewriting. Operating as a standalone non-domain-joined server, it synchronizes recipient data from Active Directory through the EdgeSync process, minimizing internal directory exposure. Edge Transport provides a critical security boundary ensuring internal Exchange servers are never directly exposed to internet SMTP traffic, reducing attack surface and protecting directory information from perimeter compromise."

@@ -1,0 +1,89 @@
+# GR Atom: Contagious Interview
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-CONTINTE-001"
+  name: "Contagious Interview"
+  normalized_name: "contagious_interview"
+  aliases:
+    - "DEV#POPPER"
+    - "Famous Chollima Subgroup"
+    - "CL-STA-0240"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - SUPPLY_CHAIN
+    - WINDOWS
+    - MACOS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Contagious Interview is a North Korean APT campaign, a subgroup within the Lazarus Group ecosystem, that lures software developers and IT professionals through fake job interviews. Active since at least 2023, the group poses as recruiters on platforms like LinkedIn and GitHub, instructing victims to download and run malicious npm packages or coding challenges that install the BeaverTail infostealer and InvisibleFerret backdoor on their systems. The campaign targets developers working in cryptocurrency, fintech, and technology sectors."
+  why: "Contagious Interview represents an evolution in North Korean cyber operations, exploiting the trust inherent in job recruitment processes to compromise individual developers. Successful compromises provide access to cryptocurrency wallets, source code repositories, and corporate credentials. This campaign runs in parallel with North Korea's IT worker infiltration scheme and collectively represents a major threat to the technology and cryptocurrency sectors."
+  how: "Operators create fake recruiter profiles on LinkedIn, GitHub, and freelance platforms. Targets are invited to fake job interviews and asked to complete coding challenges by cloning GitHub repositories containing trojanized npm packages. The BeaverTail malware, written in JavaScript, steals browser data, cryptocurrency wallets, and credentials. InvisibleFerret, a Python-based backdoor, provides persistent remote access with keylogging, clipboard monitoring, and file exfiltration capabilities. The campaign targets Windows, macOS, and Linux systems."
+  core_concepts:
+    - key: "Fake Job Interview Lure"
+      value: "Social engineering through fraudulent recruitment processes on professional platforms"
+    - key: "BeaverTail Infostealer"
+      value: "JavaScript-based malware that steals browser data, cryptocurrency wallets, and credentials"
+    - key: "Cross-Platform Targeting"
+      value: "Malware operates on Windows, macOS, and Linux targeting software developers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-FAMOCHOL-001"
+    description: "Contagious Interview operates within the broader Lazarus Group / Famous Chollima umbrella"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses social engineering through fake job recruitment for initial compromise"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204.002"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Collection"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Palo Alto Unit 42 - Contagious Interview Campaign"
+    - "Securonix - DEV#POPPER Analysis"
+    - "Phylum - Malicious npm Packages North Korea"
+  search_keywords:
+    - "contagious interview"
+    - "dev popper"
+    - "beavertail malware"
+    - "invisibleferret"
+    - "north korean fake interview"
+    - "npm package malware"
+    - "developer targeting dprk"
+    - "fake recruiter linkedin"
+    - "cryptocurrency developer targeting"
+    - "lazarus recruitment scam"
+  embedding_text: "Contagious Interview is a North Korean APT campaign within the Lazarus Group ecosystem that lures software developers through fake job interviews. Active since 2023, operators create fraudulent recruiter profiles on LinkedIn and GitHub, inviting targets to complete coding challenges from trojanized GitHub repositories containing malicious npm packages. The BeaverTail infostealer, written in JavaScript, steals browser data, cryptocurrency wallets, and credentials, while InvisibleFerret, a Python-based backdoor, provides persistent remote access with keylogging and file exfiltration. The campaign targets Windows, macOS, and Linux systems, focusing on developers in cryptocurrency, fintech, and technology sectors. Successful compromises provide access to cryptocurrency assets, source code, and corporate credentials for North Korean revenue generation."

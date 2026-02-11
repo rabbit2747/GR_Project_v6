@@ -1,0 +1,85 @@
+# GR Atom: Red Echo
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDECHO-001"
+  name: "Red Echo"
+  normalized_name: "red_echo"
+  aliases:
+    - "TAG-38"
+    - "Threat Activity Group 38"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - C2
+    - NETWORK
+    - ICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L5", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Echo is a China-linked advanced persistent threat group identified by Recorded Future's Insikt Group, notable for targeting Indian critical infrastructure including power grid operators, power generation facilities, and port authorities. The group was first publicly reported in early 2021 and is assessed to operate in support of Chinese strategic objectives in the Indo-Pacific region."
+  why: "Red Echo represents a critical threat to national infrastructure security due to its specific targeting of electrical power systems and critical infrastructure in India. The group's activities raised concerns about pre-positioning for potential disruptive or destructive operations against power grid systems during periods of geopolitical tension between China and India."
+  how: "Red Echo deployed ShadowPad malware, a modular backdoor associated with multiple Chinese APT groups, to establish persistent access within Indian power sector organizations. The group compromised internet-facing assets and leveraged command-and-control infrastructure overlapping with known Chinese state-sponsored groups. Operations involved targeting operational technology networks adjacent to IT environments within critical infrastructure organizations."
+  core_concepts:
+    - key: "Critical Infrastructure Targeting"
+      value: "Focused campaigns against power grid operators, generation facilities, and port authorities to establish persistent access in strategic infrastructure"
+    - key: "ShadowPad Deployment"
+      value: "Use of the ShadowPad modular backdoor platform shared across multiple Chinese APT groups for persistent access and intelligence collection"
+    - key: "Strategic Pre-Positioning"
+      value: "Establishing footholds in critical infrastructure potentially for future disruptive operations during geopolitical crises"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group targeting critical infrastructure"
+  - type: enables
+    target: "ATK-PERSIST-IMPLANT-001"
+    description: "Deploys ShadowPad modular backdoor for persistent access in power grid networks"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1133"
+    tactic:
+      - "initial-access"
+      - "persistence"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Recorded Future Insikt Group - RedEcho targeting Indian power sector (2021)"
+    - "Recorded Future - TAG-38 follow-up analysis"
+    - "CISA - China-linked threats to critical infrastructure"
+  search_keywords:
+    - "red echo"
+    - "tag-38"
+    - "china apt"
+    - "indian power grid"
+    - "shadowpad"
+    - "critical infrastructure"
+    - "power sector targeting"
+    - "recorded future insikt"
+    - "india cyber espionage"
+    - "operational technology"
+  embedding_text: "Red Echo is a China-linked advanced persistent threat group that targeted Indian critical infrastructure including power grid operators, generation facilities, and port authorities. First reported by Recorded Future's Insikt Group in 2021, Red Echo deployed the ShadowPad modular backdoor to establish persistent access within Indian power sector organizations. The group's operations raised significant concerns about strategic pre-positioning for potential disruptive attacks on electrical infrastructure during periods of geopolitical tension between China and India. Red Echo compromised internet-facing assets and leveraged command-and-control infrastructure overlapping with known Chinese state-sponsored threat actors."

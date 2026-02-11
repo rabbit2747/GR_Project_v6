@@ -1,0 +1,92 @@
+# GR Atom: Outbound Internet Mail Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINMATR-001"
+  name: "Outbound Internet Mail Traffic"
+  normalized_name: "outbound_internet_mail_traffic"
+  aliases:
+    - "Outbound Email Traffic Detection"
+    - "SMTP Egress Monitoring"
+    - "Outgoing Mail Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - SMTP
+    - DLP
+    - MONITOR
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring email traffic leaving the organization's network to external internet destinations via SMTP and related protocols. This pattern identifies outbound mail that may indicate data exfiltration through email attachments, unauthorized bulk email campaigns from compromised accounts, business email compromise activity, and direct SMTP connections bypassing the organization's mail infrastructure."
+  why: "Email is a common channel for data exfiltration, as attackers and insiders can attach sensitive documents to outbound messages. Compromised accounts may be used to send phishing emails to external targets, damaging organizational reputation. Unauthorized direct SMTP connections from workstations may indicate malware sending spam or exfiltrating data. Monitoring outbound mail traffic is essential for DLP enforcement, detecting account compromise, and preventing the organization from being used as a spam relay."
+  how: "Detection monitors outbound SMTP connections (ports 25, 465, 587) to external destinations. Analysis flags direct SMTP connections from non-mail-server hosts, unusual volumes of outbound messages from single accounts, large attachments exceeding baseline sizes, messages to unusual external domains, bulk recipient lists indicating spam campaigns, and off-hours mail activity. Integration with DLP systems enables content inspection of message bodies and attachments for sensitive data. Sender authentication monitoring detects unauthorized use of organizational email domains."
+  core_concepts:
+    - key: "Mail Server Enforcement"
+      value: "Ensuring outbound email routes only through authorized mail servers, detecting direct SMTP connections from workstations."
+    - key: "Attachment Analysis"
+      value: "Monitoring outbound email attachments for size anomalies and sensitive content indicators."
+    - key: "Account Compromise Detection"
+      value: "Identifying compromised accounts through unusual outbound mail patterns including volume and recipient anomalies."
+    - key: "Email DLP"
+      value: "Applying data loss prevention policies to outbound email content and attachments."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINNETR-001"
+    description: "Outbound mail traffic is a specific type of outbound internet network traffic"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Outbound mail monitoring enables detection of email-based data exfiltration"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for mail traffic pattern analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1048.002"
+    tactic:
+      - "Exfiltration"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over Asymmetric Encrypted Non-C2 Protocol T1048.002"
+    - "NIST SP 800-177 Rev 1 - Trustworthy Email"
+    - "SANS Institute - Email Security Monitoring"
+  search_keywords:
+    - "outbound mail traffic"
+    - "SMTP egress"
+    - "outbound email"
+    - "email exfiltration"
+    - "outgoing mail"
+    - "email DLP"
+    - "outbound SMTP"
+    - "mail egress monitoring"
+    - "unauthorized email"
+    - "email data loss"
+  embedding_text: "Outbound internet mail traffic detection monitors email leaving the organization via SMTP and related protocols. It identifies data exfiltration through email attachments, unauthorized bulk campaigns from compromised accounts, direct SMTP connections bypassing mail infrastructure, and business email compromise activity. Detection flags anomalous outbound mail volumes, large attachments, unusual recipient domains, and workstation-originated SMTP connections. Integration with DLP enables content inspection of messages and attachments. This pattern is essential for preventing email-based data loss and detecting compromised accounts being used for external attacks."

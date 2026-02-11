@@ -1,0 +1,117 @@
+# GR Atom: DLL Host
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-DLLHOST-001"
+  name: "DLL Host"
+  normalized_name: "dll_host"
+  aliases:
+    - "dllhost.exe"
+    - "COM Surrogate"
+    - "COM Surrogate Host"
+    - "DLL Host Process"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - OS
+    - EXEC
+    - PERSIST
+    - EVADE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DLL Host (dllhost.exe) is a Windows system process known as the COM Surrogate that hosts
+    COM objects and DLLs outside of their requesting processes. It provides a surrogate process
+    for running COM components that are configured to execute in a separate process space,
+    isolating them from the calling application. Multiple instances of dllhost.exe can run
+    simultaneously, each hosting different COM objects identified by their CLSID parameters
+    passed via the /Processid command-line switch.
+  why: >-
+    dllhost.exe is heavily abused by attackers for defense evasion and execution because it is
+    a legitimate, trusted Windows system process. Malware frequently masquerades as dllhost.exe
+    or injects malicious DLLs into legitimate dllhost.exe processes. COM object hijacking
+    through registry manipulation (HKCR\CLSID) can redirect dllhost.exe to load attacker-
+    controlled DLLs. The process is also used as a host for DCOM-based lateral movement.
+    Distinguishing malicious from legitimate dllhost.exe instances is challenging because
+    multiple instances with varying CLSIDs are normal system behavior.
+  how: >-
+    dllhost.exe is launched by the Windows Service Control Manager or COM activation system
+    when an out-of-process COM object is activated. The process loads the specified COM DLL
+    based on the CLSID provided via /Processid:{GUID} command-line parameter. It acts as a
+    surrogate host, providing the runtime environment for the COM object. Attackers exploit
+    this by modifying COM registration entries in the registry to point to malicious DLLs,
+    creating scheduled tasks that spawn dllhost.exe, or injecting code into running dllhost.exe
+    processes. Process hollowing and DLL side-loading are common techniques targeting this binary.
+  core_concepts:
+    - key: "COM Surrogate Process"
+      value: "Windows system process that hosts out-of-process COM objects in isolated surrogate processes identified by CLSID parameters"
+    - key: "Defense Evasion Host"
+      value: "Trusted system process frequently abused by malware for masquerading, DLL injection, and COM object hijacking"
+    - key: "CLSID-Based Loading"
+      value: "COM registry entries (HKCR CLSID) control which DLLs dllhost.exe loads, enabling hijacking through registry manipulation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-APP-COMSYSAPP-001"
+    description: "dllhost.exe is spawned and managed by the COM+ System Application service for COM object hosting"
+  - type: "is_a"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "DLL Host is a core Windows system process that is part of the enterprise OS infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1218.014"
+    tactic:
+      - "Defense Evasion"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - COM Surrogate (dllhost.exe)"
+    - "MITRE ATT&CK T1218.014 - System Binary Proxy Execution"
+    - "MITRE ATT&CK T1546.015 - Component Object Model Hijacking"
+  search_keywords:
+    - "dllhost.exe"
+    - "COM Surrogate"
+    - "DLL Host process"
+    - "COM object hijacking"
+    - "dllhost malware"
+    - "COM surrogate abuse"
+    - "CLSID hijacking"
+    - "dllhost injection"
+  embedding_text: >-
+    DLL Host (dllhost.exe) is a Windows system process known as the COM Surrogate that hosts
+    out-of-process COM objects and DLLs in isolated surrogate processes. Multiple instances
+    run simultaneously with different CLSID parameters identifying hosted components. The
+    process is heavily abused in cybersecurity as a defense evasion technique because it is a
+    legitimate trusted system binary. Attackers exploit it through COM object hijacking via
+    registry CLSID manipulation to load malicious DLLs, process injection into running
+    dllhost.exe instances, masquerading malware as dllhost.exe, and DLL side-loading.
+    Distinguishing malicious from legitimate instances is challenging since multiple dllhost.exe
+    processes are normal behavior. Security teams should monitor for unusual CLSID values,
+    dllhost.exe spawned from unexpected parents, anomalous loaded DLLs, and registry
+    modifications to COM registration entries.

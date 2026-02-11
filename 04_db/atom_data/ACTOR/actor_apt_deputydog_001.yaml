@@ -1,0 +1,87 @@
+# GR Atom: DeputyDog
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DEPUTYDOG-001"
+  name: "DeputyDog"
+  normalized_name: "deputydog"
+  aliases:
+    - "APT17"
+    - "Aurora Panda"
+    - "Dogfish"
+    - "Tailgater Team"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - PERSIST
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DeputyDog (APT17) is a Chinese APT group active since at least 2013, attributed to operations targeting U.S. government entities, defense contractors, law firms, information technology companies, mining companies, and non-governmental organizations. The group gained prominence through its use of Internet Explorer zero-day exploits (CVE-2013-3893) and was later linked to the compromise of an IT security company's website used as a watering hole. APT17 is known for hosting command-and-control profiles on legitimate platforms such as Microsoft TechNet forums."
+  why: "DeputyDog is significant for demonstrating innovative C2 techniques, particularly the use of legitimate websites and forums as dead-drop resolvers for command-and-control communications. By embedding encoded C2 addresses within legitimate forum profiles, the group made network-level detection extremely difficult. Their targeting of law firms and IT security companies demonstrates Chinese intelligence interest in legal proceedings and cybersecurity capabilities of adversaries."
+  how: "The group used watering hole attacks exploiting zero-day vulnerabilities in Internet Explorer to compromise targets visiting specific websites. They deployed custom backdoors including BLACKCOFFEE, which retrieved C2 server addresses from encoded strings embedded in profiles on Microsoft TechNet and other legitimate forums (dead-drop resolver technique). Additional tooling included 9002 RAT and variants for persistent access. The group also conducted spearphishing operations with malicious attachments targeting specific organizations."
+  core_concepts:
+    - key: "Dead-Drop Resolver"
+      value: "Embeds encoded C2 addresses in legitimate forum profiles to avoid network detection"
+    - key: "BLACKCOFFEE Backdoor"
+      value: "Custom backdoor that retrieves C2 information from legitimate web platforms"
+    - key: "Zero-Day Exploitation"
+      value: "Used Internet Explorer zero-day exploits for watering hole attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses watering hole attacks and spearphishing for initial access"
+  - type: is_a
+    target: "ACTOR-APT-DEPUTYDOG-001"
+    description: "Chinese APT group known for innovative C2 techniques and zero-day usage"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1102.001"
+    tactic:
+      - "Initial Access"
+      - "Command and Control"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "FireEye - DeputyDog Zero-Day Campaign"
+    - "MITRE ATT&CK - APT17 Group Profile"
+    - "Microsoft - BLACKCOFFEE Dead-Drop Resolver Analysis"
+  search_keywords:
+    - "deputydog"
+    - "apt17"
+    - "aurora panda"
+    - "blackcoffee backdoor"
+    - "dead-drop resolver"
+    - "technet c2"
+    - "internet explorer zero-day"
+    - "chinese apt law firm"
+    - "watering hole china"
+    - "9002 rat"
+  embedding_text: "DeputyDog (APT17) is a Chinese APT group active since at least 2013, targeting U.S. government entities, defense contractors, law firms, IT companies, mining companies, and NGOs. The group gained prominence through Internet Explorer zero-day exploits (CVE-2013-3893) used in watering hole attacks. APT17 is known for innovative command-and-control techniques, particularly the dead-drop resolver method using the BLACKCOFFEE backdoor to retrieve encoded C2 addresses from legitimate platforms such as Microsoft TechNet forums. Additional tooling includes the 9002 RAT. The group's targeting of law firms and IT security companies demonstrates Chinese intelligence interest in legal proceedings and cybersecurity capabilities. Their C2 technique of embedding addresses in legitimate web profiles makes network-level detection extremely challenging."

@@ -1,0 +1,96 @@
+# GR Atom: CubeSats
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CUBESATS-001"
+  name: "CubeSats"
+  normalized_name: "cubesats"
+  aliases:
+    - "CubeSat"
+    - "Nanosatellite"
+    - "Cube Satellite"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - IOT
+    - FIRMWARE
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z0A"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CubeSats are miniaturized satellites built in standardized units of 10x10x10 cm (1U) that
+    provide compute, communication, and sensing capabilities in low Earth orbit. They contain
+    embedded computers, radio transceivers, power systems, and mission-specific payloads including
+    cameras, sensors, and communication relays. CubeSats range from 1U to 12U+ configurations
+    and are deployed by universities, government agencies, and commercial operators for Earth
+    observation, communications, and scientific research.
+  why: >-
+    CubeSats represent an expanding attack surface in space-based infrastructure. Their
+    communication links are vulnerable to jamming, spoofing, and interception. Many CubeSats
+    use unencrypted or weakly authenticated command channels due to resource constraints.
+    Compromised CubeSats could provide unauthorized surveillance capabilities, disrupt
+    communications networks, or be used as platforms for attacking other space assets. The
+    growing commercial CubeSat constellation market makes space cybersecurity increasingly
+    relevant.
+  how: >-
+    CubeSats operate with embedded computers running real-time operating systems (FreeRTOS,
+    VxWorks, Linux) that execute mission software and handle telemetry. Ground stations
+    communicate via UHF/VHF radio or S/X-band links using standardized protocols. Command
+    and control is typically through scheduled passes over ground stations. Resource constraints
+    (limited power, processing, and bandwidth) often preclude robust encryption and
+    authentication. Software updates are transmitted via uplink during ground station passes.
+  core_concepts:
+    - key: "Space-Based Compute"
+      value: "Embedded computing platforms in orbit running real-time operating systems with severe power, processing, and bandwidth constraints"
+    - key: "RF Communication Links"
+      value: "Radio frequency links between CubeSats and ground stations vulnerable to jamming, spoofing, interception, and unauthorized commanding"
+    - key: "Resource-Constrained Security"
+      value: "Limited power, processing, and bandwidth often prevent implementation of robust encryption and authentication mechanisms"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-EMBECOMP-001"
+    description: "CubeSats contain embedded computers as their primary compute platform"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NASA CubeSat Launch Initiative"
+    - "NIST Cybersecurity for IoT and Space Systems"
+    - "CISA Space Systems Cybersecurity Guidance"
+  search_keywords:
+    - "cubesat"
+    - "nanosatellite"
+    - "satellite security"
+    - "space cybersecurity"
+    - "cubesat hacking"
+    - "satellite communication"
+    - "space infrastructure"
+  embedding_text: >-
+    CubeSats are miniaturized satellites built in standardized 10x10x10 cm units containing
+    embedded computers, radio transceivers, and mission payloads deployed in low Earth orbit.
+    They run real-time operating systems and communicate via UHF/VHF or S/X-band radio links
+    with ground stations. CubeSats represent an expanding attack surface with vulnerabilities
+    in communication links (jamming, spoofing, interception) and often use unencrypted or
+    weakly authenticated command channels due to resource constraints. Compromised CubeSats
+    could provide unauthorized surveillance or disrupt communications. The growing commercial
+    constellation market makes space cybersecurity increasingly important.

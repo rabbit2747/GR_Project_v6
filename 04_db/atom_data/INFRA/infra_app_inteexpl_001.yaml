@@ -1,0 +1,118 @@
+# GR Atom: Internet Explorer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-INTEEXPL-001"
+  name: "Internet Explorer"
+  normalized_name: "internet_explorer"
+  aliases:
+    - "Microsoft Internet Explorer"
+    - "IE"
+    - "MSIE"
+    - "Internet Explorer 11"
+    - "iexplore.exe"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - WINDOWS
+    - EXEC
+    - INITIAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Internet Explorer (IE) is Microsoft's legacy web browser that was integrated into Windows
+    operating systems from 1995 until its official retirement in June 2022. IE used the
+    Trident (MSHTML) rendering engine and supported ActiveX controls, Browser Helper Objects
+    (BHOs), and VBScript. While officially retired, the MSHTML engine remains in Windows
+    for backward compatibility, and IE mode in Edge provides legacy web application support.
+  why: >-
+    Internet Explorer has an extensive history of critical security vulnerabilities and was one
+    of the most targeted applications for drive-by download attacks. The MSHTML engine continues
+    to be exploited even after IE retirement, as demonstrated by CVE-2023-36884 and CVE-2024-38112
+    where attackers used MHTML URL handlers to invoke MSHTML. ActiveX and BHO architectures
+    enabled extensive malware through malicious controls and browser extensions. IE's scripting
+    engines (JScript, VBScript) were primary exploitation targets. Legacy enterprise applications
+    still requiring IE mode represent ongoing risk.
+  how: >-
+    Internet Explorer processed web content through the Trident/MSHTML rendering engine with
+    JScript and VBScript scripting engines. ActiveX controls provided native code execution from
+    web pages. The browser integrated with Windows through COM, allowing deep OS interaction.
+    Post-retirement exploitation targets the MSHTML engine through URL protocol handlers
+    (ms-msdt, search-ms, mhtml) that invoke MSHTML for content rendering even without IE.
+    Malware continues exploiting MSHTML vulnerabilities through crafted Office documents and
+    URL files that trigger the legacy rendering engine. IE mode in Edge maintains the MSHTML
+    attack surface for legacy compatibility.
+  core_concepts:
+    - key: "Legacy Browser with Active Exploitation"
+      value: "Retired browser whose MSHTML engine remains in Windows and continues to be exploited through URL protocol handlers and Office document embedding"
+    - key: "ActiveX and BHO Architecture"
+      value: "Native code execution through ActiveX controls and Browser Helper Objects enabled extensive malware deployment through the browser"
+    - key: "MSHTML Engine Persistence"
+      value: "Trident rendering engine persists in Windows for backward compatibility, maintaining the IE attack surface through protocol handlers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "precedes"
+    target: "INFRA-APP-MICREDGE-001"
+    description: "Internet Explorer was superseded by Microsoft Edge as the default Windows browser"
+  - type: "alternative_to"
+    target: "INFRA-APP-FIREFOX-001"
+    description: "Internet Explorer and Firefox were competing browsers during IE's active period"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "critical"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Internet Explorer End-of-Life Notice"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+    - "CVE-2024-38112 - MSHTML Platform Spoofing Vulnerability"
+    - "Microsoft Security - MSHTML Rendering Engine Advisories"
+  search_keywords:
+    - "Internet Explorer"
+    - "MSHTML vulnerability"
+    - "Internet Explorer exploit"
+    - "ActiveX exploit"
+    - "IE zero-day"
+    - "Trident engine"
+    - "MSHTML RCE"
+    - "Internet Explorer security"
+    - "CVE-2024-38112"
+  embedding_text: >-
+    Internet Explorer is Microsoft's legacy web browser retired in June 2022, using the
+    Trident/MSHTML rendering engine with ActiveX and VBScript support. Despite retirement,
+    the MSHTML engine persists in Windows and continues to be actively exploited through URL
+    protocol handlers (mhtml, ms-msdt, search-ms) and Office document embedding. ActiveX
+    controls enabled native code execution from web pages. IE had an extensive vulnerability
+    history as a primary target for drive-by downloads. CVE-2023-36884 and CVE-2024-38112
+    demonstrate ongoing MSHTML exploitation. IE mode in Edge maintains the legacy attack
+    surface. Security teams should disable MSHTML URL handlers, block ActiveX, monitor for
+    MSHTML engine invocation, and migrate legacy applications away from IE mode where possible.

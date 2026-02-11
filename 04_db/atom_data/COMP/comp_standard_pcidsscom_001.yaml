@@ -1,0 +1,73 @@
+# GR Atom: PCI DSS Compliance Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCIDSSCOM-001"
+  name: "PCI DSS Compliance Framework"
+  normalized_name: "pci_dss_compliance_framework"
+  aliases:
+    - "PCI Compliance Program"
+    - "PCI DSS Compliance Program"
+    - "Payment Card Compliance Framework"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - NETWORK
+
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "The PCI DSS Compliance Framework is the operational program and methodology that organizations establish to achieve and maintain ongoing compliance with PCI DSS requirements. It encompasses the governance structure, compliance validation procedures, scope management processes, remediation workflows, and continuous monitoring capabilities needed to sustain PCI DSS compliance. The framework defines roles and responsibilities, assessment schedules, evidence management processes, and escalation procedures for compliance gaps. It addresses the full compliance lifecycle from initial scoping through annual revalidation."
+  why: "Achieving PCI DSS compliance is a point-in-time assessment, but maintaining compliance requires a structured operational framework. Without a compliance framework, organizations experience compliance drift between assessments, fail to detect new scope additions, and struggle to demonstrate ongoing compliance to card brands and acquirers. A robust compliance framework reduces assessment preparation effort, minimizes the risk of compliance failures, and integrates payment security into daily operations."
+  how: "The compliance framework is implemented through establishing a PCI governance committee, defining the cardholder data environment scope and maintaining scope documentation, implementing continuous compliance monitoring through automated tools, conducting internal assessments between formal QSA engagements, managing evidence collection and retention for audit readiness, tracking remediation of identified gaps through a formal POA&M process, and integrating PCI requirements into change management, vendor management, and incident response procedures. The framework leverages GRC platforms to centralize compliance management activities."
+  core_concepts:
+    - key: "Scope Management"
+      value: "Ongoing process of identifying and documenting all systems, people, and processes that interact with cardholder data"
+    - key: "Compliance Validation"
+      value: "Procedures for demonstrating PCI DSS compliance through SAQs, ROCs, and AOCs to card brands and acquirers"
+    - key: "Continuous Compliance"
+      value: "Operational processes ensuring PCI DSS controls remain effective between formal assessment periods"
+    - key: "Evidence Management"
+      value: "Systematic collection, organization, and retention of compliance artifacts for audit readiness"
+
+relations:
+  - type: implements
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "The compliance framework implements the operational program for PCI DSS"
+  - type: is_a
+    target: "COMP-STANDARD-SECFRACOM-001"
+    description: "PCI DSS compliance framework is a specific instance of security framework compliance"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "The PCI compliance framework requires audit compliance capabilities for ongoing validation"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI SSC Best Practices for Maintaining PCI DSS Compliance - https://www.pcisecuritystandards.org/document_library/"
+    - "PCI DSS v4.0 - https://www.pcisecuritystandards.org/document_library/?category=pcidss"
+    - "PCI SSC Guidance for PCI DSS Scoping and Network Segmentation"
+  search_keywords:
+    - "PCI compliance framework"
+    - "PCI DSS compliance program"
+    - "PCI scope management"
+    - "continuous PCI compliance"
+    - "PCI governance"
+    - "compliance validation"
+    - "PCI evidence management"
+    - "PCI audit readiness"
+    - "payment card compliance"
+    - "PCI remediation"
+  embedding_text: "The PCI DSS Compliance Framework is the operational program organizations establish to achieve and maintain ongoing PCI DSS compliance. It encompasses governance structure, scope management, compliance validation procedures, remediation workflows, and continuous monitoring. The framework defines assessment schedules, evidence management processes, and gap escalation procedures across the full compliance lifecycle. Implementation involves governance committees, CDE scope documentation, automated compliance monitoring, internal assessments, evidence collection systems, and integration of PCI requirements into change management and incident response procedures."

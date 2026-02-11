@@ -1,0 +1,79 @@
+# GR Atom: AWS S3 Object Lock
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-AWS3OBLO-001"
+  name: "AWS S3 Object Lock"
+  normalized_name: "aws_s3_object_lock"
+  aliases:
+    - "S3 Object Lock"
+    - "S3 WORM"
+    - "Amazon S3 Object Lock"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - BACKUP
+    - COMPLIANCE
+    - ENCRYPT
+
+gr_coordinates:
+  layer: "L3"
+  zone: "Z3"
+  function: "D4.1"
+
+definition:
+  what: "AWS S3 Object Lock is a data protection feature that enforces Write-Once-Read-Many (WORM) semantics on objects stored in Amazon S3 buckets. It prevents object deletion or overwriting for a fixed retention period or indefinitely through legal holds. Object Lock supports two retention modes: Governance mode (removable by users with special permissions) and Compliance mode (immutable even by the root account until the retention period expires)."
+  why: "S3 Object Lock is critical for protecting against ransomware, accidental deletion, and insider threats by making backup data and audit logs immutable. It satisfies regulatory requirements for immutable storage including SEC Rule 17a-4, FINRA, and HIPAA. Attackers who compromise AWS credentials cannot delete or encrypt locked objects in Compliance mode, making it a last-resort defense for critical data. Without Object Lock, compromised S3 buckets can be completely wiped or encrypted by ransomware operators."
+  how: "Object Lock is enabled at the bucket level during bucket creation and applies retention configurations per object version. Retention periods specify a fixed date until which objects cannot be modified. Legal holds provide indefinite protection independent of retention periods. S3 Versioning must be enabled for Object Lock to function. Compliance mode retention cannot be shortened or removed by any user, including the AWS account root user. Governance mode allows users with the s3:BypassGovernanceRetention permission to override protections."
+  core_concepts:
+    - key: "Compliance Mode"
+      value: "Strictest retention mode where no user, including the root account, can delete or overwrite a protected object version until its retention period expires"
+    - key: "Governance Mode"
+      value: "Retention mode that prevents most users from deleting objects but allows users with specific IAM permissions to bypass the lock"
+    - key: "Legal Hold"
+      value: "An indefinite protection flag on an object that prevents deletion regardless of retention settings until explicitly removed"
+    - key: "WORM Storage"
+      value: "Write-Once-Read-Many storage model ensuring data immutability for compliance and data protection requirements"
+
+relations:
+  - type: part_of
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "S3 Object Lock is a feature within the AWS S3 storage service"
+  - type: requires
+    target: "INFRA-DEVOPS-AWSKMS-001"
+    description: "S3 Object Lock works alongside KMS encryption for comprehensive data protection of locked objects"
+  - type: instance_of
+    target: "INFRA-DEVOPS-CLOUSTOR-001"
+    description: "S3 Object Lock is a specialized feature of cloud object storage infrastructure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1490"
+    tactic: ["Impact"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS S3 Object Lock Documentation - https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html"
+    - "MITRE ATT&CK T1490 - Inhibit System Recovery"
+    - "SEC Rule 17a-4 - Records to be Preserved by Certain Exchange Members"
+  search_keywords:
+    - "S3 Object Lock"
+    - "AWS WORM storage"
+    - "S3 immutable backup"
+    - "S3 compliance mode"
+    - "S3 governance mode"
+    - "AWS ransomware protection"
+    - "S3 legal hold"
+    - "immutable cloud storage"
+  embedding_text: "AWS S3 Object Lock enforces Write-Once-Read-Many (WORM) semantics on Amazon S3 objects, preventing deletion or overwriting for fixed retention periods or indefinitely via legal holds. It offers Compliance mode where no user including root can modify locked objects, and Governance mode allowing bypass with special permissions. Object Lock requires S3 Versioning and operates per object version. Security significance includes ransomware defense, insider threat protection, and regulatory compliance for SEC 17a-4, FINRA, and HIPAA. Attackers who compromise AWS credentials cannot delete Compliance-locked objects, making it a critical last-resort data protection mechanism for backups and audit logs."

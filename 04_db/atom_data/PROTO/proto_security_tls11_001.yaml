@@ -1,0 +1,123 @@
+# GR Atom: TLS 1.1
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-TLS11-001"
+  name: "TLS 1.1"
+  normalized_name: "tls_1_1"
+  aliases:
+    - "Transport Layer Security 1.1"
+    - "TLSv1.1"
+    - "RFC 4346"
+    - "TLS Version 1.1"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TLS 1.1 (Transport Layer Security version 1.1) is a deprecated cryptographic protocol
+    defined in RFC 4346 (April 2006) that introduced targeted security improvements over
+    TLS 1.0, primarily addressing the predictable CBC initialization vector vulnerability
+    exploited by the BEAST attack. The key change was using explicit per-record IVs for CBC
+    cipher suites instead of chaining the previous record's ciphertext. TLS 1.1 also improved
+    handling of padding errors in CBC mode to mitigate padding oracle attacks, and removed
+    the ability to negotiate export-grade cipher suites. TLS 1.1 was formally deprecated
+    alongside TLS 1.0 by RFC 8996 (March 2021) due to its limited cipher suite options and
+    lack of support for modern AEAD ciphers.
+  why: >-
+    TLS 1.1 was developed to address specific cryptographic vulnerabilities in TLS 1.0 while
+    maintaining maximum backward compatibility. The predictable CBC IV in TLS 1.0 (using the
+    last ciphertext block of the previous record) enabled the BEAST chosen-plaintext attack.
+    TLS 1.1 fixed this by generating a fresh random IV for each record. Additionally, TLS 1.0's
+    behavior of aborting connections on padding errors leaked information about padding validity,
+    enabling padding oracle attacks. TLS 1.1 standardized that padding errors should produce
+    bad_record_mac alerts indistinguishable from MAC failures. Despite these improvements,
+    TLS 1.1 was deprecated because it still lacked support for AEAD cipher suites (AES-GCM,
+    ChaCha20-Poly1305) and modern hash algorithms (SHA-256) which were only introduced in
+    TLS 1.2.
+  how: >-
+    TLS 1.1 maintained the same handshake and record protocol structure as TLS 1.0 with
+    targeted modifications: (1) CBC cipher suites use an explicit random IV prepended to each
+    record rather than chaining from the previous ciphertext, preventing IV prediction attacks;
+    (2) padding error handling was changed to return bad_record_mac alerts for both MAC and
+    padding failures, preventing padding oracle information leakage; (3) premature closure
+    handling was improved with explicit close_notify alerts required before connection
+    termination; (4) export cipher suites were removed. The protocol version is {3,2} in the
+    record header. TLS 1.1 supported cipher suites such as TLS_RSA_WITH_AES_128_CBC_SHA and
+    TLS_DHE_RSA_WITH_AES_256_CBC_SHA. The PRF still used the MD5/SHA-1 combination from
+    TLS 1.0.
+  core_concepts:
+    - key: "Explicit CBC Initialization Vectors"
+      value: >-
+        Each CBC-encrypted record includes a fresh random IV prepended to the ciphertext,
+        eliminating the predictable IV vulnerability that enabled the BEAST attack in TLS 1.0.
+    - key: "Padding Oracle Mitigation"
+      value: >-
+        Padding errors produce the same bad_record_mac alert as MAC failures, preventing
+        attackers from distinguishing padding errors to mount padding oracle attacks.
+    - key: "Export Cipher Removal"
+      value: >-
+        TLS 1.1 removed support for export-grade cipher suites that used intentionally
+        weakened encryption (40-bit or 56-bit keys) mandated by former US export regulations.
+    - key: "Transitional Version"
+      value: >-
+        TLS 1.1 served as a transitional version between TLS 1.0 and TLS 1.2, with limited
+        deployment due to its proximity to TLS 1.2's release and the availability of
+        client-side BEAST mitigations.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "TLS 1.1 is a version of the Transport Layer Security protocol with targeted CBC improvements"
+  - type: "supersedes"
+    target: "PROTO-SECURITY-TLS10-001"
+    description: "TLS 1.1 superseded TLS 1.0 by fixing the predictable CBC IV vulnerability"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4346 - The Transport Layer Security (TLS) Protocol Version 1.1. IETF. https://datatracker.ietf.org/doc/html/rfc4346"
+    - "RFC 8996 - Deprecating TLS 1.0 and TLS 1.1. IETF. https://datatracker.ietf.org/doc/html/rfc8996"
+  search_keywords:
+    - "TLS 1.1"
+    - "TLSv1.1"
+    - "RFC 4346"
+    - "explicit IV"
+    - "TLS 1.1 deprecated"
+    - "CBC IV fix"
+    - "RFC 8996"
+    - "padding oracle mitigation"
+  embedding_text: >-
+    TLS 1.1 is a deprecated cryptographic protocol defined in RFC 4346 (2006) that addressed
+    specific TLS 1.0 vulnerabilities. Its primary improvement was explicit per-record CBC
+    initialization vectors replacing the chained IV scheme vulnerable to the BEAST attack.
+    Padding error handling was standardized to return indistinguishable bad_record_mac alerts
+    for both MAC and padding failures, mitigating padding oracle attacks. Export-grade cipher
+    suites were removed. Despite these fixes, TLS 1.1 lacked AEAD cipher suite support and
+    modern hash algorithms available in TLS 1.2, and saw limited deployment as a transitional
+    version. The protocol version is {3,2} in record headers, and it retained the MD5/SHA-1
+    PRF combination from TLS 1.0. RFC 8996 formally deprecated TLS 1.1 alongside TLS 1.0
+    in March 2021. TLS 1.1 maintained the same handshake structure as its predecessor while
+    making targeted security improvements to the record layer.

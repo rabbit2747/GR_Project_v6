@@ -1,0 +1,129 @@
+# GR Atom: ARP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-ROUTING-ARP-001"
+  name: "ARP"
+  normalized_name: "arp"
+  aliases:
+    - "Address Resolution Protocol"
+    - "ARP Protocol"
+    - "ARP Cache"
+    - "ARP Table"
+    - "Gratuitous ARP"
+    - "Proxy ARP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - DNS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ARP (Address Resolution Protocol) is a Layer 2/3 network protocol defined in RFC 826 that
+    maps IPv4 addresses to MAC (Media Access Control) hardware addresses on a local area network.
+    When a host needs to communicate with another device on the same subnet, it broadcasts an ARP
+    request containing the target IP address. The device owning that IP responds with its MAC
+    address in a unicast ARP reply. Results are cached in the ARP table to reduce broadcast
+    traffic. ARP operates below the network layer and is essential for Ethernet and Wi-Fi
+    frame delivery on IPv4 networks.
+  why: >-
+    IP-based communication on local networks requires mapping logical addresses to physical
+    hardware addresses for frame-level delivery. Without ARP, hosts could not resolve the
+    link-layer address needed to encapsulate IP packets into Ethernet frames. However, ARP's
+    stateless and unauthenticated design makes it a persistent attack vector. ARP spoofing
+    (ARP cache poisoning) enables man-in-the-middle attacks, session hijacking, and denial
+    of service on local networks. Attackers send forged ARP replies to associate their MAC
+    address with the IP of a legitimate host (typically the default gateway), intercepting
+    all traffic intended for that host. ARP vulnerabilities are fundamental to LAN-based
+    attack techniques and network reconnaissance.
+  how: >-
+    ARP operates through a request-reply broadcast mechanism: (1) a host needing to resolve
+    an IP to a MAC address sends an ARP Request as an Ethernet broadcast (destination
+    FF:FF:FF:FF:FF:FF) containing the target IP; (2) all hosts on the segment receive the
+    broadcast but only the owner of the target IP replies with an ARP Reply containing its
+    MAC address; (3) the requesting host caches the IP-to-MAC mapping in its ARP table with
+    a configurable timeout (typically 60-300 seconds). Gratuitous ARP allows a host to announce
+    its own IP-to-MAC mapping without a prior request, used for duplicate IP detection and
+    failover scenarios. Proxy ARP enables a router to answer ARP requests on behalf of hosts
+    on a different subnet. ARP operates exclusively on IPv4 networks; IPv6 replaces ARP with
+    Neighbor Discovery Protocol (NDP) using ICMPv6.
+  core_concepts:
+    - key: "ARP Request/Reply"
+      value: >-
+        The fundamental two-step resolution mechanism where an Ethernet broadcast request
+        solicits a unicast reply containing the target's MAC address, enabling IP-to-MAC
+        mapping on the local segment.
+    - key: "ARP Cache Poisoning"
+      value: >-
+        An attack technique where forged ARP replies associate the attacker's MAC address
+        with a legitimate IP address, enabling traffic interception, man-in-the-middle
+        attacks, and denial of service on local networks.
+    - key: "Gratuitous ARP"
+      value: >-
+        An unsolicited ARP announcement where a host broadcasts its own IP-to-MAC mapping,
+        used for duplicate address detection, ARP cache updates during failover, and
+        virtual IP address migration in high-availability configurations.
+    - key: "Dynamic ARP Inspection (DAI)"
+      value: >-
+        A switch-level security feature that validates ARP packets against DHCP snooping
+        bindings, dropping ARP responses with invalid IP-to-MAC mappings to prevent
+        ARP spoofing attacks on managed networks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-ROUTING-001"
+    description: "ARP is a link-layer resolution protocol within the routing and addressing protocol family"
+  - type: "enables"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "ARP enables TCP communication on local networks by resolving the MAC addresses required for Ethernet frame delivery"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 826 - An Ethernet Address Resolution Protocol (November 1982). IETF. https://datatracker.ietf.org/doc/html/rfc826"
+    - "RFC 5227 - IPv4 Address Conflict Detection (July 2008). IETF. https://datatracker.ietf.org/doc/html/rfc5227"
+    - "MITRE ATT&CK T1557.002 - ARP Cache Poisoning. https://attack.mitre.org/techniques/T1557/002/"
+    - "Cisco Dynamic ARP Inspection Configuration Guide. Cisco Systems."
+  search_keywords:
+    - "ARP"
+    - "address resolution protocol"
+    - "ARP spoofing"
+    - "ARP cache poisoning"
+    - "gratuitous ARP"
+    - "proxy ARP"
+    - "dynamic ARP inspection"
+    - "MAC address resolution"
+    - "RFC 826"
+    - "ARP table"
+    - "man-in-the-middle ARP"
+    - "Ethernet address resolution"
+  embedding_text: >-
+    ARP (Address Resolution Protocol) is a Layer 2/3 protocol defined in RFC 826 that resolves
+    IPv4 addresses to MAC hardware addresses on local area networks. Hosts broadcast ARP requests
+    to discover the MAC address associated with a target IP, and the owner responds with a unicast
+    ARP reply. Results are cached in the ARP table to reduce broadcast traffic. ARP's stateless,
+    unauthenticated design makes it vulnerable to ARP cache poisoning, where attackers send forged
+    replies to redirect traffic through their host for man-in-the-middle attacks, session hijacking,
+    or denial of service. Defense mechanisms include Dynamic ARP Inspection, static ARP entries, and
+    port security. Gratuitous ARP enables duplicate address detection and failover IP migration.
+    ARP operates exclusively on IPv4; IPv6 replaces it with Neighbor Discovery Protocol using ICMPv6.
+    ARP is foundational to LAN communication and a critical component of network security assessment.

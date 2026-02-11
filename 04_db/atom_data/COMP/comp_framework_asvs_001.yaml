@@ -1,0 +1,122 @@
+# GR Atom: OWASP ASVS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-ASVS-001"
+  name: "OWASP ASVS"
+  normalized_name: "owasp_asvs"
+  aliases:
+    - "Application Security Verification Standard"
+    - "ASVS"
+    - "OWASP Application Security Verification Standard"
+    - "ASVS 4.0"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Application Security Verification Standard (ASVS) is a framework of security
+    requirements and controls for designing, developing, and testing secure web applications
+    and APIs. Version 4.0 contains 286 security verification requirements organized into 14
+    chapters covering architecture, authentication, session management, access control,
+    validation, cryptography, error handling, data protection, communications, malicious code,
+    business logic, files and resources, API, and configuration. ASVS defines three verification
+    levels: Level 1 (low assurance for all applications), Level 2 (standard for applications
+    containing sensitive data), and Level 3 (highest assurance for critical applications).
+  why: >-
+    The OWASP Top 10 identifies common vulnerability categories but does not provide the
+    comprehensive, testable security requirements needed for secure application design and
+    verification. ASVS fills this gap by providing a detailed checklist of security controls
+    that can be used as requirements during development, verification criteria during testing,
+    and assessment standards during procurement. The three-tiered approach enables organizations
+    to apply proportional security based on application criticality and data sensitivity.
+  how: >-
+    ASVS is implemented across three levels: (1) Level 1 - automated verification achievable
+    through penetration testing, covering the most critical security requirements including
+    authentication, session management, and access control basics; (2) Level 2 - recommended
+    for most applications, requiring manual verification of defense in depth controls including
+    input validation, cryptographic protections, and security logging; (3) Level 3 - required
+    for the most critical applications handling sensitive data, requiring comprehensive
+    verification of all 286 requirements including architectural security patterns, advanced
+    cryptographic controls, and business logic protections. Organizations use ASVS as
+    security requirements during SDLC, acceptance criteria during testing, and evaluation
+    criteria during vendor assessment.
+  core_concepts:
+    - key: "Three Verification Levels"
+      value: >-
+        Graduated assurance levels where Level 1 provides basic security verification,
+        Level 2 provides standard assurance for sensitive applications, and Level 3 provides
+        maximum assurance for critical applications requiring defense in depth.
+    - key: "286 Security Requirements"
+      value: >-
+        Comprehensive, testable security requirements organized into 14 chapters covering
+        all application security domains from architecture through API security.
+    - key: "Requirements-Based Approach"
+      value: >-
+        ASVS provides prescriptive, verifiable security requirements rather than descriptive
+        guidance, enabling use as development requirements, testing criteria, and procurement
+        standards.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "ASVS is an OWASP flagship project providing detailed application security verification requirements"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "ASVS Level 1 covers the OWASP Top 10 vulnerabilities and extends coverage to additional security domains"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWATESGUI-001"
+    description: "ASVS requirements serve as the verification criteria that the OWASP Testing Guide methodologies validate"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Application Security Verification Standard 4.0. https://owasp.org/www-project-application-security-verification-standard/"
+    - "OWASP ASVS GitHub Repository. https://github.com/OWASP/ASVS"
+    - "OWASP ASVS 4.0 PDF. https://github.com/OWASP/ASVS/raw/v4.0.3/4.0/OWASP%20Application%20Security%20Verification%20Standard%204.0.3-en.pdf"
+  search_keywords:
+    - "OWASP ASVS"
+    - "application security verification standard"
+    - "ASVS levels"
+    - "security verification requirements"
+    - "application security testing"
+    - "ASVS 4.0"
+    - "web application security requirements"
+    - "security verification checklist"
+    - "OWASP security standard"
+    - "application security assessment"
+  embedding_text: >-
+    OWASP Application Security Verification Standard (ASVS) is a framework of security
+    requirements for designing, developing, and testing secure web applications and APIs.
+    Version 4.0 contains 286 security verification requirements in 14 chapters covering
+    architecture, authentication, session management, access control, validation, cryptography,
+    and more. Three verification levels provide graduated assurance: Level 1 for basic security
+    achievable through automated testing, Level 2 for standard applications with sensitive data,
+    and Level 3 for critical applications requiring maximum assurance. ASVS provides prescriptive,
+    verifiable security requirements rather than descriptive guidance, enabling use as development
+    requirements during SDLC, acceptance criteria during testing, and evaluation criteria during
+    procurement. The standard extends beyond OWASP Top 10 coverage to provide comprehensive
+    application security requirements that organizations apply proportionally based on
+    application criticality and data sensitivity.

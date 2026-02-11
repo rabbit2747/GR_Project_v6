@@ -1,0 +1,103 @@
+# GR Atom: Cozy Bear
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-COZYBEAR-001"
+  name: "Cozy Bear"
+  normalized_name: "cozy_bear"
+  aliases:
+    - "APT29"
+    - "The Dukes"
+    - "Midnight Blizzard"
+    - "NOBELIUM"
+    - "Dark Halo"
+    - "Iron Ritual"
+    - "UNC2452"
+    - "Cloaked Ursa"
+    - "BlueBravo"
+    - "YTTRIUM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - EVADE
+    - C2
+    - LATERAL
+    - SUPPLY_CHAIN
+    - CLOUD
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Cozy Bear (APT29) is a Russian state-sponsored APT group attributed to the Russian Foreign Intelligence Service (SVR). Active since at least 2008, the group is one of the most sophisticated and persistent cyber-espionage operations in the world. Cozy Bear was responsible for the SolarWinds supply chain compromise (2020), breaches of the Democratic National Committee (2016), numerous European government intrusions, and the 2023 Microsoft corporate email compromise. The group targets government, diplomatic, think tank, healthcare, and technology organizations worldwide."
+  why: "Cozy Bear represents the highest tier of state-sponsored cyber-espionage capability. The SolarWinds compromise demonstrated the group's ability to conduct supply chain attacks affecting thousands of organizations simultaneously. Their persistent targeting of government email systems and cloud infrastructure, combined with exceptional operational security and continuously evolving tradecraft, makes APT29 one of the most significant strategic cyber threats to Western governments and institutions."
+  how: "The group employs diverse initial access methods including supply chain compromise (SolarWinds), password spraying, spearphishing with ISO/IMG attachments, abuse of trusted relationships, and exploitation of internet-facing applications. Post-compromise, they use residential proxies, compromised cloud tenants, and legitimate services for C2. They abuse OAuth applications, Azure AD, and Microsoft 365 for persistent access. Custom tooling includes WellMess, WellMail, EnvyScout, NativeZone, and MagicWeb. The group demonstrates exceptional ability to live off the land in cloud environments."
+  core_concepts:
+    - key: "SolarWinds Supply Chain Attack"
+      value: "Compromised SolarWinds Orion software build process to distribute SUNBURST backdoor to ~18,000 organizations"
+    - key: "Cloud-Native Operations"
+      value: "Abuses Azure AD, OAuth applications, and Microsoft 365 for persistent cloud-based access"
+    - key: "Exceptional OPSEC"
+      value: "Uses residential proxies, compromised infrastructure, and operational relay chains to obscure activity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses multiple initial access vectors including supply chain compromise and spearphishing"
+  - type: is_a
+    target: "ACTOR-APT-COZYBEAR-001"
+    description: "Russian SVR-attributed APT group, one of the most sophisticated state-sponsored operations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Defense Evasion"
+      - "Command and Control"
+      - "Lateral Movement"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK - APT29 Group Profile"
+    - "Microsoft - Midnight Blizzard Activity Reports"
+    - "Mandiant - SolarWinds UNC2452 Analysis"
+    - "CISA - SolarWinds Supply Chain Compromise"
+    - "NSA/CISA - Russian SVR Cyber Operations Advisory"
+  search_keywords:
+    - "cozy bear"
+    - "apt29"
+    - "midnight blizzard"
+    - "nobelium"
+    - "solarwinds attack"
+    - "sunburst backdoor"
+    - "russian svr"
+    - "the dukes"
+    - "wellmess malware"
+    - "magicweb"
+    - "supply chain compromise"
+    - "cloud espionage"
+  embedding_text: "Cozy Bear (APT29), also known as Midnight Blizzard and NOBELIUM, is a Russian state-sponsored APT group attributed to the SVR (Foreign Intelligence Service). Active since at least 2008, the group is among the most sophisticated cyber-espionage operations globally. Key operations include the SolarWinds supply chain compromise distributing the SUNBURST backdoor to approximately 18,000 organizations, the 2016 DNC breach, and the 2023 Microsoft corporate email compromise. The group targets government, diplomatic, think tank, healthcare, and technology organizations worldwide. Their tradecraft includes supply chain attacks, OAuth abuse, Azure AD manipulation, residential proxy use, and custom tooling such as WellMess, EnvyScout, and MagicWeb. APT29 demonstrates exceptional operational security and continuously evolving cloud-native attack techniques."

@@ -1,0 +1,92 @@
+# GR Atom: Windows Registry Value Deletion Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREVADE-001"
+  name: "Windows Registry Value Deletion Event"
+  normalized_name: "windows_registry_value_deletion_event"
+  aliases:
+    - "Registry Value Delete"
+    - "RegDeleteValue Detection"
+    - "Registry Value Removal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry values are deleted from existing keys on an endpoint. This is detected via Sysmon Event ID 12 (RegistryEvent - Object create and delete) for value deletions, and Windows Security Event ID 4657 with DELETE access for value objects. The event records the full registry path including key and value name, the deleting process, user context, and timestamp. Value deletion removes specific configuration data from registry keys while leaving the key structure intact."
+  why: "Registry value deletion is used by adversaries for defense evasion by removing specific autostart entries after establishing alternative persistence, cleaning up evidence of configuration changes, disabling security features by removing their configuration values, and anti-forensics by deleting values that record their activity. Unlike key deletion which removes entire subtrees, value deletion targets specific data points, enabling more surgical cleanup operations."
+  how: "Detection monitors Sysmon Event ID 12 for registry value deletion operations. Windows Security Event ID 4657 with DELETE access on value objects captures deletions when SACLs are configured. EDR agents provide real-time detection of value deletions with process context. SIEM rules alert on deletion of values in security-critical locations including autostart entries (Run key values), security tool configuration values, and audit policy settings. Correlation with previous value creation or modification events reconstructs the complete lifecycle of deleted values."
+  core_concepts:
+    - key: "surgical_evidence_removal"
+      value: "Deleting specific registry values to remove evidence while leaving the key structure intact to avoid triggering key-level alerts"
+    - key: "persistence_cleanup"
+      value: "Removing autostart values after establishing alternative persistence mechanisms to reduce the number of detectable indicators"
+    - key: "security_value_removal"
+      value: "Deleting configuration values that enable security features, effectively disabling protections without modifying them"
+    - key: "value_lifecycle_tracking"
+      value: "Correlating value deletion with prior creation and modification events to understand the full history of suspicious values"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGVAL-001"
+    description: "Registry value deletion is a specific type of registry value operation event"
+  - type: "alternative_to"
+    target: "DETECT-ENDPOINT-WIREKEDE-001"
+    description: "Value deletion is an alternative to key deletion for more surgical removal of specific registry data"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Event ID 12 RegistryEvent"
+    - "Microsoft Documentation - RegDeleteValue Function"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Windows Security Audit Event Reference"
+  search_keywords:
+    - "registry value deletion"
+    - "RegDeleteValue"
+    - "registry value delete"
+    - "registry value removal"
+    - "Sysmon Event ID 12"
+    - "registry evidence cleanup"
+    - "autostart value delete"
+    - "registry defense evasion"
+    - "registry value remove"
+    - "Run key value delete"
+  embedding_text: "Windows registry value deletion event detection pattern identifies when specific registry values are deleted from keys via Sysmon Event ID 12 and Windows Security Event ID 4657. Unlike key deletion which removes entire subtrees, value deletion surgically removes specific configuration data. Adversaries delete values for defense evasion, persistence cleanup, disabling security features, and anti-forensics. Maps to MITRE ATT&CK T1112 Modify Registry. Detection monitors deletions in security-critical locations including autostart entries, security tool configurations, and audit policies. Correlates value deletion with prior creation and modification events to track the full lifecycle of suspicious registry values."

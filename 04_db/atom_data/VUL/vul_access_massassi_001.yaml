@@ -1,0 +1,128 @@
+# GR Atom: Mass Assignment
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-MASSASSI-001"
+  name: "Mass Assignment"
+  normalized_name: "mass_assignment"
+  aliases:
+    - "Mass Assignment Vulnerability"
+    - "Auto-Binding Vulnerability"
+    - "Over-Posting"
+    - "Object Injection"
+    - "CWE-915"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - WEB
+    - API
+    - INJ
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web frameworks with auto-binding (Rails, Django, Spring)"
+    - "REST API endpoints"
+    - "ORM (Object-Relational Mapping) layers"
+    - "JSON/XML request body processing"
+    - "GraphQL mutations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Mass Assignment (CWE-915) is a vulnerability that occurs when web frameworks automatically
+    bind HTTP request parameters to internal object properties without proper filtering. Modern
+    web frameworks like Ruby on Rails, Django, Spring Boot, and Laravel provide convenient
+    auto-binding that maps request parameters directly to model attributes. When developers
+    do not explicitly restrict which properties can be set through user input, attackers can
+    modify object properties they should not have access to. For example, an attacker updating
+    their profile could add an "isAdmin=true" or "role=admin" parameter to the request body,
+    elevating their privileges if the application auto-binds all parameters to the user model.
+  why: >-
+    Mass assignment vulnerabilities are common in modern web applications because the auto-binding
+    convenience that frameworks provide creates a security risk when not properly constrained.
+    The 2012 GitHub incident, where a user exploited Rails mass assignment to add their SSH
+    key to any repository, brought widespread attention to this vulnerability class. OWASP
+    API Security Top 10 lists "Broken Object Property Level Authorization" (API3) which
+    encompasses mass assignment. The vulnerability enables privilege escalation, data
+    manipulation, and bypass of business logic through simple parameter injection.
+  how: >-
+    An attacker observes the application's data model (through documentation, error messages,
+    or API responses) to identify sensitive properties. The attacker then adds extra parameters
+    to legitimate HTTP requests. For example, a user update request might normally include
+    {name: "John", email: "john@example.com"}, but the attacker adds {name: "John", email:
+    "john@example.com", role: "admin", verified: true}. If the framework auto-binds all
+    parameters to the model, the attacker's role is set to admin. Mitigation requires
+    implementing allowlists (strong parameters in Rails, serializer fields in Django REST
+    Framework, @JsonIgnoreProperties in Spring), using Data Transfer Objects (DTOs) to
+    decouple input from model, never auto-binding entire request bodies to database models,
+    and implementing server-side property-level authorization.
+  core_concepts:
+    - key: "Auto-Binding Risk"
+      value: "Web framework convenience feature that automatically maps HTTP parameters to model properties creates unintended write access to sensitive attributes"
+    - key: "Allowlist Approach"
+      value: "Explicitly defining which properties can be set through user input rather than blocking specific dangerous properties (blocklist)"
+    - key: "Property-Level Authorization"
+      value: "Verifying that the authenticated user is authorized to modify each specific property being set, not just the object being accessed"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Mass assignment is a broken access control vulnerability where property-level authorization is missing"
+  - type: "applies_to"
+    target: "VUL-ACCESS-API-001"
+    description: "Mass assignment is classified as API3 Broken Object Property Level Authorization in the OWASP API Security Top 10"
+  - type: "enables"
+    target: "VUL-ACCESS-IDINDIOBRE-001"
+    description: "Mass assignment and IDOR often coexist as complementary access control failures in the same applications"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1565.001"
+    tactic:
+      - "Impact"
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CWE-915 Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+    - "OWASP API Security Top 10 2023 - API3 Broken Object Property Level Authorization"
+    - "OWASP Mass Assignment Cheat Sheet"
+    - "MITRE ATT&CK T1565.001 - Data Manipulation: Stored Data Manipulation"
+  search_keywords:
+    - "mass assignment"
+    - "mass assignment vulnerability"
+    - "auto-binding vulnerability"
+    - "over-posting"
+    - "CWE-915"
+    - "strong parameters"
+    - "object injection"
+    - "property level authorization"
+  embedding_text: >-
+    Mass Assignment (CWE-915) is a vulnerability where web frameworks automatically bind HTTP
+    request parameters to internal object properties without filtering. Attackers add extra
+    parameters to requests (like isAdmin=true or role=admin) to modify sensitive model
+    attributes. Common in Ruby on Rails, Django, Spring Boot, and Laravel auto-binding.
+    The 2012 GitHub incident demonstrated impact through Rails mass assignment exploitation.
+    OWASP API Security classifies as API3 Broken Object Property Level Authorization.
+    Mitigation requires allowlists (strong parameters), Data Transfer Objects, never
+    auto-binding entire request bodies, and server-side property-level authorization.
+    Enables privilege escalation and business logic bypass through parameter injection.

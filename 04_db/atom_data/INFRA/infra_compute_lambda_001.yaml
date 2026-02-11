@@ -1,0 +1,73 @@
+# GR Atom: Lambda
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-LAMBDA-001"
+  name: "Lambda"
+  normalized_name: "lambda"
+  aliases: ["AWS Lambda", "Lambda Function", "Serverless Function AWS"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [AWS, CLOUD, SERVERLESS, API]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.3"
+definition:
+  what: >-
+    AWS Lambda is a serverless compute service that executes code in response to events without
+    provisioning or managing servers. Lambda functions run in isolated microVMs (Firecracker)
+    with configurable memory (128MB-10GB), timeout (up to 15 minutes), and runtime environments
+    (Python, Node.js, Java, Go, .NET, Ruby, custom runtimes). Functions are triggered by AWS
+    events (API Gateway, S3, SQS, DynamoDB Streams, CloudWatch Events) or direct invocation.
+  why: >-
+    Lambda functions are targeted through event injection (malicious S3 objects, crafted API
+    requests), overly permissive IAM execution roles, dependency poisoning in Lambda layers,
+    and environment variable credential exposure. Serverless architecture shifts security
+    responsibility to function-level concerns including input validation, least-privilege IAM,
+    and secure dependency management. Cold start latency and execution time limits create
+    unique constraints for security tooling and monitoring.
+  how: >-
+    Lambda functions execute in Firecracker microVMs providing hardware-level isolation between
+    tenants. IAM execution roles define what AWS services the function can access. VPC
+    configuration enables private network access. Lambda layers provide shared library
+    dependencies. Environment variables store configuration (should use KMS encryption for
+    secrets). CloudWatch Logs captures function output. X-Ray provides distributed tracing.
+    Lambda@Edge and CloudFront Functions enable edge computing. Provisioned concurrency
+    eliminates cold starts for latency-sensitive workloads.
+  core_concepts:
+    - key: "Event-Driven Execution"
+      value: "Functions triggered by AWS events create attack surfaces through event injection via malicious S3 objects, crafted API requests, or poisoned queue messages"
+    - key: "IAM Execution Role"
+      value: "Each function assumes an IAM role defining its AWS permissions; overly permissive roles enable lateral movement and privilege escalation"
+    - key: "Firecracker MicroVM Isolation"
+      value: "Lambda uses Firecracker microVMs for hardware-level tenant isolation, providing stronger security boundaries than container-only approaches"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "Lambda is the serverless compute service within the AWS platform"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-CLOURUN-001"
+    description: "Lambda provides serverless compute similar to GCP Cloud Run"
+  - type: "requires"
+    target: "INFRA-COMPUTE-AWSVPC-001"
+    description: "Lambda functions can be configured to run within VPC for private network access"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["AWS Lambda Security Documentation", "OWASP Serverless Top 10", "MITRE ATT&CK T1648 - Serverless Execution"]
+  search_keywords: ["AWS Lambda", "lambda function", "serverless security", "lambda IAM", "event injection", "Firecracker", "serverless compute"]
+  embedding_text: >-
+    AWS Lambda is a serverless compute service executing code in Firecracker microVMs triggered
+    by AWS events without server management. Attack vectors include event injection via
+    malicious S3 objects or crafted API requests, overly permissive IAM execution roles,
+    dependency poisoning in Lambda layers, and environment variable credential exposure.
+    Firecracker provides hardware-level tenant isolation. Security requires least-privilege
+    IAM roles, input validation, KMS-encrypted environment variables, VPC configuration for
+    private access, and CloudWatch/X-Ray for monitoring and tracing.

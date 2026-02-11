@@ -1,0 +1,122 @@
+# GR Atom: Authentication Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AUTHENTICA-001"
+  name: "Authentication Service"
+  normalized_name: "authentication_service"
+  aliases:
+    - "AuthN Service"
+    - "Identity Authentication Service"
+    - "Login Service"
+    - "SSO Authentication Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - AUTHN
+    - MFA
+    - OAUTH
+    - SAML
+    - KERBEROS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Authentication Service is a logical service layer that provides identity verification
+    capabilities to applications and systems. It abstracts the underlying authentication
+    mechanisms (password, certificate, biometric, token-based) and protocols (Kerberos,
+    OAuth 2.0, SAML, OIDC) into a consumable service interface. Authentication services
+    handle credential validation, session management, multi-factor authentication
+    orchestration, and single sign-on token generation across distributed environments.
+  why: >-
+    Authentication services are the front-line defense for identity-based access control.
+    Weaknesses in authentication service implementation enable credential theft, session
+    hijacking, authentication bypass, and replay attacks. Common vulnerabilities include
+    insecure token storage, weak session management, improper MFA implementation, and
+    authentication logic flaws that can be exploited for unauthorized access. Authentication
+    service failures cascade to all dependent applications, making them a single point of
+    security failure when not properly architected.
+  how: >-
+    Authentication services intercept access requests and orchestrate the credential
+    verification workflow, delegating to backend authentication servers, directory services,
+    or external identity providers. They manage authentication state through session tokens
+    or stateless JWT bearer tokens, enforce MFA step-up requirements based on risk signals,
+    and provide SSO capabilities through federated protocols. The service exposes APIs for
+    login, logout, token refresh, and password reset operations while maintaining audit
+    trails of all authentication events.
+  core_concepts:
+    - key: "Protocol Abstraction"
+      value: "Provides a unified authentication interface abstracting Kerberos, OAuth, SAML, and OIDC protocol complexity from consuming applications"
+    - key: "MFA Orchestration"
+      value: "Coordinates multi-factor authentication workflows including step-up authentication based on risk assessment and access context"
+    - key: "Session Management"
+      value: "Manages authentication state through secure session tokens or stateless JWT tokens with proper expiration and revocation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-AUTHSERV-001"
+    description: "Authentication service relies on authentication server infrastructure for credential validation"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Authenticated identity is required before authorization decisions can be made"
+  - type: "requires"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "Authentication service depends on credential management for storing and validating user credentials"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic:
+      - "Defense Evasion"
+      - "Initial Access"
+      - "Persistence"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-63 - Digital Identity Guidelines"
+    - "OWASP Authentication Cheat Sheet"
+    - "MITRE ATT&CK T1078 - Valid Accounts"
+  search_keywords:
+    - "authentication service"
+    - "AuthN service"
+    - "identity authentication"
+    - "single sign-on service"
+    - "MFA orchestration"
+    - "login service"
+    - "session management"
+    - "authentication API"
+  embedding_text: >-
+    An Authentication Service provides identity verification capabilities by abstracting
+    authentication mechanisms and protocols into a consumable service interface. It handles
+    credential validation, multi-factor authentication orchestration, session management,
+    and single sign-on token generation. The service delegates to backend authentication
+    servers and directory services while exposing APIs for login, logout, token refresh,
+    and password reset. Authentication service weaknesses enable credential theft, session
+    hijacking, authentication bypass, and replay attacks. Common vulnerabilities include
+    insecure token handling, weak session management, and authentication logic flaws.
+    Security teams must implement secure session management, enforce MFA, validate tokens
+    properly, maintain audit trails, and ensure the service is resilient to credential
+    stuffing and brute force attacks.

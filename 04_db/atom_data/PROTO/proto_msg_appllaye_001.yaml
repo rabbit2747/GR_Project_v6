@@ -1,0 +1,105 @@
+# GR Atom: Application Layer Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-APPLLAYE-001"
+  name: "Application Layer Protocol"
+  normalized_name: "application_layer_protocol"
+  aliases:
+    - "Layer 7 Protocol"
+    - "Application Protocol"
+    - "L7 Protocol"
+    - "OSI Layer 7 Protocol"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    An application layer protocol is a communications protocol operating at Layer 7 of the OSI
+    model, providing process-to-process communication services directly to end-user applications.
+    These protocols define the rules, syntax, semantics, and synchronization of data exchange
+    between software applications across a network. The application layer sits above the transport
+    layer (TCP/UDP) in both the OSI and TCP/IP models. Common application layer protocols include
+    HTTP, FTP, SMTP, DNS, SNMP, MQTT, RDP, and SMB. Each protocol specifies message formats,
+    request-response patterns, error handling, and session management appropriate to its domain.
+  why: >-
+    Application layer protocols are the primary interface through which users and applications
+    interact with network services, making them the most exposed attack surface in any networked
+    environment. Attackers exploit application layer protocols for initial access, command and
+    control, data exfiltration, and lateral movement. Understanding these protocols is essential
+    for network security monitoring, firewall rule configuration, intrusion detection signature
+    development, and secure application design. MITRE ATT&CK technique T1071 documents adversary
+    abuse of application layer protocols to blend malicious traffic with legitimate communications.
+  how: >-
+    Application layer protocols operate by establishing communication sessions between client
+    and server processes using the underlying transport layer (typically TCP or UDP). The protocol
+    defines message structure (headers, body, encoding), interaction patterns (request-response,
+    publish-subscribe, streaming), state management (stateless vs. stateful), authentication
+    mechanisms, and error handling procedures. Implementations use well-known port numbers
+    (HTTP/80, HTTPS/443, FTP/21, SMTP/25, DNS/53) for service discovery. Modern application
+    protocols increasingly use TLS encryption, binary encoding formats, and multiplexed
+    connections for security and performance.
+  core_concepts:
+    - key: "OSI Layer 7"
+      value: "The topmost layer of the OSI model where application-specific communication protocols provide services directly to end-user software processes."
+    - key: "Request-Response Pattern"
+      value: "The most common interaction model where a client sends a request and the server returns a response, used by HTTP, FTP, and SMTP among others."
+    - key: "Well-Known Ports"
+      value: "Standardized port numbers (0-1023) assigned by IANA to specific application layer protocols for consistent service discovery across networks."
+    - key: "Protocol Encapsulation"
+      value: "Application layer data is encapsulated within transport layer segments, which are in turn encapsulated in network layer packets for transmission."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-TRANSFER-001"
+    description: "Application layer protocols are a category of transfer protocols operating at the highest network layer"
+  - type: "enables"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "The application layer protocol concept encompasses HTTP and all other L7 protocols"
+  - type: "enables"
+    target: "PROTO-MSG-FTPFILTRA-001"
+    description: "FTP is an application layer protocol for file transfer"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ISO/IEC 7498-1:1994 — Information technology — Open Systems Interconnection — Basic Reference Model"
+    - "IETF RFC 1122 — Requirements for Internet Hosts — Communication Layers"
+    - "MITRE ATT&CK — T1071: Application Layer Protocol"
+    - "Tanenbaum, A.S. — Computer Networks, 6th Edition, Chapter 7: Application Layer"
+  search_keywords:
+    - "application layer protocol"
+    - "layer 7 protocol"
+    - "OSI layer 7"
+    - "application protocol"
+    - "L7 protocol"
+    - "network application layer"
+    - "T1071"
+    - "process to process communication"
+    - "well-known ports"
+  embedding_text: >-
+    Application layer protocols operate at Layer 7 of the OSI model, providing process-to-process
+    communication services directly to end-user applications. These protocols define message
+    formats, interaction patterns, authentication mechanisms, and error handling for network
+    communication. Common examples include HTTP, FTP, SMTP, DNS, SNMP, MQTT, RDP, and SMB,
+    each using well-known port numbers for service discovery. Application layer protocols
+    represent the most exposed attack surface in networked environments, documented in MITRE
+    ATT&CK T1071 as a vector for adversary command and control, data exfiltration, and lateral
+    movement. Modern implementations increasingly use TLS encryption, binary encoding, and
+    multiplexed connections for security and performance.

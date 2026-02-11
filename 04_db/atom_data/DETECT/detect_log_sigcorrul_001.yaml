@@ -1,0 +1,119 @@
+# GR Atom: Sigma Correlation Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-SIGCORRUL-001"
+  name: "Sigma Correlation Rules"
+  normalized_name: "sigma_correlation_rules"
+  aliases:
+    - "Sigma Rules"
+    - "Sigma Detection Rules"
+    - "Generic Signature Format for SIEM"
+    - "Sigma YAML Rules"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - LOG
+    - BLUE_TEAM
+    - THREAT_INTEL
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    Sigma Correlation Rules are platform-agnostic detection rules written in the Sigma YAML
+    format that describe detection logic for security events in a vendor-neutral syntax.
+    Created by Florian Roth and Thomas Patzke, Sigma serves as the common language for sharing
+    detection logic across different SIEM platforms, similar to how Snort rules standardized
+    network-based detection and YARA standardized file-based detection. Sigma rules define log
+    source (product, service, category), detection conditions (field matches, wildcards,
+    regular expressions, Boolean logic), and metadata (title, description, references, MITRE
+    ATT&CK mapping, severity level, false positive guidance). Sigma rules are converted to
+    platform-specific query languages using backend converters (sigmac, pySigma) that translate
+    Sigma YAML to Splunk SPL, Microsoft Sentinel KQL, Elastic EQL, QRadar AQL, Chronicle YARA-L,
+    and dozens of other SIEM and EDR platforms.
+  why: >-
+    Sigma addresses the critical problem of detection rule portability across heterogeneous
+    SIEM environments. Without Sigma, detection rules must be manually rewritten for each SIEM
+    platform, creating duplication of effort, inconsistent detection coverage, and difficulty
+    sharing detection logic across organizations. The SigmaHQ repository provides thousands of
+    community-contributed rules covering MITRE ATT&CK techniques, providing organizations with
+    a baseline detection library. Sigma enables detection-as-code practices where rules are
+    version-controlled, tested, and deployed through CI/CD pipelines. Threat intelligence
+    providers, incident response teams, and security researchers use Sigma as the standard
+    format for sharing detection logic in reports and advisories.
+  how: >-
+    Sigma rule implementation follows: (1) Rule authoring in YAML format specifying title,
+    status, description, references, logsource (product, service, category), detection
+    conditions (selection, filter, condition), level, tags (MITRE ATT&CK mapping), and false
+    positive documentation; (2) Validation against the Sigma specification using sigma-cli
+    or pySigma validators; (3) Conversion to target SIEM platform format using pySigma backend
+    converters; (4) Testing converted rules against sample data and historical logs to verify
+    detection accuracy; (5) Deployment to SIEM platforms through automation pipelines; (6)
+    Integration with SigmaHQ community rules for baseline coverage; (7) Correlation rules
+    extending basic Sigma by chaining multiple rules with temporal and conditional logic;
+    (8) Continuous maintenance including rule updates based on new threat intelligence and
+    false positive tuning.
+  core_concepts:
+    - key: "Platform-Agnostic Detection"
+      value: "Sigma rules describe detection logic independently of any specific SIEM platform, enabling portable and shareable detection content across heterogeneous environments."
+    - key: "Backend Conversion"
+      value: "The process of translating Sigma YAML rules into platform-specific query languages using pySigma converters, enabling a single rule to run on dozens of SIEM platforms."
+    - key: "SigmaHQ Community Rules"
+      value: "The open-source repository of thousands of community-contributed Sigma rules providing baseline detection coverage across MITRE ATT&CK techniques."
+    - key: "Detection-as-Code"
+      value: "The practice of managing detection rules as version-controlled code artifacts, enabling CI/CD pipelines for rule testing, validation, and deployment."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Sigma rules define detection logic for security events"
+  - type: "enables"
+    target: "DETECT-LOG-SIECORRUL-001"
+    description: "Sigma rules are converted to platform-specific SIEM correlation rules"
+  - type: "applies_to"
+    target: "DETECT-LOG-WINEVENT-001"
+    description: "Many Sigma rules target Windows event log sources for detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "SigmaHQ — Sigma Rule Specification"
+    - "Sigma GitHub Repository — https://github.com/SigmaHQ/sigma"
+    - "pySigma — Python library for Sigma rule processing"
+    - "MITRE ATT&CK — Detection Mapping"
+  search_keywords:
+    - "Sigma rules"
+    - "Sigma correlation"
+    - "Sigma detection"
+    - "SigmaHQ"
+    - "pySigma"
+    - "Sigma YAML"
+    - "platform-agnostic detection"
+    - "detection-as-code"
+    - "Sigma backend"
+    - "Sigma converter"
+    - "generic SIEM rules"
+  embedding_text: >-
+    Sigma Correlation Rules are platform-agnostic detection rules in YAML format that describe
+    security event detection logic independently of any SIEM vendor. Sigma rules specify log
+    source, detection conditions, and metadata including MITRE ATT&CK mappings, and are converted
+    to platform-specific queries (SPL, KQL, EQL, AQL, YARA-L) via pySigma backend converters.
+    SigmaHQ provides thousands of community-contributed rules covering ATT&CK techniques. Sigma
+    enables detection-as-code practices with version control, CI/CD deployment, and cross-platform
+    portability. Sigma addresses the critical problem of detection rule portability across
+    heterogeneous SIEM environments, serving as the standard format for sharing detection logic
+    in threat intelligence and incident response contexts.

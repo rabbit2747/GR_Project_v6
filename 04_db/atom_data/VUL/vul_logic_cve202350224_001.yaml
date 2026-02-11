@@ -1,0 +1,92 @@
+# GR Atom: CVE-2023-50224
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202350224-001"
+  name: "CVE-2023-50224"
+  normalized_name: "cve_2023_50224"
+  aliases:
+    - "Sitecore Experience Platform Authorization Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHZ
+    - WEB
+    - INFO_LEAK
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Sitecore Experience Platform"
+    - "Sitecore CMS"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-50224 is an authorization bypass vulnerability in Sitecore Experience Platform
+    that allows remote attackers to access restricted functionality and data through improper
+    access control logic. The vulnerability exists in the authorization checking mechanism
+    where certain API endpoints fail to properly validate user permissions, enabling
+    unauthorized access to content management functions and sensitive data.
+  why: >-
+    Sitecore Experience Platform is a major enterprise content management system used by
+    large organizations for web content delivery and digital experience management.
+    Authorization bypass allows attackers to access restricted content, modify web content,
+    and potentially achieve further compromise through exposed management functionality.
+  how: >-
+    An attacker identifies API endpoints in the Sitecore platform that have insufficient
+    authorization checks. By crafting specific requests to these endpoints, the attacker
+    bypasses the intended access control logic and gains access to restricted management
+    functions or sensitive data without proper authorization.
+  core_concepts:
+    - key: "Authorization Check Logic Gap"
+      value: "Certain API endpoints lack proper permission validation, allowing unauthorized access to restricted CMS functions"
+    - key: "CMS Access Control Bypass"
+      value: "Insufficient authorization enforcement in content management endpoints exposes administrative functions to unauthorized users"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Authorization logic flaw in CMS API endpoints enabling unauthorized access to restricted functions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-50224"
+    - "Sitecore Security Advisory"
+    - "NIST NVD - CVE-2023-50224"
+  search_keywords:
+    - "CVE-2023-50224"
+    - "Sitecore vulnerability"
+    - "Sitecore Experience Platform"
+    - "CMS authorization bypass"
+    - "Sitecore access control"
+    - "content management vulnerability"
+  embedding_text: >-
+    CVE-2023-50224 is an authorization bypass vulnerability in Sitecore Experience Platform.
+    Certain API endpoints fail to properly validate user permissions, enabling unauthorized
+    access to restricted CMS management functions and sensitive data. Affects enterprise
+    content management deployments. Authorization check logic gap in CMS API endpoints.
+    Sitecore is a major enterprise CMS platform. Year 2023.

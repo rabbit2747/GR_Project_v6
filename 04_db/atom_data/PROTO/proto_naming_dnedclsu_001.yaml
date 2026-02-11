@@ -1,0 +1,133 @@
+# GR Atom: DNS EDNS Client Subnet
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-NAMING-DNEDCLSU-001"
+  name: "DNS EDNS Client Subnet"
+  normalized_name: "dns_edns_client_subnet"
+  aliases:
+    - "ECS"
+    - "EDNS Client Subnet"
+    - "Client Subnet Option"
+    - "RFC 7871"
+    - "DNS Client Subnet"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - DNS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    EDNS Client Subnet (ECS) is a DNS extension defined in RFC 7871 that allows recursive
+    resolvers to include a truncated portion of the client's IP address in DNS queries to
+    authoritative name servers. This enables authoritative servers, particularly those operating
+    CDN and anycast infrastructure, to provide geographically optimized responses based on the
+    client's actual network location rather than the resolver's location. ECS is carried as an
+    EDNS0 option (option code 8) containing the address family, source prefix length, scope
+    prefix length, and the truncated client subnet address.
+  why: >-
+    ECS was designed to improve CDN performance by enabling location-aware DNS responses, but
+    it introduces significant privacy concerns by exposing partial client IP information to
+    authoritative name servers that were previously hidden behind the resolver. This leaks
+    geographic and network information about end users to third-party DNS operators, CDN
+    providers, and potentially to any entity capable of observing DNS traffic. Privacy-focused
+    resolvers (e.g., Cloudflare 1.1.1.1) do not send ECS by default, while others (e.g., Google
+    8.8.8.8) do. ECS data can be used for user tracking, profiling, and surveillance. The
+    tension between CDN performance optimization and user privacy makes ECS a critical DNS
+    privacy consideration. From a security perspective, ECS information can reveal internal
+    network topology to external parties.
+  how: >-
+    ECS operates through resolver-authoritative server interaction: (1) the client sends a
+    standard DNS query to its recursive resolver; (2) the resolver constructs an ECS option
+    containing a truncated subnet of the client's IP (e.g., /24 for IPv4, /56 for IPv6) in
+    the EDNS0 OPT record; (3) the authoritative server uses the subnet information to select
+    the geographically closest CDN edge server or anycast instance; (4) the authoritative
+    server returns the optimized answer along with a SCOPE PREFIX LENGTH indicating how broadly
+    the response can be cached (a scope of /24 means the answer applies to all clients in that
+    /24); (5) the resolver caches the response keyed by both the domain name and the client
+    subnet scope, creating subnet-specific cache entries. Privacy controls include: resolver
+    operators choosing not to send ECS, clients setting the source prefix length to 0 (opting
+    out), limiting ECS forwarding to known CDN authoritative servers only, using DNS over
+    HTTPS/TLS to prevent passive observation of ECS data in transit, and EDNS padding to
+    prevent traffic analysis.
+  core_concepts:
+    - key: "Client Subnet Exposure"
+      value: >-
+        The partial disclosure of end-user IP address information to authoritative DNS servers
+        via ECS, revealing geographic location and network affiliation of users to third-party
+        DNS operators who previously could only see the resolver's IP address.
+    - key: "Scope Prefix Length"
+      value: >-
+        The field in ECS responses indicating the granularity of the subnet for which the
+        authoritative server's response is valid, controlling both cache effectiveness and
+        the privacy/performance trade-off of cached subnet-specific responses.
+    - key: "CDN Geolocation Optimization"
+      value: >-
+        The primary use case for ECS, enabling CDN operators to direct users to the nearest
+        edge server based on the client's actual network location rather than the resolver's
+        location, improving latency and content delivery performance.
+    - key: "ECS Privacy Opt-Out"
+      value: >-
+        The mechanism for clients or resolvers to set the source prefix length to 0 or omit
+        ECS entirely, preventing client subnet disclosure at the cost of potentially suboptimal
+        CDN routing based only on the resolver's location.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "EDNS Client Subnet is an EDNS0 extension within the DNS protocol for geolocation-aware resolution"
+  - type: "applies_to"
+    target: "PROTO-NAMING-HTTPS-001"
+    description: "ECS privacy concerns are partially addressed by DNS over HTTPS which encrypts DNS traffic including ECS data"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "ECS is carried within EDNS0 options of DNS queries primarily transported over UDP"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 7871 - Client Subnet in DNS Queries (May 2016). IETF. https://datatracker.ietf.org/doc/html/rfc7871"
+    - "RFC 6891 - Extension Mechanisms for DNS (EDNS(0)) (April 2013). IETF. https://datatracker.ietf.org/doc/html/rfc6891"
+    - "Cloudflare Blog - DNS Privacy with ECS. https://blog.cloudflare.com/dns-privacy-with-ecs/"
+  search_keywords:
+    - "EDNS client subnet"
+    - "ECS"
+    - "RFC 7871"
+    - "DNS privacy"
+    - "client subnet exposure"
+    - "CDN DNS optimization"
+    - "DNS geolocation"
+    - "DNS client IP leakage"
+    - "EDNS0 option"
+    - "DNS tracking"
+    - "subnet-aware DNS"
+  embedding_text: >-
+    EDNS Client Subnet (ECS, RFC 7871) is a DNS extension allowing recursive resolvers to
+    include truncated client IP subnets in queries to authoritative servers, enabling
+    geolocation-aware CDN responses. ECS reveals partial client IP information to authoritative
+    servers, creating privacy concerns by exposing geographic and network information about
+    end users to third-party DNS operators. The scope prefix length controls cache granularity
+    and the privacy/performance trade-off. Privacy-focused resolvers omit ECS or set source
+    prefix to 0 for opt-out. ECS data can enable user tracking, profiling, and network topology
+    disclosure. The tension between CDN performance optimization and user privacy makes ECS a
+    critical DNS privacy consideration. Mitigations include encrypted DNS transport, resolver
+    ECS policy configuration, and client opt-out mechanisms.

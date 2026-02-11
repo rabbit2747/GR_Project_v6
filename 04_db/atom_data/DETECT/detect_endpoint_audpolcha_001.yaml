@@ -1,0 +1,89 @@
+# GR Atom: Audit Policy Changes
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-AUDPOLCHA-001"
+  name: "Audit Policy Changes"
+  normalized_name: "audit_policy_changes"
+  aliases:
+    - "Audit Policy Modification"
+    - "Security Policy Change Detection"
+    - "Group Policy Audit Change"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - AUDIT
+    - SIEM
+    - MONITOR
+    - WINDOWS
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for identifying changes to system audit policies on endpoints. Audit policy changes include modifications to Windows Security Policy, Advanced Audit Policy Configuration, and Group Policy Objects that govern what security events are logged. Monitoring these changes is critical because attackers frequently disable or weaken audit policies to blind defenders and cover their tracks during post-exploitation activity."
+  why: "Unauthorized audit policy modifications are a primary indicator of defense evasion. Attackers disable auditing to prevent detection of subsequent malicious actions such as credential theft, lateral movement, and data exfiltration. Detecting these changes enables rapid response before an attacker can operate undetected."
+  how: "Monitor Windows Event IDs 4719 (System audit policy was changed), 4907 (Auditing settings on object were changed), and 4912 (Per User Audit Policy was changed). Track changes to registry keys under HKLM\\SYSTEM\\CurrentControlSet\\Control\\Lsa and HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Audit. Correlate with Group Policy change events and auditpol.exe command-line usage."
+  core_concepts:
+    - key: "Windows Audit Policy"
+      value: "Configuration settings that determine which security events are recorded in Windows Event Logs, controlled via Local Security Policy or Group Policy"
+    - key: "Event ID 4719"
+      value: "Windows Security event generated when the system audit policy is changed, indicating modification to audit subcategory settings"
+    - key: "Defense Evasion"
+      value: "Attacker tactic of disabling or modifying security controls to avoid detection during an intrusion"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Audit policy changes affect what telemetry EDR solutions can collect"
+  - type: effective_against
+    target: "ATK-EVASION-DISAUDIT-001"
+    description: "Detects attempts to disable or weaken audit logging"
+  - type: requires
+    target: "DETECT-ENDPOINT-ETWTRAPRO-001"
+    description: "ETW providers supply the underlying event data for audit policy change detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.002"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1562.002"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Audit Policy Change Events"
+    - "MITRE ATT&CK T1562.002 - Impair Defenses: Disable Windows Event Logging"
+    - "OCSF Security Event Framework"
+  search_keywords:
+    - "audit policy change"
+    - "event 4719"
+    - "security policy modification"
+    - "auditpol"
+    - "defense evasion"
+    - "disable auditing"
+    - "group policy change"
+    - "Windows security logging"
+  embedding_text: "Audit Policy Changes is an endpoint detection pattern for identifying modifications to system audit policies on Windows endpoints. It monitors Windows Security Event IDs 4719, 4907, and 4912 to detect when audit subcategory settings are altered. Attackers frequently disable or weaken audit policies as a defense evasion technique to prevent detection of subsequent malicious activities including credential theft and lateral movement. This detection covers changes to Local Security Policy, Advanced Audit Policy Configuration, Group Policy Objects, and direct registry modifications to audit-related keys. Correlating audit policy changes with process execution telemetry and command-line monitoring of auditpol.exe provides high-fidelity alerting for security operations teams."

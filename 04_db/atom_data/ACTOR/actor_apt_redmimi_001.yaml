@@ -1,0 +1,86 @@
+# GR Atom: Red Mimicry
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDMIMI-001"
+  name: "Red Mimicry"
+  normalized_name: "red_mimicry"
+  aliases:
+    - "Scarab"
+    - "TAG-100"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EVADE
+    - C2
+    - PERSIST
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Mimicry is a suspected China-nexus advanced persistent threat group known for impersonating legitimate organizations and deploying custom backdoors in espionage campaigns. The group has targeted government entities, diplomatic organizations, and intergovernmental bodies, using infrastructure that mimics legitimate services to evade detection. The group overlaps with activity tracked by Recorded Future as TAG-100 and by Symantec as Scarab."
+  why: "Red Mimicry is notable for its sophisticated operational security practices, particularly its use of infrastructure that closely mimics legitimate organizations and services. This deceptive approach makes detection challenging and demonstrates the group's emphasis on stealth and long-term persistence within targeted networks."
+  how: "Red Mimicry establishes C2 infrastructure that impersonates legitimate organizations and services, registering domains that closely resemble authentic websites. The group uses spear-phishing with tailored lure documents for initial access, deploys custom backdoors such as Scieron and HeaderTip for persistent access, and leverages legitimate cloud services for data staging and exfiltration. The group demonstrates strong operational security by frequently rotating infrastructure and using encryption for communications."
+  core_concepts:
+    - key: "Infrastructure Mimicry"
+      value: "Registration and use of domains and infrastructure that closely impersonate legitimate organizations to evade network-level detection"
+    - key: "Custom Backdoor Suite"
+      value: "Deployment of proprietary backdoors including Scieron and HeaderTip for stealthy persistent access within targeted networks"
+    - key: "Operational Security"
+      value: "Emphasis on stealth through infrastructure rotation, encrypted communications, and impersonation of legitimate services"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group specializing in deceptive infrastructure operations"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses spear-phishing with tailored lure documents for initial access to government targets"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1583.001"
+    tactic:
+      - "resource-development"
+      - "initial-access"
+      - "defense-evasion"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Recorded Future - TAG-100 threat analysis"
+    - "Symantec - Scarab APT group analysis"
+    - "SentinelOne - Red Mimicry infrastructure analysis"
+  search_keywords:
+    - "red mimicry"
+    - "scarab apt"
+    - "tag-100"
+    - "china apt"
+    - "scieron backdoor"
+    - "headertip"
+    - "infrastructure mimicry"
+    - "domain impersonation"
+    - "government espionage"
+    - "diplomatic targeting"
+  embedding_text: "Red Mimicry is a suspected China-nexus advanced persistent threat group known for impersonating legitimate organizations through carefully crafted infrastructure in its cyber-espionage campaigns. The group, which overlaps with activity tracked as TAG-100 and Scarab, targets government entities, diplomatic organizations, and intergovernmental bodies. Red Mimicry registers domains closely resembling authentic websites, deploys custom backdoors including Scieron and HeaderTip, and demonstrates strong operational security through infrastructure rotation and encrypted communications. The group uses spear-phishing with tailored lure documents for initial access and leverages cloud services for data staging and exfiltration."

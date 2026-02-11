@@ -1,0 +1,71 @@
+# GR Atom: Joe Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-JOESECU-001"
+  name: "Joe Security"
+  normalized_name: "joe_security"
+  aliases:
+    - "Joe Sandbox"
+    - "Joe Security LLC"
+    - "JoeSandbox"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - SANDBOX
+    - FORENSICS
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Joe Security is a Swiss cybersecurity company that develops Joe Sandbox, an advanced automated malware analysis platform. Joe Sandbox provides deep malware analysis through dynamic and static analysis across Windows, macOS, Linux, Android, and iOS environments. The platform generates comprehensive behavioral reports including process activity, network communications, file system changes, registry modifications, and MITRE ATT&CK technique mapping for analyzed samples."
+  why: "Joe Security is important in cybersecurity because Joe Sandbox is one of the most widely used malware analysis platforms by SOC analysts, incident responders, and threat intelligence teams. The platform's detailed behavioral analysis reports are frequently referenced in threat research publications and help organizations understand malware capabilities, extract indicators of compromise, and develop detection rules for emerging threats."
+  how: "Joe Sandbox operates by executing suspicious files and URLs in controlled virtual and physical environments while monitoring all system interactions. The platform captures detailed behavioral data including API calls, network traffic, dropped files, and process trees. Analysis results are presented in comprehensive reports with MITRE ATT&CK mapping, YARA rule matching, and Sigma rule correlation. Joe Sandbox offers cloud-based and on-premise deployment options with API integration for automated analysis workflows."
+  core_concepts:
+    - key: "Automated malware analysis"
+      value: "Deep behavioral analysis of suspicious files and URLs in sandboxed environments"
+    - key: "Multi-platform sandbox"
+      value: "Analysis across Windows, macOS, Linux, Android, and iOS environments"
+    - key: "Behavioral reporting"
+      value: "Comprehensive reports with MITRE ATT&CK mapping and IOC extraction"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-MALANALYSIS-001"
+    description: "Joe Security produces detailed malware analysis reports with behavioral data and IOCs"
+  - type: enables
+    target: "TECHNIQUE-SANDBOX-001"
+    description: "Joe Security enables sandbox-based malware analysis for threat investigation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Joe Security Official Website"
+    - "Joe Sandbox Cloud Documentation"
+    - "MITRE ATT&CK - Joe Sandbox Integration"
+  search_keywords:
+    - "joe security"
+    - "joe sandbox"
+    - "joesandbox"
+    - "joe sandbox malware analysis"
+    - "joe sandbox cloud"
+    - "automated malware analysis"
+    - "joe sandbox report"
+  embedding_text: "Joe Security is a Swiss cybersecurity company developing Joe Sandbox, one of the most widely used automated malware analysis platforms in the security industry. Joe Sandbox provides deep behavioral analysis of suspicious files and URLs across multiple operating systems including Windows, macOS, Linux, Android, and iOS through dynamic and static analysis in controlled sandbox environments. The platform monitors and reports on all system interactions including process activity, network communications, file system changes, registry modifications, API calls, and dropped files. Analysis results include comprehensive behavioral reports with MITRE ATT&CK technique mapping, YARA rule matching, Sigma rule correlation, and extracted indicators of compromise. Joe Sandbox is used extensively by SOC analysts, incident responders, and threat intelligence teams for malware triage, threat investigation, and IOC extraction. The platform offers both cloud-based and on-premise deployment with API integration for automated analysis workflows."

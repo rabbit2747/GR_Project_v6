@@ -1,0 +1,118 @@
+# GR Atom: Cryptographic Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CRYPTOGRAP-001"
+  name: "Cryptographic Vulnerability"
+  normalized_name: "cryptographic_vulnerability"
+  aliases:
+    - "Cryptographic Weakness"
+    - "Crypto Vulnerability Class"
+    - "Cryptographic Implementation Flaw"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - ENCRYPT
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z1", "Z2", "Z3"]
+  target_components:
+    - "Cryptographic Libraries"
+    - "TLS/SSL Implementations"
+    - "Key Management Systems"
+    - "Random Number Generators"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Cryptographic vulnerabilities represent a broad class of security weaknesses arising from
+    flawed design, implementation, or configuration of cryptographic systems. This encompasses
+    weak algorithms, insufficient key lengths, improper random number generation, side-channel
+    leakage, protocol design flaws, and implementation errors in cryptographic libraries. These
+    vulnerabilities can compromise the confidentiality, integrity, and authenticity guarantees
+    that cryptographic systems are designed to provide.
+  why: >-
+    Cryptography is the foundational trust mechanism for digital security, protecting data in
+    transit and at rest, authenticating identities, and ensuring message integrity. Weaknesses
+    in cryptographic implementations undermine the entire security model of systems that depend
+    on them. A single cryptographic flaw can render all higher-level security controls ineffective,
+    making this vulnerability class one of the most impactful in cybersecurity.
+  how: >-
+    Cryptographic vulnerabilities are exploited through various vectors depending on the specific
+    weakness: mathematical attacks against weak algorithms (e.g., factoring RSA keys with
+    insufficient length), side-channel attacks that extract key material through timing, power, or
+    electromagnetic analysis, padding oracle attacks that decrypt ciphertext through error message
+    analysis, protocol downgrade attacks that force use of weaker cipher suites, and implementation
+    bugs that leak secrets through memory errors or improper state management.
+  core_concepts:
+    - name: "Algorithm Weakness"
+      value: "Fundamental mathematical or design flaws in cryptographic algorithms that reduce their effective security below intended levels"
+    - name: "Implementation Error"
+      value: "Programming mistakes in cryptographic code that introduce vulnerabilities absent from the theoretical algorithm design"
+    - name: "Side-Channel Attack"
+      value: "Exploiting observable physical characteristics of cryptographic operations to extract secret information without breaking the algorithm mathematically"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-CRYPTO-CVE20140160-001"
+    description: "Cryptographic vulnerability class abstracts specific instances like Heartbleed"
+  - type: "abstracts"
+    target: "VUL-CRYPTO-CVE20143566-001"
+    description: "Cryptographic vulnerability class abstracts specific protocol weaknesses like POODLE"
+  - type: "effective_against"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Cryptographic vulnerabilities are effective against TLS and other encryption infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1573"
+      tactic: ["Collection", "Credential Access", "Defense Evasion"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Cryptographic Failures (Top 10 2021 A02)"
+    - "MITRE CWE-310: Cryptographic Issues"
+    - "NIST SP 800-175B: Guideline for Using Cryptographic Standards"
+  search_keywords:
+    - "cryptographic vulnerability"
+    - "crypto weakness"
+    - "encryption flaw"
+    - "TLS vulnerability"
+    - "side channel attack"
+    - "weak cryptography"
+    - "cryptographic implementation flaw"
+    - "key management vulnerability"
+  embedding_text: >-
+    Cryptographic vulnerabilities are a broad class of security weaknesses stemming from flawed
+    design, implementation, or configuration of cryptographic systems. They encompass weak
+    algorithms, insufficient key lengths, improper random number generation, side-channel leakage,
+    protocol design flaws, and implementation errors in cryptographic libraries. These
+    vulnerabilities undermine confidentiality, integrity, and authenticity guarantees. Exploitation
+    vectors include mathematical attacks against weak algorithms, side-channel attacks extracting
+    key material through timing or power analysis, padding oracle attacks, protocol downgrade
+    attacks forcing weaker cipher suites, and implementation bugs leaking secrets through memory
+    errors. Cryptography serves as the foundational trust mechanism for digital security, so
+    weaknesses in this area can render all higher-level security controls ineffective. Common
+    examples include Heartbleed, POODLE, BEAST, BREACH, FREAK, Logjam, and numerous other
+    named vulnerabilities that have impacted TLS, SSH, and other cryptographic protocols.

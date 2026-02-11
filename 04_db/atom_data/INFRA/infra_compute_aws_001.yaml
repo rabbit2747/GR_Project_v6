@@ -1,0 +1,144 @@
+# GR Atom: AWS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AWS-001"
+  name: "AWS"
+  normalized_name: "aws"
+  aliases:
+    - "Amazon Web Services"
+    - "AWS Cloud"
+    - "Amazon Cloud"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - "CLOUD"
+    - "AWS"
+    - "API"
+    - "CONTAINER"
+    - "SERVERLESS"
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Amazon Web Services (AWS) is a comprehensive cloud computing platform provided by Amazon that offers
+    over 200 fully featured services from data centers globally. AWS provides on-demand compute power,
+    database storage, content delivery, and other functionality including IaaS, PaaS, and SaaS offerings.
+    Launched in 2006 with Amazon S3 and EC2, AWS has grown to become the world's most widely adopted
+    cloud platform, holding approximately 31% of the global cloud infrastructure market share. AWS
+    operates across 33 geographic regions with 105 Availability Zones, providing services including
+    compute (EC2, Lambda, ECS, EKS), storage (S3, EBS, EFS), databases (RDS, DynamoDB, Aurora),
+    networking (VPC, CloudFront, Route 53), security (IAM, GuardDuty, Security Hub, KMS), and
+    machine learning (SageMaker, Bedrock). AWS follows a shared responsibility model where Amazon
+    manages security of the cloud infrastructure while customers are responsible for security in the cloud.
+  why: >-
+    AWS is the dominant cloud infrastructure provider and a critical attack surface in modern enterprise
+    environments. Misconfigured AWS services (S3 buckets, IAM policies, security groups) are among the
+    most common sources of data breaches. Understanding AWS architecture is essential for both offensive
+    security (cloud pentesting, red team operations) and defensive security (cloud security posture
+    management, incident response). The shared responsibility model creates a boundary where security
+    gaps frequently occur due to customer misconfiguration.
+  how: >-
+    AWS services are accessed through the AWS Management Console (web UI), AWS CLI, SDKs, or direct
+    API calls authenticated via IAM credentials (access keys, session tokens, or IAM roles). Resources
+    are organized within AWS accounts, which can be grouped under AWS Organizations for centralized
+    governance. Network isolation is achieved through VPCs with subnets, security groups, and NACLs.
+    Identity and access management uses IAM policies (JSON documents) that define permissions following
+    the principle of least privilege. Logging and monitoring are provided through CloudTrail (API audit),
+    CloudWatch (metrics/logs), and GuardDuty (threat detection). Encryption is available at rest (KMS)
+    and in transit (TLS/ACM).
+  core_concepts:
+    - name: "Shared Responsibility Model"
+      value: "AWS manages security OF the cloud (physical, hypervisor, network); customers manage security IN the cloud (data, IAM, application, OS patching)"
+    - name: "IAM (Identity and Access Management)"
+      value: "Fine-grained access control using users, groups, roles, and JSON policy documents with explicit allow/deny statements"
+    - name: "VPC (Virtual Private Cloud)"
+      value: "Isolated virtual network with subnets, route tables, security groups, and NACLs providing network segmentation"
+    - name: "Availability Zones"
+      value: "Physically separate data centers within a region providing fault tolerance and high availability"
+    - name: "AWS Organizations"
+      value: "Multi-account management with Service Control Policies (SCPs) for centralized governance and billing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "AWS encompasses EC2 as its core compute service"
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-LAMBDA-001"
+    description: "AWS encompasses Lambda as its serverless compute service"
+  - type: "enables"
+    target: "INFRA-DEVOPS-CLOUDTRAIL-001"
+    description: "AWS provides CloudTrail for API audit logging"
+  - type: "enables"
+    target: "INFRA-SEC-AWSGUAR-001"
+    description: "AWS provides GuardDuty for threat detection"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AWIAIDAC-001"
+    description: "AWS resources require IAM for authentication and authorization"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "AWS competes with Microsoft Azure as a cloud platform"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "AWS competes with Google Cloud Platform as a cloud platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  defense_context:
+    protects_against:
+      - "On-premises infrastructure limitations"
+      - "Single-point-of-failure architectures"
+    required_by:
+      - "Cloud-first enterprise strategies"
+      - "Global scale applications"
+    effectiveness: "AWS provides comprehensive security services but effectiveness depends entirely on customer configuration; the shared responsibility model means customer misconfigurations are the primary source of cloud security incidents"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "AWS Documentation - Overview of Amazon Web Services (2024)"
+    - "Gartner Magic Quadrant for Cloud Infrastructure and Platform Services (2024)"
+    - "NIST SP 800-144 - Guidelines on Security and Privacy in Public Cloud Computing (2011)"
+  search_keywords:
+    - "AWS"
+    - "Amazon Web Services"
+    - "cloud computing"
+    - "cloud infrastructure"
+    - "IaaS"
+    - "PaaS"
+    - "cloud security"
+    - "shared responsibility model"
+    - "EC2"
+    - "S3"
+    - "IAM"
+    - "VPC"
+    - "cloud misconfiguration"
+  embedding_text: >-
+    Amazon Web Services (AWS) is the world's most comprehensive and widely adopted cloud computing
+    platform, offering over 200 services including compute (EC2, Lambda, ECS), storage (S3, EBS),
+    databases (RDS, DynamoDB), networking (VPC, CloudFront), and security (IAM, GuardDuty, KMS).
+    Operating across 33 regions with 105 Availability Zones, AWS follows a shared responsibility
+    model where Amazon secures the cloud infrastructure while customers secure their workloads.
+    AWS is critical in cybersecurity contexts because misconfigured services—particularly S3 buckets,
+    IAM policies, and security groups—represent one of the most prevalent attack vectors in modern
+    enterprises. Security capabilities include CloudTrail for API auditing, GuardDuty for threat
+    detection, Security Hub for posture management, and KMS for encryption key management. AWS
+    Organizations enables multi-account governance with Service Control Policies for centralized
+    security enforcement across enterprise environments.

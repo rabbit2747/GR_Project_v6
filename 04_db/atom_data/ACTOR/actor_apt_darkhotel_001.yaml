@@ -1,0 +1,92 @@
+# GR Atom: DarkHotel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DARKHOTEL-001"
+  name: "DarkHotel"
+  normalized_name: "darkhotel"
+  aliases:
+    - "Luder"
+    - "Tapaoux"
+    - "Dubnium"
+    - "Fallout Team"
+    - "Karba"
+    - "Shadow Crane"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - RECON
+    - C2
+    - CRED
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DarkHotel is a South Korean-linked APT group active since at least 2007, known for conducting highly targeted espionage operations against senior business executives, government officials, and defense industry leaders. The group originally gained notoriety for compromising hotel Wi-Fi networks to target high-profile guests staying at luxury hotels in Asia. DarkHotel targets organizations in North Korea, Japan, Russia, China, India, and Southeast Asia, with operations focused on geopolitical intelligence collection."
+  why: "DarkHotel represents a sophisticated and long-running espionage operation that pioneered the technique of compromising hotel networks to target traveling executives and officials. Their ability to precisely identify and target specific high-value individuals through hotel Wi-Fi infrastructure demonstrates advanced reconnaissance capabilities. The group's use of zero-day exploits and certificates stolen from legitimate companies indicates access to significant resources and intelligence about their targets."
+  how: "The group historically compromised hotel Wi-Fi networks to serve targeted malware through fake software update prompts (e.g., Adobe Flash, Google Toolbar) when specific guests connected. They have evolved to use spearphishing with zero-day exploits, particularly targeting Microsoft Office and Internet Explorer vulnerabilities. Post-compromise tools include the Inexsmar backdoor, custom keyloggers, and information stealers. The group also conducts watering hole attacks and uses stolen code-signing certificates to sign malware. More recently, they have shifted toward VPN exploitation and browser zero-days."
+  core_concepts:
+    - key: "Hotel Wi-Fi Targeting"
+      value: "Pioneered compromising luxury hotel networks to deliver malware to specific high-profile guests"
+    - key: "Executive Targeting"
+      value: "Focuses on senior executives, government officials, and defense leaders for strategic intelligence"
+    - key: "Zero-Day Exploitation"
+      value: "History of using zero-day exploits in Internet Explorer, Microsoft Office, and other widely-used software"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing, hotel Wi-Fi compromise, and watering holes for initial access"
+  - type: is_a
+    target: "ACTOR-APT-DARKHOTEL-001"
+    description: "South Korean-linked APT specializing in targeted executive espionage"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Reconnaissance"
+      - "Credential Access"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - DarkHotel APT Report"
+    - "MITRE ATT&CK - Darkhotel Group Profile"
+    - "Trellix - DarkHotel Campaign Evolution"
+  search_keywords:
+    - "darkhotel"
+    - "luder apt"
+    - "tapaoux"
+    - "dubnium"
+    - "hotel wifi attack"
+    - "executive targeting apt"
+    - "south korean apt"
+    - "luxury hotel espionage"
+    - "inexsmar backdoor"
+    - "zero-day espionage"
+    - "shadow crane"
+  embedding_text: "DarkHotel is a South Korean-linked APT group active since at least 2007, known for targeting senior business executives, government officials, and defense industry leaders. The group pioneered the technique of compromising luxury hotel Wi-Fi networks in Asia to serve targeted malware through fake software update prompts to specific high-profile guests. DarkHotel has evolved to use spearphishing with zero-day exploits targeting Microsoft Office and Internet Explorer, watering hole attacks, and stolen code-signing certificates. Post-compromise tools include the Inexsmar backdoor, custom keyloggers, and information stealers. The group targets organizations in North Korea, Japan, Russia, China, India, and Southeast Asia for geopolitical intelligence collection. Recent operations have shifted toward VPN exploitation and browser zero-day attacks."

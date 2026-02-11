@@ -1,0 +1,128 @@
+# GR Atom: ProxyShell
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PROXYSHELL-001"
+  name: "ProxyShell"
+  normalized_name: "proxyshell"
+  aliases:
+    - "CVE-2021-34473"
+    - "CVE-2021-34523"
+    - "CVE-2021-31207"
+    - "Microsoft Exchange ProxyShell"
+    - "Exchange ProxyShell Attack Chain"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - AUTHN
+    - EXEC
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+    - "Exchange Client Access Service (CAS)"
+    - "Exchange Autodiscover"
+    - "Exchange PowerShell Back-End"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ProxyShell is a chain of three Microsoft Exchange Server vulnerabilities that together enable
+    pre-authentication remote code execution. The chain consists of CVE-2021-34473 (pre-auth path
+    confusion leading to SSRF, CVSS 9.8), CVE-2021-34523 (privilege escalation in Exchange
+    PowerShell back-end, CVSS 9.8), and CVE-2021-31207 (post-auth arbitrary file write via
+    security feature bypass, CVSS 7.2). Discovered by Orange Tsai and presented at Black Hat USA
+    2021, the attack chain allows a remote unauthenticated attacker to execute arbitrary commands
+    as SYSTEM on vulnerable Exchange servers.
+  why: >-
+    ProxyShell built upon the Exchange proxy architecture weaknesses exposed by ProxyLogon,
+    demonstrating that the underlying design issues in Exchange CAS were systemic rather than
+    isolated bugs. Despite patches being available since April-May 2021, mass exploitation began
+    in August 2021 after the Black Hat presentation, targeting servers that had not been updated.
+    The vulnerability chain was widely used by ransomware groups including LockFile, Conti, and
+    others, as well as cryptomining operations. ProxyShell cemented Exchange Server as one of the
+    most targeted enterprise applications and accelerated migration to Exchange Online/Microsoft
+    365.
+  how: >-
+    The attacker first exploits CVE-2021-34473 to access the Exchange back-end as SYSTEM through
+    a path confusion vulnerability in the CAS proxy, bypassing authentication. CVE-2021-34523 is
+    then used to escalate privileges within the Exchange PowerShell back-end, gaining the ability
+    to execute Exchange cmdlets as another user. Finally, CVE-2021-31207 is exploited to write
+    arbitrary files to the server (typically webshells) through the Export-Mailbox cmdlet.
+    Mitigation includes applying all Exchange cumulative updates and security updates through at
+    least May 2021, scanning for webshells and indicators of compromise, monitoring for suspicious
+    PowerShell activity, and restricting Exchange server internet exposure where possible.
+  core_concepts:
+    - key: "Exchange Proxy Architecture Systemic Weakness"
+      value: "ProxyShell demonstrated that the CAS proxy design in Exchange had multiple exploitable paths beyond ProxyLogon, indicating systemic architectural vulnerability"
+    - key: "Three-Stage Pre-Auth RCE Chain"
+      value: "SSRF (CVE-2021-34473) to privilege escalation (CVE-2021-34523) to file write (CVE-2021-31207) creates a complete pre-auth RCE chain"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "ProxyShell exploits authentication bypass through Exchange CAS proxy architecture weaknesses"
+  - type: "instance_of"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "ProxyShell is a pre-authentication attack chain requiring no credentials"
+  - type: "supersedes"
+    target: "VUL-AUTH-PROXYLOGON-001"
+    description: "ProxyShell discovered additional attack paths in the same Exchange proxy architecture exploited by ProxyLogon"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2021-34473, CVE-2021-34523, CVE-2021-31207"
+    - "NIST NVD CVE-2021-34473 (CVSS v3.1: 9.8)"
+    - "NIST NVD CVE-2021-34523 (CVSS v3.1: 9.8)"
+    - "NIST NVD CVE-2021-31207 (CVSS v3.1: 7.2)"
+    - "Black Hat USA 2021 - Orange Tsai ProxyLogon/ProxyShell Presentation"
+    - "CISA Advisory AA21-321A - Exchange ProxyShell"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "ProxyShell"
+    - "CVE-2021-34473"
+    - "CVE-2021-34523"
+    - "CVE-2021-31207"
+    - "Exchange ProxyShell exploit"
+    - "Exchange pre-auth RCE"
+    - "Orange Tsai Exchange"
+    - "Exchange CAS proxy vulnerability"
+  embedding_text: >-
+    ProxyShell is a three-vulnerability chain in Microsoft Exchange Server enabling pre-auth
+    remote code execution: CVE-2021-34473 (SSRF via path confusion, CVSS 9.8), CVE-2021-34523
+    (privilege escalation in Exchange PowerShell, CVSS 9.8), and CVE-2021-31207 (arbitrary file
+    write, CVSS 7.2). Discovered by Orange Tsai and presented at Black Hat USA 2021, it
+    demonstrated systemic weaknesses in the Exchange CAS proxy architecture beyond ProxyLogon.
+    Mass exploitation by LockFile, Conti, and other ransomware groups began in August 2021.
+    The attack chain bypasses authentication, escalates privileges, and writes webshells for
+    persistent access as SYSTEM. Affects Exchange 2013, 2016, and 2019. Mitigation includes
+    cumulative updates, webshell scanning, and restricting Exchange internet exposure.

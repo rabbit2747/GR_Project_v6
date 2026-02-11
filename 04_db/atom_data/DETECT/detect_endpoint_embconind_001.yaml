@@ -1,0 +1,86 @@
+# GR Atom: Embedded Content Indicators
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-EMBCONIND-001"
+  name: "Embedded Content Indicators"
+  normalized_name: "embedded_content_indicators"
+  aliases:
+    - "Embedded Object Detection"
+    - "Hidden Content Indicators"
+    - "Embedded Payload Markers"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - FORENSICS
+    - MONITOR
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for identifying indicators of embedded content within files on endpoints. Embedded content indicators reveal the presence of objects, macros, scripts, OLE objects, or other executable content hidden within document files, images, archives, or other container formats. This includes detection of embedded executables in Office documents, steganographic payloads in images, polyglot files combining multiple formats, and scripts embedded within seemingly benign file types."
+  why: "Attackers frequently embed malicious content within legitimate file formats to bypass security controls and deliver payloads. Detecting embedded content indicators enables early identification of weaponized documents, trojanized images, and other file-based delivery mechanisms before the embedded payload is extracted and executed."
+  how: "Analyze file structure metadata to detect embedded OLE objects, ActiveX controls, macros, and scripts within documents. Inspect file headers and magic bytes to identify polyglot files or format mismatches. Use entropy analysis to detect encrypted or compressed embedded payloads. Monitor for processes extracting embedded content from container files and correlate with subsequent execution events."
+  core_concepts:
+    - key: "OLE Embedding"
+      value: "Object Linking and Embedding technology allowing documents to contain embedded objects from other applications, commonly abused to embed malicious executables"
+    - key: "Polyglot Files"
+      value: "Files that are simultaneously valid in multiple file formats, used to bypass security controls that only parse one format"
+    - key: "Entropy Analysis"
+      value: "Statistical measurement of randomness in file sections used to detect encrypted or compressed embedded payloads"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "Embedded content analysis is a specialized subset of file event detection"
+  - type: effective_against
+    target: "ATK-DELIVERY-SPEARPHISH-001"
+    description: "Detects weaponized documents commonly used in spearphishing attacks"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEXEDET-001"
+    description: "Identifying embedded executables leads to executable detection events"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1027.006"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1027.006"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1027.006 - HTML Smuggling"
+    - "OCSF File Activity Event Schema"
+    - "SANS Digital Forensics - Embedded Object Analysis"
+  search_keywords:
+    - "embedded content"
+    - "OLE object"
+    - "embedded macro"
+    - "polyglot file"
+    - "hidden payload"
+    - "steganography"
+    - "file structure analysis"
+    - "weaponized document"
+  embedding_text: "Embedded Content Indicators is an endpoint detection pattern for identifying hidden or embedded objects, scripts, macros, and executable content within files. This detection covers OLE objects embedded in Office documents, ActiveX controls, VBA macros, steganographic payloads in images, polyglot files combining multiple formats, and scripts hidden within benign file types. Detection methods include file structure metadata analysis, magic byte inspection, entropy analysis for encrypted payloads, and monitoring of content extraction processes. This pattern is critical for identifying weaponized documents and file-based payload delivery mechanisms used in spearphishing and initial access attacks."

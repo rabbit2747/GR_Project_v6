@@ -1,0 +1,116 @@
+# GR Atom: Flash Player
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-FLASPLAY-001"
+  name: "Flash Player"
+  normalized_name: "flash_player"
+  aliases:
+    - "Adobe Flash Player"
+    - "Shockwave Flash"
+    - "Flash Plugin"
+    - "SWF Player"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - EXEC
+    - OVERFLOW
+    - INITIAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Adobe Flash Player was a browser plugin and standalone runtime for executing SWF (Shockwave
+    Flash) multimedia content including animations, games, video players, and rich internet
+    applications. Flash Player included the ActionScript virtual machine, a JIT compiler, and
+    media codecs. Adobe officially ended Flash Player support on December 31, 2020, and blocked
+    Flash content from running in January 2021. Major browsers removed Flash support entirely.
+  why: >-
+    Flash Player was historically one of the most exploited software components in cybersecurity,
+    with hundreds of critical vulnerabilities including use-after-free, buffer overflow, type
+    confusion, and integer overflow flaws enabling remote code execution. It was a primary vector
+    for drive-by download attacks, exploit kits (Angler, Magnitude, RIG), and targeted APT
+    campaigns. Despite being end-of-life, legacy Flash Player installations remain on some
+    enterprise systems, and historical Flash vulnerabilities (CVE-2018-4878, CVE-2015-5119)
+    are studied as canonical examples of browser plugin exploitation.
+  how: >-
+    Flash Player operated as a browser plugin (NPAPI/PPAPI) or ActiveX control that loaded and
+    executed SWF files containing ActionScript bytecode, vector graphics, and embedded media.
+    The ActionScript Virtual Machine (AVM2) executed bytecode with JIT compilation. Exploitation
+    leveraged memory corruption vulnerabilities in the SWF parser, ActionScript VM, or media
+    codecs to achieve arbitrary code execution. Exploit kits delivered malicious SWF files
+    through compromised websites or malvertising, exploiting Flash in the browser sandbox.
+    Some exploits chained Flash vulnerabilities with browser sandbox escapes for full system
+    compromise.
+  core_concepts:
+    - key: "Historically Exploited Plugin"
+      value: "Browser plugin with hundreds of critical RCE vulnerabilities that was the primary vector for drive-by downloads and exploit kits for over a decade"
+    - key: "End-of-Life Risk"
+      value: "Officially discontinued in December 2020, but legacy installations on enterprise systems remain unpatched and vulnerable to known exploits"
+    - key: "Exploit Kit Payload"
+      value: "Malicious SWF files were the dominant payload format for exploit kits including Angler, Magnitude, and RIG targeting browser users at scale"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Flash Player was a widely deployed enterprise browser plugin before its end-of-life"
+  - type: "enables"
+    target: "INFRA-APP-FIREFOX-001"
+    description: "Flash Player operated as a plugin within browsers like Firefox to render SWF multimedia content"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "critical"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Adobe Flash Player End-of-Life Notice"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "CVE Database - Adobe Flash Player Vulnerabilities"
+    - "CISA Known Exploited Vulnerabilities - Flash Player entries"
+  search_keywords:
+    - "Adobe Flash Player"
+    - "Flash vulnerability"
+    - "SWF exploit"
+    - "Flash Player RCE"
+    - "Flash end of life"
+    - "Flash exploit kit"
+    - "ActionScript exploit"
+    - "Flash drive-by download"
+  embedding_text: >-
+    Adobe Flash Player was a browser plugin and runtime for executing SWF multimedia content
+    that was officially discontinued in December 2020. Flash Player was historically one of the
+    most exploited software components with hundreds of critical RCE vulnerabilities including
+    use-after-free, buffer overflow, and type confusion flaws. It was the primary vector for
+    drive-by download attacks and exploit kits including Angler, Magnitude, and RIG. The
+    ActionScript Virtual Machine with JIT compilation and SWF parser were common exploitation
+    targets. Despite end-of-life, legacy Flash installations may persist on enterprise systems.
+    Historical Flash vulnerabilities are canonical examples of browser plugin exploitation in
+    cybersecurity education. Security teams should ensure complete removal of Flash Player from
+    all systems and block SWF file execution at network boundaries.

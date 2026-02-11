@@ -1,0 +1,137 @@
+# GR Atom: NIST CSF Core Functions
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NICSCOFU-001"
+  name: "NIST CSF Core Functions"
+  normalized_name: "nist_csf_core_functions"
+  aliases:
+    - "CSF Functions"
+    - "Cybersecurity Framework Core Functions"
+    - "Identify Protect Detect Respond Recover"
+    - "Govern Identify Protect Detect Respond Recover"
+    - "CSF Core"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The NIST CSF Core Functions are the six high-level cybersecurity outcome categories that
+    organize the NIST Cybersecurity Framework: Govern (GV), Identify (ID), Protect (PR),
+    Detect (DE), Respond (RS), and Recover (RC). Each function is divided into categories
+    and subcategories that describe specific cybersecurity outcomes. As of CSF 2.0, the
+    framework contains 6 functions, 22 categories, and 106 subcategories. The functions
+    are not intended as serial steps but as concurrent and continuous activities that
+    collectively address an organization's cybersecurity risk management lifecycle.
+  why: >-
+    Organizations need a high-level organizing principle to ensure their cybersecurity programs
+    are comprehensive and balanced across all aspects of risk management. The core functions
+    provide this structure by ensuring that governance, asset identification, protective
+    controls, detection capabilities, incident response, and recovery planning all receive
+    appropriate attention. Without this structured approach, organizations tend to
+    over-invest in protective controls while under-investing in detection, response, and
+    recovery capabilities, creating blind spots and slow recovery from inevitable breaches.
+  how: >-
+    The six core functions are implemented as follows: (1) Govern (GV) - establish cybersecurity
+    governance including organizational context, risk strategy, roles and responsibilities,
+    policies, oversight, and supply chain risk management; (2) Identify (ID) - develop
+    understanding of cybersecurity risk through asset management, risk assessment, and
+    improvement planning; (3) Protect (PR) - implement safeguards through identity management,
+    awareness training, data security, platform security, and technology resilience;
+    (4) Detect (DE) - discover cybersecurity events through continuous monitoring and adverse
+    event analysis; (5) Respond (RS) - take action on detected events through incident
+    management, analysis, reporting, and mitigation; (6) Recover (RC) - restore normal
+    operations through recovery plan execution and communication.
+  core_concepts:
+    - key: "Govern (GV)"
+      value: >-
+        Establishes organizational cybersecurity risk management strategy, policies, roles,
+        oversight, and supply chain governance as the foundational function that informs all
+        other cybersecurity activities.
+    - key: "Identify (ID)"
+      value: >-
+        Develops understanding of organizational assets, business environment, governance,
+        risk assessment, and risk management strategy to prioritize cybersecurity efforts
+        based on risk context.
+    - key: "Protect (PR)"
+      value: >-
+        Implements safeguards to ensure delivery of critical services including identity
+        management, access control, awareness training, data security, and protective
+        technology deployment.
+    - key: "Detect (DE)"
+      value: >-
+        Discovers cybersecurity events in a timely manner through continuous monitoring,
+        anomaly detection, and security event analysis across organizational systems.
+    - key: "Respond (RS)"
+      value: >-
+        Takes action regarding detected cybersecurity incidents through response planning,
+        communications, analysis, mitigation, and improvements to prevent recurrence.
+    - key: "Recover (RC)"
+      value: >-
+        Restores capabilities and services impaired by cybersecurity incidents through
+        recovery planning, improvements, and communications to stakeholders.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NISTCSF20-001"
+    description: "The core functions are the organizing structure of NIST CSF 2.0"
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "The core functions originated in the NIST Cybersecurity Framework as the primary organizational taxonomy"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "CSF core functions map to NIST SP 800-53 control families, providing the high-level framework that SP 800-53 controls implement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST Cybersecurity Framework 2.0. https://www.nist.gov/cyberframework"
+    - "NIST CSF 2.0 Core. https://csrc.nist.gov/projects/cybersecurity-framework"
+    - "NIST - Framework for Improving Critical Infrastructure Cybersecurity. https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf"
+  search_keywords:
+    - "NIST CSF core functions"
+    - "identify protect detect respond recover"
+    - "govern identify protect detect respond recover"
+    - "CSF functions"
+    - "cybersecurity framework functions"
+    - "NIST CSF categories"
+    - "CSF subcategories"
+    - "cybersecurity risk lifecycle"
+    - "CSF core"
+    - "NIST framework functions"
+  embedding_text: >-
+    The NIST CSF Core Functions are six high-level cybersecurity outcome categories organizing
+    the NIST Cybersecurity Framework: Govern, Identify, Protect, Detect, Respond, and Recover.
+    CSF 2.0 contains 6 functions, 22 categories, and 106 subcategories. Govern establishes
+    cybersecurity risk management strategy, policies, and oversight. Identify develops
+    understanding of organizational assets and risk context. Protect implements safeguards
+    including identity management, data security, and access control. Detect discovers
+    cybersecurity events through continuous monitoring. Respond takes action on detected
+    incidents through management, analysis, and mitigation. Recover restores capabilities
+    through recovery planning and communication. The functions operate concurrently and
+    continuously rather than as serial steps, ensuring comprehensive and balanced cybersecurity
+    programs that address governance, identification, protection, detection, response, and
+    recovery equally rather than over-investing in protection while under-investing in
+    detection and recovery capabilities.

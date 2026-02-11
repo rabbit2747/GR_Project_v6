@@ -1,0 +1,158 @@
+# GR Atom: OpenID
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-OPENID-001"
+  name: "OpenID"
+  normalized_name: "openid"
+  aliases:
+    - "OpenID Connect"
+    - "OIDC"
+    - "OpenID Connect Core"
+    - "OpenID Authentication"
+    - "OpenID 2.0"
+    - "OpenID Connect 1.0"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - OAUTH
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    OpenID Connect (OIDC) is an identity authentication layer built on top of the OAuth 2.0
+    authorization framework. While OAuth 2.0 provides delegated authorization, OpenID Connect
+    adds standardized identity verification by introducing the ID Token - a signed JWT containing
+    claims about the authenticated user (subject, issuer, audience, authentication time, and
+    nonce). OIDC defines a UserInfo endpoint for retrieving additional identity claims, a
+    discovery mechanism (.well-known/openid-configuration) for automatic provider configuration,
+    and multiple authentication flows (Authorization Code, Implicit, Hybrid) aligned with
+    OAuth 2.0 grant types. OpenID Connect supersedes the earlier OpenID 2.0 protocol and is
+    implemented by major identity providers including Google, Microsoft Azure AD, Okta, Auth0,
+    and Keycloak for single sign-on and federated identity.
+  why: >-
+    OAuth 2.0 alone provides authorization but does not standardize how to authenticate users
+    or convey identity information. Applications using raw OAuth 2.0 had to implement custom
+    identity verification, leading to inconsistent and often insecure implementations. OpenID
+    Connect standardizes the authentication layer with cryptographically signed ID Tokens,
+    providing verifiable proof of user identity. This enables secure single sign-on (SSO)
+    across applications, federated identity across organizational boundaries, and standardized
+    user profile access. From a security perspective, OIDC attacks include ID Token forgery
+    through insufficient signature validation, token substitution attacks, nonce replay,
+    issuer confusion in multi-tenant environments, and misconfigured audience validation.
+    Proper implementation requires validating the ID Token signature, verifying issuer and
+    audience claims, checking nonce freshness, and enforcing token expiration.
+  how: >-
+    OpenID Connect operates through the following flow: (1) Discovery - the client retrieves
+    the provider's configuration from the .well-known/openid-configuration endpoint, obtaining
+    the authorization endpoint, token endpoint, UserInfo endpoint, supported scopes, and
+    signing keys (JWKS); (2) Authentication Request - the client redirects the user to the
+    authorization endpoint with scope=openid (plus optional profile, email, address, phone
+    scopes), response_type, client_id, redirect_uri, state, and nonce parameters; (3) User
+    Authentication - the OpenID Provider authenticates the user and obtains consent; (4) Token
+    Response - the provider returns an authorization code (Authorization Code Flow) which the
+    client exchanges for an ID Token, access token, and optional refresh token; (5) ID Token
+    Validation - the client validates the ID Token's signature using the provider's published
+    JWKS keys, verifies the issuer (iss), audience (aud), nonce, and expiration (exp) claims;
+    (6) UserInfo Request - optionally, the client uses the access token to call the UserInfo
+    endpoint for additional identity claims. Dynamic Client Registration (RFC 7591) enables
+    automated client registration, and Session Management provides standardized logout
+    mechanisms including front-channel and back-channel logout.
+  core_concepts:
+    - key: "ID Token"
+      value: >-
+        A signed (and optionally encrypted) JWT issued by the OpenID Provider containing
+        identity claims about the authenticated user. Required claims include iss (issuer),
+        sub (subject identifier), aud (audience), exp (expiration), iat (issued at), and
+        nonce (replay protection). The ID Token is the core innovation distinguishing
+        OIDC from OAuth 2.0.
+    - key: "OpenID Provider Discovery"
+      value: >-
+        The standardized mechanism where providers publish their configuration at
+        .well-known/openid-configuration, enabling clients to automatically discover
+        authorization endpoints, token endpoints, supported scopes, signing algorithms,
+        and JSON Web Key Sets (JWKS) for token verification.
+    - key: "Claims and Scopes"
+      value: >-
+        Identity attributes (claims) organized into standardized scope groups: openid
+        (required, returns sub claim), profile (name, picture, locale), email (email,
+        email_verified), address (postal address), and phone (phone_number, phone_verified).
+        Custom claims extend the standard set for application-specific identity attributes.
+    - key: "ID Token Signature Validation"
+      value: >-
+        The security-critical process of verifying the ID Token's cryptographic signature
+        using the provider's published JWKS keys. Insufficient validation - including
+        accepting unsigned tokens (alg: none), failing to verify the issuer, or not
+        checking the audience - enables token forgery and identity impersonation attacks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-OAU20-001"
+    description: "OpenID Connect is an authentication identity layer built directly on top of the OAuth 2.0 authorization framework"
+  - type: "supersedes"
+    target: "PROTO-AUTH-OPENID-LEGACY"
+    description: "OpenID Connect supersedes the earlier OpenID 2.0 protocol with a modern OAuth 2.0 based architecture"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-SAML20-001"
+    description: "OpenID Connect is the modern lightweight alternative to SAML 2.0 for federated SSO, especially for web and mobile applications"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "OpenID Connect requires TLS encryption for all authentication endpoints and token exchanges to protect ID Tokens and credentials"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OpenID Connect Core 1.0. OpenID Foundation. https://openid.net/specs/openid-connect-core-1_0.html"
+    - "OpenID Connect Discovery 1.0. OpenID Foundation. https://openid.net/specs/openid-connect-discovery-1_0.html"
+    - "RFC 6749 - The OAuth 2.0 Authorization Framework (October 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6749"
+    - "RFC 7519 - JSON Web Token (JWT) (May 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7519"
+    - "OpenID Connect Security Best Current Practice. OpenID Foundation."
+  search_keywords:
+    - "OpenID Connect"
+    - "OIDC"
+    - "OpenID"
+    - "ID Token"
+    - "OpenID Provider"
+    - "federated identity"
+    - "single sign-on OIDC"
+    - "JWT identity token"
+    - "openid-configuration"
+    - "OIDC discovery"
+    - "UserInfo endpoint"
+    - "OpenID Connect Core"
+    - "OIDC claims"
+  embedding_text: >-
+    OpenID Connect (OIDC) is an identity authentication layer built on OAuth 2.0 that provides
+    standardized user identity verification through signed ID Tokens. The ID Token is a JWT
+    containing claims about the authenticated user including issuer, subject, audience, and
+    authentication time. OIDC adds discovery (.well-known/openid-configuration) for automatic
+    provider configuration, a UserInfo endpoint for additional identity claims, and standardized
+    scopes for identity attributes (openid, profile, email, address, phone). The protocol
+    supports Authorization Code, Implicit, and Hybrid flows aligned with OAuth 2.0 grant types.
+    OpenID Connect supersedes OpenID 2.0 and is implemented by major identity providers for
+    federated SSO. Security concerns include ID Token forgery through insufficient signature
+    validation, token substitution, nonce replay, and issuer confusion in multi-tenant
+    environments. Proper implementation requires verifying the ID Token signature against
+    published JWKS keys, validating issuer and audience claims, checking nonce freshness, and
+    enforcing token expiration. OIDC is the dominant modern protocol for web and mobile
+    application authentication and federated identity.

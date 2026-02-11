@@ -1,0 +1,73 @@
+# GR Atom: Replica Sets
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-REPLSETS-001"
+  name: "Replica Sets"
+  normalized_name: "replica_sets"
+  aliases: ["ReplicaSet", "K8s ReplicaSet", "Kubernetes ReplicaSet"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [K8S, CONTAINER, HA]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R2.1"
+definition:
+  what: >-
+    A Kubernetes ReplicaSet is a controller that maintains a stable set of replica Pods running
+    at any given time. ReplicaSets ensure that a specified number of Pod replicas are running
+    by creating or deleting Pods as needed to match the desired state. They are primarily used
+    as the underlying mechanism for Deployments, which provide declarative updates to
+    ReplicaSets. ReplicaSets use label selectors to identify the Pods they manage.
+  why: >-
+    ReplicaSets are security-relevant because they control Pod replication and can be
+    manipulated to deploy malicious containers at scale. An attacker with permissions to modify
+    ReplicaSets can scale up compromised pods, replace legitimate container images with
+    backdoored versions, or create resource exhaustion through excessive replica counts.
+    ReplicaSet modifications bypass Deployment rollout tracking, making unauthorized changes
+    harder to detect through standard deployment monitoring.
+  how: >-
+    ReplicaSets use a Pod template and replica count to maintain desired state. The controller
+    continuously monitors the actual Pod count against the desired count, creating or
+    terminating Pods as needed. Label selectors match Pods to their owning ReplicaSet. RBAC
+    controls who can create, modify, or delete ReplicaSets. Admission controllers (OPA
+    Gatekeeper, Kyverno) can enforce policies on ReplicaSet specifications including image
+    sources, resource limits, and security contexts. Pod Disruption Budgets protect ReplicaSets
+    from excessive eviction during maintenance.
+  core_concepts:
+    - key: "Desired State Reconciliation"
+      value: "ReplicaSet controllers continuously reconcile actual vs desired Pod count, automatically replacing terminated or failed Pods"
+    - key: "Image Replacement Attack"
+      value: "Modifying ReplicaSet Pod templates to substitute malicious container images enables deploying backdoored containers that auto-scale across the cluster"
+    - key: "Deployment Bypass"
+      value: "Direct ReplicaSet modification bypasses Deployment rollout history and rollback capabilities, making unauthorized changes harder to audit"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "ReplicaSets are a core Kubernetes workload controller"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "ReplicaSets require a container runtime to execute Pod replicas"
+  - type: "enables"
+    target: "INFRA-COMPUTE-APPLCONT-001"
+    description: "ReplicaSets manage the lifecycle of application container replicas"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Kubernetes ReplicaSet Documentation", "CIS Kubernetes Benchmark", "MITRE ATT&CK Containers Matrix"]
+  search_keywords: ["replica set", "kubernetes replicaset", "pod replication", "K8s scaling", "replicaset security", "container scaling", "desired state"]
+  embedding_text: >-
+    Kubernetes ReplicaSet is a controller maintaining a stable set of replica Pods by
+    continuously reconciling actual vs desired count. Security concerns include manipulation
+    to deploy malicious containers at scale, image replacement attacks substituting backdoored
+    containers, and direct modification bypassing Deployment rollout tracking. RBAC controls
+    ReplicaSet permissions. Admission controllers enforce policies on specifications including
+    image sources and security contexts. Pod Disruption Budgets protect against excessive
+    eviction. ReplicaSets are primarily managed through Deployments for declarative updates.

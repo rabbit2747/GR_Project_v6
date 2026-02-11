@@ -1,0 +1,84 @@
+# GR Atom: Bendy Bear
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BENDBEAR-001"
+  name: "Bendy Bear"
+  normalized_name: "bendy_bear"
+  aliases:
+    - "WATERBEAR Operator"
+    - "BlackTech Associated"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EVADE
+    - PERSIST
+    - C2
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Bendy Bear is a Chinese-linked APT activity cluster identified by CrowdStrike, associated with the WaterBear malware family and closely tied to the BlackTech threat group. The group targets government agencies, technology companies, and telecommunications organizations primarily in East Asia, with particular focus on Taiwan. Bendy Bear is notable for its highly sophisticated evasion techniques and use of modified shellcode loaders that operate entirely in memory."
+  why: "Bendy Bear represents one of the most technically sophisticated Chinese APT operations, employing advanced anti-analysis and evasion techniques that make detection extremely difficult. The group's focus on Taiwanese government and technology targets aligns with strategic Chinese intelligence collection priorities, and their tradecraft demonstrates continuous evolution in bypassing modern security controls."
+  how: "The group uses the WaterBear modular backdoor platform which loads shellcode directly into memory, avoiding disk-based indicators. The malware employs polymorphic code, API hashing, and encrypted communications to evade detection. Persistence is achieved through DLL side-loading and registry modifications. The modular architecture allows operators to dynamically load additional capabilities post-compromise, including keyloggers, screen capture, and file exfiltration modules."
+  core_concepts:
+    - key: "In-Memory Operations"
+      value: "Operates primarily in memory using modified shellcode loaders to avoid file-based detection"
+    - key: "WaterBear Platform"
+      value: "Uses the modular WaterBear backdoor framework with dynamically loadable plugins"
+    - key: "Advanced Evasion"
+      value: "Employs polymorphic code, API hashing, and encrypted C2 to defeat security controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-APT-BLACKTECH-001"
+    description: "Bendy Bear activity is closely associated with and may be part of BlackTech operations"
+  - type: is_a
+    target: "ACTOR-APT-BENDBEAR-001"
+    description: "Chinese-linked APT cluster specializing in stealth operations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1055"
+    tactic:
+      - "Defense Evasion"
+      - "Persistence"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CrowdStrike - Bendy Bear Activity Cluster Analysis"
+    - "TeamT5 - WaterBear Malware Technical Analysis"
+    - "ESET - BlackTech and WaterBear Operations"
+  search_keywords:
+    - "bendy bear"
+    - "waterbear malware"
+    - "blacktech associated"
+    - "chinese apt taiwan"
+    - "in-memory shellcode"
+    - "dll side-loading apt"
+    - "polymorphic malware china"
+    - "east asia espionage"
+    - "modular backdoor platform"
+    - "api hashing evasion"
+  embedding_text: "Bendy Bear is a Chinese-linked APT activity cluster identified by CrowdStrike, associated with the WaterBear malware family and closely tied to the BlackTech threat group. The group targets government agencies, technology companies, and telecommunications organizations primarily in East Asia, with particular focus on Taiwan. Bendy Bear is distinguished by its highly sophisticated evasion techniques, operating primarily in memory using modified shellcode loaders with polymorphic code, API hashing, and encrypted communications. The WaterBear modular backdoor platform allows dynamic loading of additional capabilities post-compromise. Persistence is achieved through DLL side-loading and registry modifications. The group represents one of the most technically advanced Chinese cyber-espionage operations."

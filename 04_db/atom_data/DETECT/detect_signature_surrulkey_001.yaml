@@ -1,0 +1,76 @@
+# GR Atom: Suricata Rule Keywords
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-SURRULKEY-001"
+  name: "Suricata Rule Keywords"
+  normalized_name: "suricata_rule_keywords"
+  aliases:
+    - "Suricata Detection Keywords"
+    - "Suricata Rule Options"
+    - "Suricata IDS Keywords"
+    - "Suricata Signature Keywords"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - IDS
+    - IPS
+    - NETWORK
+    - MONITOR
+    - HTTP
+
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Suricata rule keywords are the detection primitives used within Suricata IDS/IPS rules to match network traffic patterns. While Suricata maintains broad compatibility with Snort rule syntax, it extends the keyword set significantly with protocol-aware inspection capabilities. Key Suricata-specific keywords include: application layer protocol keywords (http.uri, http.host, http.header, http.method, http.request_body, http.response_body, http.stat_code, http.user_agent, http.cookie) for granular HTTP inspection; TLS/SSL keywords (tls.cert_subject, tls.cert_issuer, tls.sni, tls.version, tls.cert_serial) for encrypted traffic metadata inspection; DNS keywords (dns.query, dns.opcode, dns.rrtype) for DNS traffic analysis; file keywords (filemagic, filename, filesize, filemd5, filesha256, filestore) for file extraction and identification; flow keywords (flow.age, flow.pkts_toserver) for connection metadata; and transformation keywords (base64_decode, urldecode, dotprefix, header_lowercase) for payload normalization before matching. Suricata also supports multi-tenancy, Lua scripting for custom detection logic, and EVE JSON logging for structured output."
+  why: "Suricata rule keywords are essential because they enable protocol-aware deep packet inspection that understands application layer structure rather than treating network traffic as raw byte streams. This protocol awareness dramatically improves detection accuracy and reduces false positives compared to simple content matching. The HTTP inspection keywords allow rules to target specific parts of HTTP transactions (URI path, headers, response body) rather than matching anywhere in the TCP stream, which is critical for detecting web application attacks like SQL injection, XSS, and command injection with precision. The TLS and DNS keywords enable visibility into encrypted traffic metadata and DNS-based threats without requiring decryption. File extraction keywords enable inline malware detection."
+  how: "Suricata rule keywords are specified within the rule options section of a Suricata rule, following the same header-options structure as Snort rules. Application layer keywords require Suricata's protocol parsers to identify and extract protocol fields from traffic, which are then available for matching. For example, 'alert http any any -> any any (msg:\"SQLi in URI\"; http.uri; content:\"UNION SELECT\"; nocase; sid:1000001;)' matches UNION SELECT specifically in the HTTP URI field. Transformation keywords are applied before content matching to normalize payloads: 'http.uri; urldecode; content:\"/admin\";' first URL-decodes the URI then matches. Suricata processes rules through its multi-threaded detection engine, applying protocol detection first, then evaluating rules that match the identified protocol. Rule writers use keywords in combination, leveraging sticky buffers (keywords that set the inspection context for subsequent content matches) for precise detection."
+  core_concepts:
+    - key: "Protocol-Aware Inspection"
+      value: "Keywords that understand application layer protocol structure, enabling targeted inspection of specific protocol fields rather than raw byte streams"
+    - key: "Sticky Buffers"
+      value: "Keywords like http.uri and http.header that set the inspection context for subsequent content matches, scoping detection to specific protocol fields"
+    - key: "Transformation Keywords"
+      value: "Keywords like base64_decode and urldecode that normalize payload content before pattern matching to defeat encoding-based evasion"
+    - key: "File Extraction"
+      value: "Keywords enabling inline file identification, extraction, and hash matching for network-based malware detection"
+
+relations:
+  - type: refines
+    target: "DETECT-SIGNATURE-SNORULSTR-001"
+    description: "Suricata keywords extend and refine the Snort rule format with protocol-aware inspection capabilities"
+  - type: applies_to
+    target: "INFRA-SEC-IDS-001"
+    description: "Suricata rule keywords are deployed within IDS/IPS network infrastructure"
+  - type: effective_against
+    target: "ATK-INJECT-SQL-001"
+    description: "Protocol-aware HTTP keywords enable precise detection of SQL injection in specific HTTP fields"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Suricata Documentation - https://docs.suricata.io/en/latest/rules/"
+    - "Suricata Rule Keywords Reference - https://docs.suricata.io/en/latest/rules/http-keywords.html"
+    - "OISF - Open Information Security Foundation - https://oisf.net/"
+  search_keywords:
+    - "Suricata rule keywords"
+    - "Suricata HTTP keywords"
+    - "Suricata detection"
+    - "Suricata IDS rules"
+    - "Suricata sticky buffers"
+    - "Suricata TLS keywords"
+    - "Suricata DNS keywords"
+    - "Suricata file keywords"
+    - "protocol-aware IDS"
+  embedding_text: "Suricata rule keywords are detection primitives extending Snort rule syntax with protocol-aware inspection capabilities. Key keyword categories include HTTP inspection (http.uri, http.host, http.header, http.method, http.request_body, http.response_body), TLS/SSL metadata (tls.cert_subject, tls.sni, tls.version), DNS analysis (dns.query, dns.rrtype), file extraction (filemagic, filename, filemd5, filesha256), and transformation (base64_decode, urldecode). Sticky buffers set the inspection context for subsequent content matches, enabling targeted protocol field matching. Protocol-aware inspection dramatically improves detection accuracy compared to raw byte matching, enabling precise detection of web application attacks, encrypted traffic threats, and inline malware identification."

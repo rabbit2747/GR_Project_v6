@@ -1,0 +1,124 @@
+# GR Atom: AWS IAM Identity and Access Management
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AWIAIDAC-001"
+  name: "AWS IAM Identity and Access Management"
+  normalized_name: "aws_iam_identity_and_access_management"
+  aliases:
+    - "AWS IAM"
+    - "Amazon IAM"
+    - "AWS Identity and Access Management"
+    - "IAM Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - AUTHZ
+    - AUTHN
+    - PAM
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS Identity and Access Management (IAM) is the core identity and authorization service
+    for Amazon Web Services that controls who (authentication) can do what (authorization)
+    on which AWS resources. IAM manages users, groups, roles, and policies that define
+    fine-grained permissions for AWS API actions across all services. It supports identity
+    federation, cross-account access, service-linked roles, and temporary credential
+    issuance through the Security Token Service (STS).
+  why: >-
+    IAM misconfiguration is the leading cause of cloud security breaches in AWS environments.
+    Overly permissive IAM policies, wildcard actions and resources, publicly assumable roles,
+    unused access keys, and privilege escalation paths through policy chaining are commonly
+    exploited. Attackers who gain initial access prioritize IAM enumeration and privilege
+    escalation to expand their reach. Tools like Pacu, enumerate-iam, and PMapper are
+    specifically designed to discover and exploit IAM weaknesses. A single misconfigured
+    IAM policy can expose an entire AWS account.
+  how: >-
+    IAM evaluates every AWS API request against identity-based policies (attached to users,
+    groups, roles), resource-based policies (attached to resources), permissions boundaries,
+    session policies, and service control policies (SCPs). Policies are JSON documents using
+    the Effect/Action/Resource/Condition structure. IAM uses a default-deny model where
+    access must be explicitly granted. Role assumption via STS enables temporary credentials
+    for cross-account access, service roles, and federated users. IAM Access Analyzer
+    identifies unintended external access, and credential reports track user access key age
+    and MFA status.
+  core_concepts:
+    - key: "Policy Evaluation Logic"
+      value: "IAM evaluates policies using a default-deny model with explicit deny taking precedence over allow across identity, resource, and organization policies"
+    - key: "Privilege Escalation Paths"
+      value: "Combinations of IAM permissions such as iam:CreatePolicy, iam:AttachRolePolicy, and sts:AssumeRole can chain into privilege escalation"
+    - key: "Temporary Credentials via STS"
+      value: "Security Token Service issues time-limited credentials through AssumeRole, reducing risk from long-lived access keys"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "AWS IAM is a cloud-native authorization service implementing RBAC and ABAC models"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "IAM provides authentication for AWS API access through access keys, roles, and federated identity"
+  - type: "enables"
+    target: "INFRA-IDENTITY-IRSA-001"
+    description: "IAM roles and trust policies enable IRSA for EKS pod-level AWS access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Defense Evasion"
+      - "Persistence"
+      - "Privilege Escalation"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - IAM User Guide"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+    - "Rhino Security Labs - AWS IAM Privilege Escalation Methods"
+  search_keywords:
+    - "AWS IAM"
+    - "AWS Identity and Access Management"
+    - "IAM policy misconfiguration"
+    - "IAM privilege escalation"
+    - "AWS STS AssumeRole"
+    - "IAM Access Analyzer"
+    - "cloud identity management"
+    - "AWS access control"
+  embedding_text: >-
+    AWS Identity and Access Management (IAM) is the core identity and authorization service
+    for Amazon Web Services controlling authentication and authorization for all AWS API
+    operations. IAM manages users, groups, roles, and JSON policies defining permissions
+    with Effect/Action/Resource/Condition structures. It uses a default-deny model where
+    explicit deny overrides allow. IAM supports identity federation, cross-account role
+    assumption via STS, and service-linked roles. IAM misconfiguration is the leading
+    cause of AWS security breaches. Common issues include overly permissive policies,
+    wildcard permissions, privilege escalation through policy chaining, and unused access
+    keys. Tools like Pacu and PMapper enumerate IAM weaknesses. Security teams must
+    enforce least privilege, enable MFA, use IAM Access Analyzer, rotate credentials,
+    implement SCPs for guardrails, and continuously audit IAM configurations.

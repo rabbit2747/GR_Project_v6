@@ -1,0 +1,98 @@
+# GR Atom: Windows Registry Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WINDREGI-001"
+  name: "Windows Registry Event"
+  normalized_name: "windows_registry_event"
+  aliases:
+    - "Registry Monitoring Event"
+    - "Registry Change Detection"
+    - "Windows Registry Telemetry"
+    - "Registry Activity Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "The overarching detection pattern encompassing all Windows registry modification, access, and management events on an endpoint. This includes key creation, deletion, renaming, export, import, restore, security changes, and value operations (set, delete, get). Sources include Sysmon Event IDs 12 (Registry Key/Value Create and Delete), 13 (Registry Value Set), 14 (Registry Key and Value Rename), Windows Security Event IDs 4656/4657/4658/4663 for object access auditing, and ETW providers for registry operations. This pattern serves as the parent category for all specific registry event subtypes."
+  why: "The Windows registry is a central configuration store used for system settings, application configurations, user preferences, and security policies. Adversaries extensively abuse the registry for persistence (Run keys, services), privilege escalation (image file execution options), defense evasion (disabling security features), credential access (cached logon data), and discovery (system information enumeration). Comprehensive registry monitoring provides visibility into unauthorized configuration changes that indicate compromise."
+  how: "Detection aggregates telemetry from multiple sources: Sysmon Events 12-14 for registry key and value operations with process attribution, Windows Security audit events (4656, 4657, 4658, 4663) for object access auditing on registry keys, and the Microsoft-Windows-Kernel-Registry ETW provider for kernel-level registry operations. System Access Control Lists (SACLs) on critical registry keys generate security events when accessed or modified. Events are normalized into a common schema capturing the registry path, operation type, process context, user context, and old/new values for change tracking."
+  core_concepts:
+    - key: "registry_hive_structure"
+      value: "The five root registry hives (HKLM, HKCU, HKCR, HKU, HKCC) organizing system and user configuration data"
+    - key: "persistence_keys"
+      value: "Well-known registry locations such as Run, RunOnce, Services, and Image File Execution Options used for persistence"
+    - key: "sacl_based_auditing"
+      value: "System Access Control Lists on critical registry keys that generate security events when monitored keys are accessed"
+    - key: "process_attribution"
+      value: "Linking registry operations to the specific process and user that performed them for forensic analysis"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Windows registry event abstracts all registry key operation events"
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WINREGVAL-001"
+    description: "Windows registry event abstracts all registry value operation events"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-ID-001"
+    description: "Registry event detection depends on Sysmon Event IDs 12-14 for process-attributed telemetry"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+      - "persistence"
+      - "privilege-escalation"
+      - "discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Windows Registry"
+    - "Sysmon Documentation - Registry Events (IDs 12-14)"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Microsoft Security Audit Event Reference"
+  search_keywords:
+    - "Windows registry event"
+    - "registry monitoring"
+    - "registry change detection"
+    - "Sysmon registry"
+    - "Event ID 12 13 14"
+    - "registry modification"
+    - "registry persistence"
+    - "registry auditing"
+    - "HKLM monitoring"
+    - "registry telemetry"
+  embedding_text: "Windows registry event detection is the parent pattern encompassing all registry modification, access, and management operations on Windows endpoints. This includes key creation, deletion, renaming, export, import, restore, security changes, and value operations detected through Sysmon Event IDs 12-14, Windows Security audit events 4656-4663, and kernel-level ETW providers. The Windows registry is extensively abused by adversaries for persistence through Run keys and services, privilege escalation via image file execution options, and defense evasion by disabling security features. Maps to MITRE ATT&CK T1112 Modify Registry. Comprehensive monitoring with process attribution and SACL-based auditing enables detection of unauthorized configuration changes."

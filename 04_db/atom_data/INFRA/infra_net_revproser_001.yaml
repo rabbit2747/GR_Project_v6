@@ -1,0 +1,80 @@
+# GR Atom: Reverse Proxy Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-REVPROSER-001"
+  name: "Reverse Proxy Server"
+  normalized_name: "reverse_proxy_server"
+  aliases:
+    - "Reverse Proxy"
+    - "Application Gateway"
+    - "Ingress Proxy"
+    - "Backend Proxy"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - TLS
+    - LB
+    - WAF
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "N2.1"
+
+definition:
+  what: "A Reverse Proxy Server is a network intermediary deployed in front of backend web servers and applications that intercepts inbound client requests from the internet, processes them, and forwards them to appropriate backend servers. Unlike forward proxies that handle outbound client traffic, reverse proxies handle inbound traffic destined for servers. They provide SSL/TLS termination, load balancing, request routing, caching, compression, web application firewall functionality, and backend server anonymization. Common reverse proxy implementations include Nginx, HAProxy, Apache httpd with mod_proxy, Envoy, Traefik, and cloud-based services such as AWS ALB and Cloudflare. Reverse proxies are fundamental components of modern web architectures including microservices, containerized applications, and API gateway patterns."
+  why: "Reverse proxy servers are critical security and performance infrastructure because they serve as the public-facing endpoint that shields backend application servers from direct internet exposure. They centralize SSL/TLS certificate management and termination, provide a single point for web application firewall rules, enable load distribution across multiple backend servers for high availability, and support canary deployments and A/B testing through traffic routing. From a security perspective, reverse proxies reduce the attack surface by hiding backend server details, enforce security headers, rate limit requests, and block common web attacks before they reach application code."
+  how: "Reverse proxy servers are deployed in the DMZ or edge network with public IP addresses or behind a load balancer. Client requests arrive at the reverse proxy, which terminates the SSL/TLS connection, inspects the request through WAF rules and security policies, determines the appropriate backend server based on URL path, hostname, headers, or other routing criteria, and forwards the request to the selected backend using a separate connection. The backend response is received, optionally cached, compressed, and returned to the client. Health checks continuously monitor backend server availability, and unhealthy servers are automatically removed from the pool. Session persistence mechanisms ensure stateful applications receive related requests at the same backend. Access logs capture all client interactions for security monitoring."
+  core_concepts:
+    - key: "SSL/TLS Termination"
+      value: "The process of decrypting HTTPS traffic at the reverse proxy, inspecting and processing the request, and optionally re-encrypting it for forwarding to backend servers"
+    - key: "Backend Pool"
+      value: "A group of application servers behind the reverse proxy that receive load-balanced requests, with health checking to automatically exclude unhealthy instances"
+    - key: "Request Routing"
+      value: "The reverse proxy's ability to direct requests to different backend services based on URL path, hostname, HTTP headers, or other request attributes"
+
+relations:
+  - type: instance_of
+    target: "INFRA-NET-PROXSERV-001"
+    description: "A reverse proxy server is a specific type of proxy server focused on handling inbound traffic to backend servers"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Reverse proxy servers are deployed in the DMZ as the public-facing entry point for web applications"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Reverse proxy servers require DNS for hostname-based routing and backend server discovery"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1090.002"
+    tactic: ["Command and Control", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Nginx - Reverse Proxy Documentation - https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/"
+    - "HAProxy Documentation - https://www.haproxy.org/documentation/"
+    - "NIST SP 800-44 Rev. 2 - Guidelines on Securing Public Web Servers"
+  search_keywords:
+    - "reverse proxy"
+    - "reverse proxy server"
+    - "application gateway"
+    - "Nginx reverse proxy"
+    - "HAProxy"
+    - "SSL termination"
+    - "ingress proxy"
+    - "load balancing proxy"
+    - "backend proxy"
+  embedding_text: "A Reverse Proxy Server intercepts inbound client requests from the internet and forwards them to backend application servers. It provides SSL/TLS termination, load balancing, request routing, caching, compression, and web application firewall functionality while hiding backend server details. Common implementations include Nginx, HAProxy, Apache mod_proxy, Envoy, and cloud services like AWS ALB. Deployed in the DMZ as the public-facing entry point, reverse proxies centralize security controls including certificate management, WAF rules, rate limiting, and security header enforcement. They support high availability through health checking and automatic failover, and enable microservices architectures through intelligent request routing."

@@ -1,0 +1,75 @@
+# GR Atom: File Risk Scoring
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILRISSCO-001"
+  name: "File Risk Scoring"
+  normalized_name: "file_risk_scoring"
+  aliases:
+    - "File Threat Score"
+    - "Composite File Risk Assessment"
+    - "Multi-Factor File Scoring"
+    - "File Suspiciousness Rating"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - THREAT_INTEL
+    - SANDBOX
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "File Risk Scoring is a composite detection methodology that aggregates multiple individual file analysis signals into a unified risk score representing the overall probability that a file is malicious. Rather than relying on any single detection technique, file risk scoring combines results from hash reputation lookups, file entropy analysis, extension mismatch detection, filename anomaly assessment, file path indicators, digital signature verification, creation context analysis, and behavioral indicators into a weighted composite score. The scoring model produces a normalized value typically on a 0-100 scale, where higher scores indicate greater maliciousness probability."
+  why: "Individual file analysis techniques each have limitations. Hash reputation misses novel malware, entropy analysis produces false positives on legitimately compressed files, and filename analysis can flag legitimate auto-generated names. By combining multiple independent signals through composite scoring, the false positive rate is dramatically reduced while detection coverage is expanded. A file may pass any individual check but fail the composite score when multiple weak signals combine to indicate malicious intent. This multi-factor approach mirrors how human analysts evaluate files, considering the totality of evidence rather than any single indicator."
+  how: "The scoring engine collects results from each individual analysis module and applies weighted scoring. Weights are calibrated through machine learning on labeled datasets of known-good and known-malicious files. Critical factors like known-malicious hash matches receive decisive weight, while softer signals like unusual filenames receive incremental weight. The composite score calculation accounts for signal independence, boosting scores when multiple independent signals converge. Dynamic weight adjustment learns from confirmed true positives and false positives to continuously improve accuracy. Score thresholds determine automated actions: high-score files are blocked or quarantined, medium-score files trigger analyst alerts, and low-score files are logged for retrospective analysis. The scoring model is regularly retrained as the threat landscape evolves."
+  core_concepts:
+    - key: "Weighted Signal Aggregation"
+      value: "Combining multiple detection signals with calibrated weights to produce a unified risk assessment that exceeds any individual signal's accuracy"
+    - key: "Signal Independence"
+      value: "The principle that independent detection signals converging on the same conclusion provide much stronger evidence than correlated signals"
+    - key: "Score Threshold Actions"
+      value: "Configurable response actions mapped to score ranges enabling automated blocking, alerting, or logging based on risk level"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-FILHASREP-001"
+    description: "Hash reputation is a primary input to composite file risk scoring"
+  - type: requires
+    target: "DETECT-BEHAVIOR-FILEENTR-001"
+    description: "File entropy analysis provides a key signal for file risk scoring"
+  - type: requires
+    target: "DETECT-BEHAVIOR-EXTEMISM-001"
+    description: "Extension mismatch detection feeds into file risk scoring"
+  - type: requires
+    target: "DETECT-BEHAVIOR-FILNAMANO-001"
+    description: "Filename anomaly assessment contributes to file risk scoring"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CrowdStrike - Multi-Signal Threat Detection - https://www.crowdstrike.com/cybersecurity-101/"
+    - "Microsoft Defender - File Risk Assessment - https://learn.microsoft.com/en-us/defender-endpoint/"
+    - "NIST SP 800-83 - Guide to Malware Incident Prevention and Handling"
+  search_keywords:
+    - "file risk scoring"
+    - "composite file threat score"
+    - "multi-factor file analysis"
+    - "file suspiciousness rating"
+    - "weighted threat scoring"
+    - "file risk assessment"
+    - "malware scoring engine"
+    - "file threat classification"
+  embedding_text: "File Risk Scoring aggregates multiple file analysis signals into a unified composite score representing maliciousness probability. It combines hash reputation, entropy analysis, extension mismatch, filename anomalies, path indicators, digital signature verification, creation context, and behavioral indicators through weighted scoring calibrated by machine learning. Signal independence boosting increases scores when multiple independent indicators converge. Score thresholds drive automated actions with high scores triggering blocking, medium scores generating alerts, and low scores logged for retrospective analysis. This multi-factor approach dramatically reduces false positives compared to individual techniques while expanding detection coverage against novel and polymorphic threats."

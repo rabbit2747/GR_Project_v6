@@ -1,0 +1,106 @@
+# GR Atom: Web Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-WEB-001"
+  name: "Web Vulnerability"
+  normalized_name: "web_vulnerability"
+  aliases:
+    - "Web Application Information Disclosure"
+    - "Web Information Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - INFO_LEAK
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Web applications"
+    - "Web servers"
+    - "Web APIs"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Web Vulnerability in the information disclosure context is a category of vulnerabilities
+    specific to web applications and web-facing services that expose sensitive information to
+    unauthorized users. This includes server version disclosure in HTTP headers, directory
+    listing exposure, source code leakage through misconfiguration, verbose error pages revealing
+    stack traces and database queries, API responses containing excessive data, and improperly
+    secured administrative interfaces accessible from the internet.
+  why: >-
+    Web applications are the primary attack surface for most organizations, and information
+    disclosure from web services provides attackers with critical reconnaissance data. Exposed
+    server versions reveal known vulnerabilities to target, directory listings expose application
+    structure, and verbose errors reveal database schemas and internal logic. Web-based information
+    disclosure is frequently automated at scale by attackers scanning the entire internet for
+    specific disclosure patterns.
+  how: >-
+    Web information disclosure occurs through HTTP response headers revealing server technology
+    and version, improperly configured directory indexing, error pages displaying stack traces
+    and SQL queries, API endpoints returning excessive data beyond what the client needs,
+    misconfigured CORS policies exposing data to unauthorized origins, exposed administrative
+    interfaces, backup files accessible via predictable URLs, and metadata leakage through
+    HTML comments, JavaScript source maps, and robots.txt entries.
+  core_concepts:
+    - key: "Web Attack Surface"
+      value: "Web applications are the primary external attack surface and information disclosure enables targeted exploitation"
+    - key: "Automated Reconnaissance"
+      value: "Web information disclosure patterns are automatically scanned at internet scale by attackers and search engines"
+    - key: "Server Configuration Exposure"
+      value: "HTTP headers, directory listings, error pages, and backup files reveal server internals to remote attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "Web vulnerability is a web-specific subclass of general information disclosure vulnerabilities"
+  - type: "enables"
+    target: "VUL-INFO-OPENREDI-001"
+    description: "Web information disclosure can reveal URL patterns and redirect mechanisms enabling open redirect exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1592.002"
+    tactic:
+      - "Reconnaissance"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OWASP - Web Application Security Testing Guide"
+    - "CWE-200 - Exposure of Sensitive Information"
+    - "OWASP Top 10"
+  search_keywords:
+    - "web vulnerability"
+    - "web information disclosure"
+    - "server version disclosure"
+    - "directory listing"
+    - "verbose error pages"
+    - "web application security"
+    - "HTTP header disclosure"
+  embedding_text: >-
+    Web Vulnerability (information disclosure) encompasses web application and web service
+    vulnerabilities that expose sensitive information. Includes server version headers, directory
+    listings, verbose error pages with stack traces, excessive API responses, misconfigured CORS,
+    exposed admin interfaces, backup files, and metadata leakage. Web applications are the primary
+    external attack surface. Information disclosure from web services is automated at scale by
+    attackers. Exposed server versions, directory structures, and error details provide critical
+    reconnaissance enabling targeted exploitation of known vulnerabilities.

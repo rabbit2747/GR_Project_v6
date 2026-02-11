@@ -1,0 +1,134 @@
+# GR Atom: Snowflake
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-SNOWFLAKE-001"
+  name: "Snowflake"
+  normalized_name: "snowflake"
+  aliases:
+    - "Snowflake Data Cloud"
+    - "Snowflake Data Warehouse"
+    - "Snowflake Computing"
+    - "Snowflake DWH"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - DATABASE
+    - CLOUD
+    - AUTHZ
+    - ENCRYPT
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D5.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Snowflake is a cloud-native data platform providing data warehousing, data lake, data
+    engineering, data science, and data sharing capabilities as a fully managed service.
+    Originally launched in 2014, Snowflake operates on AWS, Azure, and Google Cloud with a
+    unique multi-cluster shared data architecture that separates storage, compute, and cloud
+    services into independent scalable layers. Snowflake uses standard SQL for querying and
+    supports semi-structured data formats (JSON, Avro, Parquet, ORC, XML). It provides
+    features including Time Travel, zero-copy cloning, data sharing, and Snowpark for
+    programmatic data processing.
+  why: >-
+    Snowflake is highly security-relevant due to its widespread adoption for enterprise data
+    analytics and the volume of sensitive data it stores. In 2024, a major security incident
+    involving stolen Snowflake customer credentials (not a Snowflake platform breach)
+    demonstrated the critical importance of MFA enforcement and credential security for
+    cloud data platforms. Snowflake's data sharing capabilities introduce data governance
+    challenges, and its multi-cloud deployment model requires consistent security configuration
+    across cloud providers. Organizations must carefully manage access controls, network
+    policies, and data classification within Snowflake.
+  how: >-
+    Snowflake's architecture separates storage (compressed columnar format in cloud object
+    storage), compute (virtual warehouses that independently scale), and cloud services
+    (authentication, metadata, optimization). Authentication supports username/password,
+    MFA, federated SSO (SAML 2.0), OAuth, and key pair authentication. Role-based access
+    control (RBAC) manages permissions through a hierarchy of roles. Network policies restrict
+    access by IP address. All data is encrypted at rest (AES-256) and in transit (TLS 1.2+).
+    Tri-Secret Secure provides customer-managed encryption keys. Data sharing enables secure
+    data exchange between accounts without data copying. Audit logging through Account Usage
+    and Access History tracks all user activities.
+  core_concepts:
+    - key: "Multi-Cluster Shared Data Architecture"
+      value: >-
+        Snowflake separates storage, compute, and cloud services into independent layers that
+        scale independently, eliminating resource contention and enabling concurrent workloads
+        without performance degradation.
+    - key: "Data Sharing Security"
+      value: >-
+        Snowflake's data sharing enables zero-copy data exchange between accounts, requiring
+        careful governance to prevent unauthorized data access across organizational boundaries.
+    - key: "Credential Security and MFA"
+      value: >-
+        The 2024 credential theft campaign targeting Snowflake customers highlighted the
+        critical importance of MFA enforcement and credential monitoring for cloud data
+        platform access.
+    - key: "Tri-Secret Secure"
+      value: >-
+        Customer-managed encryption keys combined with Snowflake-managed keys provide enhanced
+        data protection where customers maintain control over encryption key material.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Snowflake is a cloud-native database service specializing in data warehousing and analytics"
+  - type: "instance_of"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "Snowflake is a specific cloud implementation of an enterprise-scale data store"
+  - type: "alternative_to"
+    target: "INFRA-DATA-BIGQUERY-001"
+    description: "Snowflake is a multi-cloud alternative to Google BigQuery for enterprise data warehousing"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Snowflake Security Overview documentation. https://docs.snowflake.com/en/user-guide/security-overview"
+    - "Snowflake Architecture documentation. https://docs.snowflake.com/en/user-guide/intro-key-concepts"
+    - "Mandiant UNC5537 Snowflake Customer Credential Theft Report, 2024."
+  search_keywords:
+    - "Snowflake"
+    - "Snowflake Data Cloud"
+    - "Snowflake security"
+    - "Snowflake data warehouse"
+    - "Snowflake credential theft"
+    - "cloud data warehouse"
+    - "Snowflake RBAC"
+    - "Snowflake MFA"
+    - "Snowflake data sharing"
+  embedding_text: >-
+    Snowflake is a cloud-native data platform providing data warehousing, data lake, and data
+    sharing capabilities as a managed service on AWS, Azure, and Google Cloud. Its multi-cluster
+    shared data architecture separates storage, compute, and cloud services into independently
+    scalable layers. Snowflake uses standard SQL and supports semi-structured formats (JSON,
+    Avro, Parquet). Security features include RBAC, MFA, federated SSO, network policies,
+    AES-256 encryption at rest, TLS in transit, Tri-Secret Secure customer-managed keys, and
+    comprehensive audit logging. The 2024 credential theft campaign (Mandiant UNC5537) targeting
+    Snowflake customers demonstrated critical importance of MFA enforcement. Data sharing
+    capabilities require careful governance. Snowflake maps to MITRE ATT&CK T1530 (Data from
+    Cloud Storage Object) as adversaries target cloud data warehouses for large-scale data
+    collection and exfiltration.

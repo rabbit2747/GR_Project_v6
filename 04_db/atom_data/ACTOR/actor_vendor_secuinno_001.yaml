@@ -1,0 +1,69 @@
+# GR Atom: Security Innovation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SECUINNO-001"
+  name: "Security Innovation"
+  normalized_name: "security_innovation"
+  aliases:
+    - "Security Innovation Inc"
+    - "SI"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Security Innovation is a cybersecurity vendor specializing in software security assessment, penetration testing, and security training services. The company provides application security testing, secure software development lifecycle consulting, and cybersecurity education programs that help organizations build security into their software development processes from design through deployment."
+  why: "Security Innovation is important in cybersecurity because it addresses the fundamental challenge of software vulnerabilities at their source by helping development teams build more secure applications. Through its combination of hands-on security testing, training programs, and secure development consulting, the company helps shift security left in the development lifecycle, reducing the cost and impact of vulnerabilities."
+  how: "Security Innovation operates through three primary service lines: penetration testing and security assessment services that identify vulnerabilities in applications and infrastructure, secure development lifecycle consulting that integrates security practices into development workflows, and cybersecurity training programs including CMD+CTRL cyber range exercises that provide hands-on security education for developers and security professionals."
+  core_concepts:
+    - key: "Application Security Testing"
+      value: "Comprehensive penetration testing and vulnerability assessment of web applications, APIs, and software systems"
+    - key: "Secure SDLC Consulting"
+      value: "Integration of security practices into software development lifecycle processes from design through deployment"
+    - key: "Cybersecurity Training"
+      value: "Hands-on security education programs including CMD+CTRL cyber range exercises for developers and security teams"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-PORTSWIGGE-001"
+    description: "Fellow application security vendor focused on web and software security testing"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.securityinnovation.com"
+  search_keywords:
+    - "security innovation"
+    - "application security testing"
+    - "penetration testing"
+    - "secure SDLC"
+    - "cybersecurity training"
+    - "CMD+CTRL"
+    - "software security"
+    - "security assessment"
+  embedding_text: "Security Innovation is a cybersecurity vendor specializing in software security assessment, penetration testing, and security training services. The company provides application security testing, secure software development lifecycle consulting, and cybersecurity education programs including CMD+CTRL cyber range exercises. Security Innovation helps organizations build security into their software development processes from design through deployment, addressing the fundamental challenge of software vulnerabilities at their source through hands-on security testing, training programs, and secure development consulting."

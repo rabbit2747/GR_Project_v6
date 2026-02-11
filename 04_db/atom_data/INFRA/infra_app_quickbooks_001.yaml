@@ -1,0 +1,113 @@
+# GR Atom: QuickBooks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-QUICKBOOKS-001"
+  name: "QuickBooks"
+  normalized_name: "quickbooks"
+  aliases:
+    - "Intuit QuickBooks"
+    - "QuickBooks Desktop"
+    - "QuickBooks Online"
+    - "QBW"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - CLOUD
+    - INFO_LEAK
+    - AUTHN
+    - DATABASE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    QuickBooks is an accounting and financial management software developed by Intuit, widely
+    used by small and medium businesses for bookkeeping, invoicing, payroll, tax preparation,
+    and financial reporting. It is available as a desktop application (QuickBooks Desktop) and
+    as a cloud-based SaaS platform (QuickBooks Online). The software manages sensitive financial
+    data including bank account details, customer payment information, employee payroll records,
+    and tax identification numbers.
+  why: >-
+    QuickBooks is a high-value target for attackers due to the concentration of sensitive
+    financial data it manages. Compromised QuickBooks instances expose bank account numbers,
+    credit card details, Social Security numbers, and complete financial histories. Phishing
+    campaigns frequently impersonate Intuit and QuickBooks notifications to harvest credentials.
+    The QuickBooks Database Server Manager exposes network ports that can be targeted for
+    unauthorized access. Business Email Compromise (BEC) attacks often target QuickBooks users
+    to redirect invoice payments.
+  how: >-
+    QuickBooks Desktop stores data in company files (.QBW) using a proprietary database format,
+    with multi-user access managed through QuickBooks Database Server Manager listening on TCP
+    ports 8019-8023. QuickBooks Online operates as a cloud SaaS application accessed via web
+    browser with OAuth-based authentication. Both versions integrate with banking APIs for
+    transaction synchronization, payment processors for invoicing, and payroll services.
+    Third-party app integrations expand functionality but also the attack surface through
+    API access tokens.
+  core_concepts:
+    - key: "Financial Data Concentration"
+      value: "Centralizes banking, payroll, tax, and customer payment data making it a high-value target for data theft and financial fraud"
+    - key: "Database Server Exposure"
+      value: "QuickBooks Database Server Manager exposes TCP ports 8019-8023 for multi-user access, creating network-level attack surface"
+    - key: "Invoice Fraud Vector"
+      value: "BEC and phishing campaigns target QuickBooks users to redirect payments through modified invoices and fake payment notifications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "QuickBooks is an enterprise business application managing financial and accounting operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Intuit QuickBooks Security Documentation"
+    - "CISA Advisories on Financial Software Targeting"
+    - "MITRE ATT&CK - Data from Cloud Storage"
+  search_keywords:
+    - "QuickBooks"
+    - "Intuit QuickBooks"
+    - "QuickBooks vulnerability"
+    - "QuickBooks Database Server Manager"
+    - "QBW file security"
+    - "accounting software attack"
+    - "QuickBooks phishing"
+    - "financial software exploitation"
+  embedding_text: >-
+    QuickBooks is Intuit's accounting and financial management software used by millions of
+    small and medium businesses. Available as desktop and cloud SaaS versions, it centralizes
+    sensitive financial data including bank accounts, payroll records, tax IDs, and customer
+    payment information. The QuickBooks Database Server Manager exposes TCP ports 8019-8023
+    for multi-user access. QuickBooks is heavily targeted by phishing campaigns impersonating
+    Intuit notifications, Business Email Compromise attacks redirecting invoice payments, and
+    credential harvesting operations. Desktop versions store data in proprietary QBW files
+    while the online version uses OAuth authentication and cloud APIs. Security concerns
+    include financial data concentration, database server network exposure, third-party
+    integration API tokens, and invoice fraud schemes targeting QuickBooks users.

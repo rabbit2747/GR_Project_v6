@@ -1,0 +1,82 @@
+# GR Atom: Wireless Router
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-WIREROUT-001"
+  name: "Wireless Router"
+  normalized_name: "wireless_router"
+  aliases:
+    - "Wi-Fi Router"
+    - "Home Router"
+    - "SOHO Router"
+    - "Wireless Gateway"
+    - "Residential Gateway"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - FIRMWARE
+    - DNS
+    - AUTHN
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N3.2"
+
+definition:
+  what: "A Wireless Router is a combined network device that integrates a wireless access point, Ethernet switch, router, DHCP server, DNS forwarder, NAT gateway, and basic firewall into a single consumer or small office/home office (SOHO) appliance. Wireless routers connect local wired and wireless devices to an internet service provider through WAN ports (Ethernet, DSL, cable, or fiber), providing network address translation to share a single public IP address among multiple internal devices. They support Wi-Fi standards from 802.11n through Wi-Fi 7, and offer features including guest network isolation, parental controls, QoS, UPnP, port forwarding, and VPN server/client capabilities. Major manufacturers include Asus, TP-Link, Netgear, Linksys, and MikroTik."
+  why: "Wireless routers are the most ubiquitous network infrastructure device, present in virtually every home and small office, and they represent a massive attack surface due to their internet-facing position and historically poor security practices. Many wireless routers ship with known default credentials, run outdated firmware with unpatched vulnerabilities, expose management interfaces to the WAN, and include insecure features like WPS and UPnP enabled by default. Compromised home routers have been weaponized into botnets (VPNFilter, Mirai), used as proxy infrastructure for attacks, exploited for DNS hijacking to redirect traffic, and targeted in supply chain attacks. Remote workforce reliance on home routers extends the corporate attack surface beyond enterprise-managed networks."
+  how: "A wireless router connects to the ISP through its WAN interface and obtains a public IP address via DHCP or PPPoE. The router's NAT engine translates between the internal private IP space and the public address. The integrated DHCP server assigns IP addresses to connected devices, while the DNS forwarder relays name resolution queries to ISP or configured DNS servers. The wireless access point broadcasts configured SSIDs with WPA2/WPA3 encryption. The integrated firewall provides stateful packet inspection and blocks unsolicited inbound connections by default. Management is performed through a web-based administration interface, typically accessed at the router's gateway IP address. Firmware updates are applied manually or through automatic update mechanisms depending on the manufacturer. Router security hardening includes changing default credentials, disabling WPS and UPnP, enabling automatic firmware updates, configuring WPA3 encryption, and restricting management interface access."
+  core_concepts:
+    - key: "NAT Gateway"
+      value: "Network address translation functionality that allows multiple internal devices to share a single public IP address, providing basic security by hiding internal network topology"
+    - key: "Consumer Router Security"
+      value: "The security challenges specific to consumer wireless routers including default credentials, firmware update neglect, exposed management interfaces, and insecure default configurations"
+    - key: "Router Botnet"
+      value: "Large-scale compromise of consumer and SOHO wireless routers for use as botnet nodes, proxy infrastructure, or DDoS attack platforms, as exemplified by VPNFilter and Mirai"
+
+relations:
+  - type: is_a
+    target: "INFRA-NET-WIRACCPOI-001"
+    description: "A wireless router integrates wireless access point functionality with routing, NAT, and firewall capabilities in a single device"
+  - type: is_a
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "A wireless router provides core routing and packet forwarding functionality in small network environments"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Wireless routers forward DNS queries from connected clients to upstream DNS resolvers for name resolution"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1584.008"
+    tactic: ["Resource Development"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-153 - Guidelines for Securing Wireless Local Area Networks"
+    - "CISA - Securing Network Infrastructure Devices - https://www.cisa.gov/news-events/cybersecurity-advisories"
+    - "FBI - VPNFilter Router Malware Advisory"
+    - "CIS Controls v8 - Control 12: Network Infrastructure Management"
+  search_keywords:
+    - "wireless router"
+    - "Wi-Fi router"
+    - "home router"
+    - "SOHO router"
+    - "router security"
+    - "router firmware"
+    - "VPNFilter"
+    - "router botnet"
+    - "default router credentials"
+    - "consumer router vulnerability"
+  embedding_text: "A Wireless Router combines a wireless access point, Ethernet switch, router, DHCP server, DNS forwarder, NAT gateway, and basic firewall into a single SOHO or consumer appliance. It connects local devices to the internet through WAN interfaces, supporting Wi-Fi standards through Wi-Fi 7. Wireless routers represent a massive attack surface due to default credentials, unpatched firmware, exposed management interfaces, and insecure defaults like WPS and UPnP. Compromised routers have been weaponized into botnets like VPNFilter and Mirai, used as proxy infrastructure, and exploited for DNS hijacking. Remote workforce reliance on home routers extends corporate attack surfaces beyond enterprise-managed networks."

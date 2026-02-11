@@ -1,0 +1,115 @@
+# GR Atom: Race Condition Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-RACECOND-001"
+  name: "Race Condition Vulnerability"
+  normalized_name: "race_condition_vulnerability"
+  aliases:
+    - "TOCTOU Vulnerability"
+    - "Time-of-Check Time-of-Use"
+    - "Concurrency Bug"
+    - "Race Hazard"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - RACE
+    - EXEC
+    - PRIV
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "multi-threaded applications"
+    - "operating system kernels"
+    - "file systems"
+    - "database systems"
+    - "smart contracts"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Race condition vulnerabilities occur when the correctness of a program depends on the
+    relative timing or ordering of events, and an attacker can influence that timing to
+    achieve an unintended outcome. The most common form is Time-of-Check Time-of-Use (TOCTOU)
+    where a resource's state changes between when it is checked and when it is used. Race
+    conditions affect multi-threaded applications, operating systems, file systems, databases,
+    and blockchain smart contracts.
+  why: >-
+    Race conditions are notoriously difficult to detect through code review or testing because
+    they depend on specific timing conditions that may occur rarely during normal operation
+    but can be reliably triggered by an attacker. They can lead to privilege escalation,
+    authentication bypass, data corruption, and financial losses (especially in blockchain
+    reentrancy attacks). The non-deterministic nature makes them among the hardest bugs to
+    reproduce and fix.
+  how: >-
+    An attacker manipulates the timing of concurrent operations to exploit the window between
+    a security check and the subsequent use of the checked resource. Techniques include
+    creating high system load to widen timing windows, using symbolic links to redirect file
+    operations between check and use, sending rapid concurrent requests to exploit double-
+    spend conditions, or triggering reentrancy in smart contracts to re-enter a function
+    before the first invocation completes.
+  core_concepts:
+    - key: "TOCTOU Window"
+      value: "The gap between checking a resource's state and using it creates an exploitable window where the state can be modified by an attacker"
+    - key: "Non-Deterministic Exploitation"
+      value: "Race conditions depend on timing, making them difficult to detect in testing but reliably triggerable through deliberate timing manipulation"
+    - key: "Reentrancy Attack"
+      value: "In smart contracts, race conditions manifest as reentrancy where external calls can re-enter the calling function before state updates complete"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Race conditions are a subclass of business logic vulnerability exploiting timing assumptions in program logic"
+  - type: "applies_to"
+    target: "VUL-LOGIC-SMARCONT-001"
+    description: "Reentrancy attacks in smart contracts are a form of race condition unique to blockchain execution"
+  - type: "applies_to"
+    target: "VUL-LOGIC-CVE202249475-001"
+    description: "Linux kernel mt76 driver contains a race condition in WiFi driver state management"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CWE-362: Concurrent Execution Using Shared Resource with Improper Synchronization"
+    - "CWE-367: Time-of-check Time-of-use (TOCTOU) Race Condition"
+    - "OWASP - Race Condition Vulnerabilities"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "race condition vulnerability"
+    - "TOCTOU"
+    - "time-of-check time-of-use"
+    - "concurrency bug"
+    - "reentrancy attack"
+    - "CWE-362"
+    - "CWE-367"
+    - "double-spend"
+  embedding_text: >-
+    Race condition vulnerabilities occur when program correctness depends on timing of events
+    that attackers can manipulate. TOCTOU (Time-of-Check Time-of-Use) is the most common form.
+    Affects multi-threaded applications, OS kernels, file systems, databases, and smart
+    contracts. Leads to privilege escalation, authentication bypass, data corruption, and
+    financial losses. Reentrancy in blockchain is a specific form. Non-deterministic nature
+    makes detection difficult. CWE-362 and CWE-367. MITRE ATT&CK T1068.

@@ -1,0 +1,95 @@
+# GR Atom: DigitalOcean
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-DIGITALOCE-001"
+  name: "DigitalOcean"
+  normalized_name: "digitalocean"
+  aliases:
+    - "DO"
+    - "DigitalOcean Cloud"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - HA
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DigitalOcean is a cloud infrastructure provider targeting developers and small-to-medium
+    businesses with simplified cloud services including Droplets (virtual machines), Kubernetes
+    (DOKS), managed databases, object storage (Spaces), App Platform (PaaS), and Functions
+    (serverless). DigitalOcean focuses on developer experience and simplicity compared to the
+    complexity of AWS, Azure, and GCP, operating across multiple global data center regions.
+  why: >-
+    DigitalOcean hosts significant numbers of developer projects, startups, and small business
+    infrastructure. Its simpler security model means organizations may lack the advanced security
+    tooling available in larger cloud providers. DigitalOcean Droplets are frequently used for
+    hosting C2 servers, phishing infrastructure, and scanning operations due to their low cost
+    and easy provisioning. Understanding DigitalOcean security features is essential for both
+    defenders protecting hosted workloads and analysts tracking threat infrastructure.
+  how: >-
+    DigitalOcean resources are provisioned through the web control panel, API, CLI (doctl), or
+    Terraform provider. Droplets run on KVM hypervisors with VPC networking. Cloud firewalls
+    provide network filtering. IAM is managed through teams and project-based access. Monitoring
+    is via built-in metrics and alerting. Security features include VPC, cloud firewalls,
+    SSH key authentication, two-factor authentication, and Spaces (S3-compatible) with access
+    controls. DigitalOcean Kubernetes (DOKS) provides managed Kubernetes clusters.
+  core_concepts:
+    - key: "Developer-Focused Simplicity"
+      value: "Simplified cloud services with streamlined interfaces targeting developers and SMBs rather than enterprise complexity"
+    - key: "Droplets"
+      value: "Linux-based virtual machines running on KVM hypervisors that form the primary compute primitive on DigitalOcean"
+    - key: "Threat Infrastructure Hosting"
+      value: "Low cost and easy provisioning make DigitalOcean a common platform for hosting adversary infrastructure including C2 and phishing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "DigitalOcean is a cloud service provider offering IaaS and PaaS services"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "DigitalOcean is an alternative cloud provider to AWS targeting simpler use cases"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "DigitalOcean Documentation - docs.digitalocean.com"
+    - "DigitalOcean Security Best Practices"
+    - "Threat Intelligence Reports on Cloud-Hosted Infrastructure"
+  search_keywords:
+    - "digitalocean"
+    - "digitalocean droplet"
+    - "DO cloud"
+    - "digitalocean security"
+    - "DOKS kubernetes"
+    - "digitalocean infrastructure"
+    - "cloud hosting"
+  embedding_text: >-
+    DigitalOcean is a cloud infrastructure provider targeting developers and SMBs with simplified
+    services including Droplets (VMs), managed Kubernetes (DOKS), databases, object storage
+    (Spaces), and serverless functions. It focuses on developer experience over enterprise
+    complexity. DigitalOcean is relevant to cybersecurity because its low-cost, easily provisioned
+    Droplets are commonly used for hosting C2 servers, phishing infrastructure, and scanning
+    operations. Security features include VPC, cloud firewalls, SSH key authentication, and
+    team-based IAM. Its simpler security model means hosted workloads may lack advanced
+    security tooling available from larger cloud providers.

@@ -1,0 +1,109 @@
+# GR Atom: CVE-2014-8730
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20148730-001"
+  name: "CVE-2014-8730"
+  normalized_name: "cve_2014_8730"
+  aliases:
+    - "TLS POODLE Variant"
+    - "TLS 1.x Padding Oracle"
+    - "POODLE TLS Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - TLS
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "F5 BIG-IP TLS Implementation"
+    - "A10 Networks TLS Implementation"
+    - "TLS 1.x CBC Mode Implementations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-8730 is a variant of the POODLE attack affecting certain TLS 1.x implementations that
+    fail to properly validate CBC padding bytes. While TLS 1.0 and later specify that all padding
+    bytes must contain the same value, some implementations (notably F5 BIG-IP and A10 Networks load
+    balancers) do not enforce this check. This allows the same padding oracle attack as POODLE but
+    against TLS 1.0, 1.1, and 1.2 connections. CVSS score is 5.0. Disclosed in December 2014.
+  why: >-
+    This vulnerability is significant because it extends the POODLE attack surface beyond SSL 3.0
+    to TLS 1.x, affecting organizations that had disabled SSL 3.0 as a POODLE mitigation but were
+    using vulnerable TLS implementations. It demonstrated that implementation-specific padding
+    validation failures could reintroduce protocol-level vulnerabilities even in newer protocol
+    versions, highlighting the importance of strict specification compliance.
+  how: >-
+    The attack follows the same methodology as POODLE but targets TLS 1.x implementations that do
+    not validate all padding bytes. The attacker performs a man-in-the-middle attack and modifies
+    the padding of CBC-encrypted TLS records. If the server only checks the last byte of padding
+    rather than all padding bytes as required by the TLS specification, the attacker can use a
+    padding oracle to decrypt plaintext one byte at a time, extracting cookies and session data.
+  core_concepts:
+    - name: "TLS Padding Validation Failure"
+      value: "Implementations that only check the last padding byte instead of all padding bytes as required by TLS specification"
+    - name: "POODLE Extension to TLS"
+      value: "The same padding oracle technique from SSL 3.0 POODLE applied to non-compliant TLS 1.x implementations"
+    - name: "Specification Non-Compliance"
+      value: "Vendor implementations deviating from the TLS specification create exploitable vulnerabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CVE20143566-001"
+    description: "TLS POODLE variant extends the original SSL 3.0 POODLE attack to non-compliant TLS 1.x implementations"
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "TLS padding oracle is an instance of cryptographic implementation vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2014-8730"
+    - "ImperialViolet - The POODLE bites again (Adam Langley)"
+    - "F5 Networks Security Advisory SOL15882"
+  search_keywords:
+    - "CVE-2014-8730"
+    - "POODLE TLS variant"
+    - "TLS padding oracle"
+    - "TLS CBC padding validation"
+    - "F5 BIG-IP POODLE"
+    - "TLS 1.x padding vulnerability"
+    - "CBC padding byte check"
+  embedding_text: >-
+    CVE-2014-8730 is a POODLE attack variant affecting TLS 1.x implementations that fail to
+    properly validate CBC padding bytes. While TLS 1.0 and later require all padding bytes to
+    contain the same value, certain implementations including F5 BIG-IP and A10 Networks load
+    balancers only check the last padding byte. This non-compliance allows the same padding oracle
+    attack technique used in the original SSL 3.0 POODLE vulnerability to work against TLS 1.0,
+    1.1, and 1.2 connections. The attacker performs man-in-the-middle manipulation of CBC padding
+    to decrypt plaintext one byte at a time. This vulnerability is significant because it affects
+    organizations that disabled SSL 3.0 as a POODLE mitigation but used non-compliant TLS
+    implementations. CVSS score is 5.0. The fix requires vendors to implement strict padding
+    validation checking all padding bytes as mandated by the TLS specification.

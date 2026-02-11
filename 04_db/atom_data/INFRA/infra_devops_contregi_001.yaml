@@ -1,0 +1,80 @@
+# GR Atom: Container Registry
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-CONTREGI-001"
+  name: "Container Registry"
+  normalized_name: "container_registry"
+  aliases:
+    - "Docker Registry"
+    - "Image Registry"
+    - "OCI Registry"
+    - "Container Image Repository"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CONTAINER
+    - DOCKER
+    - CICD
+    - SUPPLY_CHAIN
+    - CLOUD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R1.2"
+
+definition:
+  what: "Container Registry is the general infrastructure category for services that store, manage, and distribute container images (Docker/OCI format). This includes services such as Docker Hub, AWS ECR, Azure Container Registry, Google Artifact Registry, and Harbor. Registries provide image versioning through tags and digests, vulnerability scanning, access controls, content trust via image signing, and integration with container orchestration platforms."
+  why: "Container registries are critical supply chain components because every container deployment pulls images from registries. Compromised registry images can distribute malware to all downstream deployments. Attackers target registries to inject backdoors into base images, exploit public registry typosquatting, or push malicious images through compromised credentials. Image vulnerability scanning at the registry level is the primary defense against deploying known-vulnerable software. Registry access controls prevent unauthorized image modifications."
+  how: "Container registries store images as layered filesystems identified by repository names, tags, and content-addressable digests. Push/pull operations use Docker Registry HTTP API v2 or OCI Distribution Spec. Authentication integrates with cloud IAM, LDAP, or token-based systems. Image scanning analyzes layers for known CVEs against vulnerability databases. Content trust uses Notary/cosign for image signature verification. Replication distributes images across regions. Retention policies manage image lifecycle and storage costs. Webhook notifications trigger downstream pipelines on image push events."
+  core_concepts:
+    - key: "Container Image"
+      value: "Layered filesystem snapshot containing application code, dependencies, and runtime configuration packaged for container execution"
+    - key: "Image Scanning"
+      value: "Automated analysis of container image layers against CVE databases to identify known vulnerabilities before deployment"
+    - key: "Content Trust"
+      value: "Cryptographic image signing and verification ensuring images have not been tampered with between build and deployment"
+    - key: "Image Tag"
+      value: "Human-readable label pointing to a specific image digest, used for versioning but mutable and thus not guaranteeing immutability"
+
+relations:
+  - type: requires
+    target: "INFRA-DEVOPS-CODEBUILD-001"
+    description: "Container registries receive images built by CI/CD build services"
+  - type: enables
+    target: "INFRA-DEVOPS-ORCHESTRAT-001"
+    description: "Container registries provide images that orchestration controllers deploy to container runtimes"
+  - type: instance_of
+    target: "INFRA-DEVOPS-SOFARTSER-001"
+    description: "Container registry is a specialized type of software artifact server for container images"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1525"
+    tactic: ["Persistence"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Docker Registry Documentation - https://docs.docker.com/registry/"
+    - "OCI Distribution Specification - https://github.com/opencontainers/distribution-spec"
+    - "MITRE ATT&CK T1525 - Implant Internal Image"
+  search_keywords:
+    - "container registry"
+    - "Docker registry"
+    - "container image repository"
+    - "OCI registry"
+    - "image vulnerability scanning"
+    - "container image signing"
+    - "ECR ACR GCR"
+    - "container supply chain"
+  embedding_text: "Container Registry is the general infrastructure category for services storing, managing, and distributing Docker/OCI container images. Includes Docker Hub, AWS ECR, Azure Container Registry, Google Artifact Registry, and Harbor. Provides image versioning, vulnerability scanning, access controls, and content trust through signing. Security significance centers on supply chain protection as every container deployment pulls images from registries. Compromised images distribute malware to all downstream deployments. Attackers inject backdoors into base images or exploit typosquatting on public registries. Image scanning identifies known CVEs before deployment. Content trust verifies image integrity between build and deployment."

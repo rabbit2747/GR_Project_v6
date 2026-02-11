@@ -1,0 +1,81 @@
+# GR Atom: YARA Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-YARARULE-001"
+  name: "YARA Rules"
+  normalized_name: "yara_rules"
+  aliases:
+    - "YARA Detection Rules"
+    - "YARA Signatures"
+    - "YARA Malware Rules"
+    - "YARA Pattern Matching"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - FORENSICS
+    - SANDBOX
+    - THREAT_INTEL
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "YARA is a rule-based pattern matching tool and language designed primarily for malware identification and classification, though its use extends to any binary or text file analysis requiring complex pattern matching. A YARA rule consists of three sections: meta (descriptive metadata about the rule), strings (definitions of text strings, hex byte patterns, and regular expressions to search for), and condition (Boolean logic combining string matches, file properties, and other conditions that must be true for the rule to match). YARA supports text strings with modifiers (nocase, wide, ascii, fullword, base64), hexadecimal strings with wildcards and jumps, regular expressions, and built-in modules for PE file analysis (pe module), ELF analysis (elf module), hash calculation (hash module), math operations (math module), and more. YARA is maintained as an open-source project by VirusTotal and is widely used in antivirus engines, malware sandboxes, endpoint detection and response (EDR) platforms, threat intelligence platforms, incident response, and digital forensics."
+  why: "YARA rules are the industry standard for malware identification and classification because they provide the most flexible and expressive pattern matching capability for binary file analysis. Unlike simple hash-based detection which fails when a single byte changes, YARA rules can identify malware families based on code patterns, embedded strings, structural characteristics, and behavioral indicators that persist across variants. YARA enables threat intelligence teams to create detection rules from malware analysis that can be shared across organizations using STIX/TAXII feeds. Security operations teams use YARA to scan endpoints, file stores, memory dumps, and network-captured files for known threats. Without YARA, organizations lose the ability to detect malware variants and correlate samples across campaigns."
+  how: "YARA rules are written in the YARA rule language and executed by the YARA scanning engine against target files, process memory, or data streams. The rule author defines strings to search for using text patterns, hex byte sequences with optional wildcards (??), jumps ([4-8]), and regular expressions. The condition section combines string matches using Boolean operators (and, or, not) with positional constraints (at offset, in range), count expressions (# for occurrences), string set operations (any of, all of, N of), file size checks, entry point references, and module-specific conditions (e.g., pe.imports, pe.sections). YARA processes rules by compiling them into an optimized matching engine, then scanning target data. Integration points include: EDR platforms scanning files on creation/execution, sandbox environments analyzing detonated samples, SIEM platforms scanning file captures, retrospective hunting across file repositories, and memory forensics scanning process memory. The yarGen tool automates rule creation from malware samples by identifying unique strings."
+  core_concepts:
+    - key: "String Definitions"
+      value: "Text strings, hex byte patterns with wildcards and jumps, and regular expressions that define the patterns to match within files"
+    - key: "Condition Logic"
+      value: "Boolean expressions combining string matches, file properties, count expressions, and module conditions to determine if a rule matches"
+    - key: "YARA Modules"
+      value: "Extensible modules providing structured access to file format internals including PE headers, ELF structures, hash calculations, and math operations"
+    - key: "Rule Sets"
+      value: "Collections of YARA rules organized by malware family, campaign, or threat actor, distributed through threat intelligence sharing platforms"
+
+relations:
+  - type: requires
+    target: "DETECT-SIGNATURE-FILCONRUL-001"
+    description: "YARA rules require file content inspection capability to evaluate string matches and conditions"
+  - type: enables
+    target: "DETECT-SIGNATURE-FILMAGBYT-001"
+    description: "YARA rules can incorporate magic byte detection as part of condition logic using file header checks"
+  - type: applies_to
+    target: "INFRA-SEC-EDR-001"
+    description: "YARA rules are deployed within EDR platforms for file and process memory scanning"
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-SIGMRULE-001"
+    description: "YARA rules are the file-based detection counterpart to Sigma rules for SIEM-based log detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "YARA Documentation - https://yara.readthedocs.io/"
+    - "VirusTotal YARA - https://virustotal.github.io/yara/"
+    - "YARA GitHub Repository - https://github.com/VirusTotal/yara"
+    - "yarGen - YARA Rule Generator - https://github.com/Neo23x0/yarGen"
+  search_keywords:
+    - "YARA rules"
+    - "YARA malware detection"
+    - "YARA signatures"
+    - "YARA pattern matching"
+    - "malware identification"
+    - "binary pattern matching"
+    - "YARA rule writing"
+    - "YARA modules"
+    - "threat intelligence YARA"
+    - "file scanning YARA"
+  embedding_text: "YARA is a rule-based pattern matching tool and language for malware identification and file analysis. Rules consist of meta (metadata), strings (text patterns, hex byte sequences with wildcards, regular expressions), and condition (Boolean logic combining matches with file properties and module conditions). YARA supports modifiers for text strings, PE and ELF file structure analysis through modules, hash calculation, and complex condition expressions. Widely used in antivirus engines, EDR platforms, malware sandboxes, threat intelligence platforms, and digital forensics, YARA rules enable detection of malware families based on persistent code patterns and structural characteristics rather than simple file hashes. Rules are shared through STIX/TAXII feeds and community repositories."

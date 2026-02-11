@@ -1,0 +1,105 @@
+# GR Atom: HTTP Cookie
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPCOOK-001"
+  name: "HTTP Cookie"
+  normalized_name: "http_cookie"
+  aliases:
+    - "Web Cookie"
+    - "Browser Cookie"
+    - "Session Cookie"
+    - "HTTP State Management"
+    - "RFC 6265"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    An HTTP cookie is a small piece of data sent by a web server to a client's browser via the
+    Set-Cookie response header, which the browser stores and returns to the server with subsequent
+    requests via the Cookie request header. Defined in IETF RFC 6265, cookies provide state
+    management for the otherwise stateless HTTP protocol. Cookies serve three primary purposes:
+    session management (login tokens, shopping carts), personalization (user preferences, themes),
+    and tracking (user behavior analytics, advertising). Cookie attributes include Domain, Path,
+    Expires/Max-Age, Secure, HttpOnly, SameSite, and Partitioned.
+  why: >-
+    Cookies are the primary mechanism for HTTP session management and are a critical attack
+    surface in web security. Session cookie theft enables session hijacking, granting attackers
+    full access to authenticated sessions. Cross-site scripting (XSS) attacks target cookies
+    without HttpOnly flags. Cross-site request forgery (CSRF) exploits automatic cookie
+    transmission. Cookie injection and manipulation can bypass authentication. Third-party
+    tracking cookies raise privacy concerns addressed by regulations like GDPR and ePrivacy.
+    Secure cookie configuration (Secure, HttpOnly, SameSite=Strict/Lax) is a fundamental web
+    security control.
+  how: >-
+    Cookie lifecycle operates as: (1) Server sends Set-Cookie header with name=value pair and
+    attributes in HTTP response; (2) Browser stores the cookie according to domain, path, and
+    expiration rules; (3) Browser automatically includes matching cookies in Cookie header for
+    subsequent requests to the same domain; (4) Server reads Cookie header to identify sessions
+    and state. Security attributes include: Secure (HTTPS only transmission), HttpOnly (prevents
+    JavaScript access via document.cookie), SameSite=Strict/Lax/None (controls cross-site
+    sending), Domain/Path (scope restriction), and Max-Age/Expires (lifetime control).
+  core_concepts:
+    - key: "Set-Cookie / Cookie Headers"
+      value: "HTTP headers used for cookie exchange — Set-Cookie in server responses to create/update cookies, Cookie in client requests to send stored cookies back."
+    - key: "HttpOnly Flag"
+      value: "Cookie attribute preventing JavaScript access via document.cookie, mitigating XSS-based session theft attacks."
+    - key: "SameSite Attribute"
+      value: "Cookie attribute controlling cross-site request inclusion — Strict (same-site only), Lax (safe cross-site methods), None (all cross-site with Secure required)."
+    - key: "Session vs. Persistent Cookies"
+      value: "Session cookies exist only in memory and expire when the browser closes; persistent cookies have explicit Expires/Max-Age attributes and survive browser restarts."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP cookies are a sub-component of the HTTP protocol providing state management via Set-Cookie and Cookie headers"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPHEAD-002"
+    description: "Cookie and Set-Cookie are HTTP headers that implement HTTP state management"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "Secure cookies require HTTPS to prevent transmission over unencrypted connections"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 6265 — HTTP State Management Mechanism"
+    - "IETF RFC 6265bis — Cookies: HTTP State Management Mechanism (revision)"
+    - "OWASP — Session Management Cheat Sheet"
+    - "MDN Web Docs — HTTP Cookies"
+  search_keywords:
+    - "HTTP cookie"
+    - "web cookie"
+    - "session cookie"
+    - "Set-Cookie header"
+    - "RFC 6265"
+    - "HttpOnly"
+    - "SameSite"
+    - "cookie security"
+    - "session hijacking"
+    - "CSRF cookie"
+  embedding_text: >-
+    HTTP cookies defined in RFC 6265 are small data pieces sent by servers via Set-Cookie headers
+    and returned by browsers via Cookie headers, providing state management for the stateless
+    HTTP protocol. Cookies enable session management, personalization, and tracking. Security
+    attributes include Secure (HTTPS-only), HttpOnly (prevents JavaScript access), SameSite
+    (controls cross-site sending), and Domain/Path scope restrictions. Cookies are a critical
+    web security attack surface — session cookie theft enables session hijacking, XSS targets
+    non-HttpOnly cookies, and CSRF exploits automatic cookie transmission. Secure cookie
+    configuration is a fundamental web security control alongside HTTPS enforcement.

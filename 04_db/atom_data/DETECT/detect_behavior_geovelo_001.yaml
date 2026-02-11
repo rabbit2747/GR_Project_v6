@@ -1,0 +1,77 @@
+# GR Atom: Geo Velocity
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-GEOVELO-001"
+  name: "Geo Velocity"
+  normalized_name: "geo_velocity"
+  aliases:
+    - "Impossible Travel Detection"
+    - "Geographic Velocity Analysis"
+    - "Atypical Travel Detection"
+    - "Login Velocity Check"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - MONITOR
+    - SIEM
+    - CLOUD
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Geo Velocity detection, also known as impossible travel detection, identifies situations where a user authenticates from two geographically distant locations within a timeframe that makes physical travel between them impossible. For example, a user logging in from New York and then from Moscow 30 minutes later would be physically impossible, strongly suggesting that one of the sessions is using compromised credentials. The technique calculates the required travel velocity between consecutive authentication events for each user and flags events where the implied travel speed exceeds realistic thresholds, typically above 500-1000 km/h depending on configuration."
+  why: "Impossible travel is one of the highest-confidence indicators of account compromise because it is based on physical constraints that cannot be legitimately exceeded. When valid credentials are used simultaneously or in rapid succession from distant geographic locations, it definitively indicates that at least one session is unauthorized. Unlike other behavioral signals that may have legitimate explanations, true impossible travel has very few false positive sources beyond VPN changes, making it an extremely valuable detection for identifying credential theft, account takeover, and unauthorized access in progress."
+  how: "For each user, the detection system tracks the timestamp and geolocation of consecutive authentication events. When a new authentication occurs, the system calculates the geodesic distance between the current and previous location, divides by the time elapsed, and produces an implied travel velocity. If the velocity exceeds the configured threshold, an impossible travel alert is generated. Sophisticated implementations account for known false positive sources including VPN exit point changes, corporate proxy routing, and mobile network tower handoffs. Whitelisting mechanisms exclude known VPN exit IPs and corporate egress points. Advanced algorithms consider the probability distribution of legitimate travel patterns rather than fixed thresholds, accounting for airport locations and common flight routes. Integration with device fingerprinting correlates location changes with device changes to strengthen detection confidence."
+  core_concepts:
+    - key: "Impossible Travel"
+      value: "Authentication from two locations within a time window that makes physical travel between them impossible, indicating credential compromise"
+    - key: "Velocity Threshold"
+      value: "The maximum implied travel speed considered physically possible, typically 500-1000 km/h, above which travel is flagged as impossible"
+    - key: "VPN Compensation"
+      value: "Mechanisms to account for VPN exit point changes that cause apparent impossible travel without actual geographic movement"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOM-001"
+    description: "Geo velocity calculation depends on geographic anomaly detection for location data"
+  - type: requires
+    target: "DETECT-BEHAVIOR-BEHCORWIN-001"
+    description: "Geo velocity analysis operates within behavioral correlation windows to evaluate consecutive events"
+  - type: effective_against
+    target: "ATK-CRED-CREDACCE-001"
+    description: "Impossible travel detection identifies credential theft and account compromise"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic: ["Initial Access", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Impossible Travel Detection - https://learn.microsoft.com/en-us/entra/identity-protection/concept-identity-protection-risks"
+    - "MITRE ATT&CK T1078 - Valid Accounts - https://attack.mitre.org/techniques/T1078/"
+    - "Gartner - UEBA Impossible Travel Detection Best Practices"
+  search_keywords:
+    - "geo velocity detection"
+    - "impossible travel"
+    - "geographic velocity analysis"
+    - "atypical travel alert"
+    - "login velocity check"
+    - "impossible travel detection"
+    - "credential compromise location"
+    - "travel speed authentication"
+  embedding_text: "Geo Velocity detection identifies authentication events from geographically distant locations within physically impossible travel timeframes. It calculates implied travel speed between consecutive authentication events per user, flagging velocities exceeding realistic thresholds of 500-1000 km/h. This is among the highest-confidence indicators of account compromise due to physical travel constraints. Sophisticated implementations compensate for VPN exit point changes, corporate proxy routing, and mobile network handoffs. Advanced algorithms use probability distributions of legitimate travel patterns including airport locations and flight routes. Integration with device fingerprinting strengthens confidence by correlating location changes with device changes."

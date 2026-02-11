@@ -1,0 +1,68 @@
+# GR Atom: NowSecure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-NOWSECURE-001"
+  name: "NowSecure"
+  normalized_name: "nowsecure"
+  aliases:
+    - "NowSecure Inc."
+    - "viaForensics"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - MOBILE
+    - PENTEST
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "NowSecure (formerly viaForensics) is a mobile application security company that provides automated mobile app security testing, mobile penetration testing, and mobile threat defense solutions. The company's platform performs static and dynamic analysis of iOS and Android applications to identify vulnerabilities, insecure data storage, network communication weaknesses, and compliance gaps. NowSecure is recognized as a leader in mobile application security testing (MAST)."
+  why: "NowSecure is significant in cybersecurity because mobile applications are increasingly targeted by attackers, and traditional security testing tools do not adequately address mobile-specific vulnerabilities. NowSecure's research has uncovered critical vulnerabilities in popular mobile applications and SDKs, contributing to improved mobile security practices. Their platform helps organizations ensure compliance with mobile security standards including OWASP Mobile Top 10 and various regulatory frameworks."
+  how: "NowSecure's platform performs automated security testing of mobile applications through static analysis (SAST), dynamic analysis (DAST), and interactive application security testing (IAST) on real devices. The platform analyzes binary code, network communications, data storage practices, cryptographic implementations, and runtime behavior. Results include vulnerability reports with remediation guidance mapped to OWASP Mobile Top 10 and MASVS standards. The company also provides manual penetration testing services and mobile threat intelligence."
+  core_concepts:
+    - key: "Mobile application security testing"
+      value: "Automated SAST, DAST, and IAST for iOS and Android applications"
+    - key: "Mobile security standards"
+      value: "Testing against OWASP Mobile Top 10, MASVS, and regulatory compliance frameworks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-MOBILESEC-001"
+    description: "NowSecure provides mobile application security testing and mobile threat defense"
+  - type: enables
+    target: "TECHNIQUE-MOBILESEC-001"
+    description: "NowSecure enables mobile application security assessment through automated testing"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NowSecure Official Website"
+    - "Gartner - Mobile Application Security Testing Market Guide"
+    - "NowSecure Research Blog"
+  search_keywords:
+    - "nowsecure"
+    - "nowsecure mobile security"
+    - "mobile app security testing"
+    - "nowsecure mast"
+    - "viaforensics"
+    - "mobile penetration testing"
+    - "nowsecure ios android"
+  embedding_text: "NowSecure, formerly known as viaForensics, is a leading mobile application security company providing automated mobile app security testing, mobile penetration testing, and mobile threat defense solutions for iOS and Android platforms. The company's platform performs comprehensive security analysis of mobile applications through static analysis, dynamic analysis, and interactive application security testing on real devices, examining binary code, network communications, data storage practices, cryptographic implementations, and runtime behavior. NowSecure helps organizations identify mobile-specific vulnerabilities including insecure data storage, weak encryption, network communication flaws, and compliance gaps against standards such as OWASP Mobile Top 10 and Mobile Application Security Verification Standard. The company's research has uncovered critical vulnerabilities in popular mobile applications and SDKs, contributing to improved mobile security practices across the industry. NowSecure serves enterprises, government agencies, and application developers who need to ensure their mobile applications meet security and compliance requirements."

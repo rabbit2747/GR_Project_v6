@@ -1,0 +1,68 @@
+# GR Atom: VectorSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-VECTORSEC-001"
+  name: "VectorSec"
+  normalized_name: "vectorsec"
+  aliases:
+    - "Vector Security"
+    - "VectorSec Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - THREAT_INTEL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "VectorSec is a cybersecurity consultancy and research organization focused on penetration testing, vulnerability assessment, and security research. The company provides offensive security services including network penetration testing, application security assessment, and security advisory, contributing to the security community through vulnerability disclosures and published research on attack vectors and exploitation techniques."
+  why: "VectorSec is significant in cybersecurity because it contributes to the identification and responsible disclosure of vulnerabilities while providing practical offensive security services that help organizations understand their attack surface. The company's research on attack vectors and exploitation techniques helps security teams better understand and defend against real-world threats."
+  how: "VectorSec operates through penetration testing engagements that assess network, application, and infrastructure security posture. The company's researchers identify vulnerabilities through manual testing and automated scanning, develop proof-of-concept exploits, and provide detailed remediation guidance. Research findings are shared through responsible disclosure processes and published security advisories."
+  core_concepts:
+    - key: "Penetration Testing"
+      value: "Comprehensive security assessment of networks, applications, and infrastructure to identify exploitable vulnerabilities"
+    - key: "Vulnerability Research"
+      value: "Discovery and responsible disclosure of security vulnerabilities with proof-of-concept development"
+    - key: "Attack Vector Analysis"
+      value: "Research into exploitation techniques and attack paths to improve defensive security strategies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECUINNO-001"
+    description: "Fellow security assessment and penetration testing vendor"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "https://vectorsec.net"
+  search_keywords:
+    - "vectorsec"
+    - "penetration testing"
+    - "vulnerability assessment"
+    - "attack vectors"
+    - "security research"
+    - "offensive security"
+    - "vulnerability disclosure"
+  embedding_text: "VectorSec is a cybersecurity consultancy and research organization focused on penetration testing, vulnerability assessment, and security research. The company provides offensive security services including network penetration testing, application security assessment, and security advisory, contributing to the security community through vulnerability disclosures and published research on attack vectors and exploitation techniques."

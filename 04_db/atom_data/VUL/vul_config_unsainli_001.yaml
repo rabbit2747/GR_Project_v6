@@ -1,0 +1,106 @@
+# GR Atom: Unsafe Inline
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-UNSAINLI-001"
+  name: "Unsafe Inline"
+  normalized_name: "unsafe_inline"
+  aliases:
+    - "CSP unsafe-inline Misconfiguration"
+    - "Content Security Policy Bypass"
+    - "Inline Script Execution Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - XSS
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Web Application CSP Headers"
+    - "Content Security Policy Configuration"
+    - "Web Server HTTP Headers"
+
+definition:
+  what: >-
+    Unsafe Inline is a vulnerability class in Content Security Policy (CSP) configurations where the
+    'unsafe-inline' directive is used in script-src or style-src policies. The 'unsafe-inline'
+    directive allows execution of inline JavaScript and CSS in web pages, effectively negating the
+    XSS protection that CSP is designed to provide. When present, any inline script injected through
+    XSS vulnerabilities will execute regardless of the CSP policy, defeating the primary purpose of
+    implementing Content Security Policy.
+  why: >-
+    Content Security Policy is one of the most effective browser-side defenses against Cross-Site
+    Scripting (XSS) attacks. When properly configured, CSP prevents execution of injected scripts
+    by whitelisting allowed script sources. However, the 'unsafe-inline' directive creates an
+    exception that allows any inline script to execute, completely undermining XSS protection.
+    This misconfiguration is extremely common because many web applications rely on inline scripts
+    and event handlers, making it difficult to deploy strict CSP without breaking functionality.
+    Studies show that the majority of deployed CSP policies include 'unsafe-inline', rendering them
+    ineffective against XSS.
+  how: >-
+    When a CSP header includes "script-src 'unsafe-inline'" or "default-src 'unsafe-inline'", the
+    browser allows execution of inline script elements, javascript: URLs, and inline event handlers
+    (onclick, onerror, etc.). An attacker who discovers an XSS vulnerability in the application
+    can inject inline scripts that will execute despite the CSP policy being present. The browser
+    treats inline scripts as permitted and does not block them. Proper mitigation involves removing
+    'unsafe-inline' and using nonce-based or hash-based CSP policies (script-src 'nonce-xxx' or
+    script-src 'sha256-xxx'), refactoring inline scripts into external files, removing inline
+    event handlers, and implementing strict-dynamic for complex applications.
+  core_concepts:
+    - key: "CSP Self-Defeating Configuration"
+      value: "Including 'unsafe-inline' in CSP policies negates the XSS protection that CSP is specifically designed to provide"
+    - key: "Defense in Depth Failure"
+      value: "When the primary browser-side XSS defense is misconfigured, the application loses a critical layer of protection against script injection"
+    - key: "Nonce and Hash Alternatives"
+      value: "Proper CSP implementation uses cryptographic nonces or content hashes to allow specific inline scripts while blocking injected ones"
+
+relations:
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Unsafe-inline CSP enables exploitation of XSS vulnerabilities in web applications by defeating browser-side protections"
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Unsafe inline is a configuration vulnerability class in web application security headers"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.007"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "W3C Content Security Policy Level 3 Specification"
+    - "OWASP Content Security Policy Cheat Sheet"
+    - "CWE-1021 - Improper Restriction of Rendered UI Layers"
+    - "Google Web Fundamentals - Content Security Policy"
+  search_keywords:
+    - "unsafe-inline"
+    - "CSP misconfiguration"
+    - "Content Security Policy bypass"
+    - "inline script vulnerability"
+    - "CSP unsafe-inline"
+    - "XSS CSP bypass"
+    - "web security headers"
+  embedding_text: >-
+    Unsafe Inline is a vulnerability class in Content Security Policy configurations where the
+    unsafe-inline directive allows execution of inline JavaScript and CSS, defeating XSS protection.
+    CSP is one of the most effective browser-side defenses against XSS, but unsafe-inline completely
+    undermines it by permitting any injected inline script to execute. Extremely common because many
+    applications rely on inline scripts. Studies show most deployed CSP policies include unsafe-inline.
+    Proper mitigation involves nonce-based or hash-based CSP policies, refactoring inline scripts to
+    external files, and implementing strict-dynamic. Maps to MITRE ATT&CK T1059.007 Command and
+    Scripting Interpreter: JavaScript.

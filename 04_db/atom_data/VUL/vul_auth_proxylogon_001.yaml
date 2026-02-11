@@ -1,0 +1,128 @@
+# GR Atom: ProxyLogon
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PROXYLOGON-001"
+  name: "ProxyLogon"
+  normalized_name: "proxylogon"
+  aliases:
+    - "CVE-2021-26855"
+    - "Microsoft Exchange ProxyLogon"
+    - "Exchange SSRF CVE-2021-26855"
+    - "Hafnium Exchange Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - SSRF
+    - AUTHN
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+    - "Exchange Client Access Service (CAS)"
+    - "Exchange Unified Messaging service"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ProxyLogon (CVE-2021-26855) is a critical server-side request forgery vulnerability in
+    Microsoft Exchange Server that allows a remote unauthenticated attacker to send arbitrary
+    HTTP requests to the Exchange back-end service, bypassing authentication. When chained with
+    CVE-2021-27065 (arbitrary file write), it enables pre-authentication remote code execution
+    as SYSTEM. The vulnerability was publicly disclosed in March 2021 and attributed to the
+    Chinese state-sponsored threat group HAFNIUM. CVSS v3.1 score is 9.8 (Critical). It
+    affected Exchange Server 2013, 2016, and 2019, and led to the compromise of an estimated
+    250,000+ servers worldwide.
+  why: >-
+    ProxyLogon was one of the most impactful cybersecurity events in history, triggering a global
+    emergency response. The pre-authentication nature meant any internet-facing Exchange server
+    was immediately vulnerable. HAFNIUM initially exploited it for targeted espionage, but once
+    disclosed, multiple threat groups including ransomware operators, cryptominers, and other
+    APTs rapidly weaponized it. The mass exploitation prompted CISA to issue Emergency Directive
+    21-02 and the FBI to obtain a court order to remotely remove webshells from compromised
+    servers across the United States. The attack demonstrated the catastrophic risk of
+    vulnerabilities in widely-deployed, internet-facing enterprise email infrastructure.
+  how: >-
+    The attacker sends a specially crafted HTTP request to the Exchange server that exploits an
+    SSRF in the Client Access Service (CAS) proxy architecture. The SSRF allows the attacker to
+    authenticate as the Exchange server itself to back-end services, bypassing all authentication.
+    Combined with CVE-2021-27065 (arbitrary file write via the Exchange Unified Messaging
+    service), the attacker writes webshells to the server for persistent access and command
+    execution as SYSTEM. Attackers deployed China Chopper and other webshells, exfiltrated email
+    data, harvested credentials, and established persistent access. Mitigation includes applying
+    the March 2021 emergency patches, running the Microsoft EOMT mitigation tool, scanning for
+    webshells and indicators of compromise, and considering server rebuild if compromise is
+    confirmed.
+  core_concepts:
+    - key: "Exchange Proxy Architecture SSRF"
+      value: "Exploiting the CAS proxy to authenticate as the Exchange server to back-end services, completely bypassing all external authentication requirements"
+    - key: "Mass Exploitation Event"
+      value: "Global-scale exploitation affecting 250,000+ servers within days, triggering FBI intervention and CISA emergency directives"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "ProxyLogon is a critical authentication bypass via SSRF in Exchange Server proxy architecture"
+  - type: "instance_of"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "ProxyLogon is a pre-authentication vulnerability requiring no credentials for exploitation"
+  - type: "precedes"
+    target: "VUL-AUTH-PROXYSHELL-001"
+    description: "ProxyLogon preceded ProxyShell chronologically and inspired research into similar Exchange proxy vulnerabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2021-26855"
+    - "NIST NVD CVE-2021-26855 (CVSS v3.1: 9.8)"
+    - "Microsoft Security Response Center - Exchange Emergency Patches March 2021"
+    - "CISA Emergency Directive ED-21-02"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Microsoft Threat Intelligence - HAFNIUM Attribution"
+    - "Volexity - ProxyLogon Zero-Day Discovery"
+  search_keywords:
+    - "ProxyLogon"
+    - "CVE-2021-26855"
+    - "Exchange SSRF"
+    - "HAFNIUM Exchange"
+    - "Exchange server compromise 2021"
+    - "Microsoft Exchange zero-day"
+    - "Exchange authentication bypass"
+    - "China Chopper webshell Exchange"
+  embedding_text: >-
+    ProxyLogon (CVE-2021-26855) is a critical SSRF vulnerability in Microsoft Exchange Server
+    with CVSS v3.1 score 9.8. A remote unauthenticated attacker exploits the CAS proxy
+    architecture to bypass authentication and access back-end Exchange services. Chained with
+    CVE-2021-27065 for pre-auth RCE as SYSTEM. Attributed to Chinese state-sponsored group
+    HAFNIUM, it compromised an estimated 250,000+ servers worldwide in March 2021, triggering
+    CISA Emergency Directive ED-21-02 and FBI court-ordered webshell removal. One of the most
+    impactful cybersecurity events in history. Attackers deployed webshells, exfiltrated emails,
+    and harvested credentials. Mitigation includes emergency patches, EOMT tool, webshell
+    scanning, and server rebuild if compromise confirmed. Affects Exchange 2013, 2016, and 2019.

@@ -1,0 +1,86 @@
+# GR Atom: File Header Block
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILHEABLO-001"
+  name: "File Header Block"
+  normalized_name: "file_header_block"
+  aliases:
+    - "File Header Signature"
+    - "Magic Number Analysis"
+    - "File Header Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - FORENSICS
+    - MONITOR
+    - LOG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for analyzing the header block of files on endpoints. File headers are structured data blocks at the beginning of files that contain magic numbers (format signatures), version information, metadata, and structural information defining how the remainder of the file should be parsed. Analyzing file headers enables reliable file type identification, detection of header manipulation, identification of format mismatches with file extensions, and discovery of malformed files used in exploitation attempts."
+  why: "File headers are the primary mechanism for true file type identification. Attackers manipulate headers to disguise malicious files, create polyglot files that appear as one type but execute as another, and craft malformed headers that exploit parser vulnerabilities. Header analysis is essential for bypassing extension-based filtering and identifying weaponized files regardless of their naming."
+  how: "Extract and validate file header bytes against known magic number databases (file signature databases). Detect mismatches between header-identified file type and file extension. Identify malformed headers that may indicate exploitation attempts against file parsers. Integrate header analysis with Sysmon Event 15 (FileCreateStreamHash) for alternate data stream header inspection. Combine with footer analysis for complete file structure validation."
+  core_concepts:
+    - key: "Magic Number"
+      value: "Fixed byte sequence at the beginning of a file that identifies the file format, such as MZ for PE executables, PK for ZIP archives, and %PDF for PDF documents"
+    - key: "Header Manipulation"
+      value: "Attacker technique of modifying file headers to disguise file types, create polyglot files, or craft malformed headers for exploitation"
+    - key: "File Signature Database"
+      value: "Collection of known file format magic numbers and header structures used for reliable file type identification independent of extensions"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File header analysis is a component of file event detection"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-FILFOOBLO-001"
+    description: "Header analysis complements footer analysis for complete file structure validation"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEXEDET-001"
+    description: "Header magic byte analysis is the primary method for executable file detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1036 - Masquerading"
+    - "File Signatures - Gary Kessler Reference"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file header"
+    - "magic number"
+    - "file signature"
+    - "header analysis"
+    - "file type identification"
+    - "header manipulation"
+    - "polyglot detection"
+    - "format mismatch"
+  embedding_text: "File Header Block is an endpoint detection pattern for analyzing file header blocks containing magic numbers, version information, and structural metadata. Header analysis enables reliable file type identification, detection of header manipulation and format mismatches with extensions, and discovery of malformed files used in exploitation. Attackers manipulate headers to disguise malicious files, create polyglot files, and craft malformed headers exploiting parser vulnerabilities. Detection extracts and validates header bytes against known magic number databases, identifies extension mismatches, detects malformed headers, and integrates with Sysmon Event 15 for alternate data stream inspection and footer analysis for complete structure validation."

@@ -1,0 +1,112 @@
+# GR Atom: CVE-2012-5612
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20125612-001"
+  name: "CVE-2012-5612"
+  normalized_name: "cve_2012_5612"
+  aliases:
+    - "MySQL Stack Overflow"
+    - "MariaDB/MySQL Heap Overflow"
+    - "MySQL Server Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - OVERFLOW
+    - DATABASE
+    - EXEC
+    - DOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3"]
+  target_components:
+    - "MySQL Server 5.5.x"
+    - "MariaDB 5.5.x"
+    - "MySQL privilege system"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-5612 is a heap-based buffer overflow vulnerability in Oracle MySQL and MariaDB
+    that allows authenticated remote users to cause a denial of service or potentially execute
+    arbitrary code. The vulnerability exists in the way MySQL handles certain SQL statements
+    involving long column names processed by the privilege checking code. The CVSS v2 base
+    score is 6.5 and it was disclosed in December 2012. The flaw affects MySQL 5.5.19 and
+    other versions in the 5.5.x branch.
+  why: >-
+    MySQL is the world's most popular open-source database and underpins countless web
+    applications, content management systems, and enterprise platforms. A buffer overflow in
+    the database server itself can lead to denial of service affecting all hosted databases
+    or, in worst cases, code execution with the privileges of the database process. Even
+    requiring authentication, this is exploitable by any user with basic database access.
+  how: >-
+    An authenticated attacker sends a specially crafted SQL statement containing an excessively
+    long column name that triggers a heap buffer overflow in MySQL's privilege checking
+    functions. The overflow corrupts heap memory, which can crash the server causing denial
+    of service or potentially be leveraged for code execution through heap manipulation
+    techniques. Exploitation requires only basic database authentication. Mitigation involves
+    upgrading MySQL to patched versions and restricting database user privileges.
+  core_concepts:
+    - key: "Heap Buffer Overflow"
+      value: "Memory corruption on the heap caused by SQL statements with oversized column names exceeding buffer allocation"
+    - key: "Authenticated Exploitation"
+      value: "Vulnerability requires basic database credentials but no elevated privileges for exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "MySQL buffer overflow via SQL statements is a specific instance of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20020559-001"
+    description: "Both are database-related buffer overflow injection vulnerabilities affecting different database platforms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2012-5612"
+  cvss_score: 6.5
+  affected_product: "Oracle MySQL/MariaDB 5.5.x"
+  year: 2012
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2012-5612"
+    - "CWE-122 Heap-based Buffer Overflow"
+    - "Oracle Critical Patch Update January 2013"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2012-5612"
+    - "MySQL buffer overflow"
+    - "MariaDB heap overflow"
+    - "MySQL denial of service"
+    - "database buffer overflow"
+    - "MySQL privilege system overflow"
+    - "MySQL 5.5 vulnerability"
+  embedding_text: >-
+    CVE-2012-5612 is a heap-based buffer overflow vulnerability in Oracle MySQL and MariaDB
+    5.5.x that allows authenticated users to crash the database or potentially execute code.
+    The flaw exists in privilege checking functions that fail to properly validate column name
+    lengths in SQL statements. With CVSS score 6.5, exploitation requires only basic database
+    authentication to trigger heap corruption. MySQL being the most popular open-source
+    database means this vulnerability has widespread impact across web applications and
+    enterprise systems. Mitigation requires upgrading to patched MySQL versions and applying
+    principle of least privilege to database user accounts.

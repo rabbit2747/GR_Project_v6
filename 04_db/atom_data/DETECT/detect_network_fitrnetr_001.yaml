@@ -1,0 +1,96 @@
+# GR Atom: File Transfer Network Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-FITRNETR-001"
+  name: "File Transfer Network Traffic"
+  normalized_name: "file_transfer_network_traffic"
+  aliases:
+    - "File Transfer Protocol Detection"
+    - "Network File Transfer Monitoring"
+    - "FTP/SFTP/SCP Traffic Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - FTP
+    - DLP
+    - IDS
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring and analyzing traffic associated with file transfer protocols including FTP, SFTP, SCP, FTPS, WebDAV, and cloud-based file sharing services. This pattern identifies file transfer sessions, tracks file movement across network boundaries, and detects anomalous transfer activity that may indicate data staging, exfiltration, or unauthorized file sharing."
+  why: "File transfer protocols are essential for legitimate business operations but are frequently abused for data exfiltration, malware delivery, and unauthorized data movement. Monitoring file transfer traffic provides visibility into data movement across the network, enabling detection of insider threats staging data for exfiltration, adversaries transferring tools or stolen data, and policy violations involving unauthorized file sharing services."
+  how: "Detection monitors traffic on standard file transfer ports (FTP 20/21, SFTP 22, FTPS 990) and identifies file transfer sessions through protocol analysis. Behavioral analysis examines transfer volumes, file types, destination endpoints, user authentication patterns, and timing. Anomaly detection flags unusual transfer sizes, transfers to external destinations, off-hours bulk transfers, connections to unauthorized file sharing services, and transfers by accounts not typically performing file operations. Content inspection where possible examines file metadata and extensions for sensitive data indicators."
+  core_concepts:
+    - key: "Protocol Identification"
+      value: "Recognizing file transfer protocol sessions through port analysis, protocol headers, and application-layer signatures."
+    - key: "Transfer Volume Profiling"
+      value: "Establishing baseline transfer volumes per user and system to detect anomalous bulk transfers."
+    - key: "Boundary Crossing Detection"
+      value: "Monitoring file transfers that cross security zone boundaries, especially from internal to external zones."
+    - key: "Unauthorized Service Detection"
+      value: "Identifying use of non-sanctioned file transfer services including shadow IT cloud storage."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "File transfer traffic monitoring enables detection of exfiltration via file transfer protocols"
+  - type: enables
+    target: "DETECT-NETWORK-OUINFITRTR-001"
+    description: "Provides detection foundation for outbound internet file transfer traffic monitoring"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for file transfer session identification and volume analysis"
+  - type: is_a
+    target: "DETECT-NETWORK-PRBADESUNE-001"
+    description: "File transfer monitoring is a form of protocol-based suspicious network traffic detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1048.003"
+    tactic:
+      - "Exfiltration"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over Unencrypted Non-C2 Protocol T1048.003"
+    - "NIST SP 800-53 Rev 5 - AC-4 Information Flow Enforcement"
+    - "SANS Institute - Monitoring File Transfer Activity"
+  search_keywords:
+    - "file transfer traffic"
+    - "FTP monitoring"
+    - "SFTP detection"
+    - "SCP traffic"
+    - "file transfer anomaly"
+    - "data transfer monitoring"
+    - "file sharing detection"
+    - "bulk transfer"
+    - "WebDAV traffic"
+    - "file protocol analysis"
+  embedding_text: "File transfer network traffic detection monitors and analyzes traffic from file transfer protocols including FTP, SFTP, SCP, FTPS, and WebDAV as well as cloud-based file sharing services. It identifies file transfer sessions, tracks data movement across network boundaries, and detects anomalous activity such as unusual transfer volumes, transfers to external destinations, off-hours bulk operations, and unauthorized file sharing services. This pattern is essential for detecting data staging for exfiltration, unauthorized file sharing, and insider threats moving sensitive data through file transfer channels."

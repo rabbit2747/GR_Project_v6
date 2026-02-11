@@ -1,0 +1,100 @@
+# GR Atom: CVE-1999-0095
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE19990095-001"
+  name: "CVE-1999-0095"
+  normalized_name: "cve_1999_0095"
+  aliases:
+    - "Sendmail DEBUG Vulnerability"
+    - "Sendmail WIZ Command"
+    - "Morris Worm Sendmail Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - NETWORK
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Sendmail SMTP server"
+    - "Unix mail transfer agents"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-1999-0095 is a critical vulnerability in early versions of the Sendmail SMTP server
+    where the DEBUG and WIZ commands allow remote attackers to execute arbitrary commands on
+    the mail server. The DEBUG command was famously exploited by the Morris Worm in 1988 to
+    propagate across the early internet. The vulnerability exists because these debug commands
+    were left enabled in production deployments, providing an unauthenticated mechanism for
+    remote command execution with the privileges of the Sendmail process, typically root.
+  why: >-
+    This vulnerability holds historical significance as one of the attack vectors used by the
+    Morris Worm, the first major internet worm. It demonstrated the catastrophic risk of leaving
+    debug interfaces enabled in production. The ability to execute remote commands as root through
+    an SMTP server exposed critical mail infrastructure to complete compromise, affecting a
+    significant portion of the early internet.
+  how: >-
+    Attackers connect to the Sendmail SMTP service and issue DEBUG or WIZ commands, which in
+    vulnerable versions provide a command shell or allow arbitrary command execution without
+    authentication. The Morris Worm automated this exploitation to spread across networked Unix
+    systems. Mitigation requires disabling the DEBUG and WIZ commands in Sendmail configuration,
+    upgrading to patched Sendmail versions, and restricting SMTP access to authorized relays.
+  core_concepts:
+    - key: "Debug Interface Exposure"
+      value: "Production deployment of software with debug commands enabled, providing unintended administrative access to remote users"
+    - key: "Morris Worm Vector"
+      value: "One of the three exploit vectors used by the 1988 Morris Worm to propagate across the early internet"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-1999-0095 is an authentication bypass through exposed debug commands in Sendmail"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-1999-0095"
+    - "NIST NVD CVE-1999-0095"
+    - "CERT Advisory CA-1988-01 (Morris Worm)"
+  search_keywords:
+    - "CVE-1999-0095"
+    - "Sendmail DEBUG vulnerability"
+    - "Sendmail WIZ command"
+    - "Morris Worm"
+    - "SMTP remote code execution"
+    - "Sendmail exploit"
+  embedding_text: >-
+    CVE-1999-0095 is a critical vulnerability in early Sendmail SMTP servers where DEBUG and
+    WIZ commands allow unauthenticated remote command execution with root privileges. This
+    vulnerability was famously exploited by the 1988 Morris Worm to propagate across the
+    early internet. Debug commands left enabled in production provided a command shell to any
+    remote attacker connecting to the SMTP service. Mitigation requires disabling DEBUG and
+    WIZ commands, upgrading Sendmail, and restricting SMTP access. This vulnerability holds
+    historical significance as one of the first widely exploited remote code execution flaws
+    and demonstrated the danger of debug interfaces in production systems.

@@ -1,0 +1,140 @@
+# GR Atom: Multicast DNS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-NAMING-DNS-001"
+  name: "Multicast DNS"
+  normalized_name: "multicast_dns"
+  aliases:
+    - "mDNS"
+    - "Bonjour"
+    - "Avahi"
+    - "Zero Configuration DNS"
+    - "RFC 6762"
+    - "Link-Local DNS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - DNS
+    - NETWORK
+    - IOT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Multicast DNS (mDNS) is a zero-configuration name resolution protocol defined in RFC 6762
+    that resolves hostnames to IP addresses on local networks without a conventional DNS server.
+    mDNS uses the .local top-level domain and operates via UDP multicast on port 5353 to the
+    multicast addresses 224.0.0.251 (IPv4) and ff02::fb (IPv6). Each host on the network acts
+    as its own DNS responder, answering queries for its hostname and published services. mDNS
+    is implemented by Apple's Bonjour, Linux's Avahi daemon, and Windows mDNS responder, and
+    is commonly paired with DNS-SD (DNS Service Discovery, RFC 6763) for automatic service
+    discovery on local networks.
+  why: >-
+    mDNS enables convenient device and service discovery on local networks but introduces
+    significant security risks. Because mDNS operates without authentication, any device on the
+    local network can respond to mDNS queries with forged answers, enabling name spoofing and
+    man-in-the-middle attacks. mDNS can leak sensitive information including device names,
+    operating system types, running services, and network topology to all hosts on the segment.
+    In IoT environments, mDNS exposes the inventory of connected devices to potential attackers.
+    mDNS reflection attacks exploit the protocol for DDoS amplification when mDNS traffic is
+    allowed to traverse beyond the local link. Enterprise environments often disable mDNS or
+    restrict it to specific VLANs because the unauthenticated multicast nature conflicts with
+    zero-trust and least-privilege security models. Network reconnaissance tools use mDNS
+    enumeration to discover hosts and services during penetration testing.
+  how: >-
+    mDNS operates through multicast query-response exchanges: (1) a host needing to resolve a
+    .local name sends a DNS query to the multicast address 224.0.0.251 on UDP port 5353;
+    (2) all hosts on the link receive the query and the owner of the queried name responds with
+    a multicast or unicast answer containing its IP address; (3) devices register their names
+    through a probing phase that checks for conflicts before claiming a name; (4) continuous
+    multicast announcements maintain cache freshness; (5) DNS-SD extends mDNS with service
+    type browsing via _service._protocol.local PTR records. Security controls include: disabling
+    mDNS on security-sensitive networks, filtering mDNS multicast at VLAN boundaries to prevent
+    cross-segment information leakage, implementing network segmentation to isolate IoT devices
+    using mDNS from sensitive infrastructure, monitoring mDNS traffic for anomalous queries or
+    responses indicating reconnaissance, and using firewall rules to block UDP port 5353 at
+    network perimeters to prevent mDNS reflection attacks.
+  core_concepts:
+    - key: "Zero Configuration Networking"
+      value: >-
+        The capability of devices to automatically discover each other and available services
+        on a local network without manual configuration, implemented through mDNS for name
+        resolution and DNS-SD for service discovery, eliminating the need for a central DNS
+        server or manual host configuration.
+    - key: "mDNS Information Leakage"
+      value: >-
+        The inherent exposure of device names, service types, operating system information,
+        and network topology through mDNS multicast announcements, which can be passively
+        collected by any host on the local network segment for reconnaissance purposes.
+    - key: "DNS Service Discovery (DNS-SD)"
+      value: >-
+        A companion protocol (RFC 6763) using mDNS to discover available services on a local
+        network through structured PTR, SRV, and TXT records, enabling automatic configuration
+        of printers, file shares, media servers, and IoT devices.
+    - key: "mDNS Reflection Attack"
+      value: >-
+        A DDoS amplification technique exploiting mDNS responders accessible from the Internet
+        or across network boundaries, using spoofed source addresses to direct mDNS responses
+        toward victims, mitigated by ensuring mDNS traffic is confined to local link scope.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "Multicast DNS is a local link variant of the DNS protocol using DNS message format for zero-configuration name resolution"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "mDNS operates exclusively over UDP multicast on port 5353 for query and response exchange"
+  - type: "enables"
+    target: "PROTO-NAMING-DNSTXT-001"
+    description: "mDNS combined with DNS-SD uses TXT records to advertise service metadata for discovered services"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 6762 - Multicast DNS (February 2013). IETF. https://datatracker.ietf.org/doc/html/rfc6762"
+    - "RFC 6763 - DNS-Based Service Discovery (February 2013). IETF. https://datatracker.ietf.org/doc/html/rfc6763"
+    - "Apple Developer - Bonjour Overview. Apple Inc. https://developer.apple.com/bonjour/"
+    - "MITRE ATT&CK T1046 - Network Service Discovery. https://attack.mitre.org/techniques/T1046/"
+  search_keywords:
+    - "multicast DNS"
+    - "mDNS"
+    - "Bonjour"
+    - "Avahi"
+    - "zero configuration"
+    - "DNS-SD"
+    - "service discovery"
+    - ".local domain"
+    - "mDNS security"
+    - "RFC 6762"
+    - "mDNS reconnaissance"
+    - "IoT discovery"
+    - "mDNS reflection"
+  embedding_text: >-
+    Multicast DNS (mDNS, RFC 6762) is a zero-configuration protocol resolving hostnames on local
+    networks without a DNS server, using UDP multicast on port 5353 to address 224.0.0.251 with
+    the .local domain. Implemented by Apple Bonjour, Linux Avahi, and Windows mDNS responder,
+    it pairs with DNS-SD for automatic service discovery. mDNS introduces security risks including
+    unauthenticated name spoofing, information leakage of device names and services to all hosts
+    on the segment, IoT device inventory exposure, and DDoS reflection attacks when traffic
+    escapes local scope. Security controls include disabling mDNS on sensitive networks, filtering
+    at VLAN boundaries, segmenting IoT devices, monitoring for reconnaissance activity, and
+    blocking UDP 5353 at perimeters. mDNS conflicts with zero-trust models due to its
+    unauthenticated broadcast nature.

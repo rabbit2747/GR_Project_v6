@@ -1,0 +1,109 @@
+# GR Atom: Hacker News
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-HACKNEWS-001"
+  name: "Hacker News"
+  normalized_name: "hacker_news"
+  aliases:
+    - "Y Combinator Hacker News"
+    - "HN"
+    - "news.ycombinator.com"
+    - "YC Hacker News"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - THREAT_INTEL
+    - C2
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Hacker News is a social news website operated by Y Combinator focusing on technology,
+    startups, and computer science topics. It provides a link aggregation and discussion
+    platform at news.ycombinator.com with an API for programmatic access. The platform is
+    widely read in the technology and cybersecurity communities for vulnerability disclosures,
+    security research, and technology news.
+  why: >-
+    Hacker News is relevant to cybersecurity as a platform where vulnerability disclosures,
+    zero-day information, and security research are frequently discussed and amplified before
+    patches are available. Its public API has been abused as a dead-drop C2 channel where
+    malware reads commands from Hacker News comments or posts. The platform serves as an
+    early warning source for emerging threats but also enables attackers to monitor security
+    developments and identify unpatched vulnerabilities. Threat actors may use Hacker News
+    discussions to validate attack techniques and identify targets.
+  how: >-
+    Hacker News operates as a web application with a REST API (https://hacker-news.firebaseio.com)
+    providing access to stories, comments, and user profiles. Users submit links and text
+    posts that are ranked by community voting. The platform's API enables reading all content
+    programmatically without authentication. Malware has leveraged the Hacker News API or
+    web interface as a C2 dead-drop by embedding encoded commands in user profiles, comments,
+    or story submissions. The platform's legitimate traffic profile makes such C2 channels
+    difficult to detect through network monitoring alone.
+  core_concepts:
+    - key: "Security Intelligence Source"
+      value: "Technology news platform where vulnerability disclosures and security research are discussed and amplified across the cybersecurity community"
+    - key: "Dead-Drop C2 Channel"
+      value: "Public API and web content can be abused as command-and-control dead-drop channels with encoded commands in posts or user profiles"
+    - key: "Vulnerability Disclosure Amplifier"
+      value: "Vulnerability information often reaches wide audiences through Hacker News before patches are available, accelerating exploitation timelines"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Hacker News is a web application commonly accessed from enterprise networks for technology and security information"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1102.001"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Hacker News API Documentation"
+    - "MITRE ATT&CK T1102 - Web Service"
+    - "Security Research - Social Media C2 Channels"
+  search_keywords:
+    - "Hacker News"
+    - "news.ycombinator.com"
+    - "Hacker News API"
+    - "Hacker News C2"
+    - "vulnerability disclosure"
+    - "security news platform"
+    - "Y Combinator news"
+    - "HN security"
+  embedding_text: >-
+    Hacker News is a Y Combinator social news platform focusing on technology and cybersecurity
+    topics at news.ycombinator.com. It is relevant to cybersecurity as a source where
+    vulnerability disclosures and security research are amplified before patches are available,
+    and as a platform whose public API has been abused for dead-drop C2 channels. Malware can
+    read encoded commands from Hacker News comments, posts, or user profiles through the
+    unauthenticated Firebase API, blending with legitimate traffic. The platform serves as both
+    an early warning source for emerging threats and a resource that attackers monitor for
+    unpatched vulnerability information. Security teams should monitor Hacker News for relevant
+    vulnerability disclosures and be aware of its potential as a C2 channel in threat detection.

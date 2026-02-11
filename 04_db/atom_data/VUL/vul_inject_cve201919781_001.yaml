@@ -1,0 +1,113 @@
+# GR Atom: CVE-2019-19781
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE201919781-001"
+  name: "CVE-2019-19781"
+  normalized_name: "cve_2019_19781"
+  aliases:
+    - "Citrix ADC Path Traversal RCE"
+    - "Shitrix"
+    - "Citrix NetScaler Directory Traversal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - PATH
+    - EXEC
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Citrix ADC (NetScaler ADC)"
+    - "Citrix Gateway (NetScaler Gateway)"
+    - "Citrix SD-WAN WANOP"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-19781 is a critical path traversal vulnerability in Citrix Application Delivery
+    Controller (ADC) and Citrix Gateway that allows unauthenticated remote attackers to achieve
+    arbitrary code execution. The vulnerability enables directory traversal through crafted HTTP
+    requests to write files to arbitrary locations and execute them. The CVSS v3 base score is
+    9.8 (Critical) and it was disclosed in December 2019 with active exploitation beginning
+    in January 2020 before patches were available.
+  why: >-
+    Citrix ADC and Gateway devices sit at the network perimeter of thousands of organizations
+    worldwide, providing remote access and load balancing. Exploitation grants immediate
+    access to the internal network from the internet. The vulnerability was exploited by
+    ransomware groups, nation-state actors, and cryptocurrency miners during the patch gap.
+  how: >-
+    Attackers send crafted HTTP requests containing path traversal sequences to the Citrix
+    device web interface. The traversal allows writing template files containing embedded
+    Perl code to executable locations on the system. When the template is processed by the
+    server, the embedded code executes with root privileges. Exploitation enables complete
+    device compromise, credential theft, and lateral movement into internal networks.
+    Mitigation requires applying Citrix patches and implementing the recommended responder
+    policy workaround.
+  core_concepts:
+    - key: "Path Traversal to RCE"
+      value: "Directory traversal enables writing executable template files to arbitrary paths, achieving code execution through server-side template processing"
+    - key: "Perimeter Device Compromise"
+      value: "Compromising network edge devices like Citrix ADC provides direct access to internal networks bypassing perimeter controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Path traversal leading to code injection is a specific instance of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20205902-001"
+    description: "Both are critical perimeter device vulnerabilities enabling unauthenticated RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2019-19781"
+  cvss_score: 9.8
+  affected_product: "Citrix ADC/Gateway"
+  year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2019-19781"
+    - "CWE-22 Improper Limitation of a Pathname to a Restricted Directory"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Citrix Security Bulletin CTX267027"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2019-19781"
+    - "Citrix ADC vulnerability"
+    - "Shitrix"
+    - "Citrix path traversal"
+    - "NetScaler RCE"
+    - "Citrix Gateway exploit"
+    - "Citrix directory traversal"
+  embedding_text: >-
+    CVE-2019-19781 nicknamed Shitrix is a critical path traversal vulnerability in Citrix
+    ADC and Gateway with CVSS score 9.8. Unauthenticated attackers exploit directory traversal
+    through crafted HTTP requests to write and execute code on perimeter network devices.
+    Massively exploited by ransomware operators and nation-state actors during the patch gap.
+    Citrix ADC devices sit at the network edge providing remote access making compromise
+    equivalent to breaching the network perimeter. Exploitation enables root-level code
+    execution credential theft and lateral movement into internal networks. Mitigation
+    requires Citrix patches and responder policy workaround.

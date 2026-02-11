@@ -1,0 +1,77 @@
+# GR Atom: CyLab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-CYLAB-001"
+  name: "CyLab"
+  normalized_name: "cylab"
+  aliases:
+    - "CMU CyLab"
+    - "CyLab Security and Privacy Institute"
+    - "Carnegie Mellon CyLab"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - NETWORK
+    - AI
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyLab is the security and privacy research institute at Carnegie Mellon University, one of the largest university-based cybersecurity research centers in the world. Founded in 2003, CyLab brings together over 100 faculty members and researchers from multiple departments to conduct interdisciplinary research spanning network security, software security, cryptography, privacy, usable security, AI security, IoT security, and critical infrastructure protection. CyLab has produced foundational work in areas including malware analysis, vulnerability discovery, binary analysis, and the intersection of machine learning and security."
+  why: "CyLab is a cornerstone of academic cybersecurity research, producing fundamental advances in vulnerability discovery, binary analysis, privacy-preserving computation, and AI security. The institute trains the next generation of cybersecurity professionals and researchers, and its outputs directly influence industry practices, government policy, and defense capabilities. CMU CERT, which is housed alongside CyLab, operates critical national cybersecurity coordination functions."
+  how: "CyLab operates through research groups and centers within Carnegie Mellon University, publishing peer-reviewed papers, developing open-source tools, and collaborating with government agencies and industry partners. Researchers conduct fundamental and applied research, participate in capture-the-flag competitions through the PPP team, and present findings at top-tier security conferences. The institute also offers educational programs and workshops."
+  core_concepts:
+    - key: "Academic Security Research"
+      value: "Fundamental and applied cybersecurity research across network security, cryptography, software analysis, and AI"
+    - key: "Binary Analysis"
+      value: "Pioneering work in automated binary analysis, vulnerability discovery, and program analysis techniques"
+    - key: "Usable Security and Privacy"
+      value: "Research on human-centered security design and privacy-preserving technologies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-CITILAB-001"
+    description: "Fellow university-based cybersecurity research institute"
+  - type: enables
+    target: "ACTOR-RESEARCH-ARXIV-001"
+    description: "Publishes cutting-edge research on platforms including arXiv and academic conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for academic research institute
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.cylab.cmu.edu"
+    - "https://en.wikipedia.org/wiki/CyLab"
+  search_keywords:
+    - "CyLab"
+    - "Carnegie Mellon"
+    - "cybersecurity research"
+    - "binary analysis"
+    - "software security"
+    - "usable security"
+    - "privacy research"
+    - "academic security"
+    - "CERT"
+    - "CMU security"
+  embedding_text: "CyLab is the security and privacy research institute at Carnegie Mellon University, one of the largest university-based cybersecurity research centers in the world. Founded in 2003, CyLab brings together over 100 faculty members and researchers conducting interdisciplinary research spanning network security, software security, cryptography, privacy, usable security, AI security, IoT security, and critical infrastructure protection. The institute has produced foundational work in malware analysis, vulnerability discovery, binary analysis, and the intersection of machine learning and security. CyLab trains the next generation of cybersecurity professionals, publishes peer-reviewed research, develops open-source tools, and collaborates with government agencies and industry partners, making it a cornerstone of academic cybersecurity research that directly influences industry practices and defense capabilities."

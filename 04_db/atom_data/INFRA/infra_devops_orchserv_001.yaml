@@ -1,0 +1,76 @@
+# GR Atom: Orchestration Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-ORCHSERV-001"
+  name: "Orchestration Server"
+  normalized_name: "orchestration_server"
+  aliases:
+    - "CI/CD Server"
+    - "Automation Server"
+    - "Build Orchestration Server"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CICD
+    - DEVSECOPS
+    - CONFIG
+    - CONTAINER
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.2"
+
+definition:
+  what: "Orchestration Server is the general infrastructure category for CI/CD and automation platforms that coordinate software build, test, and deployment workflows. This includes Jenkins, TeamCity, Bamboo, GitLab CI, GitHub Actions runners, Azure DevOps agents, and AWS CodePipeline. These servers manage pipeline execution, worker coordination, artifact management, deployment sequencing, and environment provisioning across software delivery lifecycles."
+  why: "Orchestration servers are high-value targets because they have access to source code, build secrets, deployment credentials, and production environments. Compromised CI/CD servers enable supply chain attacks by injecting malicious code into build artifacts, exfiltrating secrets from pipeline environments, and deploying backdoored software to production. Pipeline configurations often contain or reference sensitive credentials. Self-hosted runners and agents may have excessive permissions. Unsecured CI/CD servers have been exploited in major supply chain compromises."
+  how: "Orchestration servers execute pipeline definitions (Jenkinsfiles, YAML pipelines, etc.) triggered by source code changes, schedules, or manual invocation. Pipelines consist of sequential or parallel stages executing build, test, security scan, and deployment steps. Workers/agents execute pipeline steps in isolated or shared environments. Secret management injects credentials at runtime. Artifact promotion moves validated builds through environments. Approval gates enforce human review before production deployments. Pipeline-as-code stores CI/CD configuration alongside application source code."
+  core_concepts:
+    - key: "Pipeline Definition"
+      value: "Declarative or scripted configuration defining the sequence of stages, steps, and conditions for software delivery workflows"
+    - key: "Build Agent/Worker"
+      value: "Compute resource executing pipeline steps, which may be shared, ephemeral, or self-hosted with varying security implications"
+    - key: "Artifact Promotion"
+      value: "Controlled progression of validated build outputs through environments (dev, staging, production) with quality gates"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-TEAMCITY-001"
+    description: "Orchestration Server is the general concept that TeamCity implements as a specific platform"
+  - type: enables
+    target: "INFRA-DEVOPS-ORCHESTRAT-001"
+    description: "CI/CD orchestration servers deploy and manage container orchestration controllers"
+  - type: requires
+    target: "INFRA-DEVOPS-CODEREPO-001"
+    description: "Orchestration servers retrieve source code and pipeline definitions from code repositories"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "OWASP CI/CD Security - Top 10 CI/CD Security Risks"
+    - "Jenkins Security Documentation - https://www.jenkins.io/doc/book/security/"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "CI/CD server"
+    - "orchestration server"
+    - "automation server"
+    - "build server security"
+    - "CI/CD pipeline security"
+    - "Jenkins security"
+    - "deployment orchestration"
+    - "pipeline-as-code"
+  embedding_text: "Orchestration Server is the general infrastructure category for CI/CD and automation platforms coordinating software build, test, and deployment workflows. Includes Jenkins, TeamCity, Bamboo, GitLab CI, GitHub Actions, and Azure DevOps. Security significance centers on access to source code, build secrets, deployment credentials, and production environments. Compromised servers enable supply chain attacks through malicious code injection into artifacts and secret exfiltration. Pipeline definitions execute in worker environments with varying isolation. Pipeline-as-code stores CI/CD configuration alongside source code. Unsecured orchestration servers have been exploited in major supply chain compromises."

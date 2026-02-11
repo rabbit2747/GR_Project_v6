@@ -1,0 +1,120 @@
+# GR Atom: Exchange Online
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-EXCHONLI-001"
+  name: "Exchange Online"
+  normalized_name: "exchange_online"
+  aliases:
+    - "Microsoft Exchange Online"
+    - "Office 365 Exchange"
+    - "Microsoft 365 Exchange"
+    - "EXO"
+    - "Exchange Online Protection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - SMTP
+    - AZURE
+    - AUTHN
+    - OAUTH
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Exchange Online is Microsoft's cloud-hosted email and calendaring service delivered as
+    part of Microsoft 365 (formerly Office 365). It provides enterprise email, calendaring,
+    contacts, and task management through a multi-tenant cloud infrastructure. Exchange Online
+    includes Exchange Online Protection (EOP) for anti-spam and anti-malware filtering,
+    Microsoft Defender for Office 365 for advanced threat protection, and compliance features
+    including eDiscovery, retention policies, and data loss prevention.
+  why: >-
+    Exchange Online is a primary target for attackers because it contains sensitive
+    organizational communications and is a gateway for phishing, business email compromise
+    (BEC), and account takeover attacks. Compromised Exchange Online accounts enable email
+    forwarding rules for persistent data exfiltration, OAuth app consent phishing for
+    persistent access, and impersonation for BEC fraud. Adversaries target Exchange Online
+    through credential stuffing, token theft, and OAuth consent grants. The Midnight Blizzard
+    (APT29) attack on Microsoft demonstrated advanced Exchange Online targeting techniques.
+  how: >-
+    Exchange Online operates as a multi-tenant cloud service accessed through Outlook clients,
+    Outlook Web App (OWA), Exchange ActiveSync, EWS, and Microsoft Graph API. Authentication
+    flows through Azure Active Directory using modern authentication (OAuth 2.0/OIDC) or
+    legacy basic authentication. Mail flow is managed through connectors, transport rules,
+    and Exchange Online Protection. Administrative access is through the Exchange Admin Center
+    or Exchange Online PowerShell. Attackers exploit compromised credentials to create
+    forwarding rules, register OAuth apps, access mailbox contents through Graph API, and
+    establish persistent access through consent grants.
+  core_concepts:
+    - key: "Cloud Email Platform"
+      value: "Microsoft multi-tenant cloud email service providing enterprise messaging, calendaring, and compliance through Microsoft 365 infrastructure"
+    - key: "Business Email Compromise Target"
+      value: "Primary target for BEC fraud, credential phishing, OAuth consent attacks, and email forwarding-based persistent exfiltration"
+    - key: "Azure AD Integrated Authentication"
+      value: "Authentication through Azure Active Directory enabling OAuth-based attacks, token theft, and consent grant exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "INFRA-APP-EXCHSERV-001"
+    description: "Exchange Online is the cloud-hosted instance of Microsoft Exchange messaging platform"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Exchange Online authenticates all users and applications through Azure Active Directory"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1114.002"
+    tactic:
+      - "Collection"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Exchange Online Documentation"
+    - "MITRE ATT&CK T1114.002 - Remote Email Collection"
+    - "Microsoft Security Blog - Midnight Blizzard Attack Analysis"
+    - "CISA Advisory on Microsoft 365 Security"
+  search_keywords:
+    - "Exchange Online"
+    - "Microsoft 365 Exchange"
+    - "Office 365 email"
+    - "Exchange Online security"
+    - "Exchange Online compromise"
+    - "business email compromise"
+    - "OAuth consent phishing"
+    - "Exchange Online forwarding rules"
+  embedding_text: >-
+    Exchange Online is Microsoft's cloud-hosted email and calendaring service within Microsoft
+    365, providing enterprise messaging through a multi-tenant cloud infrastructure with
+    Exchange Online Protection and Defender for Office 365. It is a primary target for
+    credential phishing, business email compromise, OAuth consent attacks, and account takeover.
+    Compromised accounts enable email forwarding rule creation for persistent exfiltration,
+    OAuth app registration for ongoing access, and mailbox content theft through Graph API.
+    Authentication flows through Azure Active Directory using OAuth 2.0. APT groups including
+    Midnight Blizzard have demonstrated advanced Exchange Online targeting techniques. Security
+    teams should enforce MFA, disable basic authentication, monitor mailbox forwarding rules,
+    audit OAuth consent grants, and implement conditional access policies for Exchange Online
+    access.

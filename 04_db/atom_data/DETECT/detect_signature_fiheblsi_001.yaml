@@ -1,0 +1,71 @@
+# GR Atom: File Header Block Signature
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-FIHEBLSI-001"
+  name: "File Header Block Signature"
+  normalized_name: "file_header_block_signature"
+  aliases:
+    - "File Header Magic"
+    - "File Header Bytes"
+    - "File Format Header Signature"
+    - "File Preamble Signature"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - FORENSICS
+    - MONITOR
+    - EVADE
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "A file header block signature is a structured sequence of bytes at the beginning of a file that identifies the file format and may contain metadata about the file's structure, version, and encoding. Unlike simple magic bytes which are typically short fixed sequences, header block signatures encompass the entire header structure including version fields, offset tables, flag bytes, and structural metadata that defines how the remainder of the file should be parsed. Examples include the PE header structure (DOS header + PE signature + COFF header + optional header) for Windows executables, the ELF header for Linux binaries, the ZIP local file header records, and the TIFF header with byte order and IFD offset fields. Header block signatures provide richer identification than simple magic bytes and enable structural validation of file format compliance."
+  why: "Header block signatures are essential for accurate file type identification and structural validation in security contexts. Attackers manipulate file headers to disguise malicious executables as benign file types, craft polyglot files that parse differently depending on the application, and embed malicious payloads within header structures. Security tools that validate the full header block structure can detect inconsistencies between the claimed file type and actual structure, identify malformed headers indicative of exploitation attempts, and verify structural integrity. Header validation is a core component of file upload security, email attachment scanning, and endpoint file analysis."
+  how: "Header block signature validation parses the initial bytes of a file according to format-specific structural definitions. Parsers extract the magic bytes, version fields, offset tables, and structural metadata, then validate each field against the expected format specification. For PE files, this includes verifying the MZ signature, e_lfanew pointer, PE signature, machine type, number of sections, and optional header magic. For ELF files, validation checks the EI_MAG bytes, class, data encoding, version, and OS/ABI fields. Security tools maintain format-specific parsers for common file types and flag files with structurally invalid headers, inconsistent field values, or suspicious characteristics such as executable flags in document headers. Deep header parsing enables detection of header manipulation attacks that bypass simple magic byte checks."
+  core_concepts:
+    - key: "Structural Validation"
+      value: "Verification that all header fields conform to the format specification including valid field values, consistent offsets, and expected relationships between header components"
+    - key: "Header Parsing"
+      value: "Systematic extraction and interpretation of header fields according to format-specific structural definitions"
+    - key: "Format Compliance"
+      value: "Assessment of whether a file's header structure fully complies with the format specification, detecting malformed or manipulated headers"
+
+relations:
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-FIFOBLSI-001"
+    description: "File header signatures complement file footer signatures; together they validate complete file format boundaries"
+  - type: refines
+    target: "DETECT-SIGNATURE-FILMAGBYT-001"
+    description: "Header block signatures refine basic magic byte detection by validating the full header structure rather than just initial bytes"
+  - type: effective_against
+    target: "ATK-EVADE-FILEMASK-001"
+    description: "Header block validation is effective against file masquerading attacks that manipulate file type identification"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft PE Format Specification - https://docs.microsoft.com/en-us/windows/win32/debug/pe-format"
+    - "ELF Specification - https://refspecs.linuxfoundation.org/elf/elf.pdf"
+    - "Gary Kessler - File Signature Table - https://www.garykessler.net/library/file_sigs.html"
+  search_keywords:
+    - "file header signature"
+    - "file header block"
+    - "PE header validation"
+    - "ELF header parsing"
+    - "file format header"
+    - "header structure validation"
+    - "file preamble signature"
+    - "file type identification header"
+  embedding_text: "File header block signatures are structured byte sequences at the beginning of a file that identify the format and contain metadata about structure, version, and encoding. Unlike simple magic bytes, header blocks encompass the entire header structure including version fields, offset tables, flags, and structural metadata. Examples include PE headers for Windows executables, ELF headers for Linux binaries, ZIP local file headers, and TIFF headers. Header block validation parses and verifies each field against format specifications to detect inconsistencies, malformed headers indicating exploitation attempts, and file masquerading attacks. This provides richer identification and structural validation than simple magic byte checks."

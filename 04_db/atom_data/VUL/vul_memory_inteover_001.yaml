@@ -1,0 +1,120 @@
+# GR Atom: Integer Overflow
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-INTEOVER-001"
+  name: "Integer Overflow"
+  normalized_name: "integer_overflow"
+  aliases:
+    - "Integer Overflow/Underflow"
+    - "Arithmetic Overflow Vulnerability"
+    - "CWE-190"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "C/C++ applications with integer arithmetic"
+    - "Kernel and system-level software"
+    - "Memory allocation routines"
+    - "Buffer size calculations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Integer overflow is a class of vulnerability (CWE-190) that occurs when an arithmetic
+    operation produces a value that exceeds the maximum representable value for the
+    integer type, causing the value to wrap around to a small or negative number. In
+    security contexts, integer overflows are most dangerous when they affect buffer size
+    calculations, memory allocations, or loop bounds. An integer overflow in a size
+    calculation can lead to allocating a smaller-than-expected buffer, which subsequent
+    operations then overflow, creating heap or stack buffer overflow conditions. Integer
+    underflows (wrapping below zero to a large unsigned value) are a related subclass.
+    These vulnerabilities are endemic to C/C++ code and remain one of the most common
+    root causes of memory corruption.
+  why: >-
+    Integer overflows are a foundational vulnerability class because they frequently
+    serve as the root cause enabling other vulnerability types, particularly heap buffer
+    overflows. When a size calculation wraps around, the resulting undersized allocation
+    creates an exploitable buffer overflow condition. This pattern appears across all
+    software layers from kernel memory management to application-level parsing. Integer
+    overflow vulnerabilities have been at the root of critical exploits including iOS
+    kernel escalation (Operation Triangulation), browser engine exploits, and media
+    processing vulnerabilities. Modern mitigations include compiler-based overflow
+    checking and safe integer arithmetic libraries.
+  how: >-
+    Integer overflow exploitation typically targets size calculations used for memory
+    allocation. The attacker provides input that causes a multiplication or addition
+    in a buffer size calculation to exceed the integer type's maximum, wrapping to a
+    small value. For example, if a 32-bit unsigned integer calculation of
+    (count * element_size) overflows, the resulting small value is passed to malloc(),
+    which allocates an undersized buffer. Subsequent operations that write (count *
+    element_size) bytes to this buffer overflow it, corrupting adjacent heap memory.
+    The attacker then leverages the heap corruption for arbitrary code execution through
+    techniques like overwriting function pointers or heap metadata.
+  core_concepts:
+    - key: "Arithmetic Wraparound"
+      value: "Integer values exceeding type maximum wrap around to small values, causing undersized buffer allocations"
+    - key: "Buffer Overflow Enabler"
+      value: "Most commonly exploited when integer overflow in size calculation leads to heap buffer overflow"
+    - key: "C/C++ Endemic Vulnerability"
+      value: "Fundamental to languages without automatic overflow checking, present across all software layers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Integer overflow is a subclass of memory corruption vulnerabilities that enables buffer overflows"
+  - type: "causes"
+    target: "VUL-MEMORY-CVE202332434-001"
+    description: "Integer overflow class abstracts vulnerabilities like CVE-2023-32434 (Apple kernel integer overflow)"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CWE-190: Integer Overflow or Wraparound"
+    - "MITRE CWE Top 25 Most Dangerous Software Weaknesses"
+    - "CERT Secure Coding Standards - Integer Security"
+    - "NIST Software Assurance - Integer Overflow"
+  search_keywords:
+    - "integer overflow"
+    - "integer underflow"
+    - "CWE-190"
+    - "arithmetic overflow"
+    - "buffer size calculation"
+    - "wraparound"
+    - "memory allocation"
+    - "heap overflow"
+  embedding_text: >-
+    Integer overflow (CWE-190) is a vulnerability class where arithmetic operations
+    exceed integer type maximums, causing values to wrap around. In security contexts,
+    this most commonly affects buffer size calculations, causing undersized memory
+    allocations that subsequent operations overflow. This pattern enables heap buffer
+    overflows across all software layers from kernels to applications. Endemic to C/C++
+    code, integer overflows are a foundational vulnerability class responsible for
+    critical exploits including iOS kernel escalation and browser engine compromises.
+    Mitigations include compiler overflow checking and safe integer arithmetic libraries.

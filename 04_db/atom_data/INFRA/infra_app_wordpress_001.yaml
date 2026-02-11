@@ -1,0 +1,121 @@
+# GR Atom: WordPress
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WORDPRESS-001"
+  name: "WordPress"
+  normalized_name: "wordpress"
+  aliases:
+    - "WordPress CMS"
+    - "WordPress.org"
+    - "WordPress.com"
+    - "WP"
+    - "WordPress Multisite"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - EXEC
+    - UPLOAD
+    - AUTHN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    WordPress is an open-source content management system (CMS) written in PHP, powering
+    approximately 43% of all websites on the internet. It provides a web-based administration
+    interface for content creation, theme customization, and site management. WordPress supports
+    an extensive ecosystem of over 60,000 plugins and thousands of themes that extend its
+    functionality from simple blogs to e-commerce platforms, forums, learning management
+    systems, and enterprise websites. Available as self-hosted (WordPress.org) and managed
+    hosting (WordPress.com) deployments.
+  why: >-
+    WordPress is one of the most targeted web applications due to its enormous market share
+    and the vast attack surface created by third-party plugins and themes. Plugin vulnerabilities
+    (SQL injection, XSS, file upload, RCE) account for the majority of WordPress compromises.
+    The wp-admin login page is a constant target for credential brute-forcing. XML-RPC
+    (xmlrpc.php) enables amplified brute-force attacks and DDoS. Compromised WordPress sites
+    are used for SEO spam injection, malware distribution, phishing page hosting, and
+    cryptocurrency mining. Outdated plugins and themes with known vulnerabilities are
+    discovered and exploited at scale through automated scanning tools like WPScan.
+  how: >-
+    WordPress runs on a LAMP/LEMP stack (Linux, Apache/Nginx, MySQL/MariaDB, PHP). The
+    application uses a template-based architecture with themes controlling presentation and
+    plugins extending functionality through a hook/filter system. The wp-admin dashboard
+    provides content management, user administration, and site configuration. The REST API
+    (wp-json) provides programmatic access to content and site management. WordPress uses
+    a role-based access control system (Administrator, Editor, Author, Contributor, Subscriber).
+    The wp-content directory stores themes, plugins, and uploaded media. Automatic updates
+    can be configured for core, plugin, and theme components.
+  core_concepts:
+    - key: "Plugin Ecosystem Attack Surface"
+      value: "Third-party plugins are the primary vulnerability vector, with thousands of plugins containing SQL injection, XSS, file upload, and RCE vulnerabilities exploited at scale"
+    - key: "Mass Exploitation Target"
+      value: "WordPress powers 43% of websites, making vulnerabilities in popular plugins exploitable at massive scale through automated scanning and exploitation tools"
+    - key: "Compromised Site Weaponization"
+      value: "Compromised WordPress sites serve as infrastructure for SEO spam, malware distribution, phishing, cryptocurrency mining, and command-and-control operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "WordPress is a web application running on web server infrastructure for content management"
+  - type: "requires"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "WordPress requires a web server application (Apache, Nginx) and PHP runtime to operate"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "WordPress Security Team Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "WPScan Vulnerability Database"
+    - "OWASP WordPress Security Implementation Guideline"
+  search_keywords:
+    - "WordPress"
+    - "WordPress vulnerability"
+    - "WordPress plugin exploit"
+    - "WordPress security"
+    - "WPScan"
+    - "WordPress RCE"
+    - "WordPress brute force"
+    - "WordPress malware"
+  embedding_text: >-
+    WordPress is an open-source PHP CMS powering approximately 43% of all websites. Its
+    massive plugin ecosystem (60,000+ plugins) creates an extensive attack surface where
+    plugin vulnerabilities (SQLi, XSS, file upload, RCE) account for most compromises.
+    The wp-admin login is targeted for credential brute-forcing, and XML-RPC enables
+    amplified attacks. Compromised WordPress sites are weaponized for SEO spam, malware
+    distribution, phishing, and crypto mining. Automated tools like WPScan discover and
+    exploit outdated plugins at scale. Security teams should maintain updated core, plugins,
+    and themes, disable XML-RPC if unused, implement WAF protection, enforce strong
+    authentication with MFA for administrators, restrict wp-admin access, and monitor for
+    indicators of compromise including unauthorized file modifications.

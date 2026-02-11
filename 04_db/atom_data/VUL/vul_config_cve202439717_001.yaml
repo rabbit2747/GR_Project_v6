@@ -1,0 +1,106 @@
+# GR Atom: CVE-2024-39717
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202439717-001"
+  name: "CVE-2024-39717"
+  normalized_name: "cve_2024_39717"
+  aliases:
+    - "Versa Director File Upload Vulnerability"
+    - "Versa Networks VersaMem Web Shell"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - UPLOAD
+    - INITIAL
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Versa Director"
+    - "Versa Networks SD-WAN"
+
+definition:
+  what: >-
+    CVE-2024-39717 is a file upload vulnerability in Versa Director, the centralized management
+    platform for Versa Networks SD-WAN solutions. The vulnerability allows authenticated users with
+    Provider-Data-Center-Admin or Provider-Data-Center-System-Admin privileges to upload malicious
+    files by exploiting the "Change Favicon" feature. This enables attackers to upload web shell
+    backdoors disguised as PNG favicon files to the Versa Director server. CVSS v3: 6.6 (Medium).
+  why: >-
+    Versa Director is the central management and orchestration platform for SD-WAN deployments,
+    controlling all branch office networking and security policies. Compromising Versa Director
+    provides control over the entire SD-WAN fabric, including all managed branch offices and network
+    traffic routing. The vulnerability was exploited by the China-linked APT group Volt Typhoon to
+    deploy the VersaMem web shell on compromised Versa Director instances at ISPs and MSPs. CISA
+    added it to the Known Exploited Vulnerabilities catalog in August 2024. The targeting of ISPs
+    and managed service providers amplified the impact through supply chain access.
+  how: >-
+    The attacker must first obtain credentials for an account with Provider-Data-Center-Admin or
+    Provider-Data-Center-System-Admin privileges. Using the Versa Director GUI "Change Favicon"
+    functionality, the attacker uploads a specially crafted file containing a Java-based web shell
+    (VersaMem) disguised as a PNG image. The uploaded file is placed in a web-accessible directory
+    on the server. The VersaMem web shell hooks into the Versa Director authentication process to
+    capture credentials in cleartext and provides persistent command execution capability. Versa
+    Networks released patches and recommended hardening steps including firewall rules to restrict
+    management port access and monitoring for unauthorized file uploads.
+  core_concepts:
+    - key: "SD-WAN Management Compromise"
+      value: "Compromising the central SD-WAN management platform to gain control over all branch office networking and security configurations"
+    - key: "ISP/MSP Supply Chain Attack"
+      value: "Targeting service provider infrastructure to gain access to multiple downstream customer networks through a single compromise"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "CVE-2024-39717 is a vulnerable application in Versa Director's file upload functionality"
+  - type: enables
+    target: "ATK-PERSIST-WEBSHELL-001"
+    description: "The file upload vulnerability enables deployment of the VersaMem web shell for persistent access"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic: ["Persistence", "Initial Access"]
+  cve_mapping:
+    cve_id: "CVE-2024-39717"
+    cvss_score: 6.6
+    cwe_id: "CWE-434"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2024-39717 - NVD NIST"
+    - "Versa Networks Security Advisory"
+    - "Lumen Black Lotus Labs - Volt Typhoon Exploiting Versa Director"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "CISA Advisory - Versa Director CVE-2024-39717"
+  search_keywords:
+    - "CVE-2024-39717"
+    - "Versa Director vulnerability"
+    - "VersaMem web shell"
+    - "Versa Networks exploit"
+    - "Volt Typhoon SD-WAN"
+    - "SD-WAN management compromise"
+    - "Versa Director file upload"
+  embedding_text: >-
+    CVE-2024-39717 is a file upload vulnerability in Versa Director, the centralized management
+    platform for Versa Networks SD-WAN solutions. Authenticated administrators can upload malicious
+    files through the Change Favicon feature, enabling web shell deployment. CVSS v3 score is 6.6
+    Medium. Exploited by China-linked APT group Volt Typhoon to deploy the VersaMem web shell on
+    Versa Director instances at ISPs and managed service providers, enabling supply chain access to
+    downstream customer networks. The VersaMem web shell captures credentials and provides persistent
+    command execution. CISA added it to the Known Exploited Vulnerabilities catalog in August 2024.
+    Versa Director controls entire SD-WAN fabrics, amplifying the impact of compromise. Maps to MITRE
+    ATT&CK T1505.003 Server Software Component: Web Shell.

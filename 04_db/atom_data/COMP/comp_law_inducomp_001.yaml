@@ -1,0 +1,111 @@
+# GR Atom: Industry Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-INDUCOMP-001"
+  name: "Industry Compliance"
+  normalized_name: "industry_compliance"
+  aliases:
+    - "Sector-Specific Compliance"
+    - "Industry Regulatory Compliance"
+    - "Vertical Compliance Requirements"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L2", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    Industry Compliance refers to the body of regulatory requirements, standards, and legal
+    obligations specific to particular business sectors. Different industries face distinct
+    regulatory landscapes: healthcare is governed by HIPAA, financial services by SOX, GLBA,
+    and Basel III, payment card processing by PCI DSS, telecommunications by FCC regulations,
+    energy by NERC CIP, government contractors by FedRAMP and FISMA, and critical infrastructure
+    by sector-specific CISA directives. Industry compliance extends beyond general data protection
+    laws to encompass sector-specific operational, reporting, licensing, and security requirements
+    that reflect the unique risk profiles and public interest concerns of each industry.
+  why: >
+    Industry-specific regulations exist because different sectors handle different types of
+    sensitive data and pose different risks to public welfare. A healthcare organization faces
+    different threat models than a financial institution or energy provider. Failure to meet
+    industry-specific compliance requirements results in sector-specific enforcement actions,
+    license revocations, exclusion from government programs, and loss of industry certifications
+    that may be prerequisites for doing business. The penalties and enforcement mechanisms vary
+    significantly across industries.
+  how: >
+    Organizations address industry compliance by first identifying their regulatory classification
+    and applicable sector-specific requirements, then mapping those requirements to existing
+    controls and identifying gaps. Implementation involves deploying industry-specific security
+    frameworks (e.g., NIST for government, HITRUST for healthcare), obtaining required certifications
+    and attestations, engaging industry-specific auditors, participating in industry Information
+    Sharing and Analysis Centers (ISACs), and maintaining ongoing compliance with evolving
+    sector-specific regulations through dedicated compliance teams and regulatory monitoring.
+  core_concepts:
+    - key: "Sector-Specific Regulations"
+      value: "Laws and rules designed for specific industries based on their unique risk profiles, data types, and public interest concerns"
+    - key: "Industry Certifications"
+      value: "Sector-specific certifications (HITRUST, FedRAMP, PCI DSS) that validate compliance and may be required for business operations"
+    - key: "Regulatory Bodies"
+      value: "Industry-specific enforcement agencies (HHS for healthcare, SEC for financial, NERC for energy) with distinct enforcement powers"
+    - key: "Cross-Industry Overlap"
+      value: "Many organizations are subject to multiple industry regulations simultaneously, requiring harmonized compliance approaches"
+    - key: "Information Sharing"
+      value: "Industry-specific ISACs and regulatory communities that share threat intelligence and compliance best practices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "Industry compliance is a specific domain within the broader compliance discipline"
+  - type: applies_to
+    target: "COMP-LAW-HIPAA-001"
+    description: "Industry compliance encompasses healthcare-specific HIPAA requirements"
+  - type: applies_to
+    target: "COMP-LAW-SOXCOMP-001"
+    description: "Industry compliance encompasses financial sector SOX requirements"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-53 Rev. 5 — Security and Privacy Controls for Information Systems"
+    - "CISA Sector-Specific Plans and Critical Infrastructure Security Guidelines"
+    - "Financial Industry Regulatory Authority (FINRA) Compliance Guidelines"
+    - "HITRUST Common Security Framework (CSF)"
+  search_keywords:
+    - "industry compliance"
+    - "sector-specific compliance"
+    - "regulatory requirements by industry"
+    - "healthcare compliance"
+    - "financial compliance"
+    - "industry certifications"
+    - "sector-specific regulations"
+    - "industry regulatory landscape"
+    - "vertical compliance"
+  embedding_text: >
+    Industry Compliance encompasses the regulatory requirements, standards, and legal obligations
+    specific to particular business sectors. Healthcare organizations face HIPAA, financial
+    services operate under SOX, GLBA, and Basel III, payment processors must comply with PCI DSS,
+    energy companies follow NERC CIP, and government contractors require FedRAMP and FISMA.
+    Each sector has unique enforcement agencies, certification requirements, and compliance
+    frameworks reflecting its risk profile. Organizations must identify their sector classification,
+    map applicable requirements, deploy industry-specific frameworks like HITRUST or FedRAMP,
+    obtain required certifications, and participate in industry ISACs. Cross-industry overlap
+    means many organizations face simultaneous multi-sector compliance obligations.

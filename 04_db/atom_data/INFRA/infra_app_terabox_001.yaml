@@ -1,0 +1,113 @@
+# GR Atom: TeraBox
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-TERABOX-001"
+  name: "TeraBox"
+  normalized_name: "terabox"
+  aliases:
+    - "Dubox"
+    - "Baidu NetDisk International"
+    - "TeraBox Cloud Storage"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - WEB
+    - EXFIL
+    - PRIVACY
+    - MOBILE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TeraBox (formerly Dubox) is a cloud storage service developed by Flextech Inc., a subsidiary
+    of Baidu, offering 1TB of free cloud storage. Available as a web application, desktop
+    client, and mobile app for Android and iOS, it provides file storage, sharing, backup,
+    and synchronization capabilities. The service is the international version of Baidu NetDisk,
+    one of China's largest cloud storage platforms.
+  why: >-
+    TeraBox presents significant data sovereignty and privacy concerns due to its affiliation
+    with Baidu and potential data storage in Chinese-jurisdiction data centers. The generous
+    free storage offering (1TB) makes it attractive for data exfiltration by malicious insiders
+    or attackers. The service has been used as a staging platform for malware distribution and
+    phishing campaigns. Corporate environments face shadow IT risks when employees use TeraBox
+    for work file storage outside sanctioned channels. The mobile app requests extensive device
+    permissions that may collect data beyond storage needs.
+  how: >-
+    TeraBox operates through web interface (terabox.com), desktop applications for Windows
+    and macOS, and mobile apps. Files are uploaded to cloud infrastructure and accessible
+    across devices. The service provides shareable download links for file distribution,
+    automatic photo/video backup from mobile devices, and folder synchronization. The API
+    allows programmatic file management. Authentication uses email-based accounts with
+    optional social login integration. Files are stored with server-side encryption, though
+    the encryption keys are managed by the service provider.
+  core_concepts:
+    - key: "Data Sovereignty Risk"
+      value: "Baidu subsidiary with potential Chinese-jurisdiction data storage raises concerns about data access by foreign government entities"
+    - key: "Exfiltration Channel"
+      value: "1TB free storage with shareable links provides an attractive and high-capacity channel for data exfiltration by insiders or attackers"
+    - key: "Shadow IT Exposure"
+      value: "Free generous storage attracts employee adoption outside IT-sanctioned channels, creating unmonitored data flows and compliance gaps"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "TeraBox is a cloud storage application used in enterprise environments as shadow IT"
+  - type: "alternative_to"
+    target: "INFRA-APP-DROPBOX-001"
+    description: "TeraBox provides cloud storage functionality similar to Dropbox but with significantly more free storage"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+      - "Collection"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "TeraBox Privacy Policy and Terms of Service"
+    - "MITRE ATT&CK T1567.002 - Exfiltration to Cloud Storage"
+    - "Data Sovereignty Risk Analysis - Chinese Cloud Services"
+  search_keywords:
+    - "TeraBox"
+    - "Dubox"
+    - "Baidu cloud storage"
+    - "TeraBox security"
+    - "TeraBox data exfiltration"
+    - "Chinese cloud storage risk"
+    - "TeraBox privacy"
+    - "TeraBox malware distribution"
+  embedding_text: >-
+    TeraBox (formerly Dubox) is a cloud storage service by Flextech (Baidu subsidiary) offering
+    1TB free storage via web, desktop, and mobile apps. It is the international version of
+    Baidu NetDisk. Security concerns include data sovereignty risks with potential Chinese
+    jurisdiction data storage, use as a high-capacity data exfiltration channel, malware
+    distribution through shareable links, shadow IT risks from employee adoption, and
+    extensive mobile app permissions. Provider-managed encryption keys limit user control
+    over data protection. Security teams should block or monitor TeraBox access, implement
+    DLP controls for cloud storage services, and establish approved cloud storage alternatives
+    to prevent shadow IT usage of services with questionable data sovereignty guarantees.

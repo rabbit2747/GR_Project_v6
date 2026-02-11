@@ -1,0 +1,81 @@
+# GR Atom: Wireless Access Point
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-WIRACCPOI-001"
+  name: "Wireless Access Point"
+  normalized_name: "wireless_access_point"
+  aliases:
+    - "WAP"
+    - "Wi-Fi Access Point"
+    - "AP"
+    - "Wireless AP"
+    - "802.11 Access Point"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - FIRMWARE
+    - AUTHN
+    - ENCRYPT
+
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "N3.1"
+
+definition:
+  what: "A Wireless Access Point (WAP) is a network hardware device that enables Wi-Fi-capable devices to connect to a wired network using IEEE 802.11 wireless standards (Wi-Fi 4/5/6/6E/7). The access point bridges wireless client traffic to the wired Ethernet network, operating as a layer 2 device that manages wireless association, authentication, encryption, and channel management. WAPs support multiple SSIDs for network segmentation, WPA2/WPA3 enterprise authentication via 802.1X and RADIUS, and management through standalone configuration or centralized wireless LAN controllers. Enterprise access points from vendors including Cisco, Aruba (HPE), Ruckus, Meraki, and Ubiquiti UniFi support features such as band steering, client load balancing, rogue AP detection, wireless intrusion prevention, and guest network isolation."
+  why: "Wireless access points are critical infrastructure components that define the wireless attack surface of an organization. They are the entry point for all wireless client devices and determine the security posture of wireless communications through their authentication, encryption, and access control configurations. WAPs are targeted by attackers through evil twin attacks (rogue APs mimicking legitimate SSIDs), deauthentication attacks disrupting wireless connectivity, KRACK and Dragonblood attacks against WPA2/WPA3 protocols, and exploitation of management interface vulnerabilities. Misconfigured access points with weak encryption, default credentials, or exposed management interfaces represent common security gaps."
+  how: "Wireless access points broadcast SSIDs and respond to client probe requests. When a client associates, the AP negotiates security parameters and performs authentication either through pre-shared key (PSK) or enterprise 802.1X/RADIUS authentication. After authentication, the AP and client establish encrypted communication using CCMP (AES) for WPA2 or SAE for WPA3. The AP bridges authenticated wireless client traffic to the appropriate wired VLAN based on SSID-to-VLAN mapping or dynamic VLAN assignment from the RADIUS server. Access points communicate with wireless LAN controllers using protocols such as CAPWAP or proprietary protocols for centralized configuration, firmware management, and coordinated radio resource management. RF management features automatically adjust transmit power and channel selection to optimize coverage and minimize interference."
+  core_concepts:
+    - key: "802.1X Authentication"
+      value: "Enterprise wireless authentication framework using RADIUS servers that validates user or device credentials before granting network access, supporting EAP methods such as EAP-TLS and PEAP"
+    - key: "SSID-to-VLAN Mapping"
+      value: "The configuration that associates each wireless network name (SSID) with a specific wired VLAN, enabling network segmentation between wireless user groups"
+    - key: "Wireless LAN Controller"
+      value: "A centralized management device that controls multiple access points, handling firmware deployment, configuration, radio resource management, and security policy enforcement"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Wireless access points require DNS for controller discovery, captive portal functionality, and network service resolution"
+  - type: part_of
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Wireless access points connect to the wired network through router and switch infrastructure that routes wireless client traffic"
+  - type: requires
+    target: "INFRA-NET-CAPPORDOM-001"
+    description: "Wireless access points with guest networks require captive portal domain configuration for guest authentication"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1200"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "IEEE 802.11 - Wireless LAN Medium Access Control and Physical Layer Specifications"
+    - "NIST SP 800-153 - Guidelines for Securing Wireless Local Area Networks"
+    - "CIS Controls v8 - Control 12: Network Infrastructure Management"
+    - "Wi-Fi Alliance - WPA3 Specification"
+  search_keywords:
+    - "wireless access point"
+    - "Wi-Fi access point"
+    - "WAP"
+    - "802.11 AP"
+    - "enterprise wireless"
+    - "WPA3 access point"
+    - "wireless security"
+    - "rogue AP detection"
+    - "802.1X wireless"
+  embedding_text: "A Wireless Access Point (WAP) enables Wi-Fi devices to connect to wired networks using IEEE 802.11 standards. It manages wireless association, authentication through WPA2/WPA3 and 802.1X/RADIUS, encryption with AES/CCMP, and SSID-to-VLAN mapping for network segmentation. Enterprise APs from Cisco, Aruba, Ruckus, and UniFi support band steering, load balancing, rogue AP detection, and wireless intrusion prevention. Centralized wireless LAN controllers manage configuration and radio resource management. WAPs define the wireless attack surface and are targeted through evil twin attacks, deauthentication attacks, protocol vulnerabilities like KRACK and Dragonblood, and management interface exploitation."

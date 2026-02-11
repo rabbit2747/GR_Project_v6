@@ -1,0 +1,75 @@
+# GR Atom: FortiGard
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FORTIGARD-001"
+  name: "FortiGard"
+  normalized_name: "fortigard"
+  aliases:
+    - "FortiGuard Labs"
+    - "Fortinet FortiGuard"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IPS
+    - FIREWALL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "FortiGuard (also referenced as FortiGard) is the threat intelligence and research arm of Fortinet, one of the world's largest network security companies. FortiGuard Labs provides real-time threat intelligence, security research, vulnerability discovery, and security subscription services that power Fortinet's entire product portfolio including FortiGate firewalls, FortiWeb WAF, FortiMail, FortiSandbox, and FortiEDR. FortiGuard Labs maintains one of the largest security sensor networks globally, processing billions of events daily."
+  why: "FortiGuard is critical to cybersecurity because its threat intelligence feeds power one of the most widely deployed network security infrastructures in the world. Fortinet FortiGate firewalls protect millions of networks globally, and FortiGuard's IPS signatures, antivirus definitions, web filtering databases, and application control intelligence determine the effectiveness of these deployments. FortiGuard Labs researchers also discover and disclose zero-day vulnerabilities, contributing to the broader security community."
+  how: "FortiGuard Labs operates a global sensor network that collects and analyzes billions of security events daily from Fortinet devices worldwide. The research team develops intrusion prevention signatures, antivirus/anti-malware definitions, web filtering categorization, application control signatures, and botnet detection intelligence. These are delivered as subscription services to Fortinet products via automated updates. FortiGuard Labs also publishes threat research, vulnerability advisories, and outbreak alerts through their Threat Intelligence Portal."
+  core_concepts:
+    - key: "Fortinet Threat Intelligence"
+      value: "Real-time security intelligence feeds powering FortiGate firewalls and the entire Fortinet Security Fabric"
+    - key: "IPS & AV Signatures"
+      value: "Intrusion prevention, antivirus, web filtering, and application control signature development and delivery"
+    - key: "Global Security Research"
+      value: "Threat research, zero-day vulnerability discovery, and outbreak analysis from one of the largest security sensor networks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "Produces threat intelligence feeds including IPS signatures, AV definitions, and web filtering for Fortinet products"
+  - type: "enables"
+    target: "DEF-FIREWALL-NETWORK-001"
+    description: "Enhances FortiGate firewall effectiveness through real-time threat intelligence subscription services"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for threat intelligence division
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.fortiguard.com"
+    - "https://www.fortinet.com/fortiguard/labs"
+  search_keywords:
+    - "fortiguard"
+    - "fortigard"
+    - "fortiguard labs"
+    - "fortinet threat intelligence"
+    - "fortigate signatures"
+    - "fortinet ips"
+    - "fortiguard antivirus"
+    - "fortinet security research"
+    - "fortiguard web filtering"
+  embedding_text: "FortiGuard (also referenced as FortiGard) is the threat intelligence and research arm of Fortinet, one of the world's largest network security companies. FortiGuard Labs provides real-time threat intelligence, security research, vulnerability discovery, and security subscription services that power Fortinet's entire product portfolio including FortiGate firewalls, FortiWeb WAF, FortiMail, FortiSandbox, and FortiEDR. FortiGuard Labs maintains one of the largest security sensor networks globally, processing billions of events daily to develop IPS signatures, antivirus definitions, web filtering categorization, application control signatures, and botnet detection intelligence. These are delivered as subscription services via automated updates. FortiGuard is critical because Fortinet FortiGate firewalls protect millions of networks globally, and FortiGuard's intelligence determines the effectiveness of these deployments."

@@ -1,0 +1,107 @@
+# GR Atom: Delegate Call Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-DELECALL-001"
+  name: "Delegate Call Vulnerability"
+  normalized_name: "delegate_call_vulnerability"
+  aliases:
+    - "Delegatecall Attack"
+    - "Solidity Delegatecall Vulnerability"
+    - "Proxy Pattern Vulnerability"
+    - "Storage Collision Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - BLOCKCHAIN
+    - EXEC
+    - PRIV
+    - AUTHZ
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Solidity smart contracts"
+    - "Ethereum Virtual Machine"
+    - "EVM-compatible blockchains"
+    - "Proxy contracts"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Delegate call vulnerability is a class of smart contract security flaw where the Solidity
+    delegatecall opcode is misused or improperly protected, allowing an attacker to execute
+    arbitrary code in the context of the calling contract. Delegatecall preserves the caller's
+    storage context while executing the callee's code, meaning malicious code can modify the
+    caller's state variables including ownership and balances. This vulnerability class was
+    responsible for the 2017 Parity Wallet hack ($150M+ frozen).
+  why: >-
+    Delegatecall is fundamental to the proxy upgrade pattern used by most modern smart contracts
+    to enable upgradeability. Vulnerabilities in delegatecall handling can lead to complete
+    contract takeover, fund theft, and permanent asset loss. The immutable nature of deployed
+    smart contracts means these flaws cannot be patched once deployed, and the financial
+    impact can be immediate and irreversible.
+  how: >-
+    An attacker identifies a smart contract that exposes delegatecall functionality through
+    unprotected public functions or fallback mechanisms. By crafting a transaction that invokes
+    delegatecall with a malicious target contract, the attacker executes their code in the
+    context of the victim contract's storage. This enables overwriting the owner variable,
+    draining funds, or permanently destroying the contract through self-destruct.
+  core_concepts:
+    - key: "Storage Context Preservation"
+      value: "Delegatecall executes external code in the caller's storage context, enabling modification of state variables including ownership"
+    - key: "Proxy Pattern Risk"
+      value: "The widely-used proxy upgrade pattern relies on delegatecall, making implementation errors a critical attack surface for upgradeable contracts"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-SMARCONT-001"
+    description: "Delegate call vulnerability is a specific class of smart contract security flaw"
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Misuse of delegatecall opcode represents a logic flaw in contract execution context handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "SWC Registry - SWC-112 Delegatecall to Untrusted Callee"
+    - "Ethereum Smart Contract Best Practices - Delegatecall"
+    - "Parity Wallet Hack Post-Mortem Analysis"
+    - "OpenZeppelin - Proxy Patterns and Security"
+  search_keywords:
+    - "delegatecall vulnerability"
+    - "delegate call attack"
+    - "Solidity delegatecall"
+    - "proxy pattern vulnerability"
+    - "storage collision"
+    - "Parity wallet hack"
+    - "smart contract upgrade vulnerability"
+    - "SWC-112"
+  embedding_text: >-
+    Delegate call vulnerability is a smart contract security flaw where the Solidity delegatecall
+    opcode is misused, allowing attacker code execution in the caller's storage context. Enables
+    modification of ownership, fund theft, and contract destruction. Fundamental to the proxy
+    upgrade pattern used by modern contracts. Responsible for the Parity Wallet hack ($150M+
+    frozen). Immutable deployment means flaws cannot be patched. SWC-112. Affects Ethereum
+    and EVM-compatible blockchains. Critical blockchain security concern.

@@ -1,0 +1,76 @@
+# GR Atom: Software Distribution
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-SOFTDIST-001"
+  name: "Software Distribution"
+  normalized_name: "software_distribution"
+  aliases:
+    - "Software Deployment"
+    - "Package Distribution"
+    - "Software Delivery"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - SUPPLY_CHAIN
+    - CICD
+    - PATCH
+    - CONFIG
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.2"
+
+definition:
+  what: "Software Distribution is the general infrastructure category for systems and mechanisms that deliver software packages, updates, patches, and configurations from publishers to end-user systems. This encompasses package managers (apt, yum, Homebrew), update services (Windows Update, WSUS), application stores, CDN-based distribution, and enterprise deployment tools (SCCM, Intune, Jamf). Software distribution handles download, integrity verification, installation, and rollback."
+  why: "Software distribution is one of the most impactful attack surfaces because compromised distribution channels can deliver malicious software to millions of endpoints simultaneously. Supply chain attacks targeting distribution infrastructure (SolarWinds, NotPetya, CCleaner) have caused some of the most devastating security incidents. Attackers target distribution servers, update mechanisms, signing keys, and CDN infrastructure to inject malware into legitimate software channels. Code signing and integrity verification are essential but not sufficient defenses."
+  how: "Software distribution systems operate through publisher-to-client delivery pipelines. Publishers sign packages with cryptographic keys. Distribution servers or CDNs host signed packages. Client systems verify signatures before installation. Enterprise tools add policy-based deployment, targeting, and compliance reporting. Package managers resolve dependencies and manage installation transactions. Update services periodically check for available updates and apply them based on configured policies. Rollback mechanisms enable recovery from failed updates."
+  core_concepts:
+    - key: "Code Signing"
+      value: "Cryptographic signing of software packages using publisher certificates to verify authenticity and detect tampering during distribution"
+    - key: "Update Channel"
+      value: "Structured delivery path from publishers to clients with defined release cadences, stability tiers, and targeting criteria"
+    - key: "Distribution Integrity"
+      value: "End-to-end verification ensuring software has not been modified between publisher build and client installation"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-PYPI-001"
+    description: "Software Distribution is the general concept that PyPI implements for Python package distribution"
+  - type: abstracts
+    target: "INFRA-DEVOPS-NUGET-001"
+    description: "Software Distribution is the general concept that NuGet implements for .NET package distribution"
+  - type: requires
+    target: "INFRA-DEVOPS-SOFARTSER-001"
+    description: "Software distribution relies on artifact servers for package storage and hosting"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-147 - BIOS Protection Guidelines (Trusted Distribution)"
+    - "CISA Software Supply Chain Security Guidance"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "software distribution"
+    - "software deployment"
+    - "package distribution"
+    - "software update security"
+    - "distribution supply chain"
+    - "code signing"
+    - "software delivery pipeline"
+    - "update mechanism security"
+  embedding_text: "Software Distribution is the general infrastructure category for systems delivering software packages, updates, and patches from publishers to end-user systems. Encompasses package managers (apt, yum), update services (Windows Update, WSUS), application stores, and enterprise deployment tools (SCCM, Intune). Security significance is paramount as compromised distribution channels deliver malicious software to millions of endpoints simultaneously, as demonstrated by SolarWinds and NotPetya. Attackers target distribution servers, update mechanisms, signing keys, and CDN infrastructure. Code signing verifies authenticity. Distribution integrity ensures software is unmodified between publisher build and client installation."

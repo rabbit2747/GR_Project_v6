@@ -1,0 +1,76 @@
+# GR Atom: WeLiveSecurity
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-WELIVESECU-001"
+  name: "WeLiveSecurity"
+  normalized_name: "welivesecurity"
+  aliases:
+    - "WeLiveSecurity by ESET"
+    - "ESET WeLiveSecurity"
+    - "WLS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - EDR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WeLiveSecurity is the award-winning cybersecurity news, research, and analysis blog operated by ESET, a global cybersecurity company. The blog publishes in-depth technical research on malware campaigns, APT group activities, vulnerability analysis, and digital privacy topics. WeLiveSecurity is known for publishing original threat research from ESET's research labs, including detailed analysis of newly discovered malware families, supply chain attacks, espionage campaigns, and zero-day exploits. The platform has produced seminal research on threat actors including BlackEnergy, Industroyer, GreyEnergy, and numerous Latin American banking trojans."
+  why: "WeLiveSecurity is a critical threat intelligence resource because ESET researchers consistently publish original, technically detailed malware analysis and threat actor tracking that is often the first public disclosure of new campaigns. Their research on threats targeting critical infrastructure (Industroyer), supply chain attacks, and regional malware ecosystems provides unique intelligence not available from other sources. The blog is widely cited by the cybersecurity community and other media outlets."
+  how: "WeLiveSecurity operates through ESET's global research team, which analyzes malware samples, tracks threat actor campaigns, and conducts reverse engineering of sophisticated threats. Researchers publish detailed technical blog posts with indicators of compromise, MITRE ATT&CK mappings, and detection guidance. The platform also covers security best practices, digital privacy, and security awareness topics for a broader audience."
+  core_concepts:
+    - key: "Original Threat Research"
+      value: "First-hand technical analysis of malware campaigns, APT activities, and zero-day exploits by ESET researchers"
+    - key: "Critical Infrastructure Threats"
+      value: "Pioneering research on threats targeting power grids, industrial systems, and critical infrastructure"
+    - key: "Indicators of Compromise"
+      value: "Publication of technical indicators including hashes, domains, IPs, and MITRE ATT&CK mappings"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-VIRUBULL-001"
+    description: "ESET researchers regularly present findings at Virus Bulletin conference"
+  - type: enables
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Original research frequently cited and reported by cybersecurity news outlets"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for research blog
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.welivesecurity.com"
+    - "https://www.eset.com/int/about/research/"
+  search_keywords:
+    - "welivesecurity"
+    - "ESET research"
+    - "malware analysis"
+    - "APT research"
+    - "threat intelligence"
+    - "industroyer"
+    - "ESET blog"
+    - "malware campaign"
+    - "threat research"
+    - "banking trojan"
+  embedding_text: "WeLiveSecurity is the award-winning cybersecurity research and analysis blog operated by ESET, publishing in-depth technical research on malware campaigns, APT group activities, vulnerability analysis, and digital privacy topics. Known for publishing original threat research from ESET's research labs, WeLiveSecurity provides detailed analysis of newly discovered malware families, supply chain attacks, espionage campaigns, and zero-day exploits. The platform has produced seminal research on threat actors including BlackEnergy, Industroyer, GreyEnergy, and Latin American banking trojans. ESET researchers publish technical blog posts with indicators of compromise, MITRE ATT&CK mappings, and detection guidance, making WeLiveSecurity a critical threat intelligence resource that is widely cited by the cybersecurity community for first-disclosure analysis of new campaigns targeting critical infrastructure and enterprise environments."

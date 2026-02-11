@@ -1,0 +1,120 @@
+# GR Atom: LANDESK
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-LANDESK-001"
+  name: "LANDESK"
+  normalized_name: "landesk"
+  aliases:
+    - "LANDESK Management Suite"
+    - "Ivanti LANDESK"
+    - "Ivanti Endpoint Manager"
+    - "LDMS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - PATCH
+    - MONITOR
+    - OS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z4"
+  function: "P3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    LANDESK (now Ivanti Endpoint Manager) is an enterprise endpoint management platform
+    providing OS deployment, software distribution, patch management, remote control, inventory
+    management, and security compliance for Windows, macOS, Linux, and mobile devices. Originally
+    developed by LANDesk Software (later acquired by Ivanti in 2017), the platform uses a
+    core server architecture with management agents deployed on endpoints. The management
+    console provides centralized visibility and control over the entire endpoint fleet.
+  why: >-
+    LANDESK/Ivanti Endpoint Manager is a critical security tool because it manages patch
+    deployment, security configurations, and software compliance across enterprise endpoints.
+    However, the management platform itself is also a high-value target: its agent runs with
+    SYSTEM privileges on every managed endpoint, the core server contains credentials and
+    network topology data, and vulnerabilities in the management infrastructure can provide
+    attackers with enterprise-wide access. LANDESK has had multiple CVEs including SQL injection,
+    remote code execution, and authentication bypass vulnerabilities that enable complete
+    management infrastructure compromise.
+  how: >-
+    LANDESK operates through a core server running on Windows Server with a SQL Server database
+    storing inventory, policy, and credential data. Management agents (CBA8, TMCSvc) run on
+    endpoints communicating via HTTP/HTTPS to the core server for policy retrieval and status
+    reporting. Software distribution uses preferred servers and content replication. Patch
+    management scans endpoints against vulnerability definitions and deploys patches through
+    scheduled tasks. Remote control uses a client-server model for technical support sessions.
+    The management console provides role-based access to administration functions.
+  core_concepts:
+    - key: "Enterprise Endpoint Management"
+      value: "Centralized platform for OS deployment, patching, software distribution, and compliance management across thousands of endpoints"
+    - key: "Management Agent Privilege"
+      value: "LANDESK agents run as SYSTEM on managed endpoints, making agent compromise equivalent to full system compromise"
+    - key: "Patch Management Pipeline"
+      value: "Automated vulnerability scanning and patch deployment workflow ensuring endpoints maintain security compliance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-ENDPOINT-DEVIENRO-001"
+    description: "LANDESK agent deployment may leverage device enrollment processes for initial endpoint onboarding"
+  - type: "enables"
+    target: "DEF-PATCH-MANAGEMENT-001"
+    description: "LANDESK implements enterprise patch management for maintaining endpoint security compliance"
+  - type: "enables"
+    target: "INFRA-ENDPOINT-DEVICENS-001"
+    description: "LANDESK inventory scanning provides detailed device census data for enterprise asset management"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1072"
+    tactic:
+      - "Execution"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Ivanti - Endpoint Manager Documentation"
+    - "MITRE ATT&CK T1072 - Software Deployment Tools"
+    - "CISA - Known Exploited Vulnerabilities Catalog (Ivanti/LANDESK)"
+  search_keywords:
+    - "LANDESK"
+    - "LANDESK Management Suite"
+    - "Ivanti Endpoint Manager"
+    - "LDMS"
+    - "endpoint management"
+    - "patch management"
+    - "software distribution"
+    - "LANDESK vulnerability"
+    - "Ivanti security"
+  embedding_text: >-
+    LANDESK (now Ivanti Endpoint Manager) is an enterprise endpoint management platform
+    providing OS deployment, software distribution, patch management, remote control, and
+    security compliance for Windows, macOS, Linux, and mobile devices. The architecture uses
+    a core server with SQL Server database and management agents running as SYSTEM on endpoints.
+    Originally from LANDesk Software and acquired by Ivanti in 2017, the platform is both a
+    critical security tool for patch management and a high-value attack target. Management
+    agents with SYSTEM privileges on every endpoint make the infrastructure attractive for
+    lateral movement. Multiple CVEs document SQL injection, remote code execution, and
+    authentication bypass vulnerabilities. MITRE ATT&CK maps software deployment tools like
+    LANDESK under T1072 for execution and lateral movement via trusted management infrastructure.

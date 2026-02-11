@@ -1,0 +1,125 @@
+# GR Atom: Forest Domain
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-FOREDOMA-001"
+  name: "Forest Domain"
+  normalized_name: "forest_domain"
+  aliases:
+    - "Active Directory Domain"
+    - "AD Domain"
+    - "Windows Domain"
+    - "AD Forest Domain"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - LDAP
+    - KERBEROS
+    - AUTHN
+    - AUTHZ
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Forest Domain is an Active Directory administrative and security boundary within an AD
+    forest that contains a collection of objects (users, computers, groups, organizational
+    units) sharing a common directory database, security policies, and Kerberos authentication
+    realm. The forest is the ultimate security boundary in Active Directory, containing one
+    or more domains connected by automatic transitive trusts. The forest root domain holds
+    the Enterprise Admins and Schema Admins groups, and the forest schema and configuration
+    partitions are replicated to all domain controllers across the forest.
+  why: >-
+    Forest domains are the primary organizational and security boundary in Windows enterprise
+    environments. Compromise of a domain controller provides full access to all domain
+    identities through credential extraction (DCSync, ntds.dit dump). Lateral movement
+    between domains within a forest is facilitated by transitive trust relationships and
+    SIDHistory abuse. Attackers who compromise one domain can often escalate to the forest
+    root through trust exploitation, SID filtering bypass, or Kerberos ticket manipulation.
+    The forest root domain's Enterprise Admins group provides administrative control over
+    all domains in the forest.
+  how: >-
+    Each domain maintains its own NTDS.DIT database on domain controllers, containing
+    identity objects and their attributes. Kerberos provides authentication within and
+    between domains through inter-realm trust keys. Group Policy Objects (GPOs) linked to
+    domains and OUs enforce security configurations. Domain controllers replicate directory
+    data through AD Replication using RPCs over IP. DNS SRV records enable clients to
+    locate domain controllers for authentication. Trust relationships between domains are
+    automatic and transitive within a forest, and can be established manually between
+    forests. FSMO roles (PDC Emulator, RID Master, Infrastructure Master, Schema Master,
+    Domain Naming Master) are distributed across domain controllers.
+  core_concepts:
+    - key: "Forest Security Boundary"
+      value: "The forest, not the domain, is the ultimate security boundary in Active Directory with transitive trusts enabling cross-domain access"
+    - key: "Domain Controller Compromise"
+      value: "Compromising a DC enables full identity extraction via DCSync or ntds.dit dump, providing all domain credentials"
+    - key: "Cross-Domain Trust Exploitation"
+      value: "Transitive forest trusts and SIDHistory abuse enable lateral movement and privilege escalation between domains"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Forest domains are built on Active Directory directory service infrastructure"
+  - type: "enables"
+    target: "INFRA-IDENTITY-FORETRUS-001"
+    description: "Forest domains establish trust relationships with other domains and forests"
+  - type: "enables"
+    target: "INFRA-IDENTITY-FORGLOCAT-001"
+    description: "Forest domains contribute identity data to the Global Catalog"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1484"
+    tactic:
+      - "Defense Evasion"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Active Directory Domain Services"
+    - "MITRE ATT&CK T1484 - Domain Policy Modification"
+    - "Sean Metcalf - Active Directory Security"
+  search_keywords:
+    - "Active Directory domain"
+    - "forest domain"
+    - "AD forest"
+    - "domain controller"
+    - "DCSync"
+    - "ntds.dit"
+    - "forest security boundary"
+    - "domain trust"
+  embedding_text: >-
+    A Forest Domain is an Active Directory administrative and security boundary containing
+    users, computers, groups, and OUs sharing a common directory database and Kerberos
+    authentication realm. The forest is the ultimate security boundary with automatic
+    transitive trusts between domains. Each domain maintains its NTDS.DIT database on
+    domain controllers. Compromise of a DC enables full credential extraction via DCSync
+    or ntds.dit dump. Lateral movement between domains exploits transitive trusts and
+    SIDHistory abuse. The forest root domain's Enterprise Admins group controls all domains.
+    Kerberos provides authentication, Group Policy enforces configurations, and DNS SRV
+    records locate domain controllers. Security teams must protect domain controllers,
+    monitor DCSync and replication events, restrict Enterprise Admins membership, implement
+    SID filtering on external trusts, and tier administrative access to limit domain
+    compromise blast radius.

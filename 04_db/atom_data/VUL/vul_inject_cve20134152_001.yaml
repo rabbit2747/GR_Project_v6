@@ -1,0 +1,118 @@
+# GR Atom: CVE-2013-4152
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20134152-001"
+  name: "CVE-2013-4152"
+  normalized_name: "cve_2013_4152"
+  aliases:
+    - "Spring Framework XXE Injection"
+    - "Spring OXM XXE Vulnerability"
+    - "Spring XML External Entity Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - XXE
+    - WEB
+    - INFO_LEAK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Spring Framework 3.x"
+    - "Spring Framework 4.0.0.M1"
+    - "Spring OXM module"
+    - "Spring MVC SourceHttpMessageConverter"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-4152 is an XML External Entity (XXE) injection vulnerability in the Spring
+    Framework versions 3.0.0 through 3.2.3 and 4.0.0.M1. The vulnerability exists in the
+    SourceHttpMessageConverter which does not disable external entity resolution when
+    processing XML input. This allows remote attackers to read arbitrary files, conduct
+    server-side request forgery, or cause denial of service. The CVSS v2 base score is 6.8
+    and it was disclosed in 2013.
+  why: >-
+    Spring Framework is the dominant enterprise Java framework with millions of deployments
+    worldwide. An XXE vulnerability in the core framework affects every application built on
+    affected versions that processes XML input. This provides attackers with file reading
+    capabilities for extracting configuration files, credentials, and sensitive data from
+    servers running Spring-based applications.
+  how: >-
+    Attackers send crafted XML payloads containing external entity declarations to Spring
+    MVC endpoints that process XML input through the vulnerable SourceHttpMessageConverter.
+    The converter parses the XML without disabling external entity resolution, causing the
+    server to resolve external entities that can reference local files, internal network
+    resources, or external URLs. This enables reading of server files like /etc/passwd or
+    application configuration files containing database credentials. Mitigation requires
+    upgrading Spring Framework and configuring XML parsers to disable external entity
+    processing.
+  core_concepts:
+    - key: "XXE Injection"
+      value: "XML External Entity attack that abuses XML parser features to access server resources through entity declarations"
+    - key: "SourceHttpMessageConverter"
+      value: "Spring Framework component that converts HTTP message bodies to Source objects without safe XML parsing defaults"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "XXE injection in Spring is a specific instance of injection vulnerability through XML parsing"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE20137315-001"
+    description: "CVE-2013-4152 was followed by the related Spring Framework CVE-2013-7315 which addressed incomplete fix"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202222965-001"
+    description: "Early Spring Framework injection vulnerability predates the later Spring4Shell RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2013-4152"
+  cvss_score: 6.8
+  affected_product: "Spring Framework 3.0.0-3.2.3/4.0.0.M1"
+  year: 2013
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2013-4152"
+    - "CWE-611 Improper Restriction of XML External Entity Reference"
+    - "Spring Security Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2013-4152"
+    - "Spring Framework XXE"
+    - "Spring OXM vulnerability"
+    - "XML External Entity Spring"
+    - "SourceHttpMessageConverter XXE"
+    - "Spring XML injection"
+    - "Java XXE vulnerability"
+  embedding_text: >-
+    CVE-2013-4152 is an XML External Entity injection vulnerability in Spring Framework
+    versions 3.0.0 through 3.2.3 and 4.0.0.M1. The SourceHttpMessageConverter fails to
+    disable external entity resolution when processing XML input, enabling attackers to read
+    arbitrary server files, perform SSRF attacks, or cause denial of service. With CVSS score
+    6.8, this flaw affects the dominant enterprise Java framework. Attackers send crafted XML
+    payloads to Spring MVC endpoints to extract sensitive files like database credentials and
+    configuration data. This was the first of several injection vulnerabilities found in Spring
+    Framework XML processing, later followed by CVE-2013-7315 addressing an incomplete fix.
+    Mitigation requires upgrading Spring and disabling XML external entity processing.

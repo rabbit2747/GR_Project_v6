@@ -1,0 +1,151 @@
+# GR Atom: Evil Corp
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-EVILCORP-001"
+  name: "Evil Corp"
+  normalized_name: "evil_corp"
+  aliases:
+    - "EvilCorp"
+    - "Indrik Spider"
+    - "Gold Drake"
+    - "UNC2165"
+    - "Dridex Gang"
+    - "TA505 (partial overlap)"
+    - "Manatee Tempest"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - LATERAL
+    - C2
+    - CRED
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Evil Corp (also tracked as Indrik Spider and Gold Drake) is one of the most prolific and
+    long-running Russian-based cybercriminal organizations, active since at least 2007. The group
+    is led by Maksim Yakubets (known as "aqua") and Igor Turashev, who were indicted by the US
+    Department of Justice in December 2019 and sanctioned by the US Treasury's Office of Foreign
+    Assets Control (OFAC). Evil Corp is responsible for the development and deployment of the Dridex
+    banking trojan (evolved from Bugat/Cridex), which caused over $100 million in financial losses
+    globally. The group later transitioned to ransomware operations developing WastedLocker, Hades,
+    Phoenix Locker, PayloadBIN, Macaw Locker, and leveraging LockBit ransomware to circumvent
+    sanctions. Evil Corp has been linked to the Russian Federal Security Service (FSB) through
+    Yakubets' alleged work for the agency.
+  why: >-
+    Evil Corp represents a critical nexus between Russian organized cybercrime and state intelligence
+    services. Yakubets was identified by the US Treasury as having been tasked to work for the FSB
+    as of 2017, demonstrating the Russian government's exploitation of cybercriminal talent. OFAC
+    sanctions against Evil Corp created unprecedented challenges for the ransomware ecosystem, as
+    paying ransoms to sanctioned entities exposes victims and insurers to legal liability. This
+    forced Evil Corp to repeatedly rebrand their ransomware to disguise their involvement and
+    eventually affiliate with LockBit to distance payments from sanctions. The group's $5 million
+    reward under the US State Department's Transnational Organized Crime Rewards Program underscores
+    their significance. Evil Corp's operational history spanning banking trojans to ransomware
+    illustrates the complete evolution of financially motivated cybercrime over nearly two decades.
+  how: >-
+    Evil Corp's operations evolved through distinct phases. The Dridex era (2014-2019) involved
+    massive spam campaigns distributing the Dridex banking trojan via malicious Office documents to
+    steal banking credentials and conduct wire fraud. The ransomware era (2020-present) began with
+    WastedLocker, which used CobaltStrike beacons delivered through the SocGholish (FakeUpdates)
+    JavaScript-based malware framework that compromises legitimate websites. Post-compromise, the
+    group uses Cobalt Strike, PowerShell Empire, and custom tooling for lateral movement and
+    privilege escalation. WastedLocker and successor ransomware variants targeted high-value
+    organizations with demands ranging from $500,000 to $10 million+. To evade sanctions-related
+    scrutiny, Evil Corp cycled through multiple ransomware brands (Hades, Phoenix, PayloadBIN,
+    Macaw) and eventually became LockBit affiliates. The group targets enterprise environments,
+    exploiting Active Directory infrastructure for domain-wide encryption.
+  core_concepts:
+    - key: "Sanctions Evasion Through Rebranding"
+      value: >-
+        After OFAC sanctions in 2019, Evil Corp repeatedly rebranded their ransomware operations
+        (WastedLocker to Hades to Phoenix to Macaw to LockBit affiliation) to disguise their
+        involvement and enable victims to pay ransoms without sanctions liability.
+    - key: "State-Crime Nexus"
+      value: >-
+        Evil Corp represents the nexus between Russian organized cybercrime and state intelligence,
+        with leader Yakubets identified as working for the FSB, demonstrating how the Russian
+        government leverages cybercriminal groups for strategic purposes.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Evil Corp is a Russian-based financially motivated cybercriminal organization"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "Evil Corp ransomware operations enable destructive impact on enterprise networks"
+  - type: "enables"
+    target: "ATK-CRED"
+    description: "Evil Corp Dridex operations enabled large-scale credential theft and banking fraud"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Execution"
+      - "Credential Access"
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "US DOJ - Evil Corp Indictment (December 2019). https://www.justice.gov/opa/pr/russian-national-charged-decade-long-series-hacking-and-bank-fraud-offenses"
+    - "US Treasury OFAC - Evil Corp Sanctions. https://home.treasury.gov/news/press-releases/sm845"
+    - "CrowdStrike - Indrik Spider Evil Corp Threat Profile. https://www.crowdstrike.com/blog/hades-ransomware-successor-to-indrik-spiders-wastedlocker/"
+    - "Mandiant - UNC2165 Evil Corp LockBit Connection. https://www.mandiant.com/resources/blog/unc2165-shifts-to-evade-sanctions"
+    - "MITRE ATT&CK - Indrik Spider Group Profile. https://attack.mitre.org/groups/G0119/"
+  search_keywords:
+    - "evil corp"
+    - "indrik spider"
+    - "gold drake"
+    - "dridex banking trojan"
+    - "wastedlocker ransomware"
+    - "evil corp sanctions"
+    - "maksim yakubets"
+    - "evil corp FSB"
+    - "UNC2165"
+    - "evil corp lockbit"
+    - "hades ransomware"
+    - "socgholish evil corp"
+  embedding_text: >-
+    Evil Corp (Indrik Spider, Gold Drake) is one of the most prolific Russian-based cybercriminal
+    organizations, active since 2007 and led by Maksim Yakubets. The group developed the Dridex
+    banking trojan causing over $100 million in losses, then transitioned to ransomware with
+    WastedLocker, Hades, Phoenix Locker, Macaw, and eventually LockBit affiliation. Indicted and
+    sanctioned by the US DOJ and OFAC in December 2019, Evil Corp repeatedly rebranded ransomware
+    operations to circumvent sanctions. Yakubets was identified as working for Russia's FSB,
+    demonstrating the state-crime nexus. The group uses the SocGholish framework for initial access,
+    Cobalt Strike for command and control, and targets enterprise Active Directory environments.
+    Evil Corp represents the complete evolution of financially motivated cybercrime from banking
+    trojans to ransomware over nearly two decades. A $5 million reward was offered under the US
+    Transnational Organized Crime Rewards Program. Their sanctions evasion through repeated
+    rebranding created unprecedented challenges for the ransomware payment ecosystem.

@@ -1,0 +1,80 @@
+# GR Atom: Project Sauron
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-PROJSAUR-001"
+  name: "Project Sauron"
+  normalized_name: "project_sauron"
+  aliases:
+    - "Strider"
+    - "Sauron"
+    - "PROJECTSAURON"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "PERSIST"
+    - "EVADE"
+    - "EXFIL"
+    - "LATERAL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "air-gapped networks"
+    - "domain controllers"
+    - "encryption systems"
+    - "government classified networks"
+    - "USB storage devices"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Project Sauron (also known as Strider) is a highly advanced cyber espionage platform discovered independently by Kaspersky and Symantec in 2016. The platform had been operating undetected since at least 2011, targeting government, military, telecommunications, financial, and scientific organizations in Russia, China, Iran, Rwanda, and other countries. The technical sophistication rivals or exceeds platforms like Equation Group, Regin, and Duqu."
+  why: "Project Sauron was designed for long-term intelligence collection from the highest-value targets, including classified government networks and critical national infrastructure. The extreme sophistication, anti-forensics capabilities, and targeting of multiple nation-state adversaries (Russia, China, Iran) suggest a Western intelligence agency as the likely operator, though definitive public attribution has not been established."
+  how: "The platform demonstrates extraordinary technical capabilities: each deployment uses a unique, customized implant that avoids signatures, modules reside exclusively in memory to evade disk forensics, data exfiltration from air-gapped networks via specially prepared USB drives using hidden partitions, exploitation of custom network protocols disguised as legitimate traffic, keylogging and credential theft targeting encryption key material, and the ability to operate within hardened network environments. The modular architecture supports over 50 different plugin types for various collection and evasion purposes."
+  core_concepts:
+    - "air-gapped network infiltration"
+    - "memory-resident malware platform"
+    - "unique-per-target deployment"
+    - "multi-year undetected operations"
+    - "nation-state level sophistication"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-OPTRIA-001"
+    description: "Both represent the highest tier of technical sophistication in cyber espionage operations"
+  - type: "applies_to"
+    target: "ACTOR-APT-IRANTHRE-001"
+    description: "Iran was among the nations targeted by Project Sauron operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Kaspersky - The ProjectSauron APT Technical Analysis (2016)"
+    - "Symantec - Strider: Cyberespionage Group Turns Eye of Sauron on Targets"
+    - "Kaspersky GReAT - ProjectSauron Equation Group Level Platform"
+  search_keywords:
+    - "project sauron"
+    - "strider APT"
+    - "ProjectSauron"
+    - "air-gapped network espionage"
+    - "memory-resident malware"
+    - "advanced persistent platform"
+    - "equation group level"
+    - "classified network targeting"
+  embedding_text: "Project Sauron, also known as Strider, is a highly advanced cyber espionage platform discovered by Kaspersky and Symantec in 2016 that had operated undetected since at least 2011. The platform targeted government, military, telecommunications, and scientific organizations in Russia, China, Iran, Rwanda, and other nations. Technical sophistication rivals the Equation Group and Regin platforms, featuring unique customized implants per target that avoid signature detection, memory-only module residence to evade disk forensics, air-gapped network data exfiltration via specially prepared USB drives with hidden partitions, and over 50 different plugin types. The platform demonstrated capabilities for keylogging, credential theft targeting encryption keys, custom network protocol exploitation, and long-term operation within hardened classified network environments. Project Sauron represents one of the most technically advanced cyber espionage platforms ever publicly documented."

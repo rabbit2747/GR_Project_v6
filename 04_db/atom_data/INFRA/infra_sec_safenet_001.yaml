@@ -1,0 +1,111 @@
+# GR Atom: SafeNet
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SAFENET-001"
+  name: "SafeNet"
+  normalized_name: "safenet"
+  aliases:
+    - "Thales SafeNet"
+    - "Gemalto SafeNet"
+    - "SafeNet Luna"
+    - "SafeNet Trusted Access"
+    - "SafeNet Authentication Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - MFA
+    - ENCRYPT
+    - ENCRYPT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SafeNet is Thales' (formerly Gemalto) product family for hardware security modules (HSMs),
+    multi-factor authentication, and data encryption. Key products include SafeNet Luna HSMs
+    for cryptographic key management, SafeNet Trusted Access for cloud-based identity and
+    access management, SafeNet Authentication Service (SAS) for MFA, and SafeNet KeySecure
+    for enterprise key management. SafeNet solutions protect cryptographic keys, certificates,
+    and authentication credentials across on-premises and cloud environments.
+  why: >-
+    SafeNet HSMs protect the root of trust for PKI, code signing, database encryption, and
+    payment processing systems. Compromise of HSM-managed keys can undermine all dependent
+    cryptographic operations. SafeNet MFA solutions protect against credential-based attacks
+    by requiring hardware tokens, smart cards, or mobile authenticators. Financial institutions,
+    government agencies, and healthcare organizations rely on SafeNet for regulatory compliance
+    with PCI DSS, FIPS 140-2/3, and eIDAS requirements.
+  how: >-
+    SafeNet Luna HSMs provide FIPS 140-2 Level 3 certified tamper-resistant hardware for key
+    generation, storage, and cryptographic operations. Keys never leave the HSM boundary.
+    Network-attached HSMs (Luna Network HSM) support multiple clients via TLS-authenticated
+    connections. SafeNet Trusted Access provides SSO and adaptive MFA using risk-based
+    authentication policies. Authentication methods include OTP tokens, push notifications,
+    certificate-based authentication, and FIDO2 security keys. APIs integrate with enterprise
+    applications, PKI systems, and cloud services.
+  core_concepts:
+    - key: "Hardware Root of Trust"
+      value: "FIPS 140-2/3 Level 3 certified HSMs provide tamper-resistant hardware for cryptographic key generation and storage"
+    - key: "Key Management Lifecycle"
+      value: "Centralized management of cryptographic key generation, distribution, rotation, and destruction across enterprise systems"
+    - key: "Adaptive Authentication"
+      value: "Risk-based MFA policies adjust authentication requirements based on user behavior, location, and device context"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "SafeNet MFA provides strong authentication that endpoint security agents can verify for access control"
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "SafeNet authentication and HSM products function as security infrastructure components protecting cryptographic operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.004"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Thales - SafeNet Luna HSM Documentation"
+    - "NIST FIPS 140-2 - Security Requirements for Cryptographic Modules"
+    - "PCI DSS v4.0 - Cryptographic Key Management Requirements"
+  search_keywords:
+    - "SafeNet"
+    - "SafeNet Luna"
+    - "Thales HSM"
+    - "SafeNet Trusted Access"
+    - "hardware security module"
+    - "SafeNet MFA"
+    - "FIPS 140-2"
+    - "Gemalto SafeNet"
+  embedding_text: >-
+    SafeNet is Thales' (formerly Gemalto) product family for HSMs, MFA, and data encryption.
+    SafeNet Luna HSMs provide FIPS 140-2 Level 3 certified tamper-resistant hardware for
+    cryptographic key management. SafeNet Trusted Access provides cloud SSO and adaptive MFA.
+    Keys never leave HSM boundary. Protects PKI, code signing, database encryption, and payment
+    processing. Used by financial institutions, government, and healthcare for PCI DSS, FIPS,
+    and eIDAS compliance. Authentication methods include OTP tokens, push notifications,
+    certificate-based auth, and FIDO2 security keys.

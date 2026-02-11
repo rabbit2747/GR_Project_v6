@@ -1,0 +1,76 @@
+# GR Atom: Cloudflare
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CLOUDFLARE-001"
+  name: "Cloudflare"
+  normalized_name: "cloudflare"
+  aliases:
+    - "Cloudflare Inc."
+    - "CF"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WAF
+    - NETWORK
+    - CLOUD
+    - ZTNA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L2", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Cloudflare is a global network and security company founded in 2009, operating one of the world's largest CDN and DDoS mitigation networks spanning over 300 cities worldwide. Cloudflare provides web application firewall (WAF), DDoS protection, DNS security, bot management, zero trust network access (Cloudflare Access), secure web gateway, email security, and threat intelligence. The company also publishes threat research through Cloudflare Radar and its security blog."
+  why: "Cloudflare is significant because its network sits in front of a substantial portion of the internet's web traffic, giving it unique visibility into global threat patterns, DDoS attack trends, and web application attacks. Their infrastructure provides a critical defense layer for millions of websites and APIs, and their threat intelligence and transparency reports contribute valuable data to the security community."
+  how: "Cloudflare operates through its global anycast network that proxies web traffic, applying security policies at the edge before requests reach origin servers. The platform provides WAF rules, rate limiting, bot detection, DDoS mitigation at layers 3/4/7, DNS filtering, and zero trust access controls. Cloudflare Workers enables serverless edge computing. Their threat intelligence is derived from analyzing traffic across their entire network."
+  core_concepts:
+    - key: "Edge Security"
+      value: "Global anycast network applying WAF, DDoS mitigation, and bot management at the network edge before reaching origin servers"
+    - key: "Zero Trust Access"
+      value: "Cloudflare Access and Gateway providing zero trust network access and secure web gateway capabilities"
+    - key: "Global Threat Visibility"
+      value: "Unique intelligence derived from proxying a significant portion of global web traffic through the Cloudflare network"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-WAF-PLATFORM-001"
+    description: "Produces web application firewall and DDoS mitigation services at global network edge"
+  - type: "enables"
+    target: "DEF-ZTNA-ACCESS-001"
+    description: "Produces zero trust network access through Cloudflare Access and Gateway services"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security/network vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cloudflare.com"
+    - "https://blog.cloudflare.com"
+    - "https://radar.cloudflare.com"
+  search_keywords:
+    - "cloudflare"
+    - "cloudflare waf"
+    - "ddos mitigation"
+    - "cloudflare access"
+    - "edge security"
+    - "cdn security"
+    - "cloudflare radar"
+    - "bot management"
+    - "zero trust network"
+  embedding_text: "Cloudflare is a global network and security company founded in 2009, operating one of the world's largest CDN and DDoS mitigation networks spanning over 300 cities. The company provides web application firewall, DDoS protection at layers 3/4/7, DNS security, bot management, zero trust network access through Cloudflare Access, secure web gateway, email security, and threat intelligence. Cloudflare's global anycast network proxies web traffic and applies security policies at the edge before requests reach origin servers, providing a critical defense layer for millions of websites and APIs. The company's unique position proxying a significant portion of global web traffic gives it exceptional visibility into threat patterns, DDoS attack trends, and web application attacks. Cloudflare publishes threat research through Cloudflare Radar and contributes valuable threat intelligence to the broader security community."

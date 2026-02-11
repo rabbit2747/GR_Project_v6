@@ -1,0 +1,114 @@
+# GR Atom: Cognitive Services
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-COGNSERV-001"
+  name: "Cognitive Services"
+  normalized_name: "cognitive_services"
+  aliases:
+    - "Azure Cognitive Services"
+    - "Microsoft Cognitive Services"
+    - "Azure AI Services"
+    - "Cognitive APIs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - AI
+    - API
+    - AZURE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Cognitive Services is a collection of cloud-based AI APIs and services provided by
+    Microsoft that enable developers to integrate intelligent capabilities into applications
+    without requiring direct AI or data science expertise. The platform includes services for
+    vision, speech, language, decision-making, and search, accessible through REST APIs and
+    client SDKs. Services include Computer Vision, Face API, Speech-to-Text, Text Analytics,
+    Translator, and Azure OpenAI Service among others.
+  why: >-
+    Cognitive Services present security concerns as they process potentially sensitive data
+    including images, audio, and text through cloud endpoints. API key management is a common
+    attack surface, as leaked or exposed keys grant access to billable AI services. Adversaries
+    may abuse these services for reconnaissance (OCR on captured screenshots), data exfiltration
+    (translation services as covert channels), or to augment attack tooling with AI capabilities.
+    Misconfigured access controls can expose private cognitive endpoints to unauthorized use.
+  how: >-
+    Cognitive Services operate as managed cloud APIs hosted on Azure infrastructure. Applications
+    authenticate using subscription keys or Azure Active Directory tokens, then make REST API
+    calls to service endpoints. Each service processes input data (images, audio, text) through
+    specialized AI models and returns structured results. Services can be deployed as multi-tenant
+    cloud endpoints or as containers for on-premises deployment. Data processing policies vary
+    by service, with some retaining input data for model improvement unless opted out.
+  core_concepts:
+    - key: "AI API Gateway"
+      value: "Cloud-hosted REST APIs providing pre-built AI models for vision, speech, language, and decision tasks without requiring ML expertise"
+    - key: "API Key Exposure Risk"
+      value: "Subscription keys authenticate all requests and if leaked grant full access to billable cognitive services and processed data"
+    - key: "Data Processing Pipeline"
+      value: "Input data flows through cloud-hosted AI models with configurable data retention and processing policies per service"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "Cognitive Services is a component of the Microsoft Azure cloud platform"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Cognitive Services can authenticate through Azure Active Directory for enterprise access control"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.009"
+    tactic:
+      - "Execution"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Azure Cognitive Services Documentation"
+    - "MITRE ATT&CK - Cloud Service Abuse Techniques"
+    - "Azure Security Best Practices for Cognitive Services"
+  search_keywords:
+    - "Azure Cognitive Services"
+    - "Microsoft AI APIs"
+    - "cognitive services API key"
+    - "Azure AI services security"
+    - "Computer Vision API"
+    - "Speech-to-Text API"
+    - "Azure OpenAI Service"
+    - "cognitive services vulnerability"
+  embedding_text: >-
+    Azure Cognitive Services is a Microsoft cloud platform providing pre-built AI APIs for
+    vision, speech, language, decision, and search capabilities. Applications authenticate
+    using subscription keys or Azure AD tokens to access REST endpoints that process data
+    through specialized AI models. Security concerns include API key exposure granting
+    unauthorized access to billable services, data processing through cloud endpoints
+    potentially handling sensitive information, and adversary abuse of AI capabilities for
+    reconnaissance or attack augmentation. Services can be deployed as cloud endpoints or
+    on-premises containers. Common attack surfaces include leaked subscription keys,
+    misconfigured access controls, and data retention policies. Security teams should
+    monitor API usage patterns, rotate keys regularly, and enforce Azure AD authentication
+    over simple key-based access.

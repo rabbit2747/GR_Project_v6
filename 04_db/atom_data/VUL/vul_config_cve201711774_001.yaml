@@ -1,0 +1,74 @@
+# GR Atom: CVE-2017-11774
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE201711774-001"
+  name: "CVE-2017-11774"
+  normalized_name: "cve_2017_11774"
+  aliases:
+    - "Outlook Home Page Exploit"
+    - "Outlook Security Feature Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - EVADE
+    - WINDOWS
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Outlook 2010"
+    - "Microsoft Outlook 2013"
+    - "Microsoft Outlook 2016"
+
+definition:
+  what: "CVE-2017-11774 is a security feature bypass vulnerability in Microsoft Outlook that allows attackers to execute arbitrary commands by exploiting the Outlook Home Page feature. An attacker who sets a malicious URL as a folder's home page can execute scripts in the context of the Outlook application when the user navigates to that folder, bypassing Outlook's security controls designed to prevent code execution from email content."
+  why: "This vulnerability was actively exploited by APT33 (Elfin/Refined Kitten), an Iranian state-sponsored threat group, as a persistence mechanism and for initial code execution. The Outlook Home Page feature was designed for legitimate customization but became a powerful attack vector because it runs in the security context of Outlook and can be configured through compromised Exchange accounts or malicious Outlook profiles. CISA added it to the Known Exploited Vulnerabilities catalog."
+  how: "The attack works by setting a folder's WebViewURL registry value or programmatically configuring a custom home page for an Outlook folder. When the victim navigates to the configured folder, Outlook renders the attacker-controlled HTML/script content within its embedded browser component. The script runs with Outlook's permissions, enabling file system access, process execution, and command-and-control communication. APT33 used this for persistence by setting home pages that re-execute malware on each Outlook startup. Microsoft patched this in October 2017 and later disabled the home page feature entirely. CVSS v3: 7.8 (High)."
+  core_concepts:
+    - key: "Outlook Home Page Feature"
+      value: "Outlook capability allowing custom HTML pages to be displayed when navigating to specific folders, abused to execute arbitrary scripts in Outlook's security context"
+    - key: "APT33 Persistence Mechanism"
+      value: "Iranian state-sponsored group APT33 used CVE-2017-11774 to maintain persistent access by configuring malicious Outlook folder home pages that execute on every folder access"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2017-11774 exploits a configurable Outlook feature that was not designed with adequate security controls"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "The Outlook home page bypass enables exploitation of the Outlook application as an execution platform"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1137.004"
+    tactic: ["Persistence", "Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2017-11774 - NVD NIST"
+    - "Microsoft Security Advisory - October 2017 Patch Tuesday"
+    - "FireEye - APT33 Targets Aerospace and Energy Sectors"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1137.004 - Office Application Startup: Outlook Home Page"
+  search_keywords:
+    - "CVE-2017-11774"
+    - "Outlook home page exploit"
+    - "APT33 Outlook"
+    - "Outlook security feature bypass"
+    - "Outlook persistence"
+    - "Outlook WebViewURL"
+    - "Outlook arbitrary code execution"
+  embedding_text: "CVE-2017-11774 is a security feature bypass vulnerability in Microsoft Outlook that allows arbitrary command execution through the Outlook Home Page feature. Attackers set malicious URLs as folder home pages, and when the victim navigates to the folder, scripts execute in Outlook's security context. This vulnerability was actively exploited by APT33, an Iranian state-sponsored threat group, as a persistence mechanism. CISA added it to the Known Exploited Vulnerabilities catalog. CVSS v3 score is 7.8 High. Microsoft patched it in October 2017 and later disabled the home page feature entirely. Maps to MITRE ATT&CK T1137.004 Office Application Startup: Outlook Home Page."

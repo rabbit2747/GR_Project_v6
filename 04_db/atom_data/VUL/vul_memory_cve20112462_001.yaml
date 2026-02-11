@@ -1,0 +1,100 @@
+# GR Atom: CVE-2011-2462
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20112462-001"
+  name: "CVE-2011-2462"
+  normalized_name: "cve_2011_2462"
+  aliases:
+    - "Adobe Reader U3D Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Reader 9.x through 9.4.6"
+    - "Adobe Acrobat 9.x through 9.4.6"
+    - "Adobe Reader X 10.x through 10.1.1"
+    - "U3D component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-2462 is a memory corruption vulnerability (CVSS 10.0) in the Universal 3D (U3D)
+    component of Adobe Reader and Acrobat. The flaw allows remote attackers to execute arbitrary
+    code or cause a denial of service via a crafted PDF document containing malicious U3D data.
+    It was exploited as a zero-day in targeted attacks before Adobe released an out-of-band
+    patch in December 2011. The vulnerability affects Adobe Reader 9.x through 9.4.6 and
+    Adobe Reader X 10.x through 10.1.1.
+  why: >-
+    This vulnerability received a maximum CVSS score of 10.0 and was actively exploited as a
+    zero-day in targeted attacks against defense and government organizations. Adobe Reader
+    was ubiquitous in enterprise environments, making PDF-based exploits a preferred vector
+    for APT campaigns. The U3D component was a recurring source of vulnerabilities in Adobe
+    products during this period.
+  how: >-
+    The exploit crafts a PDF document with specially malformed U3D data that triggers a memory
+    corruption condition when parsed by Adobe Reader. The corrupted memory state allows the
+    attacker to control execution flow and achieve arbitrary code execution. The malicious PDF
+    is typically delivered via spear-phishing email attachments targeting specific organizations.
+  core_concepts:
+    - key: "U3D Component Memory Corruption"
+      value: "Malformed Universal 3D data in PDF files triggers memory corruption in Adobe Reader's U3D parser"
+    - key: "Zero-Day APT Exploitation"
+      value: "Exploited as a zero-day in targeted attacks against defense and government organizations before patch availability"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory corruption vulnerability in Adobe Reader U3D component parsing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2011-2462 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB11-30"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2011-2462"
+    - "Adobe Reader"
+    - "Adobe Acrobat"
+    - "U3D"
+    - "memory corruption"
+    - "PDF exploit"
+    - "zero-day"
+    - "APSB11-30"
+  embedding_text: >-
+    CVE-2011-2462 is a critical memory corruption vulnerability with CVSS 10.0 in the
+    Universal 3D (U3D) component of Adobe Reader and Acrobat. The flaw allows remote code
+    execution through crafted PDF documents containing malicious U3D data. It was exploited
+    as a zero-day in targeted APT attacks against defense and government organizations before
+    Adobe issued an emergency patch in December 2011. Affecting Reader 9.x through 9.4.6 and
+    10.x through 10.1.1, this vulnerability exemplified the era when PDF-based exploits were
+    a primary vector for advanced persistent threat campaigns and spear-phishing operations.

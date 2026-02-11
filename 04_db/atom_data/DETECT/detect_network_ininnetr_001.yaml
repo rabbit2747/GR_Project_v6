@@ -1,0 +1,96 @@
+# GR Atom: Inbound Internet Network Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-ININNETR-001"
+  name: "Inbound Internet Network Traffic"
+  normalized_name: "inbound_internet_network_traffic"
+  aliases:
+    - "Incoming Internet Traffic"
+    - "Ingress Internet Traffic Detection"
+    - "Inbound Traffic Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - FIREWALL
+    - IDS
+    - IPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that monitors and analyzes all traffic arriving from the internet to the organization's network perimeter. This encompasses all protocols, ports, and services receiving external connections, providing comprehensive visibility into the inbound attack surface. The pattern establishes baselines for normal inbound traffic and detects anomalies indicative of scanning, exploitation attempts, DDoS attacks, and unauthorized access from external sources."
+  why: "Inbound internet traffic represents the organization's primary exposure to external threats. Monitoring all inbound traffic is essential for detecting initial access attempts, vulnerability exploitation, brute force attacks, port scanning, DDoS, and other attacks originating from the internet. Without comprehensive inbound traffic monitoring, organizations lack visibility into the threats crossing their network perimeter."
+  how: "Detection captures all traffic at the network perimeter through firewalls, IDS/IPS sensors, and network taps. Analysis includes: source reputation evaluation against threat intelligence feeds; protocol and port analysis to detect unauthorized services; geographic origin analysis to flag unexpected source regions; traffic volume monitoring for DDoS indicators; connection rate analysis for scanning and brute force detection; payload inspection for known exploit signatures; and behavioral analysis to establish normal inbound patterns and detect deviations."
+  core_concepts:
+    - key: "Perimeter Visibility"
+      value: "Complete monitoring of all traffic entering the network from the internet across all protocols and ports."
+    - key: "Inbound Baseline"
+      value: "Establishing normal patterns for inbound traffic volume, source distribution, and protocol usage."
+    - key: "Threat Intelligence Correlation"
+      value: "Matching inbound source addresses against threat intelligence feeds, blacklists, and reputation databases."
+    - key: "Attack Surface Mapping"
+      value: "Identifying all internet-exposed services receiving inbound connections to understand the external attack surface."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: abstracts
+    target: "DETECT-NETWORK-ININENTR-001"
+    description: "General inbound traffic monitoring abstracts specific encrypted traffic detection"
+  - type: abstracts
+    target: "DETECT-NETWORK-ININWETR-001"
+    description: "General inbound traffic monitoring abstracts specific web traffic detection"
+  - type: abstracts
+    target: "DETECT-NETWORK-ININMATR-001"
+    description: "General inbound traffic monitoring abstracts specific mail traffic detection"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for comprehensive inbound traffic analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exploit Public-Facing Application T1190"
+    - "NIST SP 800-41 Rev 1 - Guidelines on Firewalls and Firewall Policy"
+    - "SANS Institute - Perimeter Network Traffic Monitoring"
+  search_keywords:
+    - "inbound internet traffic"
+    - "incoming traffic monitoring"
+    - "ingress detection"
+    - "perimeter monitoring"
+    - "inbound network"
+    - "internet traffic analysis"
+    - "incoming connections"
+    - "perimeter traffic"
+    - "external traffic detection"
+    - "inbound flow analysis"
+  embedding_text: "Inbound internet network traffic detection monitors all traffic arriving from the internet to the organization's network perimeter across all protocols and ports. It establishes baselines for normal inbound patterns and detects anomalies including scanning, exploitation attempts, DDoS attacks, brute force, and unauthorized access. Analysis includes source reputation evaluation, protocol and port analysis, geographic origin inspection, traffic volume monitoring, and payload inspection. This pattern provides comprehensive visibility into the organization's inbound attack surface and serves as the parent detection for specific inbound traffic types including web, encrypted, and mail traffic."

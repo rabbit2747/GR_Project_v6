@@ -1,0 +1,81 @@
+# GR Atom: FortiGuard
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FORTIGUARD-001"
+  name: "FortiGuard"
+  normalized_name: "fortiguard"
+  aliases:
+    - "FortiGuard Labs"
+    - "Fortinet FortiGuard Labs"
+    - "FortiGuard Threat Intelligence"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IPS
+    - FIREWALL
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "FortiGuard Labs is Fortinet's global threat intelligence and research organization, providing the security intelligence backbone for all Fortinet products. FortiGuard delivers real-time security updates including intrusion prevention signatures, antivirus/anti-malware engines, web filtering, application control, anti-spam, and botnet C2 detection across the Fortinet Security Fabric. The organization employs hundreds of security researchers and analysts who track global threats, discover zero-day vulnerabilities, and publish threat research."
+  why: "FortiGuard Labs is a cornerstone of global network security because Fortinet is one of the most deployed network security platforms worldwide, with FortiGate firewalls protecting organizations across every industry sector. The quality and timeliness of FortiGuard's threat intelligence directly impacts the security of millions of networks. FortiGuard researchers regularly discover and responsibly disclose vulnerabilities in third-party software, contributing significantly to the broader vulnerability disclosure ecosystem."
+  how: "FortiGuard Labs aggregates telemetry from millions of Fortinet sensors deployed worldwide, combined with honeypots, dark web monitoring, and partner intelligence sharing. Machine learning and AI-driven analysis processes billions of events daily to generate signatures, classifications, and threat intelligence. Updates are distributed to Fortinet products through the FortiGuard Distribution Network (FDN). The labs publish outbreak alerts, weekly threat intelligence reports, and detailed analysis through the FortiGuard website and Threat Intelligence Portal."
+  core_concepts:
+    - key: "Security Fabric Intelligence"
+      value: "Centralized threat intelligence powering the entire Fortinet Security Fabric across network, endpoint, and cloud"
+    - key: "Real-Time Security Updates"
+      value: "Continuous delivery of IPS signatures, AV definitions, web filtering, and application control via FortiGuard Distribution Network"
+    - key: "Vulnerability Research"
+      value: "Active zero-day vulnerability discovery and responsible disclosure contributing to the global security ecosystem"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "Produces comprehensive security intelligence feeds powering the Fortinet Security Fabric product ecosystem"
+  - type: "enables"
+    target: "DEF-IPS-NETWORK-001"
+    description: "Enhances intrusion prevention systems with real-time signature updates from global threat monitoring"
+  - type: is_a
+    target: "ACTOR-VENDOR-FORTIGARD-001"
+    description: "FortiGuard and FortiGard reference the same Fortinet threat intelligence organization"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for threat intelligence organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.fortiguard.com"
+    - "https://www.fortinet.com/fortiguard/labs"
+    - "https://www.fortiguard.com/outbreak-alert"
+  search_keywords:
+    - "fortiguard"
+    - "fortiguard labs"
+    - "fortinet threat intelligence"
+    - "fortigate signatures"
+    - "fortinet ips signatures"
+    - "fortiguard antivirus"
+    - "fortinet zero day"
+    - "fortiguard distribution network"
+    - "fortinet security research"
+    - "fortiguard outbreak alert"
+  embedding_text: "FortiGuard Labs is Fortinet's global threat intelligence and research organization, providing the security intelligence backbone for all Fortinet products. FortiGuard delivers real-time security updates including intrusion prevention signatures, antivirus engines, web filtering, application control, anti-spam, and botnet C2 detection across the Fortinet Security Fabric. The organization employs hundreds of security researchers tracking global threats, discovering zero-day vulnerabilities, and publishing threat research. FortiGuard Labs aggregates telemetry from millions of Fortinet sensors deployed worldwide, processing billions of events daily using machine learning and AI-driven analysis. Fortinet is one of the most deployed network security platforms worldwide, making FortiGuard's intelligence quality directly impactful to millions of networks. FortiGuard researchers regularly discover and responsibly disclose vulnerabilities in third-party software, contributing to the broader vulnerability disclosure ecosystem."

@@ -1,0 +1,136 @@
+# GR Atom: ICMPv6
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-TRANSPORT-ICMPV6-001"
+  name: "ICMPv6"
+  normalized_name: "icmpv6"
+  aliases:
+    - "Internet Control Message Protocol version 6"
+    - "ICMPv6 Protocol"
+    - "IPv6 ICMP"
+    - "Neighbor Discovery Protocol"
+    - "NDP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - SNMP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ICMPv6 (Internet Control Message Protocol version 6) is defined in RFC 4443 as the control
+    and error reporting protocol for IPv6 networks, using IP protocol number 58. ICMPv6 extends
+    the functionality of ICMPv4 by incorporating critical operations that were separate protocols
+    in IPv4, most notably Neighbor Discovery Protocol (NDP, RFC 4861) which replaces ARP, DHCP
+    autoconfiguration, and ICMP Router Discovery. ICMPv6 message types include error messages
+    (Destination Unreachable, Packet Too Big, Time Exceeded, Parameter Problem) and informational
+    messages (Echo Request/Reply, NDP messages including Router Solicitation/Advertisement and
+    Neighbor Solicitation/Advertisement). ICMPv6 is mandatory for IPv6 operation.
+  why: >-
+    ICMPv6 is more security-critical than its IPv4 predecessor because it subsumes functions
+    previously handled by ARP, DHCP, and router discovery, making it integral to basic network
+    operations. Blocking ICMPv6 wholesale breaks IPv6 connectivity. NDP spoofing is the IPv6
+    equivalent of ARP spoofing, enabling man-in-the-middle attacks through forged Neighbor
+    Advertisement messages. Router Advertisement spoofing allows attackers to inject rogue default
+    gateways and DNS servers. Stateless Address Autoconfiguration (SLAAC) manipulation enables
+    address hijacking. The expanded attack surface compared to ICMPv4 includes redirect attacks,
+    duplicate address detection interference, and neighbor cache exhaustion denial of service.
+    Securing ICMPv6 requires understanding which message types are essential and implementing
+    RA Guard, SEND, and appropriate filtering at each trust boundary.
+  how: >-
+    ICMPv6 operates through several functional groups: (1) Error Reporting - Destination Unreachable
+    (type 1), Packet Too Big (type 2, essential for PMTUD), Time Exceeded (type 3), Parameter
+    Problem (type 4); (2) Diagnostics - Echo Request (type 128) and Echo Reply (type 129);
+    (3) Neighbor Discovery (RFC 4861) - Router Solicitation (type 133), Router Advertisement
+    (type 134), Neighbor Solicitation (type 135), Neighbor Advertisement (type 136), Redirect
+    (type 137); (4) Multicast Listener Discovery (MLD, RFC 3810) for IPv6 multicast group
+    management. Security mechanisms include: SEcure Neighbor Discovery (SEND, RFC 3971) providing
+    cryptographic NDP authentication, RA Guard (RFC 6105) filtering unauthorized Router
+    Advertisements on switches, DHCPv6 Guard for DHCP server authorization, IPv6 First-Hop
+    Security features on managed switches, and careful firewall rules permitting essential
+    ICMPv6 types while blocking exploitable ones (particularly redirects on non-router hosts).
+  core_concepts:
+    - key: "Neighbor Discovery Protocol (NDP)"
+      value: >-
+        The ICMPv6-based protocol (RFC 4861) replacing ARP, DHCP autoconfiguration, and router
+        discovery in IPv6 networks. NDP uses Router and Neighbor Solicitation/Advertisement
+        messages for address resolution, router discovery, prefix advertisement, duplicate
+        address detection, and redirect functionality.
+    - key: "Router Advertisement Spoofing"
+      value: >-
+        An attack where forged ICMPv6 Router Advertisement messages inject rogue default gateways,
+        DNS servers, or network prefixes, enabling man-in-the-middle attacks, traffic interception,
+        and SLAAC-based address manipulation on IPv6 networks.
+    - key: "SEcure Neighbor Discovery (SEND)"
+      value: >-
+        A cryptographic extension to NDP (RFC 3971) that uses Cryptographically Generated Addresses
+        (CGAs) and RSA signatures to authenticate NDP messages, preventing spoofing attacks.
+        SEND adoption remains limited due to implementation complexity and performance overhead.
+    - key: "RA Guard"
+      value: >-
+        A Layer 2 security mechanism (RFC 6105) implemented on managed switches that filters
+        unauthorized Router Advertisement messages, preventing rogue router injection attacks
+        by allowing RA messages only from designated router ports.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "PROTO-TRANSPORT-ICMP-001"
+    description: "ICMPv6 supersedes ICMPv4 for IPv6 networks and incorporates ARP and router discovery functions"
+  - type: "supersedes"
+    target: "PROTO-ROUTING-ARP-001"
+    description: "ICMPv6 NDP replaces ARP for address resolution on IPv6 networks using Neighbor Solicitation/Advertisement"
+  - type: "enables"
+    target: "PROTO-NAMING-DNS-001"
+    description: "ICMPv6 NDP Router Advertisements can distribute DNS server addresses via RDNSS options for mDNS and DNS resolution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4443 - Internet Control Message Protocol (ICMPv6) for IPv6 (March 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4443"
+    - "RFC 4861 - Neighbor Discovery for IP version 6 (September 2007). IETF. https://datatracker.ietf.org/doc/html/rfc4861"
+    - "RFC 3971 - SEcure Neighbor Discovery (SEND) (March 2005). IETF. https://datatracker.ietf.org/doc/html/rfc3971"
+    - "RFC 6105 - IPv6 Router Advertisement Guard (February 2011). IETF. https://datatracker.ietf.org/doc/html/rfc6105"
+  search_keywords:
+    - "ICMPv6"
+    - "neighbor discovery protocol"
+    - "NDP"
+    - "NDP spoofing"
+    - "router advertisement spoofing"
+    - "SEND"
+    - "RA Guard"
+    - "IPv6 security"
+    - "SLAAC"
+    - "RFC 4443"
+    - "RFC 4861"
+    - "IPv6 first-hop security"
+  embedding_text: >-
+    ICMPv6 (Internet Control Message Protocol version 6) is defined in RFC 4443 as the mandatory
+    control protocol for IPv6 networks. It extends ICMPv4 by incorporating Neighbor Discovery
+    Protocol (NDP, RFC 4861) which replaces ARP for address resolution, DHCP for autoconfiguration
+    via SLAAC, and ICMP Router Discovery. ICMPv6 is more security-critical than its predecessor
+    because blocking it breaks IPv6 connectivity. Attack vectors include NDP spoofing for
+    man-in-the-middle attacks, Router Advertisement spoofing for rogue gateway injection, SLAAC
+    manipulation for address hijacking, and neighbor cache exhaustion. Security mechanisms include
+    SEcure Neighbor Discovery (SEND, RFC 3971) for cryptographic NDP authentication, RA Guard
+    (RFC 6105) for filtering unauthorized router advertisements, and IPv6 First-Hop Security
+    features on managed switches. Proper ICMPv6 filtering must preserve essential types for
+    network operation while blocking exploitable messages.

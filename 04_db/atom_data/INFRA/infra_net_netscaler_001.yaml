@@ -1,0 +1,82 @@
+# GR Atom: NetScaler
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-NETSCALER-001"
+  name: "NetScaler"
+  normalized_name: "netscaler"
+  aliases:
+    - "Citrix NetScaler"
+    - "Citrix ADC"
+    - "NetScaler ADC"
+    - "NetScaler Gateway"
+    - "Citrix Application Delivery Controller"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - LB
+    - PROXY
+    - WAF
+    - VPN
+    - TLS
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "N1.2"
+
+definition:
+  what: "NetScaler (now Citrix ADC) is an application delivery controller platform that provides layer 4-7 load balancing, SSL/TLS offloading, web application firewall (WAF), VPN gateway, content switching, and application acceleration services. Deployed as hardware appliances, virtual appliances (VPX), or cloud-based instances (CPX), NetScaler sits at the network edge or DMZ to manage, optimize, and secure application traffic. It supports advanced features including global server load balancing (GSLB), HTTP compression, TCP multiplexing, content caching, rate limiting, and integrated authentication through SAML, OAuth, and LDAP. NetScaler Gateway provides SSL VPN remote access and Citrix HDX proxy functionality for virtual desktop infrastructure."
+  why: "NetScaler is a critical infrastructure component in enterprise environments because it serves as the primary entry point for application traffic, making it both a high-value target and a key security control. It concentrates SSL/TLS termination, authentication, and access control decisions for multiple backend applications. NetScaler has been the target of significant zero-day vulnerabilities including CVE-2019-19781 and CVE-2023-3519 which were widely exploited by threat actors for initial access and remote code execution. Its position at the network perimeter and the sensitive nature of its authentication and session management functions make it a priority for security hardening and monitoring."
+  how: "NetScaler is deployed in the DMZ or network edge, configured with virtual IP addresses (VIPs) that serve as the public endpoints for applications. Traffic arrives at the VIP, where NetScaler performs SSL/TLS termination, inspects requests through its application firewall engine, applies content switching policies to route requests to appropriate backend server pools, and load balances across healthy servers using algorithms such as round robin, least connections, or least response time. Health monitoring probes continuously verify backend server availability. The management interface (NSIP) provides CLI, GUI, and API access for configuration. NetScaler logs and metrics integrate with SIEM platforms for security monitoring. Firmware updates are critical for patching vulnerabilities in this internet-facing appliance."
+  core_concepts:
+    - key: "Application Delivery Controller"
+      value: "A network appliance that optimizes, secures, and manages the delivery of applications to end users through load balancing, SSL offloading, caching, and security functions"
+    - key: "Virtual IP (VIP)"
+      value: "The public-facing IP address configured on NetScaler that clients connect to, which NetScaler then load balances across a pool of backend servers"
+    - key: "NetScaler Gateway"
+      value: "The SSL VPN and remote access component that provides secure access to internal applications and Citrix virtual desktops for remote users"
+
+relations:
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "NetScaler is typically deployed in the DMZ as an internet-facing application delivery and security gateway"
+  - type: implements
+    target: "INFRA-NET-REVPROSER-001"
+    description: "NetScaler implements reverse proxy functionality as part of its application delivery controller capabilities"
+  - type: enables
+    target: "INFRA-NET-VPN-001"
+    description: "NetScaler Gateway provides SSL VPN remote access functionality for enterprise users"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Citrix - NetScaler ADC Documentation - https://docs.netscaler.com/"
+    - "CISA - Alert on Citrix NetScaler Vulnerabilities - https://www.cisa.gov/news-events/cybersecurity-advisories"
+    - "CVE-2023-3519 - Citrix NetScaler ADC Remote Code Execution"
+    - "MITRE ATT&CK - T1190 Exploit Public-Facing Application"
+  search_keywords:
+    - "NetScaler"
+    - "Citrix ADC"
+    - "Citrix NetScaler"
+    - "NetScaler Gateway"
+    - "application delivery controller"
+    - "NetScaler vulnerability"
+    - "CVE-2023-3519"
+    - "Citrix load balancer"
+    - "NetScaler WAF"
+  embedding_text: "NetScaler (Citrix ADC) is an application delivery controller providing layer 4-7 load balancing, SSL/TLS offloading, web application firewall, VPN gateway, content switching, and application acceleration. Deployed as hardware or virtual appliances at the network edge or DMZ, it manages and secures application traffic through virtual IP addresses, health monitoring, and content-based routing. NetScaler Gateway provides SSL VPN remote access and Citrix HDX proxy for virtual desktops. NetScaler has been a high-priority target with critical vulnerabilities like CVE-2019-19781 and CVE-2023-3519 exploited for initial access and remote code execution. Its perimeter position concentrating SSL termination and authentication makes security hardening essential."

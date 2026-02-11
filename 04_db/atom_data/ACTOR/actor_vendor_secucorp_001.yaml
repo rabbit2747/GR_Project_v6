@@ -1,0 +1,73 @@
+# GR Atom: SecureAuth Corp
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SECUCORP-001"
+  name: "SecureAuth Corp"
+  normalized_name: "secureauth_corp"
+  aliases:
+    - "SecureAuth"
+    - "SecureAuth Corporation"
+    - "SecureAuth IdP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PAM
+    - ZTNA
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SecureAuth Corp is an identity and access management vendor specializing in adaptive authentication, single sign-on, and passwordless identity solutions for enterprise environments. The company provides an identity platform that enables multi-factor authentication, risk-based access controls, and identity orchestration across cloud and on-premises applications, helping organizations secure digital identities while reducing friction for legitimate users."
+  why: "SecureAuth is important in cybersecurity because authentication and identity verification are primary defense mechanisms against unauthorized access. By providing adaptive, risk-based authentication that adjusts security requirements based on user behavior and context, SecureAuth helps organizations balance strong security with user experience, addressing the persistent challenge of credential-based attacks."
+  how: "SecureAuth operates through an adaptive authentication platform that evaluates risk signals including device posture, location, behavior patterns, and threat intelligence to dynamically adjust authentication requirements. The platform supports passwordless authentication, multi-factor authentication with over 30 methods, and single sign-on across applications, integrating with existing identity infrastructure through standards-based protocols."
+  core_concepts:
+    - key: "Adaptive Authentication"
+      value: "Risk-based authentication that dynamically adjusts security requirements based on contextual signals and user behavior"
+    - key: "Passwordless Identity"
+      value: "Authentication methods that eliminate password dependency through biometrics, device trust, and cryptographic tokens"
+    - key: "Identity Orchestration"
+      value: "Unified management and coordination of identity workflows across multiple applications and identity providers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-AUTH0-001"
+    description: "Fellow identity and authentication vendor providing enterprise access management solutions"
+  - type: enables
+    target: "ACTOR-VENDOR-SAILPOINT-001"
+    description: "Authentication platform that complements identity governance solutions"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.secureauth.com"
+  search_keywords:
+    - "secureauth"
+    - "adaptive authentication"
+    - "passwordless authentication"
+    - "multi-factor authentication"
+    - "single sign-on"
+    - "identity access management"
+    - "risk-based authentication"
+    - "identity provider"
+  embedding_text: "SecureAuth Corp is an identity and access management vendor specializing in adaptive authentication, single sign-on, and passwordless identity solutions for enterprise environments. The company provides an identity platform that enables multi-factor authentication, risk-based access controls, and identity orchestration across cloud and on-premises applications. SecureAuth evaluates risk signals including device posture, location, behavior patterns, and threat intelligence to dynamically adjust authentication requirements, supporting passwordless authentication and over 30 multi-factor authentication methods to help organizations balance strong security with user experience."

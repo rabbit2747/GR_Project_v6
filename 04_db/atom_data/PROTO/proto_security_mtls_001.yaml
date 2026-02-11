@@ -1,0 +1,135 @@
+# GR Atom: mTLS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-MTLS-001"
+  name: "mTLS"
+  normalized_name: "mtls"
+  aliases:
+    - "Mutual TLS"
+    - "Mutual Transport Layer Security"
+    - "Two-Way TLS"
+    - "Client Certificate Authentication"
+    - "Mutual Authentication TLS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - API
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    mTLS (Mutual Transport Layer Security) is a TLS authentication mode in which both the client
+    and server present X.509 digital certificates to verify each other's identity during the
+    TLS handshake. While standard TLS only requires the server to authenticate with a certificate,
+    mTLS extends this by requiring the client to also present a certificate that the server
+    validates against trusted Certificate Authorities. This mutual certificate verification
+    provides bidirectional identity assurance and is defined in RFC 8446 Section 4.3.2
+    (CertificateRequest) for TLS 1.3 and RFC 5246 for TLS 1.2. mTLS is a foundational component
+    of Zero Trust architectures, service mesh communication (Istio, Linkerd), and API security
+    for machine-to-machine authentication.
+  why: >-
+    Standard one-way TLS authenticates only the server, leaving the server unable to
+    cryptographically verify client identity. This creates a security gap in environments
+    requiring strong mutual authentication such as microservice architectures, API gateways,
+    financial systems, and IoT device communication. mTLS addresses this by providing
+    cryptographic proof of client identity, eliminating reliance on bearer tokens, API keys,
+    or passwords that can be stolen or replayed. In Zero Trust architectures, mTLS enforces
+    the principle that every connection must be mutually authenticated regardless of network
+    location. Service meshes like Istio use mTLS to encrypt and authenticate all inter-service
+    communication within Kubernetes clusters, preventing lateral movement and eavesdropping
+    even within trusted network segments.
+  how: >-
+    During the TLS handshake, after the server sends its certificate and CertificateVerify,
+    it also sends a CertificateRequest message specifying acceptable certificate types,
+    signature algorithms, and Certificate Authorities. The client responds with its own
+    Certificate message containing its X.509 certificate chain and a CertificateVerify message
+    proving possession of the corresponding private key by signing the handshake transcript.
+    The server validates the client certificate against its trusted CA store and optionally
+    checks revocation status via CRL or OCSP. In TLS 1.3, client authentication can also occur
+    post-handshake via the post_handshake_auth extension. Service meshes automate mTLS by
+    injecting sidecar proxies (like Envoy) that handle certificate issuance, rotation, and
+    mutual authentication transparently, typically using SPIFFE identities and short-lived
+    certificates issued by the mesh CA.
+  core_concepts:
+    - key: "Bidirectional Certificate Verification"
+      value: >-
+        Both client and server present and validate X.509 certificates during the handshake,
+        providing cryptographic identity assurance in both directions of the connection.
+    - key: "CertificateRequest Message"
+      value: >-
+        The server signals that client authentication is required by sending CertificateRequest
+        specifying acceptable certificate types, signature algorithms, and trusted CA
+        distinguished names.
+    - key: "Service Mesh mTLS"
+      value: >-
+        Service meshes like Istio and Linkerd automate mTLS between microservices using sidecar
+        proxies that handle certificate lifecycle and mutual authentication transparently
+        with SPIFFE-based workload identities.
+    - key: "Zero Trust Foundation"
+      value: >-
+        mTLS provides the cryptographic mutual authentication required by Zero Trust
+        architectures, ensuring every connection is verified regardless of network position.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "mTLS is a mutual authentication mode of the TLS protocol requiring certificates from both peers"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS12-001"
+    description: "mTLS requires TLS 1.2 or higher for secure client certificate authentication"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-EAPTLS-001"
+    description: "mTLS provides application-layer mutual authentication as EAP-TLS does at the network access layer"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 8446 - The Transport Layer Security (TLS) Protocol Version 1.3, Section 4.3.2. IETF. https://datatracker.ietf.org/doc/html/rfc8446#section-4.3.2"
+    - "RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2. IETF. https://datatracker.ietf.org/doc/html/rfc5246"
+    - "SPIFFE - Secure Production Identity Framework for Everyone. https://spiffe.io/"
+    - "Istio Documentation - Mutual TLS Authentication. https://istio.io/latest/docs/concepts/security/#mutual-tls-authentication"
+  search_keywords:
+    - "mTLS"
+    - "mutual TLS"
+    - "mutual authentication"
+    - "client certificate authentication"
+    - "two-way TLS"
+    - "service mesh mTLS"
+    - "Istio mTLS"
+    - "SPIFFE identity"
+    - "zero trust mutual authentication"
+    - "CertificateRequest"
+  embedding_text: >-
+    mTLS (Mutual Transport Layer Security) extends standard TLS by requiring both client and
+    server to present X.509 digital certificates for bidirectional identity verification during
+    the handshake. The server sends a CertificateRequest message specifying acceptable certificate
+    parameters, and the client responds with its certificate and CertificateVerify proving
+    private key possession. This eliminates reliance on bearer tokens or passwords for client
+    authentication. mTLS is foundational to Zero Trust architectures where every connection
+    requires mutual cryptographic verification regardless of network location. Service meshes
+    like Istio and Linkerd automate mTLS between microservices using sidecar proxies with
+    SPIFFE-based workload identities and short-lived certificates. In TLS 1.3, client
+    authentication can occur post-handshake via the post_handshake_auth extension. mTLS is
+    widely deployed for API security, machine-to-machine communication, financial systems,
+    and IoT device authentication where strong bidirectional identity assurance is required.

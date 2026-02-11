@@ -1,0 +1,96 @@
+# GR Atom: Cluster Role Binding
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLUROLBIN-001"
+  name: "Cluster Role Binding"
+  normalized_name: "cluster_role_binding"
+  aliases:
+    - "ClusterRoleBinding"
+    - "Kubernetes ClusterRoleBinding"
+    - "K8s Cluster Role Binding"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - AUTHZ
+    - CONTAINER
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Kubernetes ClusterRoleBinding grants the permissions defined in a ClusterRole to a subject
+    (user, group, or service account) across the entire cluster. It binds a ClusterRole to one
+    or more subjects, creating the actual authorization link between permissions and identities.
+    ClusterRoleBindings are cluster-scoped resources that cannot be namespaced, making them
+    powerful authorization primitives that affect all namespaces simultaneously.
+  why: >-
+    ClusterRoleBindings are a critical attack target because they grant cluster-wide privileges.
+    An attacker who can create or modify ClusterRoleBindings can escalate privileges by binding
+    the cluster-admin ClusterRole to a compromised service account. Misconfigured bindings
+    frequently grant excessive permissions to default service accounts, enabling lateral movement
+    and privilege escalation across the entire Kubernetes cluster.
+  how: >-
+    ClusterRoleBindings are defined as YAML manifests with a roleRef pointing to a ClusterRole
+    and subjects specifying users, groups, or service accounts. They are applied via kubectl or
+    IaC tools. Once created, the roleRef is immutable and the binding must be recreated to
+    change the referenced role. Auditing involves reviewing all ClusterRoleBindings with
+    kubectl get clusterrolebindings and analyzing which subjects have cluster-admin or other
+    privileged roles.
+  core_concepts:
+    - key: "Permission Binding"
+      value: "Links ClusterRole permissions to subjects, creating the actual authorization that allows actions across all namespaces"
+    - key: "Immutable Role Reference"
+      value: "The roleRef field cannot be changed after creation, requiring deletion and recreation to modify the referenced ClusterRole"
+    - key: "Privilege Escalation Risk"
+      value: "Ability to create ClusterRoleBindings effectively grants the power to assign any cluster-wide permission to any subject"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-COMPUTE-CLUSROLE-001"
+    description: "ClusterRoleBindings reference ClusterRoles to define the permissions being granted"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "ClusterRoleBinding is a core RBAC authorization resource in Kubernetes"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Kubernetes RBAC Documentation - kubernetes.io"
+    - "CIS Kubernetes Benchmark - RBAC Controls"
+    - "MITRE ATT&CK Containers Matrix - Privilege Escalation"
+  search_keywords:
+    - "kubernetes clusterrolebinding"
+    - "cluster role binding"
+    - "k8s RBAC binding"
+    - "kubernetes authorization"
+    - "cluster-admin binding"
+    - "kubernetes privilege escalation"
+    - "RBAC binding"
+  embedding_text: >-
+    A Kubernetes ClusterRoleBinding grants ClusterRole permissions to subjects (users, groups,
+    service accounts) across all namespaces in a cluster. It creates the authorization link
+    between permissions and identities as a cluster-scoped resource. ClusterRoleBindings are
+    critical attack targets because creating or modifying them enables privilege escalation by
+    binding cluster-admin to compromised accounts. The roleRef is immutable after creation.
+    Misconfigured bindings frequently grant excessive permissions to default service accounts.
+    Security requires regular auditing of all ClusterRoleBindings and restricting the ability
+    to create them through admission controllers.

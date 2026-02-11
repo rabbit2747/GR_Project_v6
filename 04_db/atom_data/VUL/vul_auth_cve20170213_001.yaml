@@ -1,0 +1,100 @@
+# GR Atom: CVE-2017-0213
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20170213-001"
+  name: "CVE-2017-0213"
+  normalized_name: "cve_2017_0213"
+  aliases:
+    - "Windows COM Privilege Escalation"
+    - "Windows COM Aggregate Marshaler Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Windows COM (Component Object Model)"
+    - "Windows 7 through Windows 10"
+    - "Windows Server 2008 through 2016"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-0213 is a local privilege escalation vulnerability in the Windows Component
+    Object Model (COM). The vulnerability exists due to improper handling of COM objects in
+    memory, specifically in the COM aggregate marshaler. A locally authenticated attacker can
+    run a specially crafted application that exploits the COM type confusion to escalate
+    privileges from a standard user to SYSTEM. CVSS v3.0 score is 4.7, though in practice
+    the exploit is reliable and widely used.
+  why: >-
+    COM is a fundamental Windows technology used by virtually all applications and system
+    services. The vulnerability provides a reliable privilege escalation path that has been
+    weaponized in multiple public exploits. Despite the moderate CVSS score, the practical
+    impact is significant as it enables post-exploitation escalation on a wide range of
+    Windows versions.
+  how: >-
+    Exploitation involves creating specially crafted COM objects that trigger a type confusion
+    in the COM aggregate marshaler. The attacker manipulates the marshaling process to achieve
+    arbitrary code execution in an elevated context. Public exploits are available as compiled
+    executables. Mitigation requires applying the May 2017 Microsoft security update and
+    ensuring systems are running supported Windows versions with current patches.
+  core_concepts:
+    - key: "COM Type Confusion"
+      value: "Exploiting improper type handling in the Windows COM aggregate marshaler to redirect execution to attacker-controlled code"
+    - key: "Marshaler Exploitation"
+      value: "Leveraging the COM object marshaling mechanism to achieve cross-process privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2017-0213 is a privilege boundary bypass through Windows COM exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2017-0213"
+    - "NIST NVD CVE-2017-0213 (CVSS v3.0: 4.7)"
+    - "Microsoft Security Update May 2017"
+  search_keywords:
+    - "CVE-2017-0213"
+    - "Windows COM privilege escalation"
+    - "COM aggregate marshaler"
+    - "Windows COM type confusion"
+    - "COM elevation of privilege"
+    - "Windows local privilege escalation"
+  embedding_text: >-
+    CVE-2017-0213 is a local privilege escalation in Windows COM with CVSS v3.0 score 4.7.
+    Improper handling of COM objects in the aggregate marshaler allows type confusion leading
+    to SYSTEM-level code execution. COM is fundamental to Windows, making this broadly
+    applicable. A local attacker runs a crafted application exploiting the marshaling process
+    for privilege escalation. Public exploits are available as compiled binaries. Affects
+    Windows 7 through 10 and Server 2008 through 2016. Mitigation requires May 2017
+    security updates. Despite moderate CVSS, the exploit is reliable and commonly used in
+    post-exploitation scenarios.

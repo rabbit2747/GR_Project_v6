@@ -1,0 +1,79 @@
+# GR Atom: Forward Proxy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-FORWPROX-001"
+  name: "Forward Proxy"
+  normalized_name: "forward_proxy"
+  aliases:
+    - "Outbound Proxy"
+    - "Web Proxy"
+    - "Internet Proxy"
+    - "Egress Proxy"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - TLS
+    - MONITOR
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N2.2"
+
+definition:
+  what: "A forward proxy is a network intermediary server that sits between internal client systems and external servers on the internet, handling outbound requests on behalf of clients. When a client sends a request to access an external resource, the forward proxy receives the request, evaluates it against security policies and access controls, and if permitted, forwards it to the destination server. The response is returned through the proxy to the client. Forward proxies operate at the application layer and can inspect, filter, cache, and log HTTP, HTTPS, FTP, and other protocol traffic. Common forward proxy implementations include Squid, Blue Coat ProxySG, Zscaler, and Microsoft Forefront TMG."
+  why: "Forward proxies are essential infrastructure security controls that provide visibility and control over outbound internet traffic from an organization's network. They enforce acceptable use policies by blocking access to prohibited categories of websites, prevent data exfiltration by inspecting outbound content, detect malware communication by analyzing traffic patterns, and reduce bandwidth consumption through caching. Forward proxies also anonymize internal client IP addresses from external servers and provide centralized logging of all internet access for compliance and forensic purposes. They are a critical control point for preventing command-and-control communication and detecting compromised internal systems."
+  how: "Forward proxies are configured as the gateway for outbound internet traffic either through explicit proxy configuration in client applications and operating system settings, or transparently through network routing that redirects traffic to the proxy. The proxy authenticates users against directory services such as Active Directory, evaluates requests against URL filtering databases, content policies, and data loss prevention rules, and either permits or blocks the request. For HTTPS traffic, the proxy can perform SSL/TLS interception using a trusted internal CA certificate to decrypt, inspect, and re-encrypt traffic. Proxy auto-configuration (PAC) files and Web Proxy Auto-Discovery (WPAD) protocol automate client proxy settings. All traffic is logged for security monitoring, compliance, and incident investigation."
+  core_concepts:
+    - key: "SSL/TLS Interception"
+      value: "The process of decrypting, inspecting, and re-encrypting HTTPS traffic at the forward proxy using a trusted internal CA to enable content inspection of encrypted communications"
+    - key: "URL Filtering"
+      value: "Classification and policy enforcement on web requests based on URL categories, reputation scores, and content analysis to block access to malicious or prohibited websites"
+    - key: "Proxy Auto-Configuration"
+      value: "PAC files and WPAD protocol that automatically configure client proxy settings based on URL patterns and network location"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Forward proxies require DNS resolution to resolve destination hostnames for client requests"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Forward proxies are often deployed in or adjacent to the DMZ to control outbound traffic flow"
+  - type: abstracts
+    target: "INFRA-NET-FORPROSER-001"
+    description: "Forward proxy is the abstract concept implemented by specific forward proxy server products and deployments"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1090.002"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+    - "CIS Controls v8 - Control 9: Email and Web Browser Protections"
+    - "SANS Institute - Web Proxy Security Best Practices"
+  search_keywords:
+    - "forward proxy"
+    - "outbound proxy"
+    - "web proxy"
+    - "internet proxy"
+    - "SSL interception"
+    - "URL filtering"
+    - "egress proxy"
+    - "proxy auto-configuration"
+    - "PAC file"
+  embedding_text: "A forward proxy is a network intermediary that handles outbound internet requests on behalf of internal clients. It evaluates requests against security policies, URL filtering databases, and data loss prevention rules before forwarding permitted traffic to external servers. Forward proxies provide visibility into outbound traffic, enforce acceptable use policies, detect malware communication, cache content for bandwidth reduction, and anonymize internal client addresses. They support SSL/TLS interception for HTTPS content inspection and integrate with directory services for user authentication. Common implementations include Squid, Blue Coat ProxySG, and Zscaler. Forward proxies are critical security controls for preventing command-and-control communication and data exfiltration."

@@ -1,0 +1,108 @@
+# GR Atom: Open Redirect Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-OPENREDI-001"
+  name: "Open Redirect Vulnerability"
+  normalized_name: "open_redirect_vulnerability"
+  aliases:
+    - "Unvalidated Redirects and Forwards"
+    - "CWE-601"
+    - "URL Redirect"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - WEB
+    - INITIAL
+    - CRED
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Web application URL redirect handlers"
+    - "OAuth callback endpoints"
+    - "Login/logout redirect parameters"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Open Redirect is a web application vulnerability where an application accepts user-controlled
+    input that specifies a URL to redirect users to after performing an action. When the
+    application fails to validate the redirect target, attackers can craft links that appear to
+    originate from the trusted domain but redirect victims to malicious sites. This is classified
+    as CWE-601 and listed in the OWASP Top 10 as part of unvalidated redirects and forwards.
+  why: >-
+    Open redirects are valuable to attackers because they weaponize trust in legitimate domains
+    for phishing campaigns. Victims see a URL from a trusted organization and willingly click,
+    only to be redirected to credential harvesting pages. Open redirects in OAuth flows are
+    especially dangerous as they can leak authorization codes and access tokens to attacker-
+    controlled servers. They also facilitate server-side request forgery chains and can bypass
+    URL-based access controls.
+  how: >-
+    Attackers craft URLs with malicious redirect parameters, such as
+    https://trusted.com/login?redirect=https://evil.com/phish. The vulnerable application
+    processes the login action and then redirects the user to the attacker-controlled URL.
+    In OAuth flows, the attacker registers a redirect_uri containing an open redirect on the
+    legitimate application, capturing authorization codes. Attackers also chain open redirects
+    with SSRF vulnerabilities to access internal resources via the trusted domain.
+  core_concepts:
+    - key: "Trust Weaponization"
+      value: "Attacker-crafted URLs use trusted domain to redirect victims to malicious sites for credential theft"
+    - key: "OAuth Token Theft"
+      value: "Open redirects in OAuth callback flows enable authorization code and access token interception"
+    - key: "SSRF Chaining"
+      value: "Open redirects can be chained with SSRF to bypass URL-based access controls and access internal resources"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-WEB-001"
+    description: "Open redirect is a web application vulnerability enabling phishing and token theft"
+  - type: "enables"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Open redirects in OAuth flows enable authentication token theft through redirect_uri manipulation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OWASP - Unvalidated Redirects and Forwards"
+    - "CWE-601 - URL Redirection to Untrusted Site"
+    - "MITRE ATT&CK T1566.002"
+  search_keywords:
+    - "open redirect"
+    - "URL redirect vulnerability"
+    - "unvalidated redirect"
+    - "CWE-601"
+    - "OAuth redirect_uri"
+    - "phishing redirect"
+    - "URL redirection"
+  embedding_text: >-
+    Open Redirect is a web vulnerability where applications accept user-controlled redirect URLs
+    without validation. Attackers craft links using trusted domains that redirect victims to
+    malicious phishing sites. Especially dangerous in OAuth flows where open redirects leak
+    authorization codes and access tokens to attacker-controlled servers. Also used to chain
+    with SSRF vulnerabilities to bypass URL-based access controls. Classified as CWE-601 and
+    included in OWASP Top 10. Weaponizes domain trust for credential harvesting campaigns.
+    Mitigated by URL allowlisting, strict redirect validation, and avoiding user-controlled
+    redirect parameters.

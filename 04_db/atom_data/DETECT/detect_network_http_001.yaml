@@ -1,0 +1,100 @@
+# GR Atom: HTTP Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-HTTP-001"
+  name: "HTTP Event"
+  normalized_name: "http_event"
+  aliases:
+    - "HTTP Traffic Event"
+    - "HTTP Request Detection"
+    - "Web Traffic Event"
+    - "HTTP Log Analysis"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - MONITOR
+    - WAF
+    - IDS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that captures and analyzes individual HTTP request-response transactions for security-relevant indicators. Each HTTP event contains metadata including method, URI, headers, status code, content type, user-agent, referrer, host, cookies, and payload characteristics. HTTP event analysis provides granular visibility into web traffic enabling detection of web attacks, suspicious user behavior, command-and-control over HTTP, and data exfiltration through web channels."
+  why: "HTTP remains the dominant protocol for web applications, APIs, and cloud services, making it the most common vector for web-based attacks, C2 communication, and data exfiltration. Analyzing HTTP events at the transaction level provides the detail necessary to detect SQL injection, cross-site scripting, path traversal, web shell activity, credential stuffing, API abuse, and covert C2 channels that operate over standard web ports to blend with legitimate traffic."
+  how: "HTTP events are captured through web proxies, WAFs, reverse proxies, load balancers, or network taps with HTTP protocol parsing. Analysis examines request methods for unusual patterns, URI paths for injection payloads or suspicious directories, headers for anomalous values, response codes for error patterns indicating scanning, user-agent strings for known malicious tools, content-type mismatches, cookie manipulation, and request timing and frequency patterns. Events are correlated with threat intelligence feeds and behavioral models to identify malicious activity."
+  core_concepts:
+    - key: "Transaction Visibility"
+      value: "Capturing complete HTTP request-response pairs including headers and metadata for security analysis."
+    - key: "Header Analysis"
+      value: "Examining HTTP headers for anomalies including suspicious user-agents, missing standard headers, or non-standard custom headers."
+    - key: "URI Pattern Detection"
+      value: "Analyzing request URIs for indicators of injection attacks, directory traversal, web shell access, or suspicious endpoints."
+    - key: "Response Code Analysis"
+      value: "Monitoring HTTP response code distributions to detect scanning, brute force, and application error exploitation."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-NETWORK-APPRABPA-001"
+    description: "HTTP event analysis enables detection of application protocol abuse in web traffic"
+  - type: enables
+    target: "DETECT-NETWORK-ININWETR-001"
+    description: "HTTP events are the data source for inbound internet web traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-WEBNETTRA-001"
+    description: "HTTP event analysis enables comprehensive web network traffic monitoring"
+  - type: effective_against
+    target: "ATK-INJECT-SQL-001"
+    description: "HTTP event inspection detects SQL injection attempts in request URIs and parameters"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.001"
+    tactic:
+      - "Command and Control"
+      - "Initial Access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK - Web Protocols T1071.001"
+    - "OWASP - Web Application Security Testing Guide"
+    - "RFC 7230 - HTTP/1.1 Message Syntax and Routing"
+    - "SANS Institute - HTTP Traffic Analysis"
+  search_keywords:
+    - "HTTP event"
+    - "HTTP traffic analysis"
+    - "web traffic detection"
+    - "HTTP request monitoring"
+    - "HTTP header analysis"
+    - "web attack detection"
+    - "HTTP logging"
+    - "web proxy analysis"
+    - "HTTP anomaly"
+    - "web transaction monitoring"
+  embedding_text: "HTTP event detection captures and analyzes individual HTTP request-response transactions for security indicators including suspicious methods, injection payloads in URIs, anomalous headers, error code patterns, malicious user-agent strings, and content-type mismatches. Events are collected from web proxies, WAFs, load balancers, and network taps. This granular web traffic visibility enables detection of web attacks like SQL injection and XSS, credential stuffing, web shell activity, API abuse, and command-and-control communications over HTTP. It serves as a foundational data source for web-based network security monitoring."

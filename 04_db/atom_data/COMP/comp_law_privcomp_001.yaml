@@ -1,0 +1,113 @@
+# GR Atom: Privacy Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-PRIVCOMP-001"
+  name: "Privacy Compliance"
+  normalized_name: "privacy_compliance"
+  aliases:
+    - "Data Privacy Compliance"
+    - "Privacy Regulatory Compliance"
+    - "Personal Data Protection Compliance"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    Privacy Compliance is the discipline of ensuring that an organization's collection, processing,
+    storage, sharing, and disposal of personal data conforms to applicable privacy laws and
+    regulations. This encompasses a growing patchwork of global privacy legislation including
+    the EU's GDPR, California's CCPA/CPRA, Brazil's LGPD, Canada's PIPEDA, Japan's APPI,
+    South Korea's PIPA, China's PIPL, India's DPDP Act, and numerous other national and
+    sub-national data protection laws. Privacy compliance requires organizations to understand
+    their data processing activities, establish lawful bases for processing, respect data subject
+    rights, implement appropriate security measures, and maintain accountability through
+    documentation and governance structures.
+  why: >
+    The global proliferation of privacy laws means that virtually every organization handling
+    personal data is subject to one or more privacy regulations. The combined penalty exposure
+    across multiple jurisdictions can be enormous, with GDPR fines reaching 4% of global turnover,
+    CCPA penalties of $7,500 per intentional violation, and emerging laws in China and India
+    imposing their own penalty structures. Beyond financial penalties, privacy failures erode
+    customer trust, damage brand reputation, and create competitive disadvantage as privacy
+    becomes a market differentiator.
+  how: >
+    Organizations build privacy compliance programs by conducting data mapping and inventory
+    exercises, performing privacy impact assessments, establishing privacy governance structures
+    (DPO, privacy steering committee), implementing consent management and preference centers,
+    building data subject rights fulfillment processes, deploying privacy-enhancing technologies
+    (encryption, anonymization, pseudonymization), establishing data retention and deletion
+    policies, managing third-party data processing agreements, implementing cross-border transfer
+    mechanisms, and conducting regular privacy audits and training programs.
+  core_concepts:
+    - key: "Data Mapping"
+      value: "Comprehensive inventory of personal data flows including collection points, processing activities, storage locations, sharing partners, and retention periods"
+    - key: "Consent Management"
+      value: "Mechanisms for obtaining, recording, managing, and withdrawing consent for personal data processing"
+    - key: "Data Subject Rights"
+      value: "Individual rights under privacy laws including access, correction, deletion, portability, and objection to processing"
+    - key: "Privacy-Enhancing Technologies (PETs)"
+      value: "Technical measures including encryption, anonymization, pseudonymization, differential privacy, and secure multi-party computation"
+    - key: "Cross-Jurisdictional Compliance"
+      value: "Managing compliance across multiple overlapping privacy regulations from different jurisdictions simultaneously"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "Privacy compliance is a specific domain within the broader compliance discipline"
+  - type: requires
+    target: "COMP-LAW-GDPR-001"
+    description: "Privacy compliance programs require GDPR adherence for organizations processing EU personal data"
+  - type: requires
+    target: "COMP-LAW-GDDATRME-001"
+    description: "Privacy compliance requires lawful data transfer mechanisms for cross-border data flows"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IAPP (International Association of Privacy Professionals) — Global Privacy Law Tracker"
+    - "NIST Privacy Framework v1.0"
+    - "ISO/IEC 27701:2019 — Privacy Information Management System (PIMS)"
+    - "OECD Guidelines on the Protection of Privacy and Transborder Flows of Personal Data"
+  search_keywords:
+    - "privacy compliance"
+    - "data privacy"
+    - "personal data protection"
+    - "privacy regulation"
+    - "GDPR CCPA compliance"
+    - "data subject rights"
+    - "consent management"
+    - "privacy impact assessment"
+    - "cross-border data privacy"
+    - "privacy-enhancing technologies"
+  embedding_text: >
+    Privacy Compliance is the discipline of ensuring organizational adherence to applicable
+    privacy laws governing personal data collection, processing, storage, sharing, and disposal.
+    It encompasses a global patchwork of regulations including GDPR, CCPA/CPRA, LGPD, PIPEDA,
+    APPI, PIPA, PIPL, and the DPDP Act. Key activities include data mapping, privacy impact
+    assessments, consent management, data subject rights fulfillment, privacy-enhancing
+    technologies deployment, data retention policies, third-party agreement management, and
+    cross-border transfer compliance. Organizations face combined penalty exposure across
+    multiple jurisdictions with GDPR fines up to 4% of global turnover. Privacy compliance
+    programs require governance structures, regular audits, and continuous regulatory monitoring.

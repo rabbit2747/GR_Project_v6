@@ -1,0 +1,72 @@
+# GR Atom: Proxy Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-PROXSERV-001"
+  name: "Proxy Server"
+  normalized_name: "proxy_server"
+  aliases:
+    - "Network Proxy"
+    - "Proxy Gateway"
+    - "Intermediary Server"
+    - "Application Proxy"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - LOG
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N2.2"
+
+definition:
+  what: "A Proxy Server is a network intermediary system that acts as a gateway between clients and servers, receiving requests from clients, forwarding them to destination servers, and returning the responses to the clients. Proxy servers operate at various layers of the network stack, from circuit-level proxies at layer 4 to application-level proxies at layer 7 that understand specific protocols such as HTTP, HTTPS, FTP, SOCKS, and SMTP. The term encompasses the general category of intermediary servers including forward proxies for outbound traffic, reverse proxies for inbound traffic, transparent proxies that intercept traffic without client configuration, and SOCKS proxies that handle arbitrary TCP/UDP traffic. Proxy servers provide security controls, performance optimization, access control, anonymization, and traffic management capabilities."
+  why: "Proxy servers are fundamental network infrastructure components that provide a centralized point of control, visibility, and security for network traffic. They enable organizations to enforce access policies, inspect traffic for threats, cache content for performance, log communications for compliance, and isolate internal networks from direct external communication. Proxy servers are also heavily used by threat actors for anonymizing attack traffic through proxy chains, establishing command-and-control channels, and pivoting through compromised systems. Understanding proxy server architecture is essential for both defensive security operations and threat analysis."
+  how: "Proxy servers accept client connections on designated ports, authenticate users if configured, evaluate the request against security policies and access control rules, and if permitted, establish a separate connection to the destination server to forward the request. The response traverses the same path in reverse. Application-layer proxies parse protocol-specific messages enabling content inspection, header modification, and caching. Circuit-level proxies relay TCP connections without protocol awareness. SOCKS proxies provide generic TCP/UDP proxying with optional authentication. Deployment configurations include explicit proxy requiring client configuration, transparent proxy intercepting traffic via network routing, and reverse proxy fronting backend servers. Load balancing, failover, and chaining through multiple proxies provide scalability and redundancy."
+  core_concepts:
+    - key: "Proxy Types"
+      value: "Classification of proxies by function: forward (outbound), reverse (inbound), transparent (intercepting), and SOCKS (generic TCP/UDP), each with distinct deployment patterns and security implications"
+    - key: "Protocol Awareness"
+      value: "The ability of application-layer proxies to parse and understand specific protocol semantics, enabling content-aware security policies and traffic optimization"
+    - key: "Proxy Chaining"
+      value: "Routing traffic through multiple proxy servers in sequence for anonymization, load distribution, or layered security controls"
+
+relations:
+  - type: abstracts
+    target: "INFRA-NET-FORWPROX-001"
+    description: "Proxy server is the general category that forward proxy is a specific type of, focused on outbound traffic"
+  - type: abstracts
+    target: "INFRA-NET-REVPROSER-001"
+    description: "Proxy server is the general category that reverse proxy server is a specific type of, focused on inbound traffic"
+  - type: abstracts
+    target: "INFRA-NET-HTTPPROX-001"
+    description: "Proxy server is the general category that HTTP proxy is a specific type of, focused on HTTP protocol traffic"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 7230 - HTTP/1.1 Message Syntax and Routing"
+    - "RFC 1928 - SOCKS Protocol Version 5 - https://datatracker.ietf.org/doc/html/rfc1928"
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+  search_keywords:
+    - "proxy server"
+    - "network proxy"
+    - "proxy gateway"
+    - "application proxy"
+    - "SOCKS proxy"
+    - "transparent proxy"
+    - "proxy chaining"
+    - "intermediary server"
+  embedding_text: "A Proxy Server is a network intermediary that acts as a gateway between clients and servers, receiving client requests, forwarding them to destinations, and returning responses. Operating from circuit-level layer 4 to application-level layer 7, proxy servers encompass forward proxies for outbound traffic, reverse proxies for inbound traffic, transparent proxies intercepting without client configuration, and SOCKS proxies for generic TCP/UDP. They provide centralized security controls, traffic inspection, content caching, access policy enforcement, communication logging, and network isolation. Proxy servers are fundamental to both defensive security operations and threat actor techniques including traffic anonymization, C2 channels, and network pivoting."

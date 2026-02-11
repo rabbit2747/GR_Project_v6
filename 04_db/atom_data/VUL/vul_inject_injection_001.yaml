@@ -1,0 +1,85 @@
+# GR Atom: Injection Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-INJECTION-001"
+  name: "Injection Vulnerability"
+  normalized_name: "injection_vulnerability"
+  aliases:
+    - "Code Injection"
+    - "Injection Attack"
+    - "CWE-94"
+    - "OWASP A03:2021 Injection"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Web Applications"
+    - "APIs"
+    - "Database Interfaces"
+    - "Command Line Interpreters"
+    - "LDAP Directories"
+    - "Expression Language Engines"
+
+definition:
+  what: "Injection vulnerabilities are a class of security flaws where an attacker can insert or inject untrusted data into a command, query, or interpreter as part of a legitimate request. The injected data is then executed or interpreted by the target system, leading to unintended behavior. This class encompasses SQL injection, OS command injection, LDAP injection, expression language injection, JNDI injection, OGNL injection, and template injection among others. Injection consistently ranks among the most critical vulnerability classes in the OWASP Top 10."
+  why: "Injection vulnerabilities are pervasive because they arise from a fundamental design flaw: mixing code and data without proper separation or validation. Nearly every application that processes external input is potentially vulnerable. Successful injection attacks can lead to complete data breaches, unauthorized data modification, denial of service, authentication bypass, and full remote code execution. The impact ranges from information disclosure to complete system compromise depending on the injection context and the privileges of the affected process."
+  how: "Injection attacks work by supplying crafted input that alters the intended logic of commands, queries, or expressions processed by an interpreter. The attacker identifies input vectors that reach an interpreter without adequate sanitization, parameterization, or escaping. They then construct payloads that break out of the intended data context and inject executable instructions. Prevention requires input validation, parameterized queries or prepared statements, output encoding, least-privilege execution contexts, and use of safe APIs that avoid direct interpreter calls. Web Application Firewalls provide defense-in-depth but cannot replace secure coding practices."
+  core_concepts:
+    - key: "Input Validation Failure"
+      value: "Injection occurs when untrusted input reaches an interpreter without proper validation, sanitization, or parameterization, allowing attacker-controlled data to be treated as executable code"
+    - key: "Interpreter Context Escape"
+      value: "Attackers craft payloads that escape the intended data context within a query, command, or expression, inserting malicious instructions that the interpreter executes with application-level privileges"
+    - key: "Defense in Depth"
+      value: "Effective injection prevention requires multiple layers including parameterized interfaces, input validation, output encoding, least-privilege execution, and runtime monitoring"
+
+relations:
+  - type: enables
+    target: "VUL-INJECT-CVE202144228-001"
+    description: "Injection class encompasses the JNDI injection mechanism exploited in Log4Shell"
+  - type: enables
+    target: "VUL-INJECT-CVE202222965-001"
+    description: "Injection class encompasses the parameter binding injection exploited in Spring4Shell"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A03:2021 Injection"
+    - "CWE-94: Improper Control of Generation of Code"
+    - "CWE-89: SQL Injection"
+    - "CWE-78: OS Command Injection"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "NIST SP 800-53 SI-10 Information Input Validation"
+  search_keywords:
+    - "injection vulnerability"
+    - "code injection"
+    - "SQL injection"
+    - "command injection"
+    - "LDAP injection"
+    - "JNDI injection"
+    - "expression language injection"
+    - "OWASP injection"
+    - "CWE-94"
+    - "input validation"
+  embedding_text: "Injection vulnerability is a critical class of security flaws where untrusted data is sent to an interpreter as part of a command or query. This encompasses SQL injection, OS command injection, LDAP injection, JNDI injection, OGNL injection, template injection, and expression language injection. Injection consistently ranks in the OWASP Top 10 as one of the most prevalent and dangerous vulnerability types. Attacks succeed when applications fail to validate, sanitize, or parameterize user input before passing it to interpreters. Consequences range from data theft and modification to complete remote code execution. Prevention requires parameterized queries, input validation, output encoding, least-privilege execution, and defense-in-depth strategies including WAF deployment. Maps to MITRE ATT&CK T1190 and CWE-94."

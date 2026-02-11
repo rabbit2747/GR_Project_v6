@@ -1,0 +1,76 @@
+# GR Atom: Gatekeeper Bypass Flag
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-GATBYPFLA-001"
+  name: "Gatekeeper Bypass Flag"
+  normalized_name: "gatekeeper_bypass_flag"
+  aliases:
+    - "macOS Gatekeeper Override Detection"
+    - "com.apple.quarantine Flag Removal"
+    - "Gatekeeper Exemption Flag"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - MACOS
+    - EVADE
+
+scope:
+  target_layers: ["L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Gatekeeper Bypass Flag is an endpoint detection pattern specific to macOS that identifies when the com.apple.quarantine extended attribute is removed from downloaded files or when the spctl command is used to approve or disable Gatekeeper enforcement. Gatekeeper is Apple's security mechanism that verifies downloaded applications are signed by identified developers and notarized by Apple before allowing execution. The detection pattern monitors for xattr -d com.apple.quarantine commands, spctl --master-disable operations, and programmatic removal of the quarantine flag through APIs, which indicate attempts to bypass macOS code signing and notarization verification."
+  why: "Gatekeeper bypass is a critical detection point because it is a prerequisite for executing unsigned or unnotarized malware on macOS systems. Adversaries must remove or circumvent the quarantine flag to execute malicious payloads downloaded from the internet without triggering Gatekeeper warnings. Detection of quarantine flag removal provides an early warning of potential malware execution, social engineering attacks that instruct users to bypass Gatekeeper, and insider threats deliberately weakening macOS security controls."
+  how: "Detection systems monitor for quarantine flag removal through macOS Endpoint Security Framework events capturing xattr system calls that target com.apple.quarantine, process execution monitoring for xattr and spctl commands with bypass-related arguments, System Policy database modifications, and unified log entries related to Gatekeeper assessment overrides. Detection rules flag removal of quarantine attributes from recently downloaded files, spctl operations that disable Gatekeeper system-wide, applications that programmatically strip quarantine flags from other files, and patterns of repeated quarantine removals suggesting automated tooling."
+  core_concepts:
+    - key: "com.apple.quarantine"
+      value: "The macOS extended attribute applied to files downloaded from the internet that triggers Gatekeeper verification before the file can be executed"
+    - key: "Gatekeeper Assessment"
+      value: "The macOS security check that verifies code signing and notarization status of quarantined files before allowing execution"
+    - key: "spctl Master Disable"
+      value: "The command that disables Gatekeeper system-wide, allowing any application to execute regardless of signing or notarization status"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-GATBYPIND-001"
+    description: "Gatekeeper bypass flags are a specific indicator within the broader Gatekeeper bypass indicators category"
+  - type: effective_against
+    target: "ATK-EXEC-GATEKEEP-001"
+    description: "Detects attempts to bypass Gatekeeper security controls for malicious code execution on macOS"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILSETATT-001"
+    description: "Quarantine flag removal is detected through file attribute set/remove operations"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1553.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1553.001 - Subvert Trust Controls: Gatekeeper Bypass"
+    - "Apple Developer Documentation - Gatekeeper - https://developer.apple.com/documentation/security/notarizing_macos_software_before_distribution"
+    - "Objective-See - macOS Security Research - https://objective-see.org"
+  search_keywords:
+    - "Gatekeeper bypass"
+    - "quarantine flag removal"
+    - "com.apple.quarantine"
+    - "spctl disable"
+    - "macOS code signing bypass"
+    - "Gatekeeper override"
+    - "macOS security bypass"
+    - "notarization bypass"
+  embedding_text: "Gatekeeper Bypass Flag detection identifies removal of the com.apple.quarantine extended attribute from downloaded files and spctl commands that disable Gatekeeper enforcement on macOS. Monitored through Endpoint Security Framework events on xattr system calls, process execution monitoring for xattr and spctl commands, and unified log entries for Gatekeeper assessment overrides. This detects attempts to execute unsigned or unnotarized malware by bypassing macOS code signing verification. Detection rules flag quarantine removal from recently downloaded files, system-wide Gatekeeper disabling, and automated quarantine stripping patterns."

@@ -1,0 +1,117 @@
+# GR Atom: CVE-2014-3566
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20143566-001"
+  name: "CVE-2014-3566"
+  normalized_name: "cve_2014_3566"
+  aliases:
+    - "POODLE Attack"
+    - "Padding Oracle On Downgraded Legacy Encryption"
+    - "SSL 3.0 CBC Padding Oracle"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - TLS
+    - HTTP
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "SSL 3.0 Protocol"
+    - "CBC Mode Cipher Suites in SSL 3.0"
+    - "Web Browsers and Servers supporting SSL 3.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-3566 (POODLE - Padding Oracle On Downgraded Legacy Encryption) is a vulnerability in
+    SSL 3.0 that allows a man-in-the-middle attacker to decrypt individual bytes of encrypted traffic
+    by exploiting the non-deterministic padding in SSL 3.0 CBC mode cipher suites. The attack works
+    by forcing a protocol downgrade from TLS to SSL 3.0 and then exploiting the padding oracle.
+    CVSS score is 3.4. Discovered by Google researchers Bodo Moller, Thai Duong, and Krzysztof
+    Kotowicz in October 2014.
+  why: >-
+    POODLE was the final nail in the coffin for SSL 3.0, a protocol that had been deprecated but
+    remained widely supported for backwards compatibility. The attack demonstrated that SSL 3.0 was
+    fundamentally insecure and could not be fixed without breaking the protocol. It forced the
+    industry to finally disable SSL 3.0 support and adopt TLS 1.0 or later as the minimum protocol
+    version, accelerating the deprecation of legacy encryption.
+  how: >-
+    The attacker first forces a protocol downgrade from TLS to SSL 3.0 by interfering with the
+    handshake (e.g., injecting TCP RST packets during TLS negotiation). Once SSL 3.0 is established
+    with a CBC cipher suite, the attacker exploits the fact that SSL 3.0 does not specify the content
+    of padding bytes (only the last byte must equal the padding length). The attacker can modify the
+    last block of ciphertext and observe whether the server accepts the modified padding. Through
+    approximately 256 attempts per byte, the attacker can decrypt each byte of the plaintext,
+    extracting cookies and session tokens.
+  core_concepts:
+    - name: "Padding Oracle"
+      value: "SSL 3.0 non-deterministic padding allows attackers to distinguish valid from invalid padding, creating an oracle for decryption"
+    - name: "Protocol Downgrade"
+      value: "Forcing fallback from TLS to SSL 3.0 through handshake interference to exploit the weaker protocol"
+    - name: "CBC Block Manipulation"
+      value: "Modifying ciphertext blocks and observing server responses to decrypt plaintext one byte at a time"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "POODLE is an instance of cryptographic protocol vulnerability exploiting SSL 3.0 CBC padding"
+  - type: "supersedes"
+    target: "VUL-CRYPTO-CVE20113389-001"
+    description: "POODLE superseded BEAST as the primary motivation for disabling legacy SSL/TLS CBC cipher suites"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "POODLE applies to any system supporting SSL 3.0 protocol fallback"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2014-3566"
+    - "Google Security Blog - This POODLE Bites: Exploiting the SSL 3.0 Fallback"
+    - "MITRE CWE-310: Cryptographic Issues"
+  search_keywords:
+    - "CVE-2014-3566"
+    - "POODLE attack"
+    - "SSL 3.0 vulnerability"
+    - "padding oracle attack"
+    - "protocol downgrade attack"
+    - "SSL CBC padding"
+    - "Padding Oracle On Downgraded Legacy Encryption"
+    - "SSL 3.0 deprecation"
+  embedding_text: >-
+    CVE-2014-3566, known as POODLE (Padding Oracle On Downgraded Legacy Encryption), is a
+    vulnerability in SSL 3.0 that enables man-in-the-middle attackers to decrypt encrypted traffic
+    by exploiting non-deterministic padding in CBC mode cipher suites. The attacker forces a
+    protocol downgrade from TLS to SSL 3.0 by interfering with the handshake, then exploits the
+    fact that SSL 3.0 does not specify padding byte contents. By modifying the last ciphertext
+    block and observing server responses, the attacker can decrypt each byte in approximately 256
+    attempts. Discovered by Google researchers in October 2014, POODLE was the final justification
+    for disabling SSL 3.0 entirely. The vulnerability could not be fixed without breaking the SSL
+    3.0 protocol, forcing industry-wide adoption of TLS 1.0 as the minimum supported version.
+    Mitigations include disabling SSL 3.0, implementing TLS_FALLBACK_SCSV to prevent protocol
+    downgrades, and preferring AEAD cipher suites over CBC modes. CVSS score is 3.4.

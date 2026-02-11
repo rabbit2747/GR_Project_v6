@@ -1,0 +1,116 @@
+# GR Atom: Vulnerability Disclosure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-VULNDISC-001"
+  name: "Vulnerability Disclosure"
+  normalized_name: "vulnerability_disclosure"
+  aliases:
+    - "Coordinated Vulnerability Disclosure"
+    - "CVD"
+    - "Responsible Disclosure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    Vulnerability Disclosure is the process and legal framework governing how security
+    vulnerabilities in software, hardware, or services are reported to affected vendors and
+    subsequently communicated to the public. Coordinated Vulnerability Disclosure (CVD) follows
+    a structured approach where the discoverer reports the vulnerability to the vendor privately,
+    the vendor develops and deploys a fix within an agreed timeline (typically 90 days), and
+    the vulnerability is then publicly disclosed. This process is formalized through standards
+    such as ISO/IEC 29147:2018 (Vulnerability disclosure) and ISO/IEC 30111:2019 (Vulnerability
+    handling processes), and is increasingly mandated by regulations including the EU Cyber
+    Resilience Act, US Executive Order 14028 on Improving Cybersecurity, and CISA's vulnerability
+    disclosure policy requirements.
+  why: >
+    Vulnerability disclosure mechanisms are essential for the security ecosystem because they
+    provide incentives for researchers to report findings constructively rather than exploiting
+    them or selling them on dark markets. Without clear disclosure processes, organizations
+    face increased risk of zero-day exploitation, researchers face legal uncertainty, and the
+    overall security posture of the technology ecosystem degrades. Regulatory mandates (EU CRA,
+    NIS2 Directive, US EO 14028) increasingly require organizations to maintain vulnerability
+    disclosure processes, making this a compliance obligation beyond a security best practice.
+  how: >
+    Organizations implement vulnerability disclosure through establishing a Vulnerability
+    Disclosure Policy (VDP) that defines scope, authorized testing activities, safe harbor
+    provisions, and reporting channels. Technical implementation includes publishing a
+    security.txt file (RFC 9116), creating dedicated security contact information, deploying
+    bug bounty programs through platforms like HackerOne or Bugcrowd, establishing internal
+    vulnerability triage and response workflows, coordinating with CERT/CC or other coordination
+    centers, assigning CVE identifiers through CNA (CVE Numbering Authority) programs, and
+    publishing security advisories with remediation guidance.
+  core_concepts:
+    - key: "Coordinated Vulnerability Disclosure (CVD)"
+      value: "Structured process where vulnerability discoverers and affected vendors collaborate on disclosure timing and remediation"
+    - key: "Disclosure Timeline"
+      value: "Agreed period (typically 90 days) for vendors to develop and deploy fixes before public disclosure of vulnerability details"
+    - key: "Safe Harbor"
+      value: "Legal protections for security researchers conducting authorized vulnerability testing within defined scope and rules"
+    - key: "CVE Assignment"
+      value: "Common Vulnerabilities and Exposures identifier assignment through CNA programs to enable standardized tracking and communication"
+    - key: "Bug Bounty Programs"
+      value: "Incentive programs offering financial rewards to security researchers for responsibly reporting vulnerabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "Vulnerability disclosure is a compliance obligation under multiple regulations"
+  - type: enables
+    target: "COMP-LAW-VULNDISC-002"
+    description: "Vulnerability disclosure as a concept enables the creation of vulnerability disclosure policies"
+  - type: applies_to
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "Vulnerability disclosure requirements apply across multiple industry compliance frameworks"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ISO/IEC 29147:2018 — Information technology — Security techniques — Vulnerability disclosure"
+    - "ISO/IEC 30111:2019 — Information technology — Security techniques — Vulnerability handling processes"
+    - "CERT/CC Guide to Coordinated Vulnerability Disclosure"
+    - "CISA Binding Operational Directive 20-01 — Vulnerability Disclosure Policy"
+    - "EU Cyber Resilience Act (CRA) — Vulnerability handling requirements"
+  search_keywords:
+    - "vulnerability disclosure"
+    - "coordinated vulnerability disclosure CVD"
+    - "responsible disclosure"
+    - "bug bounty program"
+    - "security.txt RFC 9116"
+    - "CVE assignment"
+    - "vulnerability reporting"
+    - "safe harbor security research"
+    - "CISA vulnerability disclosure"
+  embedding_text: >
+    Vulnerability Disclosure is the process and legal framework for reporting security
+    vulnerabilities to affected vendors and communicating them to the public. Coordinated
+    Vulnerability Disclosure (CVD) involves private reporting, agreed remediation timelines
+    (typically 90 days), and coordinated public disclosure. Formalized through ISO/IEC 29147
+    and ISO/IEC 30111, it is increasingly mandated by regulations including the EU Cyber
+    Resilience Act, NIS2, and US Executive Order 14028. Implementation includes Vulnerability
+    Disclosure Policies, security.txt files (RFC 9116), bug bounty programs, CVE assignment
+    through CNA programs, and coordination with CERT/CC. Safe harbor provisions protect
+    security researchers conducting authorized testing within defined scope.

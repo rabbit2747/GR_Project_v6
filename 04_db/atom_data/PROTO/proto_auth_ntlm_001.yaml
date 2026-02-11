@@ -1,0 +1,147 @@
+# GR Atom: NTLM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-NTLM-001"
+  name: "NTLM"
+  normalized_name: "ntlm"
+  aliases:
+    - "NT LAN Manager"
+    - "NTLM Authentication"
+    - "NTLMv1"
+    - "NTLMv2"
+    - "NT LAN Manager Authentication"
+    - "Windows Challenge-Response Authentication"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - NETWORK
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NTLM (NT LAN Manager) is a suite of Microsoft challenge-response authentication protocols
+    used in Windows environments to authenticate clients to servers without transmitting plaintext
+    passwords. NTLM encompasses two versions: NTLMv1 (using DES-based encryption with a weaker
+    challenge-response scheme) and NTLMv2 (using HMAC-MD5 with a variable-length challenge
+    incorporating the server name and timestamp). NTLM operates as a connection-oriented protocol
+    where the server challenges the client, and the client proves knowledge of the password hash
+    by computing a response. NTLM is the legacy authentication protocol in Windows, predating
+    Kerberos and still used as a fallback when Kerberos is unavailable, in workgroup environments,
+    and for authenticating to systems by IP address rather than hostname.
+  why: >-
+    NTLM remains prevalent in enterprise networks despite being superseded by Kerberos because
+    it functions without a domain controller (enabling workgroup authentication), works with
+    IP-based addressing (unlike Kerberos which requires hostnames for SPN resolution), and
+    serves as an automatic fallback when Kerberos fails. From a security perspective, NTLM is
+    a critical attack vector. Pass-the-Hash attacks reuse captured NTLM hashes to authenticate
+    without knowing the plaintext password. NTLM relay attacks forward authentication attempts
+    to other services, gaining unauthorized access. NTLMv1 hashes are trivially crackable, and
+    NTLMv2 hashes are vulnerable to offline brute-force attacks. NTLM lacks mutual authentication,
+    enabling server impersonation. Microsoft has announced plans to deprecate NTLM in favor of
+    Kerberos and modern authentication protocols, but NTLM remains deeply embedded in legacy
+    Windows infrastructure.
+  how: >-
+    NTLM authentication operates through a three-message challenge-response exchange: (1)
+    NEGOTIATE - the client sends a Type 1 message containing supported NTLM features, the
+    client's workstation name, and its domain; (2) CHALLENGE - the server responds with a
+    Type 2 message containing an 8-byte random challenge (nonce), the server's supported
+    features, and target information; (3) AUTHENTICATE - the client computes a response by
+    encrypting the server's challenge with the user's NTLM hash (derived from the password),
+    sending a Type 3 message containing the NT response, LM response (legacy), domain, username,
+    and workstation name. For NTLMv1, the NT hash is split into three 7-byte DES keys that
+    encrypt the challenge. For NTLMv2, the response uses HMAC-MD5 with the NTv2 hash
+    (HMAC-MD5 of username and domain over the NT hash) and a variable-length client challenge
+    incorporating the timestamp and server target info. The server validates by performing the
+    same computation and comparing results, either locally or by forwarding to a domain
+    controller via the Netlogon secure channel.
+  core_concepts:
+    - key: "Challenge-Response Mechanism"
+      value: >-
+        The three-message exchange where the server issues a random challenge and the client
+        proves password knowledge by computing a cryptographic response. This avoids
+        transmitting passwords but is vulnerable to relay attacks since the challenge-response
+        is not bound to the target server.
+    - key: "Pass-the-Hash (PtH)"
+      value: >-
+        An attack technique where captured NTLM password hashes are used directly for
+        authentication without needing the plaintext password. Since NTLM authentication
+        requires only the hash to compute challenge responses, compromised hashes provide
+        immediate authenticated access to network resources.
+    - key: "NTLM Relay Attack"
+      value: >-
+        An attack where the attacker intercepts an NTLM authentication attempt and forwards
+        (relays) the challenge-response messages to a different target server, gaining
+        unauthorized access as the victim. NTLM lacks channel binding, making it inherently
+        vulnerable to relay unless mitigated by Extended Protection for Authentication (EPA).
+    - key: "NTLMv1 vs NTLMv2"
+      value: >-
+        NTLMv1 uses DES encryption with a fixed 8-byte challenge and is cryptographically
+        weak. NTLMv2 improves security with HMAC-MD5, a variable-length client challenge
+        incorporating timestamps and server target information, providing replay protection
+        and stronger hash computation. NTLMv1 should be disabled in all environments.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "NTLM is a challenge-response authentication protocol within the authentication protocol family"
+  - type: "enables"
+    target: "PROTO-AUTH-NTLMSSP-001"
+    description: "NTLM provides the authentication mechanism that NTLMSSP packages for transport over application protocols"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-KERBEROS-001"
+    description: "NTLM is the legacy alternative to Kerberos in Windows environments, used as fallback when Kerberos is unavailable"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft NTLM Authentication Reference. Microsoft. https://learn.microsoft.com/en-us/windows-server/security/kerberos/ntlm-overview"
+    - "MS-NLMP - NT LAN Manager (NTLM) Authentication Protocol Specification. Microsoft. https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nlmp/"
+    - "MITRE ATT&CK T1550.002 - Use Alternate Authentication Material: Pass the Hash. https://attack.mitre.org/techniques/T1550/002/"
+    - "MITRE ATT&CK T1557.001 - LLMNR/NBT-NS Poisoning and SMB Relay. https://attack.mitre.org/techniques/T1557/001/"
+  search_keywords:
+    - "NTLM"
+    - "NT LAN Manager"
+    - "NTLMv1"
+    - "NTLMv2"
+    - "pass-the-hash"
+    - "NTLM relay"
+    - "NTLM hash"
+    - "challenge-response authentication"
+    - "Windows authentication"
+    - "NTLM deprecation"
+    - "NTLM cracking"
+    - "net-NTLMv2"
+  embedding_text: >-
+    NTLM (NT LAN Manager) is a Microsoft challenge-response authentication protocol suite used
+    in Windows environments. The protocol authenticates clients through a three-message exchange:
+    negotiate, challenge, and authenticate, where the client proves password knowledge by computing
+    a cryptographic response to a server-issued challenge without transmitting the plaintext
+    password. NTLMv1 uses weak DES-based encryption while NTLMv2 improves with HMAC-MD5 and
+    variable-length challenges. NTLM is the legacy fallback when Kerberos is unavailable, used
+    in workgroup environments and IP-based authentication. Critical attack vectors include
+    Pass-the-Hash where captured NTLM hashes authenticate directly without password knowledge,
+    NTLM relay attacks that forward authentication to unauthorized targets, and offline hash
+    cracking. NTLM lacks mutual authentication and channel binding, making it inherently
+    vulnerable to relay and impersonation attacks. Microsoft has announced NTLM deprecation
+    in favor of Kerberos, but NTLM remains deeply embedded in legacy Windows infrastructure
+    requiring careful migration planning.

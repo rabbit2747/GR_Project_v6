@@ -1,0 +1,93 @@
+# GR Atom: File System Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-FILSYSSEN-001"
+  name: "File System Sensor"
+  normalized_name: "file_system_sensor"
+  aliases:
+    - "File Integrity Monitor"
+    - "FIM Sensor"
+    - "File Activity Monitor"
+    - "File System Monitor"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 3
+  atom_tags:
+    - MONITOR
+    - LOG
+    - EDR
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A File System Sensor tracks file operations including creation, modification, deletion,
+    renaming, and permission changes. It implements File Integrity Monitoring (FIM) using
+    cryptographic hashes compared against known-good baselines. Operates through kernel-level
+    filesystem drivers (Windows mini-filters, Linux fanotify/inotify) or periodic scanning.
+    Implementations include OSSEC/Wazuh, Tripwire, AIDE, and EDR-integrated file monitoring.
+  why: >-
+    File system sensors are required by compliance frameworks (PCI DSS 11.5, SOX, HIPAA) and
+    detect malware deployment, configuration tampering, web shell installation, ransomware
+    encryption, and unauthorized file access. Without file system monitoring, attackers can
+    modify critical files and install backdoors without detection.
+  how: >-
+    Sensors use kernel hooks (mini-filter drivers, fanotify) for real-time file operation
+    notifications. For FIM, they compute SHA-256 hashes of monitored files and compare against
+    baselines. Events are enriched with process and user context and forwarded to SIEM/EDR
+    platforms. Real-time sensors intercept operations immediately; periodic sensors scan on
+    schedules with lower overhead but delayed detection.
+  core_concepts:
+    - key: "File Integrity Monitoring"
+      value: "Cryptographic hash comparison of critical files against known-good baselines to detect unauthorized modifications"
+    - key: "Compliance Requirement"
+      value: "FIM is mandated by PCI DSS 11.5, SOX, HIPAA for detecting unauthorized changes to critical files"
+    - key: "Real-Time vs Periodic"
+      value: "Kernel-level sensors provide immediate detection; periodic scanners offer lower overhead but delayed detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "File system sensors are a specialized cyber sensor focused on file operation monitoring"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "File system sensors are a component of broader endpoint sensor capabilities"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "PCI DSS v4.0 - Requirement 11.5 File Integrity Monitoring"
+    - "NIST SP 800-53 - SI-7 Software and Information Integrity"
+    - "MITRE ATT&CK - File Monitoring Data Source"
+  search_keywords:
+    - "file system sensor"
+    - "file integrity monitoring"
+    - "FIM"
+    - "Tripwire"
+    - "OSSEC FIM"
+    - "file change detection"
+    - "PCI DSS FIM"
+  embedding_text: >-
+    File System Sensor tracks file operations and implements File Integrity Monitoring using
+    cryptographic hashes against known-good baselines. Operating through kernel-level drivers
+    or periodic scanning, it detects malware deployment, web shell installation, ransomware,
+    and configuration tampering. Required by PCI DSS, SOX, and HIPAA. Implementations include
+    OSSEC/Wazuh, Tripwire, and AIDE.

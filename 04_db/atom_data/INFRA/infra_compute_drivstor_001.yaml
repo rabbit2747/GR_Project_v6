@@ -1,0 +1,69 @@
+# GR Atom: Driver Store
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-DRIVSTOR-001"
+  name: "Driver Store"
+  normalized_name: "driver_store"
+  aliases: ["Windows Driver Store", "DriverStore", "FileRepository"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [WINDOWS, OS, CONFIG]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "P3.1"
+definition:
+  what: >-
+    The Windows Driver Store is a trusted repository of driver packages located at
+    %SystemRoot%\System32\DriverStore\FileRepository. It serves as the central location
+    where all validated driver packages are staged before installation. Only drivers that
+    have been verified by Windows (signature validation, hardware ID matching) are stored
+    here. The Driver Store ensures driver integrity and enables reliable driver installation
+    and rollback.
+  why: >-
+    The Driver Store is a security-critical component because kernel-mode drivers have
+    unrestricted system access. Compromising the Driver Store by injecting malicious drivers
+    enables rootkit-level persistence. Bring Your Own Vulnerable Driver (BYOVD) attacks
+    leverage legitimately signed but vulnerable drivers from the store to gain kernel access.
+    Monitoring the Driver Store for unauthorized additions helps detect driver-based attacks.
+  how: >-
+    Drivers are staged to the Driver Store via pnputil.exe, DISM, or Windows Update. Each
+    driver package is stored in a unique folder under FileRepository named with the INF file
+    name and a hash. Windows validates digital signatures before staging. When a device needs
+    a driver, PnP manager searches the Driver Store for matching hardware IDs. The staging
+    process requires administrator privileges. WDAC and HVCI policies can restrict which
+    drivers are allowed to load from the store.
+  core_concepts:
+    - key: "Trusted Driver Repository"
+      value: "Centralized store where only signature-validated driver packages are staged, serving as the source for driver installation"
+    - key: "BYOVD Attacks"
+      value: "Bring Your Own Vulnerable Driver attacks exploit legitimately signed drivers with known vulnerabilities to gain kernel access"
+    - key: "Driver Integrity"
+      value: "Windows validates digital signatures and maintains driver versioning in the store, enabling rollback and integrity verification"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "The Driver Store is a Windows system component on desktop and server computers"
+  - type: "requires"
+    target: "INFRA-COMPUTE-DISMCORE-001"
+    description: "DISM Core manages driver injection into the Driver Store for offline images"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft Driver Store Documentation", "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation", "BYOVD Attack Research"]
+  search_keywords: ["driver store", "windows driver store", "FileRepository", "pnputil", "BYOVD", "driver staging", "kernel driver"]
+  embedding_text: >-
+    The Windows Driver Store is a trusted repository at DriverStore\FileRepository where
+    signature-validated driver packages are staged before installation. It is security-critical
+    because kernel-mode drivers have unrestricted system access. BYOVD attacks exploit
+    legitimately signed vulnerable drivers from the store for kernel access. Drivers are staged
+    via pnputil, DISM, or Windows Update with administrator privileges. WDAC and HVCI policies
+    restrict which drivers can load. Monitoring for unauthorized Driver Store additions helps
+    detect driver-based rootkit and persistence attacks.

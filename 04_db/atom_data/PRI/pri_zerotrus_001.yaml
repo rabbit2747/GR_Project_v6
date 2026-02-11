@@ -1,0 +1,196 @@
+# GR Atom: Zero Trust
+# Schema: atom_schema.yaml v5.1
+# Status: enriched (AI enrichment complete)
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-ZEROTRUS-001"
+  name: "Zero Trust"
+  normalized_name: "zero_trust"
+  aliases:
+    - "Zero Trust Architecture"
+    - "ZTA"
+    - "Zero Trust Model"
+    - "Zero Trust Security"
+    - "Never Trust Always Verify"
+    - "Zero Trust Network Access"
+    - "Perimeterless Security"
+    - "BeyondCorp"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 4
+  atom_tags:
+    - ZTNA
+    - MONITOR
+    - ENCRYPT
+    - MFA
+    - PAM
+    - SIEM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Zero Trust is a cybersecurity paradigm that eliminates implicit trust from network
+    architecture, requiring continuous verification of every user, device, and network flow
+    regardless of location relative to the network perimeter. Originally conceptualized by
+    John Kindervag at Forrester Research in 2010, the model is formally defined in NIST SP
+    800-207 (Zero Trust Architecture, August 2020) as an evolving set of cybersecurity
+    paradigms that move defenses from static, network-based perimeters to a focus on users,
+    assets, and resources. The core tenet is "never trust, always verify" - no actor, system,
+    network, or service operating outside or within the security perimeter is trusted by default.
+    Every access request must be authenticated, authorized, and continuously validated against
+    dynamic policy before granting access to applications and data. Google's BeyondCorp
+    implementation (2014) demonstrated the first large-scale enterprise Zero Trust deployment.
+  why: >-
+    Traditional perimeter-based security models operate on the flawed assumption that everything
+    inside the network boundary is trustworthy. This model fails against modern threats including
+    lateral movement by advanced persistent threats (APTs), insider threats, compromised credentials,
+    and the dissolution of network perimeters through cloud adoption, remote work, BYOD, and IoT
+    proliferation. The 2020 SolarWinds supply chain attack demonstrated that perimeter defenses
+    alone are insufficient when attackers establish trusted positions inside networks. US Executive
+    Order 14028 (May 2021) mandated federal agencies to adopt Zero Trust architecture, and
+    CISA's Zero Trust Maturity Model provides the implementation roadmap. Zero Trust reduces
+    blast radius of breaches through microsegmentation, prevents lateral movement through
+    continuous verification, and provides granular visibility into all network activity.
+  how: >-
+    Implementation follows the five pillars defined in CISA's Zero Trust Maturity Model:
+    (1) Identity - deploy strong multi-factor authentication (MFA), implement identity governance
+    with continuous validation, use risk-based conditional access policies, and establish
+    privileged access management (PAM); (2) Devices - maintain comprehensive device inventory,
+    enforce device health and compliance checks, implement endpoint detection and response (EDR),
+    and ensure device attestation before granting access; (3) Networks - implement microsegmentation
+    to isolate workloads, encrypt all traffic (east-west and north-south), deploy software-defined
+    perimeters (SDP), and eliminate implicit trust zones; (4) Applications and Workloads - implement
+    application-level access controls, integrate security into CI/CD pipelines, deploy runtime
+    application self-protection (RASP), and authorize at the application layer; (5) Data - classify
+    and tag all data, implement data loss prevention (DLP), encrypt data at rest and in transit,
+    and enforce data access policies based on user context, device posture, and data sensitivity.
+    A Policy Decision Point (PDP) and Policy Enforcement Point (PEP) architecture governs all
+    access decisions based on real-time context and risk signals.
+  core_concepts:
+    - key: "Never Trust, Always Verify"
+      value: >-
+        The foundational tenet stating that no entity - whether user, device, application, or
+        network flow - receives implicit trust regardless of network location. Every access
+        request must be authenticated, authorized, and encrypted before granting access.
+    - key: "Least Privilege Access"
+      value: >-
+        Users and systems receive only the minimum permissions necessary to perform their
+        specific function, with just-in-time (JIT) and just-enough-access (JEA) provisioning
+        to minimize the attack surface and potential blast radius of compromise.
+    - key: "Microsegmentation"
+      value: >-
+        Division of the network into granular security zones that isolate workloads and
+        resources, preventing lateral movement by requiring separate authentication and
+        authorization for each segment boundary crossing.
+    - key: "Continuous Verification"
+      value: >-
+        Ongoing assessment of user identity, device health, behavioral patterns, and
+        environmental context throughout the duration of a session, not just at initial
+        authentication. Session trust levels are dynamically adjusted based on risk signals.
+    - key: "Assume Breach"
+      value: >-
+        Operational posture that assumes adversaries have already compromised the environment.
+        Security controls are designed to detect, contain, and minimize the impact of breaches
+        through microsegmentation, continuous monitoring, and automated response.
+    - key: "Policy Decision Point / Policy Enforcement Point (PDP/PEP)"
+      value: >-
+        Architectural components defined in NIST SP 800-207 where the PDP evaluates access
+        requests against policy using identity, device, and environmental context, and the PEP
+        enforces the resulting allow/deny decision at the access point.
+    - key: "CISA Zero Trust Maturity Model"
+      value: >-
+        Framework defining maturity levels (Traditional, Initial, Advanced, Optimal) across five
+        pillars (Identity, Devices, Networks, Applications, Data) with cross-cutting capabilities
+        including visibility, automation, and governance.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "PRI-DEFEDEPT-001"
+    description: "Zero Trust requires Defense in Depth principles to establish the layered controls necessary for microsegmentation and continuous verification"
+  - type: "part_of"
+    target: "PRI-SECUDESI-001"
+    description: "Zero Trust is a specialized security architecture paradigm within the broader Security by Design principle"
+  - type: "enables"
+    target: "PRI-ZERTRUPIL-001"
+    description: "Zero Trust defines the overarching model that the Zero Trust Pillars operationalize across identity, devices, networks, applications, and data"
+  - type: "enables"
+    target: "PRI-ZETRDAAC-001"
+    description: "Zero Trust establishes the verification and authorization framework that Zero Trust Data Access implements for data-layer controls"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NISTSP800207-001"
+    description: "Zero Trust directly implements the architecture and principles defined in NIST SP 800-207 Zero Trust Architecture"
+  - type: "requires"
+    target: "DEF-ACCESS-RBAC-001"
+    description: "Role-based access control is a foundational access management mechanism for implementing Zero Trust authorization policies"
+  - type: "requires"
+    target: "DEF-NETWORK-MICROSEGME-001"
+    description: "Microsegmentation is a core network-level implementation requirement for preventing lateral movement in Zero Trust architecture"
+  - type: "requires"
+    target: "DEF-NETWORK-FIREWALL-001"
+    description: "Next-generation firewalls serve as Policy Enforcement Points at segment boundaries in Zero Trust architecture"
+  - type: "requires"
+    target: "DEF-MONITOR-SIEM-001"
+    description: "SIEM provides the continuous monitoring and analytics capability required for Zero Trust real-time risk assessment and threat detection"
+  - type: "requires"
+    target: "DEF-DATA-DATAPROT-001"
+    description: "Data protection controls including encryption, classification, and DLP are required across the Zero Trust data pillar"
+  - type: "prevents"
+    target: "ATK-LATMOV-001"
+    description: "Zero Trust microsegmentation and continuous verification directly prevent adversary lateral movement within compromised networks"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-207 - Zero Trust Architecture (August 2020). National Institute of Standards and Technology. https://csrc.nist.gov/publications/detail/sp/800-207/final"
+    - "Kindervag, J. (2010). No More Chewy Centers: Introducing The Zero Trust Model Of Information Security. Forrester Research."
+    - "CISA Zero Trust Maturity Model Version 2.0 (April 2023). Cybersecurity and Infrastructure Security Agency. https://www.cisa.gov/zero-trust-maturity-model"
+    - "Executive Order 14028 - Improving the Nation's Cybersecurity (May 12, 2021). The White House. https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/"
+    - "Ward, R. & Beyer, B. (2014). BeyondCorp: A New Approach to Enterprise Security. Google. https://research.google/pubs/pub43231/"
+    - "DoD Zero Trust Reference Architecture Version 2.0 (July 2022). Department of Defense CIO. https://dodcio.defense.gov/Portals/0/Documents/Library/ZTRAv2.0.pdf"
+  search_keywords:
+    - "zero trust"
+    - "zero trust architecture"
+    - "NIST SP 800-207"
+    - "never trust always verify"
+    - "microsegmentation"
+    - "ZTNA"
+    - "zero trust network access"
+    - "BeyondCorp"
+    - "John Kindervag"
+    - "continuous verification"
+    - "least privilege access"
+    - "CISA zero trust maturity model"
+    - "assume breach"
+    - "policy decision point"
+  embedding_text: >-
+    Zero Trust is a cybersecurity paradigm that eliminates implicit trust from all network
+    interactions, requiring continuous verification of every user, device, and data flow
+    regardless of network location. Originated by John Kindervag at Forrester Research in 2010
+    and formally defined in NIST SP 800-207, the core tenet is never trust, always verify.
+    The architecture replaces traditional perimeter-based security with identity-centric,
+    context-aware access controls enforced through Policy Decision Points and Policy Enforcement
+    Points. Implementation follows CISA's Zero Trust Maturity Model across five pillars:
+    identity with strong MFA and privileged access management, devices with health attestation
+    and EDR, networks with microsegmentation and encrypted east-west traffic, applications with
+    runtime protection and CI/CD security integration, and data with classification, DLP, and
+    encryption. US Executive Order 14028 mandated federal Zero Trust adoption. Google's BeyondCorp
+    demonstrated the first enterprise-scale implementation. The assume breach posture drives
+    design of controls that detect and contain adversaries who have already penetrated defenses,
+    preventing lateral movement through granular segmentation and continuous session evaluation.
+    Zero Trust addresses the fundamental inadequacy of perimeter security against modern threats
+    including APTs, insider threats, and cloud-era architecture dissolution.

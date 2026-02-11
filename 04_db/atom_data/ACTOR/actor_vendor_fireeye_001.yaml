@@ -1,0 +1,82 @@
+# GR Atom: FireEye
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FIREEYE-001"
+  name: "FireEye"
+  normalized_name: "fireeye"
+  aliases:
+    - "FireEye Inc."
+    - "Mandiant FireEye"
+    - "Trellix"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - SANDBOX
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "FireEye was a major American cybersecurity company known for its advanced threat detection appliances, Mandiant incident response division, and world-class threat intelligence capabilities. FireEye pioneered network sandboxing technology for detecting zero-day malware and advanced persistent threats. In 2021, FireEye sold its products division to Symphony Technology Group (which merged it into Trellix), while the Mandiant consulting and threat intelligence division was later acquired by Google. FireEye/Mandiant is renowned for attributing major APT campaigns including APT1, APT28, APT29, and discovering the SolarWinds supply chain attack."
+  why: "FireEye/Mandiant is one of the most influential companies in cybersecurity history. Their APT1 report (2013) was groundbreaking in publicly attributing state-sponsored cyber espionage to China's PLA Unit 61398. Mandiant's discovery of the SolarWinds SUNBURST supply chain attack (2020) exposed one of the most sophisticated nation-state operations ever documented. FireEye's own breach in 2020, where Russian APT29 stole red team tools, demonstrated that even top security firms are targets. Their threat intelligence and incident response work has shaped the entire cyber threat intelligence industry."
+  how: "FireEye operated through network security appliances using virtual machine-based sandboxing to detect advanced malware, combined with endpoint detection and email security products. The Mandiant division conducted incident response, threat intelligence, and red team assessments. FireEye's threat intelligence team tracked hundreds of threat groups globally, producing detailed APT reports with TTPs, indicators of compromise, and attribution analysis. Post-split, Trellix continues the product line while Google Mandiant maintains the consulting and intelligence capabilities."
+  core_concepts:
+    - key: "Advanced Threat Detection"
+      value: "Pioneering network sandboxing technology for detecting zero-day malware and APT activity in real time"
+    - key: "APT Attribution & Intelligence"
+      value: "World-class threat intelligence including groundbreaking APT1 report and discovery of SolarWinds SUNBURST attack"
+    - key: "Incident Response Excellence"
+      value: "Mandiant incident response and forensics capabilities considered the gold standard in the industry"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-SANDBOX-NETWORK-001"
+    description: "Produced network sandboxing appliances for advanced malware and zero-day threat detection"
+  - type: "enables"
+    target: "DEF-THREATINTEL-REPORT-001"
+    description: "Produces world-class threat intelligence reports including APT attribution and campaign analysis"
+  - type: enables
+    target: "ACTOR-VENDOR-GOOGLE-001"
+    description: "Mandiant division acquired by Google, forming Google Mandiant threat intelligence and consulting"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.mandiant.com"
+    - "https://www.trellix.com"
+    - "https://cloud.google.com/security/mandiant"
+  search_keywords:
+    - "fireeye"
+    - "mandiant"
+    - "trellix"
+    - "apt1 report"
+    - "fireeye breach"
+    - "solarwinds discovery"
+    - "network sandbox"
+    - "advanced threat detection"
+    - "fireeye red team tools"
+    - "mandiant incident response"
+    - "apt attribution"
+  embedding_text: "FireEye was a major American cybersecurity company known for its advanced threat detection appliances, Mandiant incident response division, and world-class threat intelligence capabilities. FireEye pioneered network sandboxing technology for detecting zero-day malware and advanced persistent threats. In 2021 the products division was sold and merged into Trellix, while Mandiant was acquired by Google. FireEye/Mandiant is renowned for attributing major APT campaigns including APT1, APT28, APT29, and discovering the SolarWinds SUNBURST supply chain attack. The APT1 report was groundbreaking in publicly attributing state-sponsored cyber espionage to China's PLA Unit 61398. FireEye's own breach in 2020 by Russian APT29 demonstrated that even top security firms are targets. Their threat intelligence and incident response work has shaped the entire cyber threat intelligence industry, with Mandiant considered the gold standard for incident response."

@@ -1,0 +1,135 @@
+# GR Atom: UDP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-TRANSPORT-UDP-001"
+  name: "UDP"
+  normalized_name: "udp"
+  aliases:
+    - "User Datagram Protocol"
+    - "UDP Protocol"
+    - "UDP/IP"
+    - "Connectionless Transport"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - DNS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    UDP (User Datagram Protocol) is a connectionless transport layer protocol defined in RFC 768
+    that provides minimal, best-effort delivery of datagrams between applications over IP networks.
+    Unlike TCP, UDP has no handshake, no delivery guarantees, no ordering, and no congestion
+    control, resulting in minimal overhead (8-byte header vs TCP's 20+ bytes). UDP operates at
+    Layer 4 and is the transport for latency-sensitive protocols including DNS (port 53), DHCP
+    (ports 67/68), NTP (port 123), SNMP (ports 161/162), QUIC (port 443), and real-time media
+    (RTP/RTCP). UDP carries approximately 40% of Internet traffic, growing due to QUIC/HTTP3 adoption.
+  why: >-
+    UDP's connectionless, source-unverified nature makes it a primary vector for amplification
+    DDoS attacks and IP spoofing. Because UDP does not validate the source address or require a
+    handshake, attackers can forge the source IP to reflect large responses from public servers
+    toward victims. UDP amplification attacks exploit protocols with high response-to-request
+    ratios: DNS (up to 70x), NTP (556x via monlist), Memcached (51,000x), SSDP (30x), and
+    SNMP (6x). The 2018 GitHub DDoS attack reached 1.35 Tbps using Memcached UDP amplification.
+    UDP port scanning is harder to detect than TCP scanning since no handshake occurs. UDP-based
+    services (DNS, SNMP, TFTP) often lack built-in encryption, exposing data to eavesdropping.
+    UDP flood attacks simply overwhelm targets with high-volume traffic requiring no spoofed
+    response amplification.
+  how: >-
+    UDP operates as a thin multiplexing layer over IP: (1) applications send datagrams with
+    destination IP and port; (2) UDP encapsulates data with an 8-byte header containing source
+    port, destination port, length, and checksum; (3) datagrams are delivered independently
+    with no connection state, ordering, or reliability; (4) the receiver demultiplexes based
+    on destination port. Security controls include: ingress filtering (BCP 38/RFC 2827) to
+    prevent source address spoofing at network edges, response rate limiting (RRL) on DNS and
+    other UDP services, disabling unnecessary UDP services (especially NTP monlist, open SNMP,
+    open Memcached), implementing DTLS for UDP encryption where supported, deploying UDP-aware
+    stateful firewalls that track pseudo-connections via timeout-based state tables, using
+    anycast for distributed DDoS absorption, and applying application-layer validation to
+    reject malformed UDP payloads.
+  core_concepts:
+    - key: "UDP Amplification Attack"
+      value: >-
+        A DDoS technique exploiting UDP's connectionless nature to send small requests with
+        spoofed source IPs to public servers that generate disproportionately large responses,
+        reflecting amplified traffic toward the victim. Amplification factors range from 6x
+        (SNMP) to 51,000x (Memcached).
+    - key: "Source IP Spoofing"
+      value: >-
+        The ability to forge the source IP address in UDP datagrams because UDP requires no
+        handshake to verify the sender's identity. This enables reflection attacks, anonymous
+        scanning, and cache poisoning attacks against DNS and other UDP services.
+    - key: "BCP 38 Ingress Filtering"
+      value: >-
+        Network-level source address validation (RFC 2827) that drops packets with source
+        addresses not belonging to the sending network, preventing IP spoofing at the network
+        edge and significantly reducing the effectiveness of UDP amplification attacks.
+    - key: "DTLS"
+      value: >-
+        Datagram Transport Layer Security (RFC 9147) provides TLS-equivalent encryption and
+        authentication for UDP-based communications, addressing the inherent lack of
+        confidentiality and integrity protection in UDP while preserving its low-latency
+        connectionless characteristics.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-TRANSPORT-001"
+    description: "UDP is the primary connectionless protocol within the transport protocol family"
+  - type: "enables"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "UDP provides the default transport for DNS queries and responses on port 53"
+  - type: "enables"
+    target: "PROTO-NAMING-DNS-001"
+    description: "UDP carries Multicast DNS traffic for local service discovery on port 5353"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 768 - User Datagram Protocol (August 1980). IETF. https://datatracker.ietf.org/doc/html/rfc768"
+    - "RFC 2827 - Network Ingress Filtering: Defeating Denial of Service Attacks (BCP 38) (May 2000). IETF. https://datatracker.ietf.org/doc/html/rfc2827"
+    - "RFC 9147 - The Datagram Transport Layer Security (DTLS) Protocol Version 1.3 (April 2022). IETF. https://datatracker.ietf.org/doc/html/rfc9147"
+    - "US-CERT Alert TA14-017A - UDP-Based Amplification Attacks. CISA. https://www.cisa.gov/news-events/alerts/2014/01/17/udp-based-amplification-attacks"
+  search_keywords:
+    - "UDP"
+    - "user datagram protocol"
+    - "UDP amplification"
+    - "UDP flood"
+    - "DNS amplification"
+    - "NTP amplification"
+    - "source IP spoofing"
+    - "BCP 38"
+    - "ingress filtering"
+    - "DTLS"
+    - "connectionless transport"
+    - "RFC 768"
+    - "UDP DDoS"
+  embedding_text: >-
+    UDP (User Datagram Protocol) is a connectionless transport protocol defined in RFC 768
+    providing minimal best-effort datagram delivery with 8-byte header overhead. It is the
+    transport for DNS, DHCP, NTP, SNMP, QUIC, and real-time media. UDP's connectionless,
+    source-unverified nature makes it the primary vector for amplification DDoS attacks where
+    spoofed requests generate disproportionate responses reflected toward victims. Amplification
+    factors range from 6x (SNMP) to 51,000x (Memcached). Security controls include BCP 38 ingress
+    filtering to prevent source spoofing, response rate limiting on UDP services, disabling
+    unnecessary services, DTLS for encryption, stateful UDP firewalls with timeout-based tracking,
+    and anycast distribution. UDP carries approximately 40% of Internet traffic and its security
+    implications span DDoS mitigation, DNS security, and network reconnaissance prevention.

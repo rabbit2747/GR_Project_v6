@@ -1,0 +1,65 @@
+# GR Atom: Foxglove
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FOXGLOVE-001"
+  name: "Foxglove"
+  normalized_name: "foxglove"
+  aliases:
+    - "Foxglove Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Foxglove Security is a cybersecurity research and consulting firm known for publishing offensive security research, developing proof-of-concept exploits, and contributing open-source security tools. The company specializes in penetration testing, vulnerability research, and red team engagements, with notable contributions to the security community including research on Active Directory attack techniques and Windows exploitation."
+  why: "Foxglove Security is relevant to the cybersecurity landscape as a contributor of offensive security research and tooling that both red teams and defenders use to understand attack paths. Their published research on topics such as NTLM relay attacks and privilege escalation has influenced how organizations assess and harden their environments against real-world attack techniques."
+  how: "Foxglove Security conducts penetration testing and red team engagements for clients, publishes detailed technical blog posts on discovered vulnerabilities and attack techniques, develops and releases open-source offensive security tools, and contributes to the broader security research community through conference presentations and responsible disclosure."
+  core_concepts:
+    - key: "Offensive security research"
+      value: "Publishing vulnerability research and proof-of-concept exploits to advance defensive understanding"
+    - key: "Red team tooling"
+      value: "Development of open-source tools used in penetration testing and adversary simulation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TECHNIQUE-PENTEST-001"
+    description: "Foxglove produces penetration testing research, tools, and methodologies"
+  - type: enables
+    target: "SECTOR-CYBERSEC-001"
+    description: "Foxglove enables cybersecurity defense through offensive research contributions"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Foxglove Security Official Blog"
+    - "GitHub - Foxglove Security Repositories"
+  search_keywords:
+    - "foxglove security"
+    - "foxglove pentest"
+    - "foxglove offensive security"
+    - "foxglove red team"
+    - "foxglove vulnerability research"
+    - "ntlm relay research"
+  embedding_text: "Foxglove Security is a cybersecurity research and consulting firm specializing in offensive security, penetration testing, and red team operations. The company is recognized for publishing high-quality vulnerability research, developing proof-of-concept exploits, and releasing open-source security tools. Their research contributions span Active Directory attack techniques, Windows privilege escalation, NTLM relay attacks, and network exploitation methods. Foxglove serves both the offensive and defensive security communities by providing detailed technical analysis that helps organizations understand real-world attack paths and improve their security posture. Their work is frequently referenced by security professionals conducting penetration tests and adversary simulation exercises."

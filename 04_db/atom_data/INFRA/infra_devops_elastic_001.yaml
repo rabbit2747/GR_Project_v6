@@ -1,0 +1,80 @@
+# GR Atom: Elastic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-ELASTIC-001"
+  name: "Elastic"
+  normalized_name: "elastic"
+  aliases:
+    - "Elastic Stack"
+    - "ELK Stack"
+    - "Elasticsearch"
+    - "Elastic Cloud"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - ELASTIC
+    - SIEM
+    - LOG
+    - MONITOR
+    - CLOUD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "M1.2"
+
+definition:
+  what: "Elastic (Elastic Stack/ELK) is a search, observability, and security analytics platform built on Elasticsearch, Kibana, Beats, and Logstash. Elasticsearch provides distributed search and analytics engine capabilities. Kibana offers visualization and management. Beats are lightweight data shippers. Logstash is a data processing pipeline. Elastic Security provides SIEM, endpoint detection and response (EDR), and threat intelligence integration for security operations centers."
+  why: "Elastic is critical for security operations as it serves as the data backbone for SIEM, log aggregation, threat hunting, and incident investigation in many organizations. Exposed or misconfigured Elasticsearch instances have caused numerous data breaches by leaking indexed sensitive data. Attackers target Elasticsearch for data theft, index manipulation to hide evidence, and exploitation of unsecured instances. Elastic Security's detection rules and machine learning capabilities are essential for threat detection in modern SOCs."
+  how: "Elastic operates through Elasticsearch clusters that index and store JSON documents in distributed shards across nodes. Beats agents and Logstash pipelines collect and transform log data from sources across the infrastructure. Kibana provides dashboards, search interfaces, and Elastic Security's SIEM workspace. Detection rules match patterns in indexed data to identify threats. Machine learning jobs detect anomalies in time-series data. Index lifecycle management automates data retention. Role-based access control and encryption protect data in transit and at rest."
+  core_concepts:
+    - key: "Elasticsearch Cluster"
+      value: "Distributed search and analytics engine that indexes JSON documents across shards and nodes for near-real-time search and aggregation"
+    - key: "Elastic Security"
+      value: "SIEM and EDR solution providing detection rules, threat intelligence, case management, and timeline analysis for security operations"
+    - key: "Index Lifecycle Management"
+      value: "Automated policy system managing index phases (hot, warm, cold, frozen, delete) for data retention and storage optimization"
+    - key: "Kibana"
+      value: "Visualization and management interface providing dashboards, search, and the Elastic Security SIEM workspace"
+
+relations:
+  - type: enables
+    target: "INFRA-DEVOPS-AWSCLOU-001"
+    description: "Elastic can ingest CloudWatch data for centralized security monitoring across cloud and on-premises infrastructure"
+  - type: requires
+    target: "INFRA-DEVOPS-CLOUSTOR-001"
+    description: "Elastic snapshots and cold-tier indices leverage cloud storage for long-term retention"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-AZURDIAG-001"
+    description: "Elastic Stack serves as an alternative or complement to native cloud monitoring solutions for log aggregation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Elastic Documentation - https://www.elastic.co/guide/"
+    - "Elastic Security Documentation - https://www.elastic.co/guide/en/security/current/"
+    - "MITRE ATT&CK T1005 - Data from Local System"
+  search_keywords:
+    - "Elastic Stack"
+    - "ELK Stack"
+    - "Elasticsearch"
+    - "Elastic SIEM"
+    - "Kibana dashboard"
+    - "Elastic Security"
+    - "log aggregation Elastic"
+    - "Elasticsearch security"
+  embedding_text: "Elastic (Elastic Stack/ELK) is a search, observability, and security analytics platform built on Elasticsearch, Kibana, Beats, and Logstash. Elasticsearch provides distributed search and analytics. Elastic Security offers SIEM, EDR, and threat intelligence for security operations. Security significance includes serving as SIEM data backbone for log aggregation, threat hunting, and incident investigation. Exposed Elasticsearch instances cause data breaches through leaked indexed data. Attackers target instances for data theft and evidence manipulation. Detection rules and machine learning identify threats. Index lifecycle management automates data retention. Role-based access control and encryption protect data."

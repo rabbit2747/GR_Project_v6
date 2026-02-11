@@ -1,0 +1,133 @@
+# GR Atom: Cybersecurity Incident and Vulnerability Response Playbooks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-CYINVUREPL-001"
+  name: "Cybersecurity Incident and Vulnerability Response Playbooks"
+  normalized_name: "cybersecurity_incident_and_vulnerability_response_playbooks"
+  aliases:
+    - "CISA Incident Response Playbooks"
+    - "Federal Incident Response Playbooks"
+    - "CISA Cybersecurity Playbooks"
+    - "EO 14028 Playbooks"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Cybersecurity Incident and Vulnerability Response Playbooks are standardized operational
+    procedures published by the Cybersecurity and Infrastructure Security Agency (CISA) in
+    November 2021, mandated by Executive Order 14028. The playbooks provide federal civilian
+    executive branch (FCEB) agencies with a structured approach for planning and conducting
+    cybersecurity incident and vulnerability response activities. The Incident Response Playbook
+    covers preparation, detection and analysis, containment, eradication and recovery, and
+    post-incident activities. The Vulnerability Response Playbook standardizes vulnerability
+    identification, evaluation, remediation, and reporting processes aligned with NIST SP 800-61
+    and Binding Operational Directives.
+  why: >-
+    Prior to these playbooks, federal agencies lacked a unified standard for incident and
+    vulnerability response, leading to inconsistent response quality, delayed containment,
+    poor information sharing, and difficulty coordinating across agencies during significant
+    cyber incidents. The SolarWinds supply chain compromise and other major incidents
+    demonstrated the need for standardized, repeatable response procedures. These playbooks
+    ensure that all FCEB agencies follow consistent processes, share information through
+    standardized channels, and meet response timeline requirements established by Binding
+    Operational Directives.
+  how: >-
+    Implementation follows two primary playbook tracks: (1) Incident Response - establish
+    incident response teams, implement detection and monitoring capabilities, define severity
+    classification criteria, execute containment procedures based on incident type, perform
+    forensic evidence preservation, conduct eradication and system recovery, and execute
+    post-incident review and lessons learned; (2) Vulnerability Response - integrate with
+    CISA Known Exploited Vulnerabilities (KEV) catalog, implement vulnerability scanning
+    and prioritization using CVSS and SSVC frameworks, define remediation timelines per
+    BOD 22-01, track remediation progress, and report status through CyberScope and CDM
+    dashboards. Both playbooks require integration with CISA reporting requirements and
+    coordination through the Joint Cyber Defense Collaborative (JCDC).
+  core_concepts:
+    - key: "Standardized Incident Response Lifecycle"
+      value: >-
+        A five-phase response process covering preparation, detection and analysis,
+        containment, eradication and recovery, and post-incident activity, aligned with
+        NIST SP 800-61 to ensure consistent handling across all federal agencies.
+    - key: "Known Exploited Vulnerabilities (KEV) Catalog"
+      value: >-
+        CISA-maintained catalog of vulnerabilities known to be actively exploited in the
+        wild, requiring mandatory remediation by FCEB agencies within specified timelines
+        under BOD 22-01.
+    - key: "Stakeholder-Specific Vulnerability Categorization (SSVC)"
+      value: >-
+        A decision-tree-based vulnerability prioritization framework developed by CISA
+        and Carnegie Mellon that considers exploitation status, automatable exposure,
+        and mission impact to guide remediation priority.
+    - key: "Cross-Agency Coordination"
+      value: >-
+        Standardized information sharing and coordination protocols ensuring that incident
+        response activities are communicated to CISA, sector-specific agencies, and affected
+        parties through established channels and timelines.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NISTSP80061-001"
+    description: "The incident response playbook directly implements the NIST SP 800-61 incident handling lifecycle for federal agencies"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "The playbooks require NIST SP 800-53 incident response and vulnerability management controls as the baseline security foundation"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "Incident response procedures reference MITRE ATT&CK techniques for threat characterization and adversary behavior analysis"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA - Federal Government Cybersecurity Incident and Vulnerability Response Playbooks (November 2021). https://www.cisa.gov/sites/default/files/publications/Federal_Government_Cybersecurity_Incident_and_Vulnerability_Response_Playbooks_508C.pdf"
+    - "Executive Order 14028 - Improving the Nation's Cybersecurity (May 12, 2021). https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/"
+    - "CISA Binding Operational Directive 22-01 - Reducing the Significant Risk of Known Exploited Vulnerabilities. https://www.cisa.gov/binding-operational-directive-22-01"
+    - "CISA Stakeholder-Specific Vulnerability Categorization (SSVC). https://www.cisa.gov/ssvc"
+  search_keywords:
+    - "CISA incident response playbooks"
+    - "vulnerability response playbook"
+    - "EO 14028 playbooks"
+    - "federal incident response"
+    - "CISA KEV catalog"
+    - "cybersecurity playbooks"
+    - "FCEB incident response"
+    - "BOD 22-01"
+    - "SSVC vulnerability prioritization"
+    - "cyber incident handling"
+  embedding_text: >-
+    The Cybersecurity Incident and Vulnerability Response Playbooks are standardized operational
+    procedures published by CISA in November 2021 under Executive Order 14028. They provide
+    federal civilian executive branch agencies with structured approaches for cybersecurity
+    incident and vulnerability response. The Incident Response Playbook covers preparation,
+    detection and analysis, containment, eradication and recovery, and post-incident activities
+    aligned with NIST SP 800-61. The Vulnerability Response Playbook standardizes vulnerability
+    identification, evaluation, and remediation processes integrated with the CISA Known
+    Exploited Vulnerabilities catalog and Binding Operational Directive 22-01 timelines.
+    Implementation requires incident response teams, detection monitoring, severity classification,
+    forensic evidence preservation, and cross-agency coordination through the Joint Cyber
+    Defense Collaborative. Vulnerability response integrates CVSS and SSVC prioritization
+    frameworks for risk-based remediation scheduling. These playbooks address the inconsistent
+    response quality demonstrated during major incidents like SolarWinds by establishing
+    unified federal response standards.

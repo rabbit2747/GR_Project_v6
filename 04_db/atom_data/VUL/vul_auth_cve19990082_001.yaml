@@ -1,0 +1,98 @@
+# GR Atom: CVE-1999-0082
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE19990082-001"
+  name: "CVE-1999-0082"
+  normalized_name: "cve_1999_0082"
+  aliases:
+    - "CDE Subprocess Control Service Vulnerability"
+    - "dtspcd Remote Root"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - NETWORK
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "CDE Subprocess Control Service (dtspcd)"
+    - "Unix/Linux systems running CDE"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-1999-0082 is a vulnerability in the CDE (Common Desktop Environment) Subprocess Control
+    Service (dtspcd) on Unix and Linux systems that allows remote attackers to gain root access.
+    The dtspcd service, which listens on TCP port 6112, contains an authentication bypass flaw
+    that permits unauthenticated remote users to execute arbitrary commands with root privileges.
+    This vulnerability was disclosed in 1999 and affects multiple Unix vendors including Sun
+    Solaris, HP-UX, and IBM AIX systems running CDE.
+  why: >-
+    This vulnerability provides unauthenticated remote root access, representing the most severe
+    class of security flaw. Exploitation requires no credentials and grants complete system
+    control. CDE was widely deployed across enterprise Unix environments, making this vulnerability
+    a significant risk to critical infrastructure systems of the era.
+  how: >-
+    Attackers exploit this vulnerability by sending specially crafted requests to the dtspcd
+    service on TCP port 6112. The service fails to properly authenticate incoming requests,
+    allowing remote command execution as root. Mitigation involves disabling the dtspcd service,
+    filtering port 6112 at network firewalls, upgrading to patched CDE versions, or migrating
+    away from CDE to modern desktop environments.
+  core_concepts:
+    - key: "Remote Root Access"
+      value: "Unauthenticated remote exploitation that directly grants root-level command execution on the target system"
+    - key: "CDE Service Exploitation"
+      value: "Targeting the Common Desktop Environment subprocess control daemon which runs with elevated privileges"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-1999-0082 is an authentication bypass vulnerability in the CDE subprocess control service"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-1999-0082"
+    - "NIST NVD CVE-1999-0082"
+    - "CERT Advisory CA-1999-11"
+  search_keywords:
+    - "CVE-1999-0082"
+    - "CDE vulnerability"
+    - "dtspcd exploit"
+    - "remote root CDE"
+    - "subprocess control service"
+    - "Unix CDE authentication bypass"
+  embedding_text: >-
+    CVE-1999-0082 is a critical vulnerability in the CDE Common Desktop Environment Subprocess
+    Control Service (dtspcd) on Unix and Linux systems. The dtspcd service listening on TCP
+    port 6112 contains an authentication bypass allowing unauthenticated remote attackers to
+    execute arbitrary commands with root privileges. Affected systems include Sun Solaris,
+    HP-UX, and IBM AIX running CDE. Exploitation requires no credentials and grants complete
+    system control. Mitigation involves disabling dtspcd, filtering port 6112, applying vendor
+    patches, or migrating from CDE. This represents a classic unauthenticated remote code
+    execution vulnerability from the late 1990s enterprise Unix era.

@@ -1,0 +1,123 @@
+# GR Atom: MITRE ATT&CK Software Mapping
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MIATSOMA-001"
+  name: "MITRE ATT&CK Software Mapping"
+  normalized_name: "mitre_att_ck_software_mapping"
+  aliases:
+    - "ATT&CK Software"
+    - "ATT&CK Tool Mapping"
+    - "ATT&CK Malware Mapping"
+    - "ATT&CK Software Catalog"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - THREAT_INTEL
+    - RED_TEAM
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE ATT&CK Software Mapping is the component of the ATT&CK knowledge base that catalogs
+    and maps adversary software (malware and tools) to the specific ATT&CK techniques they
+    implement. The software catalog contains over 700 entries categorized as either malware
+    (purpose-built malicious code) or tools (legitimate or dual-use software used by adversaries),
+    each linked to documented technique usage, associated threat groups, and behavioral
+    descriptions. This mapping enables defenders to understand which techniques a specific
+    piece of malware or tool employs, and conversely, which software implements a given
+    technique.
+  why: >-
+    When security analysts encounter adversary tools or malware during incident response or
+    threat hunting, they need to quickly understand the full range of capabilities that
+    software possesses. Software mapping provides immediate context about what ATT&CK
+    techniques a tool can execute, enabling rapid scoping of potential compromise extent,
+    informed containment decisions, and targeted detection rule development. It also enables
+    threat intelligence analysts to track tool evolution, understand adversary capability
+    development, and predict future attack patterns based on the tool arsenal associated
+    with specific threat groups.
+  how: >-
+    Software mapping is maintained through: (1) Analyzing malware samples and adversary tools
+    to document their behavioral capabilities; (2) Mapping observed behaviors to specific
+    ATT&CK techniques with evidence from threat intelligence reports, incident response
+    findings, and malware analysis; (3) Linking software entries to the threat groups known
+    to use them, creating adversary-tool-technique relationship chains; (4) Organizations
+    use software mappings to create detection rules targeting specific tool behaviors, scope
+    incident response investigations, build threat-informed defensive strategies, and
+    prioritize detection engineering based on the tools most commonly used against their sector.
+  core_concepts:
+    - key: "Malware Classification"
+      value: >-
+        Purpose-built malicious software documented with its full behavioral profile mapped
+        to ATT&CK techniques, including capabilities for persistence, lateral movement,
+        data collection, and command and control.
+    - key: "Tool Classification"
+      value: >-
+        Legitimate or dual-use software (such as Mimikatz, PsExec, Cobalt Strike) that
+        adversaries leverage during operations, mapped to the ATT&CK techniques each tool
+        enables and the threat groups known to employ them.
+    - key: "Software-Technique-Group Chains"
+      value: >-
+        Relationship mappings connecting specific software to the techniques it implements
+        and the threat groups that use it, enabling multi-dimensional threat intelligence
+        analysis and defensive prioritization.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "Software mapping is a core component of the ATT&CK knowledge base, linking adversary tools to the technique taxonomy"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATCOHE-001"
+    description: "Software mappings inform coverage heatmaps by identifying which tools are used by relevant threats and which techniques they employ"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITRED3FEND-001"
+    description: "Software behavior mappings identify which D3FEND defensive techniques are most relevant for countering specific adversary tools"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK - Software. https://attack.mitre.org/software/"
+    - "MITRE ATT&CK - Enterprise Software List. https://attack.mitre.org/software/"
+    - "MITRE ATT&CK - Design and Philosophy. https://attack.mitre.org/docs/ATTACK_Design_and_Philosophy_March_2020.pdf"
+  search_keywords:
+    - "MITRE ATT&CK software"
+    - "ATT&CK malware mapping"
+    - "ATT&CK tools"
+    - "adversary software catalog"
+    - "malware technique mapping"
+    - "ATT&CK software list"
+    - "threat tool analysis"
+    - "Cobalt Strike ATT&CK"
+    - "Mimikatz ATT&CK"
+    - "adversary tool tracking"
+  embedding_text: >-
+    MITRE ATT&CK Software Mapping catalogs and maps adversary software to specific ATT&CK
+    techniques they implement. The catalog contains over 700 entries categorized as malware
+    (purpose-built malicious code) or tools (legitimate or dual-use software), each linked
+    to documented technique usage and associated threat groups. Software mapping enables
+    defenders to understand the full behavioral capabilities of encountered tools, scope
+    incident response investigations, develop targeted detection rules, and track adversary
+    capability evolution. When analysts encounter tools during incident response, the mapping
+    provides immediate context about ATT&CK techniques the software can execute. Organizations
+    use software-technique-group relationship chains for multi-dimensional threat intelligence
+    analysis, detection engineering prioritization based on relevant adversary toolsets, and
+    building threat-informed defensive strategies targeted at the specific software arsenal
+    used by threat groups targeting their sector.

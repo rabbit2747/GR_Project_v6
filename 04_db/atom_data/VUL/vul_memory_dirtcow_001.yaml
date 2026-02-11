@@ -1,0 +1,125 @@
+# GR Atom: Dirty COW
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-DIRTCOW-001"
+  name: "Dirty COW"
+  normalized_name: "dirty_cow"
+  aliases:
+    - "CVE-2016-5195"
+    - "Copy-on-Write Race Condition"
+    - "Linux COW Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OVERFLOW
+    - LINUX
+    - OS
+    - ANDROID
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Linux kernel memory management (Copy-on-Write)"
+    - "Linux kernels 2.6.22 through 4.8.3"
+    - "Android devices with affected kernels"
+    - "All Linux distributions"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Dirty COW (CVE-2016-5195, CVSS 7.8) is a privilege escalation vulnerability in the
+    Linux kernel's memory management subsystem caused by a race condition in the
+    Copy-on-Write (COW) mechanism. The vulnerability allows an unprivileged local user to
+    gain write access to read-only memory mappings, enabling modification of arbitrary
+    read-only files including SUID binaries and /etc/passwd. Present in the Linux kernel
+    since version 2.6.22 (2007), it went undetected for approximately 9 years before
+    being discovered by Phil Oester in October 2016 while investigating active
+    exploitation. The vulnerability affects virtually every Linux distribution and many
+    Android devices.
+  why: >-
+    Dirty COW is one of the most significant Linux kernel vulnerabilities ever discovered
+    due to its universality (affecting 9 years of kernel versions), trivial exploitability,
+    and impact across Linux servers, desktops, and Android devices. It was being actively
+    exploited in the wild before discovery, making it a true zero-day. The vulnerability
+    demonstrated that fundamental kernel mechanisms like Copy-on-Write could harbor subtle
+    race conditions with devastating security implications. It spawned multiple exploit
+    variants and remained one of the most commonly used Linux privilege escalation
+    techniques for years after patching.
+  how: >-
+    The exploit creates a private memory mapping (mmap with MAP_PRIVATE) of a read-only
+    target file such as /etc/passwd or a SUID binary. It then creates two racing threads:
+    one calls madvise(MADV_DONTNEED) to discard the private copy, while the other writes
+    to the private mapping via /proc/self/mem. The race condition occurs when the write
+    happens after madvise discards the private page but before the kernel creates a new
+    private copy, causing the write to go directly to the underlying file's page cache.
+    This allows the attacker to modify read-only files. Common exploitation modifies
+    /etc/passwd to add a root user or patches SUID binaries for privilege escalation.
+  core_concepts:
+    - key: "Copy-on-Write Race Condition"
+      value: "Race between madvise(MADV_DONTNEED) and /proc/self/mem writes bypasses COW mechanism to modify read-only files"
+    - key: "Universal Linux Impact"
+      value: "Affected 9 years of Linux kernels (2.6.22-4.8.3), impacting all distributions and many Android devices"
+    - key: "Active Zero-Day Exploitation"
+      value: "Discovered while investigating active exploitation, demonstrating real-world weaponization before disclosure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Dirty COW is a race condition in the Linux kernel memory management Copy-on-Write mechanism"
+  - type: "precedes"
+    target: "VUL-MEMORY-DIRTPIPE-001"
+    description: "Dirty COW preceded Dirty Pipe as a major Linux kernel file overwrite privilege escalation"
+  - type: "enables"
+    target: "VUL-MEMORY-PWNKIT-001"
+    description: "Both are Linux privilege escalation vulnerabilities enabling root from unprivileged users"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2016-5195 - Dirty COW Vulnerability"
+    - "NVD Entry CVE-2016-5195 - CVSS 7.8"
+    - "Phil Oester - Dirty COW Discovery"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "dirtycow.ninja - Official Dirty COW page"
+  search_keywords:
+    - "Dirty COW"
+    - "CVE-2016-5195"
+    - "Copy-on-Write"
+    - "Linux kernel"
+    - "privilege escalation"
+    - "race condition"
+    - "madvise"
+    - "Android"
+    - "root exploit"
+  embedding_text: >-
+    Dirty COW (CVE-2016-5195) is a Linux kernel privilege escalation vulnerability with
+    CVSS 7.8 caused by a race condition in the Copy-on-Write memory management mechanism.
+    Present for 9 years across Linux kernels 2.6.22 through 4.8.3, it allows unprivileged
+    users to modify read-only files by racing madvise(MADV_DONTNEED) against /proc/self/mem
+    writes. Discovered during active zero-day exploitation in 2016, it affects all Linux
+    distributions and many Android devices. One of the most significant Linux kernel
+    vulnerabilities ever, it enabled trivial root privilege escalation through /etc/passwd
+    modification or SUID binary patching.

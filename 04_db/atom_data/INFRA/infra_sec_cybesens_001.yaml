@@ -1,0 +1,94 @@
+# GR Atom: Cyber Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-CYBESENS-001"
+  name: "Cyber Sensor"
+  normalized_name: "cyber_sensor"
+  aliases:
+    - "Network Security Sensor"
+    - "Cybersecurity Sensor"
+    - "Security Monitoring Sensor"
+    - "Threat Sensor"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 3
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - LOG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L2"
+  zone: "Z4"
+  function: "S1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Cyber Sensor is a network or endpoint monitoring device or software agent that collects
+    security-relevant telemetry data for threat detection and incident response. Types include
+    network taps, SPAN port monitors, inline network sensors, endpoint detection agents, file
+    integrity monitors, and cloud telemetry collectors. They serve as the data collection layer
+    feeding SIEM, NDR, EDR, and threat intelligence platforms.
+  why: >-
+    Cyber sensors are the foundational detection layer in security architectures. Without
+    adequate sensor coverage, security teams cannot detect threats or investigate incidents.
+    Sensor placement determines detection capability, with gaps creating blind spots that
+    adversaries exploit. Modern security requires sensors across network, endpoint, cloud, and
+    application layers for comprehensive visibility against multi-stage attacks.
+  how: >-
+    Cyber sensors operate by passively capturing or actively inspecting traffic and events at
+    strategic positions. Network sensors use SPAN ports or taps for deep packet inspection.
+    Endpoint sensors monitor processes, files, and connections. Cloud sensors use API-based
+    collection. Data is normalized and forwarded to analytics platforms via Syslog, CEF,
+    STIX/TAXII, or proprietary protocols for correlation and alerting.
+  core_concepts:
+    - key: "Sensor Coverage"
+      value: "Strategic placement across network segments, endpoints, and cloud to eliminate detection blind spots"
+    - key: "Passive vs Active Collection"
+      value: "Passive sensors capture traffic copies; active sensors sit inline and can block malicious traffic"
+    - key: "Telemetry Normalization"
+      value: "Raw sensor data normalized into standard formats for effective correlation across heterogeneous types"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-AZURSENT-001"
+    description: "Cyber sensors provide telemetry data that SIEM platforms analyze for threat detection"
+  - type: "abstracts"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "Cyber sensor is the general category that includes specialized endpoint sensors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-137 - Information Security Continuous Monitoring"
+    - "MITRE ATT&CK - Data Sources and Sensors"
+    - "NSA Cybersecurity - Network Security Monitoring"
+  search_keywords:
+    - "cyber sensor"
+    - "network sensor"
+    - "security sensor"
+    - "network tap"
+    - "SPAN port"
+    - "NDR sensor"
+    - "threat detection sensor"
+  embedding_text: >-
+    Cyber Sensor is a monitoring device or agent collecting security telemetry for threat
+    detection. Types include network taps, SPAN monitors, inline sensors, endpoint agents,
+    file integrity monitors, and cloud collectors. They feed SIEM, NDR, EDR, and threat
+    intelligence platforms. Sensor placement determines detection capability. Data is normalized
+    via Syslog, CEF, or STIX/TAXII for correlation across heterogeneous sources.

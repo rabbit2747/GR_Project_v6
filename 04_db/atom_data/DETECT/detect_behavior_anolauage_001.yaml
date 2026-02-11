@@ -1,0 +1,74 @@
+# GR Atom: Anomalous Launch Agent
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-ANOLAUAGE-001"
+  name: "Anomalous Launch Agent"
+  normalized_name: "anomalous_launch_agent"
+  aliases:
+    - "Suspicious LaunchAgent Detection"
+    - "macOS Launch Agent Anomaly"
+    - "Abnormal LaunchDaemon Activity"
+    - "Persistence Agent Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - PERSIST
+    - MACOS
+    - EDR
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Anomalous Launch Agent detection is a behavioral pattern that identifies suspicious or unauthorized Launch Agent and Launch Daemon configurations on macOS systems. Launch Agents and Launch Daemons are macOS persistence mechanisms defined by property list (plist) files in specific directories that instruct launchd to execute programs at login, startup, or on a schedule. This detection monitors for newly created or modified plist files in LaunchAgents and LaunchDaemons directories, evaluating attributes such as the binary path referenced, the signing status of the target executable, the plist file naming convention, the schedule or trigger conditions, and whether the referenced binary matches known legitimate software."
+  why: "Launch Agents and Launch Daemons are among the most commonly abused persistence mechanisms on macOS. Threat actors including nation-state groups and commodity malware families use these mechanisms to survive system reboots and maintain persistent access. Because macOS provides limited built-in visibility into LaunchAgent creation compared to Windows registry monitoring, dedicated behavioral detection is essential. Unauthorized Launch Agents can execute malicious payloads silently in the background, enabling keylogging, data exfiltration, backdoor access, and cryptocurrency mining."
+  how: "Detection systems continuously monitor the LaunchAgents directories (~Library/LaunchAgents, /Library/LaunchAgents, /System/Library/LaunchAgents) and LaunchDaemons directories (/Library/LaunchDaemons, /System/Library/LaunchDaemons) for file creation, modification, and deletion events. Each new or modified plist file is parsed to extract the ProgramArguments, Program, RunAtLoad, StartInterval, and WatchPaths keys. The referenced executable is checked for valid Apple or third-party code signatures, known bundle identifiers, and reputation data. Anomalies flagged include unsigned executables, executables in temporary or hidden directories, obfuscated plist labels that mimic Apple naming conventions, plist files created by non-standard parent processes, and plist entries pointing to scripting interpreters with encoded arguments."
+  core_concepts:
+    - key: "LaunchAgent"
+      value: "A per-user persistence mechanism on macOS managed by launchd, defined by plist files that execute programs when a user logs in"
+    - key: "LaunchDaemon"
+      value: "A system-wide persistence mechanism on macOS managed by launchd, defined by plist files that execute programs at system startup with root privileges"
+    - key: "Property List (plist)"
+      value: "XML or binary configuration files used by macOS to define LaunchAgent and LaunchDaemon behavior including program path, arguments, and scheduling"
+
+relations:
+  - type: effective_against
+    target: "ATK-PERSIST-LAUNAGENT-001"
+    description: "Directly detects adversary use of Launch Agent persistence on macOS"
+  - type: requires
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "Launch Agent anomaly detection benefits from anomalous process detection to identify suspicious parent processes creating plist files"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1543.001"
+    tactic: ["Persistence", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Apple Developer Documentation - Creating Launch Daemons and Agents - https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CreatingLaunchdJobs.html"
+    - "MITRE ATT&CK T1543.001 - Create or Modify System Process: Launch Agent"
+    - "Objective-See - macOS Persistence Detection - https://objective-see.org"
+  search_keywords:
+    - "macOS Launch Agent detection"
+    - "LaunchDaemon anomaly"
+    - "macOS persistence detection"
+    - "launchd monitoring"
+    - "suspicious plist file"
+    - "macOS endpoint detection"
+    - "Launch Agent malware"
+    - "plist persistence"
+  embedding_text: "Anomalous Launch Agent detection identifies suspicious Launch Agent and Launch Daemon persistence configurations on macOS systems. It monitors LaunchAgents and LaunchDaemons directories for new or modified plist files, analyzing referenced executables for valid code signatures, known bundle identifiers, and reputation data. Detection flags unsigned executables, binaries in temporary directories, obfuscated plist labels mimicking Apple naming, and entries pointing to scripting interpreters with encoded arguments. This pattern is critical for detecting macOS persistence mechanisms abused by threat actors to maintain access after reboot, execute background payloads, and evade traditional security controls."

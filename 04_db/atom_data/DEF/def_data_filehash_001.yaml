@@ -1,0 +1,49 @@
+# GR Atom: File Hashing
+# Schema: atom_schema.yaml v5.1
+# Status: skeleton (AI enrichment pending)
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DEF-DATA-FILEHASH-001"
+  name: "File Hashing"
+  normalized_name: "file_hashing"
+  aliases: []
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags: []  # minimum 2 required from atom_tags.yaml
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: []  # e.g., ["L6", "L7"]
+  target_zones: []   # e.g., ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: ""  # 100-800 chars required
+  why: ""
+  how: ""
+  core_concepts: []
+
+# ==== Section 6: Relations ====
+relations: []  # minimum 1 required; related_to FORBIDDEN
+
+# ==== Section 7: Security Profile (optional) ====
+# security_profile:
+#   mitre_mapping:
+#     technique_id: ""
+#     tactic: []
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "derived"
+  sources: []  # minimum 1 required
+  search_keywords: []  # minimum 5 required
+  embedding_text: ""  # 50-200 words required

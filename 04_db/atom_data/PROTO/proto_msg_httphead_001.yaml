@@ -1,0 +1,90 @@
+# GR Atom: HTTP Head
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPHEAD-001"
+  name: "HTTP Head"
+  normalized_name: "http_head"
+  aliases:
+    - "HTTP HEAD Method"
+    - "HEAD Request"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP HEAD is a standard HTTP request method defined in RFC 9110 that is identical to GET
+    except the server must not return a message body in the response. The server returns the same
+    headers that would be sent for a GET request, including Content-Length, Content-Type, and
+    cache-related headers, without transferring the actual resource data. HEAD is safe and
+    idempotent. It is used for checking resource existence, obtaining metadata, testing links,
+    validating cached resources, and determining resource size before downloading.
+  why: >-
+    HTTP HEAD is used by attackers for reconnaissance and enumeration. HEAD requests can probe
+    for resource existence without transferring data, enabling efficient URL enumeration and
+    directory brute-forcing. Server version information disclosed in HEAD response headers
+    (Server, X-Powered-By) aids in fingerprinting. HEAD requests bypass some WAF rules that
+    only inspect response bodies. Differential analysis between HEAD and GET responses can reveal
+    server configuration inconsistencies. Security tools and scanners use HEAD for efficient
+    vulnerability discovery.
+  how: >-
+    HTTP HEAD operates identically to GET in request construction — the client sends a HEAD
+    request line with the target URI and request headers. The server processes the request as
+    if it were a GET request but responds with only the status line and headers, omitting the
+    response body. The Content-Length header in the response indicates the size of the body that
+    would have been sent for an equivalent GET request. HEAD is commonly used in link validation
+    tools, download managers (to check file sizes), and monitoring systems (to verify resource
+    availability without bandwidth overhead).
+  core_concepts:
+    - key: "Metadata-Only Response"
+      value: "HEAD returns only HTTP headers without a response body, providing resource metadata like size, type, and modification date without transferring the actual content."
+    - key: "Reconnaissance Utility"
+      value: "HEAD enables efficient probing of web resources without downloading content, useful for both legitimate monitoring and attacker enumeration."
+    - key: "Cache Validation"
+      value: "HEAD requests can check cache freshness by comparing ETag or Last-Modified headers without transferring the full resource."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP HEAD is one of the standard HTTP methods for metadata-only resource retrieval"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP HEAD is a sub-component of the HTTP protocol for headeronly resource inspection"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9.3.2 HEAD"
+    - "MDN Web Docs — HTTP HEAD Method"
+    - "OWASP — Testing for HTTP Methods and XST"
+  search_keywords:
+    - "HTTP HEAD"
+    - "HEAD method"
+    - "HEAD request"
+    - "HTTP metadata"
+    - "resource existence check"
+    - "HTTP reconnaissance"
+    - "header-only response"
+    - "link validation"
+  embedding_text: >-
+    HTTP HEAD is a standard HTTP method defined in RFC 9110 identical to GET except the server
+    returns only headers without a response body. Used for checking resource existence, obtaining
+    metadata, testing links, and cache validation without transferring content. HEAD is safe and
+    idempotent. In security contexts, HEAD enables efficient reconnaissance and enumeration of
+    web resources, server fingerprinting via response headers, and bypass of body-inspecting WAF
+    rules. Monitoring systems use HEAD for availability checks with minimal bandwidth overhead.

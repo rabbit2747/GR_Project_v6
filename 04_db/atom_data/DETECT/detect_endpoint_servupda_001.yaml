@@ -1,0 +1,96 @@
+# GR Atom: Service Update Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVUPDA-001"
+  name: "Service Update Event"
+  normalized_name: "service_update_event"
+  aliases:
+    - "Service Configuration Change"
+    - "Service Modification Event"
+    - "Service Reconfiguration"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - EVADE
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies modifications to existing service configurations on an endpoint. This includes changes to the service binary path (ImagePath), startup type, service account (ObjectName), display name, description, dependencies, failure recovery actions, or any other registry values under HKLM\\SYSTEM\\CurrentControlSet\\Services\\<ServiceName>. On Linux, this covers modifications to systemd unit files, drop-in overrides, or init.d script contents. The event captures the specific property changed, previous value, new value, and the account that performed the modification."
+  why: "Service configuration updates are a key indicator of adversary activity including binary path hijacking, privilege escalation through service account changes, and persistence modification. Attackers modify the ImagePath of legitimate services to point to malicious executables, change service accounts to gain higher privileges, or alter failure recovery actions to execute payloads when services crash. Monitoring configuration changes against a known baseline enables detection of unauthorized service tampering."
+  how: "Detection monitors Windows registry value modifications under the Services hive using Sysmon Event IDs 13 and 14 (Registry Value Set, Registry Key and Value Rename). Windows Security Event ID 4657 provides registry auditing for value changes. Command-line auditing captures sc.exe config commands and Set-Service PowerShell operations. On Linux, file integrity monitoring on systemd unit files and inotify watches on service configuration directories detect modifications. SIEM rules compare changes against approved service configurations and flag unauthorized modifications."
+  core_concepts:
+    - key: "binary_path_hijacking"
+      value: "Modifying the ImagePath of a legitimate service to point to a malicious executable, hijacking the service execution"
+    - key: "service_account_escalation"
+      value: "Changing the service account from a low-privilege to a high-privilege account to gain elevated access"
+    - key: "failure_action_abuse"
+      value: "Modifying service failure recovery actions to execute arbitrary commands when the service fails or crashes"
+    - key: "configuration_baseline_drift"
+      value: "Tracking deviations from known-good service configurations to identify unauthorized or suspicious changes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service update event is a specific type of service lifecycle event"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SERVREST-001"
+    description: "Service updates often require a restart to take effect"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1543.003"
+    tactic:
+      - "persistence"
+      - "privilege-escalation"
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Service Configuration Registry Values"
+    - "MITRE ATT&CK T1543.003 - Create or Modify System Process: Windows Service"
+    - "Sysmon Documentation - Registry Value Set Events"
+    - "Windows Security Event ID 4657 Reference"
+  search_keywords:
+    - "service update"
+    - "service configuration change"
+    - "service modification"
+    - "ImagePath change"
+    - "service binary path"
+    - "sc config"
+    - "service account change"
+    - "service reconfiguration"
+    - "service tampering"
+    - "service baseline drift"
+  embedding_text: "Service update event detection pattern identifies modifications to existing service configurations on endpoints. This covers changes to binary paths (ImagePath), startup types, service accounts, dependencies, failure actions, and other service registry values. On Windows it uses Sysmon registry events and Security Event ID 4657. On Linux it monitors systemd unit file modifications. Adversaries update service configurations for binary path hijacking, privilege escalation through account changes, and failure action abuse. Maps to MITRE ATT&CK T1543.003. Detection compares configuration changes against known-good baselines to identify unauthorized service tampering and binary substitution attacks."

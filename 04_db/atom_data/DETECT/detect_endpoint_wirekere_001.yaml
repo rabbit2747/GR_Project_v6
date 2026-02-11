@@ -1,0 +1,92 @@
+# GR Atom: Windows Registry Key Read Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKERE-001"
+  name: "Windows Registry Key Read Event"
+  normalized_name: "windows_registry_key_read_event"
+  aliases:
+    - "Registry Key Query"
+    - "RegOpenKeyEx Detection"
+    - "Registry Key Access Event"
+    - "Registry Enumeration"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry keys are opened, queried, or enumerated by processes on an endpoint. This covers RegOpenKeyEx, RegQueryInfoKey, and RegEnumKeyEx API calls. Detection relies primarily on Windows Security Event IDs 4656 (handle request) and 4663 (object access) when SACLs are configured on monitored registry keys, as Sysmon does not natively log key read/enumerate operations. The event captures the accessed registry path, access mask, the process performing the access, and user context."
+  why: "Registry key read operations are used by adversaries during the discovery and reconnaissance phase to enumerate system configuration, identify installed security software, locate credential stores, and map the registry structure for subsequent modification attacks. Monitoring reads on sensitive registry keys such as security tool configurations, credential storage locations, and system information keys helps detect reconnaissance activity that precedes more destructive operations."
+  how: "Detection requires configuring SACLs (System Access Control Lists) on registry keys of interest, with READ_CONTROL and KEY_QUERY_VALUE audit entries. Windows Security Events 4656 and 4663 capture these access attempts. ETW providers including Microsoft-Windows-Kernel-Registry capture kernel-level registry access events. EDR agents provide registry access telemetry with process context. Due to the high volume of legitimate registry reads, detection rules must be highly selective, focusing on reads of specific sensitive keys by unexpected processes or users."
+  core_concepts:
+    - key: "reconnaissance_detection"
+      value: "Identifying registry read operations that indicate adversary reconnaissance of system configuration and security posture"
+    - key: "sacl_configuration"
+      value: "System Access Control Lists must be configured on specific registry keys to generate audit events for read operations"
+    - key: "high_volume_filtering"
+      value: "Registry reads are extremely frequent; effective detection requires precise filtering on specific keys and process contexts"
+    - key: "sensitive_key_access"
+      value: "Monitoring access to keys containing credentials, security configurations, and system information valuable to attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key read is a specific type of registry key operation event"
+  - type: "precedes"
+    target: "DETECT-ENDPOINT-WIREKEUP-001"
+    description: "Read operations often precede update operations as adversaries enumerate before modifying"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1012"
+    tactic:
+      - "discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - RegOpenKeyEx Function"
+    - "MITRE ATT&CK T1012 - Query Registry"
+    - "Windows Security Audit Events 4656, 4663"
+    - "Microsoft Documentation - Registry Key Security and Access Rights"
+  search_keywords:
+    - "registry key read"
+    - "registry query"
+    - "RegOpenKeyEx"
+    - "registry enumeration"
+    - "registry access event"
+    - "Event ID 4656"
+    - "Event ID 4663"
+    - "registry discovery"
+    - "registry reconnaissance"
+    - "SACL registry audit"
+  embedding_text: "Windows registry key read event detection pattern identifies when registry keys are opened, queried, or enumerated by processes. Relies on Windows Security Events 4656 and 4663 with configured SACLs since Sysmon does not natively log read operations. Registry reads during adversary reconnaissance reveal enumeration of system configuration, installed security software, credential stores, and system information. Maps to MITRE ATT&CK T1012 Query Registry. Detection requires selective SACL configuration on sensitive keys due to high volume of legitimate reads. Focuses on access to credential storage, security configurations, and system information keys by unexpected processes or users."

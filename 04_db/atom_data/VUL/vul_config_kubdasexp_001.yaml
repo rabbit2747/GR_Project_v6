@@ -1,0 +1,106 @@
+# GR Atom: Kubernetes Dashboard Exposure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-KUBDASEXP-001"
+  name: "Kubernetes Dashboard Exposure"
+  normalized_name: "kubernetes_dashboard_exposure"
+  aliases:
+    - "K8s Dashboard Misconfiguration"
+    - "Exposed Kubernetes Dashboard"
+    - "Unauthenticated K8s Dashboard Access"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - K8S
+    - AUTHZ
+    - CLOUD
+    - INITIAL
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Kubernetes Dashboard"
+    - "Kubernetes API Server"
+    - "Kubernetes RBAC"
+
+definition:
+  what: >-
+    Kubernetes Dashboard Exposure is a vulnerability class where the Kubernetes Dashboard web UI is
+    deployed with insufficient access controls, allowing unauthorized users to access, view, and
+    manage cluster resources. Common misconfigurations include exposing the dashboard externally
+    without authentication, granting the dashboard service account excessive RBAC permissions
+    (cluster-admin), skipping login requirements through --enable-skip-login flag, and using
+    NodePort or LoadBalancer services without network restrictions.
+  why: >-
+    The Kubernetes Dashboard provides a full web-based management interface for Kubernetes clusters,
+    including the ability to view secrets, deploy workloads, exec into containers, and modify cluster
+    configurations. When exposed without proper authentication, it provides a trivial entry point for
+    attackers to take full control of the Kubernetes cluster. This vulnerability class has been
+    responsible for numerous high-profile cryptomining campaigns and data breaches. Tesla's cloud
+    infrastructure was compromised through an exposed Kubernetes Dashboard in 2018, demonstrating
+    the real-world impact.
+  how: >-
+    Attackers scan for exposed Kubernetes Dashboard instances on common ports (443, 8443, 30000-32767).
+    Common exploitation paths include: accessing dashboards configured with --enable-skip-login to
+    bypass authentication entirely; exploiting dashboards bound to the cluster-admin service account
+    for full cluster control; using exposed dashboards to deploy privileged containers that escape to
+    the host node; and leveraging dashboard access to read Kubernetes secrets containing credentials.
+    Mitigation includes requiring authentication tokens, implementing RBAC with minimal permissions
+    for the dashboard service account, restricting dashboard access to internal networks only,
+    and considering removal of the dashboard in favor of kubectl for production clusters.
+  core_concepts:
+    - key: "Management Interface Exposure"
+      value: "Exposing the primary cluster management web interface without authentication provides unauthenticated administrative access to all cluster resources"
+    - key: "Excessive Service Account Privileges"
+      value: "Dashboard service accounts often receive cluster-admin permissions, meaning any dashboard access equals full cluster control"
+    - key: "Container Orchestration Entry Point"
+      value: "Exposed dashboards serve as the primary entry point for attacks against Kubernetes infrastructure including cryptomining and data theft"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Kubernetes Dashboard Exposure is a class of vulnerable application misconfiguration in container orchestration"
+  - type: enables
+    target: "ATK-INITIAL-EXPLOIT-001"
+    description: "Exposed dashboard provides unauthenticated initial access to Kubernetes cluster resources"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1610"
+    tactic: ["Execution", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kubernetes Dashboard Security Documentation"
+    - "CWE-306 - Missing Authentication for Critical Function"
+    - "MITRE ATT&CK T1610 - Deploy Container"
+    - "RedLock CSI Team - Tesla Kubernetes Dashboard Breach Analysis"
+  search_keywords:
+    - "Kubernetes Dashboard exposure"
+    - "K8s dashboard misconfiguration"
+    - "exposed Kubernetes dashboard"
+    - "K8s dashboard authentication"
+    - "Kubernetes dashboard security"
+    - "K8s dashboard cluster-admin"
+    - "container orchestration exposure"
+  embedding_text: >-
+    Kubernetes Dashboard Exposure is a vulnerability class where the Kubernetes Dashboard web UI is
+    deployed with insufficient access controls. Common misconfigurations include external exposure
+    without authentication, excessive service account permissions (cluster-admin), skip-login flag
+    enabled, and unrestricted network access. Provides full web-based management including secrets
+    viewing, workload deployment, container exec, and cluster configuration. Responsible for
+    high-profile breaches including Tesla's cloud infrastructure compromise. Mitigation includes
+    requiring authentication tokens, minimal RBAC permissions, internal-only network access, and
+    considering dashboard removal for production. Maps to MITRE ATT&CK T1610 Deploy Container.

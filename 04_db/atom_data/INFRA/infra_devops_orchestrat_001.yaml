@@ -1,0 +1,80 @@
+# GR Atom: Orchestration Controller
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-ORCHESTRAT-001"
+  name: "Orchestration Controller"
+  normalized_name: "orchestration_controller"
+  aliases:
+    - "Container Orchestrator"
+    - "K8s Controller"
+    - "Kubernetes API Server"
+    - "Orchestration Control Plane"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - CLOUD
+    - CONFIG
+    - CICD
+
+gr_coordinates:
+  layer: "L4"
+  zone: "Z4"
+  function: "P3.1"
+
+definition:
+  what: "Orchestration Controller is the general infrastructure category for control plane components that manage container lifecycle, scheduling, scaling, and service discovery in containerized environments. This includes Kubernetes API Server and controllers, Docker Swarm managers, Apache Mesos masters, and Nomad servers. The controller accepts desired state declarations and reconciles actual infrastructure state to match, managing workload placement, resource allocation, networking, and health monitoring."
+  why: "Orchestration controllers are high-value targets because they have administrative control over all containerized workloads, secrets, network policies, and resource allocation. Compromise of the control plane enables an attacker to deploy malicious containers, access all cluster secrets, modify network policies to enable lateral movement, and escalate privileges to underlying nodes. The Kubernetes API server in particular exposes a powerful API that, if improperly secured, provides complete cluster control. RBAC misconfigurations and exposed API endpoints are common attack vectors."
+  how: "Orchestration controllers operate through declarative configuration where users submit desired state (Deployments, Services, etc.) via API calls. Controller loops continuously reconcile actual state with desired state. Authentication uses certificates, tokens, or OIDC. Authorization uses RBAC policies binding roles to users and service accounts. Admission controllers validate and mutate resource requests before persistence. etcd stores cluster state. Network policies control pod-to-pod communication. Pod Security Standards restrict container capabilities."
+  core_concepts:
+    - key: "Control Plane"
+      value: "Set of components (API server, scheduler, controller manager, etcd) that make global decisions about the cluster state"
+    - key: "Reconciliation Loop"
+      value: "Continuous process comparing desired state with actual state and taking corrective actions to align them"
+    - key: "RBAC"
+      value: "Role-Based Access Control governing who can perform what operations on which resources within the orchestration platform"
+    - key: "Admission Control"
+      value: "Request interception mechanism that validates and mutates API requests before they are persisted, enforcing security policies"
+
+relations:
+  - type: requires
+    target: "INFRA-DEVOPS-CONTREGI-001"
+    description: "Orchestration controllers pull container images from registries for workload deployment"
+  - type: enables
+    target: "INFRA-DEVOPS-KUEXSEOP-001"
+    description: "Orchestration controllers host and manage the External Secrets Operator workload"
+  - type: requires
+    target: "INFRA-DEVOPS-ORCHSERV-001"
+    description: "Orchestration controllers run on orchestration server infrastructure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1610"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kubernetes Documentation - https://kubernetes.io/docs/"
+    - "Kubernetes Security Best Practices - https://kubernetes.io/docs/concepts/security/"
+    - "MITRE ATT&CK T1610 - Deploy Container"
+  search_keywords:
+    - "orchestration controller"
+    - "Kubernetes control plane"
+    - "container orchestration"
+    - "K8s API server"
+    - "orchestration security"
+    - "Kubernetes RBAC"
+    - "container controller"
+    - "cluster management"
+  embedding_text: "Orchestration Controller is the general infrastructure category for control plane components managing container lifecycle, scheduling, scaling, and service discovery. Includes Kubernetes API Server, Docker Swarm managers, Mesos masters, and Nomad servers. Accepts desired state declarations and reconciles actual infrastructure state. Security significance includes administrative control over all containerized workloads, secrets, and network policies. Compromise enables deploying malicious containers, accessing cluster secrets, and privilege escalation to underlying nodes. RBAC misconfigurations and exposed API endpoints are common attack vectors. Admission controllers validate requests and enforce security policies."

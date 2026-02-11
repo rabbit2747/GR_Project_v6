@@ -1,0 +1,89 @@
+# GR Atom: File Set Attributes Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILSETATT-001"
+  name: "File Set Attributes Event"
+  normalized_name: "file_set_attributes_event"
+  aliases:
+    - "File Attribute Modification"
+    - "SetFileAttributes Detection"
+    - "File Metadata Change Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - EVADE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a process modifies the attributes of a file on an endpoint. File attribute modifications include setting the hidden flag, system flag, read-only flag, and modifying timestamps (timestomping). The event captures the target file, the previous and new attribute values, the modifying process, and user context. This detection is essential for identifying defense evasion techniques that hide malicious files or alter timestamps to avoid detection."
+  why: "Attackers modify file attributes to conceal malicious files by setting hidden and system flags, making them invisible in standard directory listings. Timestomping (modifying creation and modification timestamps) is a common anti-forensic technique to make malicious files blend with legitimate system files. Detecting attribute modifications enables identification of these evasion techniques."
+  how: "Monitor SetFileAttributes, SetFileInformationByHandle, and NtSetInformationFile system calls through ETW providers and EDR kernel hooks. Track changes to hidden and system attributes on files in sensitive directories. Detect timestomping by identifying timestamp modifications that move file times backward or set them to match nearby system files. Correlate with file creation events to identify files that are immediately hidden after creation."
+  core_concepts:
+    - key: "Timestomping"
+      value: "Anti-forensic technique of modifying file creation, modification, and access timestamps to blend malicious files with legitimate system files or obscure their true creation time"
+    - key: "Hidden File Attribute"
+      value: "File system flag that prevents a file from appearing in standard directory listings, commonly set by attackers to conceal malicious files"
+    - key: "Attribute Differential"
+      value: "The comparison between previous and new attribute values in a modification event, enabling detection of specific evasion-related changes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File attribute modification is a specific type of file event"
+  - type: effective_against
+    target: "ATK-EVASION-TIMESTOMP-001"
+    description: "Detects timestomping through timestamp attribute modification monitoring"
+  - type: effective_against
+    target: "ATK-EVASION-HIDEFILE-001"
+    description: "Detects file hiding through hidden and system attribute setting"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070.006"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1070.006"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1070.006 - Indicator Removal: Timestomp"
+    - "Microsoft Documentation - SetFileAttributes Function"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file attributes"
+    - "SetFileAttributes"
+    - "timestomping"
+    - "hidden file"
+    - "system attribute"
+    - "timestamp modification"
+    - "file attribute change"
+    - "anti-forensics"
+  embedding_text: "File Set Attributes Event is an endpoint detection pattern for events generated when file attributes are modified. This includes setting hidden and system flags, read-only status, and timestamp modifications (timestomping). Attackers modify attributes to conceal malicious files and alter timestamps as anti-forensic techniques to blend with legitimate system files. Detection monitors SetFileAttributes, SetFileInformationByHandle, and NtSetInformationFile through ETW providers and EDR hooks. Key indicators include hidden flag changes on sensitive directory files, backward timestamp movements, and attribute modifications immediately following file creation. Attribute differentials between previous and new values enable specific evasion technique identification."

@@ -1,0 +1,111 @@
+# GR Atom: CVE-2020-10148
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202010148-001"
+  name: "CVE-2020-10148"
+  normalized_name: "cve_2020_10148"
+  aliases:
+    - "SolarWinds Orion API Authentication Bypass"
+    - "SolarWinds Orion SUNBURST Related Vulnerability"
+    - "SolarWinds Orion API RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - AUTHN
+    - EXEC
+    - API
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "SolarWinds Orion Platform"
+    - "SolarWinds Orion API"
+    - "SolarWinds Orion Web Console"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-10148 is a critical authentication bypass vulnerability in the SolarWinds Orion API
+    that allows unauthenticated remote code execution. The vulnerability exists because the Orion
+    API authentication can be bypassed by including specific parameters in the URI path, allowing
+    unauthenticated access to API commands that can execute arbitrary code. CVSS score is 9.8.
+    Disclosed during the SUNBURST supply chain attack investigation in December 2020. Affects
+    SolarWinds Orion Platform versions 2019.4 HF5, 2020.2 with no hotfix, and 2020.2 HF1.
+  why: >-
+    This vulnerability is significant in the context of the SUNBURST supply chain attack, one of
+    the most sophisticated cyber espionage operations discovered. While SUNBURST was a supply
+    chain backdoor, CVE-2020-10148 provided an additional exploitation path into SolarWinds Orion
+    installations. SolarWinds Orion is used by thousands of organizations including government
+    agencies for network monitoring, making it a high-value target.
+  how: >-
+    The attacker crafts HTTP requests to the SolarWinds Orion API with specific URI path
+    manipulations that bypass the authentication mechanism. By appending certain path segments
+    to API endpoints, the authentication check is circumvented, granting unauthenticated access
+    to privileged API functions. Through these API functions, the attacker can execute arbitrary
+    code on the Orion server, install additional malware, and pivot to monitored network devices.
+  core_concepts:
+    - name: "API Authentication Bypass"
+      value: "URI path manipulation circumvents API authentication checks, granting unauthenticated access to privileged operations"
+    - name: "Network Monitoring Platform Compromise"
+      value: "Compromising SolarWinds Orion provides visibility into the entire monitored network infrastructure"
+    - name: "Supply Chain Attack Context"
+      value: "Discovered during the SUNBURST investigation, providing alternative exploitation paths into SolarWinds deployments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "SolarWinds Orion API bypass enables code execution through insecure processing of API requests"
+  - type: "enables"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Authentication bypass enables further exploitation including deserialization attacks against the Orion platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2020-10148"
+    - "CISA Emergency Directive 21-01"
+    - "SolarWinds Security Advisory"
+  search_keywords:
+    - "CVE-2020-10148"
+    - "SolarWinds Orion API bypass"
+    - "SolarWinds authentication bypass"
+    - "SUNBURST related vulnerability"
+    - "SolarWinds Orion RCE"
+    - "SolarWinds supply chain"
+    - "Orion API exploitation"
+  embedding_text: >-
+    CVE-2020-10148 is a critical authentication bypass vulnerability in the SolarWinds Orion API
+    that allows unauthenticated remote code execution. The vulnerability enables bypassing API
+    authentication through URI path manipulation, granting access to privileged API functions
+    that can execute arbitrary code. CVSS score is 9.8. Discovered during the SUNBURST supply
+    chain attack investigation in December 2020, the vulnerability provided an additional
+    exploitation path into SolarWinds Orion installations. SolarWinds Orion is used by thousands
+    of organizations including government agencies for network monitoring. Compromising the
+    platform provides visibility into entire monitored network infrastructures. Affects SolarWinds
+    Orion Platform versions 2019.4 HF5, 2020.2, and 2020.2 HF1. Mitigation requires applying
+    SolarWinds security patches and implementing network segmentation for management interfaces.
+    Listed in CISA's Known Exploited Vulnerabilities catalog.

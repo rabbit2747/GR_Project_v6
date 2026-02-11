@@ -1,0 +1,78 @@
+# GR Atom: Operation Cuckoo Bees
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OPECUCBEE-001"
+  name: "Operation Cuckoo Bees"
+  normalized_name: "operation_cuckoo_bees"
+  aliases:
+    - "CuckooBees"
+    - "Winnti Suboperation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "PRIV"
+    - "PERSIST"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "ERP systems"
+    - "Windows servers"
+    - "Active Directory"
+    - "intellectual property repositories"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Operation Cuckoo Bees is a long-running Chinese state-sponsored cyber espionage campaign uncovered by Cybereason in 2022, attributed to the Winnti Group (APT41). The operation targeted technology and manufacturing companies in North America, Europe, and Asia to steal intellectual property, trade secrets, and sensitive business data. The campaign had been running undetected for years, demonstrating exceptional stealth and persistence."
+  why: "The operation served Chinese economic espionage objectives, systematically stealing intellectual property and trade secrets from technology and manufacturing companies to support Chinese industrial competitiveness. Targets included defense technology, pharmaceutical research, energy technology, and advanced manufacturing processes, aligning with Chinese strategic industrial development priorities."
+  how: "The campaign exploited vulnerabilities in public-facing applications for initial access, then deployed a sophisticated chain of custom malware including DEPLOYLOG, Spyder Loader, PRIVATELOG, and WINNKIT bootkit. Attackers abused Windows CLFS (Common Log File System) for stealthy data storage, used WMI event subscriptions and scheduled tasks for persistence, conducted extensive Active Directory reconnaissance, and exfiltrated data through encrypted channels. The operation demonstrated advanced techniques for evading EDR solutions and maintaining long-term undetected access."
+  core_concepts:
+    - "Winnti Group long-term espionage"
+    - "intellectual property theft at scale"
+    - "CLFS log file abuse"
+    - "bootkit-level persistence"
+    - "multi-year undetected access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Part of the broader Chinese APT ecosystem with shared Winnti tooling"
+  - type: "instance_of"
+    target: "ACTOR-APT-CUCKOOBEES-001"
+    description: "Operation Cuckoo Bees is the campaign name; related to the Winnti/APT41 threat group"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Cybereason - Operation CuckooBees: Deep-Dive into Stealthy Winnti Operations (2022)"
+    - "Cybereason - Operation CuckooBees Part 2"
+  search_keywords:
+    - "operation cuckoo bees"
+    - "cuckoobees"
+    - "winnti operation"
+    - "DEPLOYLOG malware"
+    - "WINNKIT bootkit"
+    - "PRIVATELOG"
+    - "chinese IP theft"
+    - "Spyder Loader"
+    - "CLFS abuse"
+  embedding_text: "Operation Cuckoo Bees is a long-running Chinese state-sponsored cyber espionage campaign uncovered by Cybereason in 2022, attributed to the Winnti Group (APT41). The operation targeted technology and manufacturing companies across North America, Europe, and Asia to steal intellectual property and trade secrets. Running undetected for years, the campaign demonstrated exceptional stealth through custom malware including DEPLOYLOG, Spyder Loader, PRIVATELOG, and the WINNKIT bootkit. Techniques included abuse of Windows Common Log File System for hidden data storage, WMI event subscriptions for persistence, extensive Active Directory reconnaissance, and encrypted exfiltration channels. The operation served Chinese economic espionage objectives supporting industrial competitiveness in defense technology, pharmaceuticals, energy, and advanced manufacturing. Operation Cuckoo Bees represents one of the most significant documented cases of sustained intellectual property theft attributed to Chinese state-sponsored actors."

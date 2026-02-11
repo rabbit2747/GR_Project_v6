@@ -1,0 +1,123 @@
+# GR Atom: NIST SP 800-53 1200 Controls
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISP805312-001"
+  name: "NIST SP 800-53 1200 Controls"
+  normalized_name: "nist_sp_800_53_1200_controls"
+  aliases:
+    - "SP 800-53 Control Catalog"
+    - "NIST 1200 Controls"
+    - "SP 800-53 Rev. 5 Full Catalog"
+    - "NIST Security Control Inventory"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The NIST SP 800-53 1200 Controls refers to the full inventory of approximately 1,200
+    individual security and privacy controls and control enhancements contained in NIST SP
+    800-53 Revision 5. This includes the base controls within each of the 20 control families
+    plus their associated control enhancements that add specificity and strength. The count
+    includes roughly 325 base controls and approximately 900 control enhancements that provide
+    graduated levels of protection. This comprehensive catalog represents the most granular
+    level of the NIST security control framework, enabling precise selection and tailoring
+    of security requirements for any information system or organizational context.
+  why: >-
+    The full control catalog provides the granularity necessary for organizations to build
+    precise security programs tailored to their specific risk profiles. While control baselines
+    provide starting points, organizations often need to select individual controls and
+    enhancements based on specific threats, regulatory requirements, or business contexts.
+    The breadth of the catalog ensures that virtually every security domain and attack vector
+    has corresponding controls, eliminating the need for organizations to develop custom
+    requirements from scratch. The enhancement structure enables graduated protection levels
+    that scale with system criticality and risk.
+  how: >-
+    The 1200 controls are organized across 20 families with each family containing base
+    controls and progressive enhancements: (1) Each base control describes a security
+    capability requirement; (2) Control enhancements add specificity, strength, or scope
+    to the base control; (3) Organizations select controls through the RMF process starting
+    with baselines (Low: ~130 controls, Moderate: ~325 controls, High: ~421 controls) and
+    adding or removing controls through tailoring; (4) SP 800-53A provides assessment
+    procedures for each control; (5) SP 800-53B defines the baseline allocations;
+    (6) Organizations document control implementations in System Security Plans and assess
+    effectiveness through formal assessment procedures.
+  core_concepts:
+    - key: "Base Controls and Enhancements"
+      value: >-
+        The two-tier structure where base controls define required security capabilities and
+        numbered enhancements add graduated levels of specificity and strength, enabling
+        proportional security implementation.
+    - key: "Control Tailoring"
+      value: >-
+        The process of modifying baseline control selections by adding controls for specific
+        threats, removing controls not applicable to the environment, and adjusting control
+        parameters to match organizational requirements.
+    - key: "Baseline Allocation"
+      value: >-
+        The assignment of specific controls and enhancements to Low, Moderate, and High
+        impact baselines as defined in SP 800-53B, providing proportional starting points
+        based on system categorization.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "The 1200 controls constitute the full catalog inventory within SP 800-53 Rev. 5"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-RMF-001"
+    description: "Individual controls are selected and tailored during the RMF Select step based on system categorization"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-NISTSP800171-001"
+    description: "SP 800-171 CUI requirements are derived from specific controls within this catalog"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls for Information Systems and Organizations. https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+    - "NIST SP 800-53B - Control Baselines for Information Systems and Organizations. https://csrc.nist.gov/publications/detail/sp/800-53b/final"
+    - "NIST SP 800-53A Rev. 5 - Assessing Security and Privacy Controls. https://csrc.nist.gov/publications/detail/sp/800-53a/rev-5/final"
+  search_keywords:
+    - "NIST SP 800-53 controls"
+    - "1200 security controls"
+    - "SP 800-53 control catalog"
+    - "security control enhancements"
+    - "control baselines"
+    - "NIST control families"
+    - "SP 800-53 tailoring"
+    - "federal security controls"
+    - "control assessment procedures"
+    - "SP 800-53B baselines"
+  embedding_text: >-
+    NIST SP 800-53 1200 Controls refers to the full inventory of approximately 1,200 individual
+    security and privacy controls and enhancements in SP 800-53 Revision 5. This includes
+    roughly 325 base controls and 900 control enhancements across 20 families providing
+    graduated protection levels. The catalog is the most granular level of NIST security
+    controls, enabling precise selection and tailoring for any system context. Control baselines
+    provide starting points with Low baseline containing approximately 130 controls, Moderate
+    325, and High 421. Organizations tailor baselines through the RMF Select step by adding
+    controls for specific threats, removing inapplicable controls, and adjusting parameters.
+    SP 800-53A provides assessment procedures and SP 800-53B defines baseline allocations.
+    The enhancement structure enables proportional security that scales with system criticality,
+    ensuring every security domain and attack vector has corresponding controls without
+    requiring custom requirement development.

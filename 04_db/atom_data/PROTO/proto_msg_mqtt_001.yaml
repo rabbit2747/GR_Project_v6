@@ -1,0 +1,107 @@
+# GR Atom: MQTT Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-MQTT-001"
+  name: "MQTT Protocol"
+  normalized_name: "mqtt_protocol"
+  aliases:
+    - "MQTT"
+    - "Message Queuing Telemetry Transport"
+    - "MQ Telemetry Transport"
+    - "MQTT v5.0"
+    - "MQTT v3.1.1"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - MQTT
+    - IOT
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    MQTT (Message Queuing Telemetry Transport) is a lightweight publish-subscribe messaging
+    protocol designed for constrained devices and low-bandwidth, high-latency networks. Originally
+    developed by Andy Stanford-Clark (IBM) and Arlen Nipper in 1999, MQTT is standardized as
+    OASIS MQTT v3.1.1 (2014) and MQTT v5.0 (2019), also published as ISO/IEC 20922. MQTT uses
+    a broker-based architecture where clients publish messages to topics and subscribe to topics
+    to receive messages. The protocol operates over TCP (default port 1883, TLS on 8883) with a
+    minimal 2-byte fixed header, three Quality of Service (QoS) levels, and retained messages.
+  why: >-
+    MQTT is the dominant messaging protocol for IoT ecosystems, making it a critical attack
+    surface as IoT adoption grows. Security concerns include: default configurations without
+    authentication allowing unauthorized access to brokers, plaintext communication without TLS
+    exposing messages to eavesdropping, topic injection and subscription to sensitive data streams,
+    denial of service through QoS 2 message storms, and retained message poisoning. Many MQTT
+    brokers are exposed on the internet without authentication. The protocol's widespread use in
+    industrial IoT, smart homes, and connected vehicles makes MQTT security essential.
+  how: >-
+    MQTT operates through a broker-centric publish-subscribe model: (1) Clients connect to the
+    MQTT broker using CONNECT packets with optional credentials and TLS; (2) Publishers send
+    messages to named topics (e.g., sensors/temperature/room1) using PUBLISH packets with QoS
+    level; (3) Subscribers register interest in topic patterns (supporting + single-level and #
+    multi-level wildcards) using SUBSCRIBE packets; (4) The broker routes messages from publishers
+    to matching subscribers. QoS levels provide: 0 (at most once/fire-and-forget), 1 (at least
+    once with PUBACK), 2 (exactly once with 4-step handshake). MQTT v5.0 adds shared
+    subscriptions, message expiry, and enhanced authentication.
+  core_concepts:
+    - key: "Publish-Subscribe Pattern"
+      value: "Decoupled messaging model where publishers send messages to topics and subscribers receive messages from topics, mediated by a central broker."
+    - key: "Quality of Service (QoS) Levels"
+      value: "Three delivery guarantees: QoS 0 (at most once), QoS 1 (at least once with acknowledgment), QoS 2 (exactly once with four-step handshake)."
+    - key: "Topic Hierarchy"
+      value: "Hierarchical naming structure using forward slashes (e.g., building/floor/room/sensor) with wildcard subscription support (+ single-level, # multi-level)."
+    - key: "Retained Messages"
+      value: "Last message published to a topic with the retain flag is stored by the broker and delivered to new subscribers, providing latest-known-state for sensors."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "MQTT is an application layer messaging protocol for IoT and constrained device communication"
+  - type: "applies_to"
+    target: "PROTO-MSG-COAP-001"
+    description: "MQTT and CoAP are complementary IoT protocols — MQTT for event-driven pub-sub messaging and CoAP for RESTful device interaction"
+  - type: "requires"
+    target: "PROTO-MSG-WEBSOCKET-001"
+    description: "MQTT over WebSocket enables browser-based MQTT clients to communicate with brokers through web infrastructure"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OASIS — MQTT Version 5.0 Standard (2019)"
+    - "OASIS — MQTT Version 3.1.1 Standard (2014)"
+    - "ISO/IEC 20922:2016 — MQTT Protocol Standard"
+    - "OWASP — IoT Attack Surface: MQTT Protocol"
+  search_keywords:
+    - "MQTT"
+    - "MQTT protocol"
+    - "message queuing telemetry transport"
+    - "IoT messaging"
+    - "publish subscribe"
+    - "MQTT broker"
+    - "QoS levels"
+    - "port 1883"
+    - "MQTT security"
+    - "IoT protocol"
+  embedding_text: >-
+    MQTT (Message Queuing Telemetry Transport) is a lightweight publish-subscribe messaging
+    protocol for IoT and constrained devices, standardized as OASIS MQTT v5.0 and ISO/IEC
+    20922. Operating over TCP (port 1883, TLS 8883) with a minimal 2-byte header, MQTT uses
+    broker-mediated topic-based routing with three QoS levels (at-most-once, at-least-once,
+    exactly-once). Security concerns include unauthenticated broker access, plaintext
+    communication, topic injection, and retained message poisoning. Many internet-exposed MQTT
+    brokers lack authentication. MQTT v5.0 adds enhanced authentication, message expiry, and
+    shared subscriptions. The protocol is dominant in industrial IoT, smart home, and connected
+    vehicle ecosystems.

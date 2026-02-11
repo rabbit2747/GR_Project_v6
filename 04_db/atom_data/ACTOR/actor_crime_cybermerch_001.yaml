@@ -1,0 +1,128 @@
+# GR Atom: CyberMerchants
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-CYBERMERCH-001"
+  name: "CyberMerchants"
+  normalized_name: "cybermerchants"
+  aliases:
+    - "Cyber Merchants"
+    - "CyberMerchants Marketplace"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - SUPPLY_CHAIN
+    - CRED
+    - INITIAL
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CyberMerchants is a cybercriminal marketplace and access broker operation that facilitates the
+    trade of stolen credentials, compromised access, and cybercrime-as-a-service offerings on dark
+    web forums and encrypted messaging platforms. The group operates as intermediaries in the
+    cybercriminal supply chain, connecting initial access brokers who compromise organizations with
+    ransomware operators and other threat actors who monetize that access. CyberMerchants trades in
+    corporate VPN credentials, RDP access, web shell access to compromised servers, stolen databases,
+    and custom malware tools. The operation functions as a marketplace aggregator, vetting sellers
+    and providing escrow services to facilitate trust between criminal parties.
+  why: >-
+    CyberMerchants represents the growing professionalization and specialization of the cybercriminal
+    supply chain, where dedicated marketplace operators enable the efficient connection of disparate
+    criminal actors. Access brokers who sell through marketplaces like CyberMerchants directly enable
+    ransomware operations by providing the initial foothold that ransomware affiliates require. The
+    commoditization of corporate access through these marketplaces has lowered the barrier to entry
+    for ransomware attacks, as affiliates no longer need to conduct their own initial compromise.
+    Understanding access broker marketplaces is essential for threat intelligence analysts tracking
+    the pre-attack supply chain and for organizations attempting to identify whether their
+    credentials or access are being traded in criminal markets.
+  how: >-
+    CyberMerchants operates primarily through Tor-based dark web marketplaces and encrypted
+    communication channels on Telegram and XMPP. The operation curates listings from initial
+    access brokers who have compromised organizations through credential stuffing, phishing,
+    vulnerability exploitation, or insider access. Listings typically include the type of access
+    (VPN, RDP, web shell, admin panel), the victim's industry and country, estimated revenue of
+    the victim organization, and the level of access obtained. Pricing varies from $500 to $50,000+
+    depending on the target's size and access level. The marketplace implements reputation systems,
+    escrow services, and dispute resolution to build trust among criminal participants. CyberMerchants
+    also brokers bulk credential dumps, exploit code, and malware-as-a-service offerings.
+  core_concepts:
+    - key: "Cybercriminal Supply Chain"
+      value: >-
+        CyberMerchants exemplifies the specialized supply chain in cybercrime where dedicated
+        marketplace operators connect access brokers with ransomware affiliates and other threat
+        actors, enabling efficient criminal commerce and lowering barriers to entry.
+    - key: "Access Brokerage"
+      value: >-
+        The primary business model involves brokering corporate access obtained through various
+        compromise methods, with listings categorized by access type, industry, geography, and
+        victim organization size to enable efficient matching with buyers.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "CyberMerchants is a cybercriminal marketplace operation in the access broker ecosystem"
+  - type: "enables"
+    target: "ATK-INITIAL"
+    description: "CyberMerchants enables initial access for ransomware and other threat actors by brokering compromised credentials"
+  - type: "enables"
+    target: "ACTOR-CRIME-BLACBAST-001"
+    description: "Access brokers like CyberMerchants supply initial access to ransomware operations including Black Basta"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1589"
+    tactic:
+      - "Reconnaissance"
+      - "Resource Development"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "KELA Cyber Intelligence - Dark Web Access Broker Marketplace Analysis. https://ke-la.com/research/"
+    - "Flashpoint - Initial Access Broker Ecosystem Report. https://flashpoint.io/blog/initial-access-broker/"
+    - "Digital Shadows - Cybercriminal Marketplace Monitoring. https://www.digitalshadows.com/blog-and-research/"
+    - "Mandiant - Initial Access Brokers in the Ransomware Supply Chain. https://www.mandiant.com/resources/blog/initial-access-brokers"
+  search_keywords:
+    - "cybermerchants dark web"
+    - "cybermerchants marketplace"
+    - "access broker marketplace"
+    - "cybercriminal marketplace"
+    - "stolen credentials marketplace"
+    - "initial access broker"
+    - "RDP access broker"
+    - "VPN credential trading"
+  embedding_text: >-
+    CyberMerchants is a cybercriminal marketplace and access broker operation facilitating the trade
+    of stolen credentials, compromised access, and cybercrime-as-a-service offerings on dark web
+    forums and encrypted messaging platforms. The group operates as intermediaries in the cybercriminal
+    supply chain, connecting initial access brokers with ransomware operators and other threat actors.
+    The marketplace trades corporate VPN and RDP credentials, web shell access, stolen databases,
+    and malware tools. Operating through Tor-based platforms and Telegram channels, CyberMerchants
+    implements reputation systems and escrow services for criminal commerce. Access pricing ranges
+    from $500 to $50,000+ depending on target size and access level. The operation represents the
+    growing professionalization of cybercrime where specialized marketplace operators enable efficient
+    criminal supply chains, directly supporting ransomware operations by providing initial access
+    that affiliates require for attacks.

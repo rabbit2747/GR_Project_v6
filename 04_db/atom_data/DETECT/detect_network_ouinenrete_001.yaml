@@ -1,0 +1,93 @@
+# GR Atom: Outbound Internet Encrypted Remote Terminal Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINENRETE-001"
+  name: "Outbound Internet Encrypted Remote Terminal Traffic"
+  normalized_name: "outbound_internet_encrypted_remote_terminal_traffic"
+  aliases:
+    - "Outbound SSH/RDP to Internet"
+    - "Encrypted Remote Access Egress"
+    - "External Remote Terminal Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - SSH
+    - RDP
+    - TLS
+    - C2
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern targeting encrypted remote terminal sessions (SSH, encrypted RDP, and similar protocols) initiated from internal hosts to external internet destinations. This pattern identifies outbound connections on ports 22, 3389 (with TLS), and other remote access ports that establish interactive terminal sessions with internet-facing systems, which is unusual for most enterprise environments and may indicate C2 activity, unauthorized access, or data exfiltration channels."
+  why: "Outbound encrypted remote terminal connections to the internet are rare in most enterprise environments and represent high-risk indicators. Adversaries use reverse SSH tunnels and encrypted RDP to establish interactive C2 channels, exfiltrate data through remote sessions, or access external infrastructure for staging attacks. Detecting these connections is critical because encryption prevents payload inspection, and the interactive nature of terminal sessions grants adversaries full remote control capabilities."
+  how: "Detection monitors outbound connections on remote terminal ports (SSH 22, RDP 3389, Mosh 60000-61000) destined for internet addresses. Analysis flags connections from non-administrative workstations, sessions to unrecognized external IPs, long-duration persistent sessions, unusual session timing patterns, and connections bypassing VPN or approved remote access infrastructure. TLS metadata analysis examines SSH version strings and key exchange parameters. Behavioral analysis detects tunneling indicators where remote terminal sessions carry non-terminal traffic volumes."
+  core_concepts:
+    - key: "Outbound Terminal Detection"
+      value: "Identifying encrypted remote terminal sessions initiated from internal hosts to external internet destinations."
+    - key: "Reverse Tunnel Detection"
+      value: "Detecting SSH reverse tunnels and port forwarding used to establish persistent C2 channels to external systems."
+    - key: "Session Behavioral Analysis"
+      value: "Analyzing terminal session characteristics to distinguish legitimate remote work from malicious C2 activity."
+    - key: "Approved Access Enforcement"
+      value: "Ensuring remote terminal access to external systems occurs only through approved channels and VPN infrastructure."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINENTR-001"
+    description: "Outbound encrypted remote terminal traffic is a specific type of outbound encrypted traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-REMTERSES-001"
+    description: "Internet-bound encrypted remote terminal traffic is a subset of remote terminal session detection"
+  - type: effective_against
+    target: "ATK-C2-TUNNEL-001"
+    description: "Detects reverse SSH tunnels and encrypted C2 channels to external infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1572"
+    tactic:
+      - "Command and Control"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Protocol Tunneling T1572"
+    - "MITRE ATT&CK - Remote Services T1021"
+    - "SANS Institute - Detecting SSH Tunnels"
+  search_keywords:
+    - "outbound SSH"
+    - "outbound RDP"
+    - "encrypted remote terminal"
+    - "reverse SSH tunnel"
+    - "external remote access"
+    - "outbound terminal"
+    - "SSH egress"
+    - "remote desktop egress"
+    - "encrypted C2 tunnel"
+    - "outbound remote session"
+  embedding_text: "Outbound internet encrypted remote terminal traffic detection identifies SSH, encrypted RDP, and similar remote terminal sessions initiated from internal hosts to external internet destinations. These connections are unusual in enterprise environments and may indicate C2 activity, reverse SSH tunnels, or data exfiltration channels. Detection monitors outbound connections on remote terminal ports, flags non-administrative sources, analyzes session durations and behavioral patterns, and identifies tunneling indicators. This high-risk pattern is critical for detecting adversaries who establish interactive remote control capabilities through encrypted outbound channels."

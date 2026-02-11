@@ -1,0 +1,118 @@
+# GR Atom: FactoryTalk
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-FACTORYTAL-001"
+  name: "FactoryTalk"
+  normalized_name: "factorytalk"
+  aliases:
+    - "Rockwell FactoryTalk"
+    - "FactoryTalk View"
+    - "FactoryTalk Linx"
+    - "FactoryTalk Services Platform"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - NETWORK
+    - FIRMWARE
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z5"
+  function: "M2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FactoryTalk is Rockwell Automation's integrated software suite for industrial automation,
+    providing HMI/SCADA visualization (FactoryTalk View), data communication (FactoryTalk Linx),
+    historian data (FactoryTalk Historian), asset management, analytics, and MES functionality.
+    The platform serves as the software layer managing ControlLogix, CompactLogix, and other
+    Allen-Bradley controllers. FactoryTalk Services Platform provides the foundation services
+    including directory, activation, diagnostics, and security for all FactoryTalk applications.
+  why: >-
+    FactoryTalk is a critical ICS software target because it provides the management plane for
+    industrial control systems. Vulnerabilities in FactoryTalk components have been documented
+    in numerous CISA/ICS-CERT advisories including authentication bypass, remote code execution,
+    path traversal, and information disclosure (CVE-2020-12034, CVE-2020-12038, CVE-2021-22681).
+    Compromise of FactoryTalk enables attackers to view and modify PLC programs, alter HMI
+    displays to mask attacks, access process historian data, and manipulate industrial processes.
+  how: >-
+    FactoryTalk operates as a Windows-based software suite communicating with Allen-Bradley
+    controllers via EtherNet/IP and CIP. FactoryTalk View provides operator HMI screens
+    displaying real-time process data. FactoryTalk Linx (formerly RSLinx Enterprise) manages
+    controller communication and tag browsing. The Services Platform uses a directory server
+    for component registration, an activation server for licensing, and a security server for
+    authentication and authorization. Network communication uses TCP/UDP on configurable ports
+    with optional TLS encryption on newer versions.
+  core_concepts:
+    - key: "ICS Software Management Plane"
+      value: "FactoryTalk serves as the supervisory software layer for programming, monitoring, and managing Rockwell industrial controllers and processes"
+    - key: "FactoryTalk Services Platform"
+      value: "Foundation services including directory, activation, diagnostics, and security that all FactoryTalk applications depend upon"
+    - key: "HMI/SCADA Visualization"
+      value: "FactoryTalk View provides the human-machine interface for operators to monitor and control industrial processes in real-time"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-ENDPOINT-CONTROLLOG-001"
+    description: "FactoryTalk manages, programs, and monitors ControlLogix controllers as its primary automation hardware"
+  - type: "requires"
+    target: "INFRA-ENDPOINT-GUARDLOGIX-001"
+    description: "FactoryTalk integrates with GuardLogix safety controllers for safety system monitoring and programming"
+  - type: "alternative_to"
+    target: "INFRA-ENDPOINT-ECOSTRUXUR-001"
+    description: "FactoryTalk competes with Schneider Electric EcoStruxure as an integrated industrial automation software platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0823"
+    tactic:
+      - "Impair Process Control"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Rockwell Automation - FactoryTalk Software Suite Documentation"
+    - "CISA ICS-CERT Advisories for Rockwell Automation FactoryTalk"
+    - "MITRE ATT&CK for ICS - HMI and Engineering Workstation Techniques"
+  search_keywords:
+    - "FactoryTalk"
+    - "Rockwell FactoryTalk"
+    - "FactoryTalk View"
+    - "FactoryTalk Linx"
+    - "RSLinx Enterprise"
+    - "industrial SCADA software"
+    - "FactoryTalk vulnerability"
+    - "ICS HMI software"
+    - "Rockwell SCADA"
+  embedding_text: >-
+    FactoryTalk is Rockwell Automation's integrated software suite for industrial automation
+    including HMI/SCADA visualization (FactoryTalk View), data communication (FactoryTalk Linx),
+    historian, asset management, and analytics. It manages ControlLogix, CompactLogix, and
+    other Allen-Bradley controllers via EtherNet/IP and CIP protocols. The Services Platform
+    provides directory, activation, diagnostics, and security foundation services. FactoryTalk
+    is a critical ICS target with numerous documented CISA advisories for authentication bypass,
+    remote code execution, and path traversal vulnerabilities (CVE-2020-12034, CVE-2021-22681).
+    Compromise enables viewing and modifying PLC programs, altering HMI displays to mask
+    attacks, and manipulating industrial processes. The Windows-based platform uses TCP/UDP
+    communication with optional TLS encryption on newer versions.

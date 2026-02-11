@@ -1,0 +1,74 @@
+# GR Atom: PCI 3DS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCI3DS-001"
+  name: "PCI 3DS"
+  normalized_name: "pci_3ds"
+  aliases:
+    - "PCI 3-D Secure"
+    - "PCI Three-Domain Secure"
+    - "3DS Core Security Standard"
+    - "EMV 3-D Secure"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - WEB
+    - ENCRYPT
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "PCI 3DS (Three-Domain Secure) is a PCI SSC security standard that defines requirements for entities performing or providing 3DS functions in card-not-present (CNP) e-commerce transactions. The standard applies to 3DS Server (3DSS), 3DS Directory Server (DS), and 3DS Access Control Server (ACS) environments. It specifies security requirements for protecting cardholder authentication data during online transactions, covering areas including network security, data protection, vulnerability management, access control, monitoring, and secure software development for 3DS components."
+  why: "Card-not-present fraud is the fastest-growing category of payment card fraud, driven by the shift to e-commerce. 3-D Secure provides an additional authentication layer for online transactions, but the security of the 3DS infrastructure itself must be assured. PCI 3DS ensures that entities operating 3DS components implement adequate security controls to protect authentication data and the integrity of the authentication process, reducing the risk of fraudulent transactions."
+  how: "Organizations operating 3DS components undergo assessment against the PCI 3DS Core Security Standard by a PCI-qualified 3DS Assessor. The assessment evaluates security controls across defined requirement domains including baseline security (physical and logical), 3DS-specific security measures, and operational requirements. Compliance is validated through on-site assessments, documentation review, and technical testing. Organizations must maintain compliance through continuous monitoring, periodic reassessment, and adherence to change management procedures for 3DS environments."
+  core_concepts:
+    - key: "Three Domains"
+      value: "Issuer domain (cardholder bank), acquirer domain (merchant bank), and interoperability domain (card network) that participate in 3DS authentication"
+    - key: "ACS"
+      value: "Access Control Server operated by the card issuer that authenticates the cardholder during the 3DS transaction flow"
+    - key: "3DS Server"
+      value: "Component in the acquirer domain that initiates and manages the 3DS authentication process on behalf of the merchant"
+    - key: "Directory Server"
+      value: "Central component operated by the card network that routes 3DS messages between the 3DS Server and the ACS"
+
+relations:
+  - type: part_of
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "PCI 3DS is part of the broader PCI security standards family"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "PCI 3DS requires strong cryptography implemented with validated cryptographic modules"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSSCOM-001"
+    description: "PCI 3DS compliance contributes to the overall PCI DSS compliance framework for merchants"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI SSC 3DS Core Security Standard - https://www.pcisecuritystandards.org/document_library/?category=3ds"
+    - "EMVCo 3-D Secure Specification - https://www.emvco.com/emv-technologies/3d-secure/"
+    - "PCI SSC 3DS SDK Security Standard"
+  search_keywords:
+    - "PCI 3DS"
+    - "3-D Secure"
+    - "EMV 3DS"
+    - "card-not-present authentication"
+    - "e-commerce security"
+    - "ACS"
+    - "directory server"
+    - "3DS Server"
+    - "online payment security"
+    - "cardholder authentication"
+  embedding_text: "PCI 3DS is a PCI SSC security standard defining requirements for entities performing 3-D Secure functions in card-not-present e-commerce transactions. It applies to 3DS Server, Directory Server, and Access Control Server environments, covering network security, data protection, vulnerability management, and access control. The three domains model includes the issuer domain, acquirer domain, and interoperability domain. Organizations undergo assessment by qualified 3DS Assessors to validate security controls. PCI 3DS addresses card-not-present fraud by securing the infrastructure that provides additional authentication for online payment transactions."

@@ -1,0 +1,105 @@
+# GR Atom: CVE-2013-3906
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20133906-001"
+  name: "CVE-2013-3906"
+  normalized_name: "cve_2013_3906"
+  aliases:
+    - "Microsoft Graphics Component TIFF Memory Corruption"
+    - "GDI+ TIFF Image Handling Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Graphics Component (GDI+)"
+    - "Microsoft Office 2003, 2007, 2010"
+    - "Microsoft Lync 2010, 2013"
+    - "Windows Vista, Server 2008"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-3906 is a memory corruption vulnerability (CVSS 9.3) in the Microsoft Graphics
+    Component (GDI+) related to the processing of TIFF image files. The vulnerability allows
+    remote code execution when a user opens a specially crafted document or visits a web page
+    containing a malicious TIFF image. It was exploited as a zero-day in targeted attacks
+    through crafted Word documents embedding TIFF images. Microsoft issued a Fix-it workaround
+    and patched it in MS13-096 (December 2013).
+  why: >-
+    This vulnerability was actively exploited as a zero-day in multiple targeted attack campaigns
+    including those attributed to the Sandworm and other APT groups. The TIFF image format was
+    commonly used in Office documents, making it an effective delivery mechanism. The vulnerability
+    in the GDI+ graphics component affected multiple Microsoft products simultaneously, including
+    Office, Lync, and Windows itself, broadening the attack surface.
+  how: >-
+    The exploit embeds a specially crafted TIFF image in a Word document or web page. When the
+    TIFF image is processed by the GDI+ component, malformed TIFF data triggers a memory
+    corruption condition. The attacker uses heap spraying to position shellcode in predictable
+    memory locations, and the corrupted GDI+ state redirects execution to the attacker's code.
+    The exploit runs with the privileges of the application processing the image.
+  core_concepts:
+    - key: "GDI+ TIFF Processing Memory Corruption"
+      value: "Malformed TIFF image data triggers memory corruption in the Windows GDI+ graphics component during image rendering"
+    - key: "Multi-Product Impact via Shared Component"
+      value: "GDI+ vulnerability affects Office, Lync, and Windows simultaneously through shared graphics processing component"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory corruption in Microsoft GDI+ component during TIFF image processing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-3906 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS13-096"
+    - "Microsoft Security Advisory 2896666"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2013-3906"
+    - "TIFF"
+    - "GDI+"
+    - "Microsoft Graphics Component"
+    - "memory corruption"
+    - "MS13-096"
+    - "Microsoft Office"
+    - "zero-day"
+    - "image exploit"
+  embedding_text: >-
+    CVE-2013-3906 is a memory corruption vulnerability with CVSS 9.3 in the Microsoft Graphics
+    Component (GDI+) triggered by processing malformed TIFF images. Remote attackers achieve
+    code execution by embedding crafted TIFF images in Word documents or web pages. Exploited
+    as a zero-day in targeted APT campaigns including those attributed to the Sandworm group,
+    it affected multiple Microsoft products simultaneously including Office 2003-2010, Lync
+    2010-2013, and Windows Vista/Server 2008. Patched in MS13-096 in December 2013, this
+    vulnerability demonstrated how shared graphics components create wide attack surfaces
+    when image parsing vulnerabilities are exploited through document-based delivery.

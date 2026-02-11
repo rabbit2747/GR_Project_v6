@@ -1,0 +1,88 @@
+# GR Atom: File Access
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEACCE-001"
+  name: "File Access"
+  normalized_name: "file_access"
+  aliases:
+    - "File Read Detection"
+    - "File Open Monitoring"
+    - "File Access Tracking"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - AUDIT
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for monitoring file access operations on endpoints, including file open, read, and memory-mapped file operations. File access detection captures which processes access which files, the access type requested (read, read-write, execute), the user context, and the timestamp. This provides visibility into data access patterns essential for detecting unauthorized access to sensitive files, credential harvesting, and data collection activities."
+  why: "File access monitoring is fundamental to detecting data theft, credential harvesting, and reconnaissance of sensitive information. Attackers access credential stores, configuration files, encryption keys, and sensitive documents during post-exploitation. Tracking file access enables detection of abnormal access patterns, policy violations, and insider threat activity before data is exfiltrated."
+  how: "Leverage OS-level file system auditing (Windows Security Event 4663, Linux auditd file watches) and EDR file system mini-filter drivers to capture file access events. Monitor access to high-value targets including credential stores (SAM, NTDS.dit, /etc/shadow), configuration files, private keys, and sensitive document repositories. Apply baseline analysis to detect anomalous access patterns by user, process, and time."
+  core_concepts:
+    - key: "File Access Auditing"
+      value: "Operating system capability to log file open and read operations, configured through security audit policies on Windows or auditd rules on Linux"
+    - key: "Access Control List"
+      value: "Security descriptor defining which users and processes are permitted to access a file and what operations they may perform"
+    - key: "Sensitive File Monitoring"
+      value: "Focused monitoring of access to high-value files such as credential stores, private keys, and confidential documents"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File access is a specific type of file event"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEACCE-002"
+    description: "General file access detection enables specific file access event alerting"
+  - type: effective_against
+    target: "ATK-COLLECT-DATA-001"
+    description: "Detects data collection activities targeting sensitive files"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Audit File System"
+    - "MITRE ATT&CK T1005 - Data from Local System"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file access"
+    - "file read"
+    - "file open"
+    - "file audit"
+    - "event 4663"
+    - "credential access"
+    - "sensitive file monitoring"
+    - "data collection detection"
+  embedding_text: "File Access is an endpoint detection pattern for monitoring file open, read, and memory-mapped file operations on endpoints. It captures which processes access which files, the access type requested, user context, and timestamps. This detection provides visibility into data access patterns essential for identifying unauthorized access to sensitive files, credential harvesting from stores like SAM and NTDS.dit, and data collection activities. Detection leverages OS-level file auditing through Windows Event 4663 and Linux auditd, combined with EDR mini-filter drivers. Baseline analysis identifies anomalous access patterns by user, process, and time to detect insider threats and post-exploitation data theft."

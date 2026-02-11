@@ -1,0 +1,117 @@
+# GR Atom: Database Service Application
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATSERAPP-001"
+  name: "Database Service Application"
+  normalized_name: "database_service_application"
+  aliases:
+    - "DB Service App"
+    - "Database Middleware"
+    - "Database Proxy Application"
+    - "DB Service Layer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - DATABASE
+    - API
+    - AUTHN
+    - PROXY
+    - MICROSERVICE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Database Service Application is a middleware or application-tier component that provides
+    database access as a service to other applications, acting as an intermediary between client
+    applications and backend database systems. This includes database proxy services (such as
+    ProxySQL, PgBouncer, Amazon RDS Proxy), database abstraction layers, data access APIs, and
+    microservice components that encapsulate database operations behind RESTful or gRPC service
+    interfaces. Unlike direct database applications, these components provide pooling, routing,
+    caching, and access control as a shared service.
+  why: >-
+    Database service applications address scalability, security, and operational challenges of
+    direct database access. They centralize connection management to prevent connection exhaustion,
+    provide query routing for read/write splitting across replicas, implement caching to reduce
+    database load, and enforce consistent security policies. From a security perspective, they
+    can serve as a chokepoint for access control, query auditing, and SQL injection detection,
+    but they also represent a single point of compromise if breached, as they handle credentials
+    and have broad database access.
+  how: >-
+    Database service applications intercept client connections, authenticate requests, and proxy
+    them to appropriate backend database instances. Connection pooling maintains a pool of
+    persistent database connections that are shared across client requests. Query routing directs
+    read queries to replicas and write queries to the primary. Caching layers store frequently
+    accessed results to reduce backend load. Health checking monitors backend database
+    availability for automatic failover. Access control policies enforce per-user or per-
+    application authorization rules. TLS terminates and re-establishes encrypted connections
+    between client and backend segments.
+  core_concepts:
+    - key: "Connection Pooling"
+      value: >-
+        Maintains a shared pool of persistent database connections, multiplexing client requests
+        to prevent connection exhaustion and reduce database server overhead from connection
+        establishment.
+    - key: "Query Routing"
+      value: >-
+        Directs database queries to appropriate backend instances based on query type (read vs
+        write), load balancing policies, or application-level routing rules for read replicas.
+    - key: "Centralized Access Control"
+      value: >-
+        Provides a single enforcement point for database access policies, credential management,
+        and query auditing across multiple client applications and backend databases.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Database service applications require backend database services to proxy and route client queries"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "Database service applications enable database applications by providing managed connection pooling and routing"
+  - type: "is_a"
+    target: "INFRA-DATA-DATSERAPP-001"
+    description: "A database service application is a specialized application providing database access as a managed service"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "ProxySQL documentation. https://proxysql.com/documentation/"
+    - "PgBouncer documentation. https://www.pgbouncer.org/"
+    - "AWS RDS Proxy documentation. https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-proxy.html"
+  search_keywords:
+    - "database service application"
+    - "database proxy"
+    - "ProxySQL"
+    - "PgBouncer"
+    - "RDS Proxy"
+    - "database middleware"
+    - "connection pooling service"
+    - "database abstraction layer"
+  embedding_text: >-
+    A Database Service Application is a middleware component providing database access as a
+    service to other applications, acting as intermediary between clients and backend databases.
+    This includes database proxies (ProxySQL, PgBouncer, Amazon RDS Proxy), abstraction layers,
+    and microservice components encapsulating database operations behind API interfaces.
+    They centralize connection pooling to prevent exhaustion, provide query routing for read/write
+    splitting, implement caching to reduce load, and enforce consistent security policies.
+    Database service applications intercept client connections, authenticate requests, and proxy
+    them to appropriate backends. They represent both a security opportunity as a centralized
+    access control and auditing chokepoint, and a risk as a single point of compromise with
+    broad database access and credential handling responsibilities.

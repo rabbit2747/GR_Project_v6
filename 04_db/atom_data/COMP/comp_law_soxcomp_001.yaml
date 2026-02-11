@@ -1,0 +1,116 @@
+# GR Atom: SOX Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-SOXCOMP-001"
+  name: "SOX Compliance"
+  normalized_name: "sox_compliance"
+  aliases:
+    - "Sarbanes-Oxley Act Compliance"
+    - "SOX"
+    - "Sarbanes-Oxley 2002"
+    - "Public Company Accounting Reform Act"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    SOX Compliance refers to adherence to the Sarbanes-Oxley Act of 2002 (Public Law 107-204),
+    a United States federal law mandating strict financial reporting and internal control
+    requirements for publicly traded companies. Section 302 requires CEO and CFO certification
+    of financial report accuracy and internal control effectiveness. Section 404 mandates
+    management assessment and independent auditor attestation of internal controls over financial
+    reporting (ICFR). Section 802 imposes criminal penalties for destruction, alteration, or
+    falsification of financial records. SOX applies to all US publicly traded companies, their
+    wholly-owned subsidiaries, and foreign companies listed on US exchanges, as well as their
+    audit firms.
+  why: >
+    SOX was enacted in response to major corporate accounting scandals (Enron, WorldCom, Tyco)
+    that destroyed billions in shareholder value and eroded public trust in capital markets.
+    For IT and security teams, SOX has profound implications because financial reporting systems
+    rely on IT infrastructure. Internal controls over financial reporting must extend to the
+    IT systems that process, store, and transmit financial data. Non-compliance can result in
+    personal criminal liability for executives (fines up to $5 million and imprisonment up to
+    20 years), SEC enforcement actions, stock exchange delisting, and loss of investor confidence.
+  how: >
+    Organizations achieve SOX compliance by establishing and documenting internal controls over
+    financial reporting, implementing IT General Controls (ITGCs) covering change management,
+    access controls, computer operations, and program development for systems affecting financial
+    reporting. Specific IT activities include implementing segregation of duties, maintaining
+    access control lists for financial systems, deploying audit logging for all financial data
+    modifications, establishing change management procedures for financial applications, performing
+    regular access reviews, implementing backup and recovery for financial data, and engaging
+    external auditors (PCAOB-registered) to attest to internal control effectiveness.
+  core_concepts:
+    - key: "Section 302 Certification"
+      value: "CEO and CFO must personally certify the accuracy of financial reports and the effectiveness of internal controls"
+    - key: "Section 404 Internal Controls"
+      value: "Management assessment and independent auditor attestation of internal controls over financial reporting (ICFR)"
+    - key: "IT General Controls (ITGCs)"
+      value: "IT controls supporting financial reporting including change management, access controls, computer operations, and program development"
+    - key: "Segregation of Duties"
+      value: "Ensuring no single individual can initiate, authorize, and record a financial transaction without independent oversight"
+    - key: "PCAOB Oversight"
+      value: "Public Company Accounting Oversight Board oversight of auditing firms performing SOX attestation engagements"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "SOX compliance is a specific compliance regulation"
+  - type: applies_to
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "SOX applies as an industry compliance requirement for publicly traded companies"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "SOX requires audit and compliance verification through PCAOB-registered auditors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sarbanes-Oxley Act of 2002, Public Law 107-204"
+    - "PCAOB Auditing Standard No. 5 — An Audit of Internal Control Over Financial Reporting"
+    - "SEC Final Rule: Management's Report on Internal Control Over Financial Reporting"
+    - "COSO Internal Control — Integrated Framework (2013)"
+    - "ISACA IT Control Objectives for Sarbanes-Oxley"
+  search_keywords:
+    - "SOX compliance"
+    - "Sarbanes-Oxley"
+    - "section 302 certification"
+    - "section 404 internal controls"
+    - "ICFR internal controls financial reporting"
+    - "IT general controls ITGC"
+    - "SOX audit"
+    - "PCAOB"
+    - "financial reporting controls"
+    - "segregation of duties"
+  embedding_text: >
+    SOX Compliance refers to adherence to the Sarbanes-Oxley Act of 2002 (Public Law 107-204),
+    which mandates strict financial reporting and internal control requirements for US publicly
+    traded companies. Section 302 requires CEO/CFO certification of financial accuracy, and
+    Section 404 mandates management assessment and auditor attestation of internal controls over
+    financial reporting. For IT teams, SOX requires IT General Controls covering change management,
+    access controls, computer operations, and program development for financial systems.
+    Implementation involves segregation of duties, audit logging, access reviews, and change
+    management procedures. Non-compliance carries criminal penalties up to $5 million in fines
+    and 20 years imprisonment for executives.

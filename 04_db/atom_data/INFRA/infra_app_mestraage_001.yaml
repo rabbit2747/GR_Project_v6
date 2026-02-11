@@ -1,0 +1,117 @@
+# GR Atom: Message Transfer Agent
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-MESTRAAGE-001"
+  name: "Message Transfer Agent"
+  normalized_name: "message_transfer_agent"
+  aliases:
+    - "MTA"
+    - "Mail Transfer Agent"
+    - "SMTP Server"
+    - "Mail Relay"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - SMTP
+    - NETWORK
+    - CONFIG
+    - LATERAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Message Transfer Agent (MTA) is server software responsible for transferring email
+    messages between mail servers using the Simple Mail Transfer Protocol (SMTP). Common MTAs
+    include Postfix, Sendmail, Exim, Microsoft Exchange Transport, and qmail. MTAs handle
+    message routing, queue management, delivery retries, and relay decisions. They operate at
+    the core of email infrastructure, accepting messages from Mail User Agents (MUAs) or other
+    MTAs and forwarding them toward their destination.
+  why: >-
+    MTAs are critical infrastructure components targeted for email-based attacks, spam relay,
+    and lateral movement within networks. Misconfigured open relays allow attackers to send
+    spam and phishing emails through legitimate infrastructure. MTA vulnerabilities have led to
+    critical remote code execution (Exim CVE-2019-10149, Sendmail historical vulnerabilities).
+    MTAs process untrusted email content including headers, MIME attachments, and encoded data,
+    creating parsing vulnerabilities. Attackers exploit MTAs for credential harvesting through
+    SMTP authentication brute-forcing, information disclosure through VRFY/EXPN commands, and
+    lateral movement by relaying through internal mail infrastructure.
+  how: >-
+    MTAs listen on SMTP ports (25, 465, 587) and process incoming email messages through a
+    pipeline of checks including DNS resolution (MX records), SPF/DKIM/DMARC validation,
+    content filtering, and relay authorization. Messages are queued in local storage and
+    forwarded to the next MTA or delivered to local mailboxes via Mail Delivery Agents (MDAs).
+    Attackers target MTAs through SMTP command injection, buffer overflows in message parsing,
+    open relay exploitation for spam/phishing, STARTTLS stripping for credential interception,
+    and exploiting configuration weaknesses in relay permissions and authentication mechanisms.
+  core_concepts:
+    - key: "Email Routing Infrastructure"
+      value: "Core SMTP server software handling message transfer between mail servers with queue management, routing decisions, and relay authorization"
+    - key: "Open Relay and Spam Abuse"
+      value: "Misconfigured MTAs acting as open relays enable spam and phishing campaigns through legitimate mail infrastructure"
+    - key: "MTA Vulnerabilities"
+      value: "Critical RCE vulnerabilities in MTA software (Exim, Sendmail) enable remote compromise of mail infrastructure through crafted messages"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "Message Transfer Agents are enterprise server components forming the core of organizational email infrastructure"
+  - type: "enables"
+    target: "INFRA-APP-EXCHSERV-001"
+    description: "MTA functionality is a core component of Exchange Server's mail transport service"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.003"
+    tactic:
+      - "Command and Control"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1071.003 - Application Layer Protocol: Mail Protocols"
+    - "Exim CVE-2019-10149 - Remote Code Execution"
+    - "NIST SP 800-45 - Guidelines on Electronic Mail Security"
+  search_keywords:
+    - "Message Transfer Agent"
+    - "MTA security"
+    - "SMTP server vulnerability"
+    - "open relay"
+    - "mail relay exploitation"
+    - "Postfix security"
+    - "Exim vulnerability"
+    - "Sendmail exploit"
+    - "SMTP authentication"
+  embedding_text: >-
+    A Message Transfer Agent (MTA) is server software responsible for transferring email between
+    mail servers using SMTP. Common MTAs include Postfix, Sendmail, Exim, and Exchange Transport.
+    MTAs handle message routing, queue management, and relay decisions on ports 25, 465, and 587.
+    Security concerns include open relay misconfiguration enabling spam and phishing, critical RCE
+    vulnerabilities (Exim CVE-2019-10149), SMTP command injection, credential harvesting through
+    authentication brute-forcing, and information disclosure via VRFY/EXPN commands. MTAs process
+    untrusted content including headers, MIME attachments, and encoded data creating parsing
+    vulnerabilities. Security teams should disable open relays, enforce SMTP authentication,
+    implement SPF/DKIM/DMARC, restrict VRFY/EXPN commands, keep MTA software updated, and
+    monitor for anomalous relay patterns indicating compromise.

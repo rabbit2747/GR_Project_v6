@@ -1,0 +1,108 @@
+# GR Atom: CVE-2020-2555
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE20202555-001"
+  name: "CVE-2020-2555"
+  normalized_name: "cve_2020_2555"
+  aliases:
+    - "Oracle Coherence Deserialization RCE"
+    - "WebLogic Coherence T3 Deserialization"
+    - "Oracle Coherence Gadget Chain Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Coherence Library"
+    - "Oracle WebLogic Server with Coherence"
+    - "T3/IIOP Protocol Handlers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-2555 is a critical deserialization vulnerability in Oracle Coherence, a distributed
+    caching library bundled with Oracle WebLogic Server. The vulnerability allows unauthenticated
+    remote code execution by exploiting unsafe deserialization of Java objects through Coherence's
+    ValueExtractor gadget chain. An attacker sends a crafted serialized object via the T3 or IIOP
+    protocol. CVSS score is 9.8. Affects Coherence versions 3.7.1.0, 12.1.3.0, and 12.2.1.4.
+  why: >-
+    Oracle Coherence introduced a new class of deserialization gadget chains that bypassed existing
+    WebLogic serialization filters. The Coherence library is bundled with WebLogic and present on
+    the default classpath, providing gadget chains even when other common libraries are filtered.
+    This vulnerability spawned multiple variants and bypass chains, establishing Coherence as a
+    persistent gadget source for WebLogic deserialization attacks.
+  how: >-
+    The attacker crafts a serialized Java object that chains through Coherence's ValueExtractor
+    classes (LimitFilter, ExtractorComparator, ReflectionExtractor) to achieve method invocation
+    on arbitrary objects. The payload is sent via the T3 or IIOP protocol to the WebLogic listener.
+    During deserialization, the ValueExtractor chain triggers reflection-based method calls that
+    ultimately execute operating system commands through Runtime.exec() or similar mechanisms.
+  core_concepts:
+    - name: "Coherence ValueExtractor Chain"
+      value: "A novel gadget chain leveraging Coherence's LimitFilter, ExtractorComparator, and ReflectionExtractor classes"
+    - name: "Bundled Library Gadgets"
+      value: "Coherence is bundled with WebLogic, providing gadget chains that bypass filters targeting common libraries"
+    - name: "Filter Bypass"
+      value: "Coherence classes were not included in WebLogic's initial deserialization filter blocklist, enabling exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Coherence deserialization RCE is an instance of insecure deserialization using novel gadget chains"
+  - type: "applies_to"
+    target: "VUL-DESER-CVE20202551-001"
+    description: "Coherence gadget chains can be delivered through the same T3/IIOP vectors used in CVE-2020-2551"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2020-2555"
+    - "Oracle Critical Patch Update January 2020"
+    - "ZDI Advisory ZDI-20-128"
+  search_keywords:
+    - "CVE-2020-2555"
+    - "Oracle Coherence deserialization"
+    - "Coherence gadget chain"
+    - "WebLogic Coherence RCE"
+    - "ValueExtractor gadget"
+    - "T3 deserialization attack"
+    - "Oracle Coherence vulnerability"
+  embedding_text: >-
+    CVE-2020-2555 is a critical deserialization vulnerability in Oracle Coherence, a distributed
+    caching library bundled with Oracle WebLogic Server. The vulnerability exploits a novel gadget
+    chain through Coherence's ValueExtractor classes including LimitFilter, ExtractorComparator,
+    and ReflectionExtractor to achieve unauthenticated remote code execution. CVSS score is 9.8.
+    Payloads are delivered via T3 or IIOP protocol to WebLogic listeners. Coherence classes were
+    not included in WebLogic's initial deserialization filter blocklist, enabling bypass of
+    existing protections. The vulnerability established Coherence as a persistent gadget source
+    and spawned multiple variants. Affects Coherence versions 3.7.1.0, 12.1.3.0, and 12.2.1.4.
+    Mitigation requires applying Oracle patches, implementing comprehensive serialization
+    filtering that includes Coherence classes, and restricting T3/IIOP protocol access.

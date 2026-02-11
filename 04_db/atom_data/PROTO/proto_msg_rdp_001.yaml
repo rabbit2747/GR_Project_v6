@@ -1,0 +1,102 @@
+# GR Atom: RDP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-RDP-001"
+  name: "RDP"
+  normalized_name: "rdp"
+  aliases:
+    - "Remote Desktop Protocol"
+    - "Microsoft RDP"
+    - "Terminal Services"
+    - "MS-RDPBCGR"
+    - "Port 3389"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - RDP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    Remote Desktop Protocol (RDP) is a Microsoft proprietary protocol that provides graphical
+    remote desktop access to Windows systems. Operating over TCP/UDP port 3389, RDP enables users
+    to interact with a remote computer's desktop, applications, and resources as if physically
+    present. RDP supports multi-channel architecture for display, keyboard/mouse input, clipboard
+    sharing, audio redirection, drive mapping, printer sharing, and smart card forwarding. The
+    protocol uses TLS encryption for the transport layer and supports Network Level Authentication
+    (NLA) with CredSSP for pre-session authentication.
+  why: >-
+    RDP is one of the most targeted protocols in enterprise environments and a primary initial
+    access vector for ransomware operators. Exposed RDP services are continuously scanned and
+    attacked via brute-force, credential stuffing, and exploitation of vulnerabilities like
+    BlueKeep (CVE-2019-0708) which enabled remote code execution without authentication. RDP
+    is used for lateral movement within compromised networks (MITRE T1021.001). Session hijacking,
+    man-in-the-middle attacks on non-NLA connections, and credential theft through RDP keylogging
+    are additional risks. CISA consistently identifies exposed RDP as a top attack vector.
+  how: >-
+    RDP operates through: (1) Connection initiation where the client establishes TCP connection
+    to port 3389 and negotiates security protocol (TLS, CredSSP); (2) NLA pre-authentication
+    using CredSSP (NTLM or Kerberos) before session creation; (3) Channel establishment creating
+    virtual channels for display (graphics pipeline), input, clipboard, file transfer, and device
+    redirection; (4) Graphical encoding using bitmap compression, RemoteFX, or AVC/H.264 codecs
+    for efficient desktop rendering; (5) Session management including disconnection, reconnection,
+    and concurrent session handling. RDP Gateway (RD Gateway) provides HTTPS-tunneled RDP access
+    through firewalls.
+  core_concepts:
+    - key: "Network Level Authentication (NLA)"
+      value: "Pre-session authentication using CredSSP that verifies user identity before allocating server resources, mitigating unauthenticated attacks like BlueKeep."
+    - key: "Virtual Channels"
+      value: "Multiplexed communication channels within RDP for display, input, clipboard, file transfer, audio, printing, and device redirection."
+    - key: "BlueKeep (CVE-2019-0708)"
+      value: "Critical pre-authentication RCE vulnerability in RDP enabling wormable remote code execution, affecting Windows XP through Server 2008 R2."
+    - key: "RDP Gateway"
+      value: "Microsoft Remote Desktop Gateway providing HTTPS-tunneled RDP access (port 443) through firewalls, eliminating direct port 3389 exposure."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "RDP is an application layer protocol for remote graphical desktop access"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "RDP Gateway tunnels RDP over HTTPS for secure remote access through firewalls"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-RDPBCGR]: Remote Desktop Protocol: Basic Connectivity and Graphics Remoting"
+    - "CVE-2019-0708 — BlueKeep Vulnerability. NIST NVD"
+    - "MITRE ATT&CK — T1021.001: Remote Desktop Protocol"
+    - "CISA — RDP Security Best Practices Advisory"
+  search_keywords:
+    - "RDP"
+    - "remote desktop protocol"
+    - "port 3389"
+    - "BlueKeep"
+    - "CVE-2019-0708"
+    - "terminal services"
+    - "NLA"
+    - "remote desktop"
+    - "RDP brute force"
+    - "RDP gateway"
+  embedding_text: >-
+    RDP (Remote Desktop Protocol) is a Microsoft proprietary protocol for graphical remote desktop
+    access operating on TCP/UDP port 3389. RDP supports multi-channel architecture for display,
+    input, clipboard, drive mapping, and device redirection with TLS encryption and Network Level
+    Authentication. RDP is one of the most targeted enterprise protocols — a primary initial
+    access vector for ransomware via brute-force, credential stuffing, and vulnerabilities like
+    BlueKeep (CVE-2019-0708). MITRE ATT&CK documents RDP for lateral movement (T1021.001). RDP
+    Gateway provides HTTPS-tunneled access to reduce exposure. Security controls include NLA
+    enforcement, MFA, and restricting port 3389 access.

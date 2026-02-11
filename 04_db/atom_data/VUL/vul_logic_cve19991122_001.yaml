@@ -1,0 +1,98 @@
+# GR Atom: CVE-1999-1122
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE19991122-001"
+  name: "CVE-1999-1122"
+  normalized_name: "cve_1999_1122"
+  aliases:
+    - "IIS Source Disclosure via GET"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - INFO_LEAK
+    - WINDOWS
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2"]
+  target_components:
+    - "Microsoft IIS 4.0"
+    - "ASP pages"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-1999-1122 is an information disclosure vulnerability in Microsoft Internet Information
+    Services (IIS) 4.0 that allows remote attackers to read the source code of ASP files by
+    appending a dot (period) to the end of the URL. The web server fails to properly process
+    the trailing dot and serves the raw ASP source code instead of executing it, exposing
+    server-side logic, database connection strings, and credentials. CVSS v2 base score: 5.0 (Medium).
+  why: >-
+    Disclosure of ASP source code exposes sensitive server-side logic including database
+    connection strings, hardcoded credentials, SQL queries, and business logic. Attackers
+    use this information to craft further attacks such as SQL injection, authentication bypass,
+    or direct database access. This vulnerability was widely exploited in 1999 against IIS 4.0
+    web servers running ASP applications.
+  how: >-
+    An attacker sends an HTTP GET request to the target IIS 4.0 server with a trailing dot
+    appended to the ASP filename (e.g., GET /page.asp.). The IIS URL parser fails to recognize
+    the file as an ASP script due to the dot suffix and serves the raw source code as a static
+    file rather than passing it to the ASP interpreter for execution. This is a file extension
+    handling logic flaw in the request processing pipeline.
+  core_concepts:
+    - key: "File Extension Logic Bypass"
+      value: "Trailing dot causes IIS to misidentify ASP files as static content, bypassing server-side script execution"
+    - key: "Source Code Disclosure"
+      value: "Raw ASP source code exposed to remote attackers reveals credentials, database connections, and application logic"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "File extension handling logic flaw that bypasses intended ASP script execution behavior"
+  - type: "enables"
+    target: "VUL-LOGIC-CVE19991467-001"
+    description: "Source code disclosure can reveal information enabling exploitation of other IIS-era logic flaws"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-1999-1122"
+    - "Microsoft Security Bulletin"
+    - "NIST NVD - CVE-1999-1122"
+  search_keywords:
+    - "CVE-1999-1122"
+    - "IIS 4.0 source disclosure"
+    - "ASP source code leak"
+    - "trailing dot bypass"
+    - "IIS file extension vulnerability"
+    - "information disclosure IIS"
+  embedding_text: >-
+    CVE-1999-1122 is an information disclosure vulnerability in Microsoft IIS 4.0 that allows
+    remote attackers to read ASP source code by appending a trailing dot to the URL. The IIS
+    URL parser misidentifies the file extension and serves raw source instead of executing the
+    ASP script. This exposes database connection strings, hardcoded credentials, SQL queries,
+    and business logic. The flaw is a file extension handling logic error in the request
+    processing pipeline. CVSS v2 5.0 Medium. Affects IIS 4.0 on Windows NT. Discovered 1999.

@@ -1,0 +1,73 @@
+# GR Atom: PCI DSS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCIDSS-001"
+  name: "PCI DSS"
+  normalized_name: "pci_dss"
+  aliases:
+    - "Payment Card Industry Data Security Standard"
+    - "PCI"
+    - "PCI Compliance"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - NETWORK
+    - ENCRYPT
+
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "PCI DSS (Payment Card Industry Data Security Standard) is a global security standard developed by the PCI Security Standards Council (PCI SSC) that defines requirements for organizations that store, process, or transmit payment card data. The standard consists of 12 high-level requirements organized into 6 goals: build and maintain a secure network, protect cardholder data, maintain a vulnerability management program, implement strong access control measures, regularly monitor and test networks, and maintain an information security policy. PCI DSS applies to all entities in the payment card ecosystem including merchants, processors, acquirers, issuers, and service providers."
+  why: "Payment card data breaches expose millions of cardholders to financial fraud and identity theft. PCI DSS establishes a minimum security baseline for the payment card industry, reducing the risk of data compromise through mandatory security controls. Compliance is contractually required by the major card brands (Visa, Mastercard, American Express, Discover, JCB) and failure to comply can result in significant fines, increased transaction fees, and loss of the ability to process card payments."
+  how: "Organizations determine their compliance validation level based on annual transaction volume and card brand requirements. Compliance is validated through either a Self-Assessment Questionnaire (SAQ) for smaller merchants or a Report on Compliance (ROC) prepared by a Qualified Security Assessor (QSA) for larger entities. The assessment evaluates the cardholder data environment (CDE), including network segmentation, encryption of stored and transmitted data, access controls, vulnerability scanning, penetration testing, logging and monitoring, and security policies. Quarterly network vulnerability scans by an Approved Scanning Vendor (ASV) are also required."
+  core_concepts:
+    - key: "Cardholder Data Environment"
+      value: "The people, processes, and technology that store, process, or transmit cardholder data or sensitive authentication data"
+    - key: "Twelve Requirements"
+      value: "The 12 high-level security requirements covering firewalls, encryption, access control, monitoring, and policy"
+    - key: "QSA Assessment"
+      value: "Formal on-site security assessment conducted by a PCI SSC-certified Qualified Security Assessor"
+    - key: "Network Segmentation"
+      value: "Isolation of the cardholder data environment from the rest of the network to reduce PCI DSS scope"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "PCI DSS is a specific security compliance framework for the payment card industry"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "PCI DSS requires strong cryptography using industry-tested algorithms"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "PCI DSS compliance requires ongoing audit processes including QSA assessments and ASV scans"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI SSC Document Library - https://www.pcisecuritystandards.org/document_library/"
+    - "PCI DSS v4.0 Standard - https://www.pcisecuritystandards.org/document_library/?category=pcidss"
+    - "PCI SSC Quick Reference Guide"
+  search_keywords:
+    - "PCI DSS"
+    - "payment card industry"
+    - "cardholder data"
+    - "PCI compliance"
+    - "QSA"
+    - "ASV"
+    - "cardholder data environment"
+    - "payment security"
+    - "PCI requirements"
+    - "card data protection"
+  embedding_text: "PCI DSS is the global security standard for organizations storing, processing, or transmitting payment card data. Developed by the PCI Security Standards Council, it consists of 12 requirements organized into 6 goals covering secure networks, data protection, vulnerability management, access control, monitoring, and security policy. Compliance is validated through Self-Assessment Questionnaires or Reports on Compliance by Qualified Security Assessors, with quarterly vulnerability scans by Approved Scanning Vendors. The standard applies to all payment card ecosystem entities and requires network segmentation, encryption, access controls, and continuous monitoring of the cardholder data environment."

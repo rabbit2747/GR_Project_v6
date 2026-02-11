@@ -1,0 +1,72 @@
+# GR Atom: White Ops
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-WHITOPS-001"
+  name: "White Ops"
+  normalized_name: "white_ops"
+  aliases:
+    - "HUMAN Security"
+    - "HUMAN"
+    - "White Ops Inc"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - AI
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "White Ops (now HUMAN Security) is a cybersecurity vendor specializing in bot detection, ad fraud prevention, and human verification technology. The company uses advanced behavioral analysis, machine learning, and threat intelligence to distinguish legitimate human users from automated bot traffic, protecting advertising ecosystems, e-commerce platforms, and web applications from sophisticated bot attacks and fraud schemes."
+  why: "White Ops/HUMAN is significant in cybersecurity because bot-based fraud costs the digital advertising and e-commerce industries billions of dollars annually. The company played a key role in disrupting several major ad fraud botnets including 3ve and PARETO, working with the FBI and industry partners to take down operations that generated hundreds of millions of dollars in fraudulent advertising revenue."
+  how: "White Ops/HUMAN operates through a verification platform that analyzes billions of digital interactions using multilayered detection techniques including JavaScript interrogation, behavioral biometrics, network analysis, and machine learning models. The platform operates inline with advertising and application traffic to make real-time determinations about whether interactions are from legitimate humans or automated bots, blocking fraudulent activity before it causes harm."
+  core_concepts:
+    - key: "Bot Detection and Mitigation"
+      value: "Advanced behavioral analysis and ML-based detection to distinguish human users from sophisticated bot traffic"
+    - key: "Ad Fraud Prevention"
+      value: "Protection of digital advertising ecosystems from bot-driven impression fraud and click fraud schemes"
+    - key: "Botnet Disruption"
+      value: "Collaboration with law enforcement and industry partners to disrupt major ad fraud botnet operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-CLOUDFLARE-001"
+    description: "Fellow web security vendor providing bot management and traffic analysis capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.humansecurity.com"
+    - "https://en.wikipedia.org/wiki/Human_Security"
+  search_keywords:
+    - "white ops"
+    - "HUMAN security"
+    - "bot detection"
+    - "ad fraud"
+    - "bot mitigation"
+    - "3ve botnet"
+    - "human verification"
+    - "click fraud"
+    - "bot management"
+  embedding_text: "White Ops (now HUMAN Security) is a cybersecurity vendor specializing in bot detection, ad fraud prevention, and human verification technology. The company uses advanced behavioral analysis, machine learning, and threat intelligence to distinguish legitimate human users from automated bot traffic. White Ops played a key role in disrupting major ad fraud botnets including 3ve and PARETO, working with the FBI and industry partners to take down operations generating hundreds of millions of dollars in fraudulent advertising revenue."

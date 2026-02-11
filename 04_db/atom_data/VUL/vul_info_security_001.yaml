@@ -1,0 +1,106 @@
+# GR Atom: Security Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-SECURITY-001"
+  name: "Security Vulnerability"
+  normalized_name: "security_vulnerability"
+  aliases:
+    - "Information Disclosure Vulnerability"
+    - "Data Leakage"
+    - "CWE-200"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - INFO_LEAK
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "Any system or application exposing sensitive data"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Security Vulnerability in the information disclosure context is a broad vulnerability class
+    (CWE-200) where a system or application unintentionally exposes sensitive information to
+    actors not authorized to access it. This encompasses exposure of system internals, error
+    messages revealing implementation details, directory listings, source code exposure, debug
+    information leaks, metadata exposure, timing-based information leaks, and any mechanism
+    through which confidential data becomes accessible to unauthorized parties.
+  why: >-
+    Information disclosure vulnerabilities are foundational to attack chains because they provide
+    attackers with the intelligence needed to plan and execute more sophisticated attacks.
+    Leaked information about software versions, configurations, internal architecture, and
+    credentials directly enables exploitation of other vulnerability classes. Information
+    disclosure is frequently the first step in privilege escalation, lateral movement, and
+    data exfiltration attack sequences.
+  how: >-
+    Information disclosure occurs through multiple mechanisms: verbose error messages revealing
+    stack traces and configuration details, improperly configured directory listings exposing
+    file structures, debug endpoints left enabled in production, metadata in HTTP headers
+    revealing server versions, timing differences in responses revealing valid usernames or
+    data existence, source code exposure through backup files or misconfigured servers, and
+    improper access controls on sensitive data endpoints.
+  core_concepts:
+    - key: "Attack Intelligence"
+      value: "Information disclosure provides reconnaissance data that enables planning and execution of further attacks"
+    - key: "Exposure Vectors"
+      value: "Error messages, directory listings, debug endpoints, HTTP headers, timing channels, and access control failures"
+    - key: "Attack Chain Foundation"
+      value: "Information disclosure is frequently the first step enabling privilege escalation and lateral movement"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-INFO-WEB-001"
+    description: "General security vulnerability class abstracts web-specific information disclosure vulnerabilities"
+  - type: "enables"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Disclosed credentials and system information enable broken authentication attacks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1592"
+    tactic:
+      - "Reconnaissance"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "CWE-200 - Exposure of Sensitive Information"
+    - "OWASP - Information Disclosure"
+    - "MITRE ATT&CK - Reconnaissance"
+  search_keywords:
+    - "information disclosure"
+    - "data leakage"
+    - "sensitive data exposure"
+    - "CWE-200"
+    - "security vulnerability"
+    - "data leak"
+    - "information exposure"
+  embedding_text: >-
+    Security Vulnerability (information disclosure) is a broad vulnerability class (CWE-200) where
+    systems unintentionally expose sensitive information. Encompasses error messages, directory
+    listings, debug endpoints, HTTP header metadata, timing channels, source code exposure, and
+    access control failures. Information disclosure is foundational to attack chains providing
+    reconnaissance data for privilege escalation, lateral movement, and data exfiltration.
+    Leaked software versions, configurations, architecture details, and credentials directly
+    enable exploitation of other vulnerability classes. Cross-layer, cross-zone impact affecting
+    any system exposing sensitive data.

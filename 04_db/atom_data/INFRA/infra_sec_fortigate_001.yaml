@@ -1,0 +1,111 @@
+# GR Atom: FortiGate
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-FORTIGATE-001"
+  name: "FortiGate"
+  normalized_name: "fortigate"
+  aliases:
+    - "Fortinet FortiGate"
+    - "FortiGate NGFW"
+    - "FortiOS"
+    - "FortiGate Firewall"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - FIREWALL
+    - NETWORK
+    - IDS
+    - IPS
+    - VPN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "S1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FortiGate is Fortinet's next-generation firewall (NGFW) platform running FortiOS, providing
+    unified threat management including firewall, IPS, antivirus, web filtering, SSL inspection,
+    SD-WAN, and VPN capabilities. Available as physical appliances (FortiGate 40F through 7000
+    series), virtual machines (FortiGate-VM), and cloud instances. FortiGate is the central
+    enforcement point in the Fortinet Security Fabric ecosystem.
+  why: >-
+    FortiGate firewalls are among the most widely deployed network security appliances globally.
+    FortiOS has had numerous critical vulnerabilities actively exploited by APT groups and
+    ransomware operators, including CVE-2024-21762 (out-of-band write in SSL VPN), CVE-2023-27997
+    (heap buffer overflow in SSL VPN), CVE-2022-42475 (heap-based buffer overflow), and
+    CVE-2018-13379 (path traversal for credential theft). These vulnerabilities have been
+    exploited by Chinese and Iranian APT groups for initial network access.
+  how: >-
+    FortiGate inspects network traffic using custom ASIC processors (NP and CP chips) for
+    hardware-accelerated packet processing. FortiOS provides stateful firewall, application
+    control via App-ID, SSL/TLS deep inspection, IPS with FortiGuard signature updates,
+    antivirus scanning, URL filtering, DNS filtering, and SD-WAN path selection. Management
+    through FortiManager for centralized policy, FortiAnalyzer for logging and analytics.
+    Integration with FortiWeb, FortiMail, FortiSandbox, and FortiClient via Security Fabric.
+  core_concepts:
+    - key: "ASIC-Accelerated Security"
+      value: "Custom NP and CP processors provide hardware-accelerated firewall, VPN, and content inspection at multi-gigabit speeds"
+    - key: "Security Fabric"
+      value: "Fortinet ecosystem integration enabling coordinated threat response across FortiGate, FortiWeb, FortiMail, and FortiSandbox"
+    - key: "SSL VPN Attack Surface"
+      value: "FortiGate SSL VPN has been repeatedly exploited via critical vulnerabilities enabling unauthenticated remote code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "FortiGate is a specific firewall product from Fortinet implementing NGFW capabilities"
+  - type: "enables"
+    target: "INFRA-SEC-FORTIWEB-001"
+    description: "FortiGate provides network-layer protection that complements FortiWeb application-layer WAF protection"
+  - type: "enables"
+    target: "INFRA-SEC-GLOBPROT-001"
+    description: "FortiGate SSL VPN provides remote access similar to GlobalProtect VPN functionality"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Fortinet Documentation - FortiOS Administration Guide"
+    - "CISA - Known Exploited Vulnerabilities Catalog (Fortinet entries)"
+    - "Mandiant - Chinese APT Exploitation of Fortinet Vulnerabilities"
+  search_keywords:
+    - "FortiGate"
+    - "FortiOS"
+    - "Fortinet firewall"
+    - "FortiGate NGFW"
+    - "FortiGate vulnerability"
+    - "FortiGate SSL VPN"
+    - "CVE-2024-21762"
+    - "Fortinet Security Fabric"
+  embedding_text: >-
+    FortiGate is Fortinet's NGFW platform running FortiOS with ASIC-accelerated packet processing.
+    Provides firewall, IPS, antivirus, SSL inspection, SD-WAN, and VPN. Available as appliances,
+    VMs, and cloud instances. Central to Fortinet Security Fabric ecosystem integrating FortiWeb,
+    FortiMail, and FortiSandbox. FortiOS has had critical vulnerabilities actively exploited by
+    APT groups including CVE-2024-21762 and CVE-2023-27997 in SSL VPN, enabling unauthenticated
+    remote code execution and credential theft. Managed via FortiManager and FortiAnalyzer.

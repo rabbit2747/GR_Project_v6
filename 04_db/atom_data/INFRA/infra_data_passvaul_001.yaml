@@ -1,0 +1,135 @@
+# GR Atom: Password Vault
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-PASSVAUL-001"
+  name: "Password Vault"
+  normalized_name: "password_vault"
+  aliases:
+    - "Credential Vault"
+    - "Secrets Vault"
+    - "Enterprise Password Vault"
+    - "Digital Vault"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - PAM
+    - CRED
+    - ENCRYPT
+    - AUTHN
+    - AUDIT
+    - MFA
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z4"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Password Vault is a hardened, centralized secure storage system specifically designed to
+    protect privileged credentials, secrets, certificates, and encryption keys. Distinguished
+    from general password stores, password vaults are enterprise-grade security controls that
+    enforce strict access policies, provide comprehensive audit trails, and implement credential
+    lifecycle management. Key implementations include CyberArk Enterprise Password Vault,
+    HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, Google Secret Manager, and Thycotic
+    (Delinea) Secret Server. Password vaults are core components of Privileged Access Management
+    (PAM) architectures.
+  why: >-
+    Password vaults are critical security infrastructure that protect the most sensitive
+    credentials in an organization: administrative passwords, service account credentials,
+    database connection strings, API keys, and encryption keys. They prevent credential sprawl
+    where privileged passwords are stored in plaintext files, scripts, and shared documents.
+    Compromise of a password vault is a catastrophic security event enabling full organizational
+    compromise. Adversaries specifically target vault infrastructure as the ultimate credential
+    access objective, making vault hardening and monitoring essential.
+  how: >-
+    Password vaults store secrets in encrypted form using FIPS 140-2 validated cryptographic
+    modules. Access requires multi-factor authentication and is governed by granular policies
+    defining who can access which credentials under what conditions. Credential checkout and
+    check-in workflows manage access to shared privileged accounts. Automatic password rotation
+    changes credentials on target systems on schedule or after each use. Session recording
+    captures privileged user activities for audit and forensic purposes. Just-in-time (JIT)
+    access grants temporary credentials that expire automatically. API-based secret injection
+    provides credentials to applications without embedding them in code or configuration files.
+  core_concepts:
+    - key: "Privileged Access Management"
+      value: >-
+        Password vaults are the core storage component of PAM architectures, controlling access
+        to privileged credentials through policy-based checkout, approval workflows, and
+        comprehensive audit trails.
+    - key: "Automatic Credential Rotation"
+      value: >-
+        Vaults automatically change passwords on target systems on schedule or after each use,
+        limiting the window of exposure for compromised credentials and eliminating static
+        passwords.
+    - key: "Secret Injection"
+      value: >-
+        Applications retrieve credentials from vaults at runtime through APIs rather than
+        embedding them in code or configuration, eliminating hardcoded secrets and enabling
+        centralized credential management.
+    - key: "Multi-Factor Vault Access"
+      value: >-
+        Access to vault contents requires multi-factor authentication, ensuring that compromise
+        of a single authentication factor cannot expose stored secrets.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-PASSSTOR-001"
+    description: "A password vault is a hardened enterprise-grade implementation of a password store with PAM capabilities"
+  - type: "requires"
+    target: "INFRA-DATA-PASSDATA-001"
+    description: "Password vaults require password databases for encrypted credential persistence"
+  - type: "prevents"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "Password vaults prevent credential exposure in general data stores by centralizing secret management"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.005"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CyberArk Enterprise Password Vault documentation. https://docs.cyberark.com/"
+    - "HashiCorp Vault documentation. https://developer.hashicorp.com/vault/docs"
+    - "NIST SP 800-53 Rev 5 - IA-5 Authenticator Management."
+  search_keywords:
+    - "password vault"
+    - "credential vault"
+    - "secrets vault"
+    - "CyberArk vault"
+    - "HashiCorp Vault"
+    - "PAM vault"
+    - "enterprise password vault"
+    - "AWS Secrets Manager"
+    - "Azure Key Vault"
+    - "privileged credential management"
+  embedding_text: >-
+    A Password Vault is a hardened enterprise-grade secure storage system for protecting
+    privileged credentials, secrets, certificates, and encryption keys. Key implementations
+    include CyberArk, HashiCorp Vault, AWS Secrets Manager, Azure Key Vault, and Delinea
+    Secret Server. Password vaults are core PAM components enforcing strict access policies,
+    multi-factor authentication, comprehensive audit trails, and credential lifecycle management.
+    Features include automatic credential rotation, session recording, just-in-time access, and
+    API-based secret injection to eliminate hardcoded credentials. Vaults use FIPS 140-2
+    validated cryptographic modules. Compromise is catastrophic, enabling full organizational
+    breach. Adversaries target vault infrastructure as the ultimate credential access objective
+    (MITRE ATT&CK T1555.005). Vault hardening, monitoring, and multi-factor access control
+    are essential security requirements.

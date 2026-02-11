@@ -1,0 +1,102 @@
+# GR Atom: CVE-2013-3163
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20133163-001"
+  name: "CVE-2013-3163"
+  normalized_name: "cve_2013_3163"
+  aliases:
+    - "Internet Explorer CGenericElement Use-After-Free"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 8, 9, 10"
+    - "mshtml.dll CGenericElement"
+    - "Windows Vista, 7, 8"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-3163 is a use-after-free vulnerability (CVSS 9.3) in Microsoft Internet Explorer 8,
+    9, and 10 involving the CGenericElement object in mshtml.dll. The vulnerability allows remote
+    attackers to execute arbitrary code when a user visits a specially crafted web page that triggers
+    improper handling of objects in memory. It was exploited in targeted attacks and was patched in
+    MS13-055 (July 2013). The vulnerability affects Internet Explorer on Windows Vista, 7, and 8.
+  why: >-
+    This vulnerability was actively exploited in targeted attacks and was also integrated into
+    exploit kits for broader exploitation. Internet Explorer use-after-free vulnerabilities in
+    DOM element handling remained one of the most common browser exploit classes during 2013.
+    The CGenericElement flaw provided a reliable remote code execution primitive through standard
+    web browsing, making it valuable for both targeted and opportunistic attacks.
+  how: >-
+    The exploit creates a web page with JavaScript that manipulates DOM elements to trigger a
+    use-after-free condition in the CGenericElement object. Through careful heap manipulation
+    using techniques like heap feng shui and spray, the freed memory is reallocated with
+    attacker-controlled data. When the dangling pointer is dereferenced, execution is redirected
+    to shellcode achieving arbitrary code execution.
+  core_concepts:
+    - key: "CGenericElement Use-After-Free"
+      value: "DOM manipulation triggers use-after-free in CGenericElement object in mshtml.dll enabling code execution via heap control"
+    - key: "Dual Exploitation Vector"
+      value: "Used in both targeted APT attacks and mass exploitation through exploit kit integration"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free memory corruption in Internet Explorer CGenericElement DOM handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-3163 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS13-055"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2013-3163"
+    - "Internet Explorer"
+    - "use-after-free"
+    - "CGenericElement"
+    - "mshtml.dll"
+    - "MS13-055"
+    - "browser exploit"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2013-3163 is a use-after-free vulnerability with CVSS 9.3 in Microsoft Internet
+    Explorer 8, 9, and 10 affecting the CGenericElement object in mshtml.dll. The flaw
+    enables remote code execution when users visit malicious web pages that trigger improper
+    DOM element handling. The exploit uses heap manipulation to reallocate freed memory with
+    attacker-controlled data for code execution. Exploited in both targeted attacks and
+    through exploit kit integration, it was patched in MS13-055 in July 2013. This
+    vulnerability was representative of the Internet Explorer DOM use-after-free class
+    that remained a dominant browser attack vector throughout 2013.

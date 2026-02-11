@@ -1,0 +1,105 @@
+# GR Atom: CVE-2024-20399
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202420399-001"
+  name: "CVE-2024-20399"
+  normalized_name: "cve_2024_20399"
+  aliases:
+    - "Cisco NX-OS CLI Command Injection"
+    - "Velvet Ant Cisco Exploit"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - NETWORK
+    - PRIV
+
+scope:
+  target_layers: ["L2", "L3"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Cisco NX-OS"
+    - "Cisco Nexus Switches"
+    - "Cisco MDS Switches"
+
+definition:
+  what: >-
+    CVE-2024-20399 is a command injection vulnerability in the CLI of Cisco NX-OS Software that allows
+    an authenticated, local attacker to execute arbitrary commands as root on the underlying operating
+    system. The vulnerability exists due to insufficient validation of arguments passed to specific
+    configuration CLI commands. An attacker with administrative credentials can craft input as the
+    argument of an affected configuration CLI command to execute arbitrary commands on the underlying
+    OS with root privileges. CVSS v3: 6.0 (Medium).
+  why: >-
+    This vulnerability was actively exploited by the China-nexus threat group Velvet Ant to deploy
+    custom malware on Cisco Nexus switches. Network switches are rarely monitored with the same rigor
+    as servers and endpoints, making them attractive targets for persistent access. Exploitation allows
+    attackers to install persistent backdoors at the network infrastructure layer, intercept and
+    manipulate traffic, and evade traditional endpoint detection. Cisco Nexus switches are widely
+    deployed in enterprise data center networks. The exploitation by Velvet Ant demonstrated how
+    threat actors leverage network device vulnerabilities for long-term espionage operations.
+  how: >-
+    The attacker must first obtain valid administrative credentials for the Cisco NX-OS device. Once
+    authenticated, the attacker enters specific CLI configuration commands with crafted arguments that
+    escape the CLI parser and inject operating system commands. The injected commands execute as root
+    on the underlying Linux OS of the switch. Velvet Ant used this vulnerability to install a custom
+    backdoor that provided persistent remote access to the switch, enabling traffic interception and
+    lateral movement through the network. Detection is challenging because the activity occurs at the
+    network switch level, below typical endpoint monitoring. Cisco released patches in July 2024.
+  core_concepts:
+    - key: "Network Infrastructure Compromise"
+      value: "Command injection on network switches enables persistent backdoor access at the data center network layer, below endpoint detection capabilities"
+    - key: "Post-Authentication Privilege Escalation"
+      value: "Authenticated admin users can escalate from NX-OS CLI to root-level OS access through insufficient input validation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2024-20399 is a vulnerable network component in Cisco NX-OS switch operating system"
+  - type: enables
+    target: "ATK-PERSIST-FIRMWARE-001"
+    description: "Command injection enables persistent malware deployment on network switching infrastructure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.004"
+    tactic: ["Execution", "Persistence"]
+  cve_mapping:
+    cve_id: "CVE-2024-20399"
+    cvss_score: 6.0
+    cwe_id: "CWE-78"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2024-20399 - NVD NIST"
+    - "Cisco Security Advisory cisco-sa-nxos-cmd-injection-xD9OhyOP"
+    - "Sygnia - Velvet Ant: China-Nexus Threat Group Exploiting Cisco Switches"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2024-20399"
+    - "Cisco NX-OS command injection"
+    - "Velvet Ant Cisco"
+    - "Cisco Nexus switch exploit"
+    - "NX-OS CLI vulnerability"
+    - "Cisco switch backdoor"
+    - "network infrastructure compromise"
+  embedding_text: >-
+    CVE-2024-20399 is a command injection vulnerability in Cisco NX-OS CLI that allows authenticated
+    administrators to execute arbitrary commands as root on the underlying operating system of Cisco
+    Nexus and MDS switches. CVSS v3 score is 6.0 Medium. Actively exploited by the China-nexus
+    threat group Velvet Ant to deploy custom malware on Cisco Nexus switches in enterprise data
+    centers. Enables persistent backdoors at the network infrastructure layer, below endpoint
+    detection capabilities. Exploitation requires valid administrative credentials but then allows
+    full OS-level control. Cisco released patches in July 2024. CISA added it to the Known Exploited
+    Vulnerabilities catalog. Maps to MITRE ATT&CK T1059.004 Command and Scripting Interpreter: Unix Shell.

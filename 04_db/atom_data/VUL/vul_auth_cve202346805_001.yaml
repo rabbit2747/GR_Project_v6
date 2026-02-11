@@ -1,0 +1,119 @@
+# GR Atom: CVE-2023-46805
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202346805-001"
+  name: "CVE-2023-46805"
+  normalized_name: "cve_2023_46805"
+  aliases:
+    - "Ivanti Connect Secure Authentication Bypass"
+    - "Ivanti ICS Authentication Bypass"
+    - "Ivanti Zero-Day Auth Bypass January 2024"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - AUTHN
+    - WEB
+    - NETWORK
+    - VPN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Ivanti Connect Secure (ICS) VPN"
+    - "Ivanti Policy Secure"
+    - "Pulse Secure VPN appliance"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-46805 is a critical authentication bypass vulnerability in the web component of
+    Ivanti Connect Secure (versions 9.x and 22.x) and Ivanti Policy Secure. The vulnerability
+    allows a remote unauthenticated attacker to bypass authentication controls by exploiting
+    path traversal in the web interface, gaining access to restricted resources on the VPN
+    appliance. When chained with CVE-2024-21887 (command injection), it enables full remote
+    code execution as root. CVSS v3.1 score is 8.2. Widely exploited as a zero-day starting
+    in December 2023 by Chinese state-sponsored threat actors including UNC5221.
+  why: >-
+    Ivanti Connect Secure VPN appliances are deployed at network perimeters of thousands of
+    enterprises and government agencies worldwide, making them high-value targets. This
+    authentication bypass requires no credentials and is remotely exploitable from the internet,
+    providing initial access to protected networks. The vulnerability was exploited at massive
+    scale as a zero-day, prompting CISA to issue an emergency directive ordering all federal
+    agencies to disconnect affected appliances. The attack chain was used for espionage operations
+    targeting defense, government, and technology sectors.
+  how: >-
+    The attacker sends a specially crafted HTTP request that exploits a path traversal flaw in the
+    Ivanti Connect Secure web interface to bypass authentication checks. This grants access to
+    administrative API endpoints without valid credentials. Combined with CVE-2024-21887, the
+    attacker injects commands through the authenticated API endpoints to achieve remote code
+    execution as root. Mitigation includes applying Ivanti patches, deploying the external
+    integrity checking tool (ICT) to detect compromise, performing factory resets before patching,
+    and monitoring for indicators of compromise including webshells and modified system files.
+  core_concepts:
+    - key: "VPN Authentication Bypass"
+      value: "Path traversal in the VPN web interface allows unauthenticated access to restricted administrative endpoints"
+    - key: "Ivanti Exploit Chain"
+      value: "CVE-2023-46805 authentication bypass combined with CVE-2024-21887 command injection creates a full pre-auth RCE chain against VPN appliances"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2023-46805 is an authentication bypass vulnerability in VPN appliance web interface"
+  - type: "enables"
+    target: "VUL-AUTH-CVE202421887-001"
+    description: "Authentication bypass enables exploitation of CVE-2024-21887 command injection to achieve RCE"
+  - type: "instance_of"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "This is a specific instance of pre-authentication vulnerability requiring no credentials"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2023-46805"
+    - "NIST NVD CVE-2023-46805 (CVSS v3.1: 8.2)"
+    - "Ivanti Security Advisory SA-2024-01-10"
+    - "CISA Emergency Directive ED-24-01"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Mandiant UNC5221 Threat Intelligence"
+  search_keywords:
+    - "CVE-2023-46805"
+    - "Ivanti Connect Secure vulnerability"
+    - "Ivanti authentication bypass"
+    - "Ivanti VPN zero-day"
+    - "Pulse Secure vulnerability"
+    - "Ivanti ICS exploit"
+    - "UNC5221"
+    - "CISA ED-24-01"
+  embedding_text: >-
+    CVE-2023-46805 is a critical authentication bypass vulnerability in Ivanti Connect Secure and
+    Policy Secure VPN appliances with CVSS v3.1 score 8.2. A remote unauthenticated attacker
+    exploits path traversal in the web interface to bypass authentication and access restricted
+    administrative endpoints. When chained with CVE-2024-21887 command injection, it enables
+    pre-authentication remote code execution as root. Massively exploited as a zero-day starting
+    December 2023 by Chinese state-sponsored group UNC5221 for espionage against government and
+    defense targets. CISA issued Emergency Directive ED-24-01 ordering federal agencies to
+    disconnect affected devices. Mitigation requires patching, factory reset, integrity checking,
+    and monitoring for webshells and persistence mechanisms.

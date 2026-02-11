@@ -1,0 +1,79 @@
+# GR Atom: Router Hosting
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-ROUTHOST-001"
+  name: "Router Hosting"
+  normalized_name: "router_hosting"
+  aliases:
+    - "Router Infrastructure"
+    - "Routing Platform"
+    - "Network Router"
+    - "Gateway Router"
+    - "Edge Router"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - FIREWALL
+    - SNMP
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N3.2"
+
+definition:
+  what: "Router Hosting refers to the network infrastructure comprising routers that provide packet forwarding, routing protocol processing, and network segmentation services. This encompasses the physical and virtual router platforms from vendors such as Cisco, Juniper, Arista, MikroTik, and Palo Alto that host routing tables, implement routing protocols (BGP, OSPF, EIGRP, IS-IS), perform packet filtering through access control lists (ACLs), provide network address translation (NAT), support quality of service (QoS) policies, and serve as the backbone interconnecting network segments, sites, and service providers. Router hosting includes edge routers at WAN boundaries, core routers in the network backbone, distribution routers aggregating access layer traffic, and virtual routers in cloud and SDN environments."
+  why: "Router hosting infrastructure is the foundational layer that enables all network communication by determining how packets traverse between network segments, sites, and the internet. Routers enforce network segmentation boundaries, implement access control policies, and determine traffic paths. From a security perspective, routers are high-value targets because compromising a router provides visibility into all traffic passing through it, enables traffic manipulation and man-in-the-middle attacks, allows route injection to redirect traffic, and can be used to bypass downstream security controls. Router configuration hardening, firmware management, and monitoring are essential security operations."
+  how: "Routers receive packets on ingress interfaces, consult their routing tables to determine the next-hop destination, apply ACL rules and QoS policies, and forward packets out the appropriate egress interface. Routing tables are populated through static route configuration or dynamic routing protocols that exchange reachability information with neighboring routers. BGP manages inter-autonomous-system routing for internet connectivity, while OSPF and EIGRP handle internal routing within organizations. Management access is provided through console ports, SSH, SNMP, and web interfaces. Router hardening includes disabling unnecessary services, configuring strong authentication, implementing control plane policing, enabling logging to SIEM platforms, and maintaining current firmware. Virtual routing instances (VRFs) provide logical segmentation within a single physical router."
+  core_concepts:
+    - key: "Routing Protocols"
+      value: "Dynamic protocols including BGP, OSPF, EIGRP, and IS-IS that enable routers to exchange network reachability information and build optimal forwarding tables automatically"
+    - key: "Access Control Lists"
+      value: "Ordered sets of rules on router interfaces that permit or deny traffic based on source/destination addresses, ports, and protocols, enforcing network segmentation policies"
+    - key: "Virtual Routing and Forwarding"
+      value: "VRF technology that creates logically separate routing instances on a single physical router, enabling network segmentation and multi-tenancy"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-DMZ-001"
+    description: "Router infrastructure enables DMZ architecture by providing routing and segmentation between network zones"
+  - type: enables
+    target: "INFRA-NET-VPN-001"
+    description: "Routers host VPN tunnel endpoints for site-to-site IPSec connectivity between network locations"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Router management and dynamic DNS features require DNS resolution services"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1599"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-115 - Technical Guide to Information Security Testing and Assessment"
+    - "CIS Cisco IOS Benchmark - https://www.cisecurity.org/benchmark/cisco"
+    - "NSA - Network Infrastructure Security Guidance - https://media.defense.gov/"
+  search_keywords:
+    - "router hosting"
+    - "network router"
+    - "routing infrastructure"
+    - "edge router"
+    - "BGP routing"
+    - "OSPF routing"
+    - "router security"
+    - "router hardening"
+    - "ACL configuration"
+  embedding_text: "Router Hosting encompasses the network infrastructure of physical and virtual routers providing packet forwarding, routing protocol processing, and network segmentation. Platforms from Cisco, Juniper, Arista, and others implement routing protocols like BGP, OSPF, and EIGRP while enforcing access control lists, NAT, and QoS policies. Router categories include edge routers at WAN boundaries, core backbone routers, distribution routers, and virtual routers in cloud environments. Routers are high-value security targets because compromise enables traffic visibility, manipulation, route injection, and bypass of downstream controls. Router hardening, firmware management, and monitoring through SIEM integration are essential security operations."

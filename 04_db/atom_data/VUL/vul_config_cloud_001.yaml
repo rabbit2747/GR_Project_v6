@@ -1,0 +1,81 @@
+# GR Atom: Cloud Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CLOUD-001"
+  name: "Cloud Vulnerability"
+  normalized_name: "cloud_vulnerability"
+  aliases:
+    - "Cloud Security Vulnerability"
+    - "Cloud-Specific Vulnerability"
+    - "Cloud Platform Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - CLOUD
+    - PRIV
+    - LATERAL
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Cloud Compute Services"
+    - "Cloud Networking"
+    - "Cloud APIs"
+    - "Cloud Metadata Services"
+
+definition:
+  what: "Cloud Vulnerability is a general classification for security weaknesses inherent to or amplified by cloud computing environments, including vulnerabilities in cloud provider APIs, metadata services (IMDS), serverless runtimes, container orchestration platforms, multi-tenant isolation failures, and cloud-native service integrations. This category covers vulnerabilities beyond simple misconfiguration that exploit architectural properties of cloud platforms."
+  why: "Cloud environments introduce unique attack surfaces not present in traditional infrastructure: metadata services that expose credentials, serverless functions with overprivileged execution roles, cross-tenant data leakage, and API-driven infrastructure that can be manipulated programmatically. The shared infrastructure model means vulnerabilities in hypervisor or container isolation can impact multiple tenants. Cloud-native attacks leverage the interconnected nature of cloud services to chain multiple weaknesses."
+  how: "Cloud vulnerabilities are exploited through several vectors: Instance Metadata Service (IMDS) access via SSRF to steal IAM credentials, container escape from shared kernel environments, serverless function injection through event data, cross-account resource access via misconfigured trust policies, and exploitation of cloud-specific APIs for reconnaissance and lateral movement. Attack tools include cloud-specific frameworks like Pacu (AWS), MicroBurst (Azure), and GCPBucketBrute (GCP). Defense requires cloud-native security controls, network segmentation, IMDSv2 enforcement, and continuous monitoring."
+  core_concepts:
+    - key: "Instance Metadata Service (IMDS)"
+      value: "Cloud-provider endpoint (169.254.169.254) that exposes instance metadata including temporary IAM credentials, exploitable through SSRF attacks when IMDSv2 is not enforced"
+    - key: "Multi-Tenant Isolation"
+      value: "Security boundary between cloud customers sharing physical infrastructure, where isolation failures can lead to cross-tenant data access or privilege escalation"
+    - key: "Cloud-Native Attack Chain"
+      value: "Sequence of cloud-specific exploitation steps that leverage interconnected cloud services to move from initial access to full environment compromise"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "Cloud vulnerability is a category of configuration and architectural vulnerabilities specific to cloud platforms"
+  - type: requires
+    target: "VUL-CONFIG-CLOUMISC-001"
+    description: "Many cloud vulnerabilities require underlying cloud misconfigurations to be exploitable"
+  - type: abstracts
+    target: "VUL-CONFIG-KUBDASEXP-001"
+    description: "Cloud vulnerability is a broader category that includes cloud-hosted container orchestration exposure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.005"
+    tactic: ["Credential Access", "Discovery", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK Cloud Matrix"
+    - "MITRE ATT&CK T1552.005 - Unsecured Credentials: Cloud Instance Metadata API"
+    - "OWASP Cloud Top 10"
+    - "CSA Top Threats to Cloud Computing"
+  search_keywords:
+    - "cloud vulnerability"
+    - "cloud security"
+    - "IMDS attack"
+    - "cloud metadata credential theft"
+    - "cloud privilege escalation"
+    - "multi-tenant isolation"
+    - "serverless vulnerability"
+    - "cloud-native attack"
+  embedding_text: "Cloud Vulnerability encompasses security weaknesses inherent to or amplified by cloud computing environments including vulnerabilities in cloud provider APIs, metadata services, serverless runtimes, container orchestration, multi-tenant isolation, and cloud-native service integrations. Key attack vectors include IMDS credential theft via SSRF, container escape, serverless injection, cross-account trust exploitation, and cloud API abuse for reconnaissance and lateral movement. These vulnerabilities leverage the interconnected nature of cloud services to chain multiple weaknesses for full environment compromise. Defense requires cloud-native security controls, IMDSv2 enforcement, network segmentation, least-privilege IAM, and continuous monitoring with cloud-specific detection tools."

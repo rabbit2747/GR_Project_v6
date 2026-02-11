@@ -1,0 +1,134 @@
+# GR Atom: EternalBlue
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-ETERBLUE-001"
+  name: "EternalBlue"
+  normalized_name: "eternal_blue"
+  aliases:
+    - "CVE-2017-0144"
+    - "MS17-010"
+    - "SMBv1 Wormable RCE"
+    - "Shadow Brokers SMB Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - LATERAL
+    - OVERFLOW
+    - WINDOWS
+    - NETWORK
+    - SMB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Windows SMBv1 server (srv.sys)"
+    - "Windows XP through Windows Server 2016"
+    - "Microsoft Server Message Block 1.0 (port 445)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    EternalBlue is the codename for a wormable remote code execution exploit (CVSS 8.1)
+    targeting CVE-2017-0144 in Microsoft's SMBv1 protocol implementation. Originally
+    developed by the NSA's Tailored Access Operations (Equation Group) and leaked by the
+    Shadow Brokers hacking group in April 2017, EternalBlue exploits a heap-based buffer
+    overflow in the Windows SMB server to achieve unauthenticated kernel-mode code
+    execution on any Windows system with SMBv1 enabled on port 445. It was patched in
+    MS17-010 in March 2017. EternalBlue became the propagation mechanism for WannaCry
+    ransomware (May 2017) and NotPetya (June 2017), collectively causing over $10 billion
+    in global damages and affecting hundreds of thousands of systems across 150+ countries.
+  why: >-
+    EternalBlue is arguably the most consequential cyber weapon ever publicly leaked. Its
+    use in WannaCry and NotPetya demonstrated the catastrophic potential when nation-state
+    exploits are released into the wild. WannaCry disrupted the UK National Health Service,
+    Telefonica, FedEx, and organizations globally. NotPetya caused an estimated $10 billion
+    in damages, destroying data at Maersk, Merck, and numerous enterprises. The leak
+    fundamentally changed global perspectives on government exploit stockpiling (the
+    Vulnerabilities Equities Process), SMBv1 deprecation urgency, and the weaponization
+    risks of offensive cyber tools. EternalBlue remains actively exploited years after
+    patching due to unpatched legacy systems.
+  how: >-
+    EternalBlue sends specially crafted SMBv1 Transaction2 (Trans2) packets to the target's
+    port 445. The exploit triggers a heap-based buffer overflow in the Windows kernel-mode
+    SMB server (srv.sys) by sending a malformed Trans2 request with an oversized buffer
+    that corrupts adjacent kernel pool allocations. The NSA's original exploit used
+    sophisticated pool grooming techniques to achieve reliable exploitation across
+    different Windows versions, manipulating the kernel heap layout to place controllable
+    data adjacent to the overflow. Once kernel pool corruption is achieved, the exploit
+    redirects execution to attacker-controlled shellcode, gaining SYSTEM-level code
+    execution. No authentication, user interaction, or prior access is required.
+  core_concepts:
+    - key: "Wormable SMBv1 Exploitation"
+      value: "Unauthenticated kernel-mode RCE via SMBv1 on port 445, enabling automated worm propagation across networks"
+    - key: "NSA Exploit Leak Consequences"
+      value: "Developed by NSA Equation Group, leaked by Shadow Brokers, causing WannaCry and NotPetya with $10B+ in damages"
+    - key: "Kernel Pool Overflow"
+      value: "Heap-based buffer overflow in srv.sys with sophisticated pool grooming for cross-version reliable exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "EternalBlue is a heap-based buffer overflow memory corruption in Windows SMBv1 kernel driver"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERROMA-001"
+    description: "Both are NSA SMBv1 exploits leaked by Shadow Brokers targeting the same Windows attack surface"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERSYNE-001"
+    description: "Both are Eternal-family SMBv1 exploits from the Shadow Brokers NSA tool leak"
+  - type: "enables"
+    target: "VUL-MEMORY-SIGRED-001"
+    description: "Both are wormable Windows network service vulnerabilities enabling unauthenticated remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS17-010"
+    - "NVD Entry CVE-2017-0144 - CVSS 8.1"
+    - "Shadow Brokers Leak - EternalBlue NSA Exploit"
+    - "US-CERT Alert TA17-132A - WannaCry/NotPetya"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+  search_keywords:
+    - "EternalBlue"
+    - "CVE-2017-0144"
+    - "MS17-010"
+    - "SMBv1"
+    - "WannaCry"
+    - "NotPetya"
+    - "Shadow Brokers"
+    - "NSA"
+    - "wormable"
+    - "port 445"
+  embedding_text: >-
+    EternalBlue is a wormable remote code execution exploit targeting CVE-2017-0144 in
+    Windows SMBv1, developed by the NSA and leaked by Shadow Brokers in 2017. The
+    heap-based buffer overflow in srv.sys enables unauthenticated kernel-mode code
+    execution via port 445 without user interaction. It powered WannaCry ransomware and
+    NotPetya, causing over $10 billion in global damages across 150+ countries. The most
+    consequential cyber weapon ever publicly leaked, it fundamentally changed perspectives
+    on exploit stockpiling, SMBv1 deprecation, and nation-state offensive tool risks.
+    Patched in MS17-010 but still exploited on legacy systems.

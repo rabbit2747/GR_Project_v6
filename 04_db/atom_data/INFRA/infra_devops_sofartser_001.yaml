@@ -1,0 +1,75 @@
+# GR Atom: Software Artifact Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-SOFARTSER-001"
+  name: "Software Artifact Server"
+  normalized_name: "software_artifact_server"
+  aliases:
+    - "Artifact Repository"
+    - "Binary Repository Manager"
+    - "Artifact Manager"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CICD
+    - SUPPLY_CHAIN
+    - DEVSECOPS
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "D4.3"
+
+definition:
+  what: "Software Artifact Server is the general infrastructure category for systems that store, version, and distribute compiled software artifacts, build outputs, and dependency packages. This includes JFrog Artifactory, Sonatype Nexus Repository, Azure Artifacts, AWS CodeArtifact, and GitHub Packages. These servers manage artifacts across multiple package formats (Maven, npm, NuGet, PyPI, Docker, Helm) with metadata tracking, access controls, vulnerability scanning, and build provenance."
+  why: "Artifact servers are critical supply chain infrastructure because they serve as the single source of truth for software components consumed by build pipelines and deployed to production. Compromised artifact servers enable injection of backdoored dependencies, replacement of legitimate builds with malicious versions, and unauthorized access to proprietary compiled code. Artifact server access controls determine who can publish and consume packages. Internal artifact proxying can prevent direct dependency on untrusted public registries."
+  how: "Artifact servers operate as universal repository managers supporting multiple package formats through format-specific APIs. Remote repositories proxy external registries (PyPI, npm, Docker Hub) with caching and security scanning. Local repositories host internally developed packages. Virtual repositories aggregate remote and local sources into single endpoints. Build integration captures provenance metadata linking artifacts to source commits. Vulnerability scanning checks stored artifacts against CVE databases. Cleanup policies manage storage through retention rules. Replication distributes artifacts across sites for availability."
+  core_concepts:
+    - key: "Universal Repository"
+      value: "Single platform managing multiple package formats (Maven, npm, Docker, etc.) with unified access controls and security scanning"
+    - key: "Build Provenance"
+      value: "Metadata linking artifacts to their source commits, build configurations, and CI/CD pipelines for supply chain verification"
+    - key: "Remote Proxy"
+      value: "Caching proxy for external package registries that scans dependencies for vulnerabilities before allowing consumption"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-CONTREGI-001"
+    description: "Software Artifact Server is the general concept that container registries specialize for container images"
+  - type: requires
+    target: "INFRA-DEVOPS-CLOUSTOR-001"
+    description: "Artifact servers use cloud storage for artifact persistence and backup"
+  - type: enables
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "Artifact servers provide the storage backend for software distribution pipelines"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "JFrog Artifactory Documentation - https://jfrog.com/help/r/jfrog-artifactory-documentation"
+    - "Sonatype Nexus Documentation - https://help.sonatype.com/en/sonatype-nexus-repository.html"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "artifact server"
+    - "binary repository manager"
+    - "JFrog Artifactory"
+    - "Nexus Repository"
+    - "artifact management"
+    - "software artifact security"
+    - "build artifact storage"
+    - "package repository manager"
+  embedding_text: "Software Artifact Server is the general infrastructure category for systems storing, versioning, and distributing compiled software artifacts and dependency packages. Includes JFrog Artifactory, Sonatype Nexus, Azure Artifacts, and AWS CodeArtifact. Manages multiple package formats (Maven, npm, NuGet, PyPI, Docker, Helm) with metadata tracking, access controls, and vulnerability scanning. Security significance centers on being the single source of truth for software components in build pipelines and production. Compromised servers enable backdoored dependency injection and unauthorized build replacement. Remote proxy repositories cache and scan external dependencies before consumption."

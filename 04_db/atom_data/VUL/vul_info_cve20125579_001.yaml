@@ -1,0 +1,100 @@
+# GR Atom: CVE-2012-5579
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-CVE20125579-001"
+  name: "CVE-2012-5579"
+  normalized_name: "cve_2012_5579"
+  aliases:
+    - "Mantis Bug Tracker Information Disclosure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - WEB
+    - AUTHZ
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "MantisBT before 1.2.12"
+    - "Mantis Bug Tracker web application"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-5579 is an information disclosure vulnerability in MantisBT (Mantis Bug Tracker)
+    before version 1.2.12. The application fails to properly enforce access controls on certain
+    pages, allowing remote attackers to obtain sensitive information about bug reports and project
+    configurations that should be restricted. Unauthorized users can access private bug details,
+    project metadata, and potentially user information through improperly protected endpoints.
+  why: >-
+    Bug tracking systems contain sensitive information about software vulnerabilities, security
+    issues, and development roadmaps. Information disclosure from these systems can reveal
+    unpatched vulnerabilities in production software, giving attackers detailed knowledge of
+    exploitable weaknesses. Access control failures in project management tools represent a
+    significant intelligence gathering opportunity for threat actors.
+  how: >-
+    The vulnerability stems from insufficient access control validation in MantisBT page handlers.
+    Certain endpoints fail to verify whether the requesting user has appropriate permissions to
+    view the requested data. Remote attackers can craft requests to access restricted bug reports,
+    project configurations, and user details without proper authorization by directly accessing
+    vulnerable endpoints.
+  core_concepts:
+    - key: "Access Control Bypass"
+      value: "Insufficient permission validation allows unauthorized access to restricted bug reports and project data"
+    - key: "Development Intelligence Leak"
+      value: "Exposed bug tracker data reveals unpatched vulnerabilities and development roadmaps to attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-WEB-001"
+    description: "CVE-2012-5579 is a web application information disclosure vulnerability in MantisBT"
+  - type: "enables"
+    target: "VUL-INFO-SECURITY-001"
+    description: "Bug tracker disclosure reveals unpatched vulnerabilities enabling further targeted attacks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1213"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2012-5579"
+    - "MantisBT Security Advisory"
+    - "MITRE CVE Database"
+  search_keywords:
+    - "CVE-2012-5579"
+    - "MantisBT"
+    - "Mantis Bug Tracker"
+    - "information disclosure"
+    - "access control bypass"
+    - "bug tracker vulnerability"
+    - "project data leak"
+  embedding_text: >-
+    CVE-2012-5579 is an information disclosure vulnerability in MantisBT (Mantis Bug Tracker)
+    before version 1.2.12. Insufficient access control validation allows remote attackers to
+    access restricted bug reports, project configurations, and user information without proper
+    authorization. Bug tracking systems contain sensitive data about unpatched vulnerabilities
+    and development roadmaps. This disclosure gives attackers intelligence about exploitable
+    weaknesses in production software. The vulnerability results from missing permission checks
+    on certain page handlers in the web application. Discovered in 2012.

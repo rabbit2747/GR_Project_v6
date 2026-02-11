@@ -1,0 +1,75 @@
+# GR Atom: Guide to Storage Encryption Technologies for End User Devices
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-GUSTENTEEN-001"
+  name: "Guide to Storage Encryption Technologies for End User Devices"
+  normalized_name: "guide_to_storage_encryption_technologies_for_end_user_devices"
+  aliases:
+    - "NIST SP 800-111"
+    - "Storage Encryption Guide"
+    - "End User Device Encryption Guide"
+    - "SP 800-111"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - ENCRYPT
+    - PRIVACY
+
+scope:
+  target_layers: ["L0", "L1", "L5"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "The Guide to Storage Encryption Technologies for End User Devices (NIST SP 800-111) is a NIST special publication that provides guidance on implementing storage encryption solutions to protect data at rest on end user devices such as laptops, desktops, tablets, and removable storage media. The guide covers three primary encryption technologies: full disk encryption (FDE), volume and virtual disk encryption, and file/folder encryption. It addresses planning and implementation considerations including encryption algorithm selection, key management, authentication mechanisms, recovery procedures, and deployment strategies for enterprise environments."
+  why: "End user devices are frequently lost or stolen, exposing sensitive data to unauthorized access. Storage encryption is a critical control for protecting data confidentiality when physical device security is compromised. Regulatory requirements including HIPAA, PCI DSS, and GDPR mandate encryption of sensitive data at rest. This NIST guide provides the authoritative technical guidance for selecting and implementing appropriate encryption technologies based on organizational risk and data sensitivity."
+  how: "Organizations implement storage encryption by first identifying data sensitivity and regulatory requirements, then selecting the appropriate encryption technology (FDE for comprehensive protection, file/folder encryption for granular control, or a combination). Implementation involves selecting FIPS 140-2 validated encryption modules, establishing key management procedures including key escrow and recovery, configuring pre-boot authentication or TPM integration, deploying encryption through enterprise management tools, and establishing procedures for key recovery, device decommissioning, and incident response when encrypted devices are compromised."
+  core_concepts:
+    - key: "Full Disk Encryption"
+      value: "Technology that encrypts all data on a storage device including the operating system, protecting against offline data extraction"
+    - key: "Volume Encryption"
+      value: "Encryption of specific logical volumes or virtual disk containers, allowing selective protection of data partitions"
+    - key: "File/Folder Encryption"
+      value: "Granular encryption of individual files or directories, enabling selective protection based on data classification"
+    - key: "Key Escrow and Recovery"
+      value: "Enterprise procedures for securely storing and recovering encryption keys when users forget credentials or devices require forensic access"
+
+relations:
+  - type: part_of
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "SP 800-111 is part of the NIST Special Publication 800 series"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "Storage encryption implementations should use FIPS 140-2 validated cryptographic modules"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "Storage encryption satisfies PCI DSS requirements for protecting stored cardholder data"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-111 - Guide to Storage Encryption Technologies for End User Devices - https://csrc.nist.gov/publications/detail/sp/800-111/final"
+    - "NIST SP 800-57 - Recommendation for Key Management"
+    - "NIST FIPS 140-2 - Security Requirements for Cryptographic Modules"
+  search_keywords:
+    - "storage encryption"
+    - "NIST SP 800-111"
+    - "full disk encryption"
+    - "FDE"
+    - "data at rest encryption"
+    - "end user device encryption"
+    - "volume encryption"
+    - "file encryption"
+    - "key escrow"
+    - "BitLocker"
+    - "FileVault"
+  embedding_text: "NIST SP 800-111 provides guidance on implementing storage encryption for end user devices including laptops, desktops, and removable media. It covers three primary technologies: full disk encryption protecting entire storage devices, volume encryption for specific partitions, and file/folder encryption for granular data protection. The guide addresses algorithm selection, key management, authentication mechanisms, recovery procedures, and enterprise deployment strategies. Implementation requires FIPS 140-2 validated modules, key escrow procedures, pre-boot authentication or TPM integration, and established processes for key recovery and device decommissioning. The standard supports compliance with HIPAA, PCI DSS, and GDPR data-at-rest requirements."

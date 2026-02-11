@@ -1,0 +1,120 @@
+# GR Atom: GuardLogix
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-GUARDLOGIX-001"
+  name: "GuardLogix"
+  normalized_name: "guardlogix"
+  aliases:
+    - "Allen-Bradley GuardLogix"
+    - "Rockwell GuardLogix"
+    - "GuardLogix Safety Controller"
+    - "1756 GuardLogix"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - NETWORK
+    - FIRMWARE
+    - IOT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z5"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    GuardLogix is Rockwell Automation's safety-rated programmable automation controller (PAC)
+    built on the ControlLogix platform. It combines standard control functionality with SIL 3
+    (Safety Integrity Level 3, IEC 61508) and PLe (Performance Level e, ISO 13849) certified
+    safety control in a single controller. GuardLogix uses the same 1756 chassis, EtherNet/IP
+    network, and Studio 5000 programming environment as ControlLogix but adds a dedicated
+    safety co-processor and safety-certified I/O modules for emergency stop, light curtain,
+    safety interlock, and safeguarding functions.
+  why: >-
+    GuardLogix safety controllers are the highest-value targets in ICS environments because
+    they directly protect human life and equipment through safety interlock functions. Compromise
+    or manipulation of safety controllers can disable emergency shutdowns, mask hazardous
+    conditions, or allow unsafe operating parameters, potentially causing industrial accidents,
+    injuries, or fatalities. The TRITON/TRISIS attack on Schneider Triconex demonstrated the
+    real-world threat to safety instrumented systems. GuardLogix shares ControlLogix vulnerabilities
+    in CIP and EtherNet/IP while also requiring protection of safety-specific program integrity.
+  how: >-
+    GuardLogix operates using dual processors: a standard Logix5000 processor for process
+    control and a dedicated safety co-processor that independently validates safety-related
+    computations. Both processors must agree on safety outputs for safe operation. Safety
+    programs are written using safety-certified function blocks and structured text in Studio
+    5000 Logix Designer with safety task configurations. CIP Safety protocol extensions provide
+    authenticated and integrity-checked communication between safety I/O modules and the
+    controller over standard EtherNet/IP networks. Safety program changes require authentication
+    and may require physical key switch authorization.
+  core_concepts:
+    - key: "SIL 3 Safety Rating"
+      value: "IEC 61508 Safety Integrity Level 3 certification ensuring high reliability for safety functions protecting human life and critical equipment"
+    - key: "Dual Processor Architecture"
+      value: "Independent standard and safety co-processors that must agree on safety outputs, providing redundant validation of safety-critical computations"
+    - key: "CIP Safety Protocol"
+      value: "Safety extensions to CIP providing authenticated, integrity-checked communication for safety I/O data over standard EtherNet/IP networks"
+    - key: "Safety Instrumented System"
+      value: "GuardLogix serves as the logic solver in Safety Instrumented Systems designed to bring processes to a safe state upon detection of hazardous conditions"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-ENDPOINT-CONTROLLOG-001"
+    description: "GuardLogix is built on the ControlLogix platform with added safety co-processor and SIL 3 certification"
+  - type: "requires"
+    target: "INFRA-ENDPOINT-FACTORYTAL-001"
+    description: "GuardLogix is programmed and monitored through FactoryTalk and Studio 5000 Logix Designer"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0880"
+    tactic:
+      - "Inhibit Response Function"
+      - "Impair Process Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Rockwell Automation - GuardLogix Safety Controllers User Manual (1756-UM022)"
+    - "CISA ICS-CERT Advisories for Rockwell Automation Safety Controllers"
+    - "IEC 61508 - Functional Safety of Electrical/Electronic/Programmable Electronic Safety-related Systems"
+  search_keywords:
+    - "GuardLogix"
+    - "Allen-Bradley safety controller"
+    - "Rockwell safety PLC"
+    - "SIL 3 controller"
+    - "safety instrumented system"
+    - "CIP Safety"
+    - "industrial safety controller"
+    - "1756 GuardLogix"
+    - "safety interlock"
+  embedding_text: >-
+    GuardLogix is Rockwell Automation's safety-rated programmable automation controller built
+    on the ControlLogix platform, combining standard control with SIL 3 (IEC 61508) and PLe
+    (ISO 13849) certified safety control. It uses a dual processor architecture with standard
+    Logix5000 and dedicated safety co-processors that must agree on safety outputs. The 1756
+    chassis system, EtherNet/IP network, and Studio 5000 environment are shared with ControlLogix.
+    CIP Safety protocol extensions provide authenticated integrity-checked communication for
+    safety I/O. GuardLogix is a highest-value ICS target because compromise of safety controllers
+    can disable emergency shutdowns, mask hazardous conditions, and cause industrial accidents.
+    The TRITON/TRISIS attack demonstrated real-world threats to safety instrumented systems.
+    Safety program changes require authentication and physical key switch authorization.

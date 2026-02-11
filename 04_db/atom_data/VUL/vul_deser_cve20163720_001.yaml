@@ -1,0 +1,110 @@
+# GR Atom: CVE-2016-3720
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE20163720-001"
+  name: "CVE-2016-3720"
+  normalized_name: "cve_2016_3720"
+  aliases:
+    - "Jackson Databind Deserialization RCE"
+    - "Jackson JSON Polymorphic Deserialization"
+    - "FasterXML Jackson Deserialization Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "FasterXML Jackson-databind Library"
+    - "Java Applications Using Jackson Polymorphic Deserialization"
+    - "REST APIs with Jackson JSON Processing"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-3720 is a remote code execution vulnerability in the FasterXML Jackson-databind library
+    where enabling default typing or polymorphic type handling allows an attacker to specify arbitrary
+    classes to instantiate during JSON deserialization. By providing a JSON payload with a type
+    identifier pointing to a dangerous class (gadget), the attacker achieves arbitrary code execution.
+    CVSS score is 9.8. Affects Jackson-databind versions before 2.4.6 and 2.5.x before 2.5.0.
+  why: >-
+    Jackson is the most widely used JSON processing library in the Java ecosystem, present in
+    virtually every Java web application and microservice. This vulnerability and its many subsequent
+    variants (CVE-2017-7525, CVE-2017-15095, etc.) established Jackson polymorphic deserialization
+    as a persistent attack surface. The vulnerability forced the creation of an extensive blocklist
+    of dangerous classes and fundamentally changed how Jackson handles type information.
+  how: >-
+    When Jackson-databind is configured with default typing enabled or uses polymorphic type handling,
+    it accepts a type identifier in JSON payloads that specifies which Java class to instantiate.
+    The attacker provides a JSON payload with a type identifier pointing to a dangerous class such
+    as those in Apache Commons Collections, Spring Framework, or other libraries on the classpath.
+    During deserialization, Jackson instantiates the specified class and populates its properties,
+    triggering gadget chain execution that results in arbitrary code execution.
+  core_concepts:
+    - name: "Polymorphic Type Deserialization"
+      value: "Jackson's ability to deserialize JSON into arbitrary Java types based on type identifiers embedded in the JSON payload"
+    - name: "Gadget Class Exploitation"
+      value: "Dangerous classes on the application's classpath are leveraged as deserialization gadgets to achieve code execution"
+    - name: "Blocklist vs. Allowlist"
+      value: "Jackson's initial mitigation relied on blocklisting dangerous classes, leading to a continuous arms race of bypass and patch"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Jackson deserialization RCE is an instance of insecure deserialization in JSON processing"
+  - type: "applies_to"
+    target: "VUL-DESER-DESERIALIZ-001"
+    description: "Jackson vulnerability is a specific manifestation of the deserialization vulnerability class in JSON libraries"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1059"
+      tactic: ["Execution", "Initial Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2016-3720"
+    - "FasterXML Jackson-databind Security Advisory"
+    - "MITRE CWE-502: Deserialization of Untrusted Data"
+  search_keywords:
+    - "CVE-2016-3720"
+    - "Jackson databind deserialization"
+    - "Jackson polymorphic type"
+    - "FasterXML RCE"
+    - "Jackson default typing vulnerability"
+    - "JSON deserialization RCE"
+    - "Jackson gadget chain"
+  embedding_text: >-
+    CVE-2016-3720 is a remote code execution vulnerability in FasterXML Jackson-databind, the most
+    widely used JSON processing library in Java. When polymorphic type handling or default typing
+    is enabled, attackers can specify arbitrary Java classes to instantiate during JSON
+    deserialization. By providing type identifiers pointing to dangerous gadget classes on the
+    application's classpath, the attacker achieves arbitrary code execution. CVSS score is 9.8.
+    This vulnerability and its many subsequent variants established Jackson polymorphic
+    deserialization as a persistent attack surface in the Java ecosystem. The initial mitigation
+    approach of blocklisting dangerous classes led to a continuous arms race of bypasses and
+    patches. Jackson ultimately added allowlist-based type validation as a more robust defense.
+    The vulnerability affects virtually every Java web application using Jackson with polymorphic
+    type handling and fundamentally changed JSON library security practices.

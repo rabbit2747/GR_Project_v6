@@ -1,0 +1,99 @@
+# GR Atom: Remote Terminal Session Detection
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-REMTERSES-001"
+  name: "Remote Terminal Session Detection"
+  normalized_name: "remote_terminal_session_detection"
+  aliases:
+    - "Remote Shell Detection"
+    - "Interactive Remote Session Monitoring"
+    - "Remote Access Session Detection"
+    - "Terminal Session Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - SSH
+    - RDP
+    - MONITOR
+    - LATERAL
+    - C2
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for identifying and monitoring interactive remote terminal sessions established through protocols such as SSH, RDP, Telnet, VNC, Mosh, and PowerShell Remoting (WinRM). This pattern detects the establishment, characteristics, and behavioral properties of remote terminal connections that provide interactive command-line or graphical access to systems, distinguishing authorized administrative sessions from potential unauthorized access or adversary activity."
+  why: "Remote terminal sessions provide the highest level of interactive access to systems, allowing users to execute arbitrary commands, modify configurations, and access sensitive data. Adversaries heavily rely on remote terminal access for lateral movement, privilege escalation, data collection, and persistent access. Detecting and monitoring all remote terminal sessions is critical for identifying unauthorized access, tracking adversary movement through the network, and ensuring that privileged remote access is limited to authorized personnel and approved pathways."
+  how: "Detection monitors traffic on remote terminal ports (SSH 22, RDP 3389, Telnet 23, VNC 5900+, WinRM 5985/5986, Mosh 60000+) and identifies interactive session establishment. Analysis examines source and destination host roles, user authentication methods, session timing and duration, keystroke timing patterns that indicate human versus automated interaction, data transfer ratios characteristic of interactive sessions, and geographic and network location of initiating hosts. Correlation with identity and access management systems validates session authorization."
+  core_concepts:
+    - key: "Session Identification"
+      value: "Detecting and cataloging all remote terminal session establishments across all supported protocols."
+    - key: "Authorization Validation"
+      value: "Verifying that remote terminal sessions are initiated by authorized users from approved source locations."
+    - key: "Interactive vs Automated"
+      value: "Distinguishing human-interactive terminal sessions from automated or scripted remote connections."
+    - key: "Session Behavioral Analysis"
+      value: "Monitoring session characteristics including duration, data transfer patterns, and activity timing for anomalies."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-ADMNETTRA-001"
+    description: "Remote terminal sessions are a specific category of administrative network traffic"
+  - type: effective_against
+    target: "ATK-LATERAL-MOVE-001"
+    description: "Detects lateral movement conducted through remote terminal sessions"
+  - type: enables
+    target: "DETECT-NETWORK-OUINENRETE-001"
+    description: "Terminal session detection enables specific outbound encrypted remote terminal monitoring"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for session identification and behavioral analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021"
+    tactic:
+      - "Lateral Movement"
+    sub_techniques:
+      - "T1021.001"
+      - "T1021.004"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Remote Services T1021"
+    - "SANS Institute - Monitoring Remote Access Sessions"
+    - "NIST SP 800-53 Rev 5 - AC-17 Remote Access"
+  search_keywords:
+    - "remote terminal"
+    - "remote session detection"
+    - "SSH session"
+    - "RDP session"
+    - "remote shell"
+    - "terminal monitoring"
+    - "remote access detection"
+    - "interactive session"
+    - "remote command session"
+    - "terminal session analysis"
+  embedding_text: "Remote terminal session detection identifies and monitors interactive remote terminal sessions through SSH, RDP, Telnet, VNC, Mosh, and WinRM. It detects session establishment, validates authorization against identity management systems, and analyzes behavioral characteristics including timing, duration, data transfer ratios, and keystroke patterns. This pattern distinguishes authorized administrative sessions from unauthorized access and adversary activity. It is essential for detecting lateral movement, tracking adversary progression through the network, and ensuring that privileged remote access is restricted to authorized personnel and approved pathways."

@@ -1,0 +1,103 @@
+# GR Atom: HTTP Header
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPHEAD-002"
+  name: "HTTP Header"
+  normalized_name: "http_header"
+  aliases:
+    - "HTTP Headers"
+    - "Request Header"
+    - "Response Header"
+    - "HTTP Header Field"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP headers are name-value pairs transmitted in HTTP request and response messages that
+    convey metadata about the message, the client, the server, and the resource being transferred.
+    Defined across multiple RFCs (RFC 9110, RFC 9111, RFC 6265, RFC 7540), headers control
+    content negotiation, caching, authentication, security policies, and connection management.
+    Headers are categorized as request headers (sent by client), response headers (sent by
+    server), representation headers (describe the body), and general headers (apply to both).
+    Security-critical headers include Content-Security-Policy, Strict-Transport-Security,
+    X-Content-Type-Options, X-Frame-Options, and Authorization.
+  why: >-
+    HTTP headers are a significant attack surface and a primary defense mechanism simultaneously.
+    Attackers exploit header injection vulnerabilities to inject malicious headers (HTTP response
+    splitting), manipulate security headers, bypass access controls via header spoofing
+    (X-Forwarded-For), and conduct cache poisoning through header manipulation. Conversely,
+    security headers provide critical protections: Content-Security-Policy mitigates XSS,
+    Strict-Transport-Security enforces HTTPS, X-Frame-Options prevents clickjacking, and
+    CORS headers control cross-origin access. Proper security header configuration is a
+    fundamental web security hardening measure.
+  how: >-
+    HTTP headers are transmitted as plaintext name:value pairs following the request/response
+    line and preceding the message body, separated by CRLF. In HTTP/2 and HTTP/3, headers are
+    compressed using HPACK/QPACK respectively. Request headers include Host (mandatory in
+    HTTP/1.1), User-Agent, Accept, Authorization, and Cookie. Response headers include
+    Content-Type, Set-Cookie, Cache-Control, and security headers. Custom headers use the X-
+    prefix convention (though deprecated). Header size limits are server-configured, and
+    excessively large headers can trigger 431 Request Header Fields Too Large responses.
+  core_concepts:
+    - key: "Security Headers"
+      value: "Response headers that implement browser security policies — Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, X-Frame-Options, and Permissions-Policy."
+    - key: "Header Injection"
+      value: "Attack where attacker-controlled input is reflected in HTTP headers without sanitization, enabling response splitting, cookie injection, and cache poisoning."
+    - key: "CORS Headers"
+      value: "Cross-Origin Resource Sharing headers (Access-Control-Allow-Origin, etc.) that control which origins can access resources, preventing unauthorized cross-domain requests."
+    - key: "Content Negotiation"
+      value: "Header-based mechanism (Accept, Accept-Language, Accept-Encoding) allowing clients and servers to agree on the best representation of a resource."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP headers are a fundamental sub-component of the HTTP protocol carrying metadata in every request and response"
+  - type: "enables"
+    target: "PROTO-MSG-HTTPCOOK-001"
+    description: "HTTP cookies are implemented through the Set-Cookie response header and Cookie request header"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics"
+    - "IETF RFC 9111 — HTTP Caching"
+    - "OWASP — HTTP Security Response Headers Cheat Sheet"
+    - "MDN Web Docs — HTTP Headers"
+  search_keywords:
+    - "HTTP header"
+    - "HTTP headers"
+    - "security headers"
+    - "Content-Security-Policy"
+    - "HSTS"
+    - "request header"
+    - "response header"
+    - "header injection"
+    - "CORS headers"
+    - "HTTP metadata"
+  embedding_text: >-
+    HTTP headers are name-value pairs in request and response messages conveying metadata about
+    the message, client, server, and resource. Headers control content negotiation, caching,
+    authentication, and security policies. Security-critical headers include Content-Security-Policy
+    (XSS mitigation), Strict-Transport-Security (HTTPS enforcement), X-Frame-Options (clickjacking
+    prevention), and CORS headers (cross-origin access control). Headers are also an attack
+    surface through header injection, X-Forwarded-For spoofing, and cache poisoning. In HTTP/2
+    and HTTP/3, headers use HPACK/QPACK compression. Proper security header configuration is a
+    fundamental web hardening measure.

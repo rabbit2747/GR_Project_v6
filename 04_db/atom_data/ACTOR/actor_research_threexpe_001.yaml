@@ -1,0 +1,71 @@
+# GR Atom: Threat Expert
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-THREEXPE-001"
+  name: "Threat Expert"
+  normalized_name: "threat_expert"
+  aliases:
+    - "ThreatExpert"
+    - "Threat Expert Database"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Threat Expert is an automated threat analysis system and online malware database that provides behavioral analysis reports for submitted malware samples. The service analyzes suspicious files in a sandboxed environment, recording file system changes, registry modifications, network connections, process behavior, and other indicators of compromise. Threat Expert generates detailed reports documenting the behavior of malware samples, making these reports publicly searchable and contributing to the collective understanding of malware families and their technical characteristics."
+  why: "Threat Expert serves as a historical and reference resource for malware analysis, providing automated behavioral analysis that helps security researchers, incident responders, and threat analysts understand the capabilities and behavior of malware specimens. The publicly accessible database of malware analysis reports contributes to threat intelligence sharing and supports the classification of malware families."
+  how: "Threat Expert operates by executing submitted samples in controlled sandbox environments, monitoring and recording all system-level activities including file operations, registry changes, network communications, process creation, and API calls. The results are compiled into structured reports that document the behavioral profile of each sample, including network indicators, dropped files, and system modifications. These reports are indexed and searchable through the Threat Expert website."
+  core_concepts:
+    - key: "Automated Malware Analysis"
+      value: "Sandbox-based behavioral analysis of malware samples recording system activities and indicators"
+    - key: "Malware Database"
+      value: "Publicly searchable repository of malware behavioral analysis reports"
+    - key: "Behavioral Indicators"
+      value: "Documentation of file system changes, network connections, registry modifications, and process behavior"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-VIRUBULL-001"
+    description: "Contributes malware analysis data to the broader threat intelligence ecosystem"
+  - type: enables
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Malware analysis findings referenced in cybersecurity news reporting"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for analysis service
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://www.threatexpert.com"
+  search_keywords:
+    - "threat expert"
+    - "malware analysis"
+    - "malware sandbox"
+    - "behavioral analysis"
+    - "malware database"
+    - "threat analysis"
+    - "malware report"
+    - "indicators of compromise"
+  embedding_text: "Threat Expert is an automated threat analysis system and online malware database that provides behavioral analysis reports for submitted malware samples. The service analyzes suspicious files in sandboxed environments, recording file system changes, registry modifications, network connections, process behavior, and other indicators of compromise. Threat Expert generates detailed reports documenting malware behavior, making these reports publicly searchable and contributing to the collective understanding of malware families and their technical characteristics. The platform serves as a reference resource for security researchers, incident responders, and threat analysts, supporting malware classification and threat intelligence sharing through its indexed database of behavioral analysis reports."

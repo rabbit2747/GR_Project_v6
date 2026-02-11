@@ -1,0 +1,95 @@
+# GR Atom: Star Blizzard
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-STARBLIZ-001"
+  name: "Star Blizzard"
+  normalized_name: "star_blizzard"
+  aliases:
+    - "SEABORGIUM"
+    - "Callisto Group"
+    - "TA446"
+    - "COLDRIVER"
+    - "BlueCharlie"
+    - "TAG-53"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - RECON
+    - EXFIL
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Star Blizzard, previously tracked as SEABORGIUM and Callisto Group, is a Russia-nexus advanced persistent threat group attributed to the Russian Federal Security Service (FSB) Centre 18. Active since at least 2015, the group conducts persistent credential phishing campaigns targeting government officials, defense and intelligence consultants, journalists, think tank researchers, NGOs, and academics primarily in the United States, United Kingdom, and NATO member states."
+  why: "Star Blizzard represents a persistent FSB-linked credential theft operation focused on collecting strategic intelligence from individuals with access to sensitive policy, defense, and intelligence information. The group's operations have been the subject of joint U.S.-UK government advisories and legal actions, including domain seizures by the U.S. Department of Justice, highlighting its significance as a state-sponsored espionage threat."
+  how: "Star Blizzard conducts extensive open-source research on targets before initiating contact through carefully crafted impersonation emails from fake personas. The group builds trust through benign initial communications before sending credential phishing links to attacker-controlled login pages mimicking legitimate services like Microsoft, Google, and ProtonMail. Harvested credentials provide access to email accounts for intelligence collection. The group uses Evilginx-style adversary-in-the-middle frameworks to capture session tokens and bypass MFA."
+  core_concepts:
+    - key: "Social Engineering Tradecraft"
+      value: "Extended rapport-building with targets through fake personas before delivering credential phishing, mimicking human intelligence recruitment approaches"
+    - key: "Credential Harvesting Focus"
+      value: "Operations centered on stealing email credentials rather than deploying malware, enabling access to sensitive communications and documents"
+    - key: "MFA Bypass Capability"
+      value: "Use of adversary-in-the-middle phishing frameworks like Evilginx to capture authentication tokens and bypass multi-factor authentication"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Russian FSB-attributed APT group conducting credential phishing for intelligence collection"
+  - type: enables
+    target: "ATK-PHISH-CRED-001"
+    description: "Conducts sophisticated credential phishing campaigns with fake personas and MFA bypass"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "reconnaissance"
+      - "initial-access"
+      - "credential-access"
+      - "collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Star Blizzard / SEABORGIUM threat profile"
+    - "U.S. DOJ - Star Blizzard domain seizures"
+    - "NCSC UK - SEABORGIUM advisory"
+    - "Recorded Future - BlueCharlie analysis"
+  search_keywords:
+    - "star blizzard"
+    - "seaborgium"
+    - "callisto group"
+    - "coldriver"
+    - "ta446"
+    - "bluecharlie"
+    - "russia fsb"
+    - "credential phishing"
+    - "evilginx"
+    - "mfa bypass"
+    - "think tank targeting"
+    - "impersonation phishing"
+    - "email credential theft"
+  embedding_text: "Star Blizzard, previously tracked as SEABORGIUM and Callisto Group, is a Russian FSB-attributed advanced persistent threat group active since at least 2015 conducting credential phishing campaigns against government officials, defense consultants, journalists, and think tank researchers in the U.S., UK, and NATO member states. The group builds trust through fake personas before delivering credential phishing links to attacker-controlled pages mimicking Microsoft, Google, and other services. Star Blizzard uses adversary-in-the-middle frameworks like Evilginx to bypass MFA and harvest authentication tokens. Its operations focus on email credential theft rather than malware deployment, enabling access to sensitive policy, defense, and intelligence communications."

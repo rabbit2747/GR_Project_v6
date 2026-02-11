@@ -1,0 +1,82 @@
+# GR Atom: VPC
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-VPC-001"
+  name: "VPC"
+  normalized_name: "vpc"
+  aliases:
+    - "Virtual Private Cloud"
+    - "AWS VPC"
+    - "Azure VNet"
+    - "GCP VPC Network"
+    - "Cloud Virtual Network"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CLOUD
+    - AWS
+    - AZURE
+    - GCP
+    - CONFIG
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N3.2"
+
+definition:
+  what: "A Virtual Private Cloud (VPC) is a logically isolated virtual network within a cloud service provider's infrastructure that provides organizations with a private, configurable network environment for deploying cloud resources. VPCs are offered by all major cloud providers: AWS VPC, Azure Virtual Network (VNet), and Google Cloud VPC. A VPC includes configurable IP address ranges (CIDR blocks), subnets (public and private), route tables, internet gateways, NAT gateways, network access control lists (NACLs), security groups, VPC peering connections, and VPN/Direct Connect/ExpressRoute attachments for hybrid connectivity. VPCs provide the foundational network segmentation layer in cloud architectures, analogous to a traditional on-premises network but with software-defined programmability and elasticity."
+  why: "VPCs are the foundational network construct in cloud computing that determines how cloud resources communicate with each other, with the internet, and with on-premises networks. Proper VPC design is critical for security because it defines the network isolation boundaries, controls traffic flow through security groups and NACLs, segments workloads by sensitivity level, and establishes the perimeter between public and private resources. VPC misconfigurations are among the most common causes of cloud security incidents, including overly permissive security groups, public subnets hosting sensitive resources, missing flow logs, and default VPC usage that lacks appropriate controls."
+  how: "VPC creation begins with defining the IP address space using CIDR notation. Subnets are created within the VPC across availability zones, designated as public (with internet gateway route) or private (with NAT gateway for outbound-only internet access). Route tables control traffic flow between subnets and to external networks. Security groups provide stateful instance-level firewall rules, while NACLs provide stateless subnet-level rules. VPC Flow Logs capture metadata about IP traffic for security monitoring. VPC peering and transit gateways connect multiple VPCs, while VPN connections and dedicated interconnects (Direct Connect, ExpressRoute, Cloud Interconnect) provide hybrid connectivity to on-premises networks. Infrastructure as Code tools such as Terraform and CloudFormation manage VPC configuration for consistency and auditability."
+  core_concepts:
+    - key: "Network Segmentation"
+      value: "The division of a VPC into public and private subnets with distinct routing and security policies to isolate workloads by function and sensitivity level"
+    - key: "Security Groups"
+      value: "Stateful virtual firewalls attached to cloud instances that control inbound and outbound traffic based on protocol, port, and source/destination rules"
+    - key: "VPC Flow Logs"
+      value: "Captured metadata about IP traffic within the VPC including source, destination, port, protocol, and action, essential for security monitoring and forensic analysis"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-DMZ-001"
+    description: "VPC architecture enables DMZ-equivalent network segmentation through public and private subnets with distinct security policies"
+  - type: enables
+    target: "INFRA-NET-VPN-001"
+    description: "VPCs provide VPN gateway endpoints for site-to-site and client-to-site VPN connectivity in hybrid cloud architectures"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "VPCs use DNS resolution through cloud-provided DNS services or custom DNS configurations for resource name resolution"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1580"
+    tactic: ["Discovery"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "AWS - Amazon VPC Documentation - https://docs.aws.amazon.com/vpc/"
+    - "Azure - Virtual Network Documentation - https://learn.microsoft.com/en-us/azure/virtual-network/"
+    - "Google Cloud - VPC Documentation - https://cloud.google.com/vpc/docs"
+    - "CIS AWS Foundations Benchmark - VPC Configuration"
+  search_keywords:
+    - "VPC"
+    - "virtual private cloud"
+    - "AWS VPC"
+    - "Azure VNet"
+    - "GCP VPC"
+    - "cloud network segmentation"
+    - "security groups"
+    - "VPC flow logs"
+    - "cloud virtual network"
+  embedding_text: "A Virtual Private Cloud (VPC) is a logically isolated virtual network within cloud provider infrastructure providing private, configurable network environments for cloud resources. Available as AWS VPC, Azure VNet, and Google Cloud VPC, it includes CIDR address ranges, public and private subnets, route tables, gateways, NACLs, security groups, peering connections, and VPN attachments. VPCs are the foundational network segmentation layer in cloud architectures. Security considerations include misconfigured security groups, public subnets with sensitive resources, missing flow logs, and default VPC usage. VPC Flow Logs capture traffic metadata for security monitoring, and Infrastructure as Code tools ensure configuration consistency."

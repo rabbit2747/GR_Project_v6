@@ -1,0 +1,74 @@
+# GR Atom: AhnLab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-AHNLAB-001"
+  name: "AhnLab"
+  normalized_name: "ahnlab"
+  aliases:
+    - "AhnLab Inc."
+    - "AhnLab V3"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "AhnLab is a South Korean cybersecurity vendor founded in 1995, specializing in endpoint protection, network security, and threat intelligence. The company is the dominant endpoint security provider in South Korea and offers products including AhnLab V3 (endpoint protection), AhnLab MDS (malware defense system), and AhnLab TrusGuard (network firewall). AhnLab also operates the AhnLab Security Emergency Response Center (ASEC) which publishes threat intelligence on campaigns targeting East Asian organizations."
+  why: "AhnLab is significant as the primary cybersecurity vendor in the South Korean market and a major source of threat intelligence on APT campaigns targeting the Korean peninsula and broader East Asian region. Their ASEC research team frequently publishes first-hand analysis of North Korean threat actors and regional malware campaigns that are not covered by Western security vendors."
+  how: "AhnLab provides layered defense through endpoint detection and response solutions, network firewalls, and sandboxing technology. Their ASEC research team conducts malware analysis, tracks threat actor campaigns, and publishes advisories. The company integrates threat intelligence feeds into its products for real-time detection and provides managed security services for enterprise customers."
+  core_concepts:
+    - key: "Endpoint Protection"
+      value: "AhnLab V3 product line providing anti-malware, behavioral detection, and EDR capabilities for Windows and mobile platforms"
+    - key: "ASEC Threat Intelligence"
+      value: "Security Emergency Response Center publishing research on APT campaigns and malware targeting East Asian organizations"
+    - key: "Network Defense"
+      value: "TrusGuard firewall and MDS sandboxing products protecting network perimeters and detecting advanced threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-EPP-ENDPOINT-001"
+    description: "Produces endpoint protection and EDR solutions for enterprise and consumer markets"
+  - type: enables
+    target: "ACTOR-VENDOR-KASPLAB-001"
+    description: "Shares threat intelligence on East Asian APT campaigns with global cybersecurity community"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.ahnlab.com"
+    - "https://asec.ahnlab.com"
+  search_keywords:
+    - "ahnlab"
+    - "ahnlab v3"
+    - "asec"
+    - "south korean antivirus"
+    - "endpoint protection korea"
+    - "trusguard firewall"
+    - "ahnlab mds"
+    - "korean cybersecurity vendor"
+  embedding_text: "AhnLab is a South Korean cybersecurity vendor founded in 1995, specializing in endpoint protection, network security, and threat intelligence. The company is the dominant endpoint security provider in South Korea, known for its V3 antivirus product line, TrusGuard network firewall, and MDS malware defense system. AhnLab operates the AhnLab Security Emergency Response Center (ASEC), which publishes threat intelligence and malware analysis focused on campaigns targeting East Asian organizations, particularly those originating from North Korean threat actors. The company provides endpoint detection and response, network intrusion prevention, sandboxing, and managed security services to enterprise customers throughout the Asia-Pacific region. AhnLab is a critical source of first-hand intelligence on regional APT campaigns that may not be covered by Western security vendors."

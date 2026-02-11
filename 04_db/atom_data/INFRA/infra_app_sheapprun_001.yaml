@@ -1,0 +1,110 @@
+# GR Atom: Shell App Runtime
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SHEAPPRUN-001"
+  name: "Shell App Runtime"
+  normalized_name: "shell_app_runtime"
+  aliases:
+    - "ShellAppRuntime.exe"
+    - "Windows Shell App Runtime"
+    - "Modern App Runtime"
+    - "UWP Shell Runtime"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - OS
+    - EXEC
+    - EVADE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Shell App Runtime is a Windows component that provides the execution environment for
+    Universal Windows Platform (UWP) and modern shell applications. It manages the lifecycle,
+    activation, and resource allocation for Windows Store apps and built-in modern applications
+    including Settings, Calculator, Photos, and other system apps. The runtime handles app
+    container initialization, background task management, and inter-process communication for
+    modern Windows applications.
+  why: >-
+    Shell App Runtime runs with elevated permissions to manage application lifecycle and can
+    be targeted for privilege escalation through vulnerabilities in its process management
+    and IPC mechanisms. As a trusted Windows component, it can be abused for defense evasion
+    through process injection or DLL loading into the runtime context. Vulnerabilities in the
+    app container initialization could allow sandbox escape from UWP applications. The runtime's
+    role in managing background tasks creates potential for persistence through malicious
+    background task registration.
+  how: >-
+    Shell App Runtime operates as a system-level process that interfaces with the Windows
+    Shell infrastructure and the Application Model. It handles app activation through protocol
+    handlers and file associations, manages app container processes with AppContainer security
+    contexts, and coordinates background task execution. The runtime communicates with the
+    Desktop Window Manager (DWM) for visual rendering and with the Windows notification
+    system for app notifications and tiles.
+  core_concepts:
+    - key: "Modern App Lifecycle Management"
+      value: "Controls activation, suspension, and termination of UWP and modern apps, providing a process management attack surface for persistence and escalation"
+    - key: "App Container Security Boundary"
+      value: "Manages AppContainer sandboxed processes, and vulnerabilities in container initialization could enable sandbox escape from modern applications"
+    - key: "Trusted Process Context"
+      value: "As a signed Microsoft system component, the Shell App Runtime provides a trusted execution context that can be targeted for defense evasion techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-SHEEXPHOS-001"
+    description: "Shell App Runtime is a component of the broader Windows Shell Experience infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1055"
+    tactic:
+      - "Defense Evasion"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Windows Application Model Documentation"
+    - "MITRE ATT&CK T1055 - Process Injection"
+    - "Microsoft UWP Security Architecture"
+  search_keywords:
+    - "Shell App Runtime"
+    - "ShellAppRuntime"
+    - "UWP runtime"
+    - "Windows modern app runtime"
+    - "app container security"
+    - "shell runtime vulnerability"
+    - "Windows app lifecycle"
+    - "modern app process management"
+  embedding_text: >-
+    Shell App Runtime is a Windows system component managing the execution environment for
+    UWP and modern shell applications. It handles app lifecycle, activation, background task
+    management, and AppContainer process initialization. As a trusted Microsoft-signed system
+    component, it presents attack surface for defense evasion through process injection and
+    DLL loading. Vulnerabilities in app container initialization could enable sandbox escape.
+    The runtime manages background tasks, creating persistence opportunities through malicious
+    task registration. Security teams should monitor for anomalous activity within the Shell
+    App Runtime process, unexpected background task registrations, and DLL loading from
+    non-standard locations into the runtime context.

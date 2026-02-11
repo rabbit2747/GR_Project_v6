@@ -1,0 +1,100 @@
+# GR Atom: CVE-2016-0051
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20160051-001"
+  name: "CVE-2016-0051"
+  normalized_name: "cve_2016_0051"
+  aliases:
+    - "Windows WebDAV Privilege Escalation"
+    - "WebDAV Client Privilege Escalation"
+    - "MS16-016"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows WebDAV client (mrxdav.sys)"
+    - "Windows Vista through Windows 10"
+    - "Windows Server 2008 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-0051 is a local privilege escalation vulnerability in the Windows WebDAV client
+    driver (mrxdav.sys). The vulnerability exists because the WebDAV client improperly
+    validates input, allowing a locally authenticated attacker to execute arbitrary code with
+    elevated privileges. By running a specially crafted application, an attacker can take
+    complete control of an affected system. CVSS v3.0 score is 7.8.
+  why: >-
+    The WebDAV client is enabled by default on Windows workstations, providing a broadly
+    applicable privilege escalation vector. This vulnerability is particularly useful in
+    post-exploitation scenarios where an attacker has limited user access and needs to
+    escalate to SYSTEM. The WebDAV service's kernel-mode driver provides direct access to
+    elevated privileges when exploited.
+  how: >-
+    A local attacker runs a crafted application that sends specially formatted requests to
+    the mrxdav.sys driver. The driver's improper input validation allows memory corruption
+    that can be leveraged for kernel-mode code execution. Mitigation requires applying
+    MS16-016, and where WebDAV functionality is not needed, disabling the WebClient service
+    to reduce the attack surface.
+  core_concepts:
+    - key: "WebDAV Driver Exploitation"
+      value: "Exploiting the kernel-mode WebDAV client driver through crafted input to achieve privilege escalation"
+    - key: "Default Service Attack Surface"
+      value: "The WebDAV client service is enabled by default on Windows, providing a universally available escalation target"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2016-0051 is a privilege boundary bypass through Windows WebDAV driver exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2016-0051"
+    - "NIST NVD CVE-2016-0051 (CVSS v3.0: 7.8)"
+    - "Microsoft Security Bulletin MS16-016"
+  search_keywords:
+    - "CVE-2016-0051"
+    - "WebDAV privilege escalation"
+    - "mrxdav.sys vulnerability"
+    - "MS16-016"
+    - "Windows WebDAV exploit"
+    - "WebClient service vulnerability"
+  embedding_text: >-
+    CVE-2016-0051 is a local privilege escalation vulnerability in the Windows WebDAV client
+    driver mrxdav.sys with CVSS v3.0 score 7.8. Improper input validation allows a local
+    attacker to execute arbitrary code with SYSTEM privileges through a crafted application.
+    The WebDAV client is enabled by default on Windows workstations, making this a broadly
+    applicable escalation vector. Affects Windows Vista through 10 and Server 2008 through
+    2012 R2. Mitigation requires applying MS16-016 or disabling the WebClient service where
+    WebDAV is not needed. Commonly used in post-exploitation scenarios for privilege escalation
+    from limited user access to full system control.

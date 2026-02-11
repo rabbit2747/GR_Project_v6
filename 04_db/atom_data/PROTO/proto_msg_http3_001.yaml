@@ -1,0 +1,106 @@
+# GR Atom: HTTP/3
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTP3-001"
+  name: "HTTP/3"
+  normalized_name: "http_3"
+  aliases:
+    - "HTTP 3.0"
+    - "RFC 9114"
+    - "h3"
+    - "HTTP over QUIC"
+    - "QUIC HTTP"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP/3 is the third major version of the Hypertext Transfer Protocol, standardized in IETF
+    RFC 9114 (June 2022). HTTP/3 replaces TCP with QUIC (RFC 9000) as its transport protocol,
+    using UDP-based multiplexed connections with built-in TLS 1.3 encryption. This eliminates
+    TCP head-of-line blocking that affected HTTP/2, provides 0-RTT connection establishment for
+    resumed sessions, and uses QPACK (RFC 9204) for header compression. HTTP/3 maintains the
+    same HTTP semantics (methods, headers, status codes) as HTTP/1.1 and HTTP/2 while
+    fundamentally changing the transport layer for improved performance and resilience.
+  why: >-
+    HTTP/3's use of QUIC over UDP introduces significant changes for network security monitoring.
+    Traditional TCP-based network inspection tools and middleboxes cannot parse QUIC traffic,
+    reducing visibility into encrypted web communications. QUIC's encryption of transport headers
+    prevents passive network monitoring of connection metadata. The UDP-based transport may bypass
+    firewall rules designed for TCP-based HTTP. Connection migration across network changes
+    complicates IP-based tracking. Security teams must update DPI capabilities, firewall policies,
+    and monitoring infrastructure to account for QUIC-based HTTP/3 traffic.
+  how: >-
+    HTTP/3 operates by: (1) Connection establishment using QUIC handshake with integrated TLS 1.3,
+    achieving 1-RTT for new connections and 0-RTT for resumed sessions; (2) Multiplexed streams
+    over independent QUIC streams, eliminating head-of-line blocking since stream loss does not
+    affect other streams; (3) Header compression using QPACK (RFC 9204), adapted from HPACK for
+    QUIC's out-of-order delivery; (4) Connection migration using connection IDs rather than IP
+    addresses, maintaining sessions across network changes; (5) Alt-Svc header or DNS HTTPS
+    record for HTTP/3 service discovery. Server implementations advertise HTTP/3 availability
+    through HTTP Alternative Services.
+  core_concepts:
+    - key: "QUIC Transport"
+      value: "UDP-based transport protocol (RFC 9000) with built-in TLS 1.3, multiplexed streams, and connection migration, replacing TCP for HTTP/3."
+    - key: "0-RTT Connection Resumption"
+      value: "QUIC's ability to send application data in the first packet for resumed connections, reducing latency but introducing replay attack considerations."
+    - key: "QPACK Header Compression"
+      value: "RFC 9204 header compression scheme adapted from HPACK for QUIC's out-of-order stream delivery model."
+    - key: "Connection Migration"
+      value: "QUIC's ability to maintain connections across IP address changes using connection IDs, enabling seamless network transitions."
+
+relations:
+  - type: "supersedes"
+    target: "PROTO-MSG-HTTP2-001"
+    description: "HTTP/3 supersedes HTTP/2 by replacing TCP with QUIC transport to eliminate head-of-line blocking"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "HTTP/3 is an application layer protocol for web communication over QUIC transport"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "HTTP/3 inherently operates over encrypted QUIC with mandatory TLS 1.3"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9114 — HTTP/3"
+    - "IETF RFC 9000 — QUIC: A UDP-Based Multiplexed and Secure Transport"
+    - "IETF RFC 9204 — QPACK: Field Compression for HTTP/3"
+    - "Cloudflare — HTTP/3: the past, the present, and the future"
+  search_keywords:
+    - "HTTP/3"
+    - "HTTP 3.0"
+    - "RFC 9114"
+    - "QUIC protocol"
+    - "HTTP over QUIC"
+    - "h3"
+    - "QPACK"
+    - "0-RTT"
+    - "connection migration"
+    - "UDP HTTP"
+  embedding_text: >-
+    HTTP/3 (RFC 9114) is the third major version of HTTP, replacing TCP with QUIC (RFC 9000)
+    as its transport protocol. Using UDP with built-in TLS 1.3 encryption, HTTP/3 eliminates
+    TCP head-of-line blocking, provides 0-RTT connection resumption, and uses QPACK for header
+    compression. Connection migration via connection IDs enables seamless network transitions.
+    HTTP/3 maintains the same HTTP semantics as prior versions. Security implications include
+    reduced network visibility due to QUIC encryption, UDP-based traffic bypassing TCP firewall
+    rules, and connection migration complicating IP-based monitoring. Security teams must update
+    DPI and monitoring infrastructure for QUIC-based traffic.

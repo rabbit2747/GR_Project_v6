@@ -1,0 +1,75 @@
+# GR Atom: SailPoint
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SAILPOINT-001"
+  name: "SailPoint"
+  normalized_name: "sailpoint"
+  aliases:
+    - "SailPoint Technologies"
+    - "SailPoint IdentityNow"
+    - "SailPoint IdentityIQ"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PAM
+    - CLOUD
+    - ZTNA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SailPoint is a leading identity governance and administration vendor specializing in identity security platforms that manage digital identities across enterprise environments. The company provides automated identity lifecycle management, access certification, privileged access governance, and cloud-based identity solutions through its IdentityNow SaaS platform and IdentityIQ on-premises product, enabling organizations to govern who has access to what resources across hybrid IT environments."
+  why: "SailPoint is significant in cybersecurity because identity governance is foundational to zero-trust architectures and regulatory compliance. Unauthorized access through mismanaged identities remains a primary attack vector, and SailPoint's platforms help organizations reduce this risk by automating access provisioning, enforcing least-privilege policies, and providing continuous compliance monitoring across cloud and on-premises systems."
+  how: "SailPoint operates through AI-driven identity governance platforms that automatically discover, manage, and govern access across applications, data, and cloud infrastructure. The platform uses machine learning to detect anomalous access patterns, automate access certifications, and recommend least-privilege access policies. Integration with hundreds of enterprise applications enables centralized identity management and audit-ready compliance reporting."
+  core_concepts:
+    - key: "Identity Governance"
+      value: "Centralized management and oversight of digital identities, access rights, and entitlements across enterprise systems"
+    - key: "Access Certification"
+      value: "Automated review and validation of user access privileges to ensure compliance and least-privilege enforcement"
+    - key: "Identity Lifecycle Management"
+      value: "Automated provisioning, modification, and deprovisioning of user identities and associated access rights"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-BEYONDTRUS-001"
+    description: "Fellow identity and privileged access management vendor in the enterprise security market"
+  - type: enables
+    target: "ACTOR-VENDOR-AUTH0-001"
+    description: "Complements identity authentication providers with governance and administration capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.sailpoint.com"
+    - "https://en.wikipedia.org/wiki/SailPoint"
+  search_keywords:
+    - "sailpoint"
+    - "identity governance"
+    - "identity security"
+    - "access certification"
+    - "identity lifecycle management"
+    - "IdentityNow"
+    - "IdentityIQ"
+    - "privileged access governance"
+    - "identity administration"
+  embedding_text: "SailPoint is a leading identity governance and administration vendor specializing in identity security platforms that manage digital identities across enterprise environments. The company provides automated identity lifecycle management, access certification, privileged access governance, and cloud-based identity solutions through its IdentityNow SaaS platform and IdentityIQ on-premises product. SailPoint uses AI-driven identity analytics to detect anomalous access patterns, automate access certifications, and enforce least-privilege policies across hybrid IT environments, making it a critical component of zero-trust security architectures and regulatory compliance programs."

@@ -1,0 +1,82 @@
+# GR Atom: DarkVishnya
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DARKVISHNY-001"
+  name: "DarkVishnya"
+  normalized_name: "darkvishnya"
+  aliases: []
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - LATERAL
+    - CRED
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DarkVishnya is a financially motivated threat operation discovered by Kaspersky in 2018, targeting banks in Eastern Europe through physical intrusion. The attackers physically planted rogue devices -- including cheap single-board computers (Bash Bunnies, Raspberry Pi devices), USB-connected netbooks, or 4G-connected devices -- directly into bank branch networks by posing as couriers, maintenance workers, or visitors. These devices provided remote access to the internal bank network from which attackers conducted lateral movement and financial theft."
+  why: "DarkVishnya is significant because it demonstrates the insider threat and physical access attack vector against financial institutions. By physically planting network-connected devices inside bank branches, attackers bypassed all perimeter security controls. This operation highlights the critical importance of physical security, network access control, and rogue device detection in financial institutions and other high-security environments."
+  how: "Attackers gained physical access to bank branches through social engineering, posing as authorized visitors. They connected small computing devices (Bash Bunny, Raspberry Pi, or netbooks) to the local network via Ethernet ports or USB connections. These devices established reverse tunnels or 4G connections to external command-and-control servers, providing remote access to the internal network. From this position, attackers used Impacket, Responder, and other network tools for credential harvesting and lateral movement to reach financial systems and ATM infrastructure for fraudulent transactions."
+  core_concepts:
+    - key: "Physical Device Implant"
+      value: "Plants rogue computing devices inside bank branches to gain internal network access"
+    - key: "Physical Access Vector"
+      value: "Bypasses perimeter security by physically entering facilities through social engineering"
+    - key: "Remote Network Bridging"
+      value: "Uses 4G connections and reverse tunnels to bridge internal bank networks to external attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses physical device implantation as an alternative to traditional network-based initial access"
+  - type: is_a
+    target: "ACTOR-APT-DARKVISHNY-001"
+    description: "Financially motivated threat operation using physical intrusion against banks"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1200"
+    tactic:
+      - "Initial Access"
+      - "Lateral Movement"
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - DarkVishnya Bank Attack Report"
+    - "Kaspersky SecureList - Physical Access Attacks on Banks"
+  search_keywords:
+    - "darkvishnya"
+    - "bank physical intrusion"
+    - "rogue device attack"
+    - "bash bunny attack"
+    - "raspberry pi implant"
+    - "physical access hacking"
+    - "bank branch attack"
+    - "eastern europe bank hack"
+    - "insider threat device"
+    - "network bridge attack"
+  embedding_text: "DarkVishnya is a financially motivated threat operation discovered by Kaspersky in 2018, targeting banks in Eastern Europe through physical intrusion. Attackers physically planted rogue devices including Bash Bunnies, Raspberry Pi computers, and 4G-connected netbooks directly into bank branch networks by posing as couriers or maintenance workers. These devices established reverse tunnels or 4G connections to external command-and-control servers, providing remote access to internal bank networks. Attackers used Impacket, Responder, and network tools for credential harvesting and lateral movement to financial systems. The operation demonstrates the critical insider threat and physical access attack vector, bypassing all perimeter security controls to access internal bank infrastructure for fraudulent transactions."

@@ -1,0 +1,71 @@
+# GR Atom: Kiosk Computer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-KIOSCOMP-001"
+  name: "Kiosk Computer"
+  normalized_name: "kiosk_computer"
+  aliases: ["Kiosk System", "Self-Service Kiosk", "Interactive Kiosk", "Public Terminal"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [OS, WINDOWS, CONFIG, IOT]
+gr_coordinates:
+  layer: "L0"
+  zone: "Z0B"
+  function: "R1.1"
+definition:
+  what: >-
+    A Kiosk Computer is a purpose-built computing terminal designed for public or semi-public
+    access with restricted functionality, typically running Windows Kiosk Mode, Chrome OS
+    Kiosk, or Linux in locked-down configurations. Kiosks serve specific functions such as
+    point-of-sale, check-in, information display, wayfinding, or self-service transactions.
+    They use hardened OS configurations that restrict users to approved applications and
+    prevent access to the underlying operating system.
+  why: >-
+    Kiosk computers are high-risk targets because they operate in physically accessible
+    locations with limited monitoring. Attackers can escape kiosk mode through keyboard
+    shortcuts, dialog box exploits, URL handler abuse, or accessibility feature exploitation
+    to gain shell access. Compromised kiosks can expose payment card data, PII, corporate
+    network access, and serve as pivot points into internal networks. USB-based attacks are
+    common against physically accessible kiosk hardware.
+  how: >-
+    Kiosks are configured using Windows Assigned Access (single-app kiosk), Shell Launcher
+    (multi-app kiosk), Group Policy restrictions, or purpose-built kiosk management software.
+    Security hardening includes disabling keyboard shortcuts, removing accessibility shortcuts,
+    blocking USB mass storage, implementing application whitelisting, using kiosk-specific
+    browser configurations, enabling automatic session reset, and network segmentation to
+    isolate kiosks from production networks. Physical security includes tamper-resistant
+    enclosures and cable locks.
+  core_concepts:
+    - key: "Kiosk Escape Attacks"
+      value: "Techniques to break out of restricted kiosk mode through keyboard shortcuts, dialog exploits, URL handlers, or accessibility features to access the underlying OS"
+    - key: "Physical Attack Surface"
+      value: "Publicly accessible hardware vulnerable to USB attacks, port exploitation, hardware tampering, and shoulder surfing"
+    - key: "Assigned Access Lockdown"
+      value: "Windows Assigned Access and Shell Launcher restrict kiosk users to approved applications, preventing access to desktop and system utilities"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "A kiosk computer is a specialized desktop computer with restricted access"
+  - type: "requires"
+    target: "INFRA-COMPUTE-EMBECOMP-001"
+    description: "Kiosk computers often use embedded computing platforms for their hardware"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft Kiosk Mode Documentation", "OWASP Kiosk Security Testing Guide", "NIST SP 800-46 - Remote Access Security"]
+  search_keywords: ["kiosk computer", "kiosk escape", "kiosk mode", "assigned access", "public terminal security", "kiosk hardening", "self-service kiosk"]
+  embedding_text: >-
+    A Kiosk Computer is a purpose-built terminal for public or semi-public access running
+    restricted OS configurations like Windows Kiosk Mode. Located in physically accessible
+    areas, kiosks are targeted through escape attacks using keyboard shortcuts, dialog
+    exploits, URL handlers, or accessibility features. Compromised kiosks expose payment data,
+    PII, and network access. Hardening includes Assigned Access lockdown, disabling shortcuts,
+    blocking USB storage, application whitelisting, automatic session reset, and network
+    segmentation. Physical security requires tamper-resistant enclosures.

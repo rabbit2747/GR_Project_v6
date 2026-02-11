@@ -1,0 +1,120 @@
+# GR Atom: Azure Managed Identity
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AZUMANIDE-001"
+  name: "Azure Managed Identity"
+  normalized_name: "azure_managed_identity"
+  aliases:
+    - "Managed Service Identity"
+    - "MSI"
+    - "System-Assigned Managed Identity"
+    - "User-Assigned Managed Identity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - AUTHN
+    - AUTHZ
+    - OAUTH
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Managed Identity is an Azure AD feature that provides Azure services with an
+    automatically managed identity for authenticating to other Azure resources without
+    embedding credentials in code. System-assigned managed identities are tied to the
+    lifecycle of a specific Azure resource, while user-assigned managed identities are
+    standalone resources that can be shared across multiple Azure services. Both types
+    obtain OAuth 2.0 tokens from the Azure Instance Metadata Service (IMDS) endpoint.
+  why: >-
+    Managed identities eliminate credential management overhead and reduce the risk of
+    credential exposure in application code, configuration files, or environment variables.
+    However, they introduce attack vectors through the IMDS token endpoint, which can be
+    accessed by any process running on the Azure resource. Server-Side Request Forgery
+    (SSRF) vulnerabilities can be exploited to steal managed identity tokens from the IMDS
+    endpoint at 169.254.169.254. Over-privileged managed identities with excessive RBAC
+    role assignments expand the blast radius if the hosting resource is compromised.
+  how: >-
+    When a managed identity is enabled, Azure creates a service principal in Azure AD and
+    configures the Azure resource to obtain tokens from the IMDS endpoint at
+    http://169.254.169.254/metadata/identity/oauth2/token. Applications request tokens by
+    specifying the target resource audience, and the IMDS returns an OAuth 2.0 bearer token.
+    System-assigned identities are automatically deleted when the parent resource is deleted.
+    User-assigned identities persist independently and are assigned to resources through
+    Azure Resource Manager. RBAC role assignments grant the managed identity permissions
+    on Azure resources.
+  core_concepts:
+    - key: "IMDS Token Endpoint"
+      value: "Managed identities obtain tokens from the Instance Metadata Service at 169.254.169.254, accessible to any process on the resource"
+    - key: "Credential-Free Authentication"
+      value: "Eliminates the need to store secrets in code or configuration by providing automatic credential management through Azure platform"
+    - key: "SSRF Token Theft"
+      value: "SSRF vulnerabilities on Azure resources can be exploited to request managed identity tokens from the IMDS endpoint for privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Managed identities are service principals managed within Azure AD"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Provides automatic authentication for Azure resources accessing other Azure services"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-ID-001"
+    description: "Managed identities serve as an alternative to workload identity federation for Azure-native resources"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.005"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Managed Identities for Azure Resources"
+    - "MITRE ATT&CK T1552.005 - Unsecured Credentials: Cloud Instance Metadata API"
+    - "Microsoft Security - Managed Identity Best Practices"
+  search_keywords:
+    - "Azure Managed Identity"
+    - "Managed Service Identity"
+    - "MSI Azure"
+    - "IMDS token theft"
+    - "system-assigned managed identity"
+    - "user-assigned managed identity"
+    - "Azure credential-free authentication"
+    - "169.254.169.254 Azure"
+  embedding_text: >-
+    Azure Managed Identity provides Azure services with automatically managed credentials
+    for authenticating to other Azure resources without embedding secrets in code. System-
+    assigned identities are tied to specific resources, while user-assigned identities are
+    standalone and shareable. Both types obtain OAuth 2.0 tokens from the Azure Instance
+    Metadata Service (IMDS) at 169.254.169.254. Managed identities eliminate credential
+    management overhead but introduce IMDS-based attack vectors. SSRF vulnerabilities can
+    be exploited to steal tokens from the metadata endpoint. Over-privileged managed
+    identities expand the blast radius when hosting resources are compromised. Security
+    teams must enforce least-privilege RBAC assignments, restrict network access to the IMDS
+    endpoint where possible, monitor managed identity token acquisition patterns, and
+    regularly audit role assignments to prevent privilege creep on managed identities.

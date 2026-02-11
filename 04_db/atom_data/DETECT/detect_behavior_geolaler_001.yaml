@@ -1,0 +1,69 @@
+# GR Atom: Geolocation Alerts
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-GEOLALER-001"
+  name: "Geolocation Alerts"
+  normalized_name: "geolocation_alerts"
+  aliases:
+    - "Location-Based Security Alerts"
+    - "Geographic Access Alerts"
+    - "GeoIP Alert System"
+    - "Location Threat Alerts"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - MONITOR
+    - INCIDENT
+    - SIEM
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Geolocation Alerts is a detection pattern that generates security notifications when authentication or access events occur from geographic locations that match predefined risk criteria or anomaly thresholds. These alerts are triggered by specific conditions including access from blocked countries, access from anonymous proxy or Tor exit nodes, impossible travel scenarios, first-time access from new geographic regions, and access from IP addresses associated with known threat actor infrastructure. Alerts are classified by severity based on the geographic risk level, the user's privilege level, and the sensitivity of the accessed resource."
+  why: "Timely alerting on geographic access anomalies is critical for rapid incident response to account compromise and unauthorized access. Many organizations have regulatory requirements to restrict access from specific countries, and geolocation alerts provide the enforcement and audit trail for these restrictions. High-severity alerts from impossible travel or blocked countries require immediate investigation and potential account lockout. Without automated geolocation alerting, compromised accounts using stolen credentials from foreign locations may operate undetected for extended periods, allowing data exfiltration, lateral movement, and persistent access establishment."
+  how: "The alert system processes geolocation-enriched authentication events through a rules engine that evaluates each event against configurable alert conditions. Priority 1 alerts trigger for impossible travel detections and blocked country access by privileged accounts. Priority 2 alerts trigger for new country access by standard users and anonymous proxy usage. Priority 3 alerts trigger for new city or region access and minor deviation from established patterns. Alert enrichment adds context including user role and privilege level, resource sensitivity classification, recent authentication history, and correlation with known threat intelligence. Alert routing directs notifications to appropriate security personnel based on severity, with high-priority alerts triggering automated response actions such as requiring MFA re-verification, blocking the session, or locking the account pending investigation."
+  core_concepts:
+    - key: "Alert Severity Classification"
+      value: "Tiered alert priority based on geographic risk level, user privilege, and resource sensitivity to ensure appropriate response"
+    - key: "Automated Response Actions"
+      value: "Pre-configured actions triggered by high-severity geolocation alerts including session blocking, MFA enforcement, and account lockout"
+    - key: "Alert Enrichment"
+      value: "Addition of contextual data to geolocation alerts including user role, authentication history, and threat intelligence correlation"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOM-001"
+    description: "Geolocation alerts are triggered by geographic anomaly detection results"
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOSCO-001"
+    description: "Alert severity is determined by the geolocation anomaly score"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Identity Protection Alerts - https://learn.microsoft.com/en-us/entra/identity-protection/"
+    - "Splunk - Geolocation-Based Alert Rules - https://docs.splunk.com/Documentation/ES"
+    - "NIST SP 800-61 - Computer Security Incident Handling Guide"
+  search_keywords:
+    - "geolocation alerts"
+    - "geographic access alerting"
+    - "location-based security alerts"
+    - "impossible travel alert"
+    - "GeoIP alerting"
+    - "country block alert"
+    - "access location notification"
+    - "geographic incident alert"
+  embedding_text: "Geolocation Alerts generates security notifications when authentication events match geographic risk criteria or anomaly thresholds. Alerts trigger for blocked country access, anonymous proxy usage, impossible travel scenarios, first-time geographic regions, and threat actor infrastructure IPs. Severity classification considers geographic risk level, user privilege, and resource sensitivity. High-priority alerts trigger automated responses including MFA re-verification, session blocking, and account lockout. Alert enrichment adds user role, authentication history, and threat intelligence correlation. This pattern enables rapid incident response to account compromise while supporting regulatory compliance for geographic access restrictions."

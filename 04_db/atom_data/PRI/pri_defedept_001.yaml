@@ -1,0 +1,106 @@
+# GR Atom: Defensive Depth
+# Schema: atom_schema.yaml v5.1
+# Status: enriched (AI enrichment complete)
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-DEFEDEPT-001"
+  name: "Defensive Depth"
+  normalized_name: "defensive_depth"
+  aliases:
+    - "Defense in Depth"
+    - "DiD"
+    - "Layered Defense"
+    - "Layered Security"
+    - "Multi-Layer Defense"
+    - "Echeloned Defense"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 4
+  atom_tags:
+    - ZTNA
+    - FIREWALL
+    - EDR
+    - SIEM
+    - ENCRYPT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Defense in Depth is a cybersecurity strategy that employs multiple layers of security controls distributed across an organization's technology stack, so that if one defensive layer is compromised, additional layers continue to provide protection. Originating from military doctrine and formalized in information security by the NSA and NIST, this principle mandates that no single security mechanism is relied upon exclusively. Instead, overlapping controls at the physical, network, host, application, and data layers create a cumulative defensive posture that increases the cost and complexity of successful attacks."
+  why: "Adversaries continuously develop techniques to bypass individual security controls. A single-layer defense model creates a single point of failure where one successful exploit grants unrestricted access. Defense in depth mitigates this by ensuring that an attacker must defeat multiple independent controls to reach critical assets. This approach increases attacker dwell time, improves detection opportunities at each layer, limits blast radius when breaches occur, and provides redundancy that maintains security even when individual components fail or are misconfigured."
+  how: "Implementation involves deploying complementary security controls at each architectural layer: (1) Physical layer — access badges, surveillance, environmental controls; (2) Perimeter layer — firewalls, DMZ architecture, IDS/IPS, DDoS mitigation; (3) Network layer — segmentation, VLANs, microsegmentation, network monitoring; (4) Host layer — endpoint detection and response, host-based firewalls, OS hardening, patch management; (5) Application layer — WAF, input validation, secure coding, runtime protection; (6) Data layer — encryption at rest and in transit, DLP, access controls, backup and recovery; (7) Human layer — security awareness training, phishing simulations, incident response procedures. Each layer operates independently while centralized SIEM and monitoring systems correlate events across all layers for unified threat detection."
+  core_concepts:
+    - key: "Layered Controls"
+      value: "Deploying security mechanisms at multiple architectural tiers (physical, network, host, application, data) so that each layer provides independent protection and no single control failure exposes the entire system."
+    - key: "Redundancy and Overlap"
+      value: "Ensuring that critical security functions are covered by more than one control type, so compensating controls activate when primary defenses are bypassed or degraded."
+    - key: "Diversity of Mechanisms"
+      value: "Using different vendors, technologies, and control types at each layer to prevent a single vulnerability or exploit technique from defeating all defenses simultaneously."
+    - key: "Blast Radius Containment"
+      value: "Segmenting systems and networks so that a breach in one zone cannot propagate laterally to compromise adjacent zones, limiting the scope and impact of any single intrusion."
+    - key: "Detection at Every Layer"
+      value: "Embedding monitoring and alerting capabilities at each defensive tier to maximize the probability of detecting malicious activity regardless of the attack vector or entry point."
+    - key: "Attacker Cost Amplification"
+      value: "Increasing the time, skill, and resources required for an adversary to progress through multiple security layers, making attacks economically and operationally unattractive."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "DEF-NETWORK-FIREWALL-001"
+    description: "Defense in depth requires firewall controls at the perimeter and internal network boundaries to enforce traffic filtering between security zones."
+  - type: "requires"
+    target: "DEF-NETWORK-NETWSEGM-001"
+    description: "Network segmentation is a foundational requirement for defense in depth, creating isolated zones that contain lateral movement."
+  - type: "requires"
+    target: "DEF-ENDPOINT-EDR-001"
+    description: "Endpoint detection and response provides the host-layer defense component, detecting and responding to threats that bypass network controls."
+  - type: "requires"
+    target: "DEF-MONITOR-SIEM-001"
+    description: "SIEM provides cross-layer correlation and unified visibility, enabling defense in depth to function as a coordinated system rather than isolated controls."
+  - type: "requires"
+    target: "TECH-CRYPTO-ENCRYPTION-001"
+    description: "Encryption at rest and in transit provides the data-layer protection component, ensuring confidentiality even when other layers are compromised."
+  - type: "enables"
+    target: "PRI-ZEROTRUS-001"
+    description: "Defense in depth provides the layered control infrastructure upon which Zero Trust verification and microsegmentation policies are enforced."
+  - type: "is_a"
+    target: "PRI-SECUDESI-001"
+    description: "Defense in depth is a core implementation pattern of the Security by Design principle, embedding protective controls throughout the system architecture."
+  - type: "prevents"
+    target: "DEF-DECEPTION-HONEYPOT-001"
+    description: "Layered defenses work in conjunction with deception technologies like honeypots to slow, detect, and misdirect adversaries traversing multiple security layers."
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NSA — Defense in Depth: A Practical Strategy for Achieving Information Assurance in Today's Highly Networked Environments"
+    - "NIST SP 800-53 Rev. 5 — Security and Privacy Controls for Information Systems and Organizations (SC-7, SA-8)"
+    - "NIST SP 800-160 Vol. 2 Rev. 1 — Developing Cyber-Resilient Systems: A Systems Security Engineering Approach"
+    - "ISO/IEC 27001:2022 — Information Security Management Systems (Annex A, Control Domains)"
+    - "CISA — Defense in Depth Cybersecurity Strategy Guidance"
+  search_keywords:
+    - "defense in depth"
+    - "layered security"
+    - "layered defense"
+    - "multi-layer defense"
+    - "defense in depth strategy"
+    - "security layers"
+    - "network segmentation"
+    - "perimeter defense"
+    - "blast radius containment"
+    - "redundant controls"
+  embedding_text: "Defense in Depth, also known as Defensive Depth or Layered Security, is a foundational cybersecurity principle that mandates the deployment of multiple, independent security controls across every layer of an organization's technology infrastructure. Derived from military strategy and formalized by the NSA and NIST, this approach ensures that no single point of failure can compromise the entire system. Controls are distributed across physical, perimeter, network, host, application, and data layers, with each layer providing independent detection and prevention capabilities. Key mechanisms include firewalls and intrusion prevention at the perimeter, network segmentation and microsegmentation in the internal network, endpoint detection and response on hosts, web application firewalls and secure coding at the application tier, and encryption with data loss prevention at the data layer. SIEM platforms provide cross-layer event correlation for unified visibility. This strategy amplifies attacker cost by requiring adversaries to defeat multiple independent defenses, increases detection probability at each layer, and contains blast radius through zone isolation. Defense in depth is a prerequisite for implementing Zero Trust architecture and is a core expression of the Security by Design principle."

@@ -1,0 +1,121 @@
+# GR Atom: CVE-2019-3568
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20193568-001"
+  name: "CVE-2019-3568"
+  normalized_name: "cve_2019_3568"
+  aliases:
+    - "WhatsApp VoIP Buffer Overflow"
+    - "WhatsApp Pegasus Exploit"
+    - "NSO Group WhatsApp Zero-Day"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - MOBILE
+    - ANDROID
+    - IOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z4"]
+  target_components:
+    - "WhatsApp for Android before 2.19.134"
+    - "WhatsApp for iOS before 2.19.51"
+    - "WhatsApp Business"
+    - "WhatsApp VoIP SRTP stack"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-3568 is a stack-based buffer overflow vulnerability (CVSS 9.8) in WhatsApp's
+    VoIP calling implementation that allows remote code execution by sending specially crafted
+    SRTP (Secure Real-time Transport Protocol) packets during a voice call attempt. The
+    vulnerability requires no user interaction beyond the target having WhatsApp installed
+    -- the exploit triggers during the call setup before the call is even answered. Disclosed
+    in May 2019, it was exploited by NSO Group's Pegasus spyware to compromise smartphones
+    of journalists, activists, and political figures worldwide. WhatsApp released a patch
+    and later sued NSO Group for exploiting this vulnerability.
+  why: >-
+    CVE-2019-3568 is landmark because it demonstrated zero-click mobile exploitation at
+    scale through a messaging application used by over 1.5 billion people. The exploitation
+    by NSO Group for deploying Pegasus spyware on targets including journalists and human
+    rights activists became a major international controversy. The WhatsApp lawsuit against
+    NSO Group was a watershed moment for the commercial spyware industry. The vulnerability
+    highlighted that messaging applications are critical attack surfaces for mobile device
+    compromise.
+  how: >-
+    The exploit sends malformed SRTP packets to the target's WhatsApp client during a VoIP
+    call initiation. The buffer overflow in the SRTP stack occurs during packet processing
+    before the call is connected or even displayed to the user, making it a zero-click exploit.
+    The overflow allows the attacker to overwrite stack memory and redirect execution to
+    shellcode that downloads and installs the Pegasus spyware implant. The attack only
+    requires knowing the target's phone number. Missed call logs were sometimes deleted to
+    eliminate evidence of the exploit attempt.
+  core_concepts:
+    - key: "Zero-Click Mobile Exploitation"
+      value: "Remote code execution through VoIP call setup requiring no user interaction beyond having WhatsApp installed"
+    - key: "Pegasus Spyware Deployment"
+      value: "Exploited by NSO Group to deploy Pegasus surveillance implant on targets worldwide via WhatsApp calls"
+    - key: "SRTP Buffer Overflow"
+      value: "Stack overflow in SRTP packet processing during VoIP call initiation enables remote code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2019-3568 is a stack buffer overflow memory corruption in WhatsApp VoIP stack"
+  - type: "enables"
+    target: "VUL-MEMORY-STAGEFRIGH-001"
+    description: "Both are mobile media processing buffer overflow vulnerabilities enabling remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "WhatsApp Security Advisory CVE-2019-3568"
+    - "Citizen Lab - NSO Group Pegasus WhatsApp Exploitation"
+    - "NVD Entry CVE-2019-3568 - CVSS 9.8"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "WhatsApp Inc. v. NSO Group - U.S. District Court Filing"
+  search_keywords:
+    - "CVE-2019-3568"
+    - "WhatsApp"
+    - "Pegasus"
+    - "NSO Group"
+    - "zero-click"
+    - "VoIP exploit"
+    - "SRTP buffer overflow"
+    - "mobile spyware"
+    - "WhatsApp zero-day"
+  embedding_text: >-
+    CVE-2019-3568 is a stack-based buffer overflow in WhatsApp's VoIP SRTP stack with
+    CVSS 9.8 enabling zero-click remote code execution on mobile devices. Exploited by
+    NSO Group to deploy Pegasus spyware on journalists, activists, and political figures
+    worldwide, the vulnerability triggers during VoIP call setup before the call is answered,
+    requiring no user interaction. Malformed SRTP packets overflow the stack buffer during
+    processing, enabling shellcode execution to install surveillance implants. Disclosed in
+    May 2019 and affecting over 1.5 billion WhatsApp users, it led to a landmark lawsuit
+    by WhatsApp against NSO Group for commercial spyware exploitation.

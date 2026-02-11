@@ -1,0 +1,113 @@
+# GR Atom: CVE-2019-18935
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE201918935-001"
+  name: "CVE-2019-18935"
+  normalized_name: "cve_2019_18935"
+  aliases:
+    - "Telerik UI for ASP.NET AJAX Deserialization"
+    - "Telerik RadAsyncUploadHandler RCE"
+    - "Progress Telerik UI Insecure Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Telerik UI for ASP.NET AJAX"
+    - "RadAsyncUploadHandler"
+    - ".NET Web Applications using Telerik"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-18935 is a critical insecure deserialization vulnerability in Progress Telerik UI for
+    ASP.NET AJAX that allows unauthenticated remote code execution. The vulnerability exists in
+    the RadAsyncUploadHandler which uses insecure .NET deserialization to process upload requests.
+    When combined with knowledge of encryption keys (obtainable via CVE-2017-9248), an attacker
+    can execute arbitrary code on the server. CVSS score is 9.8. Added to CISA's Known Exploited
+    Vulnerabilities catalog due to active exploitation.
+  why: >-
+    Telerik UI is one of the most popular commercial UI component libraries for ASP.NET, used in
+    thousands of enterprise web applications including government systems. This vulnerability was
+    actively exploited by multiple threat actors including APT groups targeting US government
+    agencies. CISA issued emergency directives requiring federal agencies to patch, demonstrating
+    the severity of the real-world impact.
+  how: >-
+    The attacker first obtains the Telerik encryption keys, either through CVE-2017-9248 (key
+    disclosure) or by exploiting default/hardcoded keys. Using these keys, the attacker crafts a
+    serialized .NET object that exploits insecure deserialization in RadAsyncUploadHandler. The
+    crafted payload is sent as an encrypted upload request to the Telerik handler endpoint. During
+    processing, the server deserializes the malicious object, triggering execution of arbitrary
+    .NET code or operating system commands.
+  core_concepts:
+    - name: ".NET Deserialization Exploitation"
+      value: "Insecure deserialization of .NET objects in the RadAsyncUploadHandler enables arbitrary code execution"
+    - name: "Encryption Key Dependency"
+      value: "Exploitation requires knowledge of Telerik encryption keys, obtainable through CVE-2017-9248 or default configurations"
+    - name: "APT Exploitation Vector"
+      value: "Actively exploited by APT groups targeting government and enterprise systems running Telerik UI components"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Telerik deserialization RCE is an instance of insecure deserialization in .NET web components"
+  - type: "requires"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Full exploitation requires encryption key disclosure, typically via CVE-2017-9248"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2019-18935"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "CISA Alert AA23-074A - Telerik Exploitation"
+  search_keywords:
+    - "CVE-2019-18935"
+    - "Telerik deserialization"
+    - "RadAsyncUploadHandler"
+    - "Telerik UI RCE"
+    - "ASP.NET deserialization vulnerability"
+    - "Progress Telerik exploit"
+    - ".NET insecure deserialization"
+    - "Telerik AJAX vulnerability"
+  embedding_text: >-
+    CVE-2019-18935 is a critical insecure deserialization vulnerability in Progress Telerik UI
+    for ASP.NET AJAX that allows unauthenticated remote code execution through the
+    RadAsyncUploadHandler component. The vulnerability exploits insecure .NET deserialization
+    processing upload requests. Combined with encryption key knowledge from CVE-2017-9248 or
+    default keys, attackers craft malicious serialized payloads that execute arbitrary code when
+    deserialized. CVSS score is 9.8. The vulnerability was actively exploited by APT groups
+    targeting US government agencies, prompting CISA emergency directives. Telerik UI is one of
+    the most popular ASP.NET component libraries, making this vulnerability extremely widespread
+    in enterprise and government web applications. Mitigation requires upgrading Telerik UI,
+    rotating encryption keys, and implementing web application firewall rules. The vulnerability
+    is listed in CISA's Known Exploited Vulnerabilities catalog.

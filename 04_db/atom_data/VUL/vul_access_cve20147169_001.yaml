@@ -1,0 +1,132 @@
+# GR Atom: CVE-2014-7169
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20147169-001"
+  name: "CVE-2014-7169"
+  normalized_name: "cve_2014_7169"
+  aliases:
+    - "Shellshock Sequel"
+    - "Bash Bug Follow-up"
+    - "Aftershock"
+    - "Incomplete Shellshock Fix"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - INJ
+    - LINUX
+    - OS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "GNU Bash shell"
+    - "CGI web applications"
+    - "Apache mod_cgi"
+    - "OpenSSH ForceCommand"
+    - "DHCP clients"
+    - "Linux/Unix systems"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-7169 is a critical command injection vulnerability in GNU Bash through version
+    4.3, disclosed in September 2014 as a bypass of the incomplete fix for CVE-2014-6271
+    (the original Shellshock vulnerability). While the original Shellshock patch prevented
+    function definition injection via environment variables, CVE-2014-7169 demonstrated that
+    Bash still allowed arbitrary code execution through a related but distinct parsing flaw.
+    The vulnerability allows remote attackers to execute arbitrary commands via crafted
+    environment variables, particularly through vectors involving the ForceCommand feature
+    in OpenSSH, the mod_cgi and mod_cgid modules in Apache, DHCP clients, and other
+    situations where Bash is invoked with attacker-controlled environment variables.
+    CVSS score of 10.0.
+  why: >-
+    CVE-2014-7169 extended the Shellshock crisis by demonstrating that the initial patch was
+    incomplete, leaving millions of systems still vulnerable even after applying the first fix.
+    Bash is the default shell on most Linux distributions and macOS, and is invoked by
+    countless system processes. The vulnerability was actively exploited within hours of
+    disclosure for scanning, botnet recruitment, DDoS attacks, and data theft. Web servers
+    running CGI scripts were the primary attack vector, but DHCP clients, SSH, and mail
+    servers were also vulnerable.
+  how: >-
+    The vulnerability exploits Bash's handling of environment variables containing function
+    definitions. While the CVE-2014-6271 patch blocked the original injection method using
+    trailing commands after function definitions, CVE-2014-7169 found that Bash still parsed
+    certain crafted strings improperly. An attacker sends specially crafted HTTP headers
+    (such as User-Agent, Referer, or Cookie) to a CGI-enabled web server. Apache passes
+    these as environment variables to Bash when executing CGI scripts. The malformed
+    environment variable exploits the remaining parsing flaw to execute arbitrary commands
+    with the privileges of the web server process. Mitigation required applying updated
+    Bash patches that addressed multiple related parsing issues including CVE-2014-7186
+    and CVE-2014-7187.
+  core_concepts:
+    - key: "Incomplete Patch Bypass"
+      value: "CVE-2014-7169 bypassed the initial Shellshock fix by exploiting a related but distinct Bash environment variable parsing flaw"
+    - key: "Environment Variable Injection"
+      value: "Bash processes attacker-controlled environment variables passed through web servers, SSH, and DHCP enabling remote command execution"
+    - key: "Ubiquitous Attack Surface"
+      value: "Bash is the default shell on most Linux and macOS systems, making virtually any network service that invokes Bash a potential attack vector"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2014-7169 enables unauthorized command execution through environment variable injection bypassing access controls"
+  - type: "refines"
+    target: "VUL-ACCESS-CVE20166662-001"
+    description: "Both are critical Linux/Unix server vulnerabilities that enable remote code execution through common service interfaces"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.004"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+  cve_id: "CVE-2014-7169"
+  cvss_score: 10.0
+  affected_product: "GNU Bash through 4.3"
+  disclosure_year: 2014
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD CVE-2014-7169"
+    - "US-CERT Alert TA14-268A - GNU Bash Shellshock"
+    - "MITRE ATT&CK T1059.004 - Command and Scripting Interpreter: Unix Shell"
+    - "NIST NVD CVE-2014-7169 CVSS 10.0"
+  search_keywords:
+    - "CVE-2014-7169"
+    - "Shellshock"
+    - "Bash bug"
+    - "Aftershock"
+    - "Bash environment variable"
+    - "CGI command injection"
+    - "GNU Bash vulnerability"
+    - "Shellshock bypass"
+  embedding_text: >-
+    CVE-2014-7169 is a critical Bash command injection vulnerability (CVSS 10.0) that bypassed
+    the incomplete fix for the original Shellshock (CVE-2014-6271). Allows remote code execution
+    through crafted environment variables in GNU Bash through version 4.3. Attack vectors
+    include CGI web applications via HTTP headers, OpenSSH ForceCommand, DHCP clients, and
+    any process invoking Bash with attacker-controlled environment variables. Extended the
+    Shellshock crisis by proving the initial patch was incomplete, leaving millions of Linux
+    and macOS systems vulnerable. Actively exploited for scanning, botnet recruitment, and
+    data theft. Required updated patches addressing multiple related parsing flaws.

@@ -1,0 +1,78 @@
+# GR Atom: Carbon Black Inc
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CARBLAINC-001"
+  name: "Carbon Black Inc"
+  normalized_name: "carbon_black_inc"
+  aliases:
+    - "Carbon Black"
+    - "VMware Carbon Black"
+    - "Broadcom Carbon Black"
+    - "Cb Response"
+    - "Cb Defense"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - MONITOR
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Carbon Black is a cybersecurity company that pioneered endpoint detection and response (EDR) technology, originally founded in 2002 as Bit9. Acquired by VMware in 2019 and subsequently part of Broadcom, Carbon Black provides cloud-native endpoint protection, workload security, and threat hunting capabilities. The Carbon Black Cloud platform delivers next-generation antivirus, EDR, managed detection, and vulnerability management through a single lightweight agent and cloud-based console."
+  why: "Carbon Black is historically significant as one of the companies that defined the EDR category, shifting the endpoint security paradigm from prevention-only to detection and response. Their approach of continuously recording endpoint activity for retrospective threat hunting and forensic analysis fundamentally changed how organizations detect and investigate advanced threats. The technology continues as a core component of VMware/Broadcom's security portfolio."
+  how: "Carbon Black operates through its cloud platform using a lightweight sensor agent that continuously records endpoint activity including process executions, file modifications, registry changes, and network connections. This telemetry enables real-time threat detection through behavioral analysis, retrospective threat hunting across historical data, and automated response actions. The platform integrates with SIEM, SOAR, and vulnerability management tools."
+  core_concepts:
+    - key: "Endpoint Detection & Response"
+      value: "Pioneering EDR technology that continuously records endpoint activity for real-time detection and retrospective threat hunting"
+    - key: "Continuous Recording"
+      value: "Comprehensive endpoint telemetry capturing process, file, registry, and network activity for forensic analysis"
+    - key: "Cloud-Native Platform"
+      value: "Carbon Black Cloud delivering NGAV, EDR, managed detection, and vulnerability management through a single agent"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-EDR-PLATFORM-001"
+    description: "Produces pioneering EDR technology for endpoint detection, response, and threat hunting"
+  - type: part_of
+    target: "ACTOR-VENDOR-BROADCOM-001"
+    description: "Acquired by VMware in 2019, subsequently part of Broadcom's security portfolio"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.carbonblack.com"
+    - "https://www.vmware.com/products/carbon-black"
+  search_keywords:
+    - "carbon black"
+    - "vmware carbon black"
+    - "carbon black edr"
+    - "endpoint detection response"
+    - "cb response"
+    - "cb defense"
+    - "carbon black cloud"
+    - "threat hunting"
+    - "broadcom carbon black"
+  embedding_text: "Carbon Black is a cybersecurity company that pioneered endpoint detection and response (EDR) technology, originally founded in 2002 as Bit9. Acquired by VMware in 2019 and subsequently part of Broadcom, Carbon Black provides cloud-native endpoint protection, workload security, and threat hunting capabilities through its Carbon Black Cloud platform. The company defined the EDR category by shifting endpoint security from prevention-only to continuous detection and response, using a lightweight sensor agent that records all endpoint activity including process executions, file modifications, registry changes, and network connections. This continuous recording enables real-time behavioral threat detection, retrospective threat hunting across historical data, and automated response actions. Carbon Black's approach fundamentally changed how organizations detect and investigate advanced threats, and the technology continues as a core component of the VMware/Broadcom enterprise security portfolio."

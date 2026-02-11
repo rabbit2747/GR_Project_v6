@@ -1,0 +1,130 @@
+# GR Atom: AppleTalk
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-APPLETALK-001"
+  name: "AppleTalk"
+  normalized_name: "appletalk"
+  aliases:
+    - "AppleTalk Protocol Suite"
+    - "LocalTalk"
+    - "EtherTalk"
+    - "TokenTalk"
+    - "AppleTalk DDP"
+    - "AARP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - ICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AppleTalk is a legacy proprietary networking protocol suite developed by Apple Computer in
+    1985 for Macintosh computers, encompassing protocols across all OSI layers. The suite includes
+    DDP (Datagram Delivery Protocol) for network layer routing, AARP (AppleTalk Address Resolution
+    Protocol) for address mapping, NBP (Name Binding Protocol) for name resolution, ATP (AppleTalk
+    Transaction Protocol) for reliable delivery, and AFP (Apple Filing Protocol) for file sharing.
+    AppleTalk was deprecated by Apple in favor of TCP/IP beginning with Mac OS X in 2001, and
+    support was fully removed in OS X 10.6 Snow Leopard (2009). Despite deprecation, AppleTalk
+    remains present in legacy environments, particularly older industrial and educational networks.
+  why: >-
+    AppleTalk is security-relevant as a legacy protocol that persists in environments where it
+    was never properly decommissioned, creating hidden attack surfaces. AppleTalk's zero-
+    configuration design, while innovative for its era, means it broadcasts network topology,
+    service availability, and device information to all hosts on the segment without any
+    authentication. Remaining AppleTalk-enabled devices on modern networks represent unmonitored
+    communication paths that bypass IP-based security controls including firewalls, IDS/IPS, and
+    SIEM systems. AppleTalk traffic may traverse network segments where only IP traffic is
+    monitored, providing a covert channel. In legacy industrial environments, AppleTalk-connected
+    systems may control or interface with operational technology that has never been updated,
+    presenting a bridging risk between legacy and modern network segments.
+  how: >-
+    AppleTalk operates through automatic configuration: (1) AARP dynamically assigns node
+    addresses from the 1-253 range on the local network, using a probe mechanism similar to ARP
+    to avoid conflicts; (2) DDP provides connectionless datagram delivery between AppleTalk
+    sockets using network numbers and node IDs; (3) NBP enables devices to register human-readable
+    names and discover services without a central directory; (4) ZIP (Zone Information Protocol)
+    organizes the network into named zones for service browsing; (5) AFP provides file sharing
+    over AppleTalk or TCP/IP transport. Security mitigation for legacy AppleTalk requires:
+    identifying all AppleTalk-enabled devices through protocol-aware network scanning, disabling
+    AppleTalk on all devices that support TCP/IP alternatives, implementing VLAN isolation for
+    devices that cannot be migrated, monitoring for AppleTalk traffic as an indicator of
+    unmanaged legacy devices, and planning systematic migration to modern IP-based protocols
+    with appropriate security controls.
+  core_concepts:
+    - key: "Zero-Configuration Legacy Risk"
+      value: >-
+        AppleTalk's automatic address assignment and service advertisement operates without
+        authentication or authorization, broadcasting device presence and capabilities to all
+        hosts on the network segment, creating reconnaissance opportunities and unmonitored
+        communication paths.
+    - key: "Protocol Suite Bypass"
+      value: >-
+        AppleTalk traffic operates outside the IP protocol stack and may traverse networks
+        undetected by IP-based security controls including firewalls, intrusion detection
+        systems, and network monitoring tools that only inspect IP traffic.
+    - key: "Legacy Decommissioning"
+      value: >-
+        The process of identifying, isolating, and migrating systems still running AppleTalk
+        to modern IP-based alternatives, a common challenge in environments with decades-old
+        infrastructure that was never systematically upgraded.
+    - key: "AFP (Apple Filing Protocol)"
+      value: >-
+        The file sharing protocol in the AppleTalk suite that can operate over both AppleTalk
+        DDP and TCP/IP. AFP over TCP (port 548) remains relevant as it was used until replaced
+        by SMB in OS X 10.9 Mavericks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "AppleTalk is a legacy protocol within the industrial and legacy protocol family requiring decommissioning consideration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Apple Computer (1985). Inside AppleTalk, Second Edition. Addison-Wesley."
+    - "Sidhu, G., Andrews, R., & Oppenheimer, A. (1990). Inside AppleTalk, Second Edition. Addison-Wesley."
+    - "Apple Developer Documentation - AppleTalk Protocol Architecture."
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+  search_keywords:
+    - "AppleTalk"
+    - "AppleTalk protocol"
+    - "legacy network protocol"
+    - "DDP"
+    - "AFP"
+    - "AppleTalk security"
+    - "LocalTalk"
+    - "EtherTalk"
+    - "legacy protocol decommissioning"
+    - "Apple networking"
+    - "zero-configuration legacy"
+  embedding_text: >-
+    AppleTalk is a legacy proprietary protocol suite developed by Apple in 1985 for Macintosh
+    networking, deprecated in favor of TCP/IP from Mac OS X (2001) and fully removed in 2009.
+    The suite includes DDP for routing, AARP for address resolution, NBP for name binding, and
+    AFP for file sharing. AppleTalk persists in legacy environments where it was never properly
+    decommissioned, creating hidden attack surfaces through zero-configuration service broadcasting
+    without authentication. AppleTalk traffic bypasses IP-based security controls including
+    firewalls and IDS/IPS, providing unmonitored communication paths. Security mitigation requires
+    identifying AppleTalk-enabled devices, disabling the protocol where possible, VLAN isolation
+    for unmigrated devices, and monitoring for AppleTalk traffic as an indicator of unmanaged
+    legacy infrastructure.

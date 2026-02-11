@@ -1,0 +1,125 @@
+# GR Atom: NIST SP 800-207
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISTSP800207-001"
+  name: "NIST SP 800-207"
+  normalized_name: "nist_sp_800_207"
+  aliases:
+    - "SP 800-207"
+    - "Zero Trust Architecture"
+    - "NIST Zero Trust"
+    - "ZTA"
+    - "NIST 800-207"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NIST SP 800-207 (Zero Trust Architecture) published in August 2020 defines zero trust as
+    an evolving set of cybersecurity paradigms that move defenses from static, network-based
+    perimeters to a focus on users, assets, and resources. The publication provides an abstract
+    definition of zero trust architecture (ZTA), deployment models, and use cases for
+    implementing zero trust principles in enterprise environments. It defines the logical
+    components including Policy Engine, Policy Administrator, and Policy Enforcement Point
+    that form the core ZTA architecture. Executive Order 14028 mandated that federal agencies
+    implement zero trust architecture as defined in this publication.
+  why: >-
+    Traditional perimeter-based network security assumes that internal network traffic is
+    trustworthy, an assumption invalidated by modern threats, cloud adoption, remote workforces,
+    and the dissolution of network boundaries. SP 800-207 addresses this by defining a security
+    model that eliminates implicit trust, requiring verification for every access request
+    regardless of source network location. The publication provides the authoritative reference
+    architecture that federal agencies and private organizations use to plan and implement
+    zero trust transformations.
+  how: >-
+    SP 800-207 defines ZTA through logical components: (1) Policy Engine (PE) - the brain
+    that grants, denies, or revokes access based on enterprise policy and input from external
+    sources; (2) Policy Administrator (PA) - establishes and shuts down communication paths
+    based on PE decisions; (3) Policy Enforcement Point (PEP) - enables, monitors, and terminates
+    connections between subjects and enterprise resources. The publication describes three
+    deployment approaches: enhanced identity governance, micro-segmentation, and software-defined
+    perimeters. Implementation requires continuous diagnostics and mitigation, identity
+    governance, network segmentation, threat intelligence feeds, and security analytics for
+    real-time policy decisions.
+  core_concepts:
+    - key: "Zero Trust Tenets"
+      value: >-
+        Core principles including all data sources and computing services are resources,
+        all communication is secured regardless of network location, access is granted on
+        a per-session basis, access is determined by dynamic policy, and the enterprise
+        monitors all assets.
+    - key: "Policy Decision and Enforcement Architecture"
+      value: >-
+        The PE/PA/PEP architecture where the Policy Engine makes access decisions, the
+        Policy Administrator manages communication paths, and the Policy Enforcement Point
+        enforces decisions at the access boundary.
+    - key: "Deployment Models"
+      value: >-
+        Three approaches for implementing ZTA: enhanced identity governance using identity
+        as the primary security boundary, micro-segmentation placing resources on individual
+        network segments, and software-defined perimeters using overlay networks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "SP 800-207 is a NIST Special Publication providing the authoritative zero trust architecture definition"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "ZTA implementation requires SP 800-53 security controls for identity management, access control, and network security"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "SP 800-207 zero trust architecture implements CSF Protect and Detect functions through continuous verification"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-207 - Zero Trust Architecture (August 2020). https://csrc.nist.gov/publications/detail/sp/800-207/final"
+    - "NIST SP 800-207. https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-207.pdf"
+    - "Executive Order 14028 - Improving the Nation's Cybersecurity (May 2021). https://www.whitehouse.gov/briefing-room/presidential-actions/2021/05/12/executive-order-on-improving-the-nations-cybersecurity/"
+  search_keywords:
+    - "NIST SP 800-207"
+    - "zero trust architecture"
+    - "ZTA"
+    - "NIST zero trust"
+    - "policy engine"
+    - "policy enforcement point"
+    - "never trust always verify"
+    - "microsegmentation"
+    - "software-defined perimeter"
+    - "EO 14028 zero trust"
+  embedding_text: >-
+    NIST SP 800-207 Zero Trust Architecture published in August 2020 defines zero trust as
+    cybersecurity paradigms moving defenses from static network perimeters to focus on users,
+    assets, and resources. The publication defines the logical components Policy Engine, Policy
+    Administrator, and Policy Enforcement Point forming core ZTA architecture. Three deployment
+    models are described: enhanced identity governance, micro-segmentation, and software-defined
+    perimeters. Executive Order 14028 mandated federal agencies implement ZTA as defined in
+    this publication. Zero trust tenets include treating all data sources as resources, securing
+    all communications regardless of network location, granting access per-session based on
+    dynamic policy, and continuously monitoring all assets. Implementation requires continuous
+    diagnostics, identity governance, network segmentation, threat intelligence feeds, and
+    security analytics for real-time policy decisions. SP 800-207 provides the authoritative
+    reference architecture for zero trust transformations addressing the obsolescence of
+    perimeter-based security assumptions.

@@ -1,0 +1,71 @@
+# GR Atom: CVE-1999-0449
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE19990449-001"
+  name: "CVE-1999-0449"
+  normalized_name: "cve_1999_0449"
+  aliases:
+    - "IIS Sample File Vulnerability"
+    - "Windows NT IIS Misconfiguration"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - INFO_LEAK
+    - WEB
+    - WINDOWS
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft IIS 4.0"
+    - "Windows NT 4.0"
+
+definition:
+  what: "CVE-1999-0449 is a configuration vulnerability in Microsoft Internet Information Server (IIS) 4.0 on Windows NT where the default installation includes sample files and administrative scripts that allow remote attackers to obtain sensitive system information or gain unauthorized access. The IISADMPWD virtual directory and sample .asp files expose password change functionality and system details to unauthenticated remote users."
+  why: "This vulnerability is historically significant as one of the earliest documented IIS configuration weaknesses, establishing the pattern of insecure defaults in web server installations that persists today. The presence of sample files and administrative scripts in production deployments became a foundational example in web application security training and directly influenced OWASP guidelines on security misconfiguration."
+  how: "The vulnerability exists because IIS 4.0 default installations include sample applications, documentation, and administrative virtual directories that are accessible without authentication. Attackers access URLs like /iisadmpwd/ to reach password change functionality, or sample .asp scripts that reveal server-side paths, configuration details, and version information. Exploitation requires no special tools beyond a web browser. Remediation involves removing sample files, unnecessary virtual directories, and applying the IIS Lockdown Tool."
+  core_concepts:
+    - key: "Insecure Defaults"
+      value: "Default IIS 4.0 installations included sample files and admin scripts accessible to remote users, establishing the security principle of removing unnecessary default content"
+    - key: "IISADMPWD Virtual Directory"
+      value: "Default IIS administrative virtual directory for password management that exposed password change functionality to unauthenticated users"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-1999-0449 is a configuration vulnerability caused by insecure default IIS installation settings"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Default sample files and scripts enable further exploitation of the vulnerable web application"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-1999-0449 - MITRE/NVD"
+    - "Microsoft Security Bulletin - IIS 4.0 Default Content"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-1999-0449"
+    - "IIS 4.0 sample files"
+    - "IIS default configuration"
+    - "IISADMPWD vulnerability"
+    - "Windows NT IIS"
+    - "IIS sample file exposure"
+    - "web server default content"
+  embedding_text: "CVE-1999-0449 is a configuration vulnerability in Microsoft IIS 4.0 on Windows NT where the default installation includes sample files and administrative scripts like the IISADMPWD virtual directory that allow remote attackers to obtain sensitive system information or gain unauthorized access. This is a historically significant vulnerability that established the pattern of insecure defaults in web server installations and influenced OWASP security misconfiguration guidelines. Exploitation requires only a web browser to access default sample URLs. Remediation involves removing sample files, unnecessary virtual directories, and applying IIS hardening tools. CVSS context is low severity by modern standards but was critical at time of discovery in 1999."

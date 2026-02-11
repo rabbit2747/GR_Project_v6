@@ -1,0 +1,97 @@
+# GR Atom: HTTP Patch
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPPATC-001"
+  name: "HTTP Patch"
+  normalized_name: "http_patch"
+  aliases:
+    - "HTTP PATCH Method"
+    - "PATCH Request"
+    - "Partial Update"
+    - "RFC 5789"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - API
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP PATCH is an HTTP request method defined in RFC 5789 for applying partial modifications
+    to a resource. Unlike PUT which replaces the entire resource, PATCH applies a set of changes
+    described in the request body using a patch document format such as JSON Patch (RFC 6902),
+    JSON Merge Patch (RFC 7386), or application-specific formats. PATCH is neither safe nor
+    idempotent by default, though specific patch formats may be idempotent. In RESTful API
+    design, PATCH is used for partial updates where only changed fields need to be transmitted.
+  why: >-
+    HTTP PATCH introduces security risks similar to PUT but with additional complexity from patch
+    document processing. Improper input validation of patch documents can lead to mass assignment
+    vulnerabilities where attackers modify fields not intended to be user-editable (e.g., role,
+    permissions, pricing). JSON Patch operations (add, remove, replace, move, copy, test) can
+    manipulate resource structure in unexpected ways. PATCH requests require the same
+    authentication and authorization controls as PUT and DELETE operations.
+  how: >-
+    HTTP PATCH operates by sending a request with the PATCH method, a Content-Type indicating
+    the patch format (application/json-patch+json for JSON Patch, application/merge-patch+json
+    for JSON Merge Patch), and a request body containing the changes. The server applies the
+    patch atomically — either all changes succeed or the resource remains unchanged. JSON Patch
+    uses an array of operation objects (op, path, value), while JSON Merge Patch uses a document
+    that is merged with the target. Successful responses return 200 with the updated resource
+    or 204 No Content.
+  core_concepts:
+    - key: "Partial Modification"
+      value: "PATCH modifies only specified fields of a resource, unlike PUT which replaces the entire resource, reducing bandwidth and conflict risk in concurrent updates."
+    - key: "JSON Patch (RFC 6902)"
+      value: "Patch document format defining operations (add, remove, replace, move, copy, test) applied sequentially to a JSON document at specified paths."
+    - key: "JSON Merge Patch (RFC 7386)"
+      value: "Simpler patch format where the request body is merged with the target resource — null values indicate field removal, present values indicate updates."
+    - key: "Mass Assignment"
+      value: "Vulnerability where PATCH requests modify fields not intended for user modification (e.g., admin flags, pricing), requiring server-side field whitelisting."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP PATCH is one of the standard HTTP methods for partial resource modification"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP PATCH is a sub-component of the HTTP protocol for partial update operations"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 5789 — PATCH Method for HTTP"
+    - "IETF RFC 6902 — JavaScript Object Notation (JSON) Patch"
+    - "IETF RFC 7386 — JSON Merge Patch"
+    - "OWASP — Mass Assignment Cheat Sheet"
+  search_keywords:
+    - "HTTP PATCH"
+    - "PATCH method"
+    - "partial update"
+    - "RFC 5789"
+    - "JSON Patch"
+    - "JSON Merge Patch"
+    - "REST partial update"
+    - "mass assignment"
+  embedding_text: >-
+    HTTP PATCH defined in RFC 5789 is an HTTP method for applying partial modifications to
+    resources using patch document formats like JSON Patch (RFC 6902) or JSON Merge Patch
+    (RFC 7386). Unlike PUT which replaces entire resources, PATCH transmits only changed fields.
+    PATCH is neither safe nor idempotent by default. Security risks include mass assignment
+    vulnerabilities where attackers modify unintended fields, improper patch document validation,
+    and complex operation sequences in JSON Patch exploiting unexpected resource states.
+    Implementation requires authentication, authorization, field whitelisting, and atomic
+    application of patch operations.

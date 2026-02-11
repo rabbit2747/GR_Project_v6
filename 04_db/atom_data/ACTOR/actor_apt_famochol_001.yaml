@@ -1,0 +1,101 @@
+# GR Atom: Famous Chollima
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-FAMOCHOL-001"
+  name: "Famous Chollima"
+  normalized_name: "famous_chollima"
+  aliases:
+    - "Lazarus Group"
+    - "HIDDEN COBRA"
+    - "Guardians of Peace"
+    - "APT-C-26"
+    - "Zinc"
+    - "Labyrinth Chollima"
+    - "Bureau 121"
+    - "Nickel Academy"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - IMPACT
+    - EXFIL
+    - C2
+    - SUPPLY_CHAIN
+    - WINDOWS
+    - LINUX
+    - MACOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Famous Chollima, most widely known as the Lazarus Group, is the umbrella designation for North Korean state-sponsored cyber operations attributed to the Reconnaissance General Bureau (RGB). Active since at least 2009, the Lazarus Group encompasses multiple subgroups including BlueNoroff (financial theft), Andariel (defense/industrial espionage), Diamond Sleet (supply chain), and others. The group is responsible for some of the most impactful cyber operations in history, including the Sony Pictures attack (2014), WannaCry ransomware (2017), the Bangladesh Bank heist (2016), and over three billion dollars in cryptocurrency theft."
+  why: "The Lazarus Group is arguably the most versatile and consequential state-sponsored threat actor, conducting operations spanning destructive attacks, financial theft, espionage, and ransomware. They serve as North Korea's primary tool for both revenue generation to fund weapons programs and strategic intelligence collection. The group's evolution from destructive attacks to sophisticated financial crime and supply chain compromise demonstrates exceptional adaptability and represents a sustained threat to global financial systems, technology companies, and government institutions."
+  how: "Lazarus Group employs an extensive array of techniques including spearphishing, supply chain compromise, social engineering, watering hole attacks, and zero-day exploitation. Their malware arsenal includes hundreds of custom tools spanning Windows, macOS, and Linux. Key toolkits include FALLCHILL, HOPLIGHT, BLINDINGCAN, and numerous cryptocurrency-specific stealers. Financial operations target SWIFT banking networks, cryptocurrency exchanges, DeFi protocols, and NFT platforms. Destructive operations use custom wipers and ransomware. The group maintains global operational infrastructure and has demonstrated the ability to conduct large-scale, coordinated campaigns across multiple targets simultaneously."
+  core_concepts:
+    - key: "Multi-Mission APT"
+      value: "Conducts destructive attacks, financial theft, espionage, and ransomware under a single organizational umbrella"
+    - key: "Cryptocurrency Revenue Generation"
+      value: "Stolen over three billion dollars in cryptocurrency to fund North Korean weapons programs"
+    - key: "Subgroup Architecture"
+      value: "Operates through specialized subgroups (BlueNoroff, Andariel, Diamond Sleet) for different mission areas"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses diverse initial access methods including spearphishing and supply chain compromise"
+  - type: is_a
+    target: "ACTOR-APT-FAMOCHOL-001"
+    description: "North Korean RGB-attributed umbrella APT group encompassing multiple subgroups"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Impact"
+      - "Exfiltration"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK - Lazarus Group Profile"
+    - "CISA - HIDDEN COBRA North Korean Cyber Threat"
+    - "FBI - North Korean Cryptocurrency Theft Advisories"
+    - "Mandiant - Lazarus Group Operations Overview"
+    - "CrowdStrike - Famous Chollima Activity Reports"
+  search_keywords:
+    - "famous chollima"
+    - "lazarus group"
+    - "hidden cobra"
+    - "north korean apt"
+    - "bureau 121"
+    - "sony pictures hack"
+    - "wannacry ransomware"
+    - "bangladesh bank heist"
+    - "dprk cyber"
+    - "rgb reconnaissance general bureau"
+    - "north korean cryptocurrency theft"
+    - "apt-c-26"
+  embedding_text: "Famous Chollima, most widely known as the Lazarus Group and HIDDEN COBRA, is the umbrella designation for North Korean state-sponsored cyber operations attributed to the Reconnaissance General Bureau. Active since at least 2009, the group encompasses multiple subgroups including BlueNoroff (financial theft), Andariel (defense espionage), and Diamond Sleet (supply chain attacks). Lazarus is responsible for the Sony Pictures attack (2014), WannaCry ransomware (2017), Bangladesh Bank heist (2016), and over three billion dollars in cryptocurrency theft. The group employs spearphishing, supply chain compromise, social engineering, and zero-day exploitation across Windows, macOS, and Linux. Their operations span destructive attacks, financial crime, espionage, and ransomware, making them arguably the most versatile state-sponsored threat actor globally, serving as North Korea's primary tool for regime revenue generation and strategic intelligence collection."

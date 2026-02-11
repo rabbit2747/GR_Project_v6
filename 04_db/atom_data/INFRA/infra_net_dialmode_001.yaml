@@ -1,0 +1,78 @@
+# GR Atom: Dialup Modem
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-DIALMODE-001"
+  name: "Dialup Modem"
+  normalized_name: "dialup_modem"
+  aliases:
+    - "Dial-Up Modem"
+    - "PSTN Modem"
+    - "Analog Modem"
+    - "V.90 Modem"
+    - "War Dialing Target"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - FIRMWARE
+    - RECON
+
+gr_coordinates:
+  layer: "L0"
+  zone: "Z0B"
+  function: "N4.1"
+
+definition:
+  what: "A dialup modem is a hardware device that modulates digital signals into analog signals for transmission over Public Switched Telephone Network (PSTN) lines and demodulates received analog signals back to digital data. Dialup modems operate at speeds up to 56 Kbps using V.90/V.92 standards and provide point-to-point connectivity between two endpoints over traditional telephone infrastructure. Despite being largely superseded by broadband technologies, dialup modems remain present in legacy industrial control systems, out-of-band management interfaces, point-of-sale terminals, fax gateways, and remote access servers, particularly in environments where broadband connectivity is unavailable or where PSTN connectivity serves as a backup communication channel."
+  why: "Dialup modems represent a significant security concern in modern networks because they provide network connectivity that often bypasses perimeter security controls such as firewalls and intrusion detection systems. War dialing, the practice of systematically calling telephone numbers to discover active modems, remains a relevant reconnaissance technique. Many legacy modems lack modern authentication mechanisms and encryption, making them attractive targets for unauthorized access. In industrial and critical infrastructure environments, dialup modems connected to SCADA systems and out-of-band management ports create hidden entry points that may go unmonitored."
+  how: "A dialup modem connects to a telephone line and establishes a circuit-switched connection by dialing the remote endpoint telephone number. The modems negotiate connection speed through a handshake protocol, establish synchronization, and begin data transmission using frequency modulation techniques. In server configurations, modems operate in auto-answer mode listening for incoming calls. Remote Access Service (RAS) or terminal server software manages authentication and session control. Data is transmitted as modulated analog signals over the PSTN and demodulated at the receiving end. Error correction protocols such as V.42 and data compression protocols such as V.42bis improve reliability and effective throughput."
+  core_concepts:
+    - key: "Modulation/Demodulation"
+      value: "The process of converting digital data to analog signals for PSTN transmission and back to digital at the receiving end using standardized signaling protocols"
+    - key: "War Dialing"
+      value: "A reconnaissance technique that systematically dials telephone number ranges to identify active modems, fax machines, and other telephony endpoints"
+    - key: "Out-of-Band Management"
+      value: "Use of dialup modems to provide backup remote management access to network equipment independent of the primary data network"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-NET-VPN-001"
+    description: "Dialup modems provide legacy remote access connectivity as an alternative to modern VPN solutions"
+  - type: enables
+    target: "INFRA-NET-RADIMODE-001"
+    description: "Dialup modem technology shares modulation principles with radio modems used for wireless point-to-point links"
+  - type: part_of
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Dialup modems can be components of router hosting configurations for legacy WAN connectivity"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1120"
+    tactic: ["Discovery", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "ITU-T V.90 - A digital modem and analogue modem pair for use on the PSTN"
+    - "NIST SP 800-53 Rev. 5 - AC-17 Remote Access"
+    - "SANS Institute - War Dialing and Modem Security - https://www.sans.org/white-papers/"
+  search_keywords:
+    - "dialup modem"
+    - "analog modem"
+    - "PSTN modem"
+    - "war dialing"
+    - "V.90 modem"
+    - "out-of-band management modem"
+    - "modem security"
+    - "legacy remote access"
+  embedding_text: "A dialup modem is a hardware device that converts digital signals to analog for transmission over PSTN telephone lines and demodulates analog signals back to digital data. Operating at speeds up to 56 Kbps using V.90/V.92 standards, dialup modems provide point-to-point connectivity over traditional telephone infrastructure. Though largely replaced by broadband, they persist in legacy industrial control systems, out-of-band management interfaces, POS terminals, and backup communication channels. Dialup modems are a significant security concern because they can bypass perimeter security controls and are discoverable through war dialing reconnaissance. Many lack modern authentication and encryption, creating hidden entry points in networks."

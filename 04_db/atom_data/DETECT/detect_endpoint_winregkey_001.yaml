@@ -1,0 +1,95 @@
+# GR Atom: Windows Registry Key Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WINREGKEY-001"
+  name: "Windows Registry Key Event"
+  normalized_name: "windows_registry_key_event"
+  aliases:
+    - "Registry Key Operation"
+    - "Registry Key Monitoring"
+    - "Registry Key Activity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern category encompassing all operations on Windows registry keys, including creation, deletion, renaming, export, import, restore, read, and security modification. Registry keys are the hierarchical container objects within the Windows registry that organize values and subkeys. This pattern captures key-level operations as distinct from value-level operations (which have their own detection pattern). Sources include Sysmon Event IDs 12 and 14 for key operations, Windows Security audit events for registry object access, and ETW providers for kernel-level registry key activity."
+  why: "Registry key operations are fundamental to understanding changes to the Windows system configuration. Key creation establishes new configuration containers, key deletion removes configurations, key renaming can obfuscate malicious entries, and key export/import operations can be used for credential theft or configuration replication. Monitoring key operations separately from value operations enables more precise detection rules and reduces false positive rates by focusing on the structural changes to the registry hierarchy."
+  how: "Detection aggregates registry key operations from Sysmon Event ID 12 (key create/delete) and Event ID 14 (key rename), Windows Security Events 4656/4663 for registry key access with configured SACLs, and the Microsoft-Windows-Kernel-Registry ETW provider. Events are filtered to key-level operations and enriched with process context, user context, and key path analysis. SIEM rules monitor key operations in security-critical hives and paths, applying different severity levels based on the operation type and key location."
+  core_concepts:
+    - key: "key_hierarchy"
+      value: "Registry keys form a tree structure where operations on parent keys can affect all child keys and their values"
+    - key: "key_vs_value_operations"
+      value: "Distinguishing between key-level operations affecting the registry structure and value-level operations affecting stored data"
+    - key: "critical_key_paths"
+      value: "Specific registry key paths that are high-value targets for adversary activity including persistence, configuration, and security"
+    - key: "key_permission_model"
+      value: "Registry keys have ACLs controlling access, and changes to key permissions can enable or prevent subsequent operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINDREGI-001"
+    description: "Registry key events are a category within the broader Windows registry event pattern"
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WIREKECR-001"
+    description: "Abstracts registry key creation events"
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WIREKEDE-001"
+    description: "Abstracts registry key deletion events"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+      - "persistence"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Registry Events (IDs 12, 14)"
+    - "Microsoft Documentation - Windows Registry"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Windows Registry Key Security and Access Rights"
+  search_keywords:
+    - "registry key event"
+    - "registry key operation"
+    - "registry key monitoring"
+    - "Sysmon Event ID 12"
+    - "Sysmon Event ID 14"
+    - "registry key access"
+    - "registry structure change"
+    - "registry key audit"
+    - "HKLM key operation"
+    - "registry key activity"
+  embedding_text: "Windows registry key event detection pattern is the parent category for all registry key operations including creation, deletion, renaming, export, import, restore, read, and security modification. Captures key-level operations distinct from value operations using Sysmon Event IDs 12 and 14, Windows Security audit events, and kernel-level ETW providers. Registry key operations reveal structural changes to the Windows configuration hierarchy including persistence establishment, security control modification, and configuration tampering. Maps to MITRE ATT&CK T1112. Monitoring focuses on critical key paths with process attribution and ACL-based auditing for precise detection with reduced false positives."

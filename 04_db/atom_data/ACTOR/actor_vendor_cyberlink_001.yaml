@@ -1,0 +1,67 @@
+# GR Atom: CyberLink
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CYBERLINK-001"
+  name: "CyberLink"
+  normalized_name: "cyberlink"
+  aliases:
+    - "CyberLink Corp."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - AI
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyberLink is a Taiwanese software company founded in 1996, primarily known for multimedia software products including PowerDirector (video editing), PowerDVD (media player), and FaceMe (AI facial recognition). While not a cybersecurity vendor, CyberLink is relevant to the security landscape because its software update mechanisms have been compromised in supply chain attacks, and its FaceMe facial recognition technology has security and privacy implications."
+  why: "CyberLink is significant in the cybersecurity context due to its involvement in supply chain compromise incidents where threat actors trojanized CyberLink software updates to distribute malware. The 2023 Diamond Sleet supply chain attack targeting CyberLink's update infrastructure highlighted the risk of compromising trusted software vendors. Additionally, their FaceMe AI facial recognition technology raises biometric security and privacy concerns."
+  how: "CyberLink distributes its software through traditional download and automatic update mechanisms. In supply chain attacks, threat actors compromised CyberLink's update infrastructure to insert malicious payloads into legitimately signed software updates, which were then distributed to end users through the trusted update channel. CyberLink's FaceMe technology uses deep learning for facial recognition across security, access control, and identity verification applications."
+  core_concepts:
+    - key: "Supply Chain Attack Target"
+      value: "CyberLink's software update infrastructure has been compromised to distribute malware through trusted update channels"
+    - key: "Software Update Compromise"
+      value: "Trojanized updates signed with legitimate CyberLink certificates distributed to end users"
+    - key: "AI Facial Recognition"
+      value: "FaceMe deep learning facial recognition technology with applications in security and access control"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SOLARWINDS-001"
+    description: "Fellow software vendor whose update infrastructure was targeted in supply chain compromise attacks"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for software vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cyberlink.com"
+    - "Microsoft Threat Intelligence - Diamond Sleet supply chain compromise"
+  search_keywords:
+    - "cyberlink"
+    - "cyberlink supply chain"
+    - "diamond sleet cyberlink"
+    - "powerdirector"
+    - "faceme facial recognition"
+    - "supply chain compromise"
+    - "trojanized software update"
+  embedding_text: "CyberLink is a Taiwanese software company founded in 1996, primarily known for multimedia software products including PowerDirector, PowerDVD, and FaceMe AI facial recognition. CyberLink is relevant to cybersecurity due to supply chain compromise incidents where threat actors trojanized CyberLink software updates to distribute malware. The 2023 Diamond Sleet supply chain attack targeting CyberLink's update infrastructure demonstrated the risk of compromising trusted software vendors, with malicious payloads inserted into legitimately signed software updates distributed through trusted channels. CyberLink's FaceMe technology uses deep learning for facial recognition across security, access control, and identity verification applications, raising biometric security and privacy considerations. The CyberLink case is an important example of software supply chain attack methodology targeting widely distributed consumer software."

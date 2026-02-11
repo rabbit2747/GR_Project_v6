@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Start Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBSTA-001"
+  name: "Scheduled Job Start Event"
+  normalized_name: "scheduled_job_start_event"
+  aliases:
+    - "Scheduled Task Execution Detection"
+    - "Task Trigger Event"
+    - "Scheduled Job Run Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - EXEC
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Start Event is an endpoint detection pattern that captures when a scheduled task begins execution, whether triggered by its configured schedule, manual invocation, system event, or on-demand execution. The event records the task name, the trigger that initiated execution, the process spawned by the task, the user context under which execution occurs, the command line and arguments, the working directory, and the execution start timestamp. On Windows this corresponds to Task Scheduler operational log Event ID 200 or 100, on Linux to cron daemon execution log entries and systemd timer activation, and on macOS to launchd service start events."
+  why: "Monitoring scheduled job execution is critical because the start event represents the moment when a potentially malicious scheduled task transitions from a dormant configuration to active code execution. While creation detection identifies when persistence is established, start event detection captures the actual execution of malicious payloads, command-and-control beacons, and data exfiltration scripts. Start events enable detection of tasks that were created before monitoring was deployed, tasks that were modified after creation to include malicious content, and tasks that execute legitimate programs with malicious arguments."
+  how: "Detection systems monitor scheduled job start events through Windows Task Scheduler operational log events, process creation events correlated with Task Scheduler parent processes (svchost.exe hosting Schedule service), Linux cron daemon log entries in /var/log/cron or journalctl, systemd timer activation notifications, and macOS launchd service start events in the Unified Log. Detection rules flag execution of tasks with suspicious command lines, tasks running in elevated user contexts that were created by lower-privileged accounts, tasks executing from temporary or uncommon directories, tasks that spawn child processes associated with attack tools, tasks executing shortly after creation suggesting testing or immediate-use persistence, and tasks running at unusual intervals inconsistent with legitimate administrative operations."
+  core_concepts:
+    - key: "Execution Moment Detection"
+      value: "Capturing the precise moment a scheduled task transitions from dormant to active execution, enabling real-time detection of malicious payload activation"
+    - key: "Process Lineage Analysis"
+      value: "Tracing the process tree from the scheduler service through the task execution to identify the full chain of processes spawned by scheduled job execution"
+    - key: "Execution Context Validation"
+      value: "Verifying that the user context, command line, working directory, and child processes of a scheduled task execution match expected behavior"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job start is a specific lifecycle event within the broader scheduled job event category"
+  - type: requires
+    target: "DETECT-ENDPOINT-SCHJOBCRE-001"
+    description: "Job start events correspond to tasks that were previously created through job creation events"
+  - type: effective_against
+    target: "ATK-EXEC-SCHEDTASK-001"
+    description: "Detects actual execution of adversary code through scheduled task mechanisms"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053.005"
+    tactic: ["Execution", "Persistence"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1053.005 - Scheduled Task/Job: Scheduled Task"
+    - "Microsoft - Task Scheduler Operational Log - https://learn.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page"
+    - "Linux man pages - cron(8), systemd.timer(5)"
+  search_keywords:
+    - "scheduled task execution"
+    - "scheduled job start"
+    - "task trigger event"
+    - "cron job execution"
+    - "task scheduler run"
+    - "scheduled task run detection"
+    - "job execution monitoring"
+    - "task start event"
+  embedding_text: "Scheduled Job Start Event detection captures when scheduled tasks begin execution, whether triggered by schedule, manual invocation, or system event. Monitored through Windows Task Scheduler operational log events, Linux cron daemon logs and systemd timer activations, and macOS launchd service start entries, this telemetry records task names, triggers, spawned processes, user contexts, and command lines. Detection flags suspicious command lines, elevated execution of tasks created by lower-privileged accounts, execution from temporary directories, attack tool child processes, and rapid creation-to-execution patterns, identifying active malicious payload execution through scheduled task mechanisms."

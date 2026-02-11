@@ -1,0 +1,71 @@
+# GR Atom: GCP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-GCP-001"
+  name: "GCP"
+  normalized_name: "gcp"
+  aliases: ["Google Cloud Platform", "Google Cloud", "GCloud"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [GCP, CLOUD, IAC]
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Google Cloud Platform (GCP) is Google's public cloud computing platform offering compute,
+    storage, networking, machine learning, and security services. GCP provides Compute Engine
+    (VMs), Google Kubernetes Engine (GKE), Cloud Run (serverless containers), Cloud Functions
+    (serverless), and a comprehensive suite of managed services. GCP infrastructure runs on
+    Google's global fiber network across multiple regions and availability zones.
+  why: >-
+    GCP is a major cloud provider targeted by attackers seeking to exploit misconfigured IAM
+    policies, exposed Cloud Storage buckets, overly permissive firewall rules, and service
+    account key leaks. GCP's metadata server is targeted via SSRF for credential theft.
+    Organization-level misconfigurations can expose entire enterprises. The shared responsibility
+    model means customers must secure their workloads, IAM, and data within GCP services.
+  how: >-
+    GCP resources are organized into projects within organizations, managed via IAM with
+    service accounts and Workload Identity Federation. Network security uses VPC networks,
+    firewall rules, and Cloud Armor WAF. Security Command Center provides threat detection
+    and vulnerability scanning. Cloud KMS manages encryption keys. Organization Policy Service
+    enforces compliance constraints. Access Transparency and Access Approval provide audit
+    controls for Google support access.
+  core_concepts:
+    - key: "Project-Based Resource Organization"
+      value: "Resources organized into projects within folders and organizations, with IAM policies inherited through the hierarchy"
+    - key: "Service Account Security"
+      value: "Service accounts with JSON key files are a primary credential theft target; Workload Identity Federation eliminates key management"
+    - key: "Security Command Center"
+      value: "Centralized security and risk management platform providing vulnerability scanning, threat detection, and compliance monitoring"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "GCP is a major cloud service provider"
+  - type: "enables"
+    target: "INFRA-COMPUTE-GKE-001"
+    description: "GCP provides the GKE managed Kubernetes service"
+  - type: "enables"
+    target: "INFRA-COMPUTE-CLOURUN-001"
+    description: "GCP provides the Cloud Run serverless container service"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Google Cloud Security Documentation", "CIS Google Cloud Platform Benchmark", "MITRE ATT&CK Cloud Matrix"]
+  search_keywords: ["GCP", "google cloud platform", "google cloud", "GCP security", "google cloud IAM", "GCP firewall", "security command center"]
+  embedding_text: >-
+    Google Cloud Platform (GCP) is a major public cloud provider offering compute, storage,
+    networking, and ML services. Resources are organized in projects within organizations
+    with hierarchical IAM policies. Security concerns include misconfigured IAM, exposed
+    Cloud Storage buckets, service account key leaks, and metadata server SSRF attacks.
+    Security Command Center provides centralized threat detection. Cloud KMS manages encryption.
+    VPC networks and Cloud Armor WAF protect network perimeter. Workload Identity Federation
+    eliminates service account key management risks.

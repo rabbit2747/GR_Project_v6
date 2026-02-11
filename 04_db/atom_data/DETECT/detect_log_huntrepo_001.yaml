@@ -1,0 +1,111 @@
+# GR Atom: Hunt Report
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-HUNTREPO-001"
+  name: "Hunt Report"
+  normalized_name: "hunt_report"
+  aliases:
+    - "Threat Hunt Report"
+    - "Hunt Finding Report"
+    - "Proactive Hunt Results"
+    - "Hunt Mission Report"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - THREAT_INTEL
+    - BLUE_TEAM
+    - MONITOR
+    - INCIDENT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    A Hunt Report is a structured document produced at the conclusion of a proactive threat
+    hunting mission that records the hypothesis, methodology, data sources queried, findings,
+    indicators of compromise (IOCs) discovered, and recommendations. Hunt reports serve as the
+    formal output of threat hunting activities where analysts proactively search through logs,
+    network traffic, endpoint telemetry, and other data sources for evidence of threats that
+    have evaded automated detection systems. The report typically includes the hunt hypothesis
+    (the specific threat behavior being investigated), the data sources and tools used, the
+    queries and analytics performed, any findings or anomalies discovered, newly identified IOCs
+    or TTPs, and recommendations for detection rule improvements, security control enhancements,
+    or incident response actions.
+  why: >-
+    Hunt reports are essential for converting proactive threat hunting activities into
+    actionable organizational intelligence. They document the evidence chain and methodology
+    for any findings that may lead to incident response, create a knowledge base of hunting
+    techniques and outcomes that improves future hunt efficiency, identify gaps in automated
+    detection that can be closed with new SIEM rules or signatures, and provide management
+    visibility into the organization's proactive security posture. Without formalized hunt
+    reports, the institutional knowledge gained from hunting activities is lost when analysts
+    leave, and recurring threats may be reinvestigated without building on prior work.
+  how: >-
+    Hunt report generation follows: (1) Hunt planning defines the hypothesis based on threat
+    intelligence, MITRE ATT&CK techniques, or anomaly indicators; (2) Analysts query log
+    sources including SIEM, EDR, network traffic analysis, and cloud audit logs using structured
+    queries and statistical analysis; (3) Findings are documented with evidence including log
+    excerpts, timeline reconstructions, and IOC details; (4) Results are classified as true
+    positive findings requiring incident response, detection gaps requiring new rules, or
+    negative results confirming hypothesis non-occurrence; (5) Recommendations are prioritized
+    for detection engineering, security control improvements, and incident response; (6) Reports
+    are stored in a hunt management platform or knowledge base for future reference and trend
+    analysis; (7) Metrics such as hunt-to-detection ratio and mean time to discovery are tracked.
+  core_concepts:
+    - key: "Hunt Hypothesis"
+      value: "A specific, testable statement about threat behavior being investigated, derived from threat intelligence, MITRE ATT&CK mapping, or anomaly indicators."
+    - key: "Detection Gap Analysis"
+      value: "The process of identifying what automated detection systems missed that the hunt discovered, leading to new SIEM rules, signatures, or detection logic."
+    - key: "Hunt-to-Detection Conversion"
+      value: "The workflow of converting successful hunt findings into automated detection rules, improving the organization's detection coverage over time."
+
+relations:
+  - type: "requires"
+    target: "DETECT-LOG-SIECORRUL-001"
+    description: "Hunt reports often recommend new SIEM correlation rules based on findings"
+  - type: "enables"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Hunt findings enable improved security event detection through new rules and IOCs"
+  - type: "applies_to"
+    target: "DETECT-LOG-SIGCORRUL-001"
+    description: "Hunt findings are frequently converted into Sigma rules for portable detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "SANS — Threat Hunting: A Practical Guide"
+    - "MITRE ATT&CK — Threat Hunting Methodology"
+    - "Sqrrl — A Framework for Cyber Threat Hunting"
+    - "NIST SP 800-61 — Computer Security Incident Handling Guide"
+  search_keywords:
+    - "hunt report"
+    - "threat hunting report"
+    - "hunt findings"
+    - "proactive threat hunting"
+    - "hunt hypothesis"
+    - "threat hunt results"
+    - "detection gap analysis"
+    - "hunt mission"
+    - "IOC discovery"
+    - "hunt methodology"
+  embedding_text: >-
+    Hunt Report is a structured document produced from proactive threat hunting missions that
+    records the hypothesis, methodology, data sources, findings, IOCs, and recommendations.
+    Hunt reports convert proactive hunting activities into actionable organizational intelligence
+    by documenting evidence chains, identifying detection gaps in automated systems, recommending
+    new SIEM rules and Sigma rules, and building institutional knowledge for future hunts.
+    Reports classify findings as true positives requiring incident response, detection gaps
+    needing new rules, or confirmed negative results. Metrics including hunt-to-detection ratio
+    and mean time to discovery track hunting program effectiveness.

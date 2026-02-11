@@ -1,0 +1,120 @@
+# GR Atom: CVE-2021-34527
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202134527-001"
+  name: "CVE-2021-34527"
+  normalized_name: "cve_2021_34527"
+  aliases:
+    - "PrintNightmare"
+    - "PrintNightmare RCE"
+    - "Windows Print Spooler Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - LATERAL
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Windows Print Spooler service (spoolsv.exe)"
+    - "All Windows versions"
+    - "Windows Server domain controllers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-34527, the PrintNightmare RCE variant, is a critical remote code execution
+    vulnerability (CVSS 8.8) in the Windows Print Spooler service that allows any
+    authenticated user to execute arbitrary code with SYSTEM privileges remotely. Assigned
+    separately from CVE-2021-1675 to specifically cover the remote code execution capability,
+    it was patched via emergency out-of-band update in July 2021. The vulnerability became
+    one of the most exploited flaws of 2021, adopted by ransomware operators, APT groups,
+    and penetration testers alike. Microsoft issued multiple patches and hardening guidance
+    as initial fixes were bypassed.
+  why: >-
+    PrintNightmare was one of the most impactful vulnerabilities of 2021 because it provided
+    authenticated remote code execution as SYSTEM on every Windows system running Print
+    Spooler, which is virtually all of them including domain controllers. Its adoption by
+    ransomware groups (Magniber, Vice Society, Conti) for lateral movement made it an
+    immediate enterprise security crisis. The complex patch history (multiple incomplete
+    fixes, bypasses, and hardening requirements) made remediation challenging for organizations.
+  how: >-
+    The exploit remotely calls the RpcAddPrinterDriverEx function, providing a UNC path to a
+    malicious DLL hosted on an attacker-controlled SMB share. The Print Spooler service on
+    the target loads and executes the DLL as SYSTEM. Any authenticated domain user can invoke
+    this function remotely against any Windows system running Print Spooler. The attack
+    enables lateral movement across domain-joined systems and privilege escalation to SYSTEM
+    on each target. Post-exploitation typically deploys ransomware or establishes persistent
+    backdoor access.
+  core_concepts:
+    - key: "Remote DLL Loading as SYSTEM"
+      value: "Print Spooler loads attacker-supplied DLLs from remote SMB shares executing as SYSTEM without authorization checks"
+    - key: "Ransomware Lateral Movement"
+      value: "Adopted by Magniber, Vice Society, and Conti ransomware for domain-wide lateral movement and deployment"
+    - key: "Complex Remediation"
+      value: "Multiple incomplete patches and bypasses required extensive hardening guidance and Print Spooler disabling"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "VUL-MEMORY-CVE20211675-001"
+    description: "CVE-2021-34527 was assigned as the RCE variant of the original PrintNightmare CVE-2021-1675"
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "PrintNightmare exploits improper access control and memory handling in Print Spooler service"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "Both are Windows network service vulnerabilities enabling authenticated remote lateral movement"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547.012"
+    tactic:
+      - "Privilege Escalation"
+      - "Lateral Movement"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2021-34527"
+    - "CISA Alert AA21-189A - PrintNightmare"
+    - "NVD Entry CVE-2021-34527 - CVSS 8.8"
+    - "MITRE ATT&CK T1547.012 - Print Processors"
+  search_keywords:
+    - "CVE-2021-34527"
+    - "PrintNightmare"
+    - "Print Spooler"
+    - "remote code execution"
+    - "spoolsv.exe"
+    - "lateral movement"
+    - "ransomware"
+    - "domain controller"
+  embedding_text: >-
+    CVE-2021-34527, known as PrintNightmare, is a critical remote code execution
+    vulnerability in Windows Print Spooler with CVSS 8.8 enabling any authenticated user
+    to execute code as SYSTEM remotely. The RpcAddPrinterDriverEx function loads
+    attacker-supplied DLLs from remote SMB shares without authorization checks. Adopted by
+    Magniber, Vice Society, and Conti ransomware for lateral movement, it was one of the
+    most exploited vulnerabilities of 2021. Multiple incomplete patches required extensive
+    hardening guidance. Assigned separately from CVE-2021-1675 to cover the remote RCE
+    capability, it affected virtually every Windows system running Print Spooler.

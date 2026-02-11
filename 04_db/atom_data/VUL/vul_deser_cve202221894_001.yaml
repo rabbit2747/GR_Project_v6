@@ -1,0 +1,115 @@
+# GR Atom: CVE-2022-21894
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202221894-001"
+  name: "CVE-2022-21894"
+  normalized_name: "cve_2022_21894"
+  aliases:
+    - "Baton Drop"
+    - "Secure Boot Security Feature Bypass"
+    - "Windows Boot Manager Secure Boot Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EVADE
+    - PRIV
+    - WINDOWS
+    - FIRMWARE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3"]
+  target_zones: ["Z0A", "Z1"]
+  target_components:
+    - "Windows Boot Manager"
+    - "UEFI Secure Boot"
+    - "Windows Boot Configuration Data"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-21894 (Baton Drop) is a Secure Boot security feature bypass vulnerability in Windows
+    Boot Manager that allows an attacker to bypass Secure Boot protections and execute unsigned
+    code during the boot process. The vulnerability exploits a flaw in how the Windows Boot Manager
+    handles serialized Boot Configuration Data (BCD), allowing manipulation of boot parameters
+    to load unsigned bootloaders. CVSS score is 4.4. Disclosed in January 2022 and exploited by
+    the BlackLotus UEFI bootkit.
+  why: >-
+    This vulnerability is critically significant because it enables persistent pre-OS malware
+    (bootkits) that survives operating system reinstallation, disk formatting, and most security
+    software. The BlackLotus bootkit, which exploits this vulnerability, was the first known
+    in-the-wild UEFI bootkit capable of bypassing Secure Boot on fully patched Windows 11 systems.
+    Bootkits that execute before the operating system have complete control over all subsequent
+    security mechanisms.
+  how: >-
+    The attacker exploits the vulnerability by manipulating Boot Configuration Data to include
+    specific boot parameters that bypass Secure Boot integrity checks. The Windows Boot Manager
+    fails to properly validate certain BCD elements during the deserialization process, allowing
+    the attacker to specify a custom boot application that is loaded without Secure Boot
+    signature verification. This enables loading of an unsigned bootkit payload during the early
+    boot process, before the operating system and any security software initializes.
+  core_concepts:
+    - name: "Secure Boot Bypass"
+      value: "Manipulation of boot configuration data bypasses UEFI Secure Boot signature verification during the boot process"
+    - name: "Pre-OS Persistence"
+      value: "Bootkit malware executing before the OS survives reinstallation, disk formatting, and security software scanning"
+    - name: "Boot Configuration Deserialization"
+      value: "Improper validation of serialized boot configuration data allows injection of unauthorized boot parameters"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Baton Drop exploits insecure deserialization of boot configuration data to bypass Secure Boot"
+  - type: "enables"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Secure Boot bypass enables installation of persistent bootkits that survive OS reinstallation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1542.003"
+      tactic: ["Defense Evasion", "Persistence"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2022-21894"
+    - "Microsoft Security Advisory"
+    - "ESET Research - BlackLotus UEFI Bootkit Analysis"
+  search_keywords:
+    - "CVE-2022-21894"
+    - "Baton Drop"
+    - "Secure Boot bypass"
+    - "BlackLotus bootkit"
+    - "UEFI bootkit vulnerability"
+    - "Windows Boot Manager exploit"
+    - "Secure Boot security feature bypass"
+    - "BCD manipulation attack"
+  embedding_text: >-
+    CVE-2022-21894, known as Baton Drop, is a Secure Boot security feature bypass vulnerability
+    in Windows Boot Manager. It allows attackers to bypass Secure Boot and execute unsigned code
+    during the boot process by manipulating serialized Boot Configuration Data. CVSS score is
+    4.4. The vulnerability was exploited by BlackLotus, the first known in-the-wild UEFI bootkit
+    capable of bypassing Secure Boot on fully patched Windows 11 systems. Bootkits executing
+    before the operating system have complete control over all subsequent security mechanisms and
+    survive OS reinstallation and disk formatting. The Windows Boot Manager fails to properly
+    validate certain BCD elements during deserialization, allowing specification of custom boot
+    applications without signature verification. Disclosed in January 2022, the vulnerability
+    demonstrates the critical importance of boot process security. Mitigation requires applying
+    Microsoft patches, updating UEFI Secure Boot revocation databases (DBX), and monitoring for
+    boot process anomalies.

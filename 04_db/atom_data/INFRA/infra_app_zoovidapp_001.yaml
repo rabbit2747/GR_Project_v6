@@ -1,0 +1,123 @@
+# GR Atom: Zoom Video App
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-ZOOVIDAPP-001"
+  name: "Zoom Video App"
+  normalized_name: "zoom_video_app"
+  aliases:
+    - "Zoom"
+    - "Zoom Meetings"
+    - "Zoom Client"
+    - "Zoom Workplace"
+    - "Zoom Video Communications"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - WEB
+    - ENCRYPT
+    - AUTHN
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Zoom is a cloud-based video conferencing and collaboration platform providing meetings,
+    webinars, phone system (Zoom Phone), chat, whiteboard, and email services. Available
+    as desktop clients (Windows, macOS, Linux), mobile apps (iOS, Android), web client,
+    and room systems, Zoom supports end-to-end encrypted meetings, screen sharing, recording,
+    breakout rooms, and extensive third-party integrations. Following rapid pandemic-driven
+    adoption, Zoom serves hundreds of millions of users across enterprise, education,
+    healthcare, and government sectors.
+  why: >-
+    Zoom has experienced significant security incidents including the "Zoombombing" phenomenon
+    (unauthorized meeting access), discovery of UNC path injection vulnerabilities enabling
+    credential theft on Windows, and routing of encryption keys through Chinese data centers
+    raising sovereignty concerns. The Zoom client has had critical vulnerabilities including
+    CVE-2022-28756 (macOS local privilege escalation through auto-updater) and CVE-2023-28597
+    (improper trust boundary implementation). Meeting recordings stored in cloud or local
+    storage may contain sensitive business, medical, or legal information. The Zoom installer
+    and auto-update mechanism have been exploited for local privilege escalation. Zoom's
+    widespread enterprise adoption makes client vulnerabilities high-impact.
+  how: >-
+    Zoom operates through cloud infrastructure with global data centers. Desktop clients
+    connect via HTTPS for signaling and use UDP/TCP for media transport with SRTP encryption.
+    End-to-end encryption (E2EE) is available using the Zoom Messaging Layer Security
+    protocol. Authentication supports SAML 2.0 SSO, OAuth, and native credentials with
+    optional MFA. Meetings use numeric IDs with optional passcodes and waiting rooms.
+    The Zoom SDK enables embedded video capabilities in third-party applications. Zoom
+    Phone provides PSTN connectivity through SIP trunking. Administrative controls manage
+    meeting policies, recording permissions, data residency, and compliance features
+    including archiving and legal hold.
+  core_concepts:
+    - key: "Client-Side Vulnerability Impact"
+      value: "Zoom desktop client vulnerabilities including auto-updater privilege escalation and UNC path injection affect hundreds of millions of endpoints across enterprises"
+    - key: "Meeting Security and Unauthorized Access"
+      value: "Insufficient meeting security controls (no passcodes, no waiting rooms) enable Zoombombing and unauthorized access to confidential meetings and recordings"
+    - key: "Data Sovereignty and Encryption Concerns"
+      value: "Historical routing of encryption keys through Chinese data centers and evolving E2EE implementation raise data sovereignty and confidentiality concerns for sensitive organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Zoom is an enterprise collaboration application for video conferencing and communication"
+  - type: "alternative_to"
+    target: "INFRA-APP-WEBEX-001"
+    description: "Zoom competes with Cisco Webex as an enterprise video conferencing platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204"
+    tactic:
+      - "Execution"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Zoom Security Documentation and Trust Center"
+    - "MITRE ATT&CK T1204 - User Execution"
+    - "Zoom Security Bulletins and CVE Advisories"
+    - "Citizen Lab Zoom Security Analysis"
+  search_keywords:
+    - "Zoom"
+    - "Zoom security"
+    - "Zoom vulnerability"
+    - "Zoombombing"
+    - "Zoom client exploit"
+    - "Zoom encryption"
+    - "CVE-2022-28756"
+    - "Zoom enterprise security"
+  embedding_text: >-
+    Zoom is a cloud-based video conferencing platform with desktop, mobile, and web clients
+    supporting E2EE meetings, phone, chat, and collaboration for hundreds of millions of
+    users. Security concerns include Zoombombing (unauthorized meeting access), client
+    vulnerabilities (CVE-2022-28756 macOS privilege escalation, UNC path injection for
+    credential theft), and historical encryption key routing through Chinese data centers.
+    Meeting recordings may contain sensitive business, medical, or legal information. The
+    auto-updater has been exploited for privilege escalation. Security teams should keep
+    Zoom clients updated, enforce meeting passcodes and waiting rooms, configure data
+    residency settings, implement SSO with MFA, manage recording storage and access controls,
+    and monitor for anomalous meeting access patterns and client exploitation attempts.

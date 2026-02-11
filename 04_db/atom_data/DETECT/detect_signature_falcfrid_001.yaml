@@ -1,0 +1,72 @@
+# GR Atom: Falcon Friday
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-FALCFRID-001"
+  name: "Falcon Friday"
+  normalized_name: "falcon_friday"
+  aliases:
+    - "FalconFriday Detection Rules"
+    - "FalconFriday KQL Queries"
+    - "FalconFriday Threat Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - SIEM
+    - BLUE_TEAM
+    - MONITOR
+    - THREAT_INTEL
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Falcon Friday is a community-driven collection of detection rules and hunting queries published by FalconForce, a Dutch cybersecurity firm. The project releases weekly detection content primarily written in Kusto Query Language (KQL) for Microsoft Sentinel and Microsoft Defender for Endpoint. Each Falcon Friday release focuses on a specific adversary technique, mapped to MITRE ATT&CK, and provides a detection rule along with detailed explanations of the attack technique, detection logic, false positive considerations, and testing guidance. The collection covers techniques across the full ATT&CK matrix including initial access, persistence, privilege escalation, defense evasion, credential access, lateral movement, and command and control."
+  why: "Falcon Friday addresses the gap between theoretical threat knowledge and practical detection implementation. Many organizations struggle to convert MITRE ATT&CK technique descriptions into actionable detection rules for their SIEM or EDR platforms. By providing production-ready KQL queries with thorough documentation, Falcon Friday enables security teams to rapidly deploy detections for specific adversary techniques without starting from scratch. The project also serves as an educational resource, helping analysts understand the relationship between attack mechanics and detection logic."
+  how: "Each Falcon Friday rule is developed by analyzing a specific ATT&CK technique, identifying observable artifacts in telemetry sources (process creation logs, registry events, network connections, authentication logs), and crafting KQL queries that detect those artifacts while minimizing false positives. The rules are designed for deployment in Microsoft Sentinel workspaces or Microsoft Defender for Endpoint advanced hunting. Organizations adopt Falcon Friday by importing the KQL queries into their SIEM, customizing thresholds and exclusions for their environment, validating the rules using adversary emulation tools, and integrating them into their detection engineering workflow. The rules are versioned and maintained in a public GitHub repository."
+  core_concepts:
+    - key: "KQL Detection Query"
+      value: "Kusto Query Language queries optimized for Microsoft Sentinel and Defender for Endpoint that detect specific adversary techniques"
+    - key: "ATT&CK Mapping"
+      value: "Each detection rule is explicitly mapped to one or more MITRE ATT&CK techniques with technique IDs and tactic classifications"
+    - key: "Detection Engineering"
+      value: "Systematic approach to creating, testing, and maintaining detection rules that translate threat intelligence into operational security monitoring"
+
+relations:
+  - type: is_a
+    target: "DETECT-SIGNATURE-SIGMRULE-001"
+    description: "Falcon Friday rules are a specific collection of detection signatures similar in purpose to Sigma rules but native to KQL"
+  - type: implements
+    target: "DETECT-SIGNATURE-SIGRULSTR-001"
+    description: "Falcon Friday implements structured detection rule patterns with standardized fields and ATT&CK mapping"
+  - type: applies_to
+    target: "INFRA-SEC-SIEM-001"
+    description: "Falcon Friday rules are deployed within SIEM infrastructure for threat detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FalconForce - FalconFriday GitHub Repository - https://github.com/FalconForceTeam/FalconFriday"
+    - "FalconForce Blog - https://falconforce.nl/blogs/"
+    - "Microsoft Sentinel Documentation - KQL Reference"
+  search_keywords:
+    - "Falcon Friday"
+    - "FalconFriday"
+    - "FalconForce detection rules"
+    - "KQL detection queries"
+    - "Microsoft Sentinel rules"
+    - "Defender for Endpoint hunting"
+    - "ATT&CK detection rules"
+    - "detection engineering KQL"
+  embedding_text: "Falcon Friday is a community-driven collection of detection rules and hunting queries published weekly by FalconForce. The rules are written in Kusto Query Language (KQL) for Microsoft Sentinel and Microsoft Defender for Endpoint, with each release covering a specific MITRE ATT&CK technique. Detection content includes production-ready queries, detailed attack technique explanations, detection logic documentation, false positive guidance, and testing recommendations. The collection covers techniques across the full ATT&CK matrix and serves as both operational detection content and an educational resource for security teams building detection engineering capabilities in Microsoft security environments."

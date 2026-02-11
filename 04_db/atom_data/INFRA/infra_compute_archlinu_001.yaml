@@ -1,0 +1,95 @@
+# GR Atom: Arch Linux
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-ARCHLINU-001"
+  name: "Arch Linux"
+  normalized_name: "arch_linux"
+  aliases:
+    - "Archlinux"
+    - "Arch"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - OS
+    - LINUX
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Arch Linux is a lightweight, rolling-release Linux distribution that follows the KISS (Keep
+    It Simple, Stupid) design philosophy. It provides a minimal base installation that users
+    customize by installing only needed packages via the pacman package manager. Arch Linux
+    targets experienced users who want full control over their system configuration and prefer
+    building their environment from the ground up rather than using pre-configured distributions.
+  why: >-
+    Arch Linux serves as an infrastructure operating system for environments where minimal
+    footprint, bleeding-edge packages, and granular system control are priorities. Its rolling
+    release model means systems always run the latest software versions without major upgrade
+    cycles. In cybersecurity contexts, Arch Linux is commonly used in penetration testing
+    environments, security research workstations, and as a base for custom security tooling
+    due to its extensive package repository and AUR (Arch User Repository).
+  how: >-
+    Arch Linux is installed from a minimal ISO using a manual installation process that involves
+    partitioning, filesystem creation, base package installation via pacstrap, and bootloader
+    configuration. The pacman package manager handles binary packages from official repositories,
+    while the AUR provides community-maintained build scripts. System configuration is performed
+    through plain text configuration files. The systemd init system manages services and boot.
+  core_concepts:
+    - key: "Rolling Release Model"
+      value: "Continuous package updates without discrete version releases, keeping all software at the latest stable version"
+    - key: "Pacman Package Manager"
+      value: "Binary package manager that handles dependency resolution, with the AUR extending available packages through community build scripts"
+    - key: "Minimal Base Installation"
+      value: "Ships with only essential packages, requiring users to explicitly install and configure every component of their system"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "Arch Linux is an operating system that runs on desktop and server computers"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-MACOS-001"
+    description: "Arch Linux is an alternative operating system to macOS for workstation use"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Arch Linux Wiki - wiki.archlinux.org"
+    - "Arch Linux Official Documentation"
+    - "NIST National Checklist Program - Linux Security"
+  search_keywords:
+    - "arch linux"
+    - "archlinux"
+    - "rolling release linux"
+    - "pacman package manager"
+    - "AUR"
+    - "lightweight linux distribution"
+    - "KISS linux"
+  embedding_text: >-
+    Arch Linux is a lightweight rolling-release Linux distribution following the KISS design
+    philosophy that provides a minimal base installation for users who want full control over
+    system configuration. It uses the pacman package manager for binary packages and the Arch
+    User Repository (AUR) for community-maintained build scripts. The rolling release model
+    delivers continuous updates without major version upgrades. Arch Linux is relevant in
+    cybersecurity as a base for penetration testing environments, security research workstations,
+    and custom security tooling due to its extensive package availability, minimal attack surface
+    from the base install, and granular configuration control.

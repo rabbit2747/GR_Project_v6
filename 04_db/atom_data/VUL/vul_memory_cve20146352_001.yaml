@@ -1,0 +1,105 @@
+# GR Atom: CVE-2014-6352
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20146352-001"
+  name: "CVE-2014-6352"
+  normalized_name: "cve_2014_6352"
+  aliases:
+    - "Windows OLE Automation Array Vulnerability"
+    - "Sandworm II OLE Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Windows OLE (Object Linking and Embedding)"
+    - "Windows Vista through Windows 8.1"
+    - "Windows Server 2008 through 2012 R2"
+    - "Microsoft Office PowerPoint"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-6352 is a remote code execution vulnerability (CVSS 9.3) in Windows OLE object
+    handling that allows attackers to execute arbitrary code by embedding specially crafted OLE
+    objects in Office documents. The vulnerability is related to but distinct from CVE-2014-4114,
+    representing an incomplete fix for the OLE Package Manager issue. It was exploited as a
+    zero-day in October 2014, shortly after the MS14-060 patch for CVE-2014-4114. Microsoft
+    patched it in MS14-064 (November 2014).
+  why: >-
+    This vulnerability demonstrated the difficulty of completely patching design-level flaws
+    in complex subsystems like Windows OLE. Coming immediately after the Sandworm vulnerability
+    patch, it showed that the initial fix was incomplete and that attackers could quickly find
+    bypass techniques. The vulnerability was actively exploited in the wild and forced Microsoft
+    to issue a Fix-it tool as an interim mitigation while developing the complete patch.
+  how: >-
+    The exploit embeds specially crafted OLE objects in PowerPoint or other Office documents
+    that bypass the CVE-2014-4114 patch restrictions. When the document is opened and the user
+    interacts with the embedded object, the OLE handling code executes attacker-controlled
+    content. The attack can be triggered when a user is presented with a UAC prompt for an
+    embedded executable, or through techniques that bypass UAC entirely on certain configurations.
+  core_concepts:
+    - key: "Incomplete OLE Patch Bypass"
+      value: "Exploitation technique bypasses the MS14-060 fix for CVE-2014-4114, demonstrating incomplete remediation of OLE design flaws"
+    - key: "Persistent OLE Attack Surface"
+      value: "OLE subsystem complexity made complete patching difficult, requiring multiple patch iterations to fully address"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Code execution vulnerability in Windows OLE object handling bypassing prior patch"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2014-6352 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS14-064"
+    - "Microsoft Security Advisory 3010060"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2014-6352"
+    - "Windows OLE"
+    - "OLE automation"
+    - "PowerPoint"
+    - "MS14-064"
+    - "Sandworm"
+    - "patch bypass"
+    - "zero-day"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2014-6352 is a remote code execution vulnerability with CVSS 9.3 in Windows OLE
+    object handling that allows code execution through crafted Office documents. Representing
+    an incomplete fix bypass for CVE-2014-4114 (Sandworm), it was exploited as a zero-day
+    in October 2014 shortly after the initial OLE patch. The vulnerability demonstrated the
+    difficulty of completely remediating design-level flaws in complex subsystems like Windows
+    OLE. Affecting Windows Vista through 8.1, it was patched in MS14-064 in November 2014.
+    The rapid discovery of this bypass after the Sandworm patch highlighted the persistent
+    security challenges in the Windows OLE subsystem architecture.

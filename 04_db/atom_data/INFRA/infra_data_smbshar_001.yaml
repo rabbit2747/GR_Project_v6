@@ -1,0 +1,126 @@
+# GR Atom: SMB Share
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-SMBSHAR-001"
+  name: "SMB Share"
+  normalized_name: "smb_share"
+  aliases:
+    - "SMB Network Share"
+    - "CIFS Share"
+    - "Windows Share"
+    - "Samba Share Instance"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - WINDOWS
+    - LATERAL
+    - DISC
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An SMB Share is a specific individual shared resource (directory, printer, or named pipe)
+    accessible over the Server Message Block protocol. Each SMB share has a unique name within
+    its hosting server, identified by a UNC path (\\hostname\sharename). SMB shares include
+    user-created data shares, default administrative shares (C$, ADMIN$, IPC$, PRINT$), and
+    special shares used by system services. Each share has its own share-level permissions
+    independent of the underlying NTFS file system permissions. SMB shares are the atomic
+    unit of network file access in Windows and Samba environments.
+  why: >-
+    Individual SMB shares are the specific targets during network discovery and data collection
+    phases of an attack. Adversaries use tools like net share, smbclient, CrackMapExec, and
+    enum4linux to enumerate accessible SMB shares and their permissions. Each share represents
+    a potential data source for collection (T1039) or a mechanism for lateral movement. The
+    IPC$ share is particularly significant as it enables null session enumeration and named
+    pipe access for remote service interaction. Administrative shares provide direct file
+    system access when compromised.
+  how: >-
+    SMB shares are created using the Windows Server Manager, net share command, PowerShell
+    New-SmbShare cmdlet, or Samba smb.conf configuration. Each share definition includes the
+    share name, local path, share permissions, and optional parameters (max users, caching
+    mode, availability). Clients access shares by establishing SMB sessions using NTLM or
+    Kerberos authentication, then connecting to specific shares by name. Effective permissions
+    are the intersection of share-level and NTFS file system permissions. Share access can be
+    audited through Windows Security Event Log (Event IDs 5140, 5145) and Samba audit modules.
+  core_concepts:
+    - key: "Share Enumeration Techniques"
+      value: >-
+        Adversaries enumerate SMB shares using net view, net share, smbclient, CrackMapExec,
+        and enum4linux to discover accessible resources and identify targets for data collection
+        or lateral movement.
+    - key: "IPC$ Named Pipe Share"
+      value: >-
+        The IPC$ share provides inter-process communication through named pipes, enabling
+        remote service management (SCM, task scheduler, registry) and is used by tools like
+        PsExec for remote command execution.
+    - key: "Effective Permission Model"
+      value: >-
+        Access to files through SMB shares is determined by the most restrictive combination
+        of share-level permissions and NTFS ACLs, requiring both to be correctly configured
+        for proper access control.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-FILESHAR-001"
+    description: "An SMB share is a specific instance of a file share using the SMB protocol"
+  - type: "part_of"
+    target: "INFRA-DATA-SMBFILSHA-001"
+    description: "An individual SMB share is part of the broader SMB file shares infrastructure on a server"
+  - type: "part_of"
+    target: "INFRA-DATA-FILESERV-001"
+    description: "SMB shares are part of the file server that hosts and manages them"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1039"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft SMB Share documentation. https://learn.microsoft.com/en-us/windows-server/storage/file-server/"
+    - "MITRE ATT&CK T1039 - Data from Network Shared Drive."
+    - "SANS SEC504 - SMB Enumeration and Exploitation techniques."
+  search_keywords:
+    - "SMB share"
+    - "Windows share"
+    - "CIFS share"
+    - "net share"
+    - "SMB enumeration"
+    - "admin share"
+    - "IPC$ share"
+    - "SMB share permissions"
+    - "CrackMapExec"
+  embedding_text: >-
+    An SMB Share is a specific individual shared resource accessible over the Server Message
+    Block protocol, identified by UNC path (\\hostname\sharename). SMB shares include user-created
+    data shares, administrative shares (C$, ADMIN$, IPC$, PRINT$), and special system shares.
+    Each has independent share-level permissions combined with NTFS ACLs for effective access
+    control. Individual SMB shares are specific targets during attack discovery and data
+    collection phases. Adversaries enumerate shares using net share, smbclient, CrackMapExec,
+    and enum4linux. The IPC$ share enables null session enumeration and named pipe access for
+    remote service interaction. Administrative shares provide direct file system access.
+    Share access is audited through Windows Security Event Log events 5140 and 5145. SMB
+    shares map to MITRE ATT&CK T1039 (Data from Network Shared Drive) as collection targets.

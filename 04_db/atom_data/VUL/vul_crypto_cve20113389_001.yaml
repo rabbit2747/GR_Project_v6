@@ -1,0 +1,116 @@
+# GR Atom: CVE-2011-3389
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20113389-001"
+  name: "CVE-2011-3389"
+  normalized_name: "cve_2011_3389"
+  aliases:
+    - "BEAST Attack"
+    - "Browser Exploit Against SSL/TLS"
+    - "CBC IV Chaining Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - TLS
+    - HTTP
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "TLS 1.0 Protocol"
+    - "SSL 3.0 Protocol"
+    - "CBC Mode Cipher Suites"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-3389 (BEAST - Browser Exploit Against SSL/TLS) is a vulnerability in TLS 1.0 and
+    earlier that allows a man-in-the-middle attacker to decrypt HTTPS cookies by exploiting a
+    known weakness in CBC (Cipher Block Chaining) mode cipher suites. The attack leverages
+    predictable initialization vectors (IVs) in TLS 1.0 CBC mode where the last ciphertext
+    block of a record is reused as the IV for the next record. CVSS score is 4.3. Demonstrated
+    by Thai Duong and Juliano Rizzo in 2011.
+  why: >-
+    BEAST was significant because it demonstrated a practical chosen-plaintext attack against
+    TLS 1.0, which was the dominant protocol version at the time. It could extract authentication
+    cookies from HTTPS sessions, enabling session hijacking. The attack motivated the industry-wide
+    migration from TLS 1.0 to TLS 1.1 and later, and prompted the adoption of RC4 as a temporary
+    mitigation (itself later found vulnerable).
+  how: >-
+    The attacker uses JavaScript or a Java applet injected into the victim's browser to generate
+    chosen plaintext requests over the HTTPS connection. Because TLS 1.0 CBC mode uses the
+    previous ciphertext block as the IV for the next record (which is predictable to an eavesdropper),
+    the attacker can perform a blockwise chosen-boundary attack. By carefully aligning the target
+    cookie at a cipher block boundary and XORing guesses with the known IV, the attacker can verify
+    correct guesses by observing matching ciphertext blocks, recovering the cookie one byte at a time.
+  core_concepts:
+    - name: "Predictable IV in CBC"
+      value: "TLS 1.0 reuses the last ciphertext block as the IV for the next record, making IVs predictable to network observers"
+    - name: "Chosen-Boundary Attack"
+      value: "Attacker controls plaintext alignment at cipher block boundaries to isolate and recover target secret bytes"
+    - name: "Blockwise Adaptive Chosen Plaintext"
+      value: "Iterative technique exploiting CBC IV predictability to decrypt target bytes through systematic guessing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "BEAST is an instance of cryptographic protocol vulnerability exploiting CBC mode IV predictability"
+  - type: "precedes"
+    target: "VUL-CRYPTO-CVE20143566-001"
+    description: "BEAST preceded POODLE as TLS protocol attacks; BEAST targeted TLS 1.0 CBC, POODLE targeted SSL 3.0 CBC"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "BEAST directly targets TLS 1.0 CBC mode cipher suites"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2011-3389"
+    - "Thai Duong and Juliano Rizzo - Here Come The Ninjas (2011)"
+    - "MITRE CWE-326: Inadequate Encryption Strength"
+  search_keywords:
+    - "CVE-2011-3389"
+    - "BEAST attack"
+    - "Browser Exploit Against SSL TLS"
+    - "TLS 1.0 CBC vulnerability"
+    - "predictable IV attack"
+    - "chosen plaintext TLS"
+    - "CBC mode IV chaining"
+    - "TLS cookie decryption"
+  embedding_text: >-
+    CVE-2011-3389, known as the BEAST (Browser Exploit Against SSL/TLS) attack, is a vulnerability
+    in TLS 1.0 and SSL 3.0 that allows man-in-the-middle attackers to decrypt HTTPS cookies by
+    exploiting predictable initialization vectors in CBC mode cipher suites. TLS 1.0 reuses the
+    last ciphertext block as the IV for the next record, which is visible to network observers.
+    The attacker uses browser-injected code to generate chosen plaintext aligned at cipher block
+    boundaries, then verifies guesses by comparing ciphertext blocks. Demonstrated by Thai Duong
+    and Juliano Rizzo in 2011, BEAST proved practical chosen-plaintext attacks against TLS 1.0
+    were feasible. The attack accelerated industry migration to TLS 1.1 and TLS 1.2 which use
+    explicit random IVs for each record. Temporary mitigations included preferring RC4 cipher
+    suites and implementing 1/n-1 record splitting to break IV predictability. BEAST remains
+    historically significant as a catalyst for TLS protocol modernization.

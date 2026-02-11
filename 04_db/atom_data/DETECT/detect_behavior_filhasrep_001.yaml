@@ -1,0 +1,74 @@
+# GR Atom: File Hash Reputation Analysis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILHASREP-001"
+  name: "File Hash Reputation Analysis"
+  normalized_name: "file_hash_reputation_analysis"
+  aliases:
+    - "Hash Reputation Lookup"
+    - "File Hash Threat Intelligence"
+    - "Hash-Based File Reputation"
+    - "IOC Hash Matching"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - MONITOR
+    - SANDBOX
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "File Hash Reputation Analysis is a detection technique that computes cryptographic hashes (MD5, SHA-1, SHA-256) of files and queries reputation databases to determine if a file is known to be malicious, suspicious, or benign. Reputation databases aggregate intelligence from antivirus engines, threat intelligence feeds, malware sandboxes, and community submissions. Each file hash receives a reputation score based on the number of detection engines flagging it, the age and prevalence of the hash, associated threat families, and historical context from incident reports. The technique is applied at file creation, download, execution, and email attachment delivery points."
+  why: "Hash reputation analysis provides immediate identification of known malware with very high confidence and near-zero false positive rates. While it cannot detect novel malware with unique hashes, it is extremely effective against commodity malware, recycled tools, and known threat actor toolkits. The technique forms the first layer of defense in a multi-layered detection strategy, enabling immediate blocking of known threats before more resource-intensive behavioral analysis is required. It also supports retroactive hunting when new indicators of compromise are published, allowing organizations to scan historical file events for previously unidentified threats."
+  how: "When a file is created, downloaded, or executed, the endpoint agent or security gateway computes the file's cryptographic hash. This hash is queried against local hash databases for immediate decisions, then against cloud-based reputation services for comprehensive intelligence. Services like VirusTotal aggregate results from 70+ antivirus engines and provide detection ratios, threat family classifications, and first-seen/last-seen timestamps. Enterprise platforms maintain curated allowlists of known-good hashes for operating system files and approved applications, blocklists of confirmed malicious hashes, and graylists requiring additional analysis. Fuzzy hashing algorithms like ssdeep and TLSH extend hash reputation to detect variants of known malware that share structural similarity despite different cryptographic hashes. Integration with SIEM enables correlation of hash reputation data with other security events."
+  core_concepts:
+    - key: "Cryptographic Hash"
+      value: "A fixed-size digital fingerprint computed from file contents using algorithms like SHA-256, uniquely identifying specific file versions"
+    - key: "Reputation Score"
+      value: "A composite rating based on detection engine results, threat intelligence, and historical context indicating the likelihood a file is malicious"
+    - key: "Fuzzy Hashing"
+      value: "Algorithms like ssdeep and TLSH that identify structurally similar files despite different cryptographic hashes, detecting malware variants"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILRISSCO-001"
+    description: "Hash reputation is a major component of comprehensive file risk scoring"
+  - type: requires
+    target: "DETECT-BEHAVIOR-FILECREA-001"
+    description: "File hash reputation analysis is triggered by file creation events"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "VirusTotal - File Hash Analysis - https://www.virustotal.com/"
+    - "MITRE ATT&CK - Malware Analysis - https://attack.mitre.org/techniques/T1105/"
+    - "NIST SP 800-83 - Guide to Malware Incident Prevention and Handling"
+  search_keywords:
+    - "file hash reputation"
+    - "hash-based malware detection"
+    - "file hash lookup"
+    - "IOC hash matching"
+    - "VirusTotal hash analysis"
+    - "cryptographic hash reputation"
+    - "threat intelligence hash"
+    - "fuzzy hashing malware"
+  embedding_text: "File Hash Reputation Analysis computes cryptographic hashes of files and queries reputation databases to identify known malicious, suspicious, or benign files. Hashes are checked against aggregated intelligence from antivirus engines, threat intelligence feeds, and malware sandboxes like VirusTotal. Reputation scores incorporate detection ratios, threat family classifications, and first-seen timestamps. Enterprise platforms maintain allowlists, blocklists, and graylists for immediate classification decisions. Fuzzy hashing algorithms like ssdeep extend detection to malware variants sharing structural similarity. This technique provides the first detection layer with near-zero false positives for known threats and supports retroactive hunting when new indicators of compromise are published."

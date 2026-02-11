@@ -1,0 +1,98 @@
+# GR Atom: Google Talk
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-GOOGTALK-001"
+  name: "Google Talk"
+  normalized_name: "google_talk"
+  aliases:
+    - "Gtalk"
+    - "Google Chat XMPP"
+    - "Google Hangouts"
+    - "XMPP Google Service"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    Google Talk was a messaging and voice-over-IP service launched by Google in 2005 that used
+    the XMPP (Extensible Messaging and Presence Protocol, formerly Jabber) open standard for
+    instant messaging and presence information. The service operated on talk.google.com using
+    XMPP client-to-server connections on port 5222 with TLS encryption, and supported federation
+    with other XMPP servers enabling cross-platform messaging. Google Talk was replaced by Google
+    Hangouts in 2013, which subsequently transitioned to Google Chat, abandoning XMPP federation.
+    The protocol remains relevant as a historical example of open protocol adoption and subsequent
+    proprietary transition by a major platform.
+  why: >-
+    Google Talk's XMPP-based architecture is significant from a security perspective because XMPP
+    remains widely used in messaging applications, IoT device communication, and has been
+    documented as a C2 communication channel by threat actors. Understanding XMPP-based protocols
+    is important for detecting covert communication channels, analyzing legacy messaging
+    infrastructure still present in some enterprise environments, and understanding how open
+    protocol federation creates cross-organizational attack paths. The transition from open XMPP
+    to proprietary protocols also illustrates security implications of protocol governance changes.
+  how: >-
+    Google Talk operated using standard XMPP protocol with Google-specific extensions: (1) Client
+    authentication via OAuth 2.0 or legacy Google credentials over TLS on port 5222; (2) Presence
+    management broadcasting online/offline/away status to contacts; (3) Message exchange using
+    XMPP message stanzas with end-to-end delivery via Google's XMPP servers; (4) Voice calls
+    using Jingle (XEP-0166) for session negotiation and ICE/STUN/TURN for NAT traversal with
+    RTP media streams; (5) Server-to-server federation using XMPP S2S protocol on port 5269
+    enabling interoperability with external XMPP domains.
+  core_concepts:
+    - key: "XMPP Protocol"
+      value: "Extensible Messaging and Presence Protocol, an open XML-based standard for real-time communication including instant messaging, presence, and multi-party chat."
+    - key: "Federation"
+      value: "Server-to-server XMPP communication enabling users on different XMPP domains to exchange messages, creating an interoperable messaging network."
+    - key: "Jingle (XEP-0166)"
+      value: "XMPP extension for peer-to-peer multimedia session negotiation used by Google Talk for voice and video calls."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Google Talk is an XMPP-based application layer messaging protocol"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "Google Talk web client operated over HTTP/HTTPS for browser-based messaging access"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 6120 — Extensible Messaging and Presence Protocol (XMPP): Core"
+    - "IETF RFC 6121 — XMPP: Instant Messaging and Presence"
+    - "XEP-0166 — Jingle. XMPP Standards Foundation"
+    - "Google — Google Talk Developer Documentation (archived)"
+  search_keywords:
+    - "google talk"
+    - "gtalk"
+    - "XMPP"
+    - "jabber"
+    - "google chat"
+    - "google hangouts"
+    - "XMPP federation"
+    - "instant messaging protocol"
+    - "jingle protocol"
+  embedding_text: >-
+    Google Talk was a messaging and VoIP service launched in 2005 using the XMPP open standard
+    for instant messaging and presence. Operating on port 5222 with TLS, Google Talk supported
+    federation with external XMPP servers and used Jingle (XEP-0166) for voice calls. The service
+    was replaced by Google Hangouts in 2013 and later Google Chat, abandoning XMPP federation.
+    XMPP remains relevant in security contexts as it is used in IoT communication and has been
+    documented as a C2 channel by threat actors. Understanding XMPP-based protocols is important
+    for detecting covert communications and analyzing legacy messaging infrastructure in
+    enterprise environments.

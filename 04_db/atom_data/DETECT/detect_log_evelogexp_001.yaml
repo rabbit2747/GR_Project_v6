@@ -1,0 +1,112 @@
+# GR Atom: Event Log Export Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGEXP-001"
+  name: "Event Log Export Event"
+  normalized_name: "event_log_export_event"
+  aliases:
+    - "Log Export Event"
+    - "Event Log Extraction"
+    - "Log Data Export"
+    - "Audit Log Export"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+    - COLLECT
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Export Event is a detection pattern for log entries generated when event log
+    data is exported or extracted from the logging system to external files or destinations.
+    On Windows, this includes using wevtutil epl (export log) to save .evtx files, using
+    PowerShell Get-WinEvent with export functionality, copying .evtx files directly from
+    C:\Windows\System32\winevt\Logs\, or using Event Viewer's Save All Events As feature.
+    On Linux, this includes copying syslog files, using journalctl --output=export, or
+    using log forwarding tools to extract specific log ranges. Export events are legitimate
+    during forensic investigations, compliance audits, and log management operations, but
+    unauthorized exports may indicate reconnaissance, data collection, or evidence staging
+    by threat actors.
+  why: >-
+    Log export monitoring is important because event logs contain sensitive security
+    intelligence including authentication records, access patterns, configuration changes,
+    and error details that reveal system architecture. Attackers may export logs during the
+    collection phase (MITRE ATT&CK T1005 — Data from Local System) to understand defensive
+    monitoring capabilities, identify detection gaps, and plan subsequent attack phases.
+    Unauthorized log exports can also indicate insider threat activity where an employee
+    collects evidence of system access patterns. Additionally, monitoring legitimate exports
+    supports chain-of-custody requirements for forensic evidence and compliance audits.
+  how: >-
+    Event log export detection operates through: (1) Monitoring process creation events for
+    wevtutil.exe with epl (export-log) or qe (query-events) parameters; (2) Tracking
+    PowerShell script block logs for Get-WinEvent, Export-Csv, or Out-File commands targeting
+    event log data; (3) Monitoring file access events on the winevt\Logs\ directory for read
+    operations by non-system processes; (4) Detecting copy operations on .evtx files via Sysmon
+    Event ID 11 (FileCreate) for new .evtx files in unusual locations; (5) On Linux, monitoring
+    for journalctl export commands and copy operations on /var/log/ files; (6) SIEM rules
+    correlating log export activities with user context and time-of-day baselines.
+  core_concepts:
+    - key: "Authorized vs Unauthorized Export"
+      value: "Distinguishing between legitimate forensic/compliance log exports and unauthorized data collection requires correlating export events with user roles, change tickets, and time baselines."
+    - key: "Evidence Chain of Custody"
+      value: "Monitoring log exports ensures that forensic evidence collection is properly documented and that exported logs maintain integrity through hash verification."
+    - key: "Reconnaissance via Log Analysis"
+      value: "Attackers may export logs to analyze defensive monitoring capabilities, understand detection rules, and identify blind spots before executing high-risk attack phases."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Log export generates a security-relevant event for audit tracking"
+  - type: "enables"
+    target: "DETECT-LOG-EVELOGARC-001"
+    description: "Log export is one method used to create log archives for retention"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft — wevtutil Command Reference"
+    - "MITRE ATT&CK — T1005: Data from Local System"
+    - "SANS — Windows Event Log Analysis"
+    - "NIST SP 800-86 — Guide to Integrating Forensic Techniques"
+  search_keywords:
+    - "event log export"
+    - "log export event"
+    - "wevtutil export"
+    - "evtx export"
+    - "log data extraction"
+    - "event log copy"
+    - "audit log export"
+    - "journalctl export"
+    - "forensic log collection"
+    - "log evidence export"
+  embedding_text: >-
+    Event Log Export Event is a detection pattern for log entries generated when event log data
+    is exported or extracted. On Windows, this includes wevtutil epl commands, PowerShell
+    Get-WinEvent exports, and direct .evtx file copying. On Linux, this includes journalctl
+    export and syslog file copying. While legitimate during forensic investigations and
+    compliance audits, unauthorized exports may indicate attacker reconnaissance to analyze
+    defensive monitoring capabilities or data collection under MITRE ATT&CK T1005 (Data from
+    Local System). Detection relies on process creation monitoring, file access auditing on log
+    directories, and SIEM correlation with user role and time-of-day baselines.

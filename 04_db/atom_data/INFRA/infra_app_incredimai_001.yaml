@@ -1,0 +1,106 @@
+# GR Atom: IncrediMail
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-INCREDIMAI-001"
+  name: "IncrediMail"
+  normalized_name: "incredimail"
+  aliases:
+    - "IncrediMail 2.0"
+    - "IncrediMail Xe"
+    - "IncrediMail Premium"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - SMTP
+    - WINDOWS
+    - CRED
+    - INFO_LEAK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    IncrediMail was a Windows email client known for its animated and multimedia-rich email
+    composition features. The application supported POP3, IMAP, and SMTP protocols for
+    connecting to email servers. IncrediMail shut down operations in March 2020, with the
+    company discontinuing all services and support. The client stored email data, account
+    credentials, and contact information locally on the user's system.
+  why: >-
+    IncrediMail is a security concern as a discontinued email client that is no longer receiving
+    security updates. Systems still running IncrediMail have unpatched vulnerabilities and use
+    an unsupported email client handling sensitive communications. IncrediMail stored email
+    credentials locally, making them targets for credential theft. The software's bundled
+    adware and tracking behaviors raised privacy concerns during its active period.
+    Infostealers specifically target IncrediMail credential storage for email account harvesting.
+  how: >-
+    IncrediMail operated as a Windows desktop email client connecting to mail servers through
+    POP3/IMAP for retrieval and SMTP for sending. It stored account credentials, email data,
+    and contacts in proprietary file formats within the user's AppData directory. The client
+    rendered HTML email with embedded multimedia content. Credential extraction targets the
+    IncrediMail data directories where account passwords are stored with weak or reversible
+    encryption. Infostealer malware families include IncrediMail as a targeted application
+    for credential harvesting alongside other email clients and browsers.
+  core_concepts:
+    - key: "Discontinued Email Client"
+      value: "Windows email client shut down in March 2020 that no longer receives security updates, leaving remaining installations permanently vulnerable"
+    - key: "Credential Storage Target"
+      value: "Local credential storage with weak encryption is targeted by infostealer malware for email account harvesting"
+    - key: "Legacy Software Risk"
+      value: "Unsupported software handling sensitive email communications with no path to security patches exemplifies end-of-life software risk"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "IncrediMail was a desktop email application used by some organizations before its discontinuation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.003"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IncrediMail Shutdown Notice - March 2020"
+    - "MITRE ATT&CK T1555.003 - Credentials from Web Browsers"
+    - "Infostealer Malware Analysis - Email Client Targeting"
+  search_keywords:
+    - "IncrediMail"
+    - "IncrediMail credential theft"
+    - "IncrediMail discontinued"
+    - "IncrediMail security"
+    - "IncrediMail infostealer"
+    - "IncrediMail vulnerability"
+    - "email client credential extraction"
+  embedding_text: >-
+    IncrediMail was a Windows email client with multimedia features that shut down operations
+    in March 2020. It supported POP3, IMAP, and SMTP protocols and stored credentials locally
+    with weak encryption. IncrediMail is a security concern as discontinued software with no
+    security updates, leaving remaining installations permanently vulnerable. Infostealer
+    malware specifically targets IncrediMail credential storage for email account harvesting.
+    The client stored data in proprietary formats within AppData directories. Security teams
+    should identify and remove IncrediMail installations from organizational systems, migrate
+    users to supported email clients, and scan for credential compromise on systems where
+    IncrediMail was previously installed.

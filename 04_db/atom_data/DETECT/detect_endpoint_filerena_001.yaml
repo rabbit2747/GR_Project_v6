@@ -1,0 +1,88 @@
+# GR Atom: File Renaming Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILERENA-001"
+  name: "File Renaming Event"
+  normalized_name: "file_renaming_event"
+  aliases:
+    - "File Rename Detection"
+    - "File Move Event"
+    - "File Name Change Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a file is renamed or moved on an endpoint. The event captures the original file path, new file path, the process performing the rename, user context, and timestamp. File rename operations include simple name changes, extension changes, moves within the same volume (which are implemented as renames), and atomic rename-replace operations used for file updates."
+  why: "File renaming is used in multiple attack techniques. Attackers rename malicious files to masquerade as legitimate system files, change file extensions to bypass security controls, move files from download directories to execution locations, and use atomic rename operations to replace protected system binaries. Ransomware renames encrypted files with custom extensions. Monitoring renames enables detection of masquerading, staging, and destructive activities."
+  how: "Use EDR mini-filter callbacks on IRP_MJ_SET_INFORMATION with FileRenameInformation to capture file rename operations. Sysmon does not provide a dedicated file rename event, making EDR-level instrumentation the primary detection mechanism. Monitor for extension changes that convert data files to executable types or vice versa. Track renames into sensitive directories including system folders, startup locations, and scheduled task paths. Detect patterns of mass file renaming indicative of ransomware encryption with custom file extensions."
+  core_concepts:
+    - key: "Masquerading via Rename"
+      value: "Attacker technique of renaming malicious files to impersonate legitimate system files or trusted applications to avoid detection"
+    - key: "Extension Change Detection"
+      value: "Monitoring for file extension modifications that may indicate an attempt to disguise file types or ransomware renaming encrypted files"
+    - key: "Atomic Rename Replace"
+      value: "File system operation that atomically replaces a target file with a source file through rename, used legitimately for updates and maliciously for binary replacement"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File renaming is a specific type of file event"
+  - type: effective_against
+    target: "ATK-EVASION-MASQUERADE-001"
+    description: "Detects masquerading through file renaming to impersonate legitimate files"
+  - type: effective_against
+    target: "ATK-IMPACT-RANSOMWARE-001"
+    description: "Detects ransomware through mass file rename patterns with custom extensions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036.003"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1036.003"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1036.003 - Masquerading: Rename System Utilities"
+    - "Microsoft Sysinternals - Sysmon File Events"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file rename"
+    - "file renaming"
+    - "file move"
+    - "extension change"
+    - "masquerading"
+    - "ransomware rename"
+    - "file name change"
+    - "atomic rename"
+  embedding_text: "File Renaming Event is an endpoint detection pattern for events generated when files are renamed or moved. Events capture original path, new path, renaming process, user context, and timestamp. File renaming supports multiple attack techniques including masquerading as legitimate system files, changing extensions to bypass security controls, moving files to execution locations, and ransomware renaming encrypted files with custom extensions. Detection uses Sysmon events and EDR mini-filter callbacks to monitor extension changes, renames into sensitive directories, and mass renaming patterns. Atomic rename-replace operations targeting protected system binaries are especially high-priority indicators."

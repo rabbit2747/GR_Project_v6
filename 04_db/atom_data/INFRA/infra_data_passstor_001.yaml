@@ -1,0 +1,128 @@
+# GR Atom: Password Store
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-PASSSTOR-001"
+  name: "Password Store"
+  normalized_name: "password_store"
+  aliases:
+    - "Credential Store"
+    - "Secret Store"
+    - "Password Storage"
+    - "Credential Cache"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - AUTHN
+    - ENCRYPT
+    - PAM
+    - CRYPTO
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z4"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Password Store is a secure storage mechanism for managing and protecting passwords,
+    credentials, API keys, and other authentication secrets. This includes enterprise password
+    managers (CyberArk, Thycotic/Delinea, BeyondTrust), personal password managers (KeePass,
+    1Password, Bitwarden, LastPass), operating system credential managers (Windows Credential
+    Manager, macOS Keychain, Linux Secret Service/GNOME Keyring), and application-specific
+    credential caches (browser password stores, SSH key agents). Password stores differ from
+    raw password databases in that they provide user-facing management interfaces and
+    encryption at the application level.
+  why: >-
+    Password stores are critical security infrastructure that paradoxically concentrates risk:
+    while they encourage strong, unique passwords, they also create high-value single targets.
+    Compromise of a password store (master password theft, vault extraction, credential manager
+    exploitation) exposes all contained credentials simultaneously. Adversaries specifically
+    target password stores through techniques including browser credential extraction, keychain
+    access, credential manager dumping, and password vault file theft. Enterprise password
+    stores are Privileged Access Management (PAM) controls that are themselves high-priority
+    attack targets.
+  how: >-
+    Password stores encrypt credentials using a master password, key file, biometric
+    authentication, or hardware token. Encryption typically uses AES-256 with a key derived
+    from the master password through PBKDF2, Argon2, or scrypt. Credentials are organized
+    into entries with metadata (URL, username, notes). Access is controlled through the
+    master authentication mechanism. Enterprise password stores add features including
+    credential rotation, session recording, just-in-time access, approval workflows, and
+    audit logging. Browser password stores typically use OS-level encryption (DPAPI on
+    Windows, Keychain on macOS) with the user's login credentials as the protection key.
+  core_concepts:
+    - key: "Master Password Security"
+      value: >-
+        A single master password or authentication factor protects all stored credentials,
+        making master password strength and protection critical to the security of all
+        contained secrets.
+    - key: "Credential Concentration Risk"
+      value: >-
+        Password stores concentrate all credentials in a single target, creating a high-value
+        single point of compromise that exposes all stored secrets if breached.
+    - key: "Enterprise PAM Integration"
+      value: >-
+        Enterprise password stores function as Privileged Access Management systems providing
+        credential rotation, session recording, and just-in-time access for privileged accounts.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A password store is a specialized data store for encrypted credential management"
+  - type: "requires"
+    target: "INFRA-DATA-PASSDATA-001"
+    description: "Password stores require password databases for underlying credential persistence"
+  - type: "enables"
+    target: "INFRA-DATA-PASSVAUL-001"
+    description: "Password stores enable password vaults by providing the credential management infrastructure"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1555 - Credentials from Password Stores."
+    - "NIST SP 800-63B - Digital Identity Guidelines."
+    - "CyberArk Privileged Access Security documentation. https://docs.cyberark.com/"
+  search_keywords:
+    - "password store"
+    - "credential store"
+    - "password manager"
+    - "KeePass"
+    - "credential manager"
+    - "browser passwords"
+    - "PAM password store"
+    - "enterprise password manager"
+    - "credential extraction"
+  embedding_text: >-
+    A Password Store is a secure storage mechanism for managing passwords, credentials, API
+    keys, and authentication secrets. This includes enterprise PAM solutions (CyberArk, Delinea,
+    BeyondTrust), personal managers (KeePass, 1Password, Bitwarden), OS credential managers
+    (Windows Credential Manager, macOS Keychain), and browser password stores. Password stores
+    encrypt credentials using master passwords with AES-256 and key derivation functions
+    (PBKDF2, Argon2). They concentrate credentials in high-value single targets. Adversaries
+    target them through browser credential extraction, keychain access, and vault file theft
+    (MITRE ATT&CK T1555). Enterprise stores add credential rotation, session recording,
+    just-in-time access, and audit logging as PAM controls. The security paradox is that
+    password stores improve individual credential strength while creating a concentrated
+    target for attack.

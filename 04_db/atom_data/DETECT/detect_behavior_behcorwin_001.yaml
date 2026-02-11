@@ -1,0 +1,69 @@
+# GR Atom: Behavioral Correlation Window
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-BEHCORWIN-001"
+  name: "Behavioral Correlation Window"
+  normalized_name: "behavioral_correlation_window"
+  aliases:
+    - "Event Correlation Window"
+    - "Temporal Behavioral Correlation"
+    - "Detection Time Window"
+    - "Activity Correlation Timeframe"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - LOG
+    - INCIDENT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "A Behavioral Correlation Window is a defined time interval within which multiple security events and behavioral indicators are aggregated, correlated, and analyzed as potentially related components of a single attack sequence or threat campaign. Rather than evaluating individual events in isolation, this detection concept groups events occurring within a configurable time window to identify patterns that would be invisible when examining single events. The window size is tunable based on the attack type being detected, ranging from seconds for brute-force attacks to hours or days for advanced persistent threat activity."
+  why: "Modern attacks consist of multiple discrete steps executed over time, including reconnaissance, initial access, execution, persistence, lateral movement, and exfiltration. No single event may appear malicious in isolation, but the combination of events within a timeframe reveals the attack pattern. Without temporal correlation, security operations centers face overwhelming volumes of low-fidelity alerts while missing sophisticated multi-stage attacks. Behavioral correlation windows are the foundation of effective SIEM detection rules, UEBA analytics, and automated incident detection."
+  how: "SIEM platforms and detection engines implement correlation windows through streaming event processing, where incoming events are buffered within configurable time windows and evaluated against correlation rules. Events are grouped by shared attributes such as source IP, user identity, target host, or session identifier. Correlation rules define the combination of events, their required ordering, and the time window within which they must occur. Sliding windows continuously evaluate new events against the defined criteria. Window sizes are optimized per detection use case: short windows for rapid attacks like credential spraying, medium windows for lateral movement detection, and long windows for slow-and-low APT activity. Alert fatigue is managed through threshold tuning and confidence scoring."
+  core_concepts:
+    - key: "Sliding Window"
+      value: "A continuously advancing time interval that evaluates the most recent events against correlation rules, enabling real-time detection"
+    - key: "Event Grouping"
+      value: "The process of associating events by shared attributes like user, host, or session to enable meaningful correlation"
+    - key: "Window Tuning"
+      value: "The optimization of correlation window duration to balance detection sensitivity with false positive rates for specific threat types"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "Behavioral correlation windows enable aggregation of process-level anomalies into coherent threat detection"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOVELO-001"
+    description: "Geo velocity detection requires correlation of authentication events within defined time windows"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-92 - Guide to Computer Security Log Management"
+    - "Splunk - Correlation Searches and Detection Rules - https://docs.splunk.com/Documentation/ES"
+    - "SANS - Event Correlation Best Practices - https://www.sans.org/white-papers/"
+  search_keywords:
+    - "behavioral correlation window"
+    - "event correlation timeframe"
+    - "SIEM correlation rules"
+    - "temporal event correlation"
+    - "detection time window"
+    - "sliding window detection"
+    - "multi-event correlation"
+    - "attack sequence detection"
+  embedding_text: "Behavioral Correlation Window is a detection concept defining a configurable time interval within which multiple security events are aggregated and correlated as potentially related components of an attack sequence. Rather than evaluating events in isolation, this approach groups events by shared attributes within time windows to identify multi-stage attack patterns invisible in single-event analysis. SIEM platforms implement this through streaming event processing with sliding windows, correlation rules defining event combinations and ordering, and tunable window sizes optimized per threat type. Short windows detect rapid attacks like brute force, while long windows detect slow APT campaigns. This concept is foundational for SIEM detection, UEBA analytics, and automated incident identification."

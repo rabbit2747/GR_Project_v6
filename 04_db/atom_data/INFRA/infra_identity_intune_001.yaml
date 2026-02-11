@@ -1,0 +1,124 @@
+# GR Atom: Intune
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-INTUNE-001"
+  name: "Intune"
+  normalized_name: "intune"
+  aliases:
+    - "Microsoft Intune"
+    - "Microsoft Endpoint Manager"
+    - "Intune MDM"
+    - "Intune MAM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - MOBILE
+    - WINDOWS
+    - CONFIG
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Microsoft Intune is a cloud-based endpoint management service that provides Mobile Device
+    Management (MDM), Mobile Application Management (MAM), and PC management capabilities.
+    Intune enables organizations to enforce security policies, deploy applications, manage
+    device configurations, and ensure compliance across Windows, macOS, iOS, and Android
+    devices. It integrates with Azure AD Conditional Access to enforce device compliance as
+    a condition for accessing corporate resources.
+  why: >-
+    Intune is a critical security control because it enforces device compliance policies
+    that gate access to corporate data through Azure AD Conditional Access. Misconfigured
+    Intune policies, weak compliance baselines, or bypassed enrollment requirements can
+    allow non-compliant or compromised devices to access sensitive resources. Attackers may
+    target Intune administrative interfaces to push malicious configurations, deploy
+    backdoored applications, or modify compliance policies to weaken security posture.
+    Intune script deployment capabilities can be abused for remote code execution across
+    managed endpoints if administrative access is compromised.
+  how: >-
+    Devices enroll in Intune through Azure AD join, MDM enrollment, or Apple DEP/Android
+    Enterprise enrollment. Intune pushes configuration profiles defining security settings
+    (BitLocker encryption, firewall rules, password policies), compliance policies
+    evaluating device health, and application deployments. The Intune Management Extension
+    enables PowerShell script execution on Windows endpoints. Compliance evaluation results
+    feed into Azure AD Conditional Access for access decisions. Intune communicates with
+    devices through the Microsoft Intune service and device check-in protocols, with
+    management actions queued until the next device sync.
+  core_concepts:
+    - key: "Device Compliance Enforcement"
+      value: "Evaluates device health against compliance policies and integrates with Conditional Access to gate resource access on compliant devices"
+    - key: "Endpoint Configuration Management"
+      value: "Deploys security configurations, application packages, and scripts to managed endpoints across Windows, macOS, iOS, and Android"
+    - key: "Administrative Abuse Potential"
+      value: "Intune administrative access enables pushing malicious configurations and scripts to all managed endpoints for mass compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Intune requires Azure AD for device identity, user authentication, and Conditional Access integration"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Device compliance status from Intune enables Conditional Access authentication decisions"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-MOBILEIRON-001"
+    description: "Intune serves as an alternative to MobileIron for endpoint management and MDM"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1072"
+    tactic:
+      - "Execution"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Microsoft Intune Overview"
+    - "MITRE ATT&CK T1072 - Software Deployment Tools"
+    - "Microsoft Security - Intune Security Baselines"
+  search_keywords:
+    - "Microsoft Intune"
+    - "Intune MDM"
+    - "Intune MAM"
+    - "endpoint management"
+    - "device compliance"
+    - "Intune Conditional Access"
+    - "mobile device management"
+    - "Intune security baseline"
+  embedding_text: >-
+    Microsoft Intune is a cloud-based endpoint management service providing MDM, MAM, and
+    PC management for Windows, macOS, iOS, and Android devices. It enforces security
+    policies, deploys applications, and manages device configurations. Intune integrates
+    with Azure AD Conditional Access to gate resource access on device compliance status.
+    Devices enroll through Azure AD join, MDM enrollment, or vendor-specific programs.
+    Configuration profiles define security settings like encryption and firewall rules.
+    The Intune Management Extension enables PowerShell script execution on Windows.
+    Misconfigured policies or compromised administrative access can enable mass endpoint
+    compromise through malicious configuration pushes or script deployments. Security
+    teams must restrict Intune administrative access, audit configuration profile changes,
+    enforce strong compliance baselines, monitor script deployments, and implement
+    just-in-time administrative access for Intune operations.

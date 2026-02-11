@@ -1,0 +1,70 @@
+# GR Atom: Aon Cyber Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-AONCYBLAB-001"
+  name: "Aon Cyber Labs"
+  normalized_name: "aon_cyber_labs"
+  aliases:
+    - "Aon Cyber Solutions"
+    - "Stroz Friedberg"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - THREAT_INTEL
+    - PENTEST
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Aon Cyber Labs is the cybersecurity research and consulting division of Aon plc, a global professional services firm. The team conducts incident response, digital forensics, penetration testing, and threat intelligence research. Formerly known as Stroz Friedberg, Aon Cyber Labs provides advanced security assessment services and publishes security research including vulnerability disclosures and threat analysis reports."
+  why: "Aon Cyber Labs is significant because it combines deep technical cybersecurity expertise with the broader risk management and insurance perspective of Aon plc. Their incident response and forensics work provides insights into real-world breach patterns, and their research contributions include vulnerability discoveries and open-source security tools that benefit the broader security community."
+  how: "Aon Cyber Labs operates through specialized teams performing incident response engagements, digital forensics investigations, red team assessments, and vulnerability research. They publish findings through blog posts and conference presentations, and develop security tools and methodologies. Their work integrates with Aon's cyber insurance practice to provide data-driven risk assessment."
+  core_concepts:
+    - key: "Incident Response & Forensics"
+      value: "Expert incident response and digital forensics services for enterprise breach investigations"
+    - key: "Cyber Risk Assessment"
+      value: "Integration of technical security expertise with insurance and business risk management perspectives"
+    - key: "Security Research"
+      value: "Vulnerability research, threat analysis, and open-source security tool development"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BISHFOX-001"
+    description: "Fellow cybersecurity consulting and research organization providing offensive and defensive services"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security consulting firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.aon.com/cyber-solutions"
+    - "https://www.aon.com/cyber-labs"
+  search_keywords:
+    - "aon cyber labs"
+    - "aon cyber solutions"
+    - "stroz friedberg"
+    - "incident response consulting"
+    - "digital forensics"
+    - "cyber risk assessment"
+    - "aon security research"
+  embedding_text: "Aon Cyber Labs is the cybersecurity research and consulting division of Aon plc, a global professional services firm. Formerly known as Stroz Friedberg, the team conducts incident response, digital forensics, penetration testing, and threat intelligence research for enterprise clients. Aon Cyber Labs combines deep technical cybersecurity expertise with the broader risk management and insurance perspective of Aon plc, providing data-driven cyber risk assessments. Their incident response and forensics work generates insights into real-world breach patterns, while their research contributions include vulnerability discoveries, threat analysis reports, and open-source security tools. The team publishes findings through security conferences and technical blog posts, contributing to the broader cybersecurity community's understanding of emerging threats and attack techniques."

@@ -1,0 +1,99 @@
+# GR Atom: CVE-2017-1000486
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE201710004-001"
+  name: "CVE-2017-1000486"
+  normalized_name: "cve_2017_1000486"
+  aliases:
+    - "Primetek PrimeFaces EL Injection"
+    - "PrimeFaces Expression Language Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "PrimeFaces 5.x"
+    - "PrimeFaces 6.0"
+    - "Java Server Faces applications"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-1000486 is an Expression Language (EL) injection vulnerability in Primetek
+    PrimeFaces versions prior to 6.2 that allows remote code execution. The vulnerability
+    exists in the PrimeFaces StreamedContent component which uses a weak encryption scheme
+    with a hardcoded default key to protect a parameter that is subsequently evaluated as
+    an EL expression. Attackers who know or can guess the encryption key can inject arbitrary
+    EL expressions for server-side execution. CVSS v3 base score: 9.8 (Critical).
+  why: >-
+    PrimeFaces is one of the most popular JSF component libraries used in enterprise Java
+    applications. The hardcoded encryption key makes the vulnerability trivially exploitable
+    once the key is known, which is documented publicly. Exploitation provides remote code
+    execution on Java application servers hosting PrimeFaces applications, enabling full
+    server compromise without authentication.
+  how: >-
+    An attacker encrypts a malicious EL expression using the known default PrimeFaces encryption
+    key and sends it as a parameter to the StreamedContent endpoint. The application decrypts
+    the parameter and evaluates it as a Java EL expression without sanitization, leading to
+    arbitrary code execution. The logic flaw combines weak cryptographic protection with
+    unsafe expression evaluation.
+  core_concepts:
+    - key: "Hardcoded Key Logic Flaw"
+      value: "Default encryption key protects a parameter evaluated as code, but the key is publicly known, nullifying the protection"
+    - key: "Expression Language Injection"
+      value: "User-controlled input is evaluated as Java EL expression after decryption, enabling arbitrary server-side code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Cryptographic logic flaw combined with expression evaluation enabling remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2017-1000486"
+    - "NIST NVD - CVE-2017-1000486"
+    - "PrimeFaces GitHub Advisory"
+  search_keywords:
+    - "CVE-2017-1000486"
+    - "PrimeFaces vulnerability"
+    - "EL injection"
+    - "Expression Language injection"
+    - "PrimeFaces RCE"
+    - "JSF vulnerability"
+    - "hardcoded encryption key"
+  embedding_text: >-
+    CVE-2017-1000486 is an Expression Language injection vulnerability in PrimeFaces prior to
+    6.2 enabling remote code execution. The StreamedContent component uses a hardcoded default
+    encryption key to protect a parameter evaluated as a Java EL expression. Attackers encrypt
+    malicious expressions with the known key for server-side execution. CVSS v3 9.8 Critical.
+    Combines weak cryptographic protection with unsafe expression evaluation. Affects enterprise
+    Java applications using PrimeFaces JSF library. Year 2017.

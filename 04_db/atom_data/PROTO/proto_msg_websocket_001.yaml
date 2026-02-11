@@ -1,0 +1,106 @@
+# GR Atom: WebSocket Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-WEBSOCKET-001"
+  name: "WebSocket Protocol"
+  normalized_name: "websocket_protocol"
+  aliases:
+    - "WebSocket"
+    - "RFC 6455"
+    - "WS"
+    - "WSS"
+    - "WebSocket Secure"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    WebSocket is a communication protocol defined in RFC 6455 that provides full-duplex,
+    bidirectional communication channels over a single TCP connection. WebSocket begins with
+    an HTTP upgrade handshake on ports 80 (ws://) or 443 (wss:// over TLS) and then switches
+    to a lightweight framing protocol for persistent, low-latency data exchange. Unlike HTTP's
+    request-response model, WebSocket enables server-initiated push messages without polling.
+    The protocol supports text (UTF-8) and binary message frames with built-in fragmentation
+    and masking. WebSocket is fundamental to real-time web applications including chat, live
+    dashboards, gaming, financial trading, collaborative editing, and notification systems.
+  why: >-
+    WebSocket creates unique security challenges due to its persistent, bidirectional nature.
+    The HTTP upgrade handshake can bypass security controls designed for standard HTTP traffic —
+    many WAFs, proxies, and DLP systems lose visibility after the protocol upgrade. Cross-Site
+    WebSocket Hijacking (CSWSH) exploits the upgrade handshake's reliance on cookies for
+    authentication, enabling cross-origin attacks. WebSocket connections are used for C2
+    communication channels because they maintain persistent connections through firewalls and
+    proxies that allow HTTP/HTTPS. Injection attacks through WebSocket messages bypass
+    HTTP-focused security filters. Lack of origin validation in server implementations enables
+    unauthorized cross-origin connections.
+  how: >-
+    WebSocket operates through: (1) Client sends HTTP GET with Upgrade: websocket header,
+    Connection: Upgrade, Sec-WebSocket-Key (random base64 nonce), and optional Sec-WebSocket-
+    Protocol for subprotocol negotiation; (2) Server responds with 101 Switching Protocols and
+    Sec-WebSocket-Accept (SHA-1 hash of key + GUID) confirming upgrade; (3) Full-duplex
+    communication begins using WebSocket frames — each frame has opcode (text, binary, close,
+    ping, pong), masking bit (required for client-to-server), payload length, and optional
+    masking key; (4) Either party can send messages at any time without request-response pairing;
+    (5) Connection terminated via close frame handshake with status code. WSS (WebSocket Secure)
+    wraps the connection in TLS for encryption.
+  core_concepts:
+    - key: "HTTP Upgrade Handshake"
+      value: "Initial HTTP request with Upgrade header that transitions the connection from HTTP to WebSocket protocol, potentially bypassing HTTP-focused security controls."
+    - key: "Cross-Site WebSocket Hijacking (CSWSH)"
+      value: "Attack exploiting cookie-based authentication during WebSocket handshake to establish unauthorized cross-origin WebSocket connections from malicious pages."
+    - key: "WebSocket Frames"
+      value: "Lightweight binary framing with opcodes (text, binary, close, ping, pong), masking for client-to-server messages, and support for message fragmentation."
+    - key: "Persistent Bidirectional Channel"
+      value: "Full-duplex communication allowing server push without polling, enabling real-time applications but also creating persistent C2 channels through firewalls."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "WebSocket is an application layer protocol for full-duplex bidirectional communication"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "WebSocket requires an HTTP upgrade handshake to establish the initial connection before switching protocols"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 6455 — The WebSocket Protocol"
+    - "OWASP — Testing WebSockets (WSTG-CLNT-10)"
+    - "MITRE ATT&CK — T1071.001: Application Layer Protocol: Web Protocols"
+    - "W3C — WebSocket API Specification"
+  search_keywords:
+    - "WebSocket"
+    - "RFC 6455"
+    - "ws"
+    - "wss"
+    - "WebSocket secure"
+    - "full-duplex"
+    - "real-time web"
+    - "WebSocket hijacking"
+    - "CSWSH"
+    - "HTTP upgrade"
+  embedding_text: >-
+    WebSocket (RFC 6455) provides full-duplex, bidirectional communication over a single TCP
+    connection, initiated via HTTP upgrade handshake on ports 80/443. Unlike HTTP request-response,
+    WebSocket enables persistent server push for real-time applications including chat, dashboards,
+    gaming, and financial trading. Security challenges include HTTP upgrade bypassing WAF/DLP
+    controls, Cross-Site WebSocket Hijacking (CSWSH) exploiting cookie-based authentication,
+    persistent C2 channels through firewalls, and injection attacks bypassing HTTP-focused
+    filters. WSS provides TLS encryption. Security requires origin validation, authentication
+    beyond cookies, message input validation, and WebSocket-aware security monitoring.

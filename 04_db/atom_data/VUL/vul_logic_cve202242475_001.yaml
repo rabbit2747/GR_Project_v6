@@ -1,0 +1,97 @@
+# GR Atom: CVE-2022-42475
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202242475-001"
+  name: "CVE-2022-42475"
+  normalized_name: "cve_2022_42475"
+  aliases:
+    - "FortiOS SSL-VPN Heap Overflow"
+    - "FortiGate SSL-VPN RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - NETWORK
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "FortiOS SSL-VPN"
+    - "FortiProxy"
+    - "Fortinet FortiGate"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-42475 is a heap-based buffer overflow vulnerability in the FortiOS SSL-VPN
+    component that allows unauthenticated remote attackers to execute arbitrary code or
+    commands. The vulnerability exists in the SSL-VPN pre-authentication request processing
+    logic where specially crafted requests trigger a heap overflow condition. CVSS v3 base
+    score: 9.8 (Critical). Actively exploited as a zero-day.
+  why: >-
+    Fortinet FortiGate is one of the most widely deployed firewall and VPN platforms globally.
+    The SSL-VPN component is internet-facing by design, making this vulnerability directly
+    exploitable from the internet. Pre-authentication exploitation provides immediate access
+    to the network perimeter device. This was exploited as a zero-day before patch availability,
+    with Chinese threat actors among the confirmed exploiters.
+  how: >-
+    An attacker sends specially crafted requests to the FortiOS SSL-VPN web interface that
+    trigger a heap-based buffer overflow in the pre-authentication processing logic. The
+    overflow allows overwriting critical heap metadata and function pointers, enabling
+    redirection of execution to attacker-controlled code. Exploitation achieves code execution
+    with root privileges on the FortiGate appliance.
+  core_concepts:
+    - key: "Pre-Auth Heap Overflow"
+      value: "SSL-VPN request processing logic contains a heap buffer overflow exploitable before authentication, enabling unauthenticated RCE"
+    - key: "Network Perimeter Compromise"
+      value: "Exploitation of internet-facing VPN component provides root access to the network perimeter firewall appliance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Request processing logic flaw causing heap overflow in SSL-VPN pre-authentication handler"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2022-42475"
+    - "Fortinet PSIRT Advisory FG-IR-22-398"
+    - "NIST NVD - CVE-2022-42475"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2022-42475"
+    - "FortiOS SSL-VPN"
+    - "FortiGate vulnerability"
+    - "Fortinet heap overflow"
+    - "SSL-VPN RCE"
+    - "FortiOS zero-day"
+  embedding_text: >-
+    CVE-2022-42475 is a heap-based buffer overflow in FortiOS SSL-VPN enabling pre-authentication
+    remote code execution. Specially crafted requests overflow heap buffers in SSL-VPN processing.
+    CVSS v3 9.8 Critical. Exploited as zero-day by nation-state actors. Fortinet FortiGate is
+    a widely deployed firewall platform. Root-level code execution on perimeter appliance. CISA
+    Known Exploited. Request processing logic flaw causing heap overflow. Year 2022.

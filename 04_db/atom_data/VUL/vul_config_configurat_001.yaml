@@ -1,0 +1,82 @@
+# GR Atom: Configuration Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CONFIGURAT-001"
+  name: "Configuration Vulnerability"
+  normalized_name: "configuration_vulnerability"
+  aliases:
+    - "Security Misconfiguration"
+    - "Insecure Configuration"
+    - "Default Configuration Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - INFO_LEAK
+    - AUTHZ
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web Servers"
+    - "Application Servers"
+    - "Database Servers"
+    - "Operating Systems"
+    - "Network Devices"
+    - "Cloud Services"
+
+definition:
+  what: "Configuration Vulnerability is a broad vulnerability class where software, systems, or infrastructure components are deployed with insecure settings, default credentials, unnecessary features enabled, overly permissive access controls, missing security headers, verbose error messages, or unpatched components. It is ranked as OWASP Top 10 A05:2021 Security Misconfiguration and represents one of the most prevalent vulnerability categories across all technology stacks."
+  why: "Configuration vulnerabilities are pervasive because modern systems have extensive configurable surfaces, defaults prioritize functionality over security, and organizations often lack configuration management discipline. These weaknesses are easy to discover through automated scanning and require no sophisticated exploitation techniques. A single misconfiguration can negate otherwise strong security controls, making it a critical area for continuous security assessment."
+  how: "Configuration vulnerabilities are introduced through default installations without hardening, unnecessary services and features left enabled, overly permissive file/directory permissions, missing or misconfigured security headers (CSP, HSTS, X-Frame-Options), verbose error handling revealing stack traces, default or weak administrative credentials, missing patches and updates, and disabled security logging. Detection uses vulnerability scanners (Nessus, Qualys), configuration audit tools (CIS-CAT, Lynis), and security benchmarks. Remediation follows hardening guides, CIS benchmarks, and vendor security configuration guides."
+  core_concepts:
+    - key: "Security Hardening"
+      value: "Process of reducing attack surface by disabling unnecessary services, applying least-privilege permissions, and configuring security controls according to established benchmarks"
+    - key: "CIS Benchmarks"
+      value: "Industry-standard configuration guidelines from the Center for Internet Security providing prescriptive security configuration recommendations for operating systems, applications, and cloud platforms"
+    - key: "Defense in Depth"
+      value: "Security strategy requiring multiple layers of properly configured controls so that a single misconfiguration does not lead to complete compromise"
+
+relations:
+  - type: abstracts
+    target: "VUL-CONFIG-CLOUMISC-001"
+    description: "Configuration vulnerability is a parent category that includes cloud misconfigurations"
+  - type: abstracts
+    target: "VUL-CONFIG-ALWINSELE-001"
+    description: "Configuration vulnerability is a parent category that includes specific Windows configuration weaknesses"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Misconfigurations in application deployment create conditions for exploiting vulnerable applications"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "OWASP Top 10 - A05:2021 Security Misconfiguration"
+    - "CIS Benchmarks"
+    - "NIST SP 800-123 - Guide to General Server Security"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+  search_keywords:
+    - "security misconfiguration"
+    - "configuration vulnerability"
+    - "insecure default"
+    - "OWASP A05"
+    - "hardening guide"
+    - "CIS benchmark"
+    - "default credentials"
+    - "security headers missing"
+  embedding_text: "Configuration Vulnerability is a broad class where systems are deployed with insecure settings, default credentials, unnecessary features, overly permissive access controls, missing security headers, or verbose error messages. Ranked as OWASP Top 10 A05:2021 Security Misconfiguration, it represents one of the most prevalent vulnerability categories across all technology stacks. These weaknesses are easy to discover through automated scanning and require no sophisticated exploitation. Detection uses vulnerability scanners, configuration audit tools, and CIS benchmarks. Remediation follows security hardening guides, least-privilege principles, defense in depth, and continuous configuration management with automated compliance monitoring."

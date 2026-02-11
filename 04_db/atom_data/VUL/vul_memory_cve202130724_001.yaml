@@ -1,0 +1,111 @@
+# GR Atom: CVE-2021-30724
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202130724-001"
+  name: "CVE-2021-30724"
+  normalized_name: "cve_2021_30724"
+  aliases:
+    - "macOS Memory Corruption EoP"
+    - "Apple XPC Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - MACOS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "macOS Big Sur before 11.4"
+    - "macOS Catalina"
+    - "Apple iOS/iPadOS before 14.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-30724 is a memory corruption vulnerability in Apple macOS and iOS that allows
+    a local attacker to elevate privileges through improper memory handling in system
+    services. The vulnerability was patched by Apple in May 2021 as part of macOS Big Sur
+    11.4, iOS 14.6, and related security updates. The flaw exists in how certain system
+    services handle memory operations, enabling an application to execute arbitrary code
+    with kernel or elevated privileges. It was reported by an anonymous researcher and
+    addressed through improved input validation.
+  why: >-
+    CVE-2021-30724 is significant as a local privilege escalation vulnerability on Apple
+    platforms, which are increasingly targeted by sophisticated threat actors. Memory
+    corruption vulnerabilities in macOS system services provide a path from application
+    sandbox escape to kernel-level privileges. Apple's closed ecosystem and security model
+    make privilege escalation vulnerabilities particularly valuable for jailbreaking, APT
+    exploitation chains, and commercial spyware operations targeting Apple devices.
+  how: >-
+    The vulnerability is exploited by a local application that sends crafted inputs to
+    a vulnerable system service, triggering memory corruption through improper bounds
+    checking or object handling. The memory corruption enables the attacker to overwrite
+    critical data structures and redirect execution flow to attacker-controlled code running
+    with elevated privileges. Exploitation typically requires initial code execution on the
+    target device, obtained through application vulnerabilities or social engineering.
+  core_concepts:
+    - key: "macOS System Service Memory Corruption"
+      value: "Memory handling flaw in macOS system services enables privilege escalation from application to kernel context"
+    - key: "Apple Platform Privilege Escalation"
+      value: "Local EoP on Apple platforms valuable for jailbreaking, APT chains, and commercial spyware operations"
+    - key: "Improved Input Validation Fix"
+      value: "Apple addressed the vulnerability through improved input validation in system service memory handling"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2021-30724 is a memory corruption vulnerability in Apple macOS/iOS system services"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332434-001"
+    description: "Both are Apple platform memory corruption vulnerabilities enabling privilege escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "authoritative"
+  sources:
+    - "Apple Security Advisory HT212529 (macOS Big Sur 11.4)"
+    - "NVD Entry CVE-2021-30724"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2021-30724"
+    - "macOS"
+    - "Apple"
+    - "memory corruption"
+    - "privilege escalation"
+    - "Big Sur"
+    - "iOS"
+    - "kernel exploit"
+  embedding_text: >-
+    CVE-2021-30724 is a memory corruption vulnerability in Apple macOS and iOS system
+    services enabling local privilege escalation. The flaw exists in how system services
+    handle memory operations, allowing applications to execute code with elevated or kernel
+    privileges. Patched in May 2021 with macOS Big Sur 11.4 and iOS 14.6, it was addressed
+    through improved input validation. Memory corruption vulnerabilities on Apple platforms
+    are particularly valuable for APT exploitation chains and commercial spyware targeting
+    Apple devices, as the closed ecosystem makes privilege escalation the key step for
+    full device compromise.

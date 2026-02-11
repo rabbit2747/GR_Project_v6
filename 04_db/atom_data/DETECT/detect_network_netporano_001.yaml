@@ -1,0 +1,98 @@
+# GR Atom: Network Port Anomaly
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-NETPORANO-001"
+  name: "Network Port Anomaly"
+  normalized_name: "network_port_anomaly"
+  aliases:
+    - "Port Anomaly Detection"
+    - "Unusual Port Activity"
+    - "Non-Standard Port Detection"
+    - "Port Misuse Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - FIREWALL
+    - C2
+    - RECON
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that identifies anomalous port usage including services running on non-standard ports, unexpected port openings, protocol-port mismatches, and unusual port scanning activity. This pattern maintains an inventory of expected port usage per host and subnet, detecting deviations that may indicate backdoors, covert C2 channels, unauthorized services, or attacker reconnaissance."
+  why: "Adversaries frequently use non-standard ports to evade firewall rules and network monitoring. Backdoors, reverse shells, and C2 channels are often established on uncommon ports or masquerade as legitimate services on standard ports. Detecting port anomalies is essential for identifying unauthorized services, covert communication channels, and network reconnaissance that precedes exploitation."
+  how: "Detection builds a baseline of normal port usage per host by monitoring active listening ports, established connections, and traffic patterns. Anomaly detection flags new listening ports not in the baseline, traffic on ports not associated with known services, protocol-port mismatches where the actual protocol differs from the expected port assignment, ephemeral ports receiving inbound connections, high-numbered ports with persistent connections, and sudden changes in port usage patterns. Integration with vulnerability scanners and asset management provides context for distinguishing legitimate service changes from malicious activity."
+  core_concepts:
+    - key: "Port Baseline"
+      value: "Maintaining an inventory of expected listening ports and service-to-port mappings for each host and subnet."
+    - key: "Protocol-Port Validation"
+      value: "Verifying that traffic on standard ports matches the expected protocol rather than tunneling other services."
+    - key: "Unauthorized Service Detection"
+      value: "Identifying new or unexpected services listening on ports that were not previously active."
+    - key: "Port Scan Detection"
+      value: "Recognizing systematic probing of port ranges that indicates reconnaissance or vulnerability scanning."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: effective_against
+    target: "ATK-RECON-SCAN-001"
+    description: "Detects port scanning reconnaissance activity"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow log data for port usage analysis"
+  - type: enables
+    target: "DETECT-NETWORK-PRBADESUNE-001"
+    description: "Port anomaly detection contributes to protocol-based suspicious traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-APPRABPA-001"
+    description: "Port mismatches enable detection of application protocol abuse"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1571"
+    tactic:
+      - "Command and Control"
+      - "Discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Non-Standard Port T1571"
+    - "MITRE ATT&CK - Network Service Discovery T1046"
+    - "SANS Institute - Network Port Analysis"
+  search_keywords:
+    - "port anomaly"
+    - "non-standard port"
+    - "unusual port"
+    - "port scanning"
+    - "port mismatch"
+    - "unauthorized service"
+    - "port detection"
+    - "port baseline"
+    - "covert port"
+    - "port usage anomaly"
+  embedding_text: "Network port anomaly detection identifies anomalous port usage including services on non-standard ports, unexpected port openings, protocol-port mismatches, and port scanning activity. It maintains baselines of expected port usage per host and detects deviations indicating backdoors, covert C2 channels, unauthorized services, or attacker reconnaissance. The pattern validates that traffic on standard ports matches expected protocols and flags new listening ports, persistent high-numbered port connections, and systematic port probing. This is critical for detecting adversaries who use non-standard ports to evade firewall rules and monitoring."

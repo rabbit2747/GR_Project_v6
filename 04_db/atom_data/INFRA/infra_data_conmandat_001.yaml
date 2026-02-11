@@ -1,0 +1,119 @@
+# GR Atom: Configuration Management Database
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-CONMANDAT-001"
+  name: "Configuration Management Database"
+  normalized_name: "configuration_management_database"
+  aliases:
+    - "CMDB"
+    - "Configuration Management DB"
+    - "IT Asset Database"
+    - "CI Database"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - CONFIG
+    - AUDIT
+    - COMPLIANCE
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z4"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Configuration Management Database (CMDB) is a centralized repository that stores information
+    about all significant IT assets and configuration items (CIs) within an organization, along
+    with the relationships between them. Defined by ITIL (Information Technology Infrastructure
+    Library), a CMDB maintains records of hardware, software, documentation, personnel, and
+    services alongside their dependencies, ownership, and lifecycle states. Major CMDB implementations
+    include ServiceNow CMDB, BMC Atrium, Micro Focus UCMDB, and Device42.
+  why: >-
+    CMDBs are essential for IT service management, incident response, change management, and
+    security operations. They provide a single source of truth for understanding the IT
+    environment's composition and interdependencies. During security incidents, a CMDB enables
+    rapid identification of affected assets, their owners, criticality levels, and downstream
+    dependencies. For compliance, CMDBs support asset inventory requirements mandated by
+    frameworks such as NIST CSF, CIS Controls, ISO 27001, and PCI DSS.
+  how: >-
+    CMDBs are populated through automated discovery tools that scan networks and systems to
+    identify assets, agent-based collection from endpoints, integration with IT service
+    management (ITSM) workflows, and manual data entry. Configuration items are categorized
+    by type (server, application, network device, database) with attributes including owner,
+    location, criticality, environment, and lifecycle state. Relationship mapping captures
+    dependencies such as runs-on, connects-to, and depends-on. Federation allows CMDBs to
+    aggregate data from multiple authoritative sources while maintaining data lineage. Access
+    control restricts modification to authorized personnel and change management processes.
+  core_concepts:
+    - key: "Configuration Items (CIs)"
+      value: >-
+        Individual IT assets or components tracked in the CMDB, each with a unique identifier,
+        classification, attributes, and relationship mappings to other CIs in the environment.
+    - key: "Relationship Mapping"
+      value: >-
+        Captures dependencies and connections between CIs such as runs-on, connects-to,
+        depends-on, and managed-by, enabling impact analysis for changes and incidents.
+    - key: "Automated Discovery"
+      value: >-
+        Network scanning, agent-based collection, and API integration automatically populate
+        and update the CMDB, reducing manual effort and improving data accuracy.
+    - key: "ITIL Service Management Integration"
+      value: >-
+        CMDBs integrate with ITIL processes including incident management, change management,
+        problem management, and service level management to provide context for IT operations.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A CMDB is a specialized data store for IT asset and configuration item management"
+  - type: "requires"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "A CMDB requires an underlying database service for persistent storage of configuration items and relationships"
+  - type: "refines"
+    target: "INFRA-DATA-CONFDATA-001"
+    description: "A CMDB refines the general configuration database concept with ITIL-defined structure, relationship mapping, and lifecycle management"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ITIL 4 Foundation - Configuration Management practice. Axelos."
+    - "NIST SP 800-53 Rev 5 - CM-8 Information System Component Inventory."
+    - "ServiceNow CMDB documentation. https://docs.servicenow.com/bundle/cmdb"
+  search_keywords:
+    - "CMDB"
+    - "configuration management database"
+    - "IT asset management"
+    - "configuration items"
+    - "ITIL CMDB"
+    - "ServiceNow CMDB"
+    - "CI relationships"
+    - "asset inventory database"
+  embedding_text: >-
+    A Configuration Management Database (CMDB) is a centralized repository storing information
+    about IT assets and configuration items (CIs) along with their relationships, as defined by
+    ITIL. CMDBs maintain records of hardware, software, documentation, personnel, and services
+    with dependency mapping. They are populated through automated discovery, agent-based
+    collection, and ITSM workflow integration. CIs are categorized with attributes including
+    owner, criticality, environment, and lifecycle state. Relationship mapping captures
+    dependencies like runs-on, connects-to, and depends-on for impact analysis. CMDBs support
+    incident response by enabling rapid identification of affected assets and dependencies,
+    change management through impact assessment, and compliance with NIST CSF, CIS Controls,
+    ISO 27001, and PCI DSS asset inventory requirements. Major implementations include
+    ServiceNow CMDB, BMC Atrium, and Micro Focus UCMDB.

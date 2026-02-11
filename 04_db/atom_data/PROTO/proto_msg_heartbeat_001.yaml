@@ -1,0 +1,106 @@
+# GR Atom: Heartbeat
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HEARTBEAT-001"
+  name: "Heartbeat"
+  normalized_name: "heartbeat"
+  aliases:
+    - "Heartbeat Protocol"
+    - "Keep-Alive"
+    - "Health Check"
+    - "Liveness Probe"
+    - "Protocol Heartbeat"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - HTTP
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    A heartbeat is a periodic signal or message exchanged between networked systems to indicate
+    that a connection, service, or node is operational and responsive. Heartbeat mechanisms are
+    implemented across multiple protocol layers — TCP keep-alives at the transport layer, TLS
+    heartbeat extension (RFC 6520) at the security layer, application-level health checks in HTTP
+    and WebSocket, and cluster heartbeats in distributed systems. The heartbeat pattern involves
+    a sender transmitting a small probe message at regular intervals, with the receiver expected
+    to respond within a timeout period. Failure to receive a heartbeat response triggers
+    connection teardown, failover, or alerting procedures.
+  why: >-
+    Heartbeat mechanisms are critical for maintaining connection liveness, detecting failures, and
+    enabling high availability in distributed systems. From a security perspective, heartbeat
+    implementations have been the source of critical vulnerabilities — most notably the Heartbleed
+    vulnerability (CVE-2014-0160) in OpenSSL's TLS heartbeat extension, which allowed remote
+    memory disclosure. Heartbeat traffic patterns are also used by adversaries as covert C2
+    channels, where beacon intervals mimic legitimate heartbeat timing. Anomalous heartbeat
+    patterns can indicate compromised systems, network partitions, or denial-of-service attacks.
+  how: >-
+    Heartbeat mechanisms operate through periodic message exchange: (1) TCP keep-alive sends
+    empty ACK segments after idle periods (default 2 hours) to verify connection liveness; (2) TLS
+    heartbeat (RFC 6520) sends HeartbeatRequest messages with payload data that the peer echoes
+    back in HeartbeatResponse; (3) WebSocket ping/pong frames (RFC 6455) maintain connection
+    liveness through the intermediary infrastructure; (4) Application heartbeats use protocol-
+    specific health endpoints (HTTP /health, /ping) or custom message types. Configuration
+    parameters include interval, timeout, retry count, and failure action (reconnect, failover,
+    alert).
+  core_concepts:
+    - key: "Heartbeat Interval"
+      value: "The time period between consecutive heartbeat messages, configurable based on network conditions and availability requirements."
+    - key: "Failure Detection"
+      value: "Mechanism where missing heartbeat responses beyond a configured timeout trigger connection teardown, failover, or administrative alerting."
+    - key: "Heartbleed (CVE-2014-0160)"
+      value: "Critical vulnerability in OpenSSL's TLS heartbeat extension that allowed attackers to read up to 64KB of server memory per request, exposing private keys and session data."
+    - key: "TCP Keep-Alive"
+      value: "Transport layer heartbeat mechanism sending empty ACK segments after idle periods to detect broken connections without application-layer involvement."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP health check heartbeats are a sub-component of HTTP protocol usage for service liveness monitoring"
+  - type: "applies_to"
+    target: "PROTO-MSG-WEBSOCKET-001"
+    description: "WebSocket protocol implements heartbeat via ping/pong control frames defined in RFC 6455"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Application-level heartbeats are protocol mechanisms operating at the application layer"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 6520 — Transport Layer Security (TLS) and Datagram TLS Heartbeat Extension"
+    - "IETF RFC 6455 — The WebSocket Protocol (Section 5.5.2 Ping, 5.5.3 Pong)"
+    - "CVE-2014-0160 — Heartbleed Vulnerability. NIST NVD"
+    - "IETF RFC 1122 — Requirements for Internet Hosts — TCP Keep-Alive"
+  search_keywords:
+    - "heartbeat protocol"
+    - "keep-alive"
+    - "health check"
+    - "heartbleed"
+    - "CVE-2014-0160"
+    - "TCP keep-alive"
+    - "liveness probe"
+    - "connection heartbeat"
+    - "WebSocket ping pong"
+  embedding_text: >-
+    A heartbeat is a periodic signal exchanged between networked systems to confirm connection
+    liveness and service health. Implemented across multiple protocol layers including TCP
+    keep-alives, TLS heartbeat extension (RFC 6520), WebSocket ping/pong frames, and application
+    health endpoints, heartbeats enable failure detection and high availability. The Heartbleed
+    vulnerability (CVE-2014-0160) in OpenSSL's heartbeat implementation demonstrated critical
+    security risks, allowing remote memory disclosure of private keys and session data. Heartbeat
+    patterns are also relevant to security monitoring as adversary C2 beaconing often mimics
+    legitimate heartbeat timing. Configuration involves interval, timeout, retry count, and
+    failure action parameters.

@@ -1,0 +1,106 @@
+# GR Atom: Event Log Archive Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGARC-001"
+  name: "Event Log Archive Event"
+  normalized_name: "event_log_archive_event"
+  aliases:
+    - "Log Archive Event"
+    - "Event Log Backup Event"
+    - "Log Archival Notification"
+    - "Audit Log Archive"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Archive Event is a log entry generated when an event log file is archived,
+    backed up, or moved from its active storage location to long-term archive storage. On
+    Windows systems this corresponds to events indicating that a log channel has been archived
+    (such as Event ID 1105 in the Security log indicating the event log is full and has been
+    archived). On Linux/Unix systems, this corresponds to logrotate archival operations or
+    syslog archive events. The event typically records the log name, archive destination path,
+    timestamp of archival, the size of the archived log, and the identity of the process or
+    user that initiated the archival. This event is part of the event log lifecycle management
+    chain and serves as an audit trail for log integrity and retention compliance.
+  why: >-
+    Event log archival monitoring is critical for maintaining log integrity and ensuring
+    compliance with retention policies required by regulations such as PCI DSS, HIPAA, SOX,
+    and GDPR. Unexpected or unauthorized log archival operations may indicate an attacker
+    attempting to manipulate the audit trail — archiving logs prematurely to cause the active
+    log to reset, or modifying archive destinations to exfiltrate log data. Additionally,
+    monitoring archival events ensures that log rotation and retention policies are functioning
+    correctly, preventing log loss due to storage exhaustion. Forensic investigations depend on
+    verifiable archive chains to establish the integrity and completeness of evidence.
+  how: >-
+    Event log archive events are detected by: (1) Monitoring Windows Event Log channels for
+    archive-related event IDs such as Event ID 1105 in the Security log; (2) Monitoring
+    logrotate status files and syslog messages on Linux for archive completion notifications;
+    (3) Configuring SIEM rules to alert on unexpected archival events outside scheduled
+    maintenance windows; (4) Validating that archive destinations match approved storage
+    locations; (5) Correlating archival events with log size thresholds and retention policy
+    schedules to identify anomalous archival patterns; (6) Verifying archive integrity through
+    hash comparisons and chain-of-custody logging.
+  core_concepts:
+    - key: "Log Retention Compliance"
+      value: "Regulatory frameworks mandate specific log retention periods, and archive events provide the audit trail proving that logs are properly preserved for the required duration."
+    - key: "Archive Chain of Custody"
+      value: "The documented trail of log archival events that establishes provenance and integrity of archived logs for forensic and compliance purposes."
+
+relations:
+  - type: "part_of"
+    target: "DETECT-LOG-EVELOGROT-001"
+    description: "Log archival is part of the broader log rotation lifecycle"
+  - type: "precedes"
+    target: "DETECT-LOG-EVELOGSTA-001"
+    description: "After archival of a full log, the logging service typically starts a new log file"
+  - type: "enables"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Archived logs enable retrospective security event analysis and forensic investigation"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft — Windows Event Log Reference: Event ID 1105"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+    - "Linux man pages — logrotate(8)"
+  search_keywords:
+    - "event log archive"
+    - "log archival event"
+    - "log backup event"
+    - "Event ID 1105"
+    - "log retention"
+    - "log rotation archive"
+    - "audit log backup"
+    - "logrotate archive"
+    - "log lifecycle management"
+    - "forensic log preservation"
+  embedding_text: >-
+    Event Log Archive Event is a detection pattern for log entries generated when event logs
+    are archived or backed up from active storage to long-term archive destinations. On Windows,
+    this includes Event ID 1105 for Security log archival; on Linux, logrotate archive
+    notifications. Monitoring archive events ensures log retention compliance with PCI DSS,
+    HIPAA, SOX, and GDPR, detects unauthorized log manipulation attempts, validates archive
+    destination integrity, and supports forensic chain-of-custody requirements. Unexpected
+    archival outside maintenance windows or to unauthorized destinations warrants investigation
+    as potential evidence tampering.

@@ -1,0 +1,74 @@
+# GR Atom: ThreatLabZ
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-THREATLABZ-001"
+  name: "ThreatLabZ"
+  normalized_name: "threatlabz"
+  aliases:
+    - "Zscaler ThreatLabz"
+    - "ThreatLabz"
+    - "Zscaler Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - CLOUD
+    - ZTNA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ThreatLabZ is Zscaler's threat intelligence and security research division that analyzes over 500 billion daily transactions across Zscaler's global cloud security platform to identify emerging threats, malware campaigns, and attack techniques. The team produces detailed research on phishing campaigns, ransomware operations, zero-day exploits, and cloud-based attack vectors, publishing annual state-of-attack reports covering encrypted threats, ransomware, and phishing trends."
+  why: "ThreatLabZ is significant because Zscaler's unique position as a cloud security proxy processing massive volumes of internet traffic provides unparalleled visibility into web-based threats, encrypted attack traffic, and cloud-native attack patterns. The team's research directly feeds into Zscaler's zero-trust platform protection and provides the security community with large-scale threat trend analysis that no other vendor can match."
+  how: "ThreatLabZ operates by analyzing the enormous volume of traffic flowing through Zscaler's global cloud platform, applying machine learning models, behavioral analysis, and manual research to identify new threats. The team tracks threat actor campaigns, discovers zero-day vulnerabilities, and develops detection signatures that are deployed across Zscaler's platform in real time. Research findings are published through blog posts, annual reports, and conference presentations."
+  core_concepts:
+    - key: "Cloud-Scale Threat Intelligence"
+      value: "Threat analysis derived from 500+ billion daily transactions across Zscaler's global cloud security platform"
+    - key: "Encrypted Threat Analysis"
+      value: "Research on threats hidden within SSL/TLS encrypted traffic, leveraging Zscaler's inline decryption capabilities"
+    - key: "Zero Trust Threat Research"
+      value: "Analysis of threats targeting cloud-native architectures and zero-trust security implementations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow vendor threat research division producing threat intelligence and analysis"
+  - type: enables
+    target: "ACTOR-VENDOR-PALALTNET-001"
+    description: "Complements other cloud security vendor research teams in the threat intelligence ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.zscaler.com/blogs/security-research"
+    - "https://www.zscaler.com/threatlabz"
+  search_keywords:
+    - "threatlabz"
+    - "zscaler research"
+    - "zscaler threat intelligence"
+    - "cloud security research"
+    - "encrypted threats"
+    - "zero trust security"
+    - "ransomware research"
+    - "phishing research"
+  embedding_text: "ThreatLabZ is Zscaler's threat intelligence and security research division that analyzes over 500 billion daily transactions across Zscaler's global cloud security platform to identify emerging threats, malware campaigns, and attack techniques. The team produces detailed research on phishing campaigns, ransomware operations, zero-day exploits, and cloud-based attack vectors. Zscaler's unique position as a cloud security proxy provides unparalleled visibility into web-based threats, encrypted attack traffic, and cloud-native attack patterns, making ThreatLabZ research particularly valuable for understanding modern threat trends."

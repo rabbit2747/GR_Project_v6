@@ -1,0 +1,74 @@
+# GR Atom: CVE-2021-26858
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202126858-001"
+  name: "CVE-2021-26858"
+  normalized_name: "cve_2021_26858"
+  aliases:
+    - "Exchange Server Arbitrary File Write"
+    - "ProxyLogon Chain - File Write Component"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - WINDOWS
+    - WEB
+    - UPLOAD
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+definition:
+  what: "CVE-2021-26858 is a post-authentication arbitrary file write vulnerability in Microsoft Exchange Server. After authenticating via CVE-2021-26855 (ProxyLogon SSRF), an attacker can write files to any path on the Exchange server, enabling web shell deployment and remote code execution. CVSS v3: 7.8 (High). Disclosed in March 2021 as part of the ProxyLogon vulnerability chain."
+  why: "This vulnerability is a critical component of the ProxyLogon exploit chain used by HAFNIUM and other threat actors. While it requires authentication, the companion CVE-2021-26855 provides that authentication bypass. The ability to write arbitrary files to the Exchange server enables deployment of persistent web shells, providing long-term remote access even after the initial SSRF vulnerability is patched. This was one of four Exchange vulnerabilities patched together in the March 2021 emergency update."
+  how: "After gaining an authenticated session via CVE-2021-26855, the attacker exploits a flaw in the Exchange Unified Messaging service to write arbitrary files to the Exchange server filesystem. The attacker crafts a request that specifies a target file path and content, which Exchange writes without proper path validation. Typically, attackers write ASPX web shells to the Exchange web root directory, enabling persistent command execution through HTTP requests. The exploitation requires chaining with CVE-2021-26855 for the initial authentication bypass."
+  core_concepts:
+    - key: "Post-Authentication File Write"
+      value: "Exchange Unified Messaging service allows authenticated sessions to write arbitrary files to the server filesystem without proper path restrictions"
+    - key: "Web Shell Persistence"
+      value: "Arbitrary file write capability enables deployment of ASPX web shells in the Exchange web root for persistent remote command execution"
+
+relations:
+  - type: part_of
+    target: "VUL-AUTH-CVE202126855-001"
+    description: "CVE-2021-26858 is part of the ProxyLogon exploit chain, requiring CVE-2021-26855 for authentication bypass"
+  - type: requires
+    target: "VUL-AUTH-CVE202126855-001"
+    description: "Exploitation requires prior authentication bypass via CVE-2021-26855 ProxyLogon SSRF"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic: ["Persistence"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-26858 - NVD NIST"
+    - "Microsoft Security Blog - HAFNIUM Exchange Exploitation"
+    - "CISA Emergency Directive 21-02"
+    - "MITRE ATT&CK T1505.003 - Server Software Component: Web Shell"
+  search_keywords:
+    - "CVE-2021-26858"
+    - "Exchange arbitrary file write"
+    - "ProxyLogon file write"
+    - "Exchange web shell"
+    - "HAFNIUM Exchange"
+    - "Exchange post-authentication exploit"
+    - "Exchange Unified Messaging vulnerability"
+  embedding_text: "CVE-2021-26858 is a post-authentication arbitrary file write vulnerability in Microsoft Exchange Server, part of the ProxyLogon exploit chain. After gaining authentication via CVE-2021-26855 SSRF bypass, attackers exploit a flaw in the Exchange Unified Messaging service to write arbitrary files to the server filesystem. CVSS v3 score is 7.8 High. Used by HAFNIUM and other threat actors to deploy ASPX web shells for persistent remote access. Affects Exchange Server 2013, 2016, and 2019. Patched in March 2021 emergency update alongside three other Exchange vulnerabilities. Maps to MITRE ATT&CK T1505.003 Web Shell persistence. Requires chaining with ProxyLogon for unauthenticated exploitation."

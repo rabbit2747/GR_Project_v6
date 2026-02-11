@@ -1,0 +1,69 @@
+# GR Atom: Silent Break
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SILEBREA-001"
+  name: "Silent Break"
+  normalized_name: "silent_break"
+  aliases:
+    - "Silent Break Security"
+    - "SilentBreak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RED_TEAM
+    - PENTEST
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Silent Break Security is an offensive security consultancy specializing in red team operations, adversary simulation, and penetration testing. The company develops custom offensive security tools and techniques for simulating advanced persistent threats, helping organizations test their detection and response capabilities against realistic attack scenarios that mirror real-world threat actor tradecraft."
+  why: "Silent Break Security is significant in cybersecurity because effective red team operations are essential for validating an organization's defensive posture against sophisticated adversaries. The company's focus on developing novel evasion techniques and custom tooling helps organizations identify gaps in their security monitoring and incident response that automated tools alone cannot reveal."
+  how: "Silent Break Security operates through comprehensive red team engagements that simulate advanced threat actors using custom-developed tools and techniques. Their services include full-scope red team operations, assumed breach assessments, physical penetration testing, and social engineering campaigns. The company develops proprietary offensive tools that leverage novel evasion techniques to bypass modern security controls."
+  core_concepts:
+    - key: "Red Team Operations"
+      value: "Full-scope adversary simulation engagements that test detection and response capabilities against realistic attack scenarios"
+    - key: "Custom Offensive Tooling"
+      value: "Development of proprietary security tools leveraging novel evasion techniques to bypass modern defensive controls"
+    - key: "Adversary Simulation"
+      value: "Realistic emulation of advanced threat actor tradecraft to validate organizational security posture"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SPECTEROPS-001"
+    description: "Fellow red team and adversary simulation vendor specializing in offensive security services"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://silentbreaksecurity.com"
+  search_keywords:
+    - "silent break security"
+    - "red team"
+    - "adversary simulation"
+    - "penetration testing"
+    - "offensive security"
+    - "evasion techniques"
+    - "custom tooling"
+    - "assumed breach"
+  embedding_text: "Silent Break Security is an offensive security consultancy specializing in red team operations, adversary simulation, and penetration testing. The company develops custom offensive security tools and techniques for simulating advanced persistent threats, helping organizations test their detection and response capabilities against realistic attack scenarios. Silent Break focuses on developing novel evasion techniques and custom tooling to help organizations identify gaps in security monitoring and incident response that automated tools cannot reveal."

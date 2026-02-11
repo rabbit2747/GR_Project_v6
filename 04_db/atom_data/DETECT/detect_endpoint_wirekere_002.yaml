@@ -1,0 +1,92 @@
+# GR Atom: Windows Registry Key Renaming Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKERE-002"
+  name: "Windows Registry Key Renaming Event"
+  normalized_name: "windows_registry_key_renaming_event"
+  aliases:
+    - "Registry Key Rename"
+    - "Sysmon Event ID 14"
+    - "Registry Key Move"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry keys are renamed on an endpoint. This is primarily detected via Sysmon Event ID 14 (RegistryEvent - Key and Value Rename) which records the original key name and the new key name. Windows Security audit events can also capture rename operations through object access auditing. The event records the original registry path, the new registry path, the renaming process, and user context. Registry key renaming is a relatively uncommon operation that is significant when observed in security-sensitive registry locations."
+  why: "Registry key renaming is a defense evasion technique used by adversaries to obfuscate malicious registry entries by giving them legitimate-sounding names, to move persistence entries between registry locations to avoid signature-based detection, and to disrupt security tool functionality by renaming keys that security software monitors. Because key renaming is uncommon in normal operations, it serves as a high-fidelity indicator of suspicious activity when detected in security-relevant registry paths."
+  how: "Detection primarily monitors Sysmon Event ID 14 for registry key rename operations. Windows Security Event ID 4657 can capture rename operations when SACLs are configured with appropriate access masks. EDR agents detect rename operations and compare the old and new key names to identify obfuscation patterns. SIEM rules flag renaming operations in persistence-related paths, security configuration keys, and other monitored locations. Anomaly detection identifies key renames that change names from recognizable to obfuscated patterns or vice versa."
+  core_concepts:
+    - key: "obfuscation_by_renaming"
+      value: "Adversaries rename malicious registry keys to blend in with legitimate system entries and evade detection"
+    - key: "persistence_relocation"
+      value: "Moving persistence entries between registry locations by renaming to avoid detection rules targeting specific paths"
+    - key: "security_tool_disruption"
+      value: "Renaming keys monitored by security tools to break their detection logic without triggering deletion alerts"
+    - key: "rename_frequency_analysis"
+      value: "Registry key renames are uncommon in normal operations, making any rename in sensitive locations a noteworthy event"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key renaming is a specific type of registry key operation event"
+  - type: "alternative_to"
+    target: "DETECT-ENDPOINT-WIREKEDE-001"
+    description: "Renaming is an alternative to deletion for evading detection of specific registry keys"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Event ID 14 RegistryEvent Rename"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Microsoft Documentation - Registry Key Operations"
+    - "Windows Security Audit Event Reference"
+  search_keywords:
+    - "registry key rename"
+    - "Sysmon Event ID 14"
+    - "registry key renaming"
+    - "registry obfuscation"
+    - "registry key move"
+    - "registry evasion"
+    - "registry rename detection"
+    - "registry key name change"
+    - "defense evasion registry"
+    - "registry persistence rename"
+  embedding_text: "Windows registry key renaming event detection pattern identifies when registry keys are renamed via Sysmon Event ID 14 and Windows Security audit events. Records the original and new key paths, renaming process, and user context. Registry key renaming is a defense evasion technique for obfuscating malicious entries, relocating persistence mechanisms to avoid detection rules, and disrupting security tool monitoring. Key renames are uncommon in normal operations making them high-fidelity indicators of suspicious activity. Maps to MITRE ATT&CK T1112 Modify Registry. Detection compares old and new names to identify obfuscation patterns and monitors sensitive registry locations for any rename operations."

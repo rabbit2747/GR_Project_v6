@@ -1,0 +1,81 @@
+# GR Atom: Web Proxy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-WEBPROX-001"
+  name: "Web Proxy"
+  normalized_name: "web_proxy"
+  aliases:
+    - "Secure Web Gateway"
+    - "SWG"
+    - "Web Security Gateway"
+    - "Web Filter Proxy"
+    - "Internet Web Proxy"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - TLS
+    - WAF
+    - MONITOR
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N2.2"
+
+definition:
+  what: "A Web Proxy is a security-focused network intermediary specifically designed to inspect, filter, and control web traffic (HTTP/HTTPS) flowing between internal users and the internet. Web proxies combine forward proxy functionality with advanced security features including URL category filtering, malware scanning, data loss prevention (DLP), SSL/TLS inspection, sandboxing of downloaded files, cloud application control (CASB functionality), and user activity logging. Modern web proxy solutions operate as on-premises appliances (Symantec ProxySG, McAfee Web Gateway), cloud-delivered services (Zscaler Internet Access, Cisco Umbrella, Netskope), or hybrid deployments. Web proxies are positioned as Secure Web Gateways (SWG) in the SASE (Secure Access Service Edge) architecture framework."
+  why: "Web proxies are essential security controls because web browsing is the primary vector for malware delivery, phishing attacks, drive-by downloads, and data exfiltration in enterprise environments. By intercepting and inspecting all web traffic, web proxies can block access to known malicious URLs, detect malware in downloaded files, prevent sensitive data from being uploaded to unauthorized cloud services, enforce acceptable use policies, and provide visibility into encrypted HTTPS traffic that would otherwise be opaque to network security tools. The shift to cloud-delivered web proxy services reflects the need to protect users regardless of their network location, including remote and mobile workers."
+  how: "Web proxies intercept outbound web traffic either through explicit proxy configuration, PAC file deployment, or traffic redirection. For HTTPS traffic, the proxy performs SSL/TLS inspection by presenting its own certificate to the client, decrypting the traffic, inspecting the content, and re-encrypting it for forwarding to the destination. URL filtering evaluates requested URLs against categorization databases and policy rules. Anti-malware engines scan downloaded files and web content in real time. Sandboxing services detonate suspicious files in isolated environments. DLP rules inspect outbound content for sensitive data patterns. Cloud application control identifies and enforces policies on SaaS application usage. User authentication integrates with identity providers for policy-based access control. All transactions are logged for security monitoring, compliance reporting, and incident investigation."
+  core_concepts:
+    - key: "Secure Web Gateway"
+      value: "A web proxy product category that combines URL filtering, anti-malware, DLP, SSL inspection, and cloud application control into a unified web security platform"
+    - key: "CASB Functionality"
+      value: "Cloud Access Security Broker capabilities integrated into web proxies that provide visibility and control over SaaS application usage including shadow IT discovery"
+    - key: "SSL/TLS Inspection"
+      value: "The decryption and re-encryption of HTTPS traffic at the web proxy to enable content inspection of encrypted communications using a trusted internal certificate authority"
+
+relations:
+  - type: instance_of
+    target: "INFRA-NET-HTTPPROX-001"
+    description: "A web proxy is a security-specialized implementation of HTTP proxy technology focused on web traffic protection"
+  - type: instance_of
+    target: "INFRA-NET-FORWPROX-001"
+    description: "A web proxy implements forward proxy functionality with enhanced security controls for outbound web traffic"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Web proxies require DNS resolution for destination hostname lookups and URL category classification"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.001"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Gartner - Secure Web Gateway Market Guide"
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+    - "CIS Controls v8 - Control 9: Email and Web Browser Protections"
+  search_keywords:
+    - "web proxy"
+    - "secure web gateway"
+    - "SWG"
+    - "web filter proxy"
+    - "Zscaler proxy"
+    - "web security gateway"
+    - "SSL inspection proxy"
+    - "URL filtering"
+    - "web content filtering"
+  embedding_text: "A Web Proxy is a security-focused network intermediary that inspects, filters, and controls web traffic between internal users and the internet. Combining forward proxy functionality with URL category filtering, malware scanning, DLP, SSL/TLS inspection, sandboxing, and cloud application control (CASB), web proxies operate as on-premises appliances or cloud-delivered Secure Web Gateway services within SASE architectures. Solutions include Symantec ProxySG, Zscaler Internet Access, Cisco Umbrella, and Netskope. Web proxies are essential because web browsing is the primary vector for malware delivery, phishing, and data exfiltration. SSL/TLS inspection enables content analysis of encrypted HTTPS traffic that would otherwise be opaque to security tools."

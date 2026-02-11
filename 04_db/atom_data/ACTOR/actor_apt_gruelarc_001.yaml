@@ -1,0 +1,82 @@
+# GR Atom: Gruesome Larch
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-GRUELARC-001"
+  name: "Gruesome Larch"
+  normalized_name: "gruesome_larch"
+  aliases:
+    - "Forest Blizzard"
+    - "APT28"
+    - "Fancy Bear"
+    - "Sofacy"
+    - "Pawn Storm"
+    - "Sednit"
+    - "STRONTIUM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "CRED"
+    - "LATERAL"
+    - "EXFIL"
+    - "NETWORK"
+    - "WINDOWS"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "VPN appliances"
+    - "web applications"
+    - "Active Directory"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Gruesome Larch is CrowdStrike's updated designation for the Russian GRU-affiliated threat actor widely known as APT28, Fancy Bear, or Forest Blizzard. This group has been active since at least 2004 and is attributed to GRU Unit 26165. It is one of Russia's most prolific and technically sophisticated cyber espionage groups, targeting governments, military organizations, defense contractors, and media entities worldwide."
+  why: "The group conducts cyber espionage operations aligned with Russian military intelligence priorities, including political intelligence collection, military secrets theft, and influence operations. Their targeting patterns closely align with Russian geopolitical interests, particularly regarding NATO member states, Eastern European nations, and organizations investigating Russian activities."
+  how: "Gruesome Larch employs sophisticated spear-phishing campaigns with zero-day exploits, credential harvesting via spoofed login portals, exploitation of network edge devices such as VPN appliances and email gateways, and custom malware families including X-Agent, X-Tunnel, and Zebrocy. The group is known for living-off-the-land techniques, abusing legitimate services for C2 communications, and conducting close-access operations via Wi-Fi network compromise."
+  core_concepts:
+    - "GRU Unit 26165 cyber operations"
+    - "credential harvesting at scale"
+    - "zero-day exploitation"
+    - "close-access Wi-Fi attacks"
+    - "political and military espionage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-GRIZSTEP-001"
+    description: "APT28 is part of the Grizzly Steppe designation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - APT28 (G0007)"
+    - "CrowdStrike - Naming Conventions Update (2023)"
+    - "Microsoft Threat Intelligence - Forest Blizzard Profile"
+    - "FireEye - APT28: A Window into Russia's Cyber Espionage Operations"
+  search_keywords:
+    - "gruesome larch"
+    - "APT28"
+    - "fancy bear"
+    - "forest blizzard"
+    - "sofacy"
+    - "pawn storm"
+    - "sednit"
+    - "STRONTIUM"
+    - "GRU unit 26165"
+  embedding_text: "Gruesome Larch is the CrowdStrike designation for the Russian GRU-affiliated threat actor also known as APT28, Fancy Bear, Forest Blizzard, Sofacy, Pawn Storm, and Sednit. Attributed to GRU Unit 26165, this group has been active since at least 2004 conducting cyber espionage against governments, military organizations, defense contractors, and media worldwide. Their techniques include sophisticated spear-phishing with zero-day exploits, credential harvesting through spoofed authentication portals, exploitation of network edge devices like VPN appliances, deployment of custom malware families such as X-Agent and Zebrocy, and close-access Wi-Fi attacks. The group consistently targets NATO allies, Eastern European governments, and organizations related to Russian geopolitical interests. Gruesome Larch is considered one of Russia's most capable and prolific cyber threat actors operating in support of military intelligence objectives."

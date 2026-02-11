@@ -1,0 +1,117 @@
+# GR Atom: Authentication Event Thresholding
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-AUTEVETHR-001"
+  name: "Authentication Event Thresholding"
+  normalized_name: "authentication_event_thresholding"
+  aliases:
+    - "Auth Event Threshold"
+    - "Login Attempt Thresholding"
+    - "Brute Force Detection Threshold"
+    - "Authentication Rate Limiting Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - MONITOR
+    - SIEM
+    - AUDIT
+    - LOG
+    - CRED
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Authentication Event Thresholding is a detection pattern that monitors the rate and volume
+    of authentication events within a defined time window to identify anomalous login behavior.
+    It establishes baseline thresholds for acceptable authentication attempt frequencies per
+    account, source IP, or service, and triggers alerts when those thresholds are exceeded.
+    Common threshold configurations include failed login count per minute, successful logins
+    from multiple geographies within impossible travel timeframes, and authentication attempts
+    against multiple accounts from a single source. This pattern is fundamental to detecting
+    brute force attacks, credential stuffing, password spraying, and account enumeration attempts
+    across authentication systems including Active Directory, LDAP, RADIUS, OAuth, SAML, and
+    cloud identity providers.
+  why: >-
+    Credential-based attacks remain the most prevalent initial access vector in security
+    breaches. Without thresholding on authentication events, brute force and credential stuffing
+    attacks can proceed undetected for extended periods. Attackers routinely use automated tools
+    to test stolen credential databases against multiple services, and slow-rate attacks can
+    evade simple lockout policies. Thresholding provides the detection layer that complements
+    preventive controls like account lockout and rate limiting, enabling SOC teams to identify
+    and respond to credential attacks in progress before account compromise occurs.
+  how: >-
+    Authentication event thresholding works by: (1) Collecting authentication logs from identity
+    providers, directory services, VPNs, web applications, and cloud platforms into a centralized
+    SIEM or log management system; (2) Defining threshold rules based on event counts per time
+    window — for example, more than 5 failed logins per account in 10 minutes, or more than 50
+    failed logins from a single IP in 5 minutes; (3) Applying sliding window or tumbling window
+    aggregation functions to group and count events; (4) Comparing aggregated counts against
+    defined thresholds in real-time or near-real-time; (5) Generating alerts with contextual
+    metadata including source IP, target accounts, geographic location, and user agent when
+    thresholds are breached; (6) Tuning thresholds based on baseline analysis to reduce false
+    positives while maintaining detection sensitivity.
+  core_concepts:
+    - key: "Threshold Window"
+      value: "The time interval over which authentication events are aggregated for comparison against defined limits, typically ranging from 1 minute to 1 hour depending on the attack type targeted."
+    - key: "Sliding vs Tumbling Window"
+      value: "Sliding windows evaluate events continuously and can detect attacks spanning window boundaries, while tumbling windows reset at fixed intervals and are simpler to implement but may miss boundary-spanning attacks."
+    - key: "Baseline Calibration"
+      value: "The process of analyzing historical authentication patterns to establish normal behavior thresholds that minimize false positives while maintaining detection capability for true attacks."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Authentication event thresholding is a specific type of security event detection pattern"
+  - type: "effective_against"
+    target: "ATK-CRED-BRUTEFORC-001"
+    description: "Thresholding detects brute force attacks by identifying excessive failed authentication attempts"
+  - type: "requires"
+    target: "DETECT-LOG-SIECORRUL-001"
+    description: "Thresholding requires SIEM correlation rules to aggregate and evaluate authentication events against defined thresholds"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1110"
+    tactic: ["Credential Access"]
+    sub_techniques: ["T1110.001", "T1110.002", "T1110.003", "T1110.004"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK — T1110: Brute Force"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "OWASP — Credential Stuffing Prevention Cheat Sheet"
+    - "SANS — Detecting Brute Force Attacks with SIEM"
+  search_keywords:
+    - "authentication thresholding"
+    - "brute force detection"
+    - "login threshold"
+    - "credential stuffing detection"
+    - "failed login monitoring"
+    - "authentication rate limiting"
+    - "password spraying detection"
+    - "account lockout detection"
+    - "SIEM authentication alert"
+    - "login anomaly detection"
+  embedding_text: >-
+    Authentication Event Thresholding is a detection pattern that monitors authentication event
+    rates within defined time windows to identify brute force, credential stuffing, and password
+    spraying attacks. It aggregates failed and successful login events per account, source IP,
+    or service using sliding or tumbling windows in SIEM platforms, triggering alerts when counts
+    exceed calibrated thresholds. This pattern is essential for detecting credential-based attacks
+    across Active Directory, LDAP, OAuth, SAML, and cloud identity providers before account
+    compromise occurs. Threshold calibration against baseline authentication behavior is critical
+    to balancing detection sensitivity with false positive reduction.

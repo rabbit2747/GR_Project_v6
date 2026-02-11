@@ -1,0 +1,74 @@
+# GR Atom: WithSecure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-WITHSECURE-001"
+  name: "WithSecure"
+  normalized_name: "withsecure"
+  aliases:
+    - "WithSecure Corporation"
+    - "F-Secure Business"
+    - "F-Secure Corporate"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - CLOUD
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WithSecure (formerly the enterprise business of F-Secure) is a Finnish cybersecurity vendor providing endpoint protection, cloud security, and security consulting services for enterprise customers and managed service providers. The company split from F-Secure in 2022 to focus exclusively on corporate cybersecurity, offering detection and response capabilities, vulnerability management, and co-security partnership services that combine technology with expert security consulting."
+  why: "WithSecure is significant in cybersecurity because of its Finnish heritage of strong security research and its co-security approach that combines technology platforms with human expertise. The company's research teams have contributed significantly to understanding APT campaigns, particularly those targeting European and Nordic organizations, and have published notable research on state-sponsored threat actors."
+  how: "WithSecure operates through its Elements platform providing unified endpoint protection, detection and response, vulnerability management, and collaboration protection for enterprise environments. The company's co-security model pairs technology deployment with security consulting services, enabling organizations to strengthen their security posture through expert guidance alongside automated protection."
+  core_concepts:
+    - key: "Elements Security Platform"
+      value: "Unified platform providing endpoint protection, detection and response, and vulnerability management for enterprises"
+    - key: "Co-Security Model"
+      value: "Partnership approach combining security technology deployment with expert consulting for comprehensive protection"
+    - key: "European Threat Intelligence"
+      value: "Research expertise on threats targeting European organizations with strong focus on APT campaigns and state-sponsored activity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SOPHLABS-001"
+    description: "Fellow European endpoint security vendor with dedicated threat research capabilities"
+  - type: "enables"
+    target: "ACTOR-VENDOR-WITHLABS-001"
+    description: "Operates WithSecure Labs as its threat research and intelligence division"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.withsecure.com"
+    - "https://en.wikipedia.org/wiki/WithSecure"
+  search_keywords:
+    - "withsecure"
+    - "f-secure business"
+    - "elements platform"
+    - "endpoint protection"
+    - "co-security"
+    - "finnish cybersecurity"
+    - "vulnerability management"
+    - "detection response"
+  embedding_text: "WithSecure (formerly the enterprise business of F-Secure) is a Finnish cybersecurity vendor providing endpoint protection, cloud security, and security consulting services for enterprise customers and managed service providers. The company split from F-Secure in 2022 to focus exclusively on corporate cybersecurity through its Elements platform and co-security partnership model. WithSecure's research teams have contributed significantly to understanding APT campaigns targeting European and Nordic organizations, with notable research on state-sponsored threat actors."

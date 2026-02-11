@@ -1,0 +1,115 @@
+# GR Atom: Event Log Delete Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGDEL-001"
+  name: "Event Log Delete Event"
+  normalized_name: "event_log_delete_event"
+  aliases:
+    - "Log Deletion Event"
+    - "Event Log File Removal"
+    - "Audit Log Delete"
+    - "Log File Destruction Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - EVADE
+    - AUDIT
+    - FORENSICS
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Delete Event is a detection pattern for the physical deletion of event log
+    files from the filesystem, as opposed to clearing log entries through the logging API. This
+    includes deletion of Windows .evtx files from C:\Windows\System32\winevt\Logs\, removal of
+    syslog files from /var/log/, deletion of systemd journal files, or removal of application
+    log files. Detection relies on file integrity monitoring (FIM) systems, Sysmon Event ID 23
+    (FileDelete), audit policies tracking file deletion on log directories, and filesystem
+    monitoring agents. Unlike log clearing which leaves a clear event record, log file deletion
+    may leave no direct log evidence unless external monitoring is in place, making it a more
+    stealthy anti-forensics technique.
+  why: >-
+    Log file deletion is a severe anti-forensics technique that can completely eliminate
+    evidence of attacker activity with potentially no trace in the logging system itself. While
+    log clearing via the API leaves Event ID 1102, direct file deletion of .evtx files or
+    syslog files may leave no log entry if the deletion occurs while the logging service is
+    stopped or if the attacker has sufficient privileges to bypass audit policies. This
+    technique is used by sophisticated threat actors and ransomware operators who delete logs as
+    part of their cleanup phase. Detection of log file deletion is essential for maintaining
+    forensic capability and identifying active compromise.
+  how: >-
+    Event log file deletion is detected through: (1) File Integrity Monitoring (FIM) on log
+    directories such as C:\Windows\System32\winevt\Logs\ and /var/log/ to detect file removal;
+    (2) Sysmon Event ID 23 (FileDelete) configured to monitor log file paths; (3) Windows
+    audit policies (Object Access: File System) on log directories to record delete operations;
+    (4) EDR agent telemetry that captures file deletion events with process context; (5)
+    Monitoring for unexpected stops of the Windows Event Log service (Event ID 7036 for
+    EventLog service state changes) which may precede log file deletion; (6) Linux auditd rules
+    monitoring unlink and rename syscalls on /var/log/ paths; (7) SIEM correlation detecting
+    gaps in expected log flow from monitored systems.
+  core_concepts:
+    - key: "File Integrity Monitoring"
+      value: "FIM systems detect unauthorized changes to or deletion of log files by tracking file hashes, permissions, and existence, providing detection even when the logging system itself is compromised."
+    - key: "Sysmon FileDelete"
+      value: "Sysmon Event ID 23 captures file deletion events including the process responsible, enabling attribution of log file deletion to specific processes or user accounts."
+    - key: "Log Flow Gap Detection"
+      value: "SIEM rules that detect unexpected gaps in log event flow from monitored systems, which may indicate log deletion or logging service disruption."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Log file deletion detection is a critical security event pattern"
+  - type: "alternative_to"
+    target: "DETECT-LOG-EVELOGCLE-001"
+    description: "Log file deletion and log clearing are alternative anti-forensics methods"
+  - type: "requires"
+    target: "DETECT-LOG-EVELOGSTO-001"
+    description: "Attackers may need to stop the logging service before deleting active log files"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK — T1070.001: Indicator Removal: Clear Windows Event Logs"
+    - "Microsoft Sysinternals — Sysmon Event ID 23: FileDelete"
+    - "SANS — Windows Event Log Forensics"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log deletion"
+    - "log file delete"
+    - "evtx file deletion"
+    - "Sysmon FileDelete"
+    - "log destruction"
+    - "anti-forensics log"
+    - "file integrity monitoring logs"
+    - "audit log removal"
+    - "syslog deletion"
+    - "log tampering detection"
+  embedding_text: >-
+    Event Log Delete Event is a detection pattern for physical deletion of event log files from
+    the filesystem, including Windows .evtx files and Linux syslog files. Unlike API-based log
+    clearing which leaves Event ID 1102, direct file deletion may leave no trace without
+    external monitoring. Detection relies on File Integrity Monitoring on log directories,
+    Sysmon Event ID 23 (FileDelete), Windows audit policies on log paths, EDR telemetry, and
+    SIEM log flow gap detection. This anti-forensics technique is used by sophisticated threat
+    actors and ransomware operators during cleanup phases, making external monitoring critical
+    for maintaining forensic capability.

@@ -1,0 +1,135 @@
+# GR Atom: Black Shadow
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BLACSHAD-001"
+  name: "Black Shadow"
+  normalized_name: "black_shadow"
+  aliases:
+    - "BlackShadow"
+    - "Black Shadow Hackers"
+    - "BlackShadow Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - EXFIL
+    - INITIAL
+    - NETWORK
+    - WEB
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Black Shadow is an Iranian-linked cybercriminal and hacktivist group that emerged in 2020 and
+    is known for conducting high-profile data breach and extortion attacks primarily against Israeli
+    organizations. The group has targeted Israeli insurance companies, internet hosting providers,
+    LGBTQ+ dating platforms, medical facilities, and technology companies, exfiltrating and leaking
+    sensitive personal data including medical records, financial information, and user credentials.
+    Notable attacks include the October 2021 breach of CyberServe (an Israeli hosting company) that
+    exposed data from the Atraf LGBTQ+ dating app, the December 2020 attack on Shirbit insurance
+    company, and breaches of KLS Capital and other Israeli financial entities. Black Shadow combines
+    financial extortion motives with ideological objectives aligned with Iranian geopolitical
+    interests against Israel.
+  why: >-
+    Black Shadow represents a significant threat to Israeli critical infrastructure and civilian
+    data privacy, operating at the intersection of cybercrime and state-aligned hacktivism. The
+    group's deliberate targeting of sensitive personal data, including LGBTQ+ dating profiles and
+    medical records in a region where such exposure can have severe personal consequences,
+    demonstrates a willingness to weaponize data for maximum psychological and social impact.
+    Their attacks have caused substantial economic damage and public fear, with the Shirbit breach
+    alone resulting in ransom demands of approximately 50 Bitcoin. The group's suspected alignment
+    with Iranian state interests, potentially operating as a front for or alongside Iranian
+    intelligence, places them within the broader context of Iran-Israel cyber conflict.
+  how: >-
+    Black Shadow gains initial access through exploitation of vulnerabilities in internet-facing
+    web applications, cloud hosting infrastructure, and enterprise VPN systems. The group
+    specifically targets Israeli hosting providers and cloud service companies to gain access to
+    multiple downstream customer organizations through a single compromise. Post-compromise
+    activities include large-scale data exfiltration of customer databases, personal records, and
+    sensitive files. The group uses Telegram channels and dark web forums to announce breaches,
+    publish stolen data, and issue ransom demands. When victims refuse to pay, Black Shadow
+    progressively leaks increasingly sensitive data to maximize pressure. The group has demonstrated
+    the ability to compromise and extract data from production databases, backup systems, and
+    cloud storage environments.
+  core_concepts:
+    - key: "Hybrid Crime-Hacktivist Model"
+      value: >-
+        Black Shadow operates a hybrid model combining financial extortion with ideological
+        objectives aligned with Iranian geopolitical interests, blurring the line between
+        cybercrime and state-sponsored hacktivism against Israeli targets.
+    - key: "Data Weaponization"
+      value: >-
+        The group deliberately targets and leaks sensitive personal data including medical records
+        and LGBTQ+ dating profiles, weaponizing data exposure for maximum psychological impact
+        beyond traditional financial extortion.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Black Shadow is a cybercriminal group conducting data theft and extortion operations"
+  - type: "enables"
+    target: "ATK-EXFIL"
+    description: "Black Shadow operations enable massive data exfiltration from Israeli organizations"
+  - type: "applies_to"
+    target: "SECTOR-INSURANCE"
+    description: "Black Shadow targets Israeli insurance and financial companies for data theft"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+      - "Exfiltration"
+      - "Impact"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "ClearSky Cyber Security - Black Shadow Group Analysis. https://www.clearskysec.com/black-shadow/"
+    - "Times of Israel - Black Shadow Hacking Group Attacks on Israeli Companies. https://www.timesofisrael.com/topic/black-shadow/"
+    - "Check Point Research - Iranian Cyber Operations Against Israel. https://research.checkpoint.com/"
+    - "Haaretz - CyberServe Breach and Atraf LGBTQ App Data Leak. https://www.haaretz.com/"
+  search_keywords:
+    - "black shadow hackers"
+    - "black shadow israel"
+    - "black shadow shirbit"
+    - "black shadow cyberserve"
+    - "black shadow atraf"
+    - "black shadow iran"
+    - "black shadow data leak"
+    - "blackshadow extortion"
+  embedding_text: >-
+    Black Shadow is an Iranian-linked cybercriminal and hacktivist group that emerged in 2020
+    conducting high-profile data breach and extortion attacks primarily against Israeli organizations.
+    The group has breached Israeli insurance companies (Shirbit), internet hosting providers
+    (CyberServe), LGBTQ+ dating platforms (Atraf), and medical facilities, exfiltrating and leaking
+    sensitive personal data including medical records, financial information, and user credentials.
+    Black Shadow combines financial extortion with ideological objectives aligned with Iranian
+    geopolitical interests against Israel. The group exploits vulnerabilities in web applications
+    and cloud hosting infrastructure, targeting hosting providers to compromise multiple downstream
+    customers. Stolen data is published via Telegram channels and dark web forums when ransom demands
+    are not met. The deliberate targeting of sensitive personal data including LGBTQ+ profiles
+    demonstrates willingness to weaponize data exposure for maximum psychological and social impact,
+    operating at the intersection of cybercrime and state-aligned hacktivism.

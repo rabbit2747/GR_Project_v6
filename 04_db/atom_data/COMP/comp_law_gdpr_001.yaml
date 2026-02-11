@@ -1,0 +1,112 @@
+# GR Atom: GDPR
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-GDPR-001"
+  name: "GDPR"
+  normalized_name: "gdpr"
+  aliases:
+    - "General Data Protection Regulation"
+    - "EU GDPR"
+    - "Regulation (EU) 2016/679"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    The General Data Protection Regulation (GDPR) is a comprehensive data protection law enacted
+    by the European Union, effective since 25 May 2018. It regulates the processing of personal
+    data of individuals within the EU and European Economic Area (EEA). GDPR applies to any
+    organization worldwide that processes personal data of EU/EEA residents, regardless of the
+    organization's location. It establishes data subject rights (access, rectification, erasure,
+    portability, objection), mandates lawful bases for processing, requires data protection by
+    design and by default, and imposes strict breach notification timelines of 72 hours.
+  why: >
+    GDPR represents the most significant global privacy regulation, with enforcement fines of up
+    to 20 million EUR or 4% of annual global turnover, whichever is higher. It has driven a
+    worldwide shift toward stronger data protection practices and has influenced the creation of
+    similar laws in other jurisdictions (CCPA, LGPD, POPIA). For security teams, GDPR mandates
+    technical measures including encryption, pseudonymization, access controls, and breach
+    detection capabilities.
+  how: >
+    Organizations achieve GDPR compliance by appointing a Data Protection Officer (DPO) where
+    required, conducting Data Protection Impact Assessments (DPIAs), establishing lawful bases
+    for all processing activities, implementing privacy by design and by default, maintaining
+    Records of Processing Activities (ROPA), deploying technical and organizational security
+    measures per Article 32, establishing data breach notification procedures, managing data
+    subject requests, and ensuring lawful cross-border data transfer mechanisms.
+  core_concepts:
+    - key: "Data Subject Rights"
+      value: "Rights of individuals including access, rectification, erasure (right to be forgotten), data portability, and objection to processing"
+    - key: "Lawful Basis for Processing"
+      value: "Six legal bases: consent, contract, legal obligation, vital interests, public task, and legitimate interests"
+    - key: "Data Protection by Design and Default"
+      value: "Article 25 requirement to embed privacy into system design and limit data processing to what is necessary"
+    - key: "Breach Notification"
+      value: "72-hour notification requirement to supervisory authorities and communication to affected data subjects for high-risk breaches"
+    - key: "Accountability Principle"
+      value: "Controllers must demonstrate compliance through documentation, impact assessments, and records of processing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "GDPR is a specific compliance regulation"
+  - type: enables
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "GDPR is a primary driver of privacy compliance programs"
+  - type: part_of
+    target: "COMP-LAW-GDGEDAPRRE-001"
+    description: "GDPR atom is part of the broader GDPR General Data Protection Regulation knowledge base"
+  - type: requires
+    target: "COMP-LAW-GDPART25-001"
+    description: "GDPR requires data protection by design and by default per Article 25"
+  - type: requires
+    target: "COMP-LAW-GDPART32-001"
+    description: "GDPR requires security of processing per Article 32"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Regulation (EU) 2016/679 — Official Journal of the European Union"
+    - "European Data Protection Board (EDPB) Guidelines"
+    - "Information Commissioner's Office (ICO) GDPR Guidance"
+  search_keywords:
+    - "GDPR"
+    - "general data protection regulation"
+    - "EU data protection"
+    - "personal data processing"
+    - "data subject rights"
+    - "GDPR compliance"
+    - "data protection officer"
+    - "breach notification 72 hours"
+    - "privacy regulation Europe"
+  embedding_text: >
+    The General Data Protection Regulation (GDPR) is the European Union's comprehensive data
+    protection law, effective since May 2018 under Regulation (EU) 2016/679. It governs the
+    processing of personal data of EU/EEA residents and applies extraterritorially to any
+    organization worldwide handling such data. Key provisions include data subject rights (access,
+    rectification, erasure, portability), six lawful bases for processing, mandatory Data Protection
+    Impact Assessments, 72-hour breach notification, privacy by design and by default, and
+    requirements for technical security measures. Penalties reach up to 20 million EUR or 4% of
+    global annual turnover. GDPR has become the benchmark for global privacy legislation.

@@ -1,0 +1,73 @@
+# GR Atom: DigiNotar
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DIGINOTAR-001"
+  name: "DigiNotar"
+  normalized_name: "diginotar"
+  aliases:
+    - "DigiNotar BV"
+    - "VASCO DigiNotar"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L2", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DigiNotar was a Dutch certificate authority (CA) that suffered a catastrophic security breach in 2011, resulting in the fraudulent issuance of hundreds of rogue SSL/TLS certificates, including certificates for google.com, microsoft.com, and intelligence agencies. The compromise was used in man-in-the-middle attacks against Iranian citizens. DigiNotar was subsequently distrusted by all major browsers and operating systems, and the company declared bankruptcy in September 2011."
+  why: "The DigiNotar breach is one of the most significant incidents in internet security history, demonstrating the catastrophic consequences of CA compromise. The incident fundamentally changed how the industry approaches certificate authority security, accelerating the adoption of Certificate Transparency (CT) logs, HTTP Public Key Pinning (HPKP), and stricter CA/Browser Forum baseline requirements. It serves as a canonical case study of PKI infrastructure failure."
+  how: "Attackers compromised DigiNotar's certificate issuance infrastructure through poor security practices, including inadequate network segmentation, outdated software, weak passwords, and insufficient monitoring. The attackers issued over 500 fraudulent certificates for high-value domains. The breach was discovered when a fraudulent Google certificate was detected in Iran, where it was being used for surveillance via man-in-the-middle attacks. All major browser vendors revoked trust in DigiNotar's root certificates, effectively destroying the company."
+  core_concepts:
+    - key: "CA Compromise"
+      value: "Catastrophic breach of certificate authority infrastructure resulting in fraudulent SSL/TLS certificate issuance"
+    - key: "PKI Trust Model Failure"
+      value: "Demonstration of systemic weakness in the X.509 certificate trust model when a single CA is compromised"
+    - key: "Certificate Transparency Catalyst"
+      value: "The breach accelerated adoption of Certificate Transparency logs and stricter CA security requirements"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-PKI-CERT-001"
+    description: "Was a certificate authority issuing TLS/SSL certificates before its compromise and dissolution"
+  - type: enables
+    target: "ATK-MITM-CERT-001"
+    description: "The compromise enabled man-in-the-middle attacks using fraudulently issued certificates"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable - historical CA compromise case study
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://en.wikipedia.org/wiki/DigiNotar"
+    - "https://www.rijksoverheid.nl/onderwerpen/cybersecurity/diginotar"
+  search_keywords:
+    - "diginotar"
+    - "diginotar breach"
+    - "certificate authority compromise"
+    - "rogue ssl certificate"
+    - "pki failure"
+    - "ca breach 2011"
+    - "certificate transparency"
+    - "man in the middle certificate"
+    - "dutch certificate authority"
+  embedding_text: "DigiNotar was a Dutch certificate authority that suffered a catastrophic security breach in 2011, resulting in the fraudulent issuance of over 500 rogue SSL/TLS certificates including certificates for google.com, microsoft.com, and intelligence agencies. The compromise was used in man-in-the-middle attacks against Iranian citizens for surveillance. DigiNotar was subsequently distrusted by all major browsers and operating systems, and the company declared bankruptcy. The incident is one of the most significant in internet security history, demonstrating the catastrophic consequences of CA compromise and fundamentally changing industry approaches to certificate authority security. It accelerated adoption of Certificate Transparency logs, HTTP Public Key Pinning, and stricter CA/Browser Forum baseline requirements. The breach resulted from poor security practices including inadequate network segmentation, outdated software, weak passwords, and insufficient monitoring."

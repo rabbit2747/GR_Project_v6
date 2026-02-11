@@ -1,0 +1,107 @@
+# GR Atom: ActiveSync
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-ACTIVESYNC-001"
+  name: "ActiveSync"
+  normalized_name: "activesync"
+  aliases:
+    - "Microsoft ActiveSync"
+    - "Exchange ActiveSync"
+    - "EAS"
+    - "MS-ASProtocol"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    ActiveSync (Exchange ActiveSync, EAS) is a Microsoft proprietary synchronization protocol
+    that enables mobile devices to synchronize email, calendar, contacts, tasks, and notes with
+    a Microsoft Exchange Server or compatible mail server. Operating over HTTP/HTTPS on port 443,
+    EAS uses a binary XML (WBXML) encoding format for efficient data transfer over mobile networks.
+    First introduced with Exchange Server 2003, the protocol supports push email notification via
+    long-lived HTTPS connections, remote device wipe, device policy enforcement, and selective
+    folder synchronization. EAS is licensed to third-party vendors and is supported across iOS,
+    Android, and Windows Mobile platforms.
+  why: >-
+    ActiveSync is a critical enterprise mobile communication protocol that exposes Exchange
+    mailbox data to mobile endpoints. From a security perspective, EAS is a high-value attack
+    surface because it provides authenticated access to corporate email and PIM data over the
+    internet. Credential stuffing, password spray attacks, and brute-force attempts frequently
+    target EAS endpoints. Compromised EAS sessions allow attackers to exfiltrate email, deploy
+    device policies, or trigger remote wipes. Organizations must enforce conditional access
+    policies, certificate-based authentication, and device compliance checks on EAS connections.
+  how: >-
+    ActiveSync operates as an HTTP-based protocol where the client sends HTTPS POST requests to
+    the /Microsoft-Server-ActiveSync endpoint on the Exchange server. Communication uses WBXML
+    binary encoding to minimize bandwidth. The synchronization process follows a folder sync,
+    then item sync pattern using sync keys to track state. Push email is implemented via the Ping
+    command, which maintains a long-lived HTTPS connection that the server uses to notify the
+    client of new items. Device provisioning enforces organizational policies including PIN
+    requirements, encryption mandates, and remote wipe capabilities through the Provision command.
+  core_concepts:
+    - key: "WBXML Encoding"
+      value: "Binary XML format used by ActiveSync to compress synchronization payloads for efficient transmission over mobile networks with limited bandwidth."
+    - key: "Sync Key"
+      value: "State token exchanged between client and server to track synchronization progress and enable incremental data transfers rather than full downloads."
+    - key: "Push Email (Ping Command)"
+      value: "Long-lived HTTPS connection maintained by the client that allows the server to immediately notify the device when new email arrives, reducing polling overhead."
+    - key: "Remote Wipe"
+      value: "Server-initiated command that erases all data on a registered mobile device, used when devices are lost, stolen, or when an employee leaves the organization."
+
+relations:
+  - type: "requires"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "ActiveSync operates as an application-layer protocol transported entirely over HTTP/HTTPS connections"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "ActiveSync is a specialized application layer protocol for mobile device synchronization"
+  - type: "applies_to"
+    target: "PROTO-MSG-HTTPOST-001"
+    description: "ActiveSync commands are transmitted as HTTP POST requests to the Exchange server endpoint"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-ASHTTP]: Exchange ActiveSync HTTP Protocol Specification"
+    - "Microsoft — [MS-ASCMD]: Exchange ActiveSync Command Reference Protocol Specification"
+    - "Microsoft Learn — Exchange ActiveSync Architecture and Protocol Documentation"
+    - "IETF — WBXML (WAP Binary XML) Content Format Specification"
+  search_keywords:
+    - "activesync"
+    - "exchange activesync"
+    - "EAS protocol"
+    - "mobile email sync"
+    - "microsoft activesync"
+    - "WBXML"
+    - "push email"
+    - "mobile device synchronization"
+    - "remote wipe"
+    - "exchange mobile access"
+  embedding_text: >-
+    ActiveSync (Exchange ActiveSync, EAS) is a Microsoft proprietary protocol for synchronizing
+    email, calendar, contacts, and tasks between mobile devices and Exchange Server. Operating
+    over HTTPS using WBXML binary encoding, EAS provides push email via long-lived Ping
+    connections, remote device wipe capabilities, and policy-based device management. The protocol
+    sends POST requests to /Microsoft-Server-ActiveSync endpoints and uses sync keys for
+    incremental state tracking. As a primary mobile access vector to corporate email, ActiveSync
+    is a significant attack surface targeted by credential stuffing and password spray attacks.
+    Security controls include certificate-based authentication, conditional access policies, and
+    device compliance enforcement. Supported across iOS, Android, and Windows platforms, EAS
+    remains a core enterprise mobile communication protocol.

@@ -1,0 +1,74 @@
+# GR Atom: TomNomNom
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TOMNOMNOM-001"
+  name: "TomNomNom"
+  normalized_name: "tomnomnom"
+  aliases:
+    - "Tom Hudson"
+    - "tomnomnom tools"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "TomNomNom (Tom Hudson) is a prominent security researcher and open-source tool developer known for creating widely-used bug bounty and web application security testing tools. His tool suite including gf (grep patterns), waybackurls, httprobe, meg, assetfinder, and others has become essential infrastructure for bug bounty hunters and web application penetration testers, forming a core part of the modern reconnaissance and vulnerability discovery workflow."
+  why: "TomNomNom is significant in cybersecurity because his tools have fundamentally shaped the bug bounty and web application security testing methodology. The composable, Unix-philosophy-inspired design of his tools enables security researchers to build powerful automated reconnaissance pipelines, and many of his tools have been integrated into commercial security platforms and widely-used automation frameworks."
+  how: "TomNomNom develops and maintains open-source Go-based security tools that follow Unix principles of doing one thing well and being composable through standard input/output pipes. Tools like waybackurls extract URLs from the Wayback Machine, assetfinder discovers domains, httprobe checks live hosts, and gf provides pattern-matching for identifying potential vulnerabilities. These tools are designed to chain together into automated reconnaissance workflows."
+  core_concepts:
+    - key: "Bug Bounty Tooling"
+      value: "Suite of open-source tools designed for web application reconnaissance and vulnerability discovery in bug bounty programs"
+    - key: "Composable Security Tools"
+      value: "Unix-philosophy-inspired tools that chain together through standard pipes for automated security workflows"
+    - key: "Web Reconnaissance"
+      value: "Tools for discovering subdomains, extracting URLs, probing live hosts, and identifying potential vulnerabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-HACKERONE-001"
+    description: "Key contributor to the bug bounty ecosystem through widely-adopted security testing tools"
+  - type: enables
+    target: "ACTOR-VENDOR-PORTSWIGGE-001"
+    description: "Reconnaissance tools complement web application security testing capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://github.com/tomnomnom"
+    - "https://tomnomnom.com"
+  search_keywords:
+    - "tomnomnom"
+    - "tom hudson"
+    - "waybackurls"
+    - "assetfinder"
+    - "httprobe"
+    - "gf patterns"
+    - "bug bounty tools"
+    - "web reconnaissance"
+    - "security automation"
+  embedding_text: "TomNomNom (Tom Hudson) is a prominent security researcher and open-source tool developer known for creating widely-used bug bounty and web application security testing tools. His tool suite including gf, waybackurls, httprobe, meg, and assetfinder has become essential infrastructure for bug bounty hunters and penetration testers. The composable, Unix-philosophy-inspired design of his Go-based tools enables security researchers to build powerful automated reconnaissance pipelines, fundamentally shaping modern web application security testing methodology."

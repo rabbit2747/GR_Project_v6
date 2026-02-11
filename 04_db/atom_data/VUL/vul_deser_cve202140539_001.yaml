@@ -1,0 +1,113 @@
+# GR Atom: CVE-2021-40539
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202140539-001"
+  name: "CVE-2021-40539"
+  normalized_name: "cve_2021_40539"
+  aliases:
+    - "Zoho ManageEngine ADSelfService Plus Authentication Bypass"
+    - "ManageEngine ADSelfService Plus RCE"
+    - "Zoho ManageEngine REST API Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - AUTHN
+    - EXEC
+    - INITIAL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Zoho ManageEngine ADSelfService Plus"
+    - "ManageEngine REST API"
+    - "Active Directory Self-Service Portal"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-40539 is a critical authentication bypass vulnerability in Zoho ManageEngine
+    ADSelfService Plus that allows unauthenticated remote code execution through the REST API.
+    The vulnerability exists in the REST API URL handling which allows bypassing authentication
+    and subsequently exploiting a Java deserialization flaw to execute arbitrary code. CVSS score
+    is 9.8. Affects ADSelfService Plus versions up to build 6113. Actively exploited by APT groups
+    including those attributed to nation-state actors.
+  why: >-
+    ManageEngine ADSelfService Plus is widely deployed for Active Directory self-service password
+    management in enterprise environments. Compromising this system provides attackers with access
+    to Active Directory credentials and the ability to modify passwords, making it an exceptionally
+    high-value target. CISA issued Joint Advisory AA21-259A due to active exploitation by APT
+    groups targeting critical infrastructure organizations.
+  how: >-
+    The attacker exploits a REST API authentication bypass by crafting specific URL patterns that
+    bypass the security filter. Once authenticated, the attacker leverages a Java deserialization
+    vulnerability to upload a web shell or execute arbitrary code. The exploitation chain typically
+    involves uploading a JSP web shell through the compromised API endpoint, then using the web
+    shell for persistent access to execute commands, deploy additional tools, and move laterally
+    through the network via the compromised Active Directory infrastructure.
+  core_concepts:
+    - name: "REST API Authentication Bypass"
+      value: "URL pattern manipulation bypasses the REST API security filter, granting unauthenticated access to sensitive endpoints"
+    - name: "Active Directory Compromise"
+      value: "Compromising the AD self-service portal provides access to credential management and directory manipulation"
+    - name: "APT Exploitation Target"
+      value: "Actively exploited by nation-state APT groups targeting critical infrastructure organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "ManageEngine RCE involves insecure deserialization exploitation following authentication bypass"
+  - type: "enables"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Authentication bypass enables subsequent deserialization-based code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution", "Persistence"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2021-40539"
+    - "CISA Joint Advisory AA21-259A"
+    - "Zoho ManageEngine Security Advisory"
+  search_keywords:
+    - "CVE-2021-40539"
+    - "ManageEngine ADSelfService Plus"
+    - "Zoho ManageEngine RCE"
+    - "ADSelfService authentication bypass"
+    - "ManageEngine REST API exploit"
+    - "Active Directory self-service vulnerability"
+    - "ManageEngine web shell"
+    - "Zoho APT exploitation"
+  embedding_text: >-
+    CVE-2021-40539 is a critical authentication bypass and remote code execution vulnerability in
+    Zoho ManageEngine ADSelfService Plus. The vulnerability allows unauthenticated attackers to
+    bypass REST API authentication through URL pattern manipulation and then exploit Java
+    deserialization to execute arbitrary code. CVSS score is 9.8, affecting versions up to build
+    6113. The product manages Active Directory self-service password operations, making compromise
+    exceptionally damaging as it provides access to credential management. Actively exploited by
+    APT groups targeting critical infrastructure, prompting CISA Joint Advisory AA21-259A.
+    Exploitation typically involves uploading JSP web shells for persistent access. Mitigation
+    requires immediate patching, reviewing for indicators of compromise, and implementing network
+    segmentation for management interfaces. Listed in CISA's Known Exploited Vulnerabilities
+    catalog as a priority patching target.

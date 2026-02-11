@@ -1,0 +1,75 @@
+# GR Atom: FIDO Alliance Certification
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-FIDALLCER-001"
+  name: "FIDO Alliance Certification"
+  normalized_name: "fido_alliance_certification"
+  aliases:
+    - "FIDO Certified"
+    - "FIDO2 Certification"
+    - "FIDO UAF Certification"
+    - "FIDO U2F Certification"
+    - "WebAuthn Certification"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - WEB
+    - ENCRYPT
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "FIDO Alliance Certification is a formal certification program operated by the Fast Identity Online (FIDO) Alliance that validates the interoperability, security, and conformance of authentication products against FIDO specifications including FIDO2/WebAuthn, FIDO UAF (Universal Authentication Framework), and FIDO U2F (Universal 2nd Factor). Certified products have been tested by accredited laboratories to verify they correctly implement FIDO protocols, meet security requirements for cryptographic operations and authenticator security, and interoperate with other certified components in the FIDO ecosystem."
+  why: "Password-based authentication is the primary attack vector for credential theft, phishing, and account takeover. FIDO certification ensures that passwordless and multi-factor authentication products implement strong public-key cryptography correctly, resist phishing attacks through origin-bound credentials, and interoperate across vendors. Certification provides relying parties with assurance that authenticators meet defined security levels and function correctly within the FIDO ecosystem."
+  how: "Vendors submit their products (authenticators, servers, or clients) to FIDO-accredited testing laboratories for functional conformance testing and interoperability testing. Products are tested against the relevant FIDO specification to verify correct protocol implementation, cryptographic operations, and authenticator security characteristics. Security levels (L1 through L3+) define increasing hardware and software protection requirements. Upon passing, products are listed in the FIDO Certified Products directory and may display the FIDO Certified mark."
+  core_concepts:
+    - key: "FIDO2/WebAuthn"
+      value: "Web authentication standard enabling passwordless login using public-key cryptography bound to the relying party origin"
+    - key: "Authenticator Security Level"
+      value: "Certification levels (L1-L3+) indicating the strength of authenticator key protection from software to hardware isolation"
+    - key: "Interoperability Testing"
+      value: "Verification that certified products work correctly with other certified components across the FIDO ecosystem"
+    - key: "Origin-Bound Credentials"
+      value: "Cryptographic credentials tied to the specific web origin, preventing phishing by design"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-DIGSAFCER-001"
+    description: "FIDO certification is a specific type of digital safety certification for authentication products"
+  - type: enables
+    target: "COMP-STANDARD-SECFRACOM-001"
+    description: "FIDO certification enables compliance with authentication security framework requirements"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "Higher FIDO security levels require FIPS 140-2 validated cryptographic modules"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FIDO Alliance Certification Overview - https://fidoalliance.org/certification/"
+    - "FIDO2 Specifications - https://fidoalliance.org/fido2/"
+    - "W3C Web Authentication (WebAuthn) - https://www.w3.org/TR/webauthn-2/"
+  search_keywords:
+    - "FIDO certification"
+    - "FIDO Alliance"
+    - "FIDO2"
+    - "WebAuthn"
+    - "passwordless authentication"
+    - "U2F"
+    - "UAF"
+    - "authenticator certification"
+    - "phishing resistant"
+    - "FIDO security level"
+  embedding_text: "FIDO Alliance Certification validates the interoperability, security, and conformance of authentication products against FIDO specifications including FIDO2/WebAuthn, UAF, and U2F. Products are tested by accredited laboratories for correct protocol implementation, cryptographic operations, and authenticator security characteristics across levels L1 through L3+. Certification ensures passwordless and multi-factor authentication products implement strong public-key cryptography, resist phishing through origin-bound credentials, and interoperate across vendors. The program addresses the primary attack vector of password-based authentication by certifying standards-based strong authentication solutions."

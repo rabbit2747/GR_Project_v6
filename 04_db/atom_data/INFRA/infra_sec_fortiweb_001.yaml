@@ -1,0 +1,105 @@
+# GR Atom: FortiWeb
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-FORTIWEB-001"
+  name: "FortiWeb"
+  normalized_name: "fortiweb"
+  aliases:
+    - "Fortinet FortiWeb"
+    - "FortiWeb WAF"
+    - "FortiWeb Cloud"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - WAF
+    - WEB
+    - API
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "S1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FortiWeb is Fortinet's Web Application Firewall (WAF) product line providing protection for
+    web applications and APIs against OWASP Top 10 attacks, DDoS, bot attacks, and API abuse.
+    Available as hardware appliances, virtual machines, containers, and FortiWeb Cloud SaaS.
+    FortiWeb uses machine learning-based threat detection to identify anomalous traffic patterns
+    and reduce false positives compared to traditional signature-based WAFs.
+  why: >-
+    FortiWeb protects internet-facing web applications and APIs that are primary attack vectors
+    for data breaches. It defends against SQL injection, XSS, CSRF, file inclusion, and API
+    attacks. FortiWeb itself has had critical vulnerabilities including CVE-2021-22123 (OS
+    command injection) and CVE-2020-29015 (SQL injection in management interface) that could
+    allow attackers to bypass the very security control designed to protect web applications.
+  how: >-
+    FortiWeb operates as a reverse proxy or transparent bridge inspecting HTTP/HTTPS traffic.
+    Machine learning models profile normal application behavior and detect anomalies. Signature
+    engine matches known attack patterns. API protection validates schemas and enforces rate
+    limits. Bot detection uses fingerprinting, CAPTCHA, and behavioral analysis. Integration
+    with FortiGate, FortiSandbox, and FortiGuard threat intelligence provides coordinated
+    defense. Management via FortiWeb Manager or Fortinet Security Fabric.
+  core_concepts:
+    - key: "ML-Based WAF"
+      value: "Machine learning models profile normal application behavior to detect anomalous requests with reduced false positives"
+    - key: "API Protection"
+      value: "Schema validation, rate limiting, and behavioral analysis for REST, GraphQL, and gRPC API security"
+    - key: "Security Fabric Integration"
+      value: "Coordinates with FortiGate, FortiSandbox, and FortiGuard for multi-layered threat defense"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-FORTIGATE-001"
+    description: "FortiWeb integrates with FortiGate firewalls in the Fortinet Security Fabric for coordinated defense"
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "FortiWeb is an application-layer firewall product specializing in web application and API protection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Fortinet Documentation - FortiWeb Administration Guide"
+    - "OWASP - Web Application Firewall Evaluation"
+    - "CISA - Fortinet Product Vulnerability Advisories"
+  search_keywords:
+    - "FortiWeb"
+    - "Fortinet WAF"
+    - "web application firewall"
+    - "FortiWeb Cloud"
+    - "API protection"
+    - "FortiWeb vulnerability"
+    - "OWASP WAF"
+    - "ML-based WAF"
+  embedding_text: >-
+    FortiWeb is Fortinet's WAF protecting web applications and APIs against OWASP Top 10, DDoS,
+    bots, and API abuse. Available as appliances, VMs, containers, and SaaS. Uses ML-based
+    detection to profile normal behavior and reduce false positives. Provides API schema
+    validation, rate limiting, and bot fingerprinting. Integrates with FortiGate, FortiSandbox,
+    and FortiGuard. Has had critical vulnerabilities including CVE-2021-22123 and CVE-2020-29015
+    allowing bypass of web application protection controls.

@@ -1,0 +1,125 @@
+# GR Atom: Authentication Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-AUTHENTICA-001"
+  name: "Authentication Vulnerability"
+  normalized_name: "authentication_vulnerability"
+  aliases:
+    - "AuthN Vulnerability"
+    - "Identity Verification Flaw"
+    - "Login Security Weakness"
+    - "Authentication Bypass"
+    - "OWASP A07"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - AUTHN
+    - WEB
+    - API
+    - CRED
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Authentication services"
+    - "Login portals"
+    - "Identity providers"
+    - "Session management systems"
+    - "Multi-factor authentication modules"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Authentication Vulnerability is a broad class of security weakness affecting the mechanisms
+    that verify user identity. This encompasses flaws in password-based authentication, session
+    token management, multi-factor authentication implementations, certificate-based authentication,
+    and federated identity systems. These vulnerabilities allow attackers to compromise passwords,
+    keys, session tokens, or exploit implementation flaws to assume other users' identities
+    temporarily or permanently. Ranked as OWASP Top 10 A07:2021, authentication failures are
+    among the most critical web application security risks.
+  why: >-
+    Authentication is the first line of defense in any security architecture. When authentication
+    mechanisms fail, attackers gain unauthorized access to systems, data, and services. This can
+    lead to complete account takeover, unauthorized data access, lateral movement within networks,
+    and full system compromise. The prevalence and impact of authentication vulnerabilities make
+    them a persistent top-tier security concern across all application types.
+  how: >-
+    Authentication vulnerabilities arise from weak password policies, improper session management,
+    missing brute-force protections, insecure credential storage, flawed multi-factor authentication
+    implementations, and predictable session tokens. Exploitation involves credential stuffing,
+    brute-force attacks, session hijacking, token manipulation, and authentication bypass techniques.
+    Mitigation requires implementing strong password policies, multi-factor authentication, secure
+    session management, account lockout mechanisms, credential hashing with salting, and continuous
+    monitoring for authentication anomalies.
+  core_concepts:
+    - key: "Credential Compromise"
+      value: "Exploitation of weak or stolen credentials to gain unauthorized access through legitimate authentication channels"
+    - key: "Session Management"
+      value: "Flaws in how applications create, maintain, and invalidate user sessions enabling hijacking or fixation attacks"
+    - key: "Authentication Bypass"
+      value: "Techniques that circumvent authentication mechanisms entirely through logic flaws or implementation errors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Authentication vulnerability is the parent class that encompasses broken authentication as a specific pattern"
+  - type: "abstracts"
+    target: "VUL-AUTH-PASSSECU-001"
+    description: "Authentication vulnerability class encompasses password security vulnerabilities as a subtype"
+  - type: "enables"
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "Authentication vulnerabilities are enabled by weak password policies that reduce credential strength"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Privilege Escalation"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A07 Identification and Authentication Failures"
+    - "CWE-287 Improper Authentication"
+    - "MITRE ATT&CK T1078 - Valid Accounts"
+    - "NIST SP 800-63B Digital Identity Guidelines"
+  search_keywords:
+    - "authentication vulnerability"
+    - "authentication bypass"
+    - "broken authentication"
+    - "credential compromise"
+    - "session hijacking"
+    - "OWASP A07"
+    - "identity verification flaw"
+    - "login security"
+  embedding_text: >-
+    Authentication Vulnerability is a broad class of security weakness affecting identity
+    verification mechanisms including password-based, session token, multi-factor, and
+    certificate-based authentication. Ranked OWASP Top 10 A07:2021, these flaws allow
+    attackers to compromise credentials, hijack sessions, or bypass authentication entirely
+    to assume other users identities. Attack vectors include credential stuffing, brute
+    force, session fixation, token manipulation, and logic bypass. Mitigation requires
+    strong password policies, multi-factor authentication, secure session management, account
+    lockout mechanisms, proper credential hashing with salting, and continuous monitoring.
+    Impacts include account takeover, unauthorized data access, lateral movement, and
+    complete system compromise.

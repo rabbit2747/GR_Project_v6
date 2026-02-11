@@ -1,0 +1,115 @@
+# GR Atom: Dropbox
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-DROPBOX-001"
+  name: "Dropbox"
+  normalized_name: "dropbox"
+  aliases:
+    - "Dropbox Cloud Storage"
+    - "Dropbox Business"
+    - "Dropbox Enterprise"
+    - "Dropbox File Sync"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - EXFIL
+    - C2
+    - HTTP
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Dropbox is a cloud-based file hosting and synchronization service that allows users to
+    store files in the cloud and synchronize them across devices. It provides desktop clients,
+    mobile apps, and a web interface for file management, along with sharing, collaboration,
+    and version history features. Dropbox Business and Enterprise editions add administrative
+    controls, team management, and compliance features for organizational deployments.
+  why: >-
+    Dropbox is widely abused by threat actors as a data exfiltration channel and command-and-
+    control (C2) infrastructure because its traffic blends with legitimate business use and is
+    typically allowed through firewalls and proxies. APT groups including APT29 and APT31 have
+    used Dropbox API for C2 communications and data staging. The Dropbox API enables automated
+    file upload/download that malware uses for exfiltrating stolen data or receiving commands.
+    Shared links can be used for malware delivery, and compromised Dropbox accounts expose
+    sensitive organizational data.
+  how: >-
+    Dropbox operates through a client-server architecture using HTTPS for all communications.
+    Desktop clients monitor local folders for changes and synchronize them to cloud storage
+    through delta sync algorithms. The Dropbox API v2 provides programmatic access for file
+    operations, sharing, and account management using OAuth 2.0 tokens. Malware abuses the
+    Dropbox API by using stolen or attacker-created OAuth tokens to upload exfiltrated data,
+    download payloads, and exchange C2 messages through shared folders or files. Traffic
+    appears as legitimate Dropbox usage, making detection challenging without content inspection.
+  core_concepts:
+    - key: "Cloud File Synchronization"
+      value: "HTTPS-based file hosting service with desktop sync clients that automatically synchronize files between local folders and cloud storage"
+    - key: "Exfiltration Channel"
+      value: "Dropbox API enables automated data exfiltration through OAuth tokens with traffic that blends with legitimate business file sharing"
+    - key: "C2 Infrastructure Abuse"
+      value: "APT groups use Dropbox API and shared folders as command-and-control channels that bypass network security controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-GOOGDRIV-001"
+    description: "Dropbox and Google Drive serve as alternative cloud file storage and synchronization platforms"
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Dropbox Business and Enterprise are commonly deployed enterprise applications for file collaboration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+      - "Command and Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Dropbox API Documentation"
+    - "MITRE ATT&CK T1567.002 - Exfiltration to Cloud Storage"
+    - "MITRE ATT&CK T1102.002 - Web Service Bidirectional Communication"
+    - "Mandiant APT29 Dropbox C2 Analysis"
+  search_keywords:
+    - "Dropbox"
+    - "Dropbox exfiltration"
+    - "Dropbox C2"
+    - "Dropbox API abuse"
+    - "cloud storage exfiltration"
+    - "Dropbox malware"
+    - "Dropbox Business security"
+    - "file sync exfiltration"
+  embedding_text: >-
+    Dropbox is a cloud-based file hosting and synchronization service providing desktop sync
+    clients, mobile apps, and web interfaces for file management and collaboration. In
+    cybersecurity, Dropbox is widely abused by threat actors as a data exfiltration channel
+    and C2 infrastructure because its HTTPS traffic blends with legitimate business use and
+    bypasses firewall and proxy controls. APT groups including APT29 and APT31 have used the
+    Dropbox API with OAuth tokens for automated exfiltration and C2 message exchange through
+    shared folders. Shared links serve as malware delivery mechanisms. Detection is challenging
+    without HTTPS content inspection. Security teams should monitor Dropbox API token usage,
+    implement DLP controls on Dropbox traffic, restrict unauthorized Dropbox client
+    installations, and audit shared link creation for sensitive content exposure.

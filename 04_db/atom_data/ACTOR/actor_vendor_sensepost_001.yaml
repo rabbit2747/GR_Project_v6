@@ -1,0 +1,70 @@
+# GR Atom: SensePost
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SENSEPOST-001"
+  name: "SensePost"
+  normalized_name: "sensepost"
+  aliases:
+    - "SensePost Research"
+    - "Orange Cyberdefense SensePost"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SensePost is a South African offensive security consultancy specializing in penetration testing, red team operations, and security research, now part of Orange Cyberdefense. The company is renowned for developing influential open-source security tools and conducting groundbreaking research in areas such as network exploitation, web application security, and social engineering, with a strong presence in the global cybersecurity conference circuit."
+  why: "SensePost is significant in cybersecurity because of its prolific contributions to the offensive security tooling ecosystem and its pioneering research. Tools developed by SensePost researchers, including Spidering tools, mitmproxy contributions, and various exploitation frameworks, are widely used by penetration testers and red teams worldwide. Their research has advanced understanding of attack techniques across multiple domains."
+  how: "SensePost operates through offensive security consulting services including penetration testing, red team engagements, and security assessments. The company's researchers develop and maintain open-source security tools, publish technical research, and present at major security conferences. As part of Orange Cyberdefense, SensePost integrates its offensive expertise with broader managed security service capabilities."
+  core_concepts:
+    - key: "Offensive Security Consulting"
+      value: "Expert penetration testing and red team services that simulate real-world attack scenarios to identify vulnerabilities"
+    - key: "Security Tool Development"
+      value: "Creation and maintenance of influential open-source offensive security tools used by the global security community"
+    - key: "Security Research"
+      value: "Pioneering research in network exploitation, web security, and social engineering techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SPECTEROPS-001"
+    description: "Fellow offensive security consultancy specializing in red team operations and security tool development"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://sensepost.com"
+    - "https://www.orangecyberdefense.com"
+  search_keywords:
+    - "sensepost"
+    - "penetration testing"
+    - "red team"
+    - "offensive security"
+    - "orange cyberdefense"
+    - "security research"
+    - "security tools"
+    - "south african security"
+  embedding_text: "SensePost is a South African offensive security consultancy specializing in penetration testing, red team operations, and security research, now part of Orange Cyberdefense. The company is renowned for developing influential open-source security tools and conducting groundbreaking research in network exploitation, web application security, and social engineering. SensePost researchers have contributed widely-used tools to the offensive security community and present regularly at major security conferences, integrating offensive expertise with broader managed security service capabilities."

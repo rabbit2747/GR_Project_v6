@@ -1,0 +1,106 @@
+# GR Atom: CVE-2004-0597
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20040597-001"
+  name: "CVE-2004-0597"
+  normalized_name: "cve_2004_0597"
+  aliases:
+    - "libpng Buffer Overflow"
+    - "PNG Multiple Vulnerabilities"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "libpng 1.2.5 and earlier"
+    - "Mozilla Firefox"
+    - "Linux distributions"
+    - "Embedded systems using libpng"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2004-0597 (CVSS 10.0) is a critical buffer overflow vulnerability in the libpng library
+    versions 1.2.5 and earlier, used for processing PNG image files. Multiple buffer overflow
+    conditions exist in the png_handle_sBIT() and png_handle_hIST() functions that handle
+    ancillary PNG chunks. A specially crafted PNG image with malformed sBIT or hIST chunk data
+    can cause stack or heap buffer overflows leading to arbitrary code execution. The vulnerability
+    affects every application and operating system that uses libpng for PNG rendering.
+  why: >-
+    libpng is one of the most widely deployed open-source libraries, used by virtually every
+    web browser, image viewer, and operating system for PNG image rendering. The cross-platform
+    nature of the vulnerability meant that Windows, Linux, macOS, and embedded systems were all
+    affected simultaneously. This CVE demonstrated the cascading impact of vulnerabilities in
+    foundational open-source libraries that underpin the entire software ecosystem.
+  how: >-
+    The vulnerability is triggered when libpng processes a PNG image containing specially crafted
+    sBIT (significant bits) or hIST (histogram) ancillary chunks with oversized data. The parsing
+    functions fail to properly validate chunk data lengths before copying into fixed-size stack
+    or heap buffers. An attacker embeds the malicious PNG in web content, email, or documents.
+    When any application using a vulnerable libpng version renders the image, the buffer overflow
+    enables arbitrary code execution with the privileges of the rendering application.
+  core_concepts:
+    - key: "libpng Cross-Platform Library"
+      value: "Foundational open-source PNG parsing library used across all major operating systems and applications"
+    - key: "Ancillary Chunk Overflow"
+      value: "Insufficient validation of sBIT and hIST PNG chunk data lengths causes buffer overflows during parsing"
+    - key: "Supply Chain Impact"
+      value: "Single library vulnerability affected thousands of downstream applications across all platforms"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-MEMORY-CVE20040200-001"
+    description: "Both are 2004-era image library buffer overflows affecting widely-shared rendering components"
+  - type: "applies_to"
+    target: "INFRA-OS-LINUX-001"
+    description: "Affects Linux distributions shipping vulnerable libpng versions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2004-0597 - NIST NVD"
+    - "libpng Security Advisory - August 2004"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2004-0597"
+    - "libpng buffer overflow"
+    - "PNG vulnerability"
+    - "libpng sBIT overflow"
+    - "libpng hIST overflow"
+    - "PNG image parsing"
+    - "open source library vulnerability"
+  embedding_text: >-
+    CVE-2004-0597 is a critical buffer overflow (CVSS 10.0) in the libpng library versions 1.2.5
+    and earlier affecting PNG image processing. Malformed sBIT and hIST ancillary chunks trigger
+    stack and heap buffer overflows in png_handle_sBIT() and png_handle_hIST() functions, enabling
+    arbitrary code execution. As a foundational cross-platform open-source library used by virtually
+    every browser and operating system for PNG rendering, this vulnerability had massive supply chain
+    impact across Windows, Linux, macOS, and embedded systems simultaneously.

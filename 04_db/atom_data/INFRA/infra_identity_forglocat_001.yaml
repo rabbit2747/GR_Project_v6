@@ -1,0 +1,120 @@
+# GR Atom: Forest Global Catalog
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-FORGLOCAT-001"
+  name: "Forest Global Catalog"
+  normalized_name: "forest_global_catalog"
+  aliases:
+    - "Global Catalog Server"
+    - "GC Server"
+    - "AD Global Catalog"
+    - "Forest-Wide Directory"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - LDAP
+    - KERBEROS
+    - DISC
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Forest Global Catalog (GC) is a distributed data repository in Active Directory that
+    contains a partial, read-only replica of all objects in every domain within the forest,
+    plus a full replica of the GC server's own domain. The Global Catalog stores a subset of
+    the most commonly used attributes for each object, enabling forest-wide search without
+    requiring referrals to individual domain controllers. GC servers listen on TCP port 3268
+    (LDAP) and 3269 (LDAPS) in addition to standard LDAP ports.
+  why: >-
+    The Global Catalog is a valuable reconnaissance target because it provides a single
+    query point for enumerating all objects across the entire forest. Attackers use GC
+    queries to discover privileged accounts, service accounts, group memberships, and trust
+    relationships across all domains. LDAP queries to GC port 3268 return results from every
+    domain, making it efficient for initial domain reconnaissance. The GC is also critical
+    for Universal Group membership resolution during Kerberos authentication, and GC
+    unavailability can impact authentication across the forest.
+  how: >-
+    Domain controllers designated as Global Catalog servers replicate a subset of attributes
+    from all domain naming contexts in the forest through the GC replication mechanism. The
+    Partial Attribute Set (PAS) defines which attributes are replicated to the GC and is
+    configured in the forest schema. Applications and services query the GC on port 3268
+    for cross-domain searches including email address resolution, Universal Group membership
+    lookup, and user principal name (UPN) authentication. The GC is essential for Exchange
+    address book resolution and Universal Group evaluation during Kerberos ticket granting.
+  core_concepts:
+    - key: "Forest-Wide Search"
+      value: "Provides a single query point for searching all objects across all domains without individual domain controller referrals"
+    - key: "Reconnaissance Value"
+      value: "GC queries on port 3268 return forest-wide results enabling efficient enumeration of all privileged accounts and group memberships"
+    - key: "Universal Group Resolution"
+      value: "GC stores Universal Group memberships required for Kerberos authentication, making GC availability critical for cross-domain access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "Global Catalog is a service role on domain controllers within the forest domain infrastructure"
+  - type: "enables"
+    target: "INFRA-IDENTITY-GLOADDLIS-001"
+    description: "Global Catalog provides the data source for Global Address List resolution"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "GC provides Universal Group membership resolution required for Kerberos authentication"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1087.002"
+    tactic:
+      - "Discovery"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Global Catalog Server"
+    - "MITRE ATT&CK T1087.002 - Account Discovery: Domain Account"
+    - "Microsoft Documentation - Active Directory Replication"
+  search_keywords:
+    - "Global Catalog"
+    - "GC server"
+    - "forest Global Catalog"
+    - "port 3268"
+    - "AD forest enumeration"
+    - "Universal Group membership"
+    - "Partial Attribute Set"
+    - "cross-domain search"
+  embedding_text: >-
+    The Forest Global Catalog is a distributed Active Directory repository containing
+    partial read-only replicas of all objects from every domain in the forest. GC servers
+    listen on TCP 3268 (LDAP) and 3269 (LDAPS), providing forest-wide search capabilities
+    without domain referrals. The Partial Attribute Set defines which attributes are
+    replicated. The GC is a valuable reconnaissance target enabling attackers to enumerate
+    all privileged accounts, service accounts, and group memberships across the entire
+    forest from a single query point. It is also critical for Universal Group membership
+    resolution during Kerberos authentication and Exchange address book resolution. GC
+    unavailability impacts cross-domain authentication. Security teams must monitor GC
+    LDAP queries for reconnaissance patterns, restrict anonymous access to GC ports,
+    audit the Partial Attribute Set for sensitive attributes, and ensure GC availability
+    for authentication continuity.

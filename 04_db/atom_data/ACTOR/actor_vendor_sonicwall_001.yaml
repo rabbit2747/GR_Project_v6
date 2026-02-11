@@ -1,0 +1,75 @@
+# GR Atom: SonicWall
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SONICWALL-001"
+  name: "SonicWall"
+  normalized_name: "sonicwall"
+  aliases:
+    - "SonicWall Inc"
+    - "SonicWALL"
+    - "Dell SonicWall"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FIREWALL
+    - IPS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SonicWall is a network security vendor specializing in next-generation firewalls, VPN solutions, secure remote access, and threat intelligence services. The company provides hardware and virtual firewall appliances with deep packet inspection, intrusion prevention, anti-malware, and content filtering capabilities, serving small-to-medium businesses and enterprises with unified threat management solutions."
+  why: "SonicWall is significant in cybersecurity as a major provider of network perimeter security solutions, particularly for the SMB market where its firewalls are widely deployed. The company's Capture Labs threat research team produces threat intelligence used by its products and published through annual cyber threat reports that document attack trends. SonicWall devices have also been targeted by threat actors, making their vulnerability management critical."
+  how: "SonicWall operates through next-generation firewall appliances that perform real-time deep packet inspection using its Reassembly-Free Deep Packet Inspection (RFDPI) engine. Products include TZ series firewalls for SMBs, NSa series for enterprises, and Secure Mobile Access for remote workforce. The Capture Labs team provides threat intelligence through cloud-based sandboxing and multi-engine analysis to detect zero-day threats."
+  core_concepts:
+    - key: "Next-Generation Firewalls"
+      value: "Network security appliances with deep packet inspection, intrusion prevention, and unified threat management capabilities"
+    - key: "RFDPI Engine"
+      value: "Reassembly-Free Deep Packet Inspection technology for real-time threat detection without packet reassembly overhead"
+    - key: "Capture Labs Threat Research"
+      value: "Security research team providing cloud-based threat intelligence, sandboxing, and zero-day detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-WATCHGUARD-001"
+    description: "Fellow network security vendor providing firewall and unified threat management solutions"
+  - type: is_a
+    target: "ACTOR-VENDOR-FORTIGARD-001"
+    description: "Fellow next-generation firewall vendor serving enterprise and SMB network security markets"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.sonicwall.com"
+    - "https://en.wikipedia.org/wiki/SonicWall"
+  search_keywords:
+    - "sonicwall"
+    - "next-generation firewall"
+    - "deep packet inspection"
+    - "capture labs"
+    - "network security"
+    - "VPN appliance"
+    - "unified threat management"
+    - "RFDPI"
+    - "firewall appliance"
+  embedding_text: "SonicWall is a network security vendor specializing in next-generation firewalls, VPN solutions, secure remote access, and threat intelligence services. The company provides hardware and virtual firewall appliances with deep packet inspection, intrusion prevention, anti-malware, and content filtering capabilities serving SMB and enterprise markets. SonicWall's RFDPI engine performs real-time deep packet inspection without packet reassembly overhead, while the Capture Labs threat research team provides cloud-based sandboxing and multi-engine analysis to detect zero-day threats."

@@ -1,0 +1,123 @@
+# GR Atom: File Share Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-FILESHAR-002"
+  name: "File Share Service"
+  normalized_name: "file_share_service"
+  aliases:
+    - "Cloud File Share"
+    - "File Sharing Service"
+    - "Managed File Share"
+    - "File Sync Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - DATABASE
+    - EXFIL
+    - NETWORK
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A File Share Service is a managed platform or service that provides file sharing, storage,
+    and synchronization capabilities to users and applications. This includes cloud-based file
+    sharing platforms (Dropbox, Google Drive, OneDrive, Box), managed cloud file storage
+    services (Azure Files, Amazon EFS, Amazon FSx), and enterprise file sharing solutions.
+    Unlike raw file shares, file share services provide user-friendly interfaces, cross-device
+    synchronization, collaboration features, versioning, and API-based access.
+  why: >-
+    File share services are significant from a security perspective as both defensive tools
+    and potential attack vectors. They centralize organizational data in cloud platforms,
+    introducing shared responsibility security models. They serve as data exfiltration channels
+    where adversaries use legitimate cloud sync tools to extract data (MITRE ATT&CK T1567.002).
+    Shadow IT usage of unauthorized file sharing services bypasses security controls and DLP
+    policies. Data loss through oversharing, public link creation, and misconfigured permissions
+    is a common risk.
+  how: >-
+    File share services operate through client applications, web interfaces, and APIs. Desktop
+    sync clients maintain local copies of cloud-stored files, synchronizing changes bidirectionally.
+    Web interfaces provide browser-based access. APIs enable programmatic integration. Authentication
+    uses platform credentials (Google, Microsoft, enterprise SSO). Authorization controls include
+    file/folder-level permissions, sharing links with optional passwords and expiration, and
+    organizational sharing policies. Enterprise features include DLP integration, eDiscovery,
+    audit logging, and compliance holds. Encryption protects data at rest and in transit.
+  core_concepts:
+    - key: "Cloud Synchronization"
+      value: >-
+        File share services synchronize files across devices and users through cloud storage,
+        enabling collaboration but also creating potential data leakage paths through
+        synchronized copies on multiple endpoints.
+    - key: "Data Exfiltration Channel"
+      value: >-
+        Legitimate file share services can be abused as exfiltration channels, blending
+        malicious data transfers with normal cloud sync traffic to evade detection.
+    - key: "Sharing and Permission Controls"
+      value: >-
+        File share services provide granular sharing controls including link-based sharing,
+        permission levels, and organizational policies, but misconfiguration frequently leads
+        to unintended data exposure.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A file share service is a type of data store providing managed file storage and collaboration"
+  - type: "supersedes"
+    target: "INFRA-DATA-FILESHAR-001"
+    description: "Cloud file share services increasingly supersede traditional on-premises file shares with managed alternatives"
+  - type: "enables"
+    target: "INFRA-DATA-FILEREPO-001"
+    description: "File share services enable file repository functionality through cloud-based document management"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK T1567.002 - Exfiltration Over Web Service: Exfiltration to Cloud Storage."
+    - "NIST SP 800-144 - Guidelines on Security and Privacy in Public Cloud Computing."
+    - "CIS Controls v8 - Control 3: Data Protection."
+  search_keywords:
+    - "file share service"
+    - "cloud file sharing"
+    - "Dropbox"
+    - "Google Drive"
+    - "OneDrive"
+    - "file sync service"
+    - "cloud storage exfiltration"
+    - "managed file share"
+  embedding_text: >-
+    A File Share Service is a managed platform providing file sharing, storage, and synchronization
+    through cloud-based platforms (Dropbox, Google Drive, OneDrive, Box), managed cloud storage
+    (Azure Files, Amazon EFS), and enterprise solutions. They provide cross-device sync,
+    collaboration, versioning, and API access. File share services are security-relevant as both
+    organizational tools and attack vectors. Adversaries use them as data exfiltration channels
+    (MITRE ATT&CK T1567.002), blending malicious transfers with legitimate cloud traffic. Shadow
+    IT usage bypasses security controls. Data loss through oversharing and misconfigured
+    permissions is common. Enterprise features include DLP integration, eDiscovery, audit logging,
+    and compliance holds. Authentication uses platform credentials or enterprise SSO, with
+    authorization through file-level permissions and organizational sharing policies.

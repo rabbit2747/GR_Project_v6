@@ -1,0 +1,77 @@
+# GR Atom: Network Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-NETWSENS-001"
+  name: "Network Sensor"
+  normalized_name: "network_sensor"
+  aliases:
+    - "Network IDS Sensor"
+    - "Network Monitoring Sensor"
+    - "Network TAP Sensor"
+    - "Packet Capture Sensor"
+    - "NIDS Sensor"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - LOG
+    - SIEM
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z4"
+  function: "N3.1"
+
+definition:
+  what: "A Network Sensor is a monitoring device or software system deployed at strategic network points to capture, inspect, and analyze network traffic for security threats, performance issues, and policy violations. Unlike flow sensors that collect only metadata, network sensors perform deep packet inspection (DPI) analyzing packet headers and payloads to detect malware signatures, protocol anomalies, exploit attempts, and data exfiltration. Network sensors encompass network intrusion detection systems (NIDS) such as Snort, Suricata, and Zeek, as well as network detection and response (NDR) platforms, packet capture appliances, and protocol analyzers. They connect to the network through SPAN ports, network TAPs, or inline deployment."
+  why: "Network sensors provide critical visibility into network traffic that cannot be obtained through endpoint-based monitoring alone, especially for detecting threats on unmanaged devices, IoT systems, and lateral movement between network segments. They detect known attack signatures, protocol anomalies, command-and-control communication, and suspicious data transfers in real time. Network sensors generate security events that feed SIEM platforms for correlation and alerting, and they produce packet capture evidence essential for incident response and forensic investigation. Their passive deployment does not impact network performance or require changes to monitored systems."
+  how: "Network sensors are connected to network traffic through SPAN/mirror ports on switches, dedicated network TAP devices that copy traffic without affecting the production link, or inline deployment where traffic passes through the sensor. The sensor captures packets and performs analysis including signature-based detection matching traffic against known threat patterns, protocol analysis verifying compliance with protocol specifications, statistical anomaly detection identifying deviations from baseline behavior, and file extraction for malware analysis. Detection rules are continuously updated from threat intelligence feeds. Alerts and metadata are forwarded to SIEM platforms and security operations centers. Packet captures are stored for forensic retrieval. Sensor placement is strategic, typically at network borders, between security zones, and at critical internal segments."
+  core_concepts:
+    - key: "Deep Packet Inspection"
+      value: "The analysis of both packet headers and payloads to identify malware signatures, protocol violations, and suspicious content that cannot be detected through metadata analysis alone"
+    - key: "Network TAP"
+      value: "A passive hardware device that creates an exact copy of network traffic for monitoring without introducing latency, packet loss, or a single point of failure"
+    - key: "Signature-Based Detection"
+      value: "Detection method that matches network traffic against a database of known threat patterns, exploit signatures, and malicious indicators maintained through threat intelligence updates"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-NETFLOSEN-001"
+    description: "Network sensors complement flow sensors by providing deep packet inspection where flow sensors provide broad metadata coverage"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Network sensors are strategically placed at DMZ boundaries to monitor traffic crossing security zone perimeters"
+  - type: enables
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Network sensors monitor router-hosted traffic to detect threats traversing network infrastructure"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-94 - Guide to Intrusion Detection and Prevention Systems - https://csrc.nist.gov/publications/detail/sp/800-94/final"
+    - "Snort IDS Documentation - https://www.snort.org/documents"
+    - "Suricata Documentation - https://docs.suricata.io/"
+    - "Zeek Network Security Monitor - https://docs.zeek.org/"
+  search_keywords:
+    - "network sensor"
+    - "network IDS"
+    - "NIDS"
+    - "deep packet inspection"
+    - "network TAP"
+    - "Snort sensor"
+    - "Suricata sensor"
+    - "Zeek sensor"
+    - "packet capture"
+    - "network monitoring"
+  embedding_text: "A Network Sensor is a monitoring device deployed at strategic network points to capture, inspect, and analyze traffic for security threats using deep packet inspection. Unlike flow sensors that collect only metadata, network sensors analyze packet payloads to detect malware signatures, protocol anomalies, exploit attempts, and data exfiltration. Implementations include NIDS platforms like Snort, Suricata, and Zeek, NDR platforms, and packet capture appliances. Connected through SPAN ports or network TAPs, sensors perform signature-based detection, protocol analysis, and statistical anomaly detection. They generate alerts for SIEM platforms and produce packet capture evidence for forensic investigation without impacting network performance."

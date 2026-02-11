@@ -1,0 +1,71 @@
+# GR Atom: Computer Weekly
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-COMPWEEK-001"
+  name: "Computer Weekly"
+  normalized_name: "computer_weekly"
+  aliases:
+    - "ComputerWeekly"
+    - "CW"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Computer Weekly is a British information technology news publication founded in 1966, published by TechTarget, that provides enterprise IT and cybersecurity news, analysis, and features. It covers cybersecurity incidents, data breaches, regulatory developments, IT governance, and enterprise security strategy. The publication is a longstanding source of IT industry news with particular strength in European and UK-focused cybersecurity coverage, including GDPR compliance, government cyber policy, and enterprise risk management."
+  why: "Computer Weekly is relevant to the cybersecurity community as a trusted source for enterprise security news, particularly covering the European regulatory landscape, UK government cyber initiatives, and data protection developments. Its long publishing history and editorial independence make it a reliable reference for IT professionals tracking security trends and compliance requirements."
+  how: "Computer Weekly publishes news articles, in-depth analysis, opinion pieces, and buyer guides covering cybersecurity topics. Journalists report on data breaches, vulnerability disclosures, regulatory changes, vendor developments, and industry trends, providing IT professionals and security leaders with actionable intelligence for enterprise security decision-making."
+  core_concepts:
+    - key: "Enterprise IT Journalism"
+      value: "Coverage of enterprise security strategy, IT governance, and technology infrastructure"
+    - key: "European Cybersecurity Coverage"
+      value: "Focus on UK and European regulatory developments including GDPR and NIS2 compliance"
+    - key: "Data Breach Reporting"
+      value: "News coverage of major cybersecurity incidents and their impact on organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow IT and cybersecurity news publication"
+  - type: enables
+    target: "ACTOR-RESEARCH-SECUNEWS-001"
+    description: "Part of the broader security news media ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.computerweekly.com"
+    - "https://en.wikipedia.org/wiki/Computer_Weekly"
+  search_keywords:
+    - "computer weekly"
+    - "enterprise IT news"
+    - "UK cybersecurity"
+    - "GDPR compliance"
+    - "data breach reporting"
+    - "IT governance"
+    - "European security news"
+  embedding_text: "Computer Weekly is a British information technology news publication founded in 1966 that provides enterprise IT and cybersecurity news, analysis, and features. Published by TechTarget, it covers cybersecurity incidents, data breaches, regulatory developments, IT governance, and enterprise security strategy with particular strength in European and UK-focused cybersecurity coverage. The publication reports on GDPR compliance, government cyber policy, enterprise risk management, and vendor developments, serving as a trusted source for IT professionals and security leaders tracking security trends and regulatory requirements across the European technology landscape."

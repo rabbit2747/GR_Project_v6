@@ -1,0 +1,113 @@
+# GR Atom: CVE-2016-7255
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20167255-001"
+  name: "CVE-2016-7255"
+  normalized_name: "cve_2016_7255"
+  aliases:
+    - "Windows Kernel Win32k EoP"
+    - "Win32k Elevation of Privilege"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OVERFLOW
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Win32k.sys kernel driver"
+    - "Windows Vista through Windows 10"
+    - "Windows Server 2008 through 2016"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-7255 is a privilege escalation vulnerability (CVSS 7.8) in the Windows
+    Win32k.sys kernel-mode driver caused by improper handling of objects in memory. The
+    vulnerability allows a locally authenticated attacker to elevate privileges to SYSTEM
+    by running a specially crafted application. It was actively exploited in the wild by
+    the APT28 (Fancy Bear) threat group as part of a spear-phishing campaign in late 2016.
+    Microsoft patched the flaw in November 2016 (MS16-135). Google's Threat Analysis
+    Group disclosed the active exploitation before the patch was available, causing a
+    brief controversy between Microsoft and Google regarding responsible disclosure timelines.
+  why: >-
+    This vulnerability was significant due to its active exploitation by a nation-state
+    threat actor (APT28/Fancy Bear) as a zero-day in targeted attacks. The Win32k.sys
+    component has been a recurring source of privilege escalation vulnerabilities in
+    Windows, and CVE-2016-7255 demonstrated the continued value of kernel-level exploits
+    for advanced persistent threats. The disclosure controversy between Google and Microsoft
+    also highlighted industry tensions around responsible vulnerability disclosure timelines.
+  how: >-
+    The exploit targets a memory corruption flaw in the Win32k.sys kernel driver by
+    invoking specific Win32k system calls with crafted parameters that trigger improper
+    object handling. The attacker first gains local code execution through a separate
+    vector (such as a browser exploit), then uses CVE-2016-7255 to escalate from a
+    sandboxed or low-privilege process to SYSTEM level. APT28 chained this with a
+    separate Adobe Flash vulnerability (CVE-2016-7855) for initial code execution
+    in their attack campaigns.
+  core_concepts:
+    - key: "Win32k Kernel Privilege Escalation"
+      value: "Memory corruption in Win32k.sys kernel driver enabling SYSTEM-level privilege escalation from local user"
+    - key: "APT28 Zero-Day Exploitation"
+      value: "Actively exploited as a zero-day by Russia-linked APT28 group in targeted spear-phishing campaigns in 2016"
+    - key: "Exploit Chain Component"
+      value: "Used as privilege escalation stage chained with browser/Flash exploits for full system compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2016-7255 is a memory corruption vulnerability in the Windows Win32k kernel driver"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170005-001"
+    description: "Both are Win32k.sys privilege escalation vulnerabilities exploited by APT groups as zero-days"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS16-135"
+    - "NVD Entry CVE-2016-7255 - CVSS 7.8"
+    - "Google Threat Analysis Group - Disclosure of APT28 zero-day exploitation"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2016-7255"
+    - "Win32k.sys"
+    - "Windows kernel"
+    - "privilege escalation"
+    - "APT28"
+    - "Fancy Bear"
+    - "MS16-135"
+    - "zero-day"
+  embedding_text: >-
+    CVE-2016-7255 is a privilege escalation vulnerability in the Windows Win32k.sys kernel
+    driver with CVSS 7.8, caused by improper handling of objects in memory. Actively
+    exploited as a zero-day by APT28 (Fancy Bear) in targeted campaigns in 2016, the flaw
+    allows local attackers to escalate to SYSTEM privileges. It was chained with Adobe
+    Flash exploits for initial access. Patched in MS16-135 in November 2016, the
+    vulnerability highlighted the persistent security challenges in the Win32k kernel
+    attack surface and the tensions around responsible disclosure when Google disclosed
+    active exploitation before the patch was ready.

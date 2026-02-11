@@ -1,0 +1,123 @@
+# GR Atom: ControlLogix
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-CONTROLLOG-001"
+  name: "ControlLogix"
+  normalized_name: "controllogix"
+  aliases:
+    - "Allen-Bradley ControlLogix"
+    - "Rockwell ControlLogix"
+    - "ControlLogix PLC"
+    - "1756 ControlLogix"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - NETWORK
+    - FIRMWARE
+    - IOT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z5"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ControlLogix is a family of modular, rack-based programmable automation controllers (PACs)
+    manufactured by Rockwell Automation under the Allen-Bradley brand. The platform uses the
+    1756 chassis system with hot-swappable I/O modules and supports multiple communication
+    protocols including EtherNet/IP, ControlNet, DeviceNet, and serial. ControlLogix controllers
+    (such as 1756-L71, L72, L73, L8x series) are used in large-scale discrete, process, batch,
+    motion, and safety control applications across manufacturing, oil and gas, water treatment,
+    and power generation industries.
+  why: >-
+    ControlLogix PLCs are high-value targets in ICS/SCADA security because they directly control
+    physical processes in critical infrastructure. Compromise of these controllers can lead to
+    process manipulation, equipment damage, environmental disasters, or safety hazards. Threat
+    groups including XENOTIME and CHERNOVITE have specifically targeted Rockwell Automation
+    controllers. CVEs affecting ControlLogix firmware and the CIP protocol can enable unauthorized
+    program uploads, denial of service, or remote code execution on the controller.
+  how: >-
+    ControlLogix operates using the Logix5000 control engine executing ladder logic, structured
+    text, function block, and sequential function chart programs. Controllers communicate via
+    the Common Industrial Protocol (CIP) over EtherNet/IP for configuration, programming, and
+    real-time I/O data exchange. The modular 1756 chassis accepts processor, communication,
+    I/O, and specialty modules. Programming is performed through Rockwell Studio 5000 Logix
+    Designer. Security features include CIP Security with TLS/DTLS encryption, controller
+    mode switches (Run/Program/Remote), and user authentication on newer firmware versions.
+  core_concepts:
+    - key: "CIP Protocol"
+      value: "Common Industrial Protocol used for controller communication, programming, and I/O exchange over EtherNet/IP, ControlNet, and DeviceNet networks"
+    - key: "Logix5000 Control Engine"
+      value: "Runtime execution environment for industrial control programs supporting multiple IEC 61131-3 programming languages"
+    - key: "1756 Modular Chassis"
+      value: "Hot-swappable rack system accepting processor, communication, I/O, and safety modules for flexible industrial automation architectures"
+    - key: "CIP Security"
+      value: "Security extension to CIP providing device authentication, data integrity, and confidentiality through TLS/DTLS for controller communications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-ENDPOINT-GUARDLOGIX-001"
+    description: "ControlLogix and GuardLogix share the same platform, with GuardLogix adding SIL 3 safety capability"
+  - type: "enables"
+    target: "INFRA-ENDPOINT-FACTORYTAL-001"
+    description: "ControlLogix controllers are managed, programmed, and monitored through the FactoryTalk software suite"
+  - type: "requires"
+    target: "INFRA-ENDPOINT-ECOSTRUXUR-001"
+    description: "ControlLogix may integrate with SCADA/HMI platforms like EcoStruxure in multi-vendor industrial environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0839"
+    tactic:
+      - "Impair Process Control"
+      - "Inhibit Response Function"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Rockwell Automation - ControlLogix System User Manual (1756-UM001)"
+    - "CISA ICS-CERT Advisories for Rockwell Automation ControlLogix"
+    - "MITRE ATT&CK for ICS - Rockwell Automation Controller Techniques"
+  search_keywords:
+    - "ControlLogix"
+    - "Allen-Bradley PLC"
+    - "Rockwell Automation controller"
+    - "1756 ControlLogix"
+    - "EtherNet/IP"
+    - "CIP protocol"
+    - "ICS PLC"
+    - "industrial controller"
+    - "Logix5000"
+    - "SCADA controller"
+  embedding_text: >-
+    ControlLogix is a family of modular rack-based programmable automation controllers (PACs)
+    manufactured by Rockwell Automation under the Allen-Bradley brand. Using the 1756 chassis
+    system with hot-swappable modules, it supports EtherNet/IP, ControlNet, DeviceNet, and
+    serial communication protocols. ControlLogix controllers execute programs in ladder logic,
+    structured text, function block, and SFC using the Logix5000 control engine. They are
+    deployed in large-scale manufacturing, oil and gas, water treatment, and power generation
+    for discrete, process, batch, motion, and safety control. From a cybersecurity perspective,
+    ControlLogix PLCs are high-value ICS targets that have been specifically targeted by threat
+    groups including XENOTIME and CHERNOVITE. Vulnerabilities in CIP protocol and controller
+    firmware can enable unauthorized program manipulation, denial of service, or remote code
+    execution. Newer firmware versions support CIP Security with TLS/DTLS encryption.

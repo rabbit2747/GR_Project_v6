@@ -1,0 +1,83 @@
+# GR Atom: Lotus Blossom
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-LOTUBLOS-001"
+  name: "Lotus Blossom"
+  normalized_name: "lotus_blossom"
+  aliases:
+    - "Spring Dragon"
+    - "DRAGONFISH"
+    - "Thrip"
+    - "Billbug"
+    - "Lotus Panda"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PERSIST"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "government networks"
+    - "military systems"
+    - "email servers"
+    - "defense contractor networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Lotus Blossom (also known as Spring Dragon, Billbug, and Lotus Panda) is a Chinese state-sponsored cyber espionage group that has been active since at least 2012, primarily targeting government and military organizations in Southeast Asia including Vietnam, Philippines, Indonesia, Taiwan, and Hong Kong. The group is also known to target defense contractors, telecommunications, and satellite communications providers."
+  why: "The group conducts espionage operations aligned with Chinese strategic interests in the South China Sea region and broader Southeast Asian geopolitics. Intelligence collection focuses on military capabilities, diplomatic communications, territorial disputes, and defense procurement of nations in China's sphere of influence. Operations against satellite and telecommunications providers support signals intelligence objectives."
+  how: "Lotus Blossom relies heavily on spear-phishing emails with weaponized documents exploiting Microsoft Office vulnerabilities, particularly CVE-2012-0158. The group deploys custom backdoors including Elise (also known as BKDR_ESILE), Evora, and Hanover. They use DLL side-loading techniques for persistence, establish C2 through HTTP-based protocols with custom encoding, and conduct systematic document exfiltration from compromised networks. The group has also been observed using legitimate tools for lateral movement within target environments."
+  core_concepts:
+    - "Southeast Asian government espionage"
+    - "South China Sea intelligence collection"
+    - "Office vulnerability exploitation"
+    - "DLL side-loading persistence"
+    - "defense and military targeting"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Both are Chinese state-sponsored groups with overlapping Southeast Asian targets"
+  - type: "applies_to"
+    target: "ACTOR-APT-OCEANLOTUS-001"
+    description: "Targets overlapping Vietnamese government entities that OceanLotus also operates from"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Palo Alto Unit 42 - Operation Lotus Blossom"
+    - "MITRE ATT&CK - Lotus Blossom (G0030)"
+    - "Kaspersky - Spring Dragon APT"
+    - "Symantec - Billbug: State-Sponsored Tool for Attacks on Certificate Authority"
+  search_keywords:
+    - "lotus blossom"
+    - "spring dragon"
+    - "dragonfish"
+    - "thrip APT"
+    - "billbug"
+    - "lotus panda"
+    - "elise backdoor"
+    - "southeast asia espionage"
+    - "chinese APT southeast asia"
+  embedding_text: "Lotus Blossom is a Chinese state-sponsored cyber espionage group also known as Spring Dragon, Billbug, and Lotus Panda, active since at least 2012. The group primarily targets government and military organizations in Southeast Asia including Vietnam, Philippines, Indonesia, Taiwan, and Hong Kong, as well as defense contractors and satellite communications providers. Operations align with Chinese strategic interests in the South China Sea region. Attack techniques include spear-phishing with weaponized Office documents exploiting CVE-2012-0158, deployment of custom backdoors such as Elise and Evora, DLL side-loading for persistence, and systematic document exfiltration. The group has also targeted certificate authorities and telecommunications providers to support broader intelligence collection. Lotus Blossom represents a persistent Chinese cyber espionage capability focused on military and diplomatic intelligence in the Asia-Pacific region."

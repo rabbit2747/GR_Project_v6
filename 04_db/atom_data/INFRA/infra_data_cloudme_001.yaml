@@ -1,0 +1,113 @@
+# GR Atom: CloudMe
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-CLOUDME-001"
+  name: "CloudMe"
+  normalized_name: "cloudme"
+  aliases:
+    - "CloudMe Sync"
+    - "CloudMe.com"
+    - "CloudMe Cloud Storage"
+    - "iCloud alternative CloudMe"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - DATABASE
+    - EXFIL
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z0A"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CloudMe is a Swedish cloud storage and file synchronization service that provides online
+    backup, file sharing, and collaboration features. It offers desktop synchronization clients
+    for Windows, macOS, and Linux, mobile apps, and a web interface for accessing stored files.
+    CloudMe is notable in cybersecurity due to known buffer overflow vulnerabilities in its
+    desktop synchronization client (particularly the Windows client) which have been widely
+    used in penetration testing training and exploit development exercises. The CloudMe Sync
+    client has had multiple CVEs including stack-based buffer overflow vulnerabilities.
+  why: >-
+    CloudMe is security-relevant because its desktop client has been a frequent target for
+    exploit development due to documented buffer overflow vulnerabilities. Cloud storage
+    services like CloudMe also represent potential data exfiltration channels where adversaries
+    can use legitimate cloud sync tools to stage and exfiltrate data from compromised networks.
+    The service's file synchronization capability can be abused for both data collection and
+    command-and-control purposes when installed on compromised endpoints.
+  how: >-
+    CloudMe operates through client-server architecture where desktop and mobile clients
+    synchronize local file system directories with cloud-hosted storage. The sync client
+    listens on a local TCP port (default 8888) for inter-process communication, which has
+    been the attack vector for known buffer overflow exploits. File data is transferred over
+    HTTPS to CloudMe's cloud infrastructure hosted in Sweden. Access control is managed
+    through account-based authentication with optional sharing links for collaboration.
+  core_concepts:
+    - key: "Buffer Overflow Vulnerability History"
+      value: >-
+        The CloudMe Sync Windows client has had multiple stack-based buffer overflow
+        vulnerabilities in its local TCP listener, making it a common target in exploit
+        development and penetration testing training materials.
+    - key: "Cloud Storage Exfiltration Vector"
+      value: >-
+        Cloud synchronization services like CloudMe can be abused by adversaries as data
+        staging and exfiltration channels, leveraging legitimate cloud traffic to evade
+        network-based detection.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "CloudMe is a cloud-based data store providing file storage and synchronization services"
+  - type: "is_a"
+    target: "INFRA-DATA-FILESHAR-002"
+    description: "CloudMe is a cloud-based file share service enabling file synchronization and collaboration"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "CloudMe official documentation. https://www.cloudme.com"
+    - "Exploit-DB CloudMe Sync buffer overflow entries. https://www.exploit-db.com/search?q=cloudme"
+    - "MITRE ATT&CK T1567.002 - Exfiltration Over Web Service: Exfiltration to Cloud Storage."
+  search_keywords:
+    - "CloudMe"
+    - "CloudMe Sync"
+    - "CloudMe buffer overflow"
+    - "CloudMe exploit"
+    - "cloud storage exfiltration"
+    - "CloudMe vulnerability"
+    - "cloud file sync"
+  embedding_text: >-
+    CloudMe is a Swedish cloud storage and file synchronization service providing online backup,
+    file sharing, and collaboration features through desktop clients, mobile apps, and a web
+    interface. CloudMe is particularly notable in cybersecurity due to documented buffer overflow
+    vulnerabilities in its Windows desktop synchronization client, which listens on local TCP
+    port 8888. These stack-based buffer overflow vulnerabilities have made CloudMe a common
+    target in exploit development training and penetration testing exercises. Beyond its
+    vulnerability history, CloudMe represents a cloud storage exfiltration vector where
+    adversaries can abuse legitimate synchronization tools for data staging and exfiltration
+    (MITRE ATT&CK T1567.002). Cloud storage services like CloudMe can blend malicious data
+    transfers with legitimate cloud traffic, complicating network-based detection efforts.

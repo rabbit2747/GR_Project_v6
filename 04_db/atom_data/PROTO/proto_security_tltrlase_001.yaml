@@ -1,0 +1,160 @@
+# GR Atom: TLS Transport Layer Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-TLTRLASE-001"
+  name: "TLS Transport Layer Security"
+  normalized_name: "tls_transport_layer_security"
+  aliases:
+    - "TLS"
+    - "Transport Layer Security"
+    - "TLS/SSL"
+    - "SSL/TLS"
+    - "TLS Protocol Family"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 3
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+    - WEB
+    - HTTP
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Transport Layer Security (TLS) is a cryptographic protocol family that provides
+    confidentiality, integrity, and authentication for communications over computer networks.
+    TLS is the successor to SSL (Secure Sockets Layer) and encompasses versions 1.0 through
+    1.3, with TLS 1.2 (RFC 5246) and TLS 1.3 (RFC 8446) being the currently supported versions.
+    The protocol operates between the transport layer and application layer, providing
+    transparent security for upper-layer protocols including HTTPS, SMTPS, IMAPS, FTPS, and
+    any TCP-based protocol. TLS is the most widely deployed cryptographic protocol on the
+    internet, securing the majority of web traffic, email communication, API calls, and
+    database connections. The protocol architecture comprises the handshake protocol for
+    authentication and key exchange, the record protocol for data encryption and integrity,
+    and the alert protocol for error notification.
+  why: >-
+    Internet communication protocols (HTTP, SMTP, FTP) were designed without encryption,
+    transmitting data in plaintext vulnerable to eavesdropping, tampering, and impersonation.
+    TLS addresses this fundamental gap by providing a standardized, interoperable encryption
+    layer that application protocols can leverage without modification to their core logic.
+    The protocol enables secure e-commerce, online banking, confidential communications, and
+    privacy-preserving web browsing. The migration from HTTP to HTTPS (HTTP over TLS) was
+    accelerated by browser indicators marking HTTP as insecure, Let's Encrypt providing free
+    certificates, and search engine ranking signals favoring HTTPS. TLS is required by virtually
+    all security compliance frameworks including PCI DSS, HIPAA, SOC 2, and GDPR for
+    protecting data in transit. The protocol's certificate-based authentication via the X.509
+    PKI system enables verification of server identity, preventing impersonation attacks.
+  how: >-
+    TLS operates through two primary sub-protocols: the handshake protocol and the record
+    protocol. The handshake protocol authenticates peers and establishes cryptographic
+    parameters through a multi-message exchange: ClientHello proposes cipher suites and
+    extensions, ServerHello selects parameters, certificates provide identity proof, key
+    exchange (ECDHE, DHE) derives shared secrets, and Finished messages verify handshake
+    integrity. In TLS 1.3, this completes in one round trip; in TLS 1.2, it requires two.
+    The record protocol then fragments application data into records (max 16KB), encrypts
+    each record using the negotiated AEAD cipher (AES-GCM, ChaCha20-Poly1305), and
+    transmits them with record-layer headers containing content type, version, and length.
+    The key schedule derives handshake and application traffic keys from the shared secret
+    using HKDF (TLS 1.3) or a custom PRF (TLS 1.2). Session resumption via PSK or session
+    tickets allows abbreviated handshakes for repeat connections. Certificate validation
+    involves chain building to a trusted root CA, revocation checking (OCSP, CRL), and
+    optional certificate transparency verification.
+  core_concepts:
+    - key: "Handshake Protocol"
+      value: >-
+        The multi-message exchange that authenticates communicating parties, negotiates
+        cryptographic parameters, and establishes shared keying material through key
+        exchange algorithms.
+    - key: "Record Protocol"
+      value: >-
+        The data transport sub-protocol that fragments, encrypts, and authenticates
+        application data using the keys and algorithms established during the handshake.
+    - key: "X.509 Certificate Authentication"
+      value: >-
+        TLS uses X.509 digital certificates issued by Certificate Authorities to verify
+        server (and optionally client) identity, with chain validation to trusted root CAs.
+    - key: "Forward Secrecy"
+      value: >-
+        Ephemeral key exchange (ECDHE, DHE) ensures that compromise of long-term private
+        keys cannot decrypt previously recorded sessions, protecting past communications.
+    - key: "AEAD Encryption"
+      value: >-
+        Authenticated Encryption with Associated Data provides integrated confidentiality
+        and integrity in a single cryptographic operation, used in all modern TLS cipher suites.
+    - key: "Protocol Version Evolution"
+      value: >-
+        SSL 2.0/3.0 (deprecated) established the foundation; TLS 1.0/1.1 (deprecated)
+        standardized improvements; TLS 1.2 added AEAD and configurable hashing; TLS 1.3
+        redesigned the handshake for 1-RTT and mandatory forward secrecy.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "PROTO-SECURITY-TLS13-001"
+    description: "TLS as a protocol family defines the framework within which TLS 1.3 operates as the latest version"
+  - type: "enables"
+    target: "PROTO-SECURITY-TLS12-001"
+    description: "TLS as a protocol family defines the framework within which TLS 1.2 operates as the widely deployed version"
+  - type: "enables"
+    target: "PROTO-SECURITY-MTLS-001"
+    description: "TLS provides the certificate-based authentication framework that mTLS extends for mutual verification"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-SSH-001"
+    description: "TLS provides application-layer transport encryption as an alternative to SSH for securing network communications"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-IPSEC-001"
+    description: "TLS provides application-layer encryption as an alternative to IPSec network-layer encryption"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 8446 - The Transport Layer Security (TLS) Protocol Version 1.3. IETF. https://datatracker.ietf.org/doc/html/rfc8446"
+    - "RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2. IETF. https://datatracker.ietf.org/doc/html/rfc5246"
+    - "NIST SP 800-52 Rev. 2 - Guidelines for the Selection, Configuration, and Use of TLS Implementations. https://csrc.nist.gov/publications/detail/sp/800-52/rev-2/final"
+    - "Rescorla, E. (2018). The Illustrated TLS Connection. https://tls.ulfheim.net/"
+  search_keywords:
+    - "TLS"
+    - "Transport Layer Security"
+    - "SSL/TLS"
+    - "TLS protocol"
+    - "HTTPS encryption"
+    - "TLS handshake"
+    - "TLS record protocol"
+    - "X.509 certificate"
+    - "forward secrecy"
+    - "AEAD cipher"
+    - "NIST SP 800-52"
+    - "TLS certificate validation"
+  embedding_text: >-
+    Transport Layer Security (TLS) is a cryptographic protocol family providing confidentiality,
+    integrity, and authentication for network communications. Encompassing versions from SSL
+    through TLS 1.3, it operates between the transport and application layers to transparently
+    secure HTTPS, SMTPS, IMAPS, and all TCP-based protocols. The architecture comprises the
+    handshake protocol for authentication and key exchange via X.509 certificates and (EC)DHE,
+    the record protocol for AEAD encryption of application data, and the alert protocol for
+    error notification. TLS 1.2 (RFC 5246) introduced AEAD cipher suites and remains the
+    minimum compliance standard. TLS 1.3 (RFC 8446) redesigned the handshake for 1-RTT
+    latency and mandatory forward secrecy. The protocol is required by PCI DSS, HIPAA, SOC 2,
+    and GDPR for protecting data in transit. Certificate validation involves chain building to
+    trusted root CAs, revocation checking via OCSP/CRL, and certificate transparency
+    verification. TLS is the most widely deployed cryptographic protocol securing the majority
+    of internet traffic.

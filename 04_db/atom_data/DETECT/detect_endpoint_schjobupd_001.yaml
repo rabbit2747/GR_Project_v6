@@ -1,0 +1,98 @@
+# GR Atom: Scheduled Job Update Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBUPD-001"
+  name: "Scheduled Job Update Event"
+  normalized_name: "scheduled_job_update_event"
+  aliases:
+    - "Scheduled Task Modification"
+    - "Task Scheduler Update"
+    - "Cron Job Update"
+    - "Job Schedule Change"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies modifications to existing scheduled jobs or tasks on an endpoint. This includes changes to the execution schedule, command arguments, triggers, run-as accounts, or any other configuration parameter of a previously created scheduled task. On Windows, this corresponds to changes detected via Task Scheduler event logs (Event IDs 4702, 140, 141) and Sysmon monitoring. On Linux, this covers modifications to crontab entries, systemd timers, and at jobs."
+  why: "Monitoring scheduled job updates is critical for detecting adversary persistence and privilege escalation techniques. Attackers frequently modify existing scheduled tasks to change their payloads, escalate privileges by altering the run-as account, or adjust timing to evade detection. Legitimate scheduled task modifications are relatively infrequent and well-documented in change management, making unauthorized changes a strong indicator of compromise."
+  how: "Detection is achieved by monitoring operating system event logs for scheduled task modification events. On Windows, this involves capturing Security Event ID 4702 (scheduled task updated), Task Scheduler Operational log events, and Sysmon telemetry. On Linux, monitoring inotify watches on crontab files, auditd rules on /etc/cron.* directories, and systemd timer unit changes. The detection pattern compares the previous and new task configurations to identify suspicious modifications such as payload changes, privilege escalation, or timing alterations."
+  core_concepts:
+    - key: "task_modification_tracking"
+      value: "Recording before-and-after states of scheduled job configurations to identify unauthorized or suspicious changes"
+    - key: "privilege_context_change"
+      value: "Detecting when a scheduled task's execution context is modified to run under a different or more privileged account"
+    - key: "payload_substitution"
+      value: "Identifying when the command or script executed by a scheduled task is changed, potentially indicating malicious replacement"
+    - key: "schedule_timing_change"
+      value: "Monitoring for modifications to execution frequency or timing that may indicate evasion attempts"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job update is a specific type of scheduled job lifecycle event"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SCHJOBSTA-001"
+    description: "Updated scheduled job configuration determines subsequent job start behavior"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053"
+    tactic:
+      - "persistence"
+      - "privilege-escalation"
+      - "execution"
+    sub_techniques:
+      - "T1053.005"
+      - "T1053.003"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Task Scheduler Event IDs"
+    - "MITRE ATT&CK T1053 - Scheduled Task/Job"
+    - "Sysmon Documentation - System Monitor Events"
+    - "Linux Audit Framework Documentation"
+  search_keywords:
+    - "scheduled task update"
+    - "task scheduler modification"
+    - "cron job change"
+    - "scheduled job update event"
+    - "task modification detection"
+    - "Event ID 4702"
+    - "persistence detection"
+    - "scheduled task monitoring"
+    - "job schedule change"
+    - "task scheduler security"
+  embedding_text: "Scheduled job update event detection pattern identifies modifications to existing scheduled tasks or jobs on endpoints. This covers Windows Task Scheduler changes detected via Event ID 4702 and Sysmon, as well as Linux crontab and systemd timer modifications. Adversaries modify scheduled tasks to maintain persistence, escalate privileges by changing run-as accounts, or substitute malicious payloads. Detection compares previous and new task configurations to identify unauthorized changes to commands, triggers, schedules, or execution contexts. This is a critical indicator for MITRE ATT&CK T1053 Scheduled Task/Job techniques used in persistence and privilege escalation tactics."

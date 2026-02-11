@@ -1,0 +1,73 @@
+# GR Atom: Spark Gateway
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-SPARGATE-001"
+  name: "Spark Gateway"
+  normalized_name: "spark_gateway"
+  aliases:
+    - "Cisco Spark Gateway"
+    - "Webex Gateway"
+    - "Collaboration Gateway"
+    - "SIP Gateway"
+    - "PSTN Gateway"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - CLOUD
+    - TLS
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "N2.1"
+
+definition:
+  what: "Spark Gateway is a network gateway device or service that bridges on-premises communication infrastructure with Cisco Webex (formerly Cisco Spark) cloud collaboration services. It enables interoperability between traditional telephony systems (PBX, PSTN, SIP trunks) and Webex cloud calling, meetings, and messaging by performing protocol translation, media transcoding, and call routing between on-premises and cloud environments. Spark Gateways include Cisco CUBE (Cisco Unified Border Element) for SIP trunk integration, Expressway series for firewall traversal and B2B calling, and Local Gateway configurations that register on-premises endpoints with the Webex cloud platform. The gateway handles call signaling, media path optimization, DTMF relay, fax passthrough, and emergency calling routing."
+  why: "Spark Gateway infrastructure is critical for organizations migrating to or operating hybrid cloud collaboration environments where on-premises telephony must coexist with Webex cloud services. The gateway ensures business continuity during migration, maintains connectivity to PSTN for external calling, supports regulatory requirements for local call breakout and emergency services, and enables interoperability with legacy video conferencing and SIP-based systems. From a security standpoint, collaboration gateways process voice and video media streams that may contain sensitive business communications, and they expose SIP and media ports that can be targeted for toll fraud, eavesdropping, and denial-of-service attacks."
+  how: "Spark Gateway is deployed at the network edge, connecting the internal voice/video infrastructure to Webex cloud services over encrypted TLS/SRTP connections. For SIP trunk integration, CUBE normalizes SIP signaling between the service provider and Webex, handling codec negotiation, NAT traversal, and call routing decisions. Expressway gateways use ICE, TURN, and STUN protocols for firewall traversal without requiring inbound firewall ports. The gateway authenticates with the Webex cloud using certificates and OAuth tokens. Call admission control limits concurrent sessions to prevent resource exhaustion. Quality of Service markings ensure voice and video traffic receives priority treatment across the network. Logging captures call detail records for billing, compliance, and troubleshooting."
+  core_concepts:
+    - key: "Protocol Translation"
+      value: "The conversion of signaling and media protocols between on-premises telephony standards and Webex cloud protocols, enabling interoperability across different communication systems"
+    - key: "Firewall Traversal"
+      value: "Techniques using ICE, TURN, and STUN protocols that allow media and signaling to flow between on-premises and cloud environments without opening inbound firewall ports"
+    - key: "Local Gateway"
+      value: "An on-premises gateway configuration that registers local endpoints and trunks with the Webex cloud, enabling hybrid calling with local PSTN breakout"
+
+relations:
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Spark Gateway is deployed in the DMZ to bridge on-premises and cloud collaboration traffic"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Spark Gateway requires DNS for Webex cloud service discovery and SIP domain resolution"
+  - type: implements
+    target: "INFRA-NET-REVPROSER-001"
+    description: "Spark Gateway acts as a reverse proxy for collaboration traffic between cloud services and on-premises endpoints"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Cisco - Webex Calling Local Gateway Configuration - https://help.webex.com/en-us/article/jr1i3r/Configure-Local-Gateway"
+    - "Cisco - CUBE Configuration Guide - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/voice/cube/"
+    - "Cisco - Expressway Administrator Guide"
+  search_keywords:
+    - "Spark Gateway"
+    - "Cisco Spark Gateway"
+    - "Webex gateway"
+    - "CUBE gateway"
+    - "collaboration gateway"
+    - "SIP gateway"
+    - "Webex calling"
+    - "Expressway gateway"
+  embedding_text: "Spark Gateway bridges on-premises communication infrastructure with Cisco Webex cloud collaboration services, enabling interoperability between traditional telephony systems and Webex calling, meetings, and messaging. Implementations include Cisco CUBE for SIP trunk integration, Expressway for firewall traversal, and Local Gateway for hybrid cloud calling. The gateway performs protocol translation, media transcoding, call routing, and firewall traversal using ICE, TURN, and STUN protocols over encrypted TLS/SRTP connections. Security considerations include exposure of SIP and media ports to toll fraud, eavesdropping, and denial-of-service attacks, as well as the handling of sensitive voice and video communications."

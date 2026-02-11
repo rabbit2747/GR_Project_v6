@@ -1,0 +1,112 @@
+# GR Atom: CVE-2025-33073
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202533073-001"
+  name: "CVE-2025-33073"
+  normalized_name: "cve_2025_33073"
+  aliases:
+    - "Windows Scripting Engine Memory Corruption"
+    - "Windows Script Engine Type Confusion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Scripting Engine"
+    - "Microsoft Edge (Chromium-based)"
+    - "Internet Explorer legacy components"
+    - "Windows 10 and Windows 11"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2025-33073 is a remote code execution vulnerability (CVSS 7.5) in the Windows
+    Scripting Engine caused by a memory corruption flaw when processing specially crafted
+    web content. The vulnerability is a type confusion in the scripting engine's object
+    handling that allows an attacker to execute arbitrary code in the context of the
+    current user when a victim visits a malicious webpage or opens malicious content.
+    Patched by Microsoft in 2025, the vulnerability affects the scripting engine
+    components shared across Microsoft browsers and Windows script hosts. Exploitation
+    requires user interaction (visiting a malicious page).
+  why: >-
+    Scripting engine memory corruption vulnerabilities remain a primary attack vector
+    for browser-based exploitation and targeted attacks. CVE-2025-33073 continues the
+    pattern of type confusion vulnerabilities in Windows scripting engines that have been
+    exploited by APT groups and cybercriminals for initial access. Browser and scripting
+    engine vulnerabilities are particularly valuable because they enable remote code
+    execution through the most common user activity -- web browsing.
+  how: >-
+    The exploit crafts malicious web content that triggers a type confusion in the
+    Windows Scripting Engine's object type handling system. When the scripting engine
+    processes a specially crafted script, it misinterprets the type of an object in
+    memory, allowing the attacker to read or write memory at controlled offsets. By
+    carefully arranging objects in memory and triggering the type confusion, the attacker
+    achieves arbitrary code execution within the browser or script host process. The
+    exploit requires the victim to navigate to a malicious page or open malicious content.
+  core_concepts:
+    - key: "Scripting Engine Type Confusion"
+      value: "Type confusion in Windows Scripting Engine object handling enables arbitrary code execution via web content"
+    - key: "Browser-Based Initial Access"
+      value: "Remote code execution through web browsing, the most common user activity and reliable phishing vector"
+    - key: "Persistent Attack Surface"
+      value: "Windows Scripting Engine vulnerabilities remain a recurring pattern exploited for browser-based attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2025-33073 is a type confusion memory corruption in the Windows Scripting Engine"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170199-001"
+    description: "Both enable code execution through document/web content processing for initial access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Update CVE-2025-33073"
+    - "NVD Entry CVE-2025-33073 - CVSS 7.5"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2025-33073"
+    - "Windows Scripting Engine"
+    - "type confusion"
+    - "memory corruption"
+    - "browser exploit"
+    - "remote code execution"
+    - "Edge"
+  embedding_text: >-
+    CVE-2025-33073 is a remote code execution vulnerability in the Windows Scripting
+    Engine with CVSS 7.5, caused by a type confusion in object handling when processing
+    malicious web content. The vulnerability enables arbitrary code execution within the
+    browser or script host process when victims visit crafted webpages. Part of the
+    persistent pattern of scripting engine memory corruption flaws exploited for
+    browser-based initial access attacks. Patched by Microsoft in 2025, it affects
+    Windows 10, Windows 11, and associated browser components.

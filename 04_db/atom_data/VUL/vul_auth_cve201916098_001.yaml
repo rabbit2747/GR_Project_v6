@@ -1,0 +1,73 @@
+# GR Atom: CVE-2019-16098
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE201916098-001"
+  name: "CVE-2019-16098"
+  normalized_name: "cve_2019_16098"
+  aliases:
+    - "MSI Afterburner Arbitrary Kernel Read/Write"
+    - "RTCore64.sys Privilege Escalation"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - WINDOWS
+    - OS
+
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1"]
+  target_components:
+    - "MSI Afterburner RTCore64.sys driver"
+    - "MSI Afterburner RTCore32.sys driver"
+    - "MSI Afterburner 4.6.2.15658 and earlier"
+
+definition:
+  what: "CVE-2019-16098 is a privilege escalation vulnerability in the RTCore64.sys and RTCore32.sys kernel drivers shipped with MSI Afterburner versions 4.6.2.15658 and earlier. The vulnerable driver allows any authenticated local user to read and write arbitrary kernel memory, effectively granting SYSTEM-level privileges. CVSS v3: 7.8 (High). Disclosed in September 2019."
+  why: "The RTCore64.sys driver is a signed Windows kernel driver distributed with a popular GPU overclocking utility. Because the driver is legitimately signed, it can be loaded on systems with driver signature enforcement enabled. Attackers abuse this Bring Your Own Vulnerable Driver (BYOVD) technique to escalate privileges, disable security tools such as EDR and antivirus, and gain kernel-level access. The Lazarus Group and other threat actors have used this driver in real-world attacks to disable endpoint protection."
+  how: "The RTCore64.sys driver exposes IOCTL handlers that allow user-mode processes to perform arbitrary physical and virtual memory read and write operations in the kernel. An attacker with local access loads or leverages the already-installed vulnerable driver, then sends IOCTL requests to read or write kernel memory at arbitrary addresses. This capability is used to modify kernel structures, disable security callbacks, or elevate process tokens to SYSTEM. The attack requires local authenticated access but no administrator privileges to interact with the driver if already loaded."
+  core_concepts:
+    - key: "Bring Your Own Vulnerable Driver"
+      value: "Attackers exploit the legitimately signed RTCore64.sys driver to gain arbitrary kernel memory access, bypassing driver signature enforcement and enabling SYSTEM-level privilege escalation"
+    - key: "EDR Evasion via Kernel Access"
+      value: "Kernel read/write primitives through the vulnerable driver enable attackers to disable endpoint detection and response products by patching kernel callbacks"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2019-16098 is a privilege escalation vulnerability exploiting a vulnerable signed kernel driver"
+  - type: enables
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Arbitrary kernel memory read/write enables modification of critical kernel structures"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2019-16098 - NVD NIST"
+    - "MSI Afterburner RTCore64.sys Driver Analysis"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Lazarus Group BYOVD Campaign Reports"
+  search_keywords:
+    - "CVE-2019-16098"
+    - "RTCore64.sys"
+    - "MSI Afterburner vulnerability"
+    - "BYOVD bring your own vulnerable driver"
+    - "kernel driver privilege escalation"
+    - "arbitrary kernel memory read write"
+    - "signed driver exploitation"
+  embedding_text: "CVE-2019-16098 is a privilege escalation vulnerability in the RTCore64.sys and RTCore32.sys kernel drivers shipped with MSI Afterburner versions 4.6.2.15658 and earlier. The driver exposes IOCTL handlers that allow any authenticated local user to perform arbitrary kernel memory read and write operations, enabling SYSTEM-level privilege escalation. CVSS v3 score is 7.8 High. The legitimately signed driver is commonly abused in Bring Your Own Vulnerable Driver attacks by threat actors including Lazarus Group to disable EDR and security tools. Maps to MITRE ATT&CK T1068 Exploitation for Privilege Escalation. Kernel memory access primitives enable modification of process tokens and security callback structures."

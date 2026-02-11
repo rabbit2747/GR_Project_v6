@@ -1,0 +1,124 @@
+# GR Atom: Access Control Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-ACCESS-001"
+  name: "Access Control Vulnerability"
+  normalized_name: "access_control_vulnerability"
+  aliases:
+    - "Broken Access Control"
+    - "BAC"
+    - "Authorization Bypass"
+    - "Privilege Boundary Failure"
+    - "OWASP A01"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - AUTHZ
+    - PRIV
+    - WEB
+    - API
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web applications"
+    - "APIs"
+    - "Backend services"
+    - "File systems"
+    - "Database access layers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Access Control Vulnerability is a class of security weakness where an application fails to
+    properly enforce restrictions on what authenticated users are allowed to do. This includes
+    violations of the principle of least privilege or deny-by-default, where users can act
+    outside their intended permissions. Ranked as OWASP Top 10 A01:2021, broken access control
+    encompasses horizontal privilege escalation (accessing other users' data), vertical privilege
+    escalation (gaining admin functions), missing function-level access control, and insecure
+    direct object references. These flaws allow attackers to bypass authorization mechanisms
+    to access unauthorized functionality or data.
+  why: >-
+    Access control vulnerabilities are the most common and impactful class of web application
+    security flaws. When access control fails, attackers can view sensitive data belonging to
+    other users, modify or delete data without authorization, perform administrative functions,
+    or escalate from a low-privilege account to full system control. The impact ranges from
+    data breaches and compliance violations to complete system compromise.
+  how: >-
+    These vulnerabilities arise from improper implementation of authorization checks in
+    application code. Common patterns include modifying URL parameters or API requests to
+    access other accounts, elevating roles by manipulating tokens or cookies, metadata
+    manipulation such as replaying or tampering with JWT access tokens, CORS misconfiguration
+    allowing unauthorized API access, force browsing to authenticated pages as an
+    unauthenticated user, and missing access control checks in API endpoints. Mitigation
+    requires implementing server-side access control, denying by default, enforcing record
+    ownership, logging access control failures, and rate-limiting API access.
+  core_concepts:
+    - key: "Horizontal Escalation"
+      value: "Accessing resources belonging to other users at the same privilege level by manipulating identifiers or parameters"
+    - key: "Vertical Escalation"
+      value: "Gaining higher privilege functions such as administrative capabilities from a normal user account"
+    - key: "Deny by Default"
+      value: "Access control design principle where all access is denied unless explicitly granted through validated authorization rules"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-ACCESS-IDINDIOBRE-001"
+    description: "Access control vulnerability is the abstract class that encompasses IDOR as a specific instance"
+  - type: "enables"
+    target: "VUL-ACCESS-MASSASSI-001"
+    description: "Broken access control enables mass assignment attacks when authorization checks are insufficient"
+  - type: "is_a"
+    target: "VUL-ACCESS-API-001"
+    description: "Access control failures are a major category of API vulnerabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1548"
+    tactic:
+      - "Privilege Escalation"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A01 Broken Access Control"
+    - "CWE-284 Improper Access Control"
+    - "MITRE ATT&CK T1548 - Abuse Elevation Control Mechanism"
+    - "NIST SP 800-53 AC - Access Control Family"
+  search_keywords:
+    - "access control vulnerability"
+    - "broken access control"
+    - "authorization bypass"
+    - "privilege escalation"
+    - "OWASP A01"
+    - "horizontal escalation"
+    - "vertical escalation"
+    - "missing function level access control"
+  embedding_text: >-
+    Access Control Vulnerability encompasses broken access control flaws where applications
+    fail to enforce proper authorization restrictions. Ranked OWASP Top 10 A01:2021, this
+    vulnerability class includes horizontal privilege escalation to access other users data,
+    vertical escalation to gain administrative functions, missing function-level access
+    controls, and insecure direct object references. Attackers manipulate URLs, API requests,
+    JWT tokens, or session metadata to bypass authorization. Mitigation requires server-side
+    enforcement, deny-by-default design, record ownership validation, access control failure
+    logging, and API rate limiting. Impacts include data breaches, unauthorized data
+    modification, and complete system compromise.

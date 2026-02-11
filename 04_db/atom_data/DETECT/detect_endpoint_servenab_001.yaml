@@ -1,0 +1,97 @@
+# GR Atom: Service Enable Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVENAB-001"
+  name: "Service Enable Event"
+  normalized_name: "service_enable_event"
+  aliases:
+    - "Service Enabled Detection"
+    - "Service Startup Type Enabled"
+    - "Service Activation Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when a system service is enabled on an endpoint, meaning its startup type is changed from disabled to automatic, manual, or delayed start. On Windows, this is detected when the Start registry value under HKLM\\SYSTEM\\CurrentControlSet\\Services\\<ServiceName> is modified from 4 (Disabled) to 2 (Automatic), 3 (Manual), or other active states. On Linux, this corresponds to systemctl enable commands that create symlinks in systemd target directories, or update-rc.d operations for SysV init services."
+  why: "Monitoring service enable events is important for detecting adversary persistence mechanisms where previously disabled or dormant services are activated to establish backdoors or execute malicious payloads. It also helps identify unauthorized re-enabling of services that were intentionally disabled as part of security hardening. Additionally, enabling remote access services like RDP, SSH, or WinRM may indicate lateral movement preparation."
+  how: "Detection monitors Windows registry modifications to service Start values via Sysmon Event ID 13 and Windows Security Event ID 4657. Command-line auditing captures sc.exe config and Set-Service PowerShell commands that change startup types. On Linux, auditd rules track systemctl enable operations and symlink creation in systemd target directories. SIEM correlation compares newly enabled services against hardening baselines and approved service lists to identify anomalous activations."
+  core_concepts:
+    - key: "startup_type_activation"
+      value: "Changing a service from disabled to an active startup type, allowing it to run automatically or on demand"
+    - key: "persistence_establishment"
+      value: "Adversaries enable services to ensure their malicious code survives system reboots and continues execution"
+    - key: "hardening_violation"
+      value: "Re-enabling services that were disabled as part of security hardening baseline indicates potential policy violation"
+    - key: "remote_access_preparation"
+      value: "Enabling remote access services may indicate preparation for lateral movement across the network"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service enable event is a specific type of service lifecycle event"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SERVSTAR-001"
+    description: "Enabling a service allows it to be subsequently started"
+  - type: "alternative_to"
+    target: "DETECT-ENDPOINT-SERVINST-001"
+    description: "Enabling an existing disabled service is an alternative to installing a new service for persistence"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1543.003"
+    tactic:
+      - "persistence"
+      - "privilege-escalation"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Service Control Manager"
+    - "MITRE ATT&CK T1543.003 - Create or Modify System Process: Windows Service"
+    - "Windows Registry Reference - Service Start Types"
+    - "Systemd Documentation - Unit Management"
+  search_keywords:
+    - "service enable"
+    - "service enabled event"
+    - "startup type change"
+    - "service activation"
+    - "systemctl enable"
+    - "sc config auto"
+    - "persistence service"
+    - "service enable detection"
+    - "hardening violation"
+    - "remote access service enable"
+  embedding_text: "Service enable event detection pattern identifies when system services are enabled on endpoints by changing their startup type from disabled to automatic or manual. On Windows this monitors registry changes to service Start values and command-line operations. On Linux it tracks systemctl enable operations and symlink creation. This pattern detects persistence mechanisms where adversaries activate dormant services, identifies hardening policy violations when intentionally disabled services are re-enabled, and catches lateral movement preparation through remote access service activation. Maps to MITRE ATT&CK T1543.003. Detection uses Sysmon registry monitoring, security event auditing, and baseline comparison."

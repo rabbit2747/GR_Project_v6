@@ -1,0 +1,122 @@
+# GR Atom: Data Store
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATASTOR-001"
+  name: "Data Store"
+  normalized_name: "data_store"
+  aliases:
+    - "Datastore"
+    - "Data Repository"
+    - "Data Storage"
+    - "Persistent Storage"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - DATABASE
+    - ENCRYPT
+    - BACKUP
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Data Store is the broadest abstraction for any system, service, or mechanism that persists
+    data for later retrieval. This encompasses relational databases, NoSQL databases, key-value
+    stores, object storage, file systems, message queues, caches, data lakes, and any other
+    technology that provides durable or semi-durable data persistence. A data store may be
+    implemented as software, hardware, cloud services, or combinations thereof. It is the
+    foundational concept from which all specific data storage technologies derive.
+  why: >-
+    Data stores are the ultimate targets of most cyberattacks because they contain the
+    organization's valuable information assets: customer data, financial records, intellectual
+    property, credentials, and operational data. Understanding data stores as an abstract
+    category is essential for threat modeling because security controls must be applied
+    regardless of the specific storage technology. Data classification, access controls,
+    encryption, backup, and monitoring requirements apply universally to all data stores.
+  how: >-
+    Data stores implement persistence through various mechanisms: disk-based storage (HDD/SSD),
+    in-memory storage with persistence (Redis AOF/RDB), distributed storage across nodes
+    (Cassandra, HDFS), or cloud-managed storage (S3, GCS). Access is controlled through
+    authentication (verifying identity), authorization (enforcing permissions), and accounting
+    (audit logging). Data protection includes encryption at rest, encryption in transit, backup
+    and recovery, replication for durability, and data lifecycle management. Network access
+    is restricted through segmentation, firewalls, and service-level access controls.
+  core_concepts:
+    - key: "Data at Rest Protection"
+      value: >-
+        All data stores require encryption at rest to protect against unauthorized access
+        to storage media, whether through physical theft, unauthorized administrative access,
+        or backup compromise.
+    - key: "Access Control Universality"
+      value: >-
+        Regardless of implementation technology, all data stores must implement authentication,
+        authorization, and audit logging to control and track data access.
+    - key: "Data Classification"
+      value: >-
+        Data stores must be classified based on the sensitivity of contained data to determine
+        appropriate security controls, retention policies, and compliance requirements.
+    - key: "Backup and Recovery"
+      value: >-
+        All data stores require backup strategies that ensure data can be recovered from
+        accidental deletion, corruption, ransomware, or disaster scenarios.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "Data stores enable database servers by providing the fundamental persistence mechanism for data management"
+  - type: "enables"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Data stores enable database services by providing the underlying storage infrastructure"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-53 Rev 5 - SC-28 Protection of Information at Rest."
+    - "CIS Controls v8 - Control 3: Data Protection."
+    - "OWASP Data Protection Cheat Sheet. https://cheatsheetseries.owasp.org/"
+  search_keywords:
+    - "data store"
+    - "data repository"
+    - "data storage"
+    - "persistent storage"
+    - "data at rest"
+    - "data protection"
+    - "data classification"
+    - "storage security"
+  embedding_text: >-
+    A Data Store is the broadest abstraction for any system or mechanism that persists data for
+    later retrieval, encompassing relational databases, NoSQL databases, key-value stores, object
+    storage, file systems, message queues, caches, and data lakes. Data stores are the ultimate
+    targets of most cyberattacks because they contain valuable information assets. Security
+    controls must be applied universally regardless of specific technology: data classification,
+    access controls (authentication, authorization, audit logging), encryption at rest and in
+    transit, backup and recovery, and network segmentation. Persistence is implemented through
+    disk-based storage, in-memory with persistence, distributed storage, or cloud-managed
+    storage. Data stores are the foundational concept from which all specific data storage
+    technologies derive, mapped to MITRE ATT&CK T1005 (Data from Local System) as primary
+    collection targets.

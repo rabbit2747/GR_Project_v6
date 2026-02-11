@@ -1,0 +1,77 @@
+# GR Atom: File System Read
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-FILSYSREA-001"
+  name: "File System Read"
+  normalized_name: "file_system_read"
+  aliases:
+    - "File Read Operation Monitoring"
+    - "File Access Read Event"
+    - "File Content Read Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - AUDIT
+    - OS
+
+scope:
+  target_layers: ["L2", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File System Read is an endpoint detection pattern that monitors and records file read operations performed by processes on the local file system. It captures events when a process opens a file with read access, reads data from a file handle, or memory-maps a file for read access. The telemetry includes the file path, the process performing the read, the user context, the amount of data read, and the access method used. This pattern covers both synchronous and asynchronous read operations across all file system types supported by the operating system."
+  why: "Monitoring file read operations is critical for detecting data reconnaissance and exfiltration attempts. Adversaries frequently read sensitive files such as credential stores, configuration files, encryption keys, browser databases, and email archives as part of credential access, discovery, and collection tactics. Excessive or anomalous file read patterns can indicate automated data harvesting tools, insider threats accessing files beyond their need-to-know, or malware scanning for sensitive data to exfiltrate."
+  how: "Endpoint detection agents instrument file read operations through kernel-level hooks such as Windows minifilter drivers intercepting IRP_MJ_READ, Linux audit subsystem rules on open and read syscalls, or macOS Endpoint Security Framework ES_EVENT_TYPE_NOTIFY_OPEN events. Detection logic baselines normal read patterns per user and application, then flags anomalies such as processes reading credential files like SAM or shadow, mass file enumeration followed by reads, reads of sensitive directories by unexpected processes, or read operations occurring at unusual times. Alerts are correlated with subsequent network activity to identify exfiltration chains."
+  core_concepts:
+    - key: "Read Access Monitoring"
+      value: "Tracking when processes open files with read permissions to detect unauthorized data access attempts"
+    - key: "Sensitive File Access"
+      value: "Identifying read operations targeting high-value files such as credential stores, private keys, and configuration files containing secrets"
+    - key: "Baseline Deviation"
+      value: "Comparing observed file read patterns against established baselines to identify anomalous data access behavior"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File system read is a specific operation within the broader file event detection category"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEACCE-001"
+    description: "File read monitoring contributes to comprehensive file access event detection"
+  - type: effective_against
+    target: "ATK-CRED-CREDDUMP-001"
+    description: "Detects credential dumping attempts by monitoring reads of credential store files"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1005 - Data from Local System"
+    - "Microsoft - File System Minifilter Drivers - https://learn.microsoft.com/en-us/windows-hardware/drivers/ifs/file-system-minifilter-drivers"
+    - "Linux Audit System - https://man7.org/linux/man-pages/man8/auditd.8.html"
+  search_keywords:
+    - "file read monitoring"
+    - "file access detection"
+    - "read operation telemetry"
+    - "data collection detection"
+    - "sensitive file access"
+    - "file read audit"
+    - "credential file access"
+    - "endpoint file monitoring"
+  embedding_text: "File System Read detection monitors file read operations performed by processes on endpoint file systems. Kernel-level hooks such as Windows minifilter drivers, Linux audit syscall rules, and macOS Endpoint Security Framework capture read events including file path, process context, user identity, and data volume. This telemetry enables detection of credential dumping attempts targeting SAM, shadow, and keychain files, mass file enumeration for data harvesting, and anomalous read patterns indicating insider threats or automated exfiltration tools. Baseline deviation analysis flags unexpected processes accessing sensitive files or unusual read volumes."

@@ -1,0 +1,128 @@
+# GR Atom: BigQuery
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-BIGQUERY-001"
+  name: "BigQuery"
+  normalized_name: "bigquery"
+  aliases:
+    - "Google BigQuery"
+    - "GCP BigQuery"
+    - "BQ"
+    - "Google Cloud BigQuery"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - DATABASE
+    - CLOUD
+    - GCP
+    - CONFIG
+    - AUTHZ
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D5.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BigQuery is Google Cloud Platform's fully managed, serverless enterprise data warehouse
+    designed for large-scale data analytics using ANSI SQL. It provides petabyte-scale storage
+    and analysis capabilities with automatic scaling, columnar storage format (Capacitor), and
+    a distributed query execution engine (Dremel) that can scan terabytes of data in seconds.
+    BigQuery supports standard SQL, nested and repeated fields, streaming inserts, federated
+    queries across external data sources, and machine learning through BigQuery ML.
+  why: >-
+    BigQuery addresses the need for organizations to analyze massive datasets without managing
+    infrastructure. Traditional data warehouses require capacity planning, indexing strategies,
+    and significant operational overhead. BigQuery's serverless architecture eliminates this
+    burden while providing near-real-time analytics at scale. Its pay-per-query pricing model
+    allows organizations to avoid provisioning dedicated compute resources, reducing costs for
+    intermittent analytical workloads.
+  how: >-
+    BigQuery separates storage and compute, storing data in Google's Colossus distributed
+    file system in a columnar format called Capacitor. Queries are executed by the Dremel
+    engine, which dynamically allocates thousands of compute slots to parallelize query
+    execution across a shared multi-tenant cluster. Data is organized into datasets, tables,
+    and views. Access is controlled through Google Cloud IAM with dataset-level, table-level,
+    and column-level security. Data is encrypted at rest using AES-256 and in transit using
+    TLS. Audit logging through Cloud Audit Logs records all data access and administrative
+    actions.
+  core_concepts:
+    - key: "Serverless Architecture"
+      value: >-
+        BigQuery requires no infrastructure provisioning or management. Google automatically
+        allocates compute resources for queries and scales storage independently, enabling
+        a consumption-based cost model.
+    - key: "Columnar Storage (Capacitor)"
+      value: >-
+        Data is stored in a proprietary columnar format that enables high compression ratios
+        and efficient scanning of individual columns, dramatically reducing I/O for analytical
+        queries that access a subset of columns.
+    - key: "Dremel Query Engine"
+      value: >-
+        The distributed query execution engine parallelizes SQL queries across thousands of
+        nodes, enabling interactive analysis of petabyte-scale datasets with sub-minute
+        response times for most queries.
+    - key: "IAM-Based Access Control"
+      value: >-
+        BigQuery integrates with Google Cloud IAM for fine-grained access control including
+        dataset roles, table-level ACLs, column-level security policies, and row-level
+        security through authorized views.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "BigQuery is a cloud-native database service specializing in analytical data warehousing"
+  - type: "instance_of"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "BigQuery is a specific cloud implementation of a large-scale data store for analytics"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Cloud BigQuery documentation. https://cloud.google.com/bigquery/docs"
+    - "Melnik, S. et al. (2010). Dremel: Interactive Analysis of Web-Scale Datasets. VLDB."
+    - "Google Cloud BigQuery Security Best Practices. https://cloud.google.com/bigquery/docs/best-practices-security"
+  search_keywords:
+    - "BigQuery"
+    - "Google BigQuery"
+    - "GCP data warehouse"
+    - "serverless analytics"
+    - "Dremel engine"
+    - "columnar storage"
+    - "BigQuery security"
+    - "cloud data warehouse"
+    - "petabyte analytics"
+  embedding_text: >-
+    BigQuery is Google Cloud Platform's fully managed serverless enterprise data warehouse for
+    large-scale data analytics. It uses the Dremel distributed query execution engine and
+    Capacitor columnar storage format to enable petabyte-scale analysis with standard SQL.
+    BigQuery separates storage (Colossus) from compute, automatically scaling resources for
+    queries. Security features include Google Cloud IAM integration with dataset, table, column,
+    and row-level access controls, AES-256 encryption at rest, TLS encryption in transit, and
+    comprehensive audit logging through Cloud Audit Logs. BigQuery supports streaming inserts,
+    federated queries, BigQuery ML for in-database machine learning, and materialized views.
+    Common security concerns include overly permissive IAM policies, data exfiltration through
+    shared datasets, and unauthorized access to sensitive analytical data. BigQuery is a primary
+    target for MITRE ATT&CK technique T1530 (Data from Cloud Storage Object).

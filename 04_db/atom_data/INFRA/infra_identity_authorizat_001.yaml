@@ -1,0 +1,122 @@
+# GR Atom: Authorization Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AUTHORIZAT-001"
+  name: "Authorization Service"
+  normalized_name: "authorization_service"
+  aliases:
+    - "AuthZ Service"
+    - "Access Control Service"
+    - "Policy Decision Point"
+    - "Permission Management Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - AUTHZ
+    - AUTHN
+    - OAUTH
+    - PAM
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Authorization Service is an infrastructure component that evaluates access control
+    policies to determine whether an authenticated principal is permitted to perform a
+    requested action on a protected resource. It implements authorization models such as
+    Role-Based Access Control (RBAC), Attribute-Based Access Control (ABAC), or Policy-Based
+    Access Control (PBAC) and acts as the Policy Decision Point (PDP) in the access control
+    architecture, separate from the Policy Enforcement Points that intercept and enforce
+    access decisions.
+  why: >-
+    Authorization service misconfiguration is a leading cause of privilege escalation and
+    unauthorized data access. Broken access control consistently ranks as a top vulnerability
+    in OWASP Top 10. Common issues include insecure direct object references, missing
+    function-level access checks, horizontal privilege escalation through parameter
+    manipulation, and overly permissive default roles. Attackers target authorization
+    logic to access resources beyond their intended scope, exfiltrate sensitive data,
+    and escalate privileges within applications and infrastructure.
+  how: >-
+    Authorization services receive access requests containing the subject (authenticated
+    principal), action (operation being attempted), and resource (target object), then
+    evaluate these against configured policies. The service queries role assignments,
+    group memberships, attribute values, and contextual signals to produce permit or deny
+    decisions. Policies are typically expressed in a policy language or configured through
+    role-permission mappings. The service integrates with identity providers for principal
+    attributes and maintains policy stores that define access rules. Caching and audit
+    logging ensure performance and accountability.
+  core_concepts:
+    - key: "Policy Decision Point"
+      value: "Central component that evaluates access policies against subject, action, and resource tuples to produce authorization decisions"
+    - key: "RBAC and ABAC Models"
+      value: "Implements role-based or attribute-based access control models defining who can do what on which resources under what conditions"
+    - key: "Least Privilege Enforcement"
+      value: "Ensures principals receive only the minimum permissions necessary for their function, reducing blast radius of compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Authorization decisions require an authenticated identity from the authentication service"
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Queries directory services for role assignments, group memberships, and principal attributes"
+  - type: "enables"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "Authorization policies govern access to credential management operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1548"
+    tactic:
+      - "Privilege Escalation"
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-162 - Guide to ABAC Definition and Considerations"
+    - "OWASP Top 10 - A01:2021 Broken Access Control"
+    - "MITRE ATT&CK T1548 - Abuse Elevation Control Mechanism"
+  search_keywords:
+    - "authorization service"
+    - "access control service"
+    - "RBAC authorization"
+    - "ABAC policy engine"
+    - "policy decision point"
+    - "AuthZ service"
+    - "broken access control"
+    - "privilege escalation authorization"
+  embedding_text: >-
+    An Authorization Service evaluates access control policies to determine whether
+    authenticated principals can perform requested actions on protected resources. It acts
+    as a Policy Decision Point implementing RBAC, ABAC, or PBAC models. The service receives
+    subject-action-resource tuples, evaluates them against configured policies using role
+    assignments, group memberships, and contextual attributes, and returns permit or deny
+    decisions. Authorization misconfiguration is a leading cause of privilege escalation and
+    unauthorized data access, consistently ranking in the OWASP Top 10. Common vulnerabilities
+    include insecure direct object references, missing function-level checks, and horizontal
+    privilege escalation. Security teams must enforce least privilege, audit role assignments,
+    implement centralized policy management, and test authorization boundaries to prevent
+    unauthorized access across applications and infrastructure.

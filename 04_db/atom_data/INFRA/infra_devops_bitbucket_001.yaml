@@ -1,0 +1,75 @@
+# GR Atom: Bitbucket
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-BITBUCKET-001"
+  name: "Bitbucket"
+  normalized_name: "bitbucket"
+  aliases:
+    - "Atlassian Bitbucket"
+    - "Bitbucket Cloud"
+    - "Bitbucket Server"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CICD
+    - SUPPLY_CHAIN
+    - CLOUD
+    - GITOPS
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.1"
+
+definition:
+  what: "Bitbucket is an Atlassian-hosted Git repository management platform that provides source code hosting, pull request workflows, built-in CI/CD through Bitbucket Pipelines, and integration with the Atlassian ecosystem including Jira and Confluence. It supports both cloud-hosted and self-managed (Data Center) deployment models with branch permissions, merge checks, and code review capabilities."
+  why: "Bitbucket is security-relevant as a source code management platform that stores proprietary code, secrets embedded in commit history, and CI/CD pipeline configurations. Compromised Bitbucket accounts enable source code theft, malicious code injection into build pipelines, and supply chain attacks through modified repository content. Pipeline secrets and deployment credentials stored in Bitbucket represent high-value targets for attackers. Repository access controls and branch protection rules are critical for preventing unauthorized code changes."
+  how: "Bitbucket provides Git-based version control with branch permissions controlling who can push to protected branches. Bitbucket Pipelines executes CI/CD workflows defined in bitbucket-pipelines.yml files within repositories. Two-factor authentication and IP whitelisting protect account access. Merge checks enforce code review requirements and successful pipeline execution before merging. Integration with Jira enables traceability between code changes and issue tracking. Bitbucket Apps extend functionality through marketplace integrations."
+  core_concepts:
+    - key: "Bitbucket Pipelines"
+      value: "Built-in CI/CD service that executes build, test, and deployment workflows defined in YAML configuration files within repositories"
+    - key: "Branch Permissions"
+      value: "Access controls restricting who can push, merge, or delete specific branches, enforcing code review and approval workflows"
+    - key: "Pull Request Workflow"
+      value: "Code review process requiring peer approval and successful CI checks before changes can be merged into protected branches"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-CODEREPO-001"
+    description: "Bitbucket is a specific implementation of a code repository platform"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-SOURCEFORG-001"
+    description: "Bitbucket serves as an alternative source code hosting platform to SourceForge"
+  - type: enables
+    target: "INFRA-DEVOPS-CODEBUILD-001"
+    description: "Bitbucket repositories can trigger and feed build pipelines including external build services"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Bitbucket Documentation - https://support.atlassian.com/bitbucket-cloud/"
+    - "Atlassian Security Practices - https://www.atlassian.com/trust/security"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "Bitbucket"
+    - "Atlassian Bitbucket"
+    - "Bitbucket Pipelines"
+    - "Bitbucket repository"
+    - "Bitbucket CI/CD"
+    - "Bitbucket branch permissions"
+    - "Bitbucket code hosting"
+  embedding_text: "Bitbucket is Atlassian's Git repository management platform providing source code hosting, pull request workflows, and built-in CI/CD through Bitbucket Pipelines. It supports cloud and self-managed deployments with branch permissions, merge checks, and code review capabilities. Security significance includes protecting proprietary source code, preventing malicious code injection into pipelines, and safeguarding deployment credentials. Compromised accounts enable source code theft and supply chain attacks through modified repository content. Branch permissions and merge checks enforce code review requirements. Integrates with the Atlassian ecosystem including Jira and Confluence for development workflow traceability."

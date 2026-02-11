@@ -1,0 +1,77 @@
+# GR Atom: GRSec CTL00010 WAF Union
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-GRCTWAUN-001"
+  name: "GRSec CTL00010 WAF Union"
+  normalized_name: "grsec_ctl00010_waf_union"
+  aliases:
+    - "GRSec WAF SQL Union Rule"
+    - "CTL00010 Union-Based SQLi Detection"
+    - "WAF UNION SELECT Signature"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - WAF
+    - IDS
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "GRSec CTL00010 is a specific WAF detection rule designed to identify SQL injection attacks that use the UNION SELECT technique. This signature detects attempts to append UNION-based SQL statements to legitimate queries through HTTP request parameters, headers, cookies, and POST body data. The rule matches patterns such as UNION SELECT, UNION ALL SELECT, UNION DISTINCT SELECT, and their obfuscated variants including inline comments (UN/**/ION), mixed case (uNiOn SeLeCt), URL encoding (%55NION %53ELECT), and whitespace manipulation. The rule operates as part of the GRSec WAF rule set, a collection of web application firewall signatures for detecting common web application attacks at the HTTP layer."
+  why: "UNION-based SQL injection is one of the most dangerous and commonly exploited SQL injection techniques because it allows attackers to directly extract data from database tables by appending additional SELECT queries to the original query. A successful UNION SQLi attack can extract entire database contents including credentials, PII, financial records, and application secrets in a single request. WAF rules specifically targeting UNION patterns are essential because this technique is frequently the first method attackers attempt after confirming SQL injection vulnerability, and it produces the most immediate data exfiltration results."
+  how: "The CTL00010 rule operates by inspecting HTTP request components (query string parameters, POST body, Cookie headers, and other headers) for patterns matching UNION-based SQL injection syntax. The detection logic uses regular expressions that match the UNION keyword followed by SELECT with various obfuscation techniques: whitespace variations (spaces, tabs, newlines, inline SQL comments), case permutations, URL encoding variants, and double URL encoding. The rule applies normalization steps before pattern matching including URL decoding, HTML entity decoding, null byte removal, and comment stripping. When a match occurs, the WAF blocks the request and generates a security event with the matched pattern, source IP, target URL, and matched parameter for SIEM correlation."
+  core_concepts:
+    - key: "UNION SELECT Injection"
+      value: "SQL injection technique that appends a UNION SELECT clause to extract data from additional database tables through the application's existing query"
+    - key: "Obfuscation Bypass"
+      value: "Rule includes detection of common WAF evasion techniques including inline comments, case manipulation, and encoding variations"
+    - key: "Input Normalization"
+      value: "Pre-processing of HTTP input through URL decoding, entity decoding, and comment stripping before pattern matching to defeat encoding-based evasion"
+
+relations:
+  - type: is_a
+    target: "DETECT-SIGNATURE-WAFDETRUL-001"
+    description: "CTL00010 is a specific instance of a WAF detection rule within the GRSec rule set"
+  - type: effective_against
+    target: "ATK-INJECT-SQL-001"
+    description: "This rule is specifically designed to detect UNION-based SQL injection attacks"
+  - type: applies_to
+    target: "INFRA-SEC-WAF-001"
+    description: "This detection signature is deployed within WAF infrastructure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP - SQL Injection - https://owasp.org/www-community/attacks/SQL_Injection"
+    - "OWASP ModSecurity Core Rule Set - https://coreruleset.org/"
+    - "GRSec WAF Rule Documentation"
+  search_keywords:
+    - "WAF UNION SELECT rule"
+    - "SQL injection WAF signature"
+    - "UNION SQLi detection"
+    - "GRSec CTL00010"
+    - "WAF SQL injection rule"
+    - "UNION based SQL injection detection"
+    - "web application firewall SQLi"
+    - "SQL injection obfuscation detection"
+  embedding_text: "GRSec CTL00010 is a specific WAF detection rule targeting UNION-based SQL injection attacks. The signature detects UNION SELECT, UNION ALL SELECT, and obfuscated variants including inline comments, mixed case, URL encoding, and whitespace manipulation in HTTP request parameters, headers, cookies, and POST body data. The rule applies input normalization including URL decoding, HTML entity decoding, and comment stripping before regex pattern matching. UNION-based SQL injection is a high-priority detection target because it enables direct database content extraction in a single request. This rule operates as part of the GRSec WAF rule set deployed at the HTTP layer."

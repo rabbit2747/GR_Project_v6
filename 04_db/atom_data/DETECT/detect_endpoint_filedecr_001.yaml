@@ -1,0 +1,86 @@
+# GR Atom: File Decryption Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEDECR-001"
+  name: "File Decryption Event"
+  normalized_name: "file_decryption_event"
+  aliases:
+    - "File Decrypt Detection"
+    - "Encrypted File Access"
+    - "File Decryption Activity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when an encrypted file is decrypted on an endpoint. This includes decryption operations performed through Windows EFS (Encrypting File System), BitLocker volume decryption, application-level decryption using cryptographic APIs, and decryption of archive files with password protection. The event captures the file being decrypted, the process performing decryption, the encryption method, and user context."
+  why: "File decryption events are significant security indicators. Legitimate decryption of sensitive files outside normal business processes may indicate data theft preparation. Attackers decrypt stolen credential databases, configuration files, and other encrypted assets after obtaining decryption keys. Conversely, monitoring for absence of expected decryption may indicate ransomware has re-encrypted files. Decryption monitoring supports both insider threat detection and incident response."
+  how: "Monitor Windows CryptoAPI and CNG (Cryptography Next Generation) calls for decryption operations through ETW providers (Microsoft-Windows-Crypto-NCrypt, Microsoft-Windows-EFS). Track EFS decryption events in the Security event log. Detect archive extraction tools decrypting password-protected files. Correlate decryption events with subsequent file access and network transfer events to identify potential data exfiltration workflows."
+  core_concepts:
+    - key: "Encrypting File System"
+      value: "Windows built-in file encryption feature that provides transparent file-level encryption using public key cryptography"
+    - key: "CryptoAPI Monitoring"
+      value: "Tracking calls to Windows cryptographic APIs (CryptoAPI, CNG) to detect encryption and decryption operations by applications"
+    - key: "Decryption Chain Analysis"
+      value: "Correlating decryption events with subsequent file operations to trace data handling workflows and detect potential exfiltration preparation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File decryption is a specific type of file event"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-FILEENCR-001"
+    description: "Decryption is the inverse operation of file encryption, both are monitored for security"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEACCE-001"
+    description: "Decryption makes file content accessible, enabling subsequent file access detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1140"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1140 - Deobfuscate/Decode Files or Information"
+    - "Microsoft Documentation - Encrypting File System"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file decryption"
+    - "EFS decryption"
+    - "encrypted file access"
+    - "CryptoAPI"
+    - "file decrypt event"
+    - "decryption monitoring"
+    - "encrypted archive"
+    - "deobfuscate"
+  embedding_text: "File Decryption Event is an endpoint detection pattern for events generated when encrypted files are decrypted. This covers Windows EFS decryption, BitLocker volume operations, application-level decryption through CryptoAPI and CNG, and password-protected archive extraction. Detection monitors cryptographic API calls through ETW providers, EFS events in Security logs, and archive extraction tool activity. Decryption events are significant security indicators for data theft preparation, insider threat detection, and ransomware incident response. Correlation of decryption events with subsequent file access and network transfer events identifies potential exfiltration workflows."

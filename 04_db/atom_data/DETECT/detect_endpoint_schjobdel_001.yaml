@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Deletion Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBDEL-001"
+  name: "Scheduled Job Deletion Event"
+  normalized_name: "scheduled_job_deletion_event"
+  aliases:
+    - "Scheduled Task Deletion Detection"
+    - "Cron Job Removal Monitoring"
+    - "Task Scheduler Delete Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - EVADE
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Deletion Event is an endpoint detection pattern that captures the removal of scheduled tasks, cron jobs, at jobs, systemd timers, and launchd agents/daemons from endpoint systems. The event records the job name, the account that deleted the job, the deletion method, and the timestamp. On Windows this corresponds to Task Scheduler Event ID 4699, on Linux to crontab entry removal and systemd timer unit file deletion, and on macOS to launchd plist file removal. The pattern also captures the content of the deleted job where possible for forensic preservation."
+  why: "Scheduled job deletion is a significant security indicator because adversaries frequently delete their scheduled tasks after they have served their purpose to eliminate forensic evidence of persistence mechanisms. This anti-forensics technique makes incident response more difficult by removing indicators of compromise. Additionally, deletion of legitimate scheduled jobs such as security scans, backup operations, or update tasks may indicate defense evasion where attackers disable security-related maintenance operations. Monitoring deletions alongside creations provides a complete lifecycle view of scheduled job manipulation."
+  how: "Detection systems monitor scheduled job deletions through Windows Task Scheduler Event ID 4699, Windows Security Event Log audit policies, Linux auditd rules monitoring deletion operations on crontab files and /etc/cron.d entries, systemd timer unit file deletion monitoring, and macOS file system monitoring for LaunchAgent and LaunchDaemon plist removal. Detection rules flag deletion of recently created tasks that may indicate cleanup of temporary persistence, deletion of security-related tasks such as antivirus scans or SIEM collection jobs, bulk task deletions suggesting automated cleanup, task deletions by accounts that did not create the original tasks, and deletion of tasks during active security incident investigation."
+  core_concepts:
+    - key: "Anti-Forensics Detection"
+      value: "Identifying scheduled task deletion as a potential evidence destruction technique used by adversaries to remove indicators of their persistence mechanisms"
+    - key: "Security Task Protection"
+      value: "Monitoring and alerting on deletion of scheduled tasks that perform security functions such as updates, scans, and log collection"
+    - key: "Forensic Preservation"
+      value: "Capturing the content of deleted scheduled tasks before removal to preserve evidence for incident investigation"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job deletion is a specific lifecycle event within the broader scheduled job event category"
+  - type: effective_against
+    target: "ATK-EVASION-INDREM-001"
+    description: "Detects indicator removal through deletion of scheduled tasks used for persistence"
+  - type: requires
+    target: "DETECT-ENDPOINT-SCHJOBCRE-001"
+    description: "Job deletion detection is enhanced by correlation with creation events to identify suspicious create-delete patterns"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1070 - Indicator Removal"
+    - "Microsoft - Task Scheduler Event ID 4699 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4699"
+    - "SANS DFIR - Scheduled Task Forensics"
+  search_keywords:
+    - "scheduled task deletion"
+    - "cron job removal"
+    - "scheduled job deletion"
+    - "task scheduler event 4699"
+    - "anti-forensics detection"
+    - "persistence cleanup"
+    - "task removal monitoring"
+    - "indicator removal detection"
+  embedding_text: "Scheduled Job Deletion Event detection captures removal of scheduled tasks, cron jobs, systemd timers, and launchd agents from endpoints. Monitored through Windows Task Scheduler Event ID 4699, Linux auditd rules on crontab deletion, and macOS LaunchAgent/LaunchDaemon plist removal, this telemetry records deleted job details, deleting accounts, and timestamps. Detection flags deletion of recently created tasks indicating persistence cleanup, removal of security-related maintenance tasks, bulk deletions suggesting automated cleanup, unauthorized task deletions, and deletions during active investigations, identifying anti-forensics activity and defense evasion through indicator removal."

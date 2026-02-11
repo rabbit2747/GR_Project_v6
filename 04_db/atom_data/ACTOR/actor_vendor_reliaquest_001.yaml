@@ -1,0 +1,67 @@
+# GR Atom: ReliaQuest
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-RELIAQUEST-001"
+  name: "ReliaQuest"
+  normalized_name: "reliaquest"
+  aliases:
+    - "ReliaQuest LLC"
+    - "GreyMatter"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ReliaQuest is a cybersecurity company that provides the GreyMatter security operations platform, which unifies and augments an organization's existing security tools through a single interface. GreyMatter integrates with disparate security technologies including SIEM, EDR, cloud security, and identity platforms to provide unified visibility, automated response, and enhanced detection capabilities. ReliaQuest focuses on maximizing the value of existing security investments rather than replacing them."
+  why: "ReliaQuest is significant in cybersecurity because organizations typically operate dozens of security tools that generate disconnected alerts and require separate management. GreyMatter addresses this tool sprawl problem by providing a unified operations layer that correlates data across existing investments, reduces alert fatigue, and enables coordinated response actions across multiple security platforms simultaneously."
+  how: "GreyMatter deploys connectors to integrate with an organization's existing security tools, normalizing data into a common model for unified analysis. The platform provides cross-tool detection analytics, automated response playbooks that orchestrate actions across multiple security products, and a single pane of glass for security operations. ReliaQuest also provides managed security services, threat intelligence, and security program optimization consulting to complement the platform."
+  core_concepts:
+    - key: "Security tool unification"
+      value: "Single platform integrating disparate security tools for unified visibility and response"
+    - key: "GreyMatter platform"
+      value: "Security operations platform augmenting existing investments rather than replacing them"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-SECOPS-001"
+    description: "ReliaQuest provides unified security operations through the GreyMatter platform"
+  - type: enables
+    target: "TECHNIQUE-SOAR-001"
+    description: "ReliaQuest enables security orchestration and automated response across multiple tools"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "ReliaQuest Official Website"
+    - "GreyMatter Platform Documentation"
+    - "Forrester - Security Operations Platforms"
+  search_keywords:
+    - "reliaquest"
+    - "reliaquest greymatter"
+    - "greymatter security"
+    - "reliaquest security operations"
+    - "reliaquest unified platform"
+    - "security tool integration"
+  embedding_text: "ReliaQuest is a cybersecurity company providing the GreyMatter security operations platform, which unifies and augments an organization's existing security tools through a single interface. GreyMatter integrates with disparate security technologies including SIEM, EDR, cloud security, and identity platforms to provide unified visibility, automated response, and enhanced detection capabilities. The platform addresses security tool sprawl by deploying connectors to normalize data across existing investments into a common model for unified analysis, cross-tool detection analytics, and automated response playbooks that orchestrate actions across multiple security products. ReliaQuest focuses on maximizing the value of existing security investments rather than replacing them, complementing the platform with managed security services, threat intelligence, and security program optimization consulting. The approach helps organizations reduce alert fatigue, improve detection coverage, and coordinate response actions across their entire security technology stack."

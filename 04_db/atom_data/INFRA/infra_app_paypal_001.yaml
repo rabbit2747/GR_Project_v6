@@ -1,0 +1,119 @@
+# GR Atom: PayPal
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-PAYPAL-001"
+  name: "PayPal"
+  normalized_name: "paypal"
+  aliases:
+    - "PayPal Holdings"
+    - "PayPal Payment Platform"
+    - "PayPal.com"
+    - "PayPal Checkout"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - CRED
+    - AUTHN
+    - WEB
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    PayPal is a global online payment platform enabling digital payments, money transfers, and
+    e-commerce checkout services. It provides REST APIs for merchant integration, payment
+    processing, invoicing, and subscription management. PayPal supports multiple authentication
+    methods including OAuth 2.0 for API access and multi-factor authentication for user accounts.
+    The platform processes billions of transactions annually and stores sensitive financial data
+    including payment methods, bank accounts, and transaction histories.
+  why: >-
+    PayPal is one of the most impersonated brands in phishing campaigns globally due to its
+    financial nature and widespread user base. Phishing attacks create fake PayPal login pages,
+    payment notifications, and account limitation alerts to harvest credentials and financial
+    information. PayPal accounts are primary targets for credential stuffing attacks using
+    breached credentials from other services. Infostealer malware specifically targets PayPal
+    session cookies and saved credentials in browsers. PayPal API credentials (client ID/secret)
+    leaked in code repositories enable unauthorized payment processing. Account takeover enables
+    fraudulent transactions and money laundering. PayPal's dispute resolution system is exploited
+    for social engineering fraud.
+  how: >-
+    PayPal operates as a web and mobile application with REST APIs for merchant integration.
+    Authentication uses OAuth 2.0 tokens for API access and session-based authentication for
+    user interfaces. Phishing campaigns distribute fake PayPal emails with links to credential
+    harvesting pages mimicking PayPal's login interface. Credential stuffing attacks attempt
+    automated login with breached username/password combinations. Infostealer malware extracts
+    PayPal session cookies from browsers to hijack authenticated sessions. API credential abuse
+    uses leaked client ID/secret pairs for unauthorized payment operations. Social engineering
+    exploits PayPal's buyer protection system for refund fraud. Business Email Compromise (BEC)
+    campaigns impersonate PayPal invoices for financial fraud.
+  core_concepts:
+    - key: "Global Payment Platform"
+      value: "Major online payment processor with REST APIs for merchant integration, processing billions of transactions with stored financial data"
+    - key: "Top Phishing Target"
+      value: "Among the most impersonated brands globally in phishing campaigns targeting credentials and financial information through fake login pages and payment alerts"
+    - key: "Credential and Session Theft"
+      value: "PayPal accounts targeted by credential stuffing, infostealer malware extracting session cookies, and API credential leakage in code repositories"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "PayPal is an enterprise-grade web application platform used by organizations for payment processing and financial operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PayPal Security Center Documentation"
+    - "MITRE ATT&CK T1566.002 - Phishing: Spearphishing Link"
+    - "APWG Phishing Activity Trends Report - Brand Impersonation"
+  search_keywords:
+    - "PayPal"
+    - "PayPal phishing"
+    - "PayPal credential theft"
+    - "PayPal account takeover"
+    - "PayPal fraud"
+    - "PayPal security"
+    - "PayPal API abuse"
+    - "PayPal impersonation"
+    - "PayPal credential stuffing"
+  embedding_text: >-
+    PayPal is a global online payment platform enabling digital payments, money transfers, and
+    e-commerce checkout with REST APIs for merchant integration. PayPal is among the most
+    impersonated brands in phishing campaigns globally, with fake login pages and payment
+    notification emails harvesting credentials and financial information. Accounts are targeted
+    by credential stuffing using breached credentials and infostealer malware extracting session
+    cookies from browsers. API credentials leaked in code repositories enable unauthorized
+    payment processing. Account takeover enables fraudulent transactions and money laundering.
+    Business Email Compromise campaigns impersonate PayPal invoices for financial fraud.
+    Security teams should implement phishing awareness training for PayPal impersonation,
+    enforce MFA on PayPal accounts, monitor for credential stuffing patterns, rotate API
+    credentials regularly, and detect infostealer activity targeting PayPal session data.

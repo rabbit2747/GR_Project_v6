@@ -1,0 +1,87 @@
+# GR Atom: Beagle Boyz
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BEAGBOYZ-001"
+  name: "Beagle Boyz"
+  normalized_name: "beagle_boyz"
+  aliases:
+    - "HIDDEN COBRA Financial Subgroup"
+    - "APT38 Subset"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - LATERAL
+    - EXFIL
+    - IMPACT
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Beagle Boyz is a North Korean state-sponsored threat subgroup, a component of the broader HIDDEN COBRA (Lazarus Group) umbrella, focused on financially motivated cyber operations targeting banks and financial institutions worldwide. Identified by CISA and the U.S. Cyber Command in 2020, the group has conducted fraudulent ATM cash-out operations (FASTCash), SWIFT interbank messaging manipulation, and cryptocurrency theft across more than 30 countries since at least 2015."
+  why: "Beagle Boyz is critical to understanding North Korean revenue generation through cybercrime. Their operations have resulted in attempted thefts of nearly two billion dollars from financial institutions. The group represents the intersection of state-sponsored APT capabilities with financially motivated crime, as stolen funds are believed to support North Korean weapons programs and regime funding."
+  how: "The group gains initial access through spearphishing, watering hole attacks, and social engineering. They conduct extensive lateral movement within banking networks to reach SWIFT terminals and ATM switch servers. FASTCash operations involve deploying malicious scripts on payment switch application servers to intercept and manipulate ATM transaction messages. The group also manipulates SWIFT messages to initiate fraudulent transfers and has expanded into cryptocurrency exchange targeting and theft."
+  core_concepts:
+    - key: "FASTCash Operations"
+      value: "Deploys malware on payment switch servers to intercept financial transactions and authorize fraudulent ATM withdrawals globally"
+    - key: "SWIFT Manipulation"
+      value: "Compromises banking SWIFT infrastructure to send fraudulent interbank transfer messages"
+    - key: "Regime Funding"
+      value: "Stolen funds support North Korean state programs including weapons development"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-FAMOCHOL-001"
+    description: "Beagle Boyz operates under the broader HIDDEN COBRA / Lazarus Group umbrella"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing as a primary initial access method to financial institutions"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1565"
+    tactic:
+      - "Initial Access"
+      - "Lateral Movement"
+      - "Impact"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CISA Alert AA20-239A - FASTCash 2.0 North Korean BeagleBoyz"
+    - "US-CERT - HIDDEN COBRA FASTCash Campaign"
+    - "U.S. Cyber Command - North Korean Financial Cyber Operations"
+  search_keywords:
+    - "beagle boyz"
+    - "fastcash"
+    - "north korean banking"
+    - "hidden cobra financial"
+    - "swift manipulation"
+    - "atm cash-out"
+    - "apt38"
+    - "lazarus financial"
+    - "dprk cybercrime"
+    - "bank heist cyber"
+  embedding_text: "Beagle Boyz is a North Korean state-sponsored threat subgroup within the HIDDEN COBRA (Lazarus Group) umbrella, specializing in financially motivated cyber operations against banks and financial institutions worldwide. Active since at least 2015, the group has targeted institutions in over 30 countries using FASTCash operations that deploy malware on payment switch application servers to authorize fraudulent ATM withdrawals. They also manipulate SWIFT interbank messaging systems for fraudulent transfers and target cryptocurrency exchanges. Initial access involves spearphishing, watering hole attacks, and social engineering, followed by extensive lateral movement to reach financial transaction infrastructure. Their operations have attempted nearly two billion dollars in theft, with proceeds believed to fund North Korean weapons programs and regime operations."

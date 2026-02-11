@@ -1,0 +1,80 @@
+# GR Atom: Black Hat
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-BLACHAT-001"
+  name: "Black Hat"
+  normalized_name: "black_hat"
+  aliases:
+    - "Black Hat Briefings"
+    - "Black Hat Conference"
+    - "BH USA"
+    - "BH EU"
+    - "BH Asia"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - PENTEST
+    - RED_TEAM
+    - WEB
+    - NETWORK
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Black Hat is a premier international cybersecurity conference series founded by Jeff Moss in 1997, hosting annual events in the United States, Europe, and Asia. The conference features technical briefings, hands-on training sessions, and an arsenal of security tools, covering topics spanning vulnerability research, exploit development, reverse engineering, malware analysis, cloud security, IoT hacking, and critical infrastructure protection. Black Hat is widely regarded as the most prestigious venue for disclosing novel security vulnerabilities and attack techniques."
+  why: "Black Hat is critically important to the cybersecurity community because it serves as the primary venue where security researchers publicly disclose high-impact vulnerabilities, demonstrate novel attack techniques, and share defensive strategies. Many of the most significant vulnerability disclosures and security tool releases in history have been presented at Black Hat, making it a cornerstone of the global threat intelligence pipeline."
+  how: "Black Hat operates through three main event tracks: Briefings featuring peer-reviewed technical presentations by leading security researchers, Training offering multi-day hands-on courses from industry experts, and the Arsenal where open-source security tools are demonstrated. Submissions undergo a review process by a technical advisory board to ensure high quality and novelty of presented research."
+  core_concepts:
+    - key: "Security Briefings"
+      value: "Peer-reviewed technical presentations disclosing novel vulnerabilities, attack techniques, and defensive research"
+    - key: "Hands-on Training"
+      value: "Multi-day intensive courses covering offensive and defensive security skills"
+    - key: "Tool Arsenal"
+      value: "Open demonstration platform for new and updated open-source security tools"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DERBYCON-001"
+    description: "Fellow cybersecurity conference in the infosec conference ecosystem"
+  - type: enables
+    target: "ACTOR-RESEARCH-GOOPROZER-001"
+    description: "Platform where Google Project Zero and other research teams disclose vulnerability findings"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for conference
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.blackhat.com"
+    - "https://en.wikipedia.org/wiki/Black_Hat_Briefings"
+  search_keywords:
+    - "black hat"
+    - "black hat briefings"
+    - "security conference"
+    - "vulnerability disclosure"
+    - "exploit development"
+    - "cybersecurity training"
+    - "infosec conference"
+    - "security research"
+    - "hacker conference"
+  embedding_text: "Black Hat is a premier international cybersecurity conference series founded by Jeff Moss in 1997, hosting annual events in the United States, Europe, and Asia. The conference features peer-reviewed technical briefings, hands-on training sessions, and a tool arsenal, covering vulnerability research, exploit development, reverse engineering, malware analysis, cloud security, IoT hacking, and critical infrastructure protection. Black Hat is widely regarded as the most prestigious venue for publicly disclosing novel security vulnerabilities and attack techniques. Many of the most significant vulnerability disclosures and security tool releases in cybersecurity history have been presented at Black Hat, making it a cornerstone of the global threat intelligence pipeline and a critical knowledge-sharing platform for the entire security community."

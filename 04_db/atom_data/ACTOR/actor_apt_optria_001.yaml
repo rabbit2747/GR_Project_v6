@@ -1,0 +1,79 @@
+# GR Atom: Op Triangulation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OPTRIA-001"
+  name: "Op Triangulation"
+  normalized_name: "op_triangulation"
+  aliases:
+    - "Operation Triangulation"
+    - "TriangleDB Campaign"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PRIV"
+    - "PERSIST"
+    - "EVADE"
+    - "MOBILE"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L7"]
+  target_zones: ["Z1", "Z4"]
+  target_components:
+    - "iOS devices"
+    - "iMessage service"
+    - "iOS kernel"
+    - "hardware security features"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Operation Triangulation is a highly sophisticated zero-click iOS exploit campaign discovered by Kaspersky in June 2023 that targeted iPhones through invisible iMessage messages. The campaign exploited four zero-day vulnerabilities in the iOS operating system including a hardware-level vulnerability in an undocumented Apple hardware feature, representing one of the most technically advanced mobile exploitation chains ever publicly documented. The campaign targeted Kaspersky employees and other high-value individuals."
+  why: "The campaign targeted specific individuals with intelligence value, including cybersecurity researchers at Kaspersky. The sophistication of the exploit chain, particularly the exploitation of an undocumented hardware feature, suggests a well-resourced state-sponsored actor with deep knowledge of Apple hardware architecture. The intelligence objectives likely included surveillance of targeted individuals' communications, contacts, and device data."
+  how: "The attack chain was entirely zero-click, requiring no user interaction. An invisible iMessage attachment triggered exploitation of four zero-day vulnerabilities: CVE-2023-41990 (TrueType font instruction vulnerability), CVE-2023-32434 (kernel integer overflow), CVE-2023-32435 (WebKit memory corruption), and CVE-2023-38606 (exploitation of undocumented MMIO hardware registers). The final payload, TriangleDB, is a full-featured spyware implant with capabilities for microphone recording, photo collection, geolocation tracking, keychain access, and database extraction. The exploit chain operated entirely in memory, leaving minimal forensic traces."
+  core_concepts:
+    - "zero-click iOS exploitation"
+    - "undocumented hardware exploitation"
+    - "four chained zero-day vulnerabilities"
+    - "memory-only attack chain"
+    - "TriangleDB spyware implant"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-HACKTEAM-001"
+    description: "Both represent sophisticated mobile exploitation capabilities targeting iOS devices"
+  - type: "applies_to"
+    target: "ACTOR-APT-PROJSAUR-001"
+    description: "Both demonstrate exceptionally advanced technical capabilities suggesting well-resourced state sponsors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Kaspersky - Operation Triangulation: The Last Hardware Mystery (2023)"
+    - "Kaspersky - 36C3 Presentation - Operation Triangulation"
+    - "Apple Security Updates - CVE-2023-32434, CVE-2023-32435, CVE-2023-38606"
+  search_keywords:
+    - "operation triangulation"
+    - "TriangleDB"
+    - "iOS zero-click exploit"
+    - "iMessage exploit chain"
+    - "CVE-2023-41990"
+    - "CVE-2023-32434"
+    - "apple hardware vulnerability"
+    - "kaspersky iPhone hack"
+    - "zero-click iOS spyware"
+  embedding_text: "Operation Triangulation is a highly sophisticated zero-click iOS exploit campaign discovered by Kaspersky in June 2023 targeting iPhones through invisible iMessage messages. The campaign exploited four zero-day vulnerabilities including CVE-2023-41990, CVE-2023-32434, CVE-2023-32435, and CVE-2023-38606, with the latter exploiting an undocumented Apple hardware feature involving MMIO registers. The entire attack chain operated without user interaction and ran entirely in memory leaving minimal forensic traces. The final payload TriangleDB is a full-featured spyware implant capable of microphone recording, photo collection, geolocation tracking, keychain extraction, and database access. The campaign targeted Kaspersky employees and other high-value individuals. Operation Triangulation represents one of the most technically advanced mobile exploitation chains ever publicly documented, with the hardware-level vulnerability exploitation suggesting a state-sponsored actor with deep knowledge of Apple silicon architecture."

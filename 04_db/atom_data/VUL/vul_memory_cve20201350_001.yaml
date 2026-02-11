@@ -1,0 +1,120 @@
+# GR Atom: CVE-2020-1350
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20201350-001"
+  name: "CVE-2020-1350"
+  normalized_name: "cve_2020_1350"
+  aliases:
+    - "SigRed"
+    - "Windows DNS Server RCE"
+    - "DNS Wormable Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows DNS Server (dns.exe)"
+    - "Windows Server 2003-2019"
+    - "Active Directory DNS infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-1350, dubbed SigRed, is a critical wormable remote code execution vulnerability
+    (CVSS 10.0) in Windows DNS Server that allows unauthenticated attackers to execute
+    arbitrary code as Local System by sending crafted DNS responses. Discovered by Check
+    Point Research and patched in July 2020, the vulnerability exists in the way Windows
+    DNS Server handles SIG (signature) resource record queries. With a maximum CVSS score
+    of 10.0, it was classified as wormable because exploitation requires no authentication
+    or user interaction and can propagate automatically between DNS servers. The vulnerability
+    had existed for 17 years in Windows DNS Server code.
+  why: >-
+    SigRed received the maximum CVSS score of 10.0 due to its wormable nature, no
+    authentication requirement, and SYSTEM-level code execution on domain controllers. Since
+    most Active Directory domain controllers also serve as DNS servers, exploitation could
+    compromise the entire Active Directory forest. The wormable classification meant a single
+    exploitation could cascade through an organization's DNS infrastructure without any user
+    interaction, similar to the impact potential of EternalBlue. Microsoft issued an
+    emergency out-of-band registry workaround alongside the patch.
+  how: >-
+    The vulnerability is triggered by sending a crafted DNS response containing a malicious
+    SIG record that exceeds expected buffer sizes. When a Windows DNS Server processes the
+    oversized SIG record during a recursive query, a heap-based buffer overflow occurs in
+    dns.exe. The overflow corrupts heap metadata, allowing the attacker to gain arbitrary
+    code execution as SYSTEM. An attacker can trigger the vulnerability by causing the
+    target DNS server to query a malicious authoritative DNS server, which responds with
+    the crafted SIG record. No authentication is required, and the attack can be initiated
+    remotely across the internet.
+  core_concepts:
+    - key: "Wormable DNS Exploitation"
+      value: "Maximum CVSS 10.0 vulnerability that can propagate automatically between Windows DNS servers without authentication"
+    - key: "SIG Record Buffer Overflow"
+      value: "Heap overflow in dns.exe when processing oversized SIG resource records during recursive DNS resolution"
+    - key: "Domain Controller Compromise"
+      value: "DNS servers often co-located on domain controllers means exploitation can compromise entire Active Directory forests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "SigRed is a heap-based buffer overflow memory corruption in Windows DNS Server"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "Both are wormable network service vulnerabilities enabling unauthenticated remote code execution on Windows"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Check Point Research - SigRed: Resolving Your Way into Domain Admin"
+    - "Microsoft Security Advisory CVE-2020-1350"
+    - "NVD Entry CVE-2020-1350 - CVSS 10.0"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+    - "CISA Emergency Directive 20-03"
+  search_keywords:
+    - "CVE-2020-1350"
+    - "SigRed"
+    - "Windows DNS"
+    - "wormable"
+    - "DNS server RCE"
+    - "CVSS 10"
+    - "heap overflow"
+    - "domain controller"
+    - "SIG record"
+  embedding_text: >-
+    CVE-2020-1350, known as SigRed, is a wormable remote code execution vulnerability in
+    Windows DNS Server with the maximum CVSS score of 10.0. Discovered by Check Point
+    Research, the heap-based buffer overflow in dns.exe occurs when processing oversized
+    SIG resource records during recursive DNS resolution. It requires no authentication
+    and can propagate automatically between DNS servers. Since Windows DNS typically runs
+    on Active Directory domain controllers, exploitation can compromise entire AD forests.
+    The 17-year-old vulnerability was patched in July 2020 with CISA issuing an emergency
+    directive due to its critical wormable nature similar to EternalBlue.

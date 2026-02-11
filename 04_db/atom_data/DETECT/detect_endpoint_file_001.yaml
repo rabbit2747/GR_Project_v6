@@ -1,0 +1,81 @@
+# GR Atom: File Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILE-001"
+  name: "File Event"
+  normalized_name: "file_event"
+  aliases:
+    - "File System Event"
+    - "File Activity Detection"
+    - "File Operation Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "The overarching detection pattern category encompassing all file system operations monitored on endpoints. File events include file creation, access, modification, deletion, renaming, permission changes, attribute changes, copy operations, mount operations, encryption, decryption, and stream creation. This category serves as the parent classification for all specific file operation detection patterns and provides the common framework for file-based endpoint telemetry."
+  why: "File system operations are fundamental to virtually every stage of the attack lifecycle. Malware delivery requires file creation, persistence needs file modifications in specific locations, credential theft involves file access, defense evasion uses file deletion, and exfiltration involves file copy operations. Comprehensive file event monitoring provides the essential visibility foundation for detecting, investigating, and responding to endpoint threats."
+  how: "Deploy EDR kernel mini-filter drivers that intercept all file I/O operations through the Windows Filter Manager or Linux FUSE/eBPF frameworks. Supplement with OS audit subsystems (Windows Security Event Log, Linux auditd), Sysmon file events (Events 11, 15, 23, 26), and file integrity monitoring solutions. Normalize all file events to a common schema for consistent analysis across diverse endpoint types and operating systems."
+  core_concepts:
+    - key: "File I/O Interception"
+      value: "Kernel-level monitoring of all file system operations through mini-filter drivers or equivalent mechanisms that provide complete visibility into file activity"
+    - key: "File Event Taxonomy"
+      value: "The classification system for file operations including create, read, write, delete, rename, set attributes, set permissions, mount, encrypt, decrypt, and stream operations"
+    - key: "Cross-Platform Normalization"
+      value: "Mapping file events from different operating systems and tools into a unified schema for consistent detection and analysis"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "File events are a major component of EDR telemetry"
+  - type: requires
+    target: "DETECT-ENDPOINT-ETWTRAPRO-001"
+    description: "File event collection on Windows depends on ETW providers for kernel-level monitoring"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OCSF Schema - File Activity Class"
+    - "Microsoft Sysinternals - Sysmon File Events"
+    - "MITRE ATT&CK - Data Sources: File"
+  search_keywords:
+    - "file event"
+    - "file system monitoring"
+    - "file activity"
+    - "file operation"
+    - "file telemetry"
+    - "mini-filter driver"
+    - "Sysmon file event"
+    - "file I/O"
+    - "endpoint file monitoring"
+  embedding_text: "File Event is the overarching endpoint detection category encompassing all file system operations monitored on endpoints. This includes file creation, access, modification, deletion, renaming, permission changes, attribute changes, copy, mount, encryption, decryption, and stream creation operations. File events serve as the parent classification for all specific file operation detection patterns. Comprehensive file event monitoring through EDR kernel mini-filter drivers, OS audit subsystems, and Sysmon provides the essential visibility foundation for detecting threats across the entire attack lifecycle from malware delivery through persistence, credential theft, and exfiltration."

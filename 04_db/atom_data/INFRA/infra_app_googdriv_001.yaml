@@ -1,0 +1,114 @@
+# GR Atom: Google Drive
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-GOOGDRIV-001"
+  name: "Google Drive"
+  normalized_name: "google_drive"
+  aliases:
+    - "Google Drive for Desktop"
+    - "Google Workspace Drive"
+    - "Google Shared Drives"
+    - "GDrive"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - EXFIL
+    - C2
+    - GCP
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Google Drive is Google's cloud-based file storage and synchronization service, integrated
+    into Google Workspace (formerly G Suite). It provides file storage, sharing, collaboration
+    through Google Docs/Sheets/Slides, and synchronization across devices through the Google
+    Drive for Desktop client. Google Drive supports Google Workspace administrative controls,
+    data loss prevention policies, and audit logging for enterprise deployments.
+  why: >-
+    Google Drive is abused by threat actors as a data exfiltration channel and C2 infrastructure
+    because its HTTPS traffic to Google domains is typically allowed through corporate firewalls
+    and proxies. APT groups including APT41 and Turla have used Google Drive API for C2
+    communications and data staging. The Google Drive API enables programmatic file operations
+    that malware uses for exfiltrating stolen data or receiving commands. Shared links and
+    service account access can expose sensitive organizational data. Phishing campaigns
+    frequently abuse Google Drive for hosting malicious documents.
+  how: >-
+    Google Drive operates through REST APIs using OAuth 2.0 for authentication, with desktop
+    clients synchronizing files between local directories and cloud storage. Google Workspace
+    administrators manage access through organizational units, sharing policies, and DLP rules.
+    The Drive API enables programmatic file management including upload, download, sharing, and
+    metadata operations. Malware uses service accounts or stolen OAuth tokens to interact with
+    Drive API for data exfiltration and C2 communications. Traffic appears as legitimate
+    Google service usage, complicating detection without API-level monitoring or CASB integration.
+  core_concepts:
+    - key: "Cloud File Platform"
+      value: "Google cloud storage and collaboration service with desktop sync, integrated document editing, and enterprise management through Google Workspace"
+    - key: "Exfiltration via Google APIs"
+      value: "Drive API with OAuth tokens enables automated exfiltration that blends with legitimate Google traffic and bypasses network security controls"
+    - key: "Malicious Document Hosting"
+      value: "Google Drive used to host and distribute phishing documents and malware payloads leveraging trusted Google domain reputation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-DROPBOX-001"
+    description: "Google Drive and Dropbox serve as alternative cloud file storage and synchronization platforms"
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Google Drive is an enterprise application within Google Workspace used for organizational file management"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+      - "Command and Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Drive API Documentation"
+    - "MITRE ATT&CK T1567.002 - Exfiltration to Cloud Storage"
+    - "Mandiant APT41 Google Drive C2 Analysis"
+  search_keywords:
+    - "Google Drive"
+    - "Google Drive exfiltration"
+    - "Google Drive C2"
+    - "Google Drive API abuse"
+    - "Google Workspace security"
+    - "Google Drive malware"
+    - "cloud storage exfiltration"
+    - "Google Drive phishing"
+  embedding_text: >-
+    Google Drive is Google's cloud file storage and synchronization service integrated into
+    Google Workspace, providing desktop sync, collaboration, and sharing features. In
+    cybersecurity, Google Drive is abused as an exfiltration channel and C2 infrastructure
+    because HTTPS traffic to Google domains bypasses corporate firewalls. APT groups including
+    APT41 and Turla have used Google Drive API for C2 communications and data staging.
+    Malware leverages OAuth tokens and service accounts for automated Drive API operations.
+    Google Drive also hosts malicious documents for phishing campaigns leveraging trusted
+    Google domain reputation. Detection requires API-level monitoring or CASB integration.
+    Security teams should implement DLP policies, audit Drive sharing settings, and restrict
+    Drive API access to authorized applications.

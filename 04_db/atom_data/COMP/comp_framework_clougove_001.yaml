@@ -1,0 +1,131 @@
+# GR Atom: Cloud Governance Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-CLOUGOVE-001"
+  name: "Cloud Governance Framework"
+  normalized_name: "cloud_governance_framework"
+  aliases:
+    - "Cloud Security Governance"
+    - "Cloud Compliance Framework"
+    - "Cloud Risk Governance"
+    - "CSA Cloud Controls Matrix"
+    - "Cloud Security Alliance CCM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 3
+  atom_tags:
+    - CLOUD
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Cloud Governance Framework is a structured set of policies, controls, and processes that
+    organizations use to manage risk, ensure compliance, and maintain security across cloud
+    computing environments. The Cloud Security Alliance (CSA) Cloud Controls Matrix (CCM) is
+    the most widely adopted cloud governance framework, providing 197 control objectives across
+    17 domains aligned with major compliance standards including ISO 27001, NIST SP 800-53,
+    PCI DSS, and GDPR. Cloud governance encompasses identity and access management, data
+    protection, configuration management, incident response, and continuous compliance
+    monitoring across IaaS, PaaS, and SaaS deployment models.
+  why: >-
+    Cloud adoption introduces shared responsibility models where security accountability is
+    divided between the cloud service provider and the customer. Without a governance framework,
+    organizations face misconfigurations (the leading cause of cloud breaches per Gartner),
+    compliance gaps across multi-cloud environments, shadow IT proliferation, uncontrolled
+    cost escalation, and data sovereignty violations. Cloud governance frameworks provide
+    the structure to ensure that security controls are consistently applied, compliance
+    obligations are met, and risk is managed across heterogeneous cloud environments.
+  how: >-
+    Implementation involves: (1) Adopting a control framework such as CSA CCM or CIS Benchmarks
+    as the baseline for cloud security requirements; (2) Mapping shared responsibility boundaries
+    between the organization and each cloud provider; (3) Implementing cloud security posture
+    management (CSPM) tools for continuous configuration monitoring and drift detection;
+    (4) Establishing identity federation and centralized access governance across cloud
+    accounts; (5) Deploying cloud access security brokers (CASB) for visibility and policy
+    enforcement; (6) Implementing data classification and protection controls including
+    encryption, DLP, and data residency enforcement; (7) Automating compliance reporting
+    and audit evidence collection through cloud-native and third-party tools.
+  core_concepts:
+    - key: "Shared Responsibility Model"
+      value: >-
+        The security accountability framework where cloud providers are responsible for
+        security of the cloud infrastructure, while customers are responsible for security
+        in the cloud including data, identity, and application configuration.
+    - key: "Cloud Security Posture Management (CSPM)"
+      value: >-
+        Automated tools that continuously monitor cloud configurations against security
+        baselines, detect misconfigurations, and enforce compliance policies across
+        multi-cloud environments.
+    - key: "Cloud Controls Matrix (CCM)"
+      value: >-
+        The CSA Cloud Controls Matrix providing 197 control objectives across 17 domains
+        that serve as a meta-framework for cloud security governance, mapped to major
+        compliance standards and regulations.
+    - key: "Multi-Cloud Governance"
+      value: >-
+        Policies and controls that provide consistent security and compliance management
+        across multiple cloud service providers, addressing the complexity of heterogeneous
+        cloud environments.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "Cloud governance frameworks map controls to NIST SP 800-53 for federal cloud deployments and FedRAMP authorization"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "Cloud governance operationalizes NIST Cybersecurity Framework functions within cloud-specific environments and shared responsibility models"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-NISTSP800207-001"
+    description: "Cloud governance enables Zero Trust Architecture implementation in cloud environments through identity federation and microsegmentation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Cloud Security Alliance - Cloud Controls Matrix v4.0. https://cloudsecurityalliance.org/research/cloud-controls-matrix/"
+    - "NIST SP 800-144 - Guidelines on Security and Privacy in Public Cloud Computing. https://csrc.nist.gov/publications/detail/sp/800-144/final"
+    - "ISO/IEC 27017:2015 - Code of practice for information security controls based on ISO/IEC 27002 for cloud services"
+    - "Gartner - Cloud Security Posture Management Market Guide"
+  search_keywords:
+    - "cloud governance"
+    - "cloud security framework"
+    - "CSA CCM"
+    - "cloud controls matrix"
+    - "shared responsibility model"
+    - "cloud security posture management"
+    - "CSPM"
+    - "cloud compliance"
+    - "multi-cloud governance"
+    - "cloud risk management"
+  embedding_text: >-
+    Cloud Governance Framework is a structured set of policies, controls, and processes for
+    managing risk, compliance, and security across cloud computing environments. The Cloud
+    Security Alliance Cloud Controls Matrix is the most widely adopted framework, providing
+    197 control objectives across 17 domains mapped to ISO 27001, NIST SP 800-53, PCI DSS,
+    and GDPR. Cloud governance addresses the shared responsibility model where security
+    accountability is divided between cloud providers and customers. Key components include
+    cloud security posture management for continuous configuration monitoring, identity
+    federation for centralized access governance, cloud access security brokers for visibility
+    and policy enforcement, and data classification with encryption and DLP controls.
+    Implementation requires mapping shared responsibility boundaries, deploying CSPM tools,
+    establishing multi-cloud governance policies, and automating compliance reporting.
+    Without governance, organizations face misconfiguration vulnerabilities, compliance gaps,
+    shadow IT, and data sovereignty violations across heterogeneous cloud environments.

@@ -1,0 +1,104 @@
+# GR Atom: CVE-2016-0099
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20160099-001"
+  name: "CVE-2016-0099"
+  normalized_name: "cve_2016_0099"
+  aliases:
+    - "Windows Secondary Logon Service Privilege Escalation"
+    - "Secondary Logon Handle Privilege Escalation"
+    - "MS16-032"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - AUTHN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Windows Secondary Logon Service"
+    - "Windows Vista through Windows 10"
+    - "Windows Server 2008 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-0099 (MS16-032) is a local privilege escalation vulnerability in the Windows
+    Secondary Logon Service. The vulnerability exists because the service improperly handles
+    request handles in memory, allowing a locally authenticated attacker to exploit a race
+    condition to execute arbitrary code as SYSTEM. The Secondary Logon Service (seclogon)
+    allows users to run processes under different credentials, and the handle management flaw
+    enables privilege escalation. CVSS v3.0 score is 7.8.
+  why: >-
+    The Secondary Logon Service runs on all Windows systems by default, making this vulnerability
+    universally applicable. The exploit is highly reliable and has been integrated into many
+    post-exploitation frameworks including Metasploit and PowerShell Empire. Its reliability
+    and broad applicability made it one of the most commonly used Windows privilege escalation
+    techniques during 2016-2017.
+  how: >-
+    Exploitation involves triggering a race condition in the Secondary Logon Service's handle
+    management. The attacker creates a process using the service, then exploits the improper
+    handle duplication to inject code into a SYSTEM-level process. Multiple public exploits
+    exist including PowerShell-based implementations. Mitigation requires applying MS16-032
+    or disabling the Secondary Logon Service where it is not required for operational needs.
+  core_concepts:
+    - key: "Race Condition Exploitation"
+      value: "Exploiting a timing vulnerability in the Secondary Logon Service handle management to achieve SYSTEM code execution"
+    - key: "Handle Duplication Flaw"
+      value: "The service improperly handles process handle duplication, enabling token theft and privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2016-0099 exploits the Windows authentication service to bypass privilege boundaries"
+  - type: "precedes"
+    target: "VUL-AUTH-CVE20170213-001"
+    description: "Both are Windows privilege escalation vulnerabilities commonly used in post-exploitation frameworks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2016-0099"
+    - "NIST NVD CVE-2016-0099 (CVSS v3.0: 7.8)"
+    - "Microsoft Security Bulletin MS16-032"
+  search_keywords:
+    - "CVE-2016-0099"
+    - "MS16-032"
+    - "Secondary Logon privilege escalation"
+    - "seclogon vulnerability"
+    - "Windows handle privilege escalation"
+    - "Secondary Logon Service exploit"
+  embedding_text: >-
+    CVE-2016-0099 (MS16-032) is a local privilege escalation in the Windows Secondary Logon
+    Service with CVSS v3.0 score 7.8. A race condition in handle management allows local
+    attackers to execute code as SYSTEM. The service runs on all Windows systems by default.
+    The exploit is highly reliable and integrated into Metasploit and PowerShell Empire
+    frameworks. Affects Windows Vista through 10 and Server 2008 through 2012 R2. Mitigation
+    requires applying MS16-032 or disabling the Secondary Logon Service. This was one of the
+    most commonly used Windows privilege escalation techniques during 2016-2017 due to its
+    reliability and broad applicability.

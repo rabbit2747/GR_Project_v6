@@ -1,0 +1,76 @@
+# GR Atom: Hardware Device Update Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVUPD-001"
+  name: "Hardware Device Update Event"
+  normalized_name: "hardware_device_update_event"
+  aliases:
+    - "Device Driver Update Detection"
+    - "Firmware Update Event"
+    - "Device Software Update Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Update Event is an endpoint detection pattern that captures when a hardware device's associated driver or firmware is updated to a new version. This includes driver updates through Windows Update, manual driver installation, Linux package manager driver updates, firmware flashing operations, and over-the-air device firmware updates. The event records the device identifier, previous driver/firmware version, new version, the update source and mechanism, the signing status of the new driver, the process performing the update, and the timestamp."
+  why: "Device update events are security-significant because adversaries may use malicious driver updates as a privilege escalation vector, deploy vulnerable driver versions through downgrade attacks (Bring Your Own Vulnerable Driver), or flash compromised firmware to establish persistent hardware-level backdoors. Monitoring update events enables detection of unauthorized driver installations, supply chain attacks through compromised update channels, version downgrade attacks that reintroduce known vulnerabilities, and firmware modifications that could survive OS reinstallation."
+  how: "Detection systems capture device update events through Windows SetupAPI event logs, Windows Update event logs, Linux package manager hooks and DKMS notifications, and firmware update utility logging. Endpoint agents validate update events by checking the new driver version against known-good repositories, verifying digital signatures, comparing against organizational driver allowlists, and flagging version downgrades. Detection rules identify driver updates from untrusted sources, installation of known-vulnerable driver versions, firmware updates initiated by unexpected processes, unsigned or self-signed driver installations, and driver updates that bypass organizational software deployment channels."
+  core_concepts:
+    - key: "Driver Version Control"
+      value: "Tracking driver versions across endpoint fleets to detect unauthorized updates, downgrades, and ensure consistency with approved configurations"
+    - key: "BYOVD Detection"
+      value: "Identifying Bring Your Own Vulnerable Driver attacks where adversaries install legitimately signed but known-vulnerable drivers to exploit kernel-level vulnerabilities"
+    - key: "Update Source Validation"
+      value: "Verifying that driver and firmware updates originate from authorized channels such as Windows Update, organizational WSUS, or approved vendor repositories"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device update events are a specific lifecycle event within the broader hardware device event category"
+  - type: requires
+    target: "DETECT-ENDPOINT-HARDEVBIN-001"
+    description: "Updated drivers must be bound to devices, linking update events to the device bind detection"
+  - type: effective_against
+    target: "ATK-PRIV-BYOVD-001"
+    description: "Detects Bring Your Own Vulnerable Driver attacks through monitoring of driver version changes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Microsoft - Driver Update Management - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/"
+    - "CISA - BYOVD Threat Advisory"
+  search_keywords:
+    - "hardware device update"
+    - "driver update detection"
+    - "firmware update event"
+    - "driver version change"
+    - "BYOVD detection"
+    - "driver downgrade attack"
+    - "unsigned driver install"
+    - "device software update"
+  embedding_text: "Hardware Device Update Event detection captures driver and firmware updates on endpoint hardware devices, recording previous and new versions, update sources, signing status, and performing processes. Monitored through Windows SetupAPI and Update event logs, Linux package manager hooks, and firmware utility logging, this telemetry enables detection of unauthorized driver installations, BYOVD attacks deploying known-vulnerable drivers, version downgrade attacks, compromised firmware flashing, and updates from untrusted sources. Validation checks include signature verification, version allowlist comparison, and update channel authorization."

@@ -1,0 +1,113 @@
+# GR Atom: CVE-2014-6324
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20146324-001"
+  name: "CVE-2014-6324"
+  normalized_name: "cve_2014_6324"
+  aliases:
+    - "MS14-068"
+    - "Kerberos Privilege Escalation"
+    - "Kerberos PAC Validation Vulnerability"
+    - "PyKEK Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - WINDOWS
+    - NETWORK
+    - CRED
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Kerberos KDC"
+    - "Active Directory Domain Controllers"
+    - "Windows Server 2003 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-6324 (MS14-068) is a critical privilege escalation vulnerability in the Windows
+    Kerberos Key Distribution Center (KDC) that allows any authenticated domain user to forge
+    a Kerberos Privilege Attribute Certificate (PAC) to elevate their privileges to Domain
+    Administrator. The KDC fails to properly validate PAC signatures in Kerberos ticket
+    requests, allowing an attacker to craft a forged PAC with arbitrary group memberships
+    including Domain Admins. CVSS v2 score is 9.0, and it was exploited in the wild before
+    the patch was released.
+  why: >-
+    This vulnerability enables any authenticated domain user to immediately become a Domain
+    Administrator, representing a catastrophic Active Directory compromise. A single compromised
+    low-privilege domain account provides complete domain takeover. The vulnerability was
+    exploited in targeted attacks and had immediate, devastating consequences for enterprise
+    Active Directory environments worldwide.
+  how: >-
+    Exploitation involves an authenticated domain user requesting a Kerberos TGT with a
+    forged PAC containing Domain Admin group SIDs. The KDC fails to validate the PAC signature
+    checksum, accepting the forged ticket. Tools like PyKEK and MS14-068 exploit modules
+    automate the forging process. Mitigation requires immediately applying MS14-068, monitoring
+    for anomalous Kerberos ticket requests, resetting the krbtgt account password twice, and
+    reviewing domain administrator group membership.
+  core_concepts:
+    - key: "PAC Forgery"
+      value: "Crafting a fake Privilege Attribute Certificate with arbitrary group memberships due to insufficient signature validation by the KDC"
+    - key: "Domain Privilege Escalation"
+      value: "Elevating from any authenticated domain user to Domain Administrator through forged Kerberos tickets"
+    - key: "KDC Validation Failure"
+      value: "The Key Distribution Center failing to properly verify the cryptographic integrity of PAC structures in ticket requests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2014-6324 is a Kerberos authentication vulnerability enabling privilege escalation through PAC forgery"
+  - type: "enables"
+    target: "VUL-AUTH-CVE202142287-001"
+    description: "Both target Kerberos authentication mechanisms in Active Directory for privilege escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1558.001"
+    tactic:
+      - "Credential Access"
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2014-6324"
+    - "NIST NVD CVE-2014-6324 (CVSS v2: 9.0)"
+    - "Microsoft Security Bulletin MS14-068"
+    - "MITRE ATT&CK T1558.001 - Golden Ticket"
+  search_keywords:
+    - "CVE-2014-6324"
+    - "MS14-068"
+    - "Kerberos PAC vulnerability"
+    - "Kerberos privilege escalation"
+    - "Active Directory domain takeover"
+    - "PAC forgery"
+    - "PyKEK"
+  embedding_text: >-
+    CVE-2014-6324, known as MS14-068, is a critical Kerberos privilege escalation vulnerability
+    with CVSS v2 score 9.0 affecting Windows KDC. Any authenticated domain user can forge a
+    Kerberos Privilege Attribute Certificate (PAC) with Domain Admin group membership because
+    the KDC fails to properly validate PAC signatures. This enables immediate escalation from
+    any domain user to Domain Administrator, providing complete Active Directory compromise.
+    Exploited in the wild before patch release using tools like PyKEK. Mitigation requires
+    applying MS14-068, monitoring anomalous Kerberos requests, and resetting krbtgt passwords.
+    This represents one of the most severe Active Directory vulnerabilities ever disclosed.

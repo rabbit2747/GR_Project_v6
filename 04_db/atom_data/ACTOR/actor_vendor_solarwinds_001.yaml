@@ -1,0 +1,76 @@
+# GR Atom: SolarWinds
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SOLARWINDS-001"
+  name: "SolarWinds"
+  normalized_name: "solarwinds"
+  aliases:
+    - "SolarWinds Inc"
+    - "SolarWinds Corporation"
+    - "SolarWinds Orion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - MONITOR
+    - NETWORK
+    - SIEM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SolarWinds is an IT infrastructure management vendor providing network monitoring, systems management, database performance, and security information and event management solutions. The company is widely deployed across enterprise and government environments through products including Orion network performance monitor, Server and Application Monitor, and Security Event Manager. SolarWinds became a household name in cybersecurity after the 2020 supply chain attack that compromised its Orion software build system."
+  why: "SolarWinds is critically significant in cybersecurity both as a major IT monitoring vendor and as the subject of one of the most impactful supply chain attacks in history. The SUNBURST attack of 2020, attributed to Russian intelligence, compromised SolarWinds' Orion build process to distribute backdoored software updates to approximately 18,000 organizations including US government agencies, fundamentally changing how the industry views software supply chain security."
+  how: "SolarWinds operates through a portfolio of IT management products that use agent-based and agentless monitoring to collect telemetry from network devices, servers, applications, and databases. The Orion platform provides centralized dashboards for network performance monitoring, configuration management, and log analysis. Following the 2020 breach, SolarWinds implemented a Secure by Design initiative including reproducible builds and enhanced development security."
+  core_concepts:
+    - key: "Network Performance Monitoring"
+      value: "Comprehensive monitoring of network infrastructure health, performance, and availability across enterprise environments"
+    - key: "Supply Chain Attack Impact"
+      value: "The 2020 SUNBURST attack via Orion software updates became a watershed moment for software supply chain security"
+    - key: "IT Infrastructure Management"
+      value: "Integrated platform for monitoring and managing servers, applications, databases, and network devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-CONNECTWIS-001"
+    description: "Fellow IT infrastructure management and monitoring vendor serving enterprise environments"
+  - type: enables
+    target: "ACTOR-VENDOR-FIREEYE-001"
+    description: "FireEye discovered the SolarWinds SUNBURST supply chain compromise during its own breach investigation"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.solarwinds.com"
+    - "https://en.wikipedia.org/wiki/SolarWinds"
+    - "https://en.wikipedia.org/wiki/2020_United_States_federal_government_data_breach"
+  search_keywords:
+    - "solarwinds"
+    - "solarwinds orion"
+    - "SUNBURST"
+    - "supply chain attack"
+    - "network monitoring"
+    - "IT management"
+    - "solarwinds breach"
+    - "orion platform"
+    - "infrastructure monitoring"
+  embedding_text: "SolarWinds is an IT infrastructure management vendor providing network monitoring, systems management, database performance, and security information and event management solutions widely deployed across enterprise and government environments. SolarWinds became critically significant in cybersecurity after the 2020 SUNBURST supply chain attack, attributed to Russian intelligence, which compromised the Orion software build process to distribute backdoored updates to approximately 18,000 organizations including US government agencies. This attack fundamentally changed how the industry views software supply chain security and prompted SolarWinds to implement comprehensive Secure by Design initiatives."

@@ -1,0 +1,101 @@
+# GR Atom: CVE-2002-0561
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20020561-001"
+  name: "CVE-2002-0561"
+  normalized_name: "cve_2002_0561"
+  aliases:
+    - "Oracle PL/SQL Gateway Authentication Bypass"
+    - "Oracle 9iAS Default Configuration Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - WEB
+    - CONFIG
+    - DATABASE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle 9i Application Server"
+    - "Oracle PL/SQL Gateway"
+    - "Oracle HTTP Server"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2002-0561 is an authentication bypass vulnerability in Oracle 9i Application Server
+    where the PL/SQL Gateway module allows unauthenticated remote access to protected database
+    procedures. The Oracle HTTP Server in 9iAS does not properly restrict access to the PL/SQL
+    Gateway, enabling attackers to bypass authentication and execute arbitrary PL/SQL procedures
+    through crafted HTTP requests. This vulnerability has a CVSS v2 score of 7.5 and was
+    disclosed in 2002.
+  why: >-
+    This vulnerability exposes enterprise database functionality to unauthenticated remote
+    access. Oracle 9iAS was widely deployed in enterprise environments, and the PL/SQL Gateway
+    provides direct access to database-stored procedures. Successful exploitation enables
+    attackers to query, modify, or delete database contents, execute administrative procedures,
+    and potentially gain operating system access through the database server.
+  how: >-
+    Attackers craft HTTP requests targeting the PL/SQL Gateway endpoints using default or
+    predictable URL patterns. The gateway fails to enforce authentication, allowing direct
+    invocation of PL/SQL procedures including those for database administration. Mitigation
+    requires applying Oracle Critical Patch Updates, restricting PL/SQL Gateway access through
+    the Oracle HTTP Server configuration, disabling unnecessary DAD (Database Access Descriptor)
+    entries, and implementing network-level access controls.
+  core_concepts:
+    - key: "PL/SQL Gateway Bypass"
+      value: "Circumventing authentication on the Oracle PL/SQL Gateway to directly execute database stored procedures via HTTP"
+    - key: "Default Configuration Risk"
+      value: "Oracle 9iAS default installation exposes sensitive database interfaces without proper access controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2002-0561 is an authentication bypass vulnerability in Oracle Application Server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2002-0561"
+    - "NIST NVD CVE-2002-0561 (CVSS v2: 7.5)"
+    - "Oracle Security Alert #46"
+  search_keywords:
+    - "CVE-2002-0561"
+    - "Oracle 9iAS vulnerability"
+    - "PL/SQL Gateway bypass"
+    - "Oracle authentication bypass"
+    - "Oracle Application Server"
+    - "database gateway exploit"
+  embedding_text: >-
+    CVE-2002-0561 is an authentication bypass vulnerability in Oracle 9i Application Server
+    PL/SQL Gateway with CVSS v2 score 7.5. The Oracle HTTP Server fails to properly restrict
+    access to the PL/SQL Gateway module, allowing unauthenticated remote attackers to execute
+    arbitrary PL/SQL procedures through crafted HTTP requests. This exposes enterprise database
+    functionality including administrative procedures to unauthorized access. Mitigation
+    requires applying Oracle patches, restricting gateway access, disabling unnecessary DAD
+    entries, and implementing network controls. Impacts include database data exposure,
+    modification, deletion, and potential operating system compromise through the database.

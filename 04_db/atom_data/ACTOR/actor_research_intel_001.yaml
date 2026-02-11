@@ -1,0 +1,72 @@
+# GR Atom: Intel Techniques
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-INTEL-001"
+  name: "Intel Techniques"
+  normalized_name: "intel_techniques"
+  aliases:
+    - "IntelTechniques"
+    - "Michael Bazzell"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RECON
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Intel Techniques is an OSINT (Open Source Intelligence) research and training organization founded by Michael Bazzell, a former FBI cyber crimes investigator. The organization provides comprehensive resources for open-source intelligence gathering, online privacy protection, and digital disappearance techniques. Intel Techniques publishes books on OSINT methodology and extreme privacy, hosts a podcast covering investigative techniques, and offers training for law enforcement, private investigators, and security professionals on using publicly available data for investigations."
+  why: "Intel Techniques is significant because it provides the most comprehensive publicly available OSINT methodology and tooling for investigators and security professionals. Its resources are widely used by law enforcement agencies, threat intelligence analysts, and incident responders for identifying threat actors, conducting due diligence, and gathering intelligence from open sources. The platform also uniquely contributes to personal privacy protection education."
+  how: "Intel Techniques operates through published books, a podcast, training courses, and online resources that teach systematic approaches to OSINT investigations. The methodology covers social media intelligence, people search techniques, domain and IP research, dark web investigation, and digital footprint analysis. The organization also provides privacy-focused guidance for protecting personal information from OSINT collection."
+  core_concepts:
+    - key: "OSINT Methodology"
+      value: "Systematic open-source intelligence gathering techniques for investigations and threat analysis"
+    - key: "Privacy Protection"
+      value: "Techniques and guidance for protecting personal information and reducing digital footprint"
+    - key: "Investigative Training"
+      value: "Professional training for law enforcement and security professionals on OSINT techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "OSINT techniques and research presented at major security conferences"
+  - type: enables
+    target: "ACTOR-RESEARCH-INFOINST-001"
+    description: "Contributes to the broader cybersecurity education ecosystem through OSINT training"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for training organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://inteltechniques.com"
+  search_keywords:
+    - "intel techniques"
+    - "michael bazzell"
+    - "OSINT"
+    - "open source intelligence"
+    - "digital investigation"
+    - "online privacy"
+    - "people search"
+    - "digital footprint"
+    - "FBI cyber crimes"
+  embedding_text: "Intel Techniques is an OSINT research and training organization founded by Michael Bazzell, a former FBI cyber crimes investigator, providing comprehensive resources for open-source intelligence gathering, online privacy protection, and digital investigation techniques. The organization publishes books on OSINT methodology and extreme privacy, hosts a podcast covering investigative techniques, and offers professional training for law enforcement, private investigators, and security professionals. Intel Techniques teaches systematic approaches to social media intelligence, people search, domain and IP research, dark web investigation, and digital footprint analysis. The platform is widely used by law enforcement agencies, threat intelligence analysts, and incident responders for identifying threat actors and gathering intelligence from publicly available sources."

@@ -1,0 +1,118 @@
+# GR Atom: Exchange Settings Provider
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-EXCSETPRO-001"
+  name: "Exchange Settings Provider"
+  normalized_name: "exchange_settings_provider"
+  aliases:
+    - "Exchange Autodiscover"
+    - "Autodiscover Service"
+    - "Exchange Configuration Provider"
+    - "Exchange Autodiscover V2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - SMTP
+    - HTTP
+    - CRED
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Exchange Settings Provider encompasses the Autodiscover service and configuration
+    distribution mechanisms in Microsoft Exchange that automatically provide email client
+    settings, server endpoints, and connection parameters. The Autodiscover protocol
+    negotiates mailbox configuration by querying DNS records, well-known URLs, and SCP
+    (Service Connection Point) objects in Active Directory to locate and retrieve Exchange
+    server settings for client applications.
+  why: >-
+    The Autodiscover protocol has been exploited for credential harvesting through Autodiscover
+    domain confusion attacks where misconfigured clients leak credentials to attacker-controlled
+    domains (autodiscover.com, autodiscover.tld). The protocol's fallback mechanism sends
+    authentication credentials in plaintext or basic auth to external URLs during discovery.
+    Autodiscover endpoints are also targeted in Exchange exploitation chains as they reveal
+    server configuration and are part of the attack surface exploited by ProxyLogon and
+    ProxyShell. Exposed Autodiscover endpoints enable reconnaissance of Exchange infrastructure.
+  how: >-
+    Autodiscover operates through a multi-step discovery process. Email clients first query
+    SCP objects in Active Directory (domain-joined), then attempt HTTPS connections to
+    autodiscover.domain.com/Autodiscover/Autodiscover.xml, followed by DNS SRV record lookups,
+    and finally HTTP redirect checks. The service returns XML configuration containing server
+    URLs, protocol settings, and authentication requirements. In Exchange Online, Autodiscover
+    V2 uses a simplified JSON-based protocol. Credential leakage occurs when clients follow
+    the fallback chain to external domains controlled by attackers, sending NTLM or basic
+    authentication credentials.
+  core_concepts:
+    - key: "Autodiscover Protocol"
+      value: "Multi-step discovery protocol that automatically configures email clients by querying DNS, HTTPS endpoints, and AD to locate Exchange server settings"
+    - key: "Credential Leakage Vector"
+      value: "Autodiscover fallback mechanism can leak NTLM or basic auth credentials to attacker-controlled domains during the discovery chain"
+    - key: "Infrastructure Reconnaissance"
+      value: "Autodiscover endpoints reveal Exchange server configuration, version information, and internal topology to external attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-EXCHSERV-001"
+    description: "Exchange Settings Provider is a core service component of Microsoft Exchange Server"
+  - type: "enables"
+    target: "INFRA-APP-EXCHONLI-001"
+    description: "Autodiscover protocol enables automatic client configuration for both on-premises and Exchange Online mailboxes"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1589.001"
+    tactic:
+      - "Reconnaissance"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Autodiscover Protocol Documentation"
+    - "Guardicore Research - Autodiscover Credential Leakage"
+    - "MITRE ATT&CK T1589 - Gather Victim Identity Information"
+  search_keywords:
+    - "Exchange Autodiscover"
+    - "Autodiscover credential leak"
+    - "Exchange settings provider"
+    - "Autodiscover vulnerability"
+    - "Exchange configuration"
+    - "Autodiscover domain confusion"
+    - "Exchange Autodiscover V2"
+    - "Autodiscover XML"
+  embedding_text: >-
+    Exchange Settings Provider encompasses the Autodiscover service that automatically
+    configures email clients by querying DNS, HTTPS endpoints, and Active Directory SCP
+    objects to locate Exchange server settings. The Autodiscover protocol has been exploited
+    for credential harvesting through domain confusion attacks where misconfigured clients
+    leak NTLM or basic auth credentials to attacker-controlled domains during the fallback
+    discovery chain. Autodiscover endpoints are part of the Exchange attack surface exploited
+    by ProxyLogon and ProxyShell, and they reveal server configuration enabling reconnaissance.
+    In Exchange Online, Autodiscover V2 uses JSON-based discovery. Security teams should
+    restrict Autodiscover endpoint exposure, block external Autodiscover domains at the
+    firewall, enforce modern authentication to prevent credential leakage, and monitor for
+    anomalous Autodiscover requests.

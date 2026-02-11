@@ -1,0 +1,96 @@
+# GR Atom: Sysmon Event ID
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-ID-001"
+  name: "Sysmon Event ID"
+  normalized_name: "sysmon_event_id"
+  aliases:
+    - "System Monitor Event"
+    - "Sysmon Telemetry"
+    - "Sysmon Event Type"
+    - "Microsoft-Windows-Sysmon Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - SIEM
+    - LOG
+    - MONITOR
+    - AUDIT
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "The classification system for Microsoft Sysmon (System Monitor) telemetry events, where each event type is identified by a unique numeric Event ID. Sysmon generates 29 distinct event types (IDs 1-29) covering process creation (1), file creation time change (2), network connections (3), service state changes (4), process termination (5), driver loading (6), image loading (7), CreateRemoteThread (8), RawAccessRead (9), process access (10), file creation (11), registry events (12-14), file stream creation (15), Sysmon configuration change (16), named pipe events (17-18), WMI events (19-21), DNS queries (22), file deletion (23-26), file block shredding (27), file block executable (28), and file executable detected (29). Each Event ID defines the schema and fields available for that telemetry type."
+  why: "Sysmon Event IDs form the foundation of Windows endpoint detection and response strategies. Each event type provides targeted visibility into specific system activities that adversaries exploit. Understanding the Event ID taxonomy enables security teams to configure Sysmon rules precisely, build accurate detection signatures, correlate events across the kill chain, and optimize log collection for storage and performance. The granular event classification allows focused monitoring of the most security-relevant system activities."
+  how: "Sysmon is deployed as a Windows kernel driver and user-mode service that subscribes to various Windows kernel notification callbacks and ETW providers. Events are written to the Microsoft-Windows-Sysmon/Operational event log channel. Configuration is managed through XML files that define inclusion and exclusion filters per Event ID. SIEM platforms ingest Sysmon events via Windows Event Forwarding (WEF), agent-based collection, or NXLog/Winlogbeat forwarders. Detection rules reference specific Event IDs to match telemetry patterns with known attack techniques."
+  core_concepts:
+    - key: "event_id_taxonomy"
+      value: "The 29 Sysmon event types, each capturing a distinct system activity with a defined schema and field set"
+    - key: "kernel_driver_telemetry"
+      value: "Sysmon operates as a kernel driver enabling deep system visibility that user-mode tools cannot easily tamper with"
+    - key: "configuration_filtering"
+      value: "XML-based configuration allows fine-grained control over which events are generated based on include/exclude filters"
+    - key: "event_correlation"
+      value: "Linking multiple Sysmon event types together to reconstruct complete attack chains and process execution flows"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-SYDNETSE-001"
+    description: "Sysmon Event ID framework includes DNS ETW session events as Event ID 22"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-WINDREGI-001"
+    description: "Sysmon Event IDs 12-14 provide Windows registry event detection capability"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic:
+      - "execution"
+      - "persistence"
+      - "defense-evasion"
+      - "discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-PSA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Sysmon Documentation v15"
+    - "Sysmon Event ID Reference - sysinternals.com"
+    - "MITRE ATT&CK Data Sources - Process Monitoring"
+    - "SANS Sysmon Deployment Guide"
+  search_keywords:
+    - "Sysmon event ID"
+    - "Sysmon telemetry"
+    - "System Monitor events"
+    - "Sysmon configuration"
+    - "Sysmon event types"
+    - "endpoint detection Sysmon"
+    - "Sysmon kernel driver"
+    - "Windows event monitoring"
+    - "Sysmon log"
+    - "process monitoring Sysmon"
+  embedding_text: "Sysmon Event ID detection pattern defines the classification system for Microsoft System Monitor telemetry covering 29 event types from process creation to file executable detection. Each Event ID captures specific system activities including process lifecycle, network connections, registry modifications, file operations, driver loading, WMI events, and DNS queries. Sysmon operates as a Windows kernel driver providing tamper-resistant telemetry written to the Microsoft-Windows-Sysmon Operational log. Configuration through XML files enables fine-grained event filtering. Sysmon events form the foundation of Windows endpoint detection strategies, enabling SIEM correlation, attack chain reconstruction, and detection signature development across multiple MITRE ATT&CK tactics."

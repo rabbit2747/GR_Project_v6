@@ -1,0 +1,70 @@
+# GR Atom: Forty North Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FORNORSEC-001"
+  name: "Forty North Security"
+  normalized_name: "forty_north_security"
+  aliases:
+    - "FortyNorth Security"
+    - "40 North Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Forty North Security is an American offensive security consulting firm specializing in penetration testing, red team operations, and security tool development. The company is known for developing open-source offensive security tools used by penetration testers and red teamers, including EyeWitness (a web screenshot tool for reconnaissance), Aggressor scripts for Cobalt Strike, and various other utilities for Active Directory exploitation and post-exploitation activities."
+  why: "Forty North Security is relevant in cybersecurity because their open-source tools are widely used in the penetration testing and red team community. EyeWitness is a standard reconnaissance tool used to rapidly screenshot and categorize web services discovered during assessments. Their research and tool development contribute to the offensive security knowledge base, helping organizations understand and test their defenses against real-world attack techniques."
+  how: "Forty North Security conducts penetration testing and red team engagements against client organizations, simulating real-world adversary tactics and techniques. The team develops custom offensive tools and publishes them as open-source projects on GitHub for community use. Their assessment methodology covers external/internal network penetration testing, web application testing, Active Directory attack simulation, and social engineering campaigns. Findings are documented in detailed reports with remediation recommendations."
+  core_concepts:
+    - key: "Offensive Security Consulting"
+      value: "Penetration testing and red team operations simulating real-world adversary tactics against client environments"
+    - key: "EyeWitness Tool"
+      value: "Open-source web reconnaissance tool for rapidly screenshotting and categorizing discovered web services"
+    - key: "Red Team Tool Development"
+      value: "Creation of open-source offensive security utilities for Active Directory exploitation and post-exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-PENTEST-RECON-001"
+    description: "Produces EyeWitness and other open-source penetration testing and reconnaissance tools"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for offensive security consulting firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://www.fortynorthsecurity.com"
+    - "https://github.com/FortyNorthSecurity"
+  search_keywords:
+    - "forty north security"
+    - "fortynorth security"
+    - "eyewitness tool"
+    - "offensive security consulting"
+    - "red team tools"
+    - "penetration testing firm"
+    - "eyewitness reconnaissance"
+    - "cobalt strike aggressor"
+  embedding_text: "Forty North Security is an American offensive security consulting firm specializing in penetration testing, red team operations, and security tool development. The company is known for developing open-source offensive security tools including EyeWitness (a web screenshot tool for reconnaissance), Aggressor scripts for Cobalt Strike, and various utilities for Active Directory exploitation and post-exploitation activities. Their open-source tools are widely used in the penetration testing and red team community, with EyeWitness being a standard reconnaissance tool for rapidly screenshotting and categorizing web services during assessments. Forty North Security conducts external and internal network penetration testing, web application testing, Active Directory attack simulation, and social engineering campaigns, contributing to the offensive security knowledge base that helps organizations test their defenses against real-world attack techniques."

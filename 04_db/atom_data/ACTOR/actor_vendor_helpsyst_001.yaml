@@ -1,0 +1,73 @@
+# GR Atom: Help Systems
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-HELPSYST-001"
+  name: "Help Systems"
+  normalized_name: "help_systems"
+  aliases:
+    - "HelpSystems"
+    - "Fortra"
+    - "HelpSystems LLC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - DLP
+    - PENTEST
+    - RED_TEAM
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "HelpSystems, now rebranded as Fortra, is a cybersecurity and automation software company that provides a portfolio of products spanning data security, infrastructure protection, and offensive security simulation. Notable products include Cobalt Strike (adversary simulation), GoAnywhere MFT (managed file transfer), Digital Guardian (data loss prevention), Alert Logic (managed detection), and Core Impact (penetration testing). The company has grown through strategic acquisitions to build a comprehensive security portfolio."
+  why: "HelpSystems/Fortra is significant in cybersecurity because its products are used by both legitimate security teams and threat actors. Cobalt Strike in particular is one of the most widely observed post-exploitation frameworks used by ransomware groups and APTs. Understanding the legitimate and malicious use of Fortra products is essential for threat intelligence, incident response, and security operations teams."
+  how: "Fortra delivers its security portfolio through software licensing, managed services, and cloud-based platforms. Cobalt Strike provides adversary simulation through beacons and malleable C2 profiles. GoAnywhere MFT handles secure file transfers with encryption and compliance features. Digital Guardian enforces data loss prevention policies across endpoints and networks. Core Impact enables automated penetration testing. The company integrates products through unified management consoles and APIs."
+  core_concepts:
+    - key: "Cobalt Strike"
+      value: "Commercial adversary simulation and red team tool frequently abused by threat actors"
+    - key: "Data security portfolio"
+      value: "Comprehensive suite covering DLP, secure file transfer, and encryption"
+    - key: "Offensive security tooling"
+      value: "Penetration testing and adversary simulation products for proactive security assessment"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-C2-COBALTSTRIKE-001"
+    description: "HelpSystems/Fortra produces Cobalt Strike adversary simulation platform"
+  - type: enables
+    target: "SECTOR-CYBERSEC-001"
+    description: "HelpSystems enables cybersecurity operations through its defensive and offensive product portfolio"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Fortra (HelpSystems) Official Website"
+    - "Cobalt Strike Product Documentation"
+    - "MITRE ATT&CK - Cobalt Strike Software Entry"
+  search_keywords:
+    - "helpsystems"
+    - "fortra"
+    - "cobalt strike"
+    - "core impact"
+    - "goanywhere mft"
+    - "digital guardian"
+    - "helpsystems cybersecurity"
+    - "fortra security"
+  embedding_text: "HelpSystems, now rebranded as Fortra, is a cybersecurity and automation software company providing a broad portfolio of security products acquired through strategic acquisitions. The company is best known for Cobalt Strike, a commercial adversary simulation and penetration testing framework that has become one of the most widely used red team tools and is frequently observed being abused by ransomware operators and advanced persistent threat groups. Fortra's product portfolio also includes GoAnywhere MFT for secure managed file transfer, Digital Guardian for data loss prevention, Alert Logic for managed detection and response, Core Impact for automated penetration testing, and numerous other security and IT automation products. The company serves enterprise customers across industries with solutions spanning data security, infrastructure protection, offensive security simulation, and compliance management, making it a significant vendor in both the defensive and offensive cybersecurity tool landscape."

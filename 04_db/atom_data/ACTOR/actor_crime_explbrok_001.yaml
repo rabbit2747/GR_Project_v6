@@ -1,0 +1,135 @@
+# GR Atom: Exploit Broker
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-EXPLBROK-001"
+  name: "Exploit Broker"
+  normalized_name: "exploit_broker"
+  aliases:
+    - "Exploit Brokers"
+    - "Zero-Day Broker"
+    - "Vulnerability Broker"
+    - "Exploit Marketplace Operators"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - SUPPLY_CHAIN
+    - INITIAL
+    - EXEC
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Exploit Broker refers to cybercriminal actors and organizations that specialize in the discovery,
+    acquisition, development, and sale of software exploits, including zero-day vulnerabilities, on
+    underground forums, dark web marketplaces, and through private channels. These brokers operate
+    within the cybercriminal ecosystem as specialized suppliers, providing weaponized exploit code to
+    ransomware operators, advanced persistent threat groups, and other threat actors who lack the
+    technical capability to develop exploits independently. The exploit broker market spans from
+    low-cost known-vulnerability exploits ($100-$1,000) to high-value zero-day exploits for major
+    platforms ($100,000-$2,500,000+). Notable commercial exploit brokers include Zerodium, which
+    publicly advertises acquisition prices for zero-days, while underground brokers operate on forums
+    like Exploit.in and XSS.is.
+  why: >-
+    Exploit brokers are a critical enabler in the cybercriminal supply chain, directly responsible
+    for providing the initial access capabilities that make sophisticated attacks possible. The
+    commercialization of exploit development has created a market where even low-sophistication
+    threat actors can purchase weaponized access to target systems. Zero-day exploits sold through
+    broker networks have been used in high-profile attacks including nation-state espionage campaigns
+    and destructive ransomware operations. The exploit brokerage market also intersects with the
+    legitimate vulnerability research industry, with some brokers operating in legal gray areas by
+    selling to government agencies and law enforcement. Understanding exploit broker operations is
+    essential for predicting emerging attack vectors and assessing the threat landscape.
+  how: >-
+    Exploit brokers operate through multiple channels. Underground market brokers maintain presences
+    on Russian-language cybercriminal forums (Exploit.in, XSS.is, RAMP) and dark web marketplaces,
+    advertising exploit capabilities and accepting commissions for targeted exploit development.
+    Private broker networks operate through encrypted communication channels (Telegram, Jabber/XMPP,
+    Signal) connecting exploit developers with buyers. Commercial brokers like Zerodium publish
+    acquisition price lists and operate structured programs for purchasing vulnerabilities. The
+    brokerage process typically involves: proof-of-concept demonstration, independent verification,
+    escrow-based payment, and delivery of weaponized exploit code with documentation. Pricing is
+    determined by target platform popularity, exploit reliability, and whether the vulnerability
+    is zero-day versus N-day. Some brokers offer exploit-as-a-service models with ongoing
+    maintenance as patches are released.
+  core_concepts:
+    - key: "Exploit Supply Chain"
+      value: >-
+        Exploit brokers form a critical link in the cybercriminal supply chain, connecting
+        vulnerability researchers and exploit developers with operational threat actors who deploy
+        the exploits in attacks, creating a specialized marketplace for offensive capabilities.
+    - key: "Zero-Day Market Economics"
+      value: >-
+        The zero-day market operates with pricing determined by platform prevalence, exploit
+        reliability, and exclusivity, ranging from tens of thousands for mobile exploits to
+        millions for full remote chains targeting iOS and major operating systems.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Exploit brokers are cybercriminal actors specializing in the trade of offensive capabilities"
+  - type: "enables"
+    target: "ATK-INITIAL"
+    description: "Exploit brokers enable initial access for threat actors by providing weaponized exploit code"
+  - type: "enables"
+    target: "ACTOR-CRIME-BLACOASI-001"
+    description: "Exploit brokers supply zero-day exploits to groups like Black Oasis for targeted operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1588.005"
+    tactic:
+      - "Resource Development"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "RAND Corporation - Zero Days, Thousands of Nights: The Life and Times of Zero-Day Vulnerabilities. https://www.rand.org/pubs/research_reports/RR1751.html"
+    - "Zerodium - Exploit Acquisition Program. https://zerodium.com/program.html"
+    - "Recorded Future - Exploit Broker Ecosystem Analysis. https://www.recordedfuture.com/exploit-broker-market"
+    - "MITRE ATT&CK T1588.005 - Obtain Capabilities: Exploits. https://attack.mitre.org/techniques/T1588/005/"
+  search_keywords:
+    - "exploit broker"
+    - "zero-day broker"
+    - "vulnerability broker"
+    - "exploit marketplace"
+    - "zerodium"
+    - "exploit.in forum"
+    - "zero-day market"
+    - "exploit as a service"
+    - "vulnerability trading"
+  embedding_text: >-
+    Exploit Broker refers to cybercriminal actors and organizations specializing in the discovery,
+    acquisition, and sale of software exploits including zero-day vulnerabilities on underground
+    forums and dark web marketplaces. These brokers operate as specialized suppliers in the
+    cybercriminal supply chain, providing weaponized exploit code to ransomware operators, APT
+    groups, and other threat actors. The market spans from low-cost known-vulnerability exploits
+    to high-value zero-days worth millions of dollars. Brokers operate on forums like Exploit.in
+    and XSS.is, through private encrypted channels, and via commercial programs like Zerodium.
+    The brokerage process involves proof-of-concept demonstration, verification, escrow payment,
+    and delivery of weaponized code. Exploit brokers directly enable sophisticated attacks by
+    providing initial access capabilities to actors who lack independent exploit development
+    resources. Understanding this market is essential for predicting emerging attack vectors and
+    assessing the evolving threat landscape.

@@ -1,0 +1,97 @@
+# GR Atom: Containerd
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CONTAINERD-001"
+  name: "Containerd"
+  normalized_name: "containerd"
+  aliases:
+    - "containerd runtime"
+    - "containerd.io"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CONTAINER
+    - DOCKER
+    - K8S
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Containerd is an industry-standard container runtime that manages the complete container
+    lifecycle on a host system including image transfer and storage, container execution and
+    supervision, low-level storage, and network attachments. Originally developed as a component
+    of Docker, containerd was extracted as a standalone daemon and donated to the CNCF. It serves
+    as the default container runtime for Kubernetes since the deprecation of dockershim.
+  why: >-
+    Containerd is the most widely deployed container runtime in production Kubernetes clusters,
+    making it a critical infrastructure component. Vulnerabilities in containerd can lead to
+    container escapes, host compromise, and cluster-wide breaches. Securing containerd involves
+    restricting its socket access, enabling runtime security profiles (AppArmor, seccomp), and
+    keeping it patched against known CVEs including container escape vulnerabilities.
+  how: >-
+    Containerd runs as a daemon exposing a gRPC API over a Unix domain socket. It uses runc
+    (or alternative OCI runtimes) as the low-level runtime for creating containers. The CRI
+    plugin enables Kubernetes kubelet to communicate with containerd. Images are pulled from
+    registries, stored as content-addressable objects, and unpacked into snapshots. Container
+    lifecycle operations are managed through the API. Configuration is via
+    /etc/containerd/config.toml.
+  core_concepts:
+    - key: "CRI Implementation"
+      value: "Implements the Kubernetes Container Runtime Interface, serving as the bridge between kubelet and low-level container operations"
+    - key: "OCI Runtime Delegation"
+      value: "Delegates actual container creation to OCI-compliant runtimes like runc while managing image, snapshot, and lifecycle operations"
+    - key: "Content-Addressable Storage"
+      value: "Stores container images as content-addressable objects with snapshot-based filesystem management for efficient storage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Containerd is a specific implementation of a container runtime"
+  - type: "enables"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "Containerd is the default CRI runtime for Kubernetes container execution"
+  - type: "enables"
+    target: "INFRA-COMPUTE-APPLCONT-001"
+    description: "Containerd executes and manages application container lifecycles"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Containerd Documentation - containerd.io"
+    - "CNCF Containerd Project"
+    - "Kubernetes Container Runtime Interface Documentation"
+  search_keywords:
+    - "containerd"
+    - "container runtime"
+    - "containerd CRI"
+    - "kubernetes runtime"
+    - "containerd security"
+    - "container daemon"
+    - "OCI runtime"
+  embedding_text: >-
+    Containerd is an industry-standard container runtime managing the complete container lifecycle
+    including image transfer, container execution, storage, and network attachments. Originally
+    from Docker, it is now a CNCF project and the default Kubernetes container runtime via the
+    CRI plugin. Containerd runs as a daemon exposing a gRPC API, delegates to runc for container
+    creation, and stores images as content-addressable objects. Security concerns include container
+    escape vulnerabilities, socket access restriction, and runtime security profiles (AppArmor,
+    seccomp). Configuration is managed via /etc/containerd/config.toml.

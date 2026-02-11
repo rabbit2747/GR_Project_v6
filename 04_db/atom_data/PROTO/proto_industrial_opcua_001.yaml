@@ -1,0 +1,141 @@
+# GR Atom: OPC UA Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-OPCUA-001"
+  name: "OPC UA Protocol"
+  normalized_name: "opc_ua_protocol"
+  aliases:
+    - "OPC UA"
+    - "OPC Unified Architecture"
+    - "IEC 62541"
+    - "OPC UA Binary"
+    - "OPC UA HTTPS"
+    - "UA TCP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    OPC UA (Open Platform Communications Unified Architecture) is a platform-independent,
+    service-oriented industrial communication framework standardized as IEC 62541. Developed by
+    the OPC Foundation, OPC UA provides secure, reliable data exchange between industrial
+    automation systems, replacing the Windows-only DCOM-dependent OPC Classic. The protocol
+    supports multiple transport bindings: UA TCP (binary, port 4840), HTTPS (port 443), and
+    WebSockets. OPC UA defines an information model using nodes, references, and attributes in
+    an address space, supporting data access, alarms, events, historical data, and method calls.
+    It includes built-in security with X.509 certificate-based authentication, message signing
+    and encryption (AES-256-CBC, RSA-OAEP), and user-level authorization.
+  why: >-
+    OPC UA is significant because it is the first industrial protocol designed with comprehensive
+    security from inception, making it the recommended migration target for replacing insecure
+    legacy protocols (Modbus, DNP3, OPC Classic). However, OPC UA security depends on proper
+    configuration - many deployments use SecurityPolicy None (no encryption or signing) for
+    ease of setup, negating the security benefits. Research has identified vulnerabilities in
+    OPC UA implementations including buffer overflows, denial-of-service vectors, and certificate
+    validation flaws (CVE-2022-29864, CVE-2022-29865). OPC UA is central to Industry 4.0 and
+    Industrial IoT architectures, bridging OT and IT networks and creating new attack surfaces
+    where improperly secured OPC UA servers expose industrial data to enterprise networks.
+    Understanding OPC UA security configuration is essential for modern ICS security.
+  how: >-
+    OPC UA security operates through a multi-layer model: (1) Transport Security - UA TCP uses
+    its own security layer with message signing (HMAC-SHA2-256) and encryption (AES-256-CBC),
+    while HTTPS transport leverages TLS; (2) Application Security - X.509 certificates
+    authenticate both client and server applications, with certificate stores managing trust
+    relationships; (3) User Authentication - supports anonymous, username/password, X.509
+    certificate, and JWT token mechanisms; (4) Authorization - role-based access control on the
+    address space, restricting read/write/browse/subscribe permissions per node; (5) Audit
+    Logging - configurable audit trail for security-relevant events. Security policies define
+    the combination of algorithms used: None (no security), Basic128Rsa15 (deprecated),
+    Basic256 (deprecated), Basic256Sha256 (minimum recommended), and Aes128_Sha256_RsaOaep or
+    Aes256_Sha256_RsaPss (current best practice). Proper deployment requires enforcing non-None
+    security policies, implementing certificate lifecycle management, configuring role-based
+    access control, enabling audit logging, and network segmentation at OPC UA server boundaries.
+  core_concepts:
+    - key: "Security Policy"
+      value: >-
+        The OPC UA configuration specifying the cryptographic algorithms for message signing
+        and encryption. SecurityPolicy None disables all security; Basic256Sha256 is the minimum
+        recommended policy. Misconfigured security policies are the most common OPC UA
+        vulnerability in real-world deployments.
+    - key: "Certificate-Based Authentication"
+      value: >-
+        OPC UA's mutual authentication mechanism using X.509 certificates where both client and
+        server present certificates to verify identity, establishing a trusted communication
+        channel independent of network-level controls.
+    - key: "Information Model"
+      value: >-
+        OPC UA's structured address space of typed nodes, references, and attributes that
+        provides a standardized way to represent industrial data, methods, and events. The
+        information model enables fine-grained access control to specific data points and
+        operations.
+    - key: "IT/OT Convergence Gateway"
+      value: >-
+        OPC UA's role as the bridge between operational technology and enterprise IT systems,
+        providing secure, standardized access to industrial data for analytics, ERP integration,
+        and cloud services while maintaining security boundaries through proper configuration.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "OPC UA is a security-aware industrial protocol within the ICS protocol family designed to replace insecure legacy protocols"
+  - type: "supersedes"
+    target: "PROTO-INDUSTRIAL-MODBUS-001"
+    description: "OPC UA is the recommended authenticated replacement for unauthenticated Modbus in modern ICS architectures"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "OPC UA binary transport operates over TCP port 4840 with optional HTTPS transport on port 443"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IEC 62541 - OPC Unified Architecture. International Electrotechnical Commission."
+    - "OPC Foundation - OPC UA Specification. https://opcfoundation.org/developer-tools/specifications-unified-architecture"
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+    - "Claroty Research - OPC UA Deep Dive Security Analysis. Claroty Team82."
+  search_keywords:
+    - "OPC UA"
+    - "OPC Unified Architecture"
+    - "IEC 62541"
+    - "OPC UA security"
+    - "industrial IoT protocol"
+    - "OPC UA certificate"
+    - "port 4840"
+    - "OPC UA security policy"
+    - "Industry 4.0 protocol"
+    - "OPC Classic replacement"
+    - "IT OT convergence"
+    - "OPC UA authentication"
+  embedding_text: >-
+    OPC UA (IEC 62541) is a platform-independent industrial communication framework with built-in
+    security, designed to replace insecure legacy protocols like Modbus and OPC Classic. It
+    supports UA TCP (port 4840) and HTTPS transport with X.509 certificate-based mutual
+    authentication, message signing and encryption, user-level authorization, and audit logging.
+    Security depends on proper configuration - SecurityPolicy None is commonly deployed but
+    negates all security benefits. OPC UA bridges OT and IT networks for Industry 4.0, creating
+    new attack surfaces when improperly configured. Vulnerabilities have been found in
+    implementations including buffer overflows and certificate validation flaws. Best practice
+    requires enforcing non-None security policies, certificate lifecycle management, role-based
+    access control, audit logging, and network segmentation at OPC UA boundaries.

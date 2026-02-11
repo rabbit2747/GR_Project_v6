@@ -1,0 +1,100 @@
+# GR Atom: NTP Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-NTP-001"
+  name: "NTP Protocol"
+  normalized_name: "ntp_protocol"
+  aliases:
+    - "NTP"
+    - "Network Time Protocol"
+    - "RFC 5905"
+    - "NTPv4"
+    - "SNTP"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - SNMP
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    The Network Time Protocol (NTP) is an application layer protocol for synchronizing clocks of
+    computer systems over packet-switched networks. Defined in RFC 5905 (NTPv4), NTP uses a
+    hierarchical stratum system where Stratum 0 devices (atomic clocks, GPS receivers) provide
+    reference time to Stratum 1 servers, which cascade to lower strata. NTP operates over UDP
+    port 123 and can achieve synchronization accuracy within milliseconds on LANs and tens of
+    milliseconds over the internet. The protocol uses intersection and clustering algorithms to
+    select the best time sources and mitigate network jitter.
+  why: >-
+    Accurate time synchronization is critical for security operations — log correlation, digital
+    certificates, Kerberos authentication (5-minute tolerance), TLS session management, and
+    forensic timelines all depend on synchronized clocks. NTP attacks can undermine these
+    controls: time shifting can expire certificates or bypass time-based security tokens, NTP
+    amplification attacks exploit monlist commands for DDoS, and NTP spoofing can desynchronize
+    logs to hinder incident investigation. CVE-2014-9295 exposed multiple critical NTP
+    vulnerabilities. NTS (Network Time Security, RFC 8915) adds authentication to NTP.
+  how: >-
+    NTP operates through a client-server/peer model over UDP port 123: (1) Client sends request
+    packet with origin timestamp; (2) Server returns response with reference, receive, and
+    transmit timestamps; (3) Client calculates round-trip delay and clock offset using the four
+    timestamps; (4) Clock discipline algorithm gradually adjusts local clock to match reference
+    time. NTP uses multiple servers and statistical filtering to resist Byzantine failures.
+    Configuration includes server pool selection (pool.ntp.org), access control lists, and
+    optionally NTS for cryptographic authentication of time sources.
+  core_concepts:
+    - key: "Stratum Hierarchy"
+      value: "Numbered levels of time source accuracy — Stratum 0 (reference clocks), Stratum 1 (directly connected), down to Stratum 15, with Stratum 16 indicating unsynchronized."
+    - key: "NTP Amplification Attack"
+      value: "DDoS technique exploiting NTP monlist command to generate large response packets from small requests, achieving amplification factors of 500x or more."
+    - key: "Network Time Security (NTS)"
+      value: "RFC 8915 extension providing cryptographic authentication for NTP, preventing time source spoofing and man-in-the-middle attacks."
+    - key: "Clock Discipline Algorithm"
+      value: "Feedback control system that gradually adjusts the local clock using phase-locked loop techniques to achieve smooth, accurate time convergence."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "NTP is an application layer protocol for network time synchronization"
+  - type: "enables"
+    target: "PROTO-MSG-HEARTBEAT-001"
+    description: "Accurate NTP synchronization is essential for coordinated heartbeat timing and timeout calculations across distributed systems"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 5905 — Network Time Protocol Version 4: Protocol and Algorithms Specification"
+    - "IETF RFC 8915 — Network Time Security for the Network Time Protocol"
+    - "CVE-2014-9295 — Multiple NTP Vulnerabilities. NIST NVD"
+    - "US-CERT — NTP Amplification Attacks Advisory"
+  search_keywords:
+    - "NTP"
+    - "network time protocol"
+    - "RFC 5905"
+    - "time synchronization"
+    - "NTP amplification"
+    - "stratum"
+    - "port 123"
+    - "NTS"
+    - "clock synchronization"
+  embedding_text: >-
+    NTP (Network Time Protocol, RFC 5905) synchronizes computer clocks over networks using a
+    hierarchical stratum system and UDP port 123. NTP achieves millisecond accuracy on LANs using
+    intersection algorithms and clock discipline techniques. Accurate time is critical for security
+    operations including log correlation, Kerberos authentication, certificate validation, and
+    forensic timelines. NTP attacks include amplification DDoS exploiting monlist commands, time
+    spoofing to expire certificates, and desynchronization to hinder investigation. Network Time
+    Security (NTS, RFC 8915) adds cryptographic authentication. Multiple critical vulnerabilities
+    (CVE-2014-9295) have affected NTP implementations.

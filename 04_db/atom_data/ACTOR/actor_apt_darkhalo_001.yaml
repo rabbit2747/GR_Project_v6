@@ -1,0 +1,88 @@
+# GR Atom: DarkHalo
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DARKHALO-001"
+  name: "DarkHalo"
+  normalized_name: "darkhalo"
+  aliases:
+    - "StellarParticle"
+    - "UNC2452"
+    - "NOBELIUM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - SUPPLY_CHAIN
+    - INITIAL
+    - PERSIST
+    - EVADE
+    - CLOUD
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DarkHalo is a threat activity designation used by Volexity and other researchers to track the Russian APT group responsible for the SolarWinds Orion supply chain compromise in 2020. This activity cluster is widely assessed to overlap with APT29/Cozy Bear/Midnight Blizzard. DarkHalo was the first name publicly applied to the actor that trojanized the SolarWinds Orion software update process, distributing the SUNBURST backdoor to approximately 18,000 organizations including U.S. government agencies."
+  why: "DarkHalo represents one of the most significant supply chain compromises in cybersecurity history. The SolarWinds operation demonstrated that even organizations with strong perimeter security could be compromised through trusted software update channels. The campaign's scope, sophistication, and impact on U.S. government agencies elevated supply chain security as a top national security priority."
+  how: "The group infiltrated SolarWinds' build environment and inserted the SUNBURST backdoor into legitimate Orion software updates. Once deployed in target environments, SUNBURST communicated with C2 infrastructure using DNS-based covert channels disguised as legitimate SolarWinds traffic. The group selectively activated second-stage payloads (TEARDROP, Raindrop) on high-value targets. Post-compromise activities included SAML token forgery (GoldenSAML) for persistent Azure AD access, OAuth application abuse, and mailbox data exfiltration."
+  core_concepts:
+    - key: "SUNBURST Backdoor"
+      value: "Trojanized SolarWinds Orion DLL distributed through legitimate software updates to approximately 18,000 organizations"
+    - key: "GoldenSAML Attack"
+      value: "SAML token forgery enabling persistent access to cloud services without valid credentials"
+    - key: "Build Process Compromise"
+      value: "Infiltrated the SolarWinds software build environment to inject malicious code into legitimate updates"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-COZYBEAR-001"
+    description: "DarkHalo is an activity designation that overlaps with APT29/Cozy Bear/Midnight Blizzard"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Conducted supply chain compromise through the SolarWinds Orion build process"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Defense Evasion"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Volexity - DarkHalo SolarWinds Analysis"
+    - "CrowdStrike - StellarParticle Investigation"
+    - "FireEye/Mandiant - UNC2452 SUNBURST Report"
+  search_keywords:
+    - "darkhalo"
+    - "stellarparticle"
+    - "unc2452"
+    - "solarwinds backdoor"
+    - "sunburst malware"
+    - "goldensam attack"
+    - "supply chain apt"
+    - "teardrop malware"
+    - "solarwinds orion compromise"
+    - "saml token forgery"
+  embedding_text: "DarkHalo is a threat activity designation used by Volexity to track the Russian APT group responsible for the SolarWinds Orion supply chain compromise in 2020, overlapping with APT29/Cozy Bear/Midnight Blizzard. The group infiltrated SolarWinds' build environment and inserted the SUNBURST backdoor into legitimate Orion software updates, distributing it to approximately 18,000 organizations including U.S. government agencies. SUNBURST used DNS-based covert C2 channels disguised as legitimate traffic. The group selectively deployed second-stage payloads TEARDROP and Raindrop on high-value targets. Post-compromise techniques included GoldenSAML token forgery for persistent Azure AD access and OAuth application abuse. The operation represents one of the most significant supply chain compromises in cybersecurity history."

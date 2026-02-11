@@ -1,0 +1,121 @@
+# GR Atom: EcoStruxure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-ECOSTRUXUR-001"
+  name: "EcoStruxure"
+  normalized_name: "ecostruxure"
+  aliases:
+    - "Schneider Electric EcoStruxure"
+    - "EcoStruxure Control Expert"
+    - "EcoStruxure Machine Expert"
+    - "EcoStruxure Building Operation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - IOT
+    - NETWORK
+    - FIRMWARE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z5"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    EcoStruxure is Schneider Electric's IoT-enabled, open, interoperable architecture and platform
+    for industrial automation, building management, power distribution, and data center
+    infrastructure. The platform spans three layers: connected products (sensors, actuators,
+    PLCs, drives), edge control (SCADA, BMS, DCS), and apps/analytics/services (cloud-based
+    monitoring, predictive maintenance). Key components include EcoStruxure Control Expert
+    (formerly Unity Pro) for PLC programming, EcoStruxure Machine Expert for machine automation,
+    and EcoStruxure Building Operation for building management systems.
+  why: >-
+    EcoStruxure manages critical infrastructure across industrial, building, and power
+    distribution domains, making it a high-value target for ICS attacks. Vulnerabilities in
+    EcoStruxure components have been documented in multiple CISA/ICS-CERT advisories including
+    authentication bypass, hardcoded credentials, and remote code execution in Control Expert
+    (CVE-2020-7488, CVE-2020-7489). The TRITON/TRISIS malware campaign targeted Schneider
+    Electric Triconex safety systems. Compromise of EcoStruxure can affect physical safety
+    systems, building access controls, power distribution, and industrial processes.
+  how: >-
+    EcoStruxure operates through a layered architecture. At the product layer, Modicon PLCs,
+    Altivar drives, and PowerLogic meters communicate via Modbus TCP/IP, EtherNet/IP, and
+    OPC UA. The edge control layer runs SCADA servers, HMI panels, and DCS controllers that
+    aggregate data and execute control logic. The cloud layer provides analytics dashboards,
+    predictive maintenance algorithms, and remote monitoring. Programming and configuration
+    use proprietary tools (Control Expert, Machine Expert) communicating with controllers
+    over industrial protocols. Security features include role-based access control, encrypted
+    communications, and cybersecurity modules integrated into newer product lines.
+  core_concepts:
+    - key: "Layered IoT Architecture"
+      value: "Three-tier architecture spanning connected products, edge control, and cloud analytics for comprehensive industrial and building automation"
+    - key: "Multi-Domain Platform"
+      value: "Unified platform covering industrial automation, building management, power distribution, and data center infrastructure"
+    - key: "Modicon PLC Integration"
+      value: "EcoStruxure Control Expert programs and manages Schneider Electric Modicon M340, M580, and Premium PLCs for industrial process control"
+    - key: "OT/IT Convergence"
+      value: "Platform bridges operational technology and information technology through cloud connectivity, creating expanded attack surfaces requiring defense-in-depth"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-ENDPOINT-FACTORYTAL-001"
+    description: "EcoStruxure competes with Rockwell FactoryTalk as an integrated industrial automation platform"
+  - type: "requires"
+    target: "INFRA-ENDPOINT-CONTROLLOG-001"
+    description: "EcoStruxure may integrate with Allen-Bradley controllers in multi-vendor industrial environments via EtherNet/IP"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0855"
+    tactic:
+      - "Impair Process Control"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Schneider Electric - EcoStruxure Architecture Overview"
+    - "CISA ICS-CERT Advisories for Schneider Electric EcoStruxure"
+    - "MITRE ATT&CK for ICS - Schneider Electric Controller Techniques"
+  search_keywords:
+    - "EcoStruxure"
+    - "Schneider Electric"
+    - "EcoStruxure Control Expert"
+    - "Unity Pro"
+    - "Modicon PLC"
+    - "building management system"
+    - "industrial automation platform"
+    - "SCADA Schneider"
+    - "EcoStruxure vulnerability"
+  embedding_text: >-
+    EcoStruxure is Schneider Electric's IoT-enabled architecture and platform for industrial
+    automation, building management, power distribution, and data center infrastructure. It
+    spans three layers: connected products (sensors, PLCs, drives), edge control (SCADA, BMS,
+    DCS), and cloud analytics. Key components include Control Expert for PLC programming,
+    Machine Expert for machine automation, and Building Operation for building management.
+    EcoStruxure manages critical infrastructure across multiple domains, making it a high-value
+    ICS target. Multiple CISA advisories document vulnerabilities including authentication
+    bypass and remote code execution (CVE-2020-7488, CVE-2020-7489). The TRITON malware
+    campaign targeted Schneider Electric safety systems. The platform uses Modbus TCP/IP,
+    EtherNet/IP, and OPC UA protocols, with security features including RBAC, encrypted
+    communications, and cybersecurity modules in newer product lines.

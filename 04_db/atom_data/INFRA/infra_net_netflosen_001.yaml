@@ -1,0 +1,74 @@
+# GR Atom: Network Flow Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-NETFLOSEN-001"
+  name: "Network Flow Sensor"
+  normalized_name: "network_flow_sensor"
+  aliases:
+    - "NetFlow Sensor"
+    - "Flow Collector"
+    - "sFlow Sensor"
+    - "IPFIX Sensor"
+    - "Network Traffic Flow Monitor"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - LOG
+    - SIEM
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z4"
+  function: "N3.1"
+
+definition:
+  what: "A Network Flow Sensor is a monitoring device or software agent that captures metadata about network traffic flows without inspecting packet payloads. It collects flow records containing source and destination IP addresses, ports, protocols, byte counts, packet counts, timestamps, TCP flags, and interface information. Flow sensors implement standards such as Cisco NetFlow (v5, v9), IETF IPFIX (IP Flow Information Export), sFlow (sampled flow), and J-Flow. They can be embedded in network devices such as routers and switches through flow export features, deployed as dedicated hardware appliances, or implemented as software probes on servers and virtual infrastructure. Flow data is exported to centralized flow collectors for storage, analysis, and correlation."
+  why: "Network flow sensors are essential for security monitoring, network forensics, and operational visibility because they provide a scalable method to track all network communications without the storage and processing overhead of full packet capture. Flow data enables detection of anomalous traffic patterns, lateral movement, data exfiltration, command-and-control beaconing, DDoS attacks, and unauthorized services. Flow records serve as evidence in incident investigations by establishing communication timelines between hosts. They complement packet-level analysis by providing broad coverage across high-bandwidth networks where full packet capture is impractical."
+  how: "Network flow sensors observe traffic passing through a monitoring point, either through dedicated SPAN/mirror ports, inline TAP devices, or built-in flow export on routers and switches. The sensor aggregates packets into flows based on a key tuple typically consisting of source IP, destination IP, source port, destination port, protocol, and interface. Flow records are generated when flows expire due to inactivity timeout, active timeout, or TCP session termination. The sensor exports completed flow records to one or more collectors using NetFlow, IPFIX, or sFlow protocols. Collectors store flow data in databases, perform baseline analysis, apply detection rules, and generate alerts for anomalous patterns. Integration with SIEM platforms enables correlation of flow data with other security events."
+  core_concepts:
+    - key: "Flow Record"
+      value: "A metadata record describing a unidirectional network communication session including addresses, ports, protocol, byte and packet counts, timestamps, and TCP flags"
+    - key: "Flow Export Protocols"
+      value: "Standardized protocols including NetFlow v5/v9, IPFIX, and sFlow used to transmit flow records from sensors to centralized collectors for analysis"
+    - key: "Traffic Baseline"
+      value: "A statistical model of normal network flow patterns used to detect deviations indicating security incidents, performance issues, or policy violations"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-NETWSENS-001"
+    description: "Network flow sensors are a specific type of network sensor focused on flow-level metadata collection"
+  - type: requires
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Flow sensors often rely on router and switch infrastructure for flow export capabilities and SPAN port access"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Network flow sensors are deployed at DMZ boundaries to monitor traffic crossing security zone boundaries"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 7011 - Specification of the IPFIX Protocol - https://datatracker.ietf.org/doc/html/rfc7011"
+    - "Cisco - NetFlow Configuration Guide - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/netflow/"
+    - "NIST SP 800-86 - Guide to Integrating Forensic Techniques into Incident Response"
+  search_keywords:
+    - "network flow sensor"
+    - "NetFlow sensor"
+    - "IPFIX sensor"
+    - "sFlow sensor"
+    - "flow collector"
+    - "network traffic monitoring"
+    - "flow analysis"
+    - "network flow data"
+    - "traffic baseline"
+  embedding_text: "A Network Flow Sensor captures metadata about network traffic flows without inspecting packet payloads, collecting records containing source and destination addresses, ports, protocols, byte counts, and timestamps. Implementing standards like NetFlow, IPFIX, and sFlow, these sensors can be embedded in network devices, deployed as dedicated appliances, or run as software probes. Flow data is exported to centralized collectors for storage, analysis, and correlation with SIEM platforms. Flow sensors enable detection of anomalous traffic, lateral movement, data exfiltration, C2 beaconing, and DDoS attacks while providing forensic evidence of network communications. They offer scalable monitoring for high-bandwidth networks where full packet capture is impractical."

@@ -1,0 +1,84 @@
+# GR Atom: File Creation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILECREA-002"
+  name: "File Creation"
+  normalized_name: "file_creation"
+  aliases:
+    - "File Creation Activity"
+    - "New File Written"
+    - "File System Write Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A specific file creation activity record representing an individual instance when a new file is written to the endpoint file system. This event captures granular details including the full file path, file size, initial content hash, the creating process image and command line, parent process context, user and session information, file owner, and creation timestamp. The file creation record serves as the primary evidence artifact for tracking when and how new files appear on managed endpoints."
+  why: "Individual file creation records enable precise attribution of file drops to specific processes and user actions. This granularity is essential for forensic investigation of malware delivery chains, identifying exactly which process wrote a malicious file, and establishing timeline evidence during incident response. Creation records also support automated response actions such as file quarantine and process termination."
+  how: "Captured through EDR kernel mini-filter callbacks on IRP_MJ_CREATE with FILE_CREATE disposition, Sysmon Event 11, and Windows Security Event 4663 with write access flags. Each creation event is enriched with file hash computation, process genealogy lookup, and reputation scoring. Events are indexed by file path, hash, and process identity for efficient retrieval during hunting and investigation workflows."
+  core_concepts:
+    - key: "File Hash"
+      value: "Cryptographic hash computed on file content at creation time, enabling identification and reputation lookup of the newly created file"
+    - key: "Process Genealogy"
+      value: "The parent-child process chain that led to the file creation, critical for attributing file drops to their originating attack chain"
+    - key: "IRP_MJ_CREATE"
+      value: "The I/O Request Packet for file create operations in the Windows kernel, intercepted by mini-filter drivers for security monitoring"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: instance_of
+    target: "DETECT-ENDPOINT-FILECREA-001"
+    description: "Specific file creation instance of the general file create detection pattern"
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File creation events are part of the broader file event category"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic:
+      - "Command and Control"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Sysinternals - Sysmon Event 11"
+    - "OCSF File Activity Event Schema"
+    - "Windows Internals - I/O System"
+  search_keywords:
+    - "file creation"
+    - "file written"
+    - "new file event"
+    - "file drop"
+    - "file hash"
+    - "process genealogy"
+    - "IRP_MJ_CREATE"
+    - "file system write"
+  embedding_text: "File Creation is a specific endpoint detection event record representing an individual instance of a new file being written to the file system. The event captures full file path, size, content hash, creating process image and command line, parent process context, user information, and timestamp. This granular record enables precise attribution of file drops to specific processes, forensic investigation of malware delivery chains, and automated response actions. Events are captured through EDR kernel mini-filter callbacks on IRP_MJ_CREATE, Sysmon Event 11, and Windows Security Event 4663, enriched with hash computation, process genealogy, and reputation scoring."

@@ -1,0 +1,69 @@
+# GR Atom: DarkCoderSC
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DARKCODERS-001"
+  name: "DarkCoderSC"
+  normalized_name: "darkcodersc"
+  aliases:
+    - "Jean-Pierre LESUEUR"
+    - "Phrozen Software"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WINDOWS
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DarkCoderSC (Jean-Pierre LESUEUR) is an independent security researcher and developer known for creating open-source Windows security tools and utilities. Operating under the Phrozen Software brand, DarkCoderSC develops tools for Windows system monitoring, DLL analysis, process analysis, and security research. Notable tools include SubSeven Legacy, PowerRemoteDesktop, and various Windows security utilities published on GitHub."
+  why: "DarkCoderSC is relevant to cybersecurity as a contributor of open-source Windows security research tools used by penetration testers, red teamers, and security researchers. Their tools provide capabilities for Windows system analysis, remote administration, and security testing that are used in both offensive and defensive security operations."
+  how: "DarkCoderSC develops and publishes open-source security tools primarily written in Delphi and PowerShell, focusing on Windows internals, process manipulation, DLL injection analysis, and remote desktop capabilities. The tools are distributed through GitHub repositories and provide hands-on capabilities for security researchers and penetration testers working with Windows systems."
+  core_concepts:
+    - key: "Windows Security Tools"
+      value: "Open-source utilities for Windows system monitoring, DLL analysis, process analysis, and security research"
+    - key: "Security Research"
+      value: "Independent security research focused on Windows internals and system-level security testing"
+    - key: "Open Source Contributions"
+      value: "Publicly available tools on GitHub used by penetration testers and security researchers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-PENTEST-WINDOWS-001"
+    description: "Produces open-source Windows security research and penetration testing tools"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for independent security researcher
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://github.com/DarkCoderSc"
+    - "https://www.phrozen.io"
+  search_keywords:
+    - "darkcodersc"
+    - "jean-pierre lesueur"
+    - "phrozen software"
+    - "windows security tools"
+    - "subseven legacy"
+    - "powerremotedesktop"
+    - "delphi security tools"
+  embedding_text: "DarkCoderSC (Jean-Pierre LESUEUR) is an independent security researcher and developer known for creating open-source Windows security tools and utilities under the Phrozen Software brand. The developer creates tools for Windows system monitoring, DLL analysis, process analysis, and security research, including SubSeven Legacy, PowerRemoteDesktop, and various Windows security utilities published on GitHub. These tools are written primarily in Delphi and PowerShell, focusing on Windows internals, process manipulation, DLL injection analysis, and remote desktop capabilities. DarkCoderSC's contributions are used by penetration testers, red teamers, and security researchers working with Windows systems for both offensive and defensive security operations."

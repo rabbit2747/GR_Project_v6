@@ -1,0 +1,89 @@
+# GR Atom: File Download
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEDOWN-001"
+  name: "File Download"
+  normalized_name: "file_download"
+  aliases:
+    - "File Download Detection"
+    - "Download Activity Monitoring"
+    - "Ingress File Transfer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - NETWORK
+    - LOG
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for monitoring file download operations on endpoints. This covers files retrieved from external sources via HTTP/HTTPS, FTP, SMB, and other protocols, as well as downloads initiated by browsers, email clients, scripting engines, and command-line tools. Detection captures the downloaded file path, source URL or host, downloading process, file size, content type, and the Mark of the Web (MOTW) zone identifier applied by the operating system."
+  why: "File downloads are the primary vector for malware delivery, tool staging, and payload retrieval during attacks. Initial access frequently begins with a user downloading a weaponized document or executable. Post-compromise, attackers download additional tools and payloads from command-and-control infrastructure. Monitoring downloads enables early detection of malicious payload delivery and tool transfer activity."
+  how: "Monitor file creation events in common download directories (Downloads, Temp, AppData) combined with Zone.Identifier alternate data stream creation indicating external origin. Track browser and email client file save operations through ETW providers. Monitor network-aware processes (PowerShell, certutil, curl, wget, bitsadmin) for file retrieval operations. Correlate download events with source URL reputation and file content analysis."
+  core_concepts:
+    - key: "Mark of the Web"
+      value: "Windows security feature that tags downloaded files with their origin zone through the Zone.Identifier alternate data stream, enabling security prompts for untrusted content"
+    - key: "Download Vector Analysis"
+      value: "Identifying the method and tool used for file download to assess risk level and potential malicious intent"
+    - key: "LOLBin Downloads"
+      value: "Use of legitimate Windows binaries (certutil, bitsadmin, PowerShell) to download files, a common attacker technique to avoid detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File download is a specific type of file event involving external sources"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILECREA-001"
+    description: "Downloaded files create new files on the endpoint"
+  - type: effective_against
+    target: "ATK-DELIVERY-PAYLOAD-001"
+    description: "Detects payload delivery through file download mechanisms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic:
+      - "Command and Control"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1105 - Ingress Tool Transfer"
+    - "Microsoft Documentation - Mark of the Web"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file download"
+    - "download detection"
+    - "Mark of the Web"
+    - "Zone.Identifier"
+    - "ingress tool transfer"
+    - "payload delivery"
+    - "LOLBin download"
+    - "certutil download"
+    - "bitsadmin"
+  embedding_text: "File Download is an endpoint detection pattern for monitoring file download operations from external sources. This covers files retrieved via HTTP, HTTPS, FTP, SMB, and other protocols by browsers, email clients, scripting engines, and command-line tools. Detection captures downloaded file path, source URL, downloading process, file size, and Mark of the Web zone identifier. Monitoring focuses on common download directories, Zone.Identifier alternate data stream creation, network-aware process activity including LOLBins like certutil and bitsadmin, and correlation with source URL reputation. File downloads are the primary vector for malware delivery and post-compromise tool staging."

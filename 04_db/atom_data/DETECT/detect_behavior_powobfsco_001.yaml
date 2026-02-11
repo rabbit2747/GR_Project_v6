@@ -1,0 +1,80 @@
+# GR Atom: PowerShell Obfuscation Score
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-POWOBFSCO-001"
+  name: "PowerShell Obfuscation Score"
+  normalized_name: "powershell_obfuscation_score"
+  aliases:
+    - "PowerShell Obfuscation Detection"
+    - "PS Obfuscation Scoring"
+    - "Script Obfuscation Analysis"
+    - "PowerShell Evasion Score"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - EVADE
+    - EDR
+    - WINDOWS
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "PowerShell Obfuscation Score is a detection metric that quantifies the degree of obfuscation present in PowerShell commands and scripts, producing a numerical score indicating the likelihood that the code is intentionally obfuscated to evade detection. The scoring evaluates multiple obfuscation indicators including character frequency analysis, string concatenation patterns, encoding layers such as Base64 and XOR, variable substitution chains, backtick insertion, case randomization, command aliasing, and overall script entropy. Legitimate PowerShell scripts exhibit predictable patterns while obfuscated malicious scripts show characteristic deviations across these dimensions."
+  why: "PowerShell is the most commonly abused living-off-the-land binary on Windows systems, used in the majority of fileless attacks, post-exploitation frameworks, and automated attack toolkits. Attackers obfuscate PowerShell commands to evade AMSI scanning, command-line logging analysis, and signature-based detection rules. Obfuscation techniques range from simple Base64 encoding to sophisticated multi-layer transformations using string concatenation, character code substitution, and compression. Quantifying the degree of obfuscation enables detection of evasion attempts regardless of the specific technique used, catching both known and novel obfuscation methods through statistical analysis rather than pattern matching."
+  how: "The obfuscation scoring engine analyzes PowerShell command-line arguments captured from process creation events, ScriptBlock logging, and AMSI events. Multiple scoring dimensions are evaluated: entropy analysis measures character randomness with high entropy suggesting encoding; character frequency analysis identifies abnormal distributions like excessive use of special characters, backticks, or escape sequences; structural analysis detects string concatenation chains, invoke-expression patterns, and variable reassignment chains used to build commands dynamically; encoding detection identifies Base64 encoded blocks, hex-encoded strings, and compressed byte arrays; command aliasing analysis detects the use of aliases and abbreviated cmdlet names to obscure intent. Each dimension produces a sub-score that is weighted and combined into a composite obfuscation score. Thresholds determine automated actions: high-score commands are blocked and investigated, medium-score commands are logged with enhanced monitoring, and low-score commands proceed normally. The scoring model is trained on datasets of legitimate administrative PowerShell and known-malicious obfuscated scripts."
+  core_concepts:
+    - key: "Multi-Layer Obfuscation"
+      value: "The practice of applying multiple encoding and transformation layers to PowerShell commands, each layer increasing the obfuscation score"
+    - key: "AMSI Integration"
+      value: "Windows Antimalware Scan Interface that provides deobfuscated script content to security products, complementing command-line obfuscation scoring"
+    - key: "ScriptBlock Logging"
+      value: "PowerShell feature that logs deobfuscated script blocks after all decoding layers are processed, providing ground truth for obfuscation analysis"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-ENTRSCOR-001"
+    description: "Entropy scoring is a key component of PowerShell obfuscation analysis"
+  - type: effective_against
+    target: "ATK-EXEC-POWERSHELL-001"
+    description: "Detects obfuscated PowerShell execution used in attacks"
+  - type: part_of
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "PowerShell obfuscation scoring is a specialized component within anomalous process detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.001"
+    tactic: ["Execution"]
+  defense_context:
+    effectiveness: "high"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1059.001 - Command and Scripting Interpreter: PowerShell - https://attack.mitre.org/techniques/T1059/001/"
+    - "Revoke-Obfuscation - PowerShell Obfuscation Detection Framework - https://github.com/danielbohannon/Revoke-Obfuscation"
+    - "Microsoft - PowerShell Logging and AMSI - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_logging"
+  search_keywords:
+    - "PowerShell obfuscation score"
+    - "PowerShell obfuscation detection"
+    - "script obfuscation analysis"
+    - "encoded PowerShell detection"
+    - "PowerShell evasion detection"
+    - "obfuscated command scoring"
+    - "PowerShell entropy analysis"
+    - "Invoke-Obfuscation detection"
+  embedding_text: "PowerShell Obfuscation Score quantifies the degree of obfuscation in PowerShell commands through multi-dimensional analysis including character frequency, string concatenation patterns, encoding layers like Base64 and XOR, variable substitution chains, backtick insertion, case randomization, and overall entropy. The composite score indicates likelihood of intentional evasion regardless of specific technique used. Analysis processes command-line arguments from process creation events, ScriptBlock logging, and AMSI events. High scores trigger blocking and investigation while medium scores enable enhanced monitoring. Trained on legitimate administrative PowerShell and known-malicious obfuscated scripts, this technique catches novel obfuscation methods through statistical analysis."

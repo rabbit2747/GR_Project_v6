@@ -1,0 +1,99 @@
+# GR Atom: DNS Beaconing
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-DNSBEAC-001"
+  name: "DNS Beaconing"
+  normalized_name: "dns_beaconing"
+  aliases:
+    - "DNS C2 Beaconing"
+    - "DNS Tunneling Detection"
+    - "DNS Callback Detection"
+    - "DNS Covert Channel Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - DNS
+    - IDS
+    - C2
+    - MONITOR
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A specific network detection pattern focused on identifying command-and-control beaconing and data exfiltration conducted through DNS protocol queries and responses. DNS beaconing encodes C2 communications within DNS query names, TXT records, or other DNS record types to an attacker-controlled authoritative nameserver. This technique exploits the fact that DNS traffic is rarely inspected or blocked by network security controls."
+  why: "DNS is one of the most commonly allowed protocols through firewalls and is frequently unmonitored. Adversaries exploit this permissiveness to establish covert C2 channels and exfiltrate data through DNS queries that appear normal to basic inspection. DNS beaconing detection is critical because it reveals a communication channel that can persist even when all other outbound protocols are blocked, making it a favored technique for advanced persistent threats."
+  how: "Detection analyzes DNS query patterns for beaconing indicators: high query frequency to a single domain, unusual subdomain lengths (often base64 or hex-encoded data), high entropy in queried hostnames, queries for uncommon record types (TXT, NULL, CNAME), consistent timing intervals between queries to the same domain, abnormal response sizes, and queries bypassing the organization's DNS resolvers. Statistical analysis of query-per-domain frequency distributions, subdomain character entropy, and N-gram analysis of query strings distinguish legitimate DNS activity from tunneling or beaconing."
+  core_concepts:
+    - key: "DNS Query Entropy"
+      value: "Measuring the randomness of characters in DNS subdomain queries to detect encoded data characteristic of tunneling."
+    - key: "Query Frequency Analysis"
+      value: "Monitoring the rate and regularity of DNS queries to specific domains to identify periodic beaconing patterns."
+    - key: "Subdomain Length Anomaly"
+      value: "Flagging unusually long subdomain strings that likely contain encoded command-and-control or exfiltration data."
+    - key: "Record Type Anomaly"
+      value: "Detecting unusual DNS record type requests such as TXT or NULL records commonly used for data tunneling."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: instance_of
+    target: "DETECT-NETWORK-BEACONING-001"
+    description: "DNS beaconing is a specific instance of the general beaconing detection pattern"
+  - type: instance_of
+    target: "DETECT-NETWORK-APPRABPA-001"
+    description: "DNS beaconing is a specific case of application protocol abuse"
+  - type: effective_against
+    target: "ATK-C2-DNS-001"
+    description: "Detects DNS-based command-and-control communication"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "DNS beaconing detection reveals channels commonly used for DNS-based data exfiltration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.004"
+    tactic:
+      - "Command and Control"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-DNSTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - DNS Application Layer Protocol T1071.004"
+    - "SANS Institute - Detecting DNS Tunneling"
+    - "Infoblox - DNS Threat Intelligence"
+    - "Akamai - DNS Data Exfiltration Detection"
+  search_keywords:
+    - "DNS beaconing"
+    - "DNS tunneling"
+    - "DNS C2"
+    - "DNS exfiltration"
+    - "DNS covert channel"
+    - "DNS query anomaly"
+    - "subdomain entropy"
+    - "DNS callback"
+    - "malicious DNS"
+    - "DNS data encoding"
+  embedding_text: "DNS beaconing detection identifies command-and-control communications and data exfiltration conducted through DNS protocol queries and responses. It analyzes DNS query patterns for indicators including high query frequency to single domains, unusual subdomain lengths with encoded data, high character entropy in hostnames, uncommon record type requests like TXT or NULL, and consistent timing intervals. Statistical methods including entropy analysis and N-gram profiling distinguish legitimate DNS from tunneling or beaconing activity. This detection is critical because DNS is rarely blocked or inspected, making it a favored channel for advanced persistent threats to maintain covert communications."

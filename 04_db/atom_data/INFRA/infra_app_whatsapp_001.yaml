@@ -1,0 +1,122 @@
+# GR Atom: WhatsApp
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WHATSAPP-001"
+  name: "WhatsApp"
+  normalized_name: "whatsapp"
+  aliases:
+    - "WhatsApp Messenger"
+    - "WhatsApp Business"
+    - "WhatsApp Web"
+    - "WhatsApp Desktop"
+    - "Meta WhatsApp"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - MOBILE
+    - WEB
+    - ENCRYPT
+    - PRIVACY
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    WhatsApp is a cross-platform messaging and voice-over-IP application owned by Meta
+    (Facebook) with over 2 billion users worldwide. It provides end-to-end encrypted text
+    messaging, voice calls, video calls, file sharing, group chats, and status updates.
+    WhatsApp Business offers enterprise features including catalogs, automated responses,
+    and customer communication APIs. Available on iOS, Android, web, and desktop platforms,
+    it is the dominant messaging application in many countries across Europe, Latin America,
+    Africa, and Asia.
+  why: >-
+    WhatsApp has been targeted by sophisticated spyware operations, most notably the Pegasus
+    spyware (NSO Group) which exploited a zero-click vulnerability (CVE-2019-3568) in
+    WhatsApp's VoIP stack to install surveillance software without user interaction. Despite
+    end-to-end encryption, WhatsApp metadata (contact lists, message timing, group memberships)
+    provides intelligence value. WhatsApp Web and Desktop clients expand the attack surface
+    through browser-based vulnerabilities. The platform is used for social engineering,
+    business email compromise (BEC) via WhatsApp Business, and distribution of malicious
+    links and files. Backup files stored in Google Drive or iCloud may not maintain E2E
+    encryption, creating data exposure risks.
+  how: >-
+    WhatsApp uses the Signal Protocol for end-to-end encryption of messages and calls.
+    Communication flows through WhatsApp servers (Meta infrastructure) which relay encrypted
+    messages between clients. The mobile app serves as the primary platform with WhatsApp
+    Web/Desktop mirroring the phone session via QR code pairing. Voice and video calls use
+    SRTP with the Signal Protocol for key exchange. WhatsApp Business API enables programmatic
+    messaging through approved Business Service Providers. Message backups can be stored
+    in Google Drive (Android) or iCloud (iOS) with optional E2E encrypted backup. Group
+    chats support up to 1024 participants with shared group encryption keys.
+  core_concepts:
+    - key: "Zero-Click Spyware Exploitation"
+      value: "WhatsApp's VoIP stack has been exploited by state-sponsored spyware (Pegasus) through zero-click vulnerabilities requiring no user interaction for device compromise"
+    - key: "Metadata Intelligence Value"
+      value: "Despite E2E encryption, WhatsApp metadata including contact lists, message timing, and group memberships provides significant intelligence for surveillance operations"
+    - key: "Backup Encryption Gap"
+      value: "Message backups in Google Drive or iCloud may lack E2E encryption by default, creating data exposure for messages that were encrypted in transit"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "WhatsApp is a consumer and enterprise messaging application used for communication and collaboration"
+  - type: "alternative_to"
+    target: "INFRA-APP-WECHAT-001"
+    description: "WhatsApp competes with WeChat as a global mobile messaging platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1437"
+    tactic:
+      - "Collection"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "WhatsApp Security Documentation"
+    - "Citizen Lab Pegasus Spyware Research"
+    - "MITRE ATT&CK T1437 - Application Layer Protocol"
+    - "CVE-2019-3568 - WhatsApp VoIP Buffer Overflow"
+  search_keywords:
+    - "WhatsApp"
+    - "WhatsApp security"
+    - "WhatsApp Pegasus"
+    - "WhatsApp vulnerability"
+    - "CVE-2019-3568"
+    - "WhatsApp spyware"
+    - "WhatsApp encryption"
+    - "WhatsApp Business security"
+  embedding_text: >-
+    WhatsApp is a Meta-owned cross-platform messaging application with over 2 billion users
+    providing E2E encrypted messaging, voice/video calls, and file sharing. It has been
+    targeted by sophisticated spyware including NSO Group's Pegasus via zero-click VoIP
+    vulnerabilities (CVE-2019-3568). Despite encryption, metadata provides intelligence
+    value for surveillance. WhatsApp Web/Desktop expand the attack surface. The platform is
+    used for social engineering, BEC via WhatsApp Business, and malicious link distribution.
+    Backup files in Google Drive or iCloud may lack E2E encryption. Security teams should
+    keep WhatsApp clients updated, enforce encrypted backups, monitor for suspicious account
+    activity, implement mobile device management policies, and assess risks of business
+    communications on the platform.

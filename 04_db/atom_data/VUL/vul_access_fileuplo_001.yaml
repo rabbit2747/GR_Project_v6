@@ -1,0 +1,129 @@
+# GR Atom: File Upload Vulnerabilities
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-FILEUPLO-001"
+  name: "File Upload Vulnerabilities"
+  normalized_name: "file_upload_vulnerabilities"
+  aliases:
+    - "Unrestricted File Upload"
+    - "Malicious File Upload"
+    - "Web Shell Upload"
+    - "CWE-434"
+    - "Arbitrary File Upload"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - UPLOAD
+    - EXEC
+    - WEB
+    - PERSIST
+    - HTTP
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Web application file upload forms"
+    - "Content management systems"
+    - "File sharing platforms"
+    - "Image and document processors"
+    - "API file upload endpoints"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    File Upload Vulnerabilities (CWE-434) are a class of web application security weaknesses
+    where applications fail to properly validate, restrict, or sanitize files uploaded by
+    users. When web applications allow unrestricted file uploads, attackers can upload
+    malicious files including web shells (PHP, ASP, JSP), server-side scripts, HTML files
+    containing cross-site scripting payloads, oversized files for denial of service, or
+    files exploiting parser vulnerabilities. The most critical impact is remote code execution
+    through web shell upload, where an attacker uploads an executable server-side script and
+    then accesses it via the web server to execute arbitrary commands on the server.
+  why: >-
+    File upload functionality is ubiquitous in web applications (profile pictures, document
+    sharing, content management) and represents one of the most dangerous attack surfaces.
+    Web shell upload is consistently among the top techniques used by threat actors for
+    initial access and persistence. Once a web shell is uploaded, the attacker has persistent
+    remote code execution on the web server. Major breaches including the 2023 MOVEit
+    Transfer exploitation used file upload/web shell deployment as a key attack step.
+    OWASP identifies unrestricted file upload as a critical risk.
+  how: >-
+    Attackers exploit file upload vulnerabilities by bypassing client-side validation (easily
+    circumvented), manipulating file extensions (using double extensions like .php.jpg,
+    null bytes, or case variations), spoofing Content-Type headers, embedding executable
+    code in image metadata or polyglot files, exploiting path traversal in filename handling,
+    and leveraging race conditions during upload processing. Once a web shell is uploaded
+    to a web-accessible directory, the attacker requests it via HTTP to execute commands.
+    Mitigation includes server-side file type validation using magic bytes, storing uploads
+    outside the web root, randomizing filenames, implementing file size limits, using
+    dedicated storage services, scanning uploads with antivirus, and restricting execute
+    permissions on upload directories.
+  core_concepts:
+    - key: "Web Shell Upload"
+      value: "Uploading executable server-side scripts (PHP, ASP, JSP) to a web-accessible directory for persistent remote code execution"
+    - key: "Validation Bypass"
+      value: "Techniques including double extensions, null bytes, Content-Type spoofing, and polyglot files to circumvent file upload restrictions"
+    - key: "Defense in Depth"
+      value: "Effective file upload security requires multiple layers: type validation, storage isolation, filename randomization, permission restriction, and scanning"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "File upload vulnerabilities represent broken access control where applications fail to restrict what files users can upload and execute"
+  - type: "enables"
+    target: "VUL-ACCESS-CVE202334362-001"
+    description: "MOVEit Transfer exploitation used web shell upload (human2.aspx) as a key persistence mechanism after SQL injection"
+  - type: "applies_to"
+    target: "VUL-ACCESS-API-001"
+    description: "API file upload endpoints are a common attack surface for unrestricted file upload vulnerabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic:
+      - "Persistence"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CWE-434 Unrestricted Upload of File with Dangerous Type"
+    - "OWASP File Upload Security Cheat Sheet"
+    - "MITRE ATT&CK T1505.003 - Server Software Component: Web Shell"
+    - "NIST NVD CWE-434 Statistics"
+  search_keywords:
+    - "file upload vulnerability"
+    - "unrestricted file upload"
+    - "web shell upload"
+    - "CWE-434"
+    - "malicious file upload"
+    - "file upload bypass"
+    - "arbitrary file upload"
+    - "web shell persistence"
+  embedding_text: >-
+    File Upload Vulnerabilities (CWE-434) encompass web application weaknesses where file
+    upload functionality fails to properly validate, restrict, or sanitize uploaded files.
+    Attackers upload web shells (PHP, ASP, JSP) for persistent remote code execution, exploit
+    parser vulnerabilities, or deploy cross-site scripting payloads. Bypass techniques include
+    double extensions, null bytes, Content-Type spoofing, and polyglot files. Web shell upload
+    is a top technique for initial access and persistence used in major breaches including
+    MOVEit Transfer. Mitigation requires server-side validation, storage outside web root,
+    filename randomization, size limits, antivirus scanning, and execute permission restriction
+    on upload directories.

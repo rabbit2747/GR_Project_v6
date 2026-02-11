@@ -1,0 +1,109 @@
+# GR Atom: CVE-2022-0847
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20220847-001"
+  name: "CVE-2022-0847"
+  normalized_name: "cve_2022_0847"
+  aliases:
+    - "Dirty Pipe CVE"
+    - "Linux Pipe Buffer Overwrite"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Linux kernel 5.8+"
+    - "Linux pipe buffer subsystem"
+    - "Android devices with kernel 5.8+"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-0847 is the CVE identifier for the Dirty Pipe vulnerability (CVSS 7.8) in the
+    Linux kernel pipe buffer subsystem. See VUL-MEMORY-DIRTPIPE-001 for comprehensive
+    details. The vulnerability allows unprivileged local users to overwrite data in arbitrary
+    read-only files, enabling privilege escalation to root. It affects Linux kernel versions
+    5.8 through 5.16.11/5.15.25/5.10.102. Discovered by Max Kellermann and disclosed in
+    March 2022, the flaw is in the pipe buffer management where the PIPE_BUF_FLAG_CAN_MERGE
+    flag is improperly initialized, allowing writes to cached file pages through pipe splicing.
+  why: >-
+    Dirty Pipe is one of the most significant Linux privilege escalation vulnerabilities
+    since Dirty COW due to its trivial exploitability, high reliability, and broad impact
+    across Linux distributions and Android devices. The ability to overwrite arbitrary
+    read-only files including SUID binaries and /etc/passwd makes exploitation straightforward.
+    Its impact on containerized environments and Android devices expanded the threat beyond
+    traditional Linux servers.
+  how: >-
+    The exploit creates a pipe, fills it to initialize page cache references, drains it,
+    then uses splice() to map a target read-only file into the pipe buffer. Because the
+    PIPE_BUF_FLAG_CAN_MERGE flag remains set from the initialization phase, a subsequent
+    write() to the pipe overwrites the cached page of the target file. This allows modifying
+    SUID-root binaries or /etc/passwd for immediate root access without triggering filesystem
+    permission checks.
+  core_concepts:
+    - key: "Pipe Buffer Flag Vulnerability"
+      value: "PIPE_BUF_FLAG_CAN_MERGE improperly persists after splice, enabling writes to read-only file page cache"
+    - key: "Read-Only File Overwrite"
+      value: "Unprivileged users can overwrite data in arbitrary read-only files including SUID binaries and /etc/passwd"
+    - key: "Cross-Platform Impact"
+      value: "Affects Linux servers, containers, and Android devices running kernel 5.8+"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-DIRTPIPE-001"
+    description: "CVE-2022-0847 is the CVE identifier for the Dirty Pipe named vulnerability"
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Dirty Pipe is a memory management vulnerability in Linux kernel pipe buffer handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Max Kellermann - The Dirty Pipe Vulnerability"
+    - "NVD Entry CVE-2022-0847 - CVSS 7.8"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2022-0847"
+    - "Dirty Pipe"
+    - "Linux kernel"
+    - "pipe buffer"
+    - "privilege escalation"
+    - "read-only overwrite"
+    - "SUID exploit"
+  embedding_text: >-
+    CVE-2022-0847 is the CVE identifier for Dirty Pipe, a Linux kernel pipe buffer
+    vulnerability with CVSS 7.8 enabling unprivileged local users to overwrite read-only
+    files for root privilege escalation. The PIPE_BUF_FLAG_CAN_MERGE flag improperly
+    persists after splice operations, allowing writes to cached file pages. Affecting
+    kernels 5.8+, it is trivially exploitable by overwriting SUID binaries or /etc/passwd.
+    Discovered by Max Kellermann in March 2022, it impacts Linux servers, containers, and
+    Android devices.

@@ -1,0 +1,70 @@
+# GR Atom: DeepSeek
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DEEPSEEK-001"
+  name: "DeepSeek"
+  normalized_name: "deepseek"
+  aliases:
+    - "DeepSeek AI"
+    - "High-Flyer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - AI
+    - CLOUD
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L7"]
+  target_zones: ["Z0B", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DeepSeek is a Chinese artificial intelligence company founded in 2023 by the hedge fund High-Flyer, developing large language models and AI systems. The company gained global attention with DeepSeek-R1 and DeepSeek-V3, which demonstrated competitive performance with leading Western AI models at significantly lower computational cost. DeepSeek offers API services for AI model access and publishes open-weight models for research and commercial use."
+  why: "DeepSeek is significant in the cybersecurity context because AI systems present both opportunities and risks for security. DeepSeek's models can be used for code generation, vulnerability analysis, and security automation, but also raise concerns about AI-assisted attack development, data sovereignty (models trained and served from China), potential censorship and bias in security-relevant outputs, and the broader geopolitical implications of Chinese-developed AI in security-sensitive applications."
+  how: "DeepSeek develops and trains large language models using efficient training techniques that reduce computational requirements. The models are made available through API services and open-weight releases. Users interact with DeepSeek through web interfaces and API integrations. Security implications arise from the use of these models in security workflows, potential data exposure through API usage, and the models' capabilities for both defensive and offensive security applications."
+  core_concepts:
+    - key: "Chinese AI Development"
+      value: "Large language model development by a Chinese company with geopolitical implications for security-sensitive applications"
+    - key: "Cost-Efficient AI"
+      value: "Competitive AI model performance achieved at significantly lower computational cost than Western equivalents"
+    - key: "AI Security Implications"
+      value: "Dual-use AI technology applicable to both defensive security automation and potential offensive applications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TECH-AI-LLM-001"
+    description: "Produces large language models with implications for both defensive and offensive cybersecurity applications"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for AI vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.deepseek.com"
+    - "https://github.com/deepseek-ai"
+  search_keywords:
+    - "deepseek"
+    - "deepseek ai"
+    - "deepseek r1"
+    - "deepseek v3"
+    - "chinese ai"
+    - "large language model china"
+    - "ai security implications"
+    - "high-flyer ai"
+  embedding_text: "DeepSeek is a Chinese artificial intelligence company founded in 2023 by the hedge fund High-Flyer, developing large language models and AI systems. The company gained global attention with DeepSeek-R1 and DeepSeek-V3, which demonstrated competitive performance with leading Western AI models at significantly lower computational cost. DeepSeek offers API services and publishes open-weight models for research and commercial use. In the cybersecurity context, DeepSeek is significant because its AI models present dual-use capabilities for both defensive security automation and potential offensive applications. Concerns include AI-assisted attack development, data sovereignty implications for models trained and served from China, potential censorship and bias in security-relevant outputs, and geopolitical implications of Chinese-developed AI in security-sensitive applications. The company represents the growing intersection of AI technology and cybersecurity."

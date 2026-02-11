@@ -1,0 +1,117 @@
+# GR Atom: Event Log Disable Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGDIS-001"
+  name: "Event Log Disable Event"
+  normalized_name: "event_log_disable_event"
+  aliases:
+    - "Log Disable Event"
+    - "Audit Logging Disabled"
+    - "Event Log Channel Disabled"
+    - "Logging Service Disable"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - EVADE
+    - AUDIT
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Disable Event is a detection pattern for log entries generated when an event
+    log channel or logging subsystem is disabled, preventing future events from being recorded.
+    On Windows, this includes disabling specific event log channels via wevtutil (wevtutil sl
+    <channel> /e:false), modifying registry keys under HKLM\SYSTEM\CurrentControlSet\Services\
+    EventLog, using Group Policy to disable audit categories, or disabling the Windows Event Log
+    service itself. On Linux, this includes disabling syslog/rsyslog/syslog-ng services, modifying
+    auditd configuration to disable audit rules, or stopping systemd-journald. The distinction
+    from a log stop event is that disabling implies a persistent configuration change that
+    prevents logging from automatically resuming after reboot, whereas stopping is a transient
+    service state change.
+  why: >-
+    Disabling event logging is a critical defense evasion technique that creates a blind spot
+    in the organization's detection capability. Attackers disable logging before performing
+    high-risk actions such as credential dumping, lateral movement, or data exfiltration to
+    ensure no evidence is recorded. MITRE ATT&CK classifies this under T1562.002 (Impair
+    Defenses: Disable Windows Event Logging). Unlike log clearing which destroys existing
+    evidence, disabling logging prevents the creation of future evidence, making it harder to
+    detect ongoing malicious activity. Detection of logging disablement is a high-priority
+    security alert that often indicates an active, sophisticated threat actor.
+  how: >-
+    Event log disable detection operates through: (1) Monitoring Windows Security log for Event
+    ID 4719 (System audit policy was changed) indicating audit policy modifications; (2)
+    Monitoring for Event ID 7036 and 7040 in the System log for EventLog service state changes
+    to disabled; (3) Tracking registry modifications to event log configuration keys via Sysmon
+    Event ID 13 (RegistryValueSet); (4) Monitoring for wevtutil.exe execution with sl and /e:false
+    parameters via process creation logging (Event ID 4688 or Sysmon Event ID 1); (5) On Linux,
+    monitoring systemctl commands targeting syslog, rsyslog, or auditd services; (6) SIEM
+    heartbeat monitoring to detect when expected log sources stop sending events; (7) EDR
+    telemetry for configuration changes to logging infrastructure.
+  core_concepts:
+    - key: "Audit Policy Modification"
+      value: "Changes to Windows audit policy settings that reduce or eliminate security event logging, tracked by Event ID 4719 and detectable through Group Policy monitoring."
+    - key: "Log Source Heartbeat"
+      value: "SIEM monitoring pattern that detects when expected log sources stop sending events, which may indicate logging has been disabled on the source system."
+    - key: "Persistent vs Transient Disablement"
+      value: "Disabling logging through configuration changes persists across reboots unlike service stops, making it a more effective evasion technique that requires explicit re-enablement."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Logging disablement is a critical security event indicating defense evasion"
+  - type: "precedes"
+    target: "DETECT-LOG-EVELOGSTO-001"
+    description: "Disabling a logging service configuration typically causes the service to stop"
+  - type: "prevents"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Disabled logging prevents the recording of subsequent security events"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.002"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK — T1562.002: Impair Defenses: Disable Windows Event Logging"
+    - "Microsoft — Event ID 4719: System audit policy was changed"
+    - "SANS — Detecting Logging Subversion Techniques"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log disable"
+    - "logging disabled"
+    - "audit policy disable"
+    - "Event ID 4719"
+    - "wevtutil disable"
+    - "T1562.002"
+    - "impair defenses"
+    - "disable event logging"
+    - "log evasion"
+    - "syslog disable"
+    - "audit log disabled"
+  embedding_text: >-
+    Event Log Disable Event is a detection pattern for log entries indicating that event logging
+    has been disabled through configuration changes. On Windows, this includes audit policy
+    modifications (Event ID 4719), EventLog service disablement, registry changes, and wevtutil
+    channel disablement. On Linux, this includes disabling syslog, rsyslog, or auditd services.
+    Classified under MITRE ATT&CK T1562.002 (Impair Defenses: Disable Windows Event Logging),
+    logging disablement is a high-priority defense evasion technique that creates detection blind
+    spots. Unlike log clearing, disabling prevents future evidence creation and persists across
+    reboots. Detection relies on audit policy change monitoring, SIEM heartbeat checks, and EDR
+    telemetry for logging infrastructure changes.

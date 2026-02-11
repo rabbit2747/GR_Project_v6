@@ -1,0 +1,113 @@
+# GR Atom: CVE-2023-46747
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202346747-001"
+  name: "CVE-2023-46747"
+  normalized_name: "cve_2023_46747"
+  aliases:
+    - "F5 BIG-IP Configuration Utility RCE"
+    - "F5 BIG-IP Authentication Bypass"
+    - "F5 BIG-IP Traffic Management UI Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - AUTHN
+    - EXEC
+    - NETWORK
+    - LB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "F5 BIG-IP Configuration Utility"
+    - "F5 BIG-IP Traffic Management User Interface (TMUI)"
+    - "F5 BIG-IP Appliances"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-46747 is a critical authentication bypass vulnerability in F5 BIG-IP's Configuration
+    Utility (TMUI) that allows unauthenticated remote code execution. The vulnerability exists in
+    the Traffic Management User Interface where a request smuggling technique bypasses the
+    authentication mechanism, granting access to administrative functions that enable arbitrary
+    code execution. CVSS score is 9.8. Affects BIG-IP versions 13.x through 17.x. Disclosed in
+    October 2023 with active exploitation following public proof-of-concept release.
+  why: >-
+    F5 BIG-IP is one of the most widely deployed application delivery controllers and load
+    balancers in enterprise networks. These devices sit at the network edge handling all inbound
+    traffic, making them critical infrastructure components. Compromising a BIG-IP device provides
+    attackers with the ability to intercept, modify, and redirect all traffic passing through it,
+    access internal network segments, and establish persistent access to the network infrastructure.
+  how: >-
+    The attacker exploits a request smuggling vulnerability in the BIG-IP Configuration Utility's
+    Apache/AJP proxy architecture. By crafting specific HTTP requests that exploit differences in
+    how the frontend proxy and backend application parse request boundaries, the attacker smuggles
+    a request that bypasses the authentication check. Once past authentication, the attacker
+    accesses administrative functions that allow executing arbitrary commands on the underlying
+    BIG-IP operating system through the management interface.
+  core_concepts:
+    - name: "Request Smuggling Authentication Bypass"
+      value: "HTTP request smuggling through the Apache/AJP proxy architecture bypasses the TMUI authentication mechanism"
+    - name: "Network Infrastructure Compromise"
+      value: "BIG-IP appliances handle all network traffic, making compromise a critical infrastructure event"
+    - name: "AJP Protocol Exploitation"
+      value: "Differences between frontend HTTP proxy and backend AJP application parsing enable request smuggling"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "BIG-IP authentication bypass involves insecure request processing leading to code execution"
+  - type: "applies_to"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Applies to F5 BIG-IP network infrastructure appliances at the network edge"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2023-46747"
+    - "F5 Security Advisory K000137353"
+    - "Praetorian Research - F5 BIG-IP Exploitation Analysis"
+  search_keywords:
+    - "CVE-2023-46747"
+    - "F5 BIG-IP RCE"
+    - "BIG-IP authentication bypass"
+    - "F5 TMUI vulnerability"
+    - "BIG-IP Configuration Utility exploit"
+    - "F5 request smuggling"
+    - "BIG-IP unauthenticated RCE"
+    - "F5 load balancer vulnerability"
+  embedding_text: >-
+    CVE-2023-46747 is a critical authentication bypass and remote code execution vulnerability in
+    F5 BIG-IP's Configuration Utility (TMUI). A request smuggling technique exploiting the
+    Apache/AJP proxy architecture bypasses authentication, granting access to administrative
+    functions for arbitrary code execution. CVSS score is 9.8, affecting BIG-IP versions 13.x
+    through 17.x. F5 BIG-IP is one of the most widely deployed application delivery controllers
+    and load balancers, sitting at the network edge handling all inbound traffic. Compromise
+    enables interception and modification of all network traffic, access to internal network
+    segments, and persistent infrastructure access. Actively exploited following public
+    proof-of-concept release in October 2023. Mitigation requires immediate patching, restricting
+    management interface access to trusted networks, and monitoring for indicators of compromise.
+    Listed in CISA's Known Exploited Vulnerabilities catalog.

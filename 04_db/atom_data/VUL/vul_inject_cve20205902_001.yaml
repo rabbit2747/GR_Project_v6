@@ -1,0 +1,113 @@
+# GR Atom: CVE-2020-5902
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20205902-001"
+  name: "CVE-2020-5902"
+  normalized_name: "cve_2020_5902"
+  aliases:
+    - "F5 BIG-IP TMUI RCE"
+    - "F5 BIG-IP Traffic Management Vulnerability"
+    - "F5 BIG-IP Path Traversal RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - PATH
+    - EXEC
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "F5 BIG-IP versions 11.6.x through 15.1.x"
+    - "Traffic Management User Interface (TMUI)"
+    - "BIG-IP Configuration utility"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-5902 is a critical remote code execution vulnerability in F5 BIG-IP Traffic
+    Management User Interface (TMUI) that allows unauthenticated attackers to execute
+    arbitrary system commands, create or delete files, disable services, and run Java code.
+    The vulnerability combines path traversal with command injection in the TMUI web
+    interface. The CVSS v3 base score is 9.8 (Critical) and it was disclosed in July 2020
+    with immediate mass exploitation.
+  why: >-
+    F5 BIG-IP devices are critical network infrastructure deployed at thousands of
+    organizations for load balancing, SSL termination, and application delivery. These
+    devices handle sensitive traffic and sit at the network perimeter. CISA issued an
+    emergency directive requiring federal agencies to patch within days. Mass scanning and
+    exploitation began within hours of disclosure.
+  how: >-
+    Attackers exploit path traversal in the TMUI URL to bypass authentication and access
+    restricted JSP pages. The traversal uses semicolon-based path manipulation to reach
+    tmshCmd.jsp and other privileged endpoints that execute system commands. Attackers can
+    read sensitive files, execute arbitrary commands, and fully compromise the device.
+    Mitigation requires upgrading F5 BIG-IP and restricting TMUI access to management
+    networks only.
+  core_concepts:
+    - key: "TMUI Path Traversal"
+      value: "Semicolon-based URL manipulation bypasses authentication to access privileged management endpoints"
+    - key: "Network Infrastructure RCE"
+      value: "Code execution on load balancer and application delivery devices enables traffic interception and network pivoting"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "F5 BIG-IP path traversal and command injection is a specific instance of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE201919781-001"
+    description: "Both are critical perimeter network device vulnerabilities enabling unauthenticated RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2020-5902"
+  cvss_score: 9.8
+  affected_product: "F5 BIG-IP 11.6.x-15.1.x"
+  year: 2020
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2020-5902"
+    - "CWE-22 Improper Limitation of a Pathname to a Restricted Directory"
+    - "CISA Emergency Directive 20-03"
+    - "F5 Security Advisory K52145254"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2020-5902"
+    - "F5 BIG-IP RCE"
+    - "TMUI vulnerability"
+    - "F5 path traversal"
+    - "BIG-IP command injection"
+    - "F5 load balancer exploit"
+    - "network infrastructure RCE"
+  embedding_text: >-
+    CVE-2020-5902 is a critical RCE vulnerability in F5 BIG-IP TMUI with CVSS score 9.8.
+    Path traversal using semicolon-based URL manipulation bypasses authentication to access
+    privileged management endpoints enabling command execution. F5 BIG-IP devices are critical
+    network infrastructure for load balancing and application delivery at thousands of
+    organizations. CISA issued emergency directive requiring immediate patching. Mass
+    exploitation began within hours of disclosure. Attackers execute system commands read
+    files and fully compromise network devices. Mitigation requires upgrading and restricting
+    TMUI to management networks only.

@@ -1,0 +1,120 @@
+# GR Atom: AWS Confused Deputy Problem
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-AWCODEPR-001"
+  name: "AWS Confused Deputy Problem"
+  normalized_name: "aws_confused_deputy_problem"
+  aliases:
+    - "Confused Deputy Attack"
+    - "Cross-Account Privilege Escalation"
+    - "AWS IAM Confused Deputy"
+    - "Service-to-Service Impersonation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - PRIV
+    - CLOUD
+    - AWS
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "AWS IAM roles"
+    - "AWS cross-account trust policies"
+    - "AWS service integrations"
+    - "Third-party SaaS integrations"
+    - "AWS S3 bucket policies"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The AWS Confused Deputy Problem is a privilege escalation vulnerability that occurs when
+    an AWS service or third-party application with permission to perform actions on a customer's
+    resources is tricked by another entity into misusing those permissions. The less-privileged
+    entity (the attacker) induces the more-privileged entity (the confused deputy) to perform
+    actions on its behalf that the attacker cannot perform directly. This is a fundamental
+    access control flaw in cross-account and cross-service IAM trust relationships where the
+    trusted service does not properly validate the source of the request it is acting upon.
+    The vulnerability was highlighted by AWS as a critical IAM security concern.
+  why: >-
+    The confused deputy problem is widespread in cloud environments because multi-tenant
+    services routinely assume roles in customer accounts. Without proper safeguards, an
+    attacker who controls one AWS account can trick a trusted third-party service into
+    accessing resources in a victim's account. This can lead to unauthorized data access,
+    resource modification, or complete account compromise. The issue is amplified in complex
+    cloud architectures with numerous cross-account trust relationships.
+  how: >-
+    The attack exploits IAM role trust policies that lack external ID conditions. An attacker
+    discovers that a third-party service has an IAM role ARN in the victim's account. The
+    attacker creates their own account and configures the same third-party service, providing
+    the victim's role ARN. The third-party service (confused deputy) assumes the victim's
+    role to perform operations, now acting on behalf of the attacker. AWS mitigates this
+    through the ExternalId condition in IAM trust policies, which acts as a shared secret
+    between the customer and the trusted service. Additional mitigations include aws:SourceArn
+    and aws:SourceAccount condition keys for service-to-service authorization.
+  core_concepts:
+    - key: "Confused Deputy"
+      value: "A more-privileged service tricked into performing unauthorized actions on behalf of a less-privileged attacker across trust boundaries"
+    - key: "ExternalId Condition"
+      value: "AWS IAM trust policy condition that prevents confused deputy attacks by requiring a shared secret between customer and trusted third-party"
+    - key: "Cross-Account Trust"
+      value: "IAM role trust policies that allow external AWS accounts or services to assume roles, creating potential confused deputy attack vectors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Confused deputy is a specific instance of broken access control in cloud IAM trust relationships"
+  - type: "applies_to"
+    target: "VUL-ACCESS-API-001"
+    description: "Confused deputy attacks exploit API-level trust relationships between cloud services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Privilege Escalation"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "AWS Documentation - The Confused Deputy Problem"
+    - "CWE-441 Unintended Proxy or Intermediary"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+    - "AWS IAM Best Practices - Cross-Account Access"
+  search_keywords:
+    - "confused deputy"
+    - "AWS confused deputy"
+    - "cross-account privilege escalation"
+    - "IAM role trust policy"
+    - "ExternalId"
+    - "AWS IAM vulnerability"
+    - "cloud privilege escalation"
+  embedding_text: >-
+    AWS Confused Deputy Problem is a privilege escalation vulnerability in cloud IAM trust
+    relationships where a more-privileged service is tricked into performing unauthorized
+    actions on behalf of a less-privileged attacker. Occurs when cross-account IAM role trust
+    policies lack ExternalId conditions, allowing attackers to configure third-party services
+    with victim role ARNs. The confused deputy service then assumes the victim's role to
+    perform operations on behalf of the attacker. Mitigated through ExternalId conditions
+    in trust policies, aws:SourceArn and aws:SourceAccount condition keys. Critical concern
+    in multi-tenant cloud architectures with numerous cross-account trust relationships
+    and third-party SaaS integrations.

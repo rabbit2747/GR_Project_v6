@@ -1,0 +1,126 @@
+# GR Atom: NIST SP 800-61
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISTSP80061-001"
+  name: "NIST SP 800-61"
+  normalized_name: "nist_sp_800_61"
+  aliases:
+    - "SP 800-61"
+    - "Computer Security Incident Handling Guide"
+    - "NIST Incident Response Guide"
+    - "NIST 800-61"
+    - "SP 800-61 Rev. 2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NIST SP 800-61 (Computer Security Incident Handling Guide) provides guidelines for incident
+    handling, particularly for analyzing incident-related data and determining the appropriate
+    response to each incident. Revision 2, published in August 2012, defines the incident
+    response lifecycle consisting of four phases: Preparation; Detection and Analysis;
+    Containment, Eradication, and Recovery; and Post-Incident Activity. The guide covers
+    incident handling for common attack vectors including external media, attrition, web,
+    email, impersonation, improper usage, loss or theft, and other vectors. It is the
+    authoritative reference for federal incident response programs.
+  why: >-
+    Computer security incidents are inevitable and organizations must be prepared to respond
+    effectively. Without structured incident handling procedures, organizations face delayed
+    detection, inconsistent response quality, inadequate evidence preservation, extended
+    recovery times, and failure to learn from incidents. SP 800-61 provides the standardized
+    methodology that ensures incidents are detected promptly, contained effectively, eradicated
+    thoroughly, and that post-incident analysis drives continuous improvement of security
+    controls and response capabilities.
+  how: >-
+    SP 800-61 defines a four-phase incident response lifecycle: (1) Preparation - establishing
+    incident response capability including team formation, tools acquisition, communication
+    procedures, and exercise programs; (2) Detection and Analysis - identifying incidents
+    through precursors and indicators, analyzing events, documenting findings, prioritizing
+    incidents by functional impact, information impact, and recoverability; (3) Containment,
+    Eradication, and Recovery - selecting containment strategies, collecting evidence,
+    identifying and eliminating the attack vector, and restoring systems to normal operation;
+    (4) Post-Incident Activity - conducting lessons learned meetings, using collected data
+    to improve security controls, retaining evidence per policy, and measuring incident
+    response effectiveness metrics.
+  core_concepts:
+    - key: "Four-Phase Incident Response Lifecycle"
+      value: >-
+        The structured process of Preparation, Detection and Analysis, Containment Eradication
+        and Recovery, and Post-Incident Activity that provides a repeatable methodology for
+        handling security incidents from initial detection through final resolution.
+    - key: "Incident Prioritization"
+      value: >-
+        Classification of incidents based on functional impact, information impact, and
+        recoverability to ensure resources are allocated appropriately and the most critical
+        incidents receive immediate attention.
+    - key: "Evidence Preservation"
+      value: >-
+        Procedures for collecting, handling, and preserving digital evidence during incident
+        response to support forensic analysis, legal proceedings, and post-incident review.
+    - key: "Lessons Learned"
+      value: >-
+        Post-incident analysis process that identifies what happened, how it was handled,
+        what could be improved, and what changes should be made to prevent similar incidents.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "SP 800-61 is a NIST Special Publication within the SP 800 series"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "SP 800-61 provides implementation guidance for the SP 800-53 Incident Response (IR) control family"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "SP 800-61 incident handling implements the CSF Detect and Respond core functions"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-61 Rev. 2 - Computer Security Incident Handling Guide (August 2012). https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+    - "NIST SP 800-61 Rev. 2. https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-61r2.pdf"
+  search_keywords:
+    - "NIST SP 800-61"
+    - "incident handling guide"
+    - "incident response lifecycle"
+    - "computer security incident"
+    - "incident detection analysis"
+    - "containment eradication recovery"
+    - "lessons learned"
+    - "federal incident response"
+    - "incident prioritization"
+    - "evidence preservation"
+  embedding_text: >-
+    NIST SP 800-61 Computer Security Incident Handling Guide provides guidelines for incident
+    handling and response. The four-phase lifecycle covers Preparation establishing response
+    capability, Detection and Analysis identifying and prioritizing incidents, Containment
+    Eradication and Recovery eliminating threats and restoring systems, and Post-Incident
+    Activity conducting lessons learned. The guide covers incident handling for common attack
+    vectors including web, email, impersonation, and improper usage. Incidents are prioritized
+    by functional impact, information impact, and recoverability. The publication addresses
+    evidence preservation for forensic analysis and legal proceedings. SP 800-61 is the
+    authoritative reference for federal incident response programs, implementing NIST SP 800-53
+    Incident Response controls and the NIST CSF Detect and Respond functions. Without structured
+    incident handling, organizations face delayed detection, inconsistent response, inadequate
+    evidence preservation, and failure to learn from incidents for continuous improvement.

@@ -1,0 +1,81 @@
+# GR Atom: CVE-2020-1472
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE20201472-001"
+  name: "CVE-2020-1472"
+  normalized_name: "cve_2020_1472"
+  aliases:
+    - "Zerologon"
+    - "Netlogon Elevation of Privilege Vulnerability"
+    - "Netlogon ZeroLogon"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - PRIV
+    - CRED
+    - WINDOWS
+    - NETWORK
+    - CRYPTO
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Windows Server 2008 R2"
+    - "Microsoft Windows Server 2012"
+    - "Microsoft Windows Server 2012 R2"
+    - "Microsoft Windows Server 2016"
+    - "Microsoft Windows Server 2019"
+    - "Samba Active Directory Domain Controller"
+
+definition:
+  what: "CVE-2020-1472 (Zerologon) is a critical privilege escalation vulnerability in the Microsoft Netlogon Remote Protocol (MS-NRPC) cryptographic authentication scheme. A flaw in the AES-CFB8 implementation allows an unauthenticated attacker with network access to a domain controller to completely compromise the Active Directory domain by setting the domain controller machine account password to an empty string. CVSS v3: 10.0 (Critical). Disclosed in August 2020."
+  why: "Active Directory domain controllers are the most critical authentication infrastructure in Windows enterprise environments, controlling all user and computer authentication. Zerologon allows an unauthenticated attacker to instantly compromise an entire Active Directory domain from any network position that can reach the domain controller. The attack takes approximately three seconds to execute and requires no credentials. It was actively exploited by multiple nation-state groups and ransomware operators, and CISA issued an emergency directive requiring federal agencies to patch within days."
+  how: "The Netlogon protocol uses AES-CFB8 encryption with a client-supplied initialization vector for authentication. Due to a cryptographic flaw, when all bytes of the IV are set to zero, there is a 1-in-256 chance that the ciphertext will also be all zeros. An attacker repeatedly attempts authentication with an all-zero IV and plaintext, succeeding within approximately 256 attempts on average. Once authenticated, the attacker uses the NetrServerPasswordSet2 call to set the domain controller machine account password to an empty value, then uses DCSync or other techniques to extract all domain credentials including the krbtgt hash. Microsoft patched this in August 2020 with enforcement of secure RPC for Netlogon."
+  core_concepts:
+    - key: "AES-CFB8 Cryptographic Flaw"
+      value: "The Netlogon protocol's AES-CFB8 implementation with client-controlled IV allows an all-zero authentication bypass with 1/256 probability per attempt, succeeding within seconds"
+    - key: "Domain Controller Full Compromise"
+      value: "Setting the DC machine account password to empty via Netlogon grants complete Active Directory domain takeover including all user credentials and Kerberos keys"
+
+relations:
+  - type: is_a
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Zerologon is a cryptographic vulnerability in the AES-CFB8 implementation of the Netlogon protocol"
+  - type: enables
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Domain controller compromise enables extraction of all domain authentication credentials via DCSync"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-1472 - NVD NIST"
+    - "Secura - Zerologon Whitepaper"
+    - "Microsoft Security Advisory - Netlogon EoP"
+    - "CISA Emergency Directive 20-04"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2020-1472"
+    - "Zerologon"
+    - "Netlogon vulnerability"
+    - "Netlogon privilege escalation"
+    - "AES-CFB8 cryptographic flaw"
+    - "domain controller compromise"
+    - "Active Directory takeover"
+    - "Netlogon zero logon"
+  embedding_text: "CVE-2020-1472 known as Zerologon is a critical privilege escalation vulnerability in the Microsoft Netlogon Remote Protocol MS-NRPC. A cryptographic flaw in the AES-CFB8 implementation allows an unauthenticated attacker to set the domain controller machine account password to empty by exploiting a 1-in-256 probability bypass with all-zero initialization vectors. CVSS v3 score is 10.0 Critical, the maximum severity. Enables complete Active Directory domain takeover within seconds without any credentials. Affects all Windows Server versions from 2008 R2 through 2019. CISA issued Emergency Directive 20-04 requiring immediate patching. Actively exploited by nation-state groups and ransomware operators. Maps to MITRE ATT&CK T1068 Exploitation for Privilege Escalation. Named Zerologon because authentication succeeds with zero-filled values."

@@ -1,0 +1,114 @@
+# GR Atom: CVE-2009-3555
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20093555-001"
+  name: "CVE-2009-3555"
+  normalized_name: "cve_2009_3555"
+  aliases:
+    - "TLS Renegotiation Vulnerability"
+    - "SSL/TLS Renegotiation Attack"
+    - "TLS Renegotiation Prefix Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INJ
+    - TLS
+    - HTTP
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "TLS/SSL Protocol Implementations"
+    - "OpenSSL"
+    - "GnuTLS"
+    - "Microsoft SChannel"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2009-3555 is a vulnerability in the TLS and SSL protocols that allows a man-in-the-middle
+    attacker to inject arbitrary plaintext into the beginning of an application protocol session
+    during TLS renegotiation. The flaw exists because the TLS renegotiation handshake does not
+    cryptographically bind to the original session, allowing an attacker to splice their own
+    data into the connection. CVSS score is 5.8. The vulnerability affects virtually all TLS/SSL
+    implementations prior to RFC 5746 (TLS Renegotiation Indication Extension) published in 2010.
+  why: >-
+    This vulnerability fundamentally undermined the security guarantees of TLS renegotiation, a
+    feature used for client certificate authentication, cipher suite changes, and session key
+    refresh. It affected every major TLS implementation and required an industry-wide protocol
+    update (RFC 5746) to fix. The attack was particularly dangerous against HTTPS because it
+    allowed injection of arbitrary HTTP requests that would be processed in the context of the
+    victim's authenticated session.
+  how: >-
+    The attacker establishes a TLS connection to the server, sends partial application data (such
+    as an HTTP request prefix), then triggers a renegotiation. During renegotiation, the attacker
+    splices in the victim client's handshake, making the server believe the attacker's previously
+    sent data and the victim's subsequent data are part of the same authenticated session. The
+    server concatenates the attacker's prefix with the victim's request, allowing the attacker
+    to inject commands that execute with the victim's credentials.
+  core_concepts:
+    - name: "Renegotiation Splice"
+      value: "The TLS renegotiation handshake lacks cryptographic binding to the original session, allowing an attacker to combine two separate sessions"
+    - name: "Prefix Injection"
+      value: "Attacker-controlled data sent before renegotiation becomes a prefix to the victim's authenticated request"
+    - name: "Protocol Design Flaw"
+      value: "The vulnerability exists in the TLS protocol specification itself, not in any particular implementation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "TLS renegotiation vulnerability is an instance of cryptographic protocol design flaw"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Directly affects the TLS/SSL renegotiation mechanism in all implementations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2009-3555"
+    - "RFC 5746 - TLS Renegotiation Indication Extension"
+    - "Marsh Ray and Steve Dispensa - Renegotiating TLS (2009)"
+  search_keywords:
+    - "CVE-2009-3555"
+    - "TLS renegotiation vulnerability"
+    - "SSL renegotiation attack"
+    - "TLS prefix injection"
+    - "RFC 5746"
+    - "renegotiation man-in-the-middle"
+    - "TLS session splice"
+  embedding_text: >-
+    CVE-2009-3555 is a vulnerability in the TLS and SSL renegotiation mechanism that allows
+    man-in-the-middle attackers to inject arbitrary plaintext into the beginning of application
+    protocol sessions. The flaw exists because TLS renegotiation does not cryptographically bind
+    the new handshake to the original session. An attacker can establish a connection to the server,
+    send partial data, then splice in the victim's handshake during renegotiation, causing the
+    server to concatenate attacker-controlled prefix data with the victim's authenticated request.
+    This is particularly dangerous for HTTPS where it enables injection of HTTP requests that
+    execute with the victim's credentials. The vulnerability affected virtually all TLS
+    implementations and required the industry-wide adoption of RFC 5746 TLS Renegotiation
+    Indication Extension to properly mitigate. The fix introduces a cryptographic binding between
+    renegotiation handshakes through the renegotiation_info extension.

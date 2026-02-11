@@ -1,0 +1,72 @@
+# GR Atom: ZecOps
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-ZECOPS-001"
+  name: "ZecOps"
+  normalized_name: "zecops"
+  aliases:
+    - "ZecOps Inc"
+    - "ZecOps Mobile"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - MOBILE
+    - FORENSICS
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ZecOps is a cybersecurity vendor specializing in mobile device forensics, automated crash log analysis, and mobile threat detection. The company developed technology to detect zero-click exploits and advanced mobile attacks by analyzing device crash logs and system artifacts, focusing on identifying evidence of iOS and Android exploitation without requiring jailbreaking or rooting the target device."
+  why: "ZecOps is significant in cybersecurity because mobile device exploitation by nation-state actors represents one of the most concerning threat vectors, yet traditional forensics tools require device modification. ZecOps pioneered non-invasive mobile forensics through crash log analysis, and the company's research disclosed notable iOS vulnerabilities and identified evidence of in-the-wild mobile exploitation campaigns."
+  how: "ZecOps operates through automated analysis of mobile device crash logs, system diagnostics, and OS artifacts to detect indicators of exploitation. The technology identifies crash patterns consistent with known and unknown exploits, buffer overflows, and use-after-free vulnerabilities without requiring device jailbreaking. The company also conducts mobile vulnerability research, discovering and responsibly disclosing iOS and Android security flaws."
+  core_concepts:
+    - key: "Mobile Device Forensics"
+      value: "Non-invasive analysis of mobile device artifacts to detect evidence of zero-click exploits and advanced attacks"
+    - key: "Crash Log Analysis"
+      value: "Automated examination of device crash logs to identify exploitation indicators without device modification"
+    - key: "Mobile Vulnerability Research"
+      value: "Discovery and disclosure of iOS and Android security vulnerabilities with focus on zero-click exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-NOWSECURE-001"
+    description: "Fellow mobile security vendor specializing in mobile device analysis and threat detection"
+  - type: enables
+    target: "ACTOR-VENDOR-THREATFABR-001"
+    description: "Mobile forensics capabilities complement mobile threat intelligence for comprehensive mobile security"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.zecops.com"
+  search_keywords:
+    - "zecops"
+    - "mobile forensics"
+    - "crash log analysis"
+    - "zero-click exploit"
+    - "iOS vulnerability"
+    - "mobile threat detection"
+    - "mobile security"
+    - "device forensics"
+  embedding_text: "ZecOps is a cybersecurity vendor specializing in mobile device forensics, automated crash log analysis, and mobile threat detection. The company developed technology to detect zero-click exploits and advanced mobile attacks by analyzing device crash logs and system artifacts without requiring jailbreaking or rooting target devices. ZecOps pioneered non-invasive mobile forensics through crash log analysis, and its research disclosed notable iOS vulnerabilities and identified evidence of in-the-wild mobile exploitation campaigns by nation-state actors."

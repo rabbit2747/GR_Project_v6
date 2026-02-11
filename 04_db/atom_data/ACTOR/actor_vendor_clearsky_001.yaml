@@ -1,0 +1,70 @@
+# GR Atom: ClearSky
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CLEARSKY-001"
+  name: "ClearSky"
+  normalized_name: "clearsky"
+  aliases:
+    - "ClearSky Cyber Security"
+    - "ClearSky Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ClearSky is an Israeli cybersecurity firm specializing in threat intelligence research and cyber espionage investigation. The company is known for publishing detailed reports on state-sponsored APT campaigns, particularly those originating from Iran, Lebanon, and other Middle Eastern nation-states. ClearSky tracks threat groups such as Charming Kitten, MuddyWater, and Lebanese Cedar, providing in-depth analysis of their tactics, techniques, infrastructure, and targeting patterns."
+  why: "ClearSky is significant as a primary source of threat intelligence on Middle Eastern APT operations, particularly Iranian cyber espionage campaigns. Their detailed public reports provide actionable intelligence on threat actor infrastructure, malware families, and attack methodologies that organizations can use for threat hunting and defensive preparation. ClearSky's research fills a critical gap in understanding the Middle Eastern cyber threat landscape."
+  how: "ClearSky conducts threat intelligence research through monitoring adversary infrastructure, analyzing malware samples, tracking phishing campaigns, and mapping the operational patterns of state-sponsored threat groups. They publish comprehensive reports with indicators of compromise, infrastructure analysis, and attribution evidence. Their research methodology combines OSINT collection, technical malware analysis, and infrastructure tracking."
+  core_concepts:
+    - key: "Middle Eastern APT Research"
+      value: "Specialized threat intelligence on Iranian and Middle Eastern state-sponsored cyber espionage campaigns"
+    - key: "Infrastructure Tracking"
+      value: "Monitoring and mapping threat actor command and control infrastructure and operational patterns"
+    - key: "Public Threat Intelligence"
+      value: "Publication of detailed, actionable threat reports with IOCs available to the broader security community"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "Produces detailed threat intelligence reports on Middle Eastern APT campaigns and infrastructure"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for threat intelligence firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.clearskysec.com"
+    - "https://www.clearskysec.com/blog"
+  search_keywords:
+    - "clearsky"
+    - "clearsky cyber security"
+    - "iranian apt research"
+    - "middle eastern threat intelligence"
+    - "charming kitten"
+    - "muddywater tracking"
+    - "cyber espionage research"
+    - "israeli threat intelligence"
+  embedding_text: "ClearSky is an Israeli cybersecurity firm specializing in threat intelligence research and cyber espionage investigation. The company is known for publishing detailed reports on state-sponsored APT campaigns, particularly those originating from Iran, Lebanon, and other Middle Eastern nation-states. ClearSky tracks threat groups such as Charming Kitten, MuddyWater, and Lebanese Cedar, providing in-depth analysis of their tactics, techniques, infrastructure, and targeting patterns. Their detailed public reports provide actionable intelligence on threat actor infrastructure, malware families, and attack methodologies that organizations use for threat hunting and defensive preparation. ClearSky's research fills a critical gap in understanding the Middle Eastern cyber threat landscape through monitoring adversary infrastructure, analyzing malware samples, tracking phishing campaigns, and mapping the operational patterns of state-sponsored threat groups."

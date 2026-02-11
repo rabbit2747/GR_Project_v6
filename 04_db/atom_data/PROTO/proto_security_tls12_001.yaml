@@ -1,0 +1,135 @@
+# GR Atom: TLS 1.2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-TLS12-001"
+  name: "TLS 1.2"
+  normalized_name: "tls_1_2"
+  aliases:
+    - "Transport Layer Security 1.2"
+    - "TLSv1.2"
+    - "RFC 5246"
+    - "TLS Version 1.2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TLS 1.2 (Transport Layer Security version 1.2) is a cryptographic protocol defined in
+    RFC 5246 (August 2008) that remains the most widely deployed TLS version and the minimum
+    acceptable version for modern security compliance. TLS 1.2 introduced critical improvements
+    including AEAD (Authenticated Encryption with Associated Data) cipher suites such as
+    AES-128-GCM and AES-256-GCM, configurable hash algorithms in the PRF replacing the fixed
+    MD5/SHA-1 combination, digital signature algorithm negotiation via the signature_algorithms
+    extension, and SHA-256 as the default hash. TLS 1.2 is required by PCI DSS, mandated as
+    the minimum by Apple App Transport Security, and widely deployed across HTTPS, SMTP, IMAP,
+    and other internet protocols.
+  why: >-
+    TLS 1.2 addressed fundamental cryptographic limitations in TLS 1.0/1.1 that left those
+    versions vulnerable to attacks. The fixed MD5/SHA-1 PRF in earlier versions was problematic
+    because MD5 had demonstrated collision vulnerabilities. The introduction of AEAD cipher
+    suites (AES-GCM via RFC 5288) eliminated the MAC-then-encrypt construction that caused
+    padding oracle vulnerabilities in CBC cipher suites across all prior TLS versions. The
+    signature_algorithms extension allowed clients and servers to negotiate modern signature
+    algorithms, moving away from MD5-based signatures. TLS 1.2's flexibility in cipher suite
+    selection and hash algorithm configuration made it adaptable to evolving security
+    requirements, contributing to its longevity as the dominant protocol version for over a
+    decade.
+  how: >-
+    TLS 1.2 uses the same handshake flow as TLS 1.0/1.1 (ClientHello, ServerHello, Certificate,
+    ServerKeyExchange, ServerHelloDone, ClientKeyExchange, ChangeCipherSpec, Finished) but with
+    significant cryptographic improvements. The PRF uses a single hash function (SHA-256 by
+    default) via HMAC rather than the MD5/SHA-1 split. AEAD cipher suites (AES-128-GCM-SHA256,
+    AES-256-GCM-SHA384) provide integrated encryption and authentication in a single operation,
+    eliminating padding oracle attacks. The signature_algorithms ClientHello extension allows
+    negotiation of hash and signature algorithm pairs for CertificateVerify and ServerKeyExchange
+    signatures. Supported key exchange methods include RSA, DHE_RSA, ECDHE_RSA, and ECDHE_ECDSA.
+    The Extended Master Secret extension (RFC 7627) was later added to prevent triple handshake
+    attacks. The protocol version is {3,3} in the record header.
+  core_concepts:
+    - key: "AEAD Cipher Suites"
+      value: >-
+        Authenticated Encryption with Associated Data (AES-GCM, ChaCha20-Poly1305) combines
+        encryption and authentication in a single operation, eliminating the MAC-then-encrypt
+        padding oracle vulnerability present in CBC cipher suites.
+    - key: "Configurable PRF Hash"
+      value: >-
+        TLS 1.2 replaced the fixed MD5/SHA-1 PRF with a configurable hash function (SHA-256
+        default, SHA-384 for stronger suites), resolving the MD5 collision weakness.
+    - key: "Signature Algorithm Negotiation"
+      value: >-
+        The signature_algorithms extension allows clients to specify supported hash and
+        signature algorithm combinations, enabling deprecation of weak algorithms like
+        MD5-RSA and SHA1-RSA.
+    - key: "Minimum Compliance Standard"
+      value: >-
+        TLS 1.2 is the minimum version required by PCI DSS for payment card processing,
+        Apple ATS for iOS/macOS applications, and most modern security compliance frameworks.
+    - key: "Extended Master Secret"
+      value: >-
+        RFC 7627 added the extended_master_secret extension to bind the master secret to
+        the full handshake transcript, preventing triple handshake and session resumption
+        attacks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "TLS 1.2 is the most widely deployed version of the Transport Layer Security protocol"
+  - type: "supersedes"
+    target: "PROTO-SECURITY-TLS11-001"
+    description: "TLS 1.2 superseded TLS 1.1 with AEAD cipher suites, configurable PRF, and signature negotiation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2. IETF. https://datatracker.ietf.org/doc/html/rfc5246"
+    - "RFC 5288 - AES Galois Counter Mode (GCM) Cipher Suites for TLS. IETF. https://datatracker.ietf.org/doc/html/rfc5288"
+    - "RFC 7627 - Transport Layer Security (TLS) Session Hash and Extended Master Secret Extension. IETF. https://datatracker.ietf.org/doc/html/rfc7627"
+  search_keywords:
+    - "TLS 1.2"
+    - "TLSv1.2"
+    - "RFC 5246"
+    - "AES-GCM TLS"
+    - "AEAD cipher suites"
+    - "TLS signature algorithms"
+    - "PCI DSS TLS"
+    - "extended master secret"
+    - "TLS 1.2 compliance"
+    - "SHA-256 PRF"
+  embedding_text: >-
+    TLS 1.2 is a cryptographic protocol defined in RFC 5246 (2008) that remains the most
+    widely deployed TLS version and minimum compliance standard. It introduced AEAD cipher
+    suites (AES-128-GCM, AES-256-GCM, ChaCha20-Poly1305) eliminating MAC-then-encrypt padding
+    oracle vulnerabilities, a configurable PRF using SHA-256 by default instead of MD5/SHA-1,
+    and signature algorithm negotiation via the signature_algorithms extension. TLS 1.2 is
+    required by PCI DSS for payment processing, Apple ATS for iOS/macOS, and most security
+    compliance frameworks as the minimum acceptable version. The Extended Master Secret
+    extension (RFC 7627) prevents triple handshake attacks. Key exchange supports RSA, DHE_RSA,
+    ECDHE_RSA, and ECDHE_ECDSA methods. The protocol version is {3,3} in record headers. Its
+    flexibility in cipher suite and hash algorithm configuration has sustained its dominance
+    for over a decade, though TLS 1.3 supersedes it with a redesigned handshake and mandatory
+    AEAD encryption.

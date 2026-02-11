@@ -1,0 +1,126 @@
+# GR Atom: Dependency Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-DEPENDENCY-001"
+  name: "Dependency Vulnerability"
+  normalized_name: "dependency_vulnerability"
+  aliases:
+    - "Supply Chain Vulnerability"
+    - "Third-Party Library Vulnerability"
+    - "Dependency Confusion"
+    - "Transitive Dependency Risk"
+    - "Software Composition Analysis Target"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - INITIAL
+    - EXEC
+    - CONFIG
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Package managers (npm, pip, Maven, NuGet)"
+    - "Open-source libraries"
+    - "Container base images"
+    - "Third-party SDKs"
+    - "Transitive dependencies"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Dependency Vulnerability is a class of security weakness arising from the use of
+    third-party libraries, frameworks, packages, or components that contain known security
+    flaws. Modern applications typically rely on hundreds of direct and transitive dependencies,
+    each representing a potential attack surface. This includes vulnerabilities in direct
+    dependencies (explicitly imported), transitive dependencies (pulled in by other packages),
+    abandoned or unmaintained packages, dependency confusion attacks (substituting malicious
+    packages via namespace manipulation), and typosquatting attacks on package registries.
+    OWASP classifies this as A06:2021 Vulnerable and Outdated Components.
+  why: >-
+    Dependency vulnerabilities are increasingly exploited because modern software relies
+    heavily on open-source components. The average application contains 80% third-party code.
+    High-profile incidents include Log4Shell (Log4j), event-stream npm compromise, and
+    SolarWinds supply chain attack. Transitive dependencies are particularly dangerous
+    because developers may be unaware of their existence. Package manager ecosystems
+    (npm, PyPI, Maven Central) have been targeted by dependency confusion and typosquatting
+    attacks, with malicious packages downloaded millions of times before detection.
+  how: >-
+    Dependency vulnerabilities are exploited through several vectors: using applications that
+    include known-vulnerable library versions, dependency confusion attacks that substitute
+    internal package names with malicious public packages, typosquatting attacks using
+    similarly named malicious packages, compromised maintainer accounts publishing backdoored
+    updates, and abandoned packages with unpatched vulnerabilities. Mitigation includes
+    software composition analysis (SCA) tools, dependency pinning with lockfiles, private
+    package registries, automated vulnerability scanning in CI/CD pipelines, regular
+    dependency updates, SBOM (Software Bill of Materials) generation, and Dependabot or
+    Renovate for automated security updates.
+  core_concepts:
+    - key: "Transitive Dependencies"
+      value: "Indirect dependencies pulled in by direct dependencies that developers may be unaware of, creating hidden vulnerability exposure"
+    - key: "Dependency Confusion"
+      value: "Attack technique exploiting package manager resolution order to substitute internal packages with malicious public packages of the same name"
+    - key: "Software Bill of Materials"
+      value: "Comprehensive inventory of all software components and dependencies enabling vulnerability tracking and supply chain risk management"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Dependency vulnerabilities are a class of access control issues where vulnerable components provide unauthorized access paths"
+  - type: "enables"
+    target: "VUL-ACCESS-CVE20195736-001"
+    description: "The runc container escape is a dependency vulnerability where all container platforms share a vulnerable runtime component"
+  - type: "applies_to"
+    target: "VUL-ACCESS-API-001"
+    description: "API frameworks and their dependencies are common targets for dependency vulnerability exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A06 Vulnerable and Outdated Components"
+    - "CWE-1104 Use of Unmaintained Third-Party Components"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+    - "NIST Cybersecurity Supply Chain Risk Management"
+  search_keywords:
+    - "dependency vulnerability"
+    - "supply chain vulnerability"
+    - "dependency confusion"
+    - "third-party library vulnerability"
+    - "transitive dependency"
+    - "software composition analysis"
+    - "SBOM"
+    - "package manager security"
+  embedding_text: >-
+    Dependency Vulnerability encompasses security weaknesses from third-party libraries,
+    frameworks, and packages containing known flaws. Modern applications average 80%
+    third-party code with hundreds of direct and transitive dependencies. Attack vectors
+    include known-vulnerable versions, dependency confusion via namespace manipulation,
+    typosquatting on package registries, compromised maintainer accounts, and abandoned
+    packages. OWASP A06:2021 Vulnerable and Outdated Components. Mitigation includes
+    software composition analysis, dependency pinning, private registries, CI/CD scanning,
+    SBOM generation, and automated updates. High-profile incidents include Log4Shell,
+    event-stream compromise, and SolarWinds supply chain attack.

@@ -1,0 +1,71 @@
+# GR Atom: EC2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-EC2-001"
+  name: "EC2"
+  normalized_name: "ec2"
+  aliases: ["Amazon EC2", "Elastic Compute Cloud", "EC2 Instance", "AWS EC2"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [AWS, CLOUD, VMWARE]
+gr_coordinates:
+  layer: "L1"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Amazon Elastic Compute Cloud (EC2) is the core compute service of AWS that provides
+    resizable virtual machine instances in the cloud. EC2 offers a wide selection of instance
+    types optimized for different workloads (general purpose, compute-optimized, memory-optimized,
+    GPU). Instances run on the Nitro hypervisor and are launched from Amazon Machine Images
+    (AMIs) within VPCs. EC2 is the foundational compute primitive for AWS-hosted applications.
+  why: >-
+    EC2 instances are the primary compute workload in AWS and a major attack target. Security
+    concerns include exposed instances with public IPs, overly permissive security groups,
+    instance metadata credential theft via SSRF, compromised AMIs, and IAM role abuse. EC2
+    instances require hardening through IMDSv2 enforcement, security group least-privilege,
+    EBS encryption, Systems Manager patching, and VPC network isolation.
+  how: >-
+    EC2 instances are launched from AMIs specifying OS, software, and configuration. They run
+    in VPC subnets with security groups controlling network access. Instance metadata provides
+    IAM role credentials via the IMDS endpoint. Storage includes instance store (ephemeral)
+    and EBS volumes (persistent). Auto Scaling groups manage fleet capacity. EC2 Instance
+    Connect and Systems Manager provide secure remote access. CloudWatch monitors performance
+    and GuardDuty detects threats.
+  core_concepts:
+    - key: "Virtual Machine Instances"
+      value: "Resizable VMs running on the Nitro hypervisor, launched from AMIs with configurable instance types for different workloads"
+    - key: "Security Groups"
+      value: "Stateful firewall rules controlling inbound and outbound traffic at the instance level, critical for network security"
+    - key: "Instance Metadata Service"
+      value: "IMDS endpoint providing IAM credentials and instance information, requiring IMDSv2 to mitigate SSRF-based credential theft"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "EC2 is the core compute service within the AWS cloud platform"
+  - type: "requires"
+    target: "INFRA-COMPUTE-AWSVPC-001"
+    description: "EC2 instances run within VPC networks for network isolation"
+  - type: "enables"
+    target: "INFRA-COMPUTE-AWSNITENC-001"
+    description: "EC2 instances host Nitro Enclaves for confidential computing"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["AWS EC2 Documentation", "CIS Amazon Web Services Benchmark", "MITRE ATT&CK Cloud Matrix"]
+  search_keywords: ["EC2", "amazon ec2", "elastic compute cloud", "ec2 instance", "aws virtual machine", "ec2 security", "AMI"]
+  embedding_text: >-
+    Amazon EC2 is the core AWS compute service providing resizable virtual machine instances
+    running on the Nitro hypervisor, launched from AMIs within VPCs. Security concerns include
+    exposed instances, permissive security groups, IMDS credential theft via SSRF, compromised
+    AMIs, and IAM role abuse. Hardening requires IMDSv2 enforcement, security group
+    least-privilege, EBS encryption, and VPC isolation. EC2 supports Auto Scaling, Systems
+    Manager for patching, Instance Connect for secure access, and CloudWatch/GuardDuty for
+    monitoring and threat detection.

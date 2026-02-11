@@ -1,0 +1,139 @@
+# GR Atom: IPSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-IPSEC-001"
+  name: "IPSec"
+  normalized_name: "ipsec"
+  aliases:
+    - "Internet Protocol Security"
+    - "IP Security"
+    - "IPsec"
+    - "IP Sec"
+    - "IKE/IPsec"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - ENCRYPT
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    IPSec (Internet Protocol Security) is a network layer security protocol suite defined in
+    RFC 4301 that provides cryptographic protection for IP packets through authentication,
+    integrity verification, and encryption. The suite comprises three core protocols:
+    Authentication Header (AH, RFC 4302) for integrity and authentication without encryption,
+    Encapsulating Security Payload (ESP, RFC 4303) for confidentiality, integrity, and
+    authentication, and Internet Key Exchange (IKEv2, RFC 7296) for automated key management
+    and security association negotiation. IPSec operates in two modes: transport mode protecting
+    the payload of IP packets, and tunnel mode encapsulating entire IP packets within new IP
+    headers for VPN connectivity.
+  why: >-
+    IP was designed without built-in security, leaving network communications vulnerable to
+    eavesdropping, tampering, and spoofing at the network layer. IPSec addresses this
+    fundamental gap by providing transparent cryptographic protection below the transport layer,
+    securing all upper-layer protocols without requiring application modification. It is the
+    foundation for site-to-site and remote access VPNs, protecting sensitive data traversing
+    untrusted networks. IPSec is mandatory for IPv6 compliance (though its use remains optional)
+    and is required by numerous compliance frameworks including PCI DSS for network segmentation
+    and NIST SP 800-77 for VPN implementations. Its network-layer operation makes it protocol-
+    agnostic, protecting TCP, UDP, ICMP, and all other IP-carried protocols transparently.
+  how: >-
+    IPSec establishes Security Associations (SAs) through IKEv2, performing mutual authentication
+    via certificates, pre-shared keys, or EAP, and negotiating cryptographic algorithms for
+    the data plane. IKEv2 Phase 1 (IKE_SA_INIT and IKE_AUTH) establishes a secure control
+    channel; Phase 2 (CREATE_CHILD_SA) negotiates the child SAs for data protection. ESP
+    (protocol 50) encrypts and authenticates packet payloads using algorithms like AES-GCM-256
+    or ChaCha20-Poly1305, while AH (protocol 51) provides authentication without encryption.
+    In tunnel mode, the original IP packet is encapsulated within a new IP header and ESP/AH
+    header, enabling secure routing between networks. In transport mode, only the payload is
+    protected. Anti-replay protection uses sliding window sequence numbers. Security Policy
+    Database (SPD) rules determine which traffic requires IPSec protection.
+  core_concepts:
+    - key: "Security Association (SA)"
+      value: >-
+        A unidirectional agreement between IPSec peers defining the cryptographic algorithms,
+        keys, and parameters for protecting traffic. Each SA is identified by a Security
+        Parameter Index (SPI), protocol (ESP/AH), and destination address.
+    - key: "Tunnel Mode vs Transport Mode"
+      value: >-
+        Tunnel mode encapsulates the entire original IP packet for VPN gateway-to-gateway
+        communication. Transport mode protects only the IP payload for host-to-host security,
+        preserving the original IP header.
+    - key: "IKEv2 Key Management"
+      value: >-
+        Internet Key Exchange version 2 (RFC 7296) automates SA negotiation, mutual
+        authentication, and cryptographic key derivation using Diffie-Hellman exchange,
+        replacing the complex multi-phase IKEv1 protocol.
+    - key: "ESP Encapsulation"
+      value: >-
+        Encapsulating Security Payload provides confidentiality through encryption and
+        integrity through authentication, using authenticated encryption algorithms like
+        AES-GCM that combine both operations in a single pass.
+    - key: "Anti-Replay Protection"
+      value: >-
+        IPSec uses sequence numbers and a sliding receive window to detect and discard
+        duplicate or replayed packets, preventing replay attacks on encrypted connections.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "IPSec provides network-layer encryption as an alternative to TLS application-layer encryption"
+  - type: "enables"
+    target: "PROTO-SECURITY-SSH-001"
+    description: "IPSec can provide an encrypted network tunnel over which SSH and other protocols operate"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-SSL-001"
+    description: "IPSec VPNs provide an alternative to SSL VPNs for remote access and site-to-site connectivity"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4301 - Security Architecture for the Internet Protocol. IETF. https://datatracker.ietf.org/doc/html/rfc4301"
+    - "RFC 4303 - IP Encapsulating Security Payload (ESP). IETF. https://datatracker.ietf.org/doc/html/rfc4303"
+    - "RFC 7296 - Internet Key Exchange Protocol Version 2 (IKEv2). IETF. https://datatracker.ietf.org/doc/html/rfc7296"
+    - "NIST SP 800-77 Rev. 1 - Guide to IPsec VPNs. https://csrc.nist.gov/publications/detail/sp/800-77/rev-1/final"
+  search_keywords:
+    - "IPSec"
+    - "Internet Protocol Security"
+    - "ESP encapsulating security payload"
+    - "IKEv2"
+    - "IPSec VPN"
+    - "tunnel mode"
+    - "transport mode"
+    - "security association"
+    - "RFC 4301"
+    - "network layer encryption"
+  embedding_text: >-
+    IPSec (Internet Protocol Security) is a network layer protocol suite defined in RFC 4301
+    that provides authentication, integrity, and encryption for IP packets. The suite includes
+    ESP (Encapsulating Security Payload) for encryption and authentication, AH (Authentication
+    Header) for integrity without encryption, and IKEv2 for automated key management and
+    security association negotiation. IPSec operates in tunnel mode for VPN connectivity by
+    encapsulating entire IP packets, or transport mode for host-to-host payload protection.
+    IKEv2 performs mutual authentication via certificates or pre-shared keys and negotiates
+    cryptographic parameters through Diffie-Hellman key exchange. Security Associations define
+    unidirectional cryptographic agreements identified by Security Parameter Index values.
+    Anti-replay protection uses sliding window sequence numbers. IPSec is the foundation for
+    site-to-site and remote access VPNs, operates transparently below the transport layer
+    protecting all upper protocols, and is mandatory for IPv6 compliance. NIST SP 800-77
+    provides implementation guidance for IPSec VPN deployments.

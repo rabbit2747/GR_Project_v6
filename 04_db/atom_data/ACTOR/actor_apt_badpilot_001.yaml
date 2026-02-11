@@ -1,0 +1,84 @@
+# GR Atom: BadPilot
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BADPILOT-001"
+  name: "BadPilot"
+  normalized_name: "badpilot"
+  aliases:
+    - "Seashell Blizzard Initial Access Subgroup"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - RECON
+    - NETWORK
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BadPilot is a subgroup within the Russian state-sponsored APT Seashell Blizzard (Sandworm), identified by Microsoft in 2025. This initial access operation conducts opportunistic exploitation of internet-facing infrastructure worldwide, targeting energy, telecommunications, government, military, transportation, and manufacturing sectors. The subgroup has exploited vulnerabilities in ConnectWise ScreenConnect, Fortinet FortiClient EMS, and other edge devices to establish persistent footholds that are later handed off to the broader Sandworm operation."
+  why: "BadPilot is strategically significant because it functions as the initial access broker for one of the most destructive Russian APT groups. By opportunistically compromising internet-facing systems at scale, BadPilot enables Sandworm to selectively escalate access into high-value targets for destructive operations, espionage, or pre-positioning for future conflict scenarios. Their expansion beyond Ukraine to global targets marks a broadening of Russian cyber operations."
+  how: "BadPilot scans for and exploits known vulnerabilities in internet-facing systems including VPN appliances, remote management tools, and web applications. After gaining initial access, they deploy web shells, lightweight persistence mechanisms, and tunneling tools such as ShadowLink (a Tor-based utility) to maintain covert access. Compromised infrastructure is then triaged and selectively handed to Sandworm operators for deeper exploitation and potential destructive operations."
+  core_concepts:
+    - key: "Initial Access Broker"
+      value: "Functions as an access broker subgroup within the larger Sandworm APT, specializing in opportunistic exploitation"
+    - key: "Edge Device Exploitation"
+      value: "Targets internet-facing VPN appliances, remote management tools, and web applications at scale"
+    - key: "ShadowLink Persistence"
+      value: "Uses Tor-based persistence utilities to maintain covert access to compromised infrastructure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-SEASBLIZ-001"
+    description: "BadPilot is a subgroup of Seashell Blizzard (Sandworm/GRU Unit 74455) responsible for initial access operations"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Conducts large-scale exploitation of internet-facing infrastructure for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Reconnaissance"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft Threat Intelligence - BadPilot Subgroup Report 2025"
+    - "Microsoft - Seashell Blizzard Initial Access Operations"
+  search_keywords:
+    - "badpilot"
+    - "seashell blizzard subgroup"
+    - "sandworm initial access"
+    - "shadowlink tor"
+    - "russian apt initial access"
+    - "connectwise screenconnect exploit"
+    - "fortinet exploit apt"
+    - "edge device exploitation"
+    - "internet-facing exploitation"
+    - "gru cyber operations"
+  embedding_text: "BadPilot is an initial access subgroup within the Russian state-sponsored APT Seashell Blizzard (Sandworm), identified by Microsoft in 2025. The subgroup conducts opportunistic, large-scale exploitation of internet-facing infrastructure including VPN appliances, remote management tools like ConnectWise ScreenConnect, and Fortinet FortiClient EMS. Targets span energy, telecommunications, government, military, transportation, and manufacturing sectors globally. After gaining initial access, BadPilot deploys web shells and Tor-based persistence tools such as ShadowLink, then triages compromised infrastructure and hands off high-value targets to Sandworm operators for deeper exploitation, espionage, or destructive operations. The subgroup represents a strategic expansion of Russian cyber operations beyond Ukraine to global targets."

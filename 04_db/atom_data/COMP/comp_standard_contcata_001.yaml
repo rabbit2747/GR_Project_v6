@@ -1,0 +1,72 @@
+# GR Atom: Control Catalog
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-CONTCATA-001"
+  name: "Control Catalog"
+  normalized_name: "control_catalog"
+  aliases:
+    - "Security Control Catalog"
+    - "Control Library"
+    - "Control Repository"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "A control catalog is a structured, comprehensive inventory of security and operational controls that an organization can select, implement, and assess to mitigate identified risks. Control catalogs such as NIST SP 800-53, CIS Controls, and ISO 27002 organize controls into families or domains covering areas like access control, audit and accountability, incident response, and system integrity. Each control entry typically includes a unique identifier, control description, supplemental guidance, related controls, and control enhancements for higher assurance levels."
+  why: "Control catalogs provide the authoritative reference point for building a defense-in-depth security program. They enable standardized risk treatment across an organization, ensure comprehensive coverage of threat vectors, and establish a common language between security teams, auditors, and regulators. Without a control catalog, organizations risk ad-hoc security implementations that leave critical gaps."
+  how: "Organizations adopt a control catalog by first selecting a baseline appropriate to their risk profile and regulatory requirements. Controls are then tailored based on organizational context, implemented across technology and process domains, and assessed for effectiveness through continuous monitoring and periodic audits. Control catalogs are maintained in GRC platforms that map controls to compliance requirements, track implementation status, and generate evidence for auditors."
+  core_concepts:
+    - key: "Control Family"
+      value: "Logical grouping of related controls addressing a common security domain such as access control or incident response"
+    - key: "Control Baseline"
+      value: "A predefined set of controls recommended for a specific impact level or risk tier"
+    - key: "Control Enhancement"
+      value: "Additional specification that augments a base control to provide higher assurance"
+    - key: "Control Tailoring"
+      value: "Process of modifying a control baseline to align with organizational context and risk tolerance"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "A control catalog is a component of a security compliance framework"
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Control catalogs provide the control objectives against which audits are conducted"
+  - type: implements
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "NIST SP 800-53 is a primary example of a control catalog"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls - https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+    - "CIS Controls v8 - https://www.cisecurity.org/controls"
+    - "ISO/IEC 27002:2022 Information Security Controls"
+  search_keywords:
+    - "control catalog"
+    - "security controls"
+    - "control library"
+    - "control family"
+    - "control baseline"
+    - "NIST controls"
+    - "CIS controls"
+    - "control enhancement"
+    - "security control selection"
+    - "control tailoring"
+  embedding_text: "A control catalog is a structured inventory of security and operational controls that organizations select and implement to mitigate risks. Major catalogs include NIST SP 800-53, CIS Controls, and ISO 27002. Controls are organized into families covering access control, audit, incident response, and system integrity. Each control has an identifier, description, supplemental guidance, and enhancements. Organizations adopt catalogs by selecting a baseline for their risk profile, tailoring controls to organizational context, implementing them across domains, and assessing effectiveness through continuous monitoring and audits."

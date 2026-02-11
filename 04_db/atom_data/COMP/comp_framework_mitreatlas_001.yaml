@@ -1,0 +1,132 @@
+# GR Atom: MITRE ATLAS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MITREATLAS-001"
+  name: "MITRE ATLAS"
+  normalized_name: "mitre_atlas"
+  aliases:
+    - "ATLAS"
+    - "Adversarial Threat Landscape for AI Systems"
+    - "MITRE ATLAS Matrix"
+    - "AI Threat Framework"
+    - "ATLAS for AI Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - AI
+    - THREAT_INTEL
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE ATLAS (Adversarial Threat Landscape for Artificial Intelligence Systems) is a
+    knowledge base of adversary tactics, techniques, and case studies targeting machine learning
+    (ML) and artificial intelligence (AI) systems. Modeled after the MITRE ATT&CK framework,
+    ATLAS documents the unique attack surfaces introduced by AI/ML systems including model
+    poisoning, adversarial inputs, model theft, data extraction, and supply chain attacks
+    targeting ML pipelines. The framework covers 14 tactics and over 80 techniques specific
+    to AI/ML environments, with documented real-world case studies demonstrating each attack
+    category against production AI systems.
+  why: >-
+    As organizations increasingly deploy AI and machine learning systems in critical applications
+    including cybersecurity, healthcare, autonomous systems, and financial services, these
+    systems introduce novel attack surfaces not covered by traditional cybersecurity frameworks.
+    Adversaries can manipulate training data, craft adversarial inputs that cause
+    misclassification, steal proprietary models, extract sensitive training data, and exploit
+    ML supply chain dependencies. ATLAS provides the structured threat model that security
+    teams need to identify, assess, and mitigate these AI-specific risks using a taxonomy
+    consistent with the ATT&CK methodology they already understand.
+  how: >-
+    ATLAS is structured as an ATT&CK-style matrix with AI-specific tactics and techniques:
+    (1) Reconnaissance of ML systems and training data; (2) Resource development targeting ML
+    infrastructure; (3) Initial access to ML pipelines and model registries; (4) ML attack
+    staging including data poisoning and model manipulation; (5) ML attack execution including
+    adversarial perturbation, model evasion, and model extraction; (6) Persistence through
+    backdoored models and poisoned datasets; (7) Impact including denial of ML service,
+    manipulation of outputs, and model degradation. Organizations use ATLAS to assess AI
+    system threat exposure, develop AI-specific security controls, conduct red team exercises
+    against ML systems, and build threat models for AI deployment decisions.
+  core_concepts:
+    - key: "AI/ML Attack Surface"
+      value: >-
+        The unique vulnerabilities introduced by AI and machine learning systems including
+        training data manipulation, model architecture exploitation, inference-time adversarial
+        inputs, and ML supply chain dependencies.
+    - key: "Adversarial Machine Learning"
+      value: >-
+        The field studying attacks against ML models including evasion attacks that cause
+        misclassification, poisoning attacks that corrupt training, model extraction that
+        steals intellectual property, and inference attacks that extract training data.
+    - key: "ML Supply Chain Security"
+      value: >-
+        Threats targeting the ML development pipeline including compromised pre-trained models,
+        poisoned datasets, backdoored ML libraries, and manipulated model registries that
+        introduce vulnerabilities into production AI systems.
+    - key: "AI Red Teaming"
+      value: >-
+        Structured adversarial testing of AI systems using ATLAS techniques to identify
+        vulnerabilities, validate defenses, and assess the robustness of ML models against
+        targeted attacks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "ATLAS extends the ATT&CK methodology and taxonomy structure to the AI/ML domain with AI-specific tactics and techniques"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-LLM-001"
+    description: "ATLAS provides the AI threat taxonomy that contextualizes OWASP Top 10 for LLM vulnerabilities within adversary tradecraft"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "ATLAS AI threat knowledge informs NIST CSF implementation for organizations deploying AI systems"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATLAS. https://atlas.mitre.org/"
+    - "MITRE ATLAS - Adversarial Threat Landscape for Artificial Intelligence Systems. https://atlas.mitre.org/matrices/ATLAS"
+    - "MITRE ATLAS - Case Studies. https://atlas.mitre.org/studies"
+    - "NIST AI Risk Management Framework (AI RMF 1.0). https://www.nist.gov/artificial-intelligence/ai-risk-management-framework"
+  search_keywords:
+    - "MITRE ATLAS"
+    - "AI threat framework"
+    - "adversarial machine learning"
+    - "ML attack taxonomy"
+    - "AI security framework"
+    - "model poisoning"
+    - "adversarial inputs"
+    - "AI red teaming"
+    - "ML supply chain security"
+    - "artificial intelligence threats"
+  embedding_text: >-
+    MITRE ATLAS (Adversarial Threat Landscape for Artificial Intelligence Systems) is a knowledge
+    base of adversary tactics, techniques, and case studies targeting machine learning and AI
+    systems. Modeled after ATT&CK, ATLAS documents attack surfaces unique to AI/ML including
+    model poisoning, adversarial inputs, model theft, data extraction, and ML supply chain
+    attacks. The framework covers 14 tactics and over 80 techniques with real-world case studies
+    demonstrating attacks against production AI systems. As organizations deploy AI in critical
+    applications, ATLAS provides the structured threat model for identifying and mitigating
+    AI-specific risks using ATT&CK-consistent taxonomy. Organizations use ATLAS to assess AI
+    system threat exposure, develop AI-specific security controls, conduct red team exercises
+    against ML systems, and build threat models for AI deployment decisions. The framework
+    addresses novel attack surfaces not covered by traditional cybersecurity frameworks including
+    training data manipulation, adversarial perturbation, model extraction, and backdoored
+    models in ML supply chains.

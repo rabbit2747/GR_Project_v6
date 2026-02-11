@@ -1,0 +1,119 @@
+# GR Atom: CVE-2023-41990
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202341990-001"
+  name: "CVE-2023-41990"
+  normalized_name: "cve_2023_41990"
+  aliases:
+    - "Apple ADJUST TrueType Font Exploit"
+    - "Operation Triangulation Font Processing RCE"
+    - "iMessage Font Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Apple font processing (CoreText/FontParser)"
+    - "iOS before 16.2"
+    - "ADJUST TrueType font instruction"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-41990 is a remote code execution vulnerability (CVSS 7.8) in Apple's font
+    processing subsystem, specifically in the handling of the undocumented ADJUST TrueType
+    font instruction. The vulnerability allows arbitrary code execution when processing a
+    malicious font embedded in an iMessage attachment. It was the initial entry point in
+    the Operation Triangulation zero-click exploit chain discovered by Kaspersky. The
+    ADJUST instruction had been undocumented and unused since the early 1990s but
+    remained in Apple's font processing code, creating an exploitable legacy attack
+    surface. Apple patched it in iOS 16.2 in December 2022, though it was not publicly
+    attributed until Kaspersky's 2023 analysis.
+  why: >-
+    CVE-2023-41990 demonstrates the danger of legacy code and undocumented functionality
+    persisting in modern software. The ADJUST TrueType instruction was obsolete since the
+    early 1990s but remained in Apple's font parser for over 30 years, creating an
+    attack surface that sophisticated adversaries discovered and exploited. As the
+    initial zero-click entry point for Operation Triangulation, it enabled the entire
+    exploit chain to begin without any user interaction, making it especially dangerous
+    for targeted surveillance operations.
+  how: >-
+    The exploit sends an iMessage attachment containing a specially crafted PDF with an
+    embedded malicious TrueType font. The font contains instructions that abuse the
+    undocumented ADJUST TrueType instruction to achieve arbitrary memory read/write
+    primitives within the font processing context. The ADJUST instruction was implemented
+    in Apple's font engine but was never documented in public TrueType specifications.
+    By chaining multiple ADJUST instruction operations, the attacker builds a full
+    exploitation primitive that achieves code execution within the iMessage process,
+    enabling the subsequent stages of the Operation Triangulation attack chain.
+  core_concepts:
+    - key: "Undocumented Font Instruction"
+      value: "Exploits the ADJUST TrueType instruction, undocumented since the 1990s but still present in Apple font processing"
+    - key: "Zero-Click Entry Point"
+      value: "Initial entry vector for Operation Triangulation delivered via iMessage without any user interaction required"
+    - key: "Legacy Code Attack Surface"
+      value: "30+ year old undocumented functionality in production code creates exploitable attack surface for sophisticated adversaries"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2023-41990 is a memory corruption in Apple's font processing subsystem"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332435-001"
+    description: "Font processing RCE enables subsequent WebKit exploitation in Operation Triangulation chain"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332434-001"
+    description: "Initial code execution enables kernel privilege escalation later in the Triangulation exploit chain"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Apple Security Update - iOS 16.2"
+    - "NVD Entry CVE-2023-41990 - CVSS 7.8"
+    - "Kaspersky - Operation Triangulation: The Last Hardware Mystery"
+    - "37C3 - Operation Triangulation Presentation"
+  search_keywords:
+    - "CVE-2023-41990"
+    - "Apple font"
+    - "TrueType"
+    - "ADJUST instruction"
+    - "Operation Triangulation"
+    - "zero-click"
+    - "iMessage"
+    - "font processing"
+  embedding_text: >-
+    CVE-2023-41990 is a remote code execution vulnerability in Apple's font processing
+    with CVSS 7.8, exploiting the undocumented ADJUST TrueType font instruction that
+    persisted unused since the 1990s. As the zero-click entry point for Operation
+    Triangulation, malicious fonts in iMessage attachments triggered code execution
+    without user interaction. The 30-year-old undocumented instruction provided memory
+    read/write primitives enabling the full spyware chain. It demonstrates how legacy
+    code in modern software creates attack surfaces for sophisticated adversaries.

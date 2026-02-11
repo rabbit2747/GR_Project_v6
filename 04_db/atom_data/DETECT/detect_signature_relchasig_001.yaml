@@ -1,0 +1,84 @@
+# GR Atom: Relay Chain Signature
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-RELCHASIG-001"
+  name: "Relay Chain Signature"
+  normalized_name: "relay_chain_signature"
+  aliases:
+    - "NTLM Relay Chain Detection"
+    - "Authentication Relay Signature"
+    - "Relay Attack Chain Pattern"
+    - "Credential Relay Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - CRED
+    - LATERAL
+    - NETWORK
+    - IDS
+    - MONITOR
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "A relay chain signature is a detection pattern that identifies authentication relay attacks where an adversary intercepts authentication credentials or tokens from one service and forwards (relays) them to a different service to gain unauthorized access. The signature detects the characteristic network traffic pattern of relay chains: an authentication attempt initiated by a victim to the attacker's controlled endpoint, followed by the attacker immediately forwarding those credentials to a target service. The most common variant is NTLM relay, where the attacker captures NTLM challenge-response authentication and relays it to another server that accepts NTLM authentication. Other relay variants include Kerberos relay, LDAP relay, HTTP relay, and cross-protocol relay (e.g., HTTP to SMB, SMTP to LDAP). The signature identifies the temporal correlation, network flow patterns, and protocol-specific artifacts that distinguish relay attacks from legitimate authentication."
+  why: "Authentication relay attacks are among the most impactful lateral movement and privilege escalation techniques in enterprise environments because they allow attackers to authenticate as a victim user without knowing their password. NTLM relay in particular remains highly effective in Windows Active Directory environments despite decades of awareness, because many services still accept NTLM authentication and not all environments enforce signing requirements that prevent relay. A single successful relay can escalate privileges from a low-privilege user to domain administrator by relaying credentials to services like LDAP, Active Directory Certificate Services (ADCS), or Exchange. Detection of relay chain patterns is essential because the attack leaves minimal forensic artifacts on the victim's endpoint."
+  how: "Relay chain signature detection analyzes network authentication traffic for temporal and spatial anomalies characteristic of relay attacks. The signature monitors for: authentication requests where the source IP of the NTLM/Kerberos response differs from the original challenge recipient, short time deltas between an inbound authentication attempt to one service and an outbound attempt to another service from the same host, mismatches between the claimed workstation name in NTLM messages and the actual source hostname, NTLM authentication where the source IP belongs to a known relay tool (e.g., ntlmrelayx, Responder), and authentication sequences where the same NTLM challenge appears in traffic to two different destinations. Network IDS rules inspect SMB, HTTP, LDAP, and MSSQL traffic for these relay indicators. SIEM correlation rules aggregate authentication events from multiple sources to detect the relay chain pattern across protocols."
+  core_concepts:
+    - key: "NTLM Relay"
+      value: "Interception and forwarding of NTLM challenge-response authentication to a target service, enabling impersonation without knowing the victim's password"
+    - key: "Cross-Protocol Relay"
+      value: "Relaying authentication from one protocol to another (e.g., HTTP NTLM authentication relayed to SMB or LDAP)"
+    - key: "Temporal Correlation"
+      value: "Detection of suspiciously short time intervals between an inbound authentication request and an outbound relay attempt"
+    - key: "Signing Enforcement"
+      value: "Protocol-level signing requirements (SMB signing, LDAP signing) that prevent relay attacks by binding authentication to a specific connection"
+
+relations:
+  - type: effective_against
+    target: "ATK-CRED-NTLMRELA-001"
+    description: "Relay chain signatures are specifically designed to detect NTLM relay attacks"
+  - type: enables
+    target: "DETECT-BEHAVIOR-RELAPATT-001"
+    description: "Relay chain signatures enable broader relay attack pattern detection"
+  - type: applies_to
+    target: "INFRA-SEC-IDS-001"
+    description: "Relay chain signatures are deployed within network IDS infrastructure for traffic inspection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557"
+    tactic:
+      - "Credential Access"
+      - "Lateral Movement"
+    sub_techniques:
+      - "T1557.001"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - LLMNR/NBT-NS Poisoning and SMB Relay (T1557.001) - https://attack.mitre.org/techniques/T1557/001/"
+    - "Microsoft - NTLM Relay Attack Documentation"
+    - "SpecterOps - NTLM Relay Attack Research - https://posts.specterops.io/"
+  search_keywords:
+    - "relay chain signature"
+    - "NTLM relay detection"
+    - "authentication relay attack"
+    - "credential relay"
+    - "SMB relay detection"
+    - "ntlmrelayx detection"
+    - "cross-protocol relay"
+    - "relay attack pattern"
+  embedding_text: "Relay chain signatures detect authentication relay attacks where an adversary intercepts credentials from one service and forwards them to a different service for unauthorized access. The most common variant is NTLM relay in Windows Active Directory environments, where NTLM challenge-response authentication is captured and relayed to servers accepting NTLM. Detection analyzes network authentication traffic for temporal and spatial anomalies including IP mismatches between NTLM challenge recipients and response sources, short time deltas between inbound and outbound authentication, and the same NTLM challenge appearing in traffic to different destinations. Cross-protocol relay variants include HTTP-to-SMB, SMTP-to-LDAP, and HTTP-to-LDAP relay chains."

@@ -1,0 +1,70 @@
+# GR Atom: CVE-2022-41120
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202241120-001"
+  name: "CVE-2022-41120"
+  normalized_name: "cve_2022_41120"
+  aliases:
+    - "Microsoft ODBC Driver Remote Code Execution"
+    - "Windows ODBC Driver Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - WINDOWS
+    - DATABASE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft ODBC Driver"
+    - "Windows"
+
+definition:
+  what: "CVE-2022-41120 is a remote code execution vulnerability in the Microsoft ODBC Driver that allows an attacker to execute arbitrary code on a target system. The vulnerability exists in how the ODBC driver processes specially crafted data, and can be triggered when a user connects to a malicious database server or processes a crafted file that triggers an ODBC connection with attacker-controlled parameters."
+  why: "The ODBC (Open Database Connectivity) driver is a fundamental Windows component used by thousands of applications for database connectivity. This vulnerability can be exploited through multiple attack vectors including malicious database servers, crafted connection strings in documents, and man-in-the-middle attacks on database connections. The ubiquity of ODBC across enterprise applications makes the attack surface extremely broad."
+  how: "The vulnerability is triggered when the Windows ODBC driver processes specially crafted data from a malicious source. An attacker can set up a malicious database server and entice a victim to connect to it, or craft a document containing an ODBC connection string that triggers the vulnerability when opened. The malformed data causes memory corruption in the ODBC driver, allowing the attacker to execute arbitrary code in the context of the application using the ODBC connection. Microsoft patched this in November 2022 Patch Tuesday. CVSS v3: 8.8 (High)."
+  core_concepts:
+    - key: "ODBC Driver Memory Corruption"
+      value: "Memory safety vulnerability in the Windows ODBC driver triggered by processing specially crafted data from database connections"
+    - key: "Malicious Database Server Attack"
+      value: "Attack vector where an attacker operates a malicious database server that sends crafted responses to exploit client-side ODBC driver vulnerabilities"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2022-41120 is a vulnerability in a default Windows component's data processing configuration"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "ODBC driver exploitation enables compromise of any application using ODBC database connectivity"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-41120 - NVD NIST"
+    - "Microsoft Security Advisory - November 2022 Patch Tuesday"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2022-41120"
+    - "Microsoft ODBC vulnerability"
+    - "ODBC driver RCE"
+    - "Windows ODBC exploit"
+    - "ODBC remote code execution"
+    - "database driver vulnerability"
+  embedding_text: "CVE-2022-41120 is a remote code execution vulnerability in the Microsoft ODBC Driver where processing specially crafted data causes memory corruption allowing arbitrary code execution. The vulnerability can be triggered through malicious database servers, crafted connection strings in documents, or MITM attacks on database connections. ODBC is a fundamental Windows component used by thousands of applications, making the attack surface extremely broad. CVSS v3 score is 8.8 High. Patched in Microsoft November 2022 Patch Tuesday. Maps to MITRE ATT&CK T1203 Exploitation for Client Execution."

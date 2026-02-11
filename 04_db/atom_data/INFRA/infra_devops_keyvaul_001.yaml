@@ -1,0 +1,80 @@
+# GR Atom: Key Vault
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-KEYVAUL-001"
+  name: "Key Vault"
+  normalized_name: "key_vault"
+  aliases:
+    - "Secrets Vault"
+    - "Key Management System"
+    - "Secrets Manager"
+    - "Credential Vault"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CRYPTO
+    - ENCRYPT
+    - PAM
+    - CLOUD
+    - COMPLIANCE
+
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "P2.1"
+
+definition:
+  what: "Key Vault is the general infrastructure category for managed services that securely store, manage, and control access to cryptographic keys, secrets (passwords, API keys, connection strings), and certificates. This includes AWS KMS, Azure Key Vault, Google Cloud KMS, HashiCorp Vault, and CyberArk. Key vaults provide hardware security module (HSM) backing, access auditing, automated rotation, and integration with application and infrastructure services."
+  why: "Key vaults are among the most security-critical infrastructure components because they protect the cryptographic material and credentials that safeguard all other data and systems. Compromise of a key vault effectively compromises all systems and data protected by its contents. Key vaults prevent secret sprawl by centralizing credential management, eliminating hardcoded secrets in code and configuration files. Regulatory frameworks universally require key management controls for protecting sensitive data."
+  how: "Key vaults operate through authenticated API calls with fine-grained access control policies. Cryptographic keys are generated and stored within HSMs and never leave the vault boundary in plaintext. Secrets are encrypted at rest and decrypted only during authorized access. Automated rotation policies periodically generate new key material while maintaining backward compatibility. Audit logging captures all access and management operations. Integration with identity providers enables application-to-vault authentication without static credentials. Certificate lifecycle management automates issuance, renewal, and revocation."
+  core_concepts:
+    - key: "Secrets Management"
+      value: "Centralized storage and controlled access to sensitive credentials including passwords, API keys, tokens, and connection strings"
+    - key: "HSM-Backed Key Storage"
+      value: "Hardware security modules providing tamper-resistant storage and cryptographic operations for key material that never leaves the HSM boundary"
+    - key: "Automated Key Rotation"
+      value: "Periodic generation of new cryptographic material with seamless transition, maintaining backward compatibility for decryption"
+    - key: "Zero-Trust Secret Access"
+      value: "Authentication and authorization required for every secret access, with full audit trail and no implicit trust"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-AWSKMS-001"
+    description: "Key Vault is the general concept that AWS KMS implements as a specific service"
+  - type: abstracts
+    target: "INFRA-DEVOPS-AZUKEYVAU-001"
+    description: "Key Vault is the general concept that Azure Key Vault implements as a specific service"
+  - type: enables
+    target: "INFRA-DEVOPS-KUEXSEOP-001"
+    description: "Key vaults serve as external secret stores for Kubernetes External Secrets Operator"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-57 - Recommendation for Key Management"
+    - "HashiCorp Vault Documentation - https://developer.hashicorp.com/vault/docs"
+    - "MITRE ATT&CK T1552.001 - Unsecured Credentials: Credentials In Files"
+  search_keywords:
+    - "key vault"
+    - "secrets management"
+    - "key management system"
+    - "credential vault"
+    - "HSM key storage"
+    - "secrets manager"
+    - "key rotation"
+    - "vault security"
+  embedding_text: "Key Vault is the general infrastructure category for managed services securely storing cryptographic keys, secrets, and certificates. Includes AWS KMS, Azure Key Vault, Google Cloud KMS, HashiCorp Vault, and CyberArk. Provides HSM-backed storage, access auditing, automated rotation, and service integration. Security significance is paramount as compromise of a key vault effectively compromises all protected systems and data. Key vaults prevent secret sprawl by centralizing credential management and eliminating hardcoded secrets. Operations use authenticated APIs with fine-grained access control. Keys never leave HSM boundaries in plaintext. Regulatory frameworks universally require key management controls."

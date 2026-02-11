@@ -1,0 +1,102 @@
+# GR Atom: Cloud Metadata API
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-API-001"
+  name: "Cloud Metadata API"
+  normalized_name: "cloud_metadata_api"
+  aliases:
+    - "Metadata API"
+    - "Instance Metadata API"
+    - "Cloud Metadata Endpoint"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - API
+    - SSRF
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Cloud Metadata API is the HTTP REST endpoint (typically at 169.254.169.254) that serves
+    instance metadata to cloud compute resources. It provides a structured API for querying
+    instance attributes, network configuration, user-data scripts, and temporary security
+    credentials. AWS exposes IMDSv1/v2, Azure uses the Azure Instance Metadata Service (AIMS)
+    at 169.254.169.254/metadata, and GCP provides its metadata server at
+    metadata.google.internal (169.254.169.254).
+  why: >-
+    The Cloud Metadata API is one of the most exploited cloud attack surfaces because it provides
+    direct access to temporary credentials without authentication in many default configurations.
+    SSRF vulnerabilities in web applications can be leveraged to query this API and steal
+    credentials for lateral movement and privilege escalation within cloud environments. The API
+    is a critical component in cloud kill chains from initial access to data exfiltration.
+  how: >-
+    The metadata API responds to HTTP requests from within the instance's network namespace.
+    AWS IMDSv1 responds to any GET request; IMDSv2 requires a PUT to obtain a session token
+    with a TTL. Azure requires a Metadata:true header. GCP requires a Metadata-Flavor:Google
+    header. Credentials are returned as JSON with access keys, secret keys, and session tokens.
+    The API also serves user-data (startup scripts) which may contain hardcoded secrets.
+    Protection involves enforcing token-based access, WAF rules blocking SSRF, and iptables
+    rules restricting access to authorized processes.
+  core_concepts:
+    - key: "Link-Local HTTP Endpoint"
+      value: "REST API at 169.254.169.254 accessible only from within the instance, serving metadata and credentials via HTTP"
+    - key: "SSRF Attack Surface"
+      value: "The metadata API is a primary SSRF target because it returns credentials without authentication in legacy configurations"
+    - key: "Provider-Specific Headers"
+      value: "Each cloud provider requires different request headers or token mechanisms to access the metadata API, providing varying levels of SSRF protection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-COMPUTE-CLOINSMET-001"
+    description: "The Cloud Metadata API serves cloud instance metadata to running instances"
+  - type: "enables"
+    target: "INFRA-COMPUTE-IMDS-001"
+    description: "The Cloud Metadata API is the access mechanism for the Instance Metadata Service"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "The metadata API is a fundamental component of cloud infrastructure platforms"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK T1552.005 - Cloud Instance Metadata API"
+    - "AWS IMDS Documentation - docs.aws.amazon.com"
+    - "OWASP Server-Side Request Forgery Prevention Cheat Sheet"
+  search_keywords:
+    - "cloud metadata api"
+    - "metadata api"
+    - "169.254.169.254"
+    - "instance metadata endpoint"
+    - "SSRF cloud"
+    - "credential theft metadata"
+    - "IMDSv2 api"
+  embedding_text: >-
+    The Cloud Metadata API is the HTTP REST endpoint at 169.254.169.254 that serves instance
+    metadata and temporary security credentials to cloud compute resources. AWS exposes IMDSv1
+    (unauthenticated GET) and IMDSv2 (token-based), Azure uses AIMS with a required Metadata
+    header, and GCP requires a Metadata-Flavor header. The API is one of the most exploited
+    cloud attack surfaces because SSRF vulnerabilities in web applications can query it to steal
+    credentials for lateral movement and privilege escalation. Protection involves enforcing
+    token-based access (IMDSv2), WAF rules blocking SSRF patterns, and iptables rules restricting
+    which processes can reach the metadata endpoint.

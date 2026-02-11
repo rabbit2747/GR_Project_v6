@@ -1,0 +1,115 @@
+# GR Atom: CVE-2018-20250
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE201820250-001"
+  name: "CVE-2018-20250"
+  normalized_name: "cve_2018_20250"
+  aliases:
+    - "WinRAR ACE Path Traversal"
+    - "WinRAR UNACEV2.DLL Vulnerability"
+    - "WinRAR 19-Year Bug"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - PATH
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "WinRAR before 5.70"
+    - "UNACEV2.DLL ACE archive handler"
+    - "Windows Startup folder"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-20250 is a path traversal vulnerability (CVSS 7.8) in WinRAR's ACE archive
+    extraction handler (UNACEV2.DLL) that allows arbitrary file write to any location on
+    the system during archive extraction. The vulnerable DLL had been included in WinRAR for
+    19 years without updates. Discovered by Check Point Research in February 2019, the flaw
+    enables code execution by extracting malicious files to the Windows Startup folder,
+    achieving persistence and execution upon next login. Over 500 million WinRAR users were
+    potentially affected. WinRAR 5.70 removed ACE support entirely to remediate the vulnerability.
+  why: >-
+    The vulnerability affected one of the most widely installed Windows applications with over
+    500 million users. The 19-year-old UNACEV2.DLL library was a closed-source third-party
+    component that could not be patched, necessitating complete removal of ACE format support.
+    Multiple APT groups rapidly weaponized the vulnerability after disclosure for targeted
+    attacks, demonstrating how widely-deployed software with legacy components creates massive
+    attack surfaces.
+  how: >-
+    The exploit crafts an ACE archive with specially constructed file paths that exploit a
+    path traversal flaw in UNACEV2.DLL. When extracted, files are written outside the intended
+    directory to attacker-controlled locations. The primary exploitation technique writes a
+    malicious executable to the Windows Startup folder (C:\Users\<user>\AppData\Roaming\
+    Microsoft\Windows\Start Menu\Programs\Startup\), which executes automatically at next
+    user login. The archive is typically delivered via spear-phishing emails disguised as
+    legitimate compressed files.
+  core_concepts:
+    - key: "Legacy DLL Path Traversal"
+      value: "19-year-old UNACEV2.DLL contains path traversal allowing arbitrary file writes during ACE archive extraction"
+    - key: "Startup Folder Persistence"
+      value: "Primary exploitation writes malicious executables to Windows Startup folder for automatic execution at login"
+    - key: "Massive Attack Surface"
+      value: "Over 500 million WinRAR users affected by vulnerability in unmaintainable closed-source third-party component"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2018-20250 involves memory handling flaws in legacy UNACEV2.DLL during ACE archive processing"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202338831-001"
+    description: "Both are archive handler vulnerabilities in WinRAR that enable code execution through crafted archive files"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Check Point Research - Extracting a 19-Year Old Code Execution from WinRAR"
+    - "NVD Entry CVE-2018-20250 - CVSS 7.8"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "WinRAR 5.70 Release Notes - ACE Support Removal"
+  search_keywords:
+    - "CVE-2018-20250"
+    - "WinRAR"
+    - "UNACEV2.DLL"
+    - "ACE archive"
+    - "path traversal"
+    - "arbitrary file write"
+    - "Startup folder"
+    - "WinRAR exploit"
+  embedding_text: >-
+    CVE-2018-20250 is a path traversal vulnerability in WinRAR's ACE archive handler
+    UNACEV2.DLL with CVSS 7.8 that allows arbitrary file writes during extraction. The
+    19-year-old closed-source DLL had never been updated, affecting over 500 million WinRAR
+    users. Exploitation crafts ACE archives that extract files to the Windows Startup folder
+    for automatic code execution at login. Discovered by Check Point Research in February
+    2019, multiple APT groups rapidly weaponized it for targeted spear-phishing campaigns.
+    WinRAR 5.70 removed ACE format support entirely since the closed-source DLL could not
+    be patched directly.

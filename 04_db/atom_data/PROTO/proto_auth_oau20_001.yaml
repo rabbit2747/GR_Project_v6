@@ -1,0 +1,160 @@
+# GR Atom: OAuth 2.0
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-OAU20-001"
+  name: "OAuth 2.0"
+  normalized_name: "oauth_2_0"
+  aliases:
+    - "OAuth 2"
+    - "OAuth2"
+    - "RFC 6749"
+    - "OAuth 2.0 Authorization Framework"
+    - "Open Authorization 2.0"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - OAUTH
+    - AUTHZ
+    - API
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    OAuth 2.0 is an authorization framework defined in RFC 6749 that enables third-party
+    applications to obtain limited access to web services on behalf of a resource owner without
+    sharing credentials. OAuth 2.0 introduces authorization grants (authorization code, client
+    credentials, device code) that are exchanged for access tokens at the authorization server.
+    Access tokens are bearer tokens (typically JWT format) presented to resource servers to
+    access protected resources. The framework separates the roles of resource owner, client
+    application, authorization server, and resource server, enabling delegated authorization
+    across web applications, mobile apps, APIs, and microservices. OAuth 2.0 replaced OAuth 1.0a,
+    simplifying the protocol by relying on TLS for transport security rather than cryptographic
+    request signing.
+  why: >-
+    Modern web applications and APIs require a mechanism for users to grant third-party
+    applications limited access to their resources without sharing passwords. Before OAuth,
+    applications stored user credentials directly, creating massive credential exposure risks.
+    OAuth 2.0 provides a standardized delegation framework where users authorize specific
+    scopes of access through the authorization server, and applications receive time-limited
+    tokens rather than persistent credentials. From a security perspective, OAuth 2.0 is a
+    critical attack surface: authorization code interception, token theft, scope escalation,
+    redirect URI manipulation, CSRF attacks against the authorization endpoint, and
+    misconfigured client registrations are common vulnerability classes. The implicit grant
+    flow (now deprecated in OAuth 2.1) exposed tokens in URL fragments. Proper implementation
+    requires PKCE (Proof Key for Code Exchange), state parameters, exact redirect URI matching,
+    and token binding to prevent token theft and replay.
+  how: >-
+    OAuth 2.0 operates through grant-type-specific flows: (1) Authorization Code Grant - the
+    client redirects the resource owner to the authorization server; the user authenticates
+    and consents to requested scopes; the authorization server redirects back to the client
+    with an authorization code; the client exchanges the code for an access token (and optional
+    refresh token) via a back-channel request to the token endpoint. PKCE (RFC 7636) adds a
+    code_verifier/code_challenge to prevent authorization code interception. (2) Client
+    Credentials Grant - the client authenticates directly to the token endpoint using its own
+    credentials for machine-to-machine communication without user involvement. (3) Device
+    Authorization Grant (RFC 8628) - for input-constrained devices, the device displays a
+    user code and polls the token endpoint while the user authorizes on a separate device.
+    Access tokens include scopes limiting what resources can be accessed, are typically short-lived
+    (minutes to hours), and are refreshed using refresh tokens. Token introspection (RFC 7662)
+    enables resource servers to validate token status, and token revocation (RFC 7009) allows
+    clients to invalidate tokens.
+  core_concepts:
+    - key: "Authorization Code Grant with PKCE"
+      value: >-
+        The recommended OAuth 2.0 flow for web and mobile applications where the authorization
+        code is exchanged for tokens via a secure back channel. PKCE (Proof Key for Code
+        Exchange, RFC 7636) adds a cryptographic code_verifier to prevent authorization code
+        interception by malicious applications.
+    - key: "Access Token and Refresh Token"
+      value: >-
+        Access tokens are short-lived bearer credentials presented to resource servers for
+        authorization. Refresh tokens are long-lived credentials used to obtain new access
+        tokens without re-authenticating the user. Refresh token rotation (issuing a new
+        refresh token with each use) mitigates token theft.
+    - key: "Scopes"
+      value: >-
+        Granular permission declarations that limit the access granted by an authorization.
+        Scopes are requested by the client, consented to by the resource owner, and enforced
+        by the resource server. Overly broad scopes increase the impact of token compromise.
+    - key: "Redirect URI Validation"
+      value: >-
+        The security-critical validation ensuring authorization responses are delivered only
+        to registered client redirect URIs. Open redirect vulnerabilities or wildcard URI
+        matching enable authorization code theft through redirect URI manipulation attacks.
+    - key: "Token Theft and Replay"
+      value: >-
+        Bearer tokens can be used by anyone who possesses them. Token theft through XSS,
+        network interception, or log exposure enables unauthorized access. Mitigations include
+        short token lifetimes, token binding (DPoP, RFC 9449), sender-constrained tokens,
+        and secure token storage.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "OAuth 2.0 is an authorization framework within the authentication and authorization protocol family"
+  - type: "enables"
+    target: "PROTO-AUTH-OPENID-001"
+    description: "OAuth 2.0 provides the authorization layer upon which OpenID Connect builds its identity and authentication protocol"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "OAuth 2.0 requires TLS encryption for all token exchanges and authorization endpoints to protect bearer tokens in transit"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-SAML20-001"
+    description: "OAuth 2.0 is the modern API-centric alternative to SAML 2.0 for delegated authorization, especially in mobile and SPA contexts"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 6749 - The OAuth 2.0 Authorization Framework (October 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6749"
+    - "RFC 7636 - Proof Key for Code Exchange by OAuth Public Clients (September 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7636"
+    - "RFC 6750 - The OAuth 2.0 Authorization Framework: Bearer Token Usage (October 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6750"
+    - "RFC 9449 - OAuth 2.0 Demonstrating Proof of Possession (DPoP) (September 2023). IETF. https://datatracker.ietf.org/doc/html/rfc9449"
+    - "OAuth 2.0 Security Best Current Practice. IETF. https://datatracker.ietf.org/doc/html/draft-ietf-oauth-security-topics"
+  search_keywords:
+    - "OAuth 2.0"
+    - "OAuth2"
+    - "RFC 6749"
+    - "authorization code grant"
+    - "PKCE"
+    - "access token"
+    - "refresh token"
+    - "bearer token"
+    - "OAuth scopes"
+    - "token theft"
+    - "OAuth security"
+    - "client credentials grant"
+    - "redirect URI"
+    - "authorization server"
+  embedding_text: >-
+    OAuth 2.0 is an authorization framework defined in RFC 6749 that enables third-party
+    applications to obtain limited access to web services without sharing user credentials. The
+    framework defines authorization grants including authorization code (with PKCE for security),
+    client credentials for machine-to-machine, and device authorization for constrained devices.
+    Grants are exchanged for access tokens at the authorization server, and access tokens are
+    presented as bearer credentials to resource servers. OAuth 2.0 separates roles into resource
+    owner, client, authorization server, and resource server. Access tokens are typically short-lived
+    JWTs with scopes limiting access granularity. Security concerns include authorization code
+    interception, token theft and replay, redirect URI manipulation, scope escalation, and CSRF
+    against authorization endpoints. PKCE, state parameters, exact redirect URI matching, token
+    binding (DPoP), and short token lifetimes are critical mitigations. OAuth 2.0 is the foundation
+    for OpenID Connect authentication and is the dominant authorization framework for modern web
+    APIs, mobile applications, and microservice architectures.

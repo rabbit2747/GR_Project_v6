@@ -1,0 +1,132 @@
+# GR Atom: Signal Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-SIGNAL-001"
+  name: "Signal Protocol"
+  normalized_name: "signal_protocol"
+  aliases:
+    - "Signal Messaging Protocol"
+    - "Double Ratchet Protocol"
+    - "Axolotl Protocol"
+    - "TextSecure Protocol"
+    - "X3DH + Double Ratchet"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - ENCRYPT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Signal Protocol is an end-to-end encryption protocol designed by Moxie Marlinspike and
+    Trevor Perrin at Open Whisper Systems (now the Signal Foundation) that provides forward
+    secrecy and post-compromise security for asynchronous messaging. The protocol combines the
+    Extended Triple Diffie-Hellman (X3DH) key agreement protocol for initial session
+    establishment with the Double Ratchet algorithm for ongoing message encryption. It is the
+    foundation for end-to-end encryption in Signal Messenger, WhatsApp (since 2016, serving
+    over 2 billion users), Google Messages (RCS), Facebook Messenger, and Skype, making it the
+    most widely deployed end-to-end encryption protocol for messaging.
+  why: >-
+    Traditional TLS provides transport security only between client and server, leaving messages
+    accessible to the service provider. The Signal Protocol provides true end-to-end encryption
+    where only the communicating parties can decrypt messages, ensuring that even the service
+    operator cannot access message content. The protocol's key innovation is providing forward
+    secrecy at the individual message level (each message uses a unique key derived through the
+    Double Ratchet) and post-compromise security (future messages become secure again after a
+    key compromise is recovered). The asynchronous design allows session establishment even when
+    the recipient is offline, critical for mobile messaging where persistent connections are
+    impractical. The protocol has been formally verified by multiple academic research teams
+    and audited by security professionals.
+  how: >-
+    Session establishment uses the X3DH (Extended Triple Diffie-Hellman) protocol: each user
+    publishes a long-term identity key, a signed pre-key, and a set of one-time pre-keys to
+    the server. The initiator performs three or four DH computations combining their identity
+    key and an ephemeral key with the recipient's identity key, signed pre-key, and one-time
+    pre-key, deriving a shared secret without requiring the recipient to be online. Once
+    established, the session uses the Double Ratchet algorithm combining a Diffie-Hellman
+    ratchet (new DH key pair per message exchange) with a symmetric-key ratchet (KDF chain
+    for each DH ratchet step). Each message is encrypted with a unique key derived through
+    the ratchet chain using HMAC-based Key Derivation Function (HKDF). The DH ratchet provides
+    post-compromise security by introducing new randomness with each turn, while the symmetric
+    ratchet provides forward secrecy by making past keys unrecoverable.
+  core_concepts:
+    - key: "X3DH Key Agreement"
+      value: >-
+        Extended Triple Diffie-Hellman enables asynchronous session establishment by performing
+        multiple DH computations against pre-published keys, allowing encryption to begin
+        even when the recipient is offline.
+    - key: "Double Ratchet Algorithm"
+      value: >-
+        Combines a DH ratchet (new key pair per exchange) with symmetric KDF chains to
+        derive unique encryption keys for each message, providing both forward secrecy
+        and post-compromise security.
+    - key: "Forward Secrecy per Message"
+      value: >-
+        Each message uses a unique encryption key that is deleted after use, ensuring that
+        compromise of any single key cannot decrypt other messages in the conversation.
+    - key: "Post-Compromise Security"
+      value: >-
+        The DH ratchet introduces new randomness with each message exchange turn, ensuring
+        that future messages become secure again even after a temporary key compromise.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "Signal Protocol provides end-to-end encryption as an alternative to TLS transport-only encryption for messaging"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-NOPRHAPA-001"
+    description: "Signal Protocol's X3DH provides an alternative key agreement mechanism to Noise Protocol handshake patterns"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "Signal Protocol implementations typically use TLS for the transport layer between client and server"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Marlinspike, M. & Perrin, T. (2016). The X3DH Key Agreement Protocol. Signal Foundation. https://signal.org/docs/specifications/x3dh/"
+    - "Perrin, T. & Marlinspike, M. (2016). The Double Ratchet Algorithm. Signal Foundation. https://signal.org/docs/specifications/doubleratchet/"
+    - "Cohn-Gordon, K., Cremers, C., Dowling, B., Garratt, L., & Stebila, D. (2020). A Formal Security Analysis of the Signal Messaging Protocol. Journal of Cryptology, 33(4)."
+  search_keywords:
+    - "Signal Protocol"
+    - "Double Ratchet"
+    - "X3DH"
+    - "end-to-end encryption"
+    - "Axolotl protocol"
+    - "Moxie Marlinspike"
+    - "WhatsApp encryption"
+    - "forward secrecy messaging"
+    - "post-compromise security"
+    - "asynchronous key agreement"
+  embedding_text: >-
+    The Signal Protocol is an end-to-end encryption protocol combining X3DH (Extended Triple
+    Diffie-Hellman) key agreement with the Double Ratchet algorithm for asynchronous messaging
+    security. Designed by Moxie Marlinspike and Trevor Perrin, it provides forward secrecy at
+    the individual message level and post-compromise security through continuous key ratcheting.
+    X3DH enables session establishment when the recipient is offline by performing DH
+    computations against pre-published keys. The Double Ratchet combines a DH ratchet introducing
+    new randomness per exchange turn with symmetric KDF chains deriving unique keys per message.
+    Each message key is deleted after use, preventing retrospective decryption. The protocol
+    is deployed in Signal Messenger, WhatsApp serving over 2 billion users, Google Messages,
+    Facebook Messenger, and Skype. Multiple formal verification efforts have confirmed its
+    security properties. Unlike TLS which provides transport security to the server, Signal
+    Protocol ensures only communicating endpoints can decrypt message content.

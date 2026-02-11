@@ -1,0 +1,78 @@
+# GR Atom: CVE-2021-36934
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202136934-001"
+  name: "CVE-2021-36934"
+  normalized_name: "cve_2021_36934"
+  aliases:
+    - "HiveNightmare"
+    - "SeriousSAM"
+    - "Windows SAM File Access Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - CRED
+    - AUTHZ
+    - WINDOWS
+    - OS
+
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1"]
+  target_components:
+    - "Microsoft Windows 10 version 1809 and later"
+    - "Microsoft Windows 11"
+    - "Windows SAM Registry Hive"
+    - "Windows SYSTEM Registry Hive"
+    - "Windows SECURITY Registry Hive"
+
+definition:
+  what: "CVE-2021-36934 (HiveNightmare/SeriousSAM) is a local privilege escalation vulnerability in Windows 10 and Windows 11 caused by overly permissive access control lists on system registry hive files including the SAM, SYSTEM, and SECURITY databases. Any authenticated standard user can read these files from Volume Shadow Copy snapshots, extracting password hashes and credential material. CVSS v3: 7.8 (High). Disclosed in July 2021."
+  why: "The SAM, SYSTEM, and SECURITY registry hives contain password hashes, cached credentials, DPAPI keys, and computer account passwords essential for Windows authentication. When a standard user can read these files, they can extract NTLM password hashes and perform offline cracking or pass-the-hash attacks to escalate to administrator or SYSTEM. The vulnerability existed because Windows updates since version 1809 incorrectly set ACLs on these files, granting the BUILTIN\\Users group read access. Volume Shadow Copy Service snapshots preserved these permissive ACLs."
+  how: "A standard user exploits the vulnerability by accessing Volume Shadow Copy snapshots of the system drive, where copies of the SAM, SYSTEM, and SECURITY registry hive files are stored with the overly permissive ACLs. The attacker uses the VSS shadow copy path (e.g., \\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy1\\Windows\\System32\\config\\SAM) to read the files. Tools like secretsdump, mimikatz, or custom scripts can then extract NTLM password hashes from the SAM database using the SYSTEM hive as a decryption key. The fix involves correcting ACLs and deleting existing shadow copies."
+  core_concepts:
+    - key: "Permissive ACLs on Credential Stores"
+      value: "Windows incorrectly set BUILTIN\\Users read access on SAM, SYSTEM, and SECURITY registry hive files starting with Windows 10 1809, exposing credential material to standard users"
+    - key: "Volume Shadow Copy Credential Extraction"
+      value: "Shadow copies preserve the permissive ACLs, allowing standard users to read credential databases and extract NTLM password hashes for offline cracking or pass-the-hash attacks"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "HiveNightmare is an authentication-related vulnerability exposing credential stores to unauthorized users"
+  - type: enables
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "Extracting SAM password hashes enables offline password cracking attacks"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003.002"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-36934 - NVD NIST"
+    - "Microsoft Security Advisory - Windows EoP"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1003.002 - OS Credential Dumping: Security Account Manager"
+  search_keywords:
+    - "CVE-2021-36934"
+    - "HiveNightmare"
+    - "SeriousSAM"
+    - "Windows SAM access vulnerability"
+    - "SAM registry hive"
+    - "Volume Shadow Copy credential extraction"
+    - "Windows privilege escalation SAM"
+    - "NTLM hash extraction"
+  embedding_text: "CVE-2021-36934 known as HiveNightmare or SeriousSAM is a local privilege escalation vulnerability in Windows 10 version 1809 and later and Windows 11. Overly permissive access control lists on SAM, SYSTEM, and SECURITY registry hive files allow any standard user to read credential databases from Volume Shadow Copy snapshots. CVSS v3 score is 7.8 High. Attackers extract NTLM password hashes for offline cracking or pass-the-hash attacks. The vulnerability existed because Windows updates incorrectly granted BUILTIN Users read access to critical system files. Maps to MITRE ATT&CK T1003.002 OS Credential Dumping Security Account Manager. Remediation requires correcting ACLs and deleting existing shadow copies."

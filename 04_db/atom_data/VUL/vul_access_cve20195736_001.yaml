@@ -1,0 +1,127 @@
+# GR Atom: CVE-2019-5736
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20195736-001"
+  name: "CVE-2019-5736"
+  normalized_name: "cve_2019_5736"
+  aliases:
+    - "runc Container Escape"
+    - "RunC Vulnerability"
+    - "Docker Container Escape"
+    - "OCI Runtime Escape"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - PRIV
+    - CONTAINER
+    - DOCKER
+    - LINUX
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "runc through 1.0-rc6"
+    - "Docker Engine"
+    - "Kubernetes container runtime"
+    - "containerd"
+    - "LXC"
+    - "Apache Mesos"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-5736 is a critical container escape vulnerability in runc, the OCI runtime used
+    by Docker, containerd, Podman, and CRI-O, disclosed in February 2019 with a CVSS score
+    of 8.6. The vulnerability allows a malicious container to overwrite the host runc binary
+    and thereby gain root-level code execution on the host system. The flaw exists in how runc
+    handles the /proc/self/exe file descriptor during container initialization. By crafting a
+    container image or exec command that exploits this file descriptor leak, an attacker can
+    escape the container namespace isolation and execute arbitrary commands on the host with
+    root privileges, completely undermining container security boundaries.
+  why: >-
+    This vulnerability was a watershed moment for container security because runc is the
+    foundational OCI runtime used by virtually all Linux container platforms. A container
+    escape from a multi-tenant or orchestrated environment (Kubernetes, Docker Swarm)
+    compromises the host and all co-located containers. The vulnerability demonstrated that
+    container isolation is not equivalent to virtual machine isolation and that kernel-level
+    container runtimes present a critical attack surface. Cloud providers including AWS, GCP,
+    and Azure issued emergency advisories and patching guidance for their container services.
+  how: >-
+    The exploitation requires the attacker to either control a container image or have exec
+    access to a running container. The attack works by exploiting a file descriptor race
+    condition in runc. When runc executes inside a container (during docker exec or container
+    start), the container process can access /proc/self/exe which points to the host runc
+    binary through the /proc filesystem. The malicious container process overwrites the host
+    runc binary with a payload. The next invocation of runc on the host executes the
+    attacker's code with root privileges. Mitigation includes updating runc to 1.0-rc7 or
+    later, using read-only container runtimes, implementing SELinux or AppArmor policies,
+    and running containers as non-root users. Kubernetes 1.12.6+ includes the patched runc.
+  core_concepts:
+    - key: "Container Escape"
+      value: "Malicious container overwrites host runc binary through /proc/self/exe file descriptor leak, escaping container namespace isolation"
+    - key: "Runtime Host Compromise"
+      value: "Compromising the container runtime binary gives attackers root access to the host and all co-located containers in the environment"
+    - key: "Supply Chain Vector"
+      value: "Exploitation possible through malicious container images, making container registries and image supply chains critical security boundaries"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2019-5736 breaks container access control boundaries through runtime binary overwrite achieving host-level access"
+  - type: "applies_to"
+    target: "VUL-ACCESS-DEPENDENCY-001"
+    description: "Runc container escape represents a critical dependency vulnerability where the shared runtime component compromises all consumers"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1611"
+    tactic:
+      - "Privilege Escalation"
+  cve_id: "CVE-2019-5736"
+  cvss_score: 8.6
+  affected_product: "runc (Docker, containerd, CRI-O, Kubernetes)"
+  disclosure_year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD CVE-2019-5736 CVSS 8.6"
+    - "runc Security Advisory - Container Escape"
+    - "MITRE ATT&CK T1611 - Escape to Host"
+    - "Docker Security Advisory CVE-2019-5736"
+  search_keywords:
+    - "CVE-2019-5736"
+    - "runc container escape"
+    - "Docker escape"
+    - "container breakout"
+    - "OCI runtime vulnerability"
+    - "Kubernetes container escape"
+    - "proc self exe exploit"
+    - "container host compromise"
+  embedding_text: >-
+    CVE-2019-5736 is a critical container escape vulnerability (CVSS 8.6) in runc, the OCI
+    runtime used by Docker, containerd, and Kubernetes. Malicious containers overwrite the
+    host runc binary through /proc/self/exe file descriptor leak during container initialization.
+    Achieves root-level code execution on the host, compromising all co-located containers.
+    Exploitable through malicious container images or exec commands. Watershed moment for
+    container security demonstrating that container isolation is not equivalent to VM isolation.
+    Affects all major container platforms. Mitigation requires runc update to 1.0-rc7+,
+    read-only runtimes, SELinux/AppArmor, and non-root containers.

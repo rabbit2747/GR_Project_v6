@@ -1,0 +1,109 @@
+# GR Atom: CVE-2006-0265
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20060265-001"
+  name: "CVE-2006-0265"
+  normalized_name: "cve_2006_0265"
+  aliases:
+    - "BEA WebLogic Server Injection"
+    - "WebLogic Marshalling Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - WEB
+    - EXEC
+    - DESER
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "BEA WebLogic Server 8.1"
+    - "BEA WebLogic Server 7.0"
+    - "WebLogic MBean components"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2006-0265 is a vulnerability in BEA WebLogic Server versions 7.0 and 8.1 that allows
+    remote attackers to inject malicious content or manipulate application behavior through
+    improperly validated input. The vulnerability exists in the handling of certain request
+    parameters that are not properly sanitized before being processed by the application server.
+    This flaw has a CVSS v2 base score of 5.0 (Medium) and was disclosed in 2006.
+  why: >-
+    BEA WebLogic Server was one of the most widely deployed Java application servers in
+    enterprise environments during this period. Injection vulnerabilities in the application
+    server itself affect all applications hosted on the platform, creating a broad attack surface
+    across multiple organizations. The vulnerability enables attackers to manipulate server
+    behavior without requiring valid credentials.
+  how: >-
+    Exploitation involves sending crafted requests to the WebLogic Server that contain malicious
+    input in parameters processed by vulnerable server components. The server fails to properly
+    validate or sanitize this input, allowing injection of commands or data manipulation.
+    Attackers can leverage this to alter application logic, access unauthorized data, or
+    potentially execute code. Remediation requires applying BEA security patches and implementing
+    input validation at the application server level.
+  core_concepts:
+    - key: "Application Server Injection"
+      value: "Injection targeting the application server platform itself rather than individual applications"
+    - key: "Input Validation Failure"
+      value: "Server-level failure to sanitize request parameters before processing by internal components"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "WebLogic injection is a specific instance of the injection vulnerability class"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE201710271-001"
+    description: "Earlier WebLogic vulnerability predates the more critical CVE-2017-10271 WebLogic XMLDecoder flaw"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2006-0265"
+  cvss_score: 5.0
+  affected_product: "BEA WebLogic Server 7.0/8.1"
+  year: 2006
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2006-0265"
+    - "CWE-74 Improper Neutralization of Special Elements in Output"
+    - "BEA Security Advisory BEA06-105"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2006-0265"
+    - "BEA WebLogic Server"
+    - "WebLogic injection"
+    - "WebLogic 8.1 vulnerability"
+    - "application server injection"
+    - "BEA security advisory"
+  embedding_text: >-
+    CVE-2006-0265 is an injection vulnerability in BEA WebLogic Server versions 7.0 and 8.1
+    that allows remote attackers to manipulate application behavior through improperly validated
+    input. The WebLogic application server fails to sanitize certain request parameters before
+    internal processing, enabling injection attacks. With a CVSS score of 5.0, this flaw
+    affects all applications hosted on vulnerable WebLogic instances. Exploitation does not
+    require authentication and can be performed remotely through crafted HTTP requests. This
+    vulnerability represents an early example of injection flaws in enterprise Java application
+    servers that would later lead to more critical WebLogic vulnerabilities including
+    deserialization and XMLDecoder injection issues.

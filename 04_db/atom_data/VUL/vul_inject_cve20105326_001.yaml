@@ -1,0 +1,114 @@
+# GR Atom: CVE-2010-5326
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20105326-001"
+  name: "CVE-2010-5326"
+  normalized_name: "cve_2010_5326"
+  aliases:
+    - "SAP Invoker Servlet RCE"
+    - "SAP NetWeaver Invoker Servlet"
+    - "SAP Unauthenticated Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+    - AUTHZ
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "SAP NetWeaver Application Server Java"
+    - "SAP Invoker Servlet"
+    - "SAP J2EE Engine"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-5326 is a critical remote code execution vulnerability in SAP NetWeaver
+    Application Server Java that exploits the Invoker Servlet to execute arbitrary commands
+    without authentication. The Invoker Servlet, when enabled, allows direct invocation of
+    any Java class accessible to the server by name through HTTP requests. The vulnerability
+    has a CVSS v2 base score of 10.0 (Critical) and has been actively exploited in
+    nation-state campaigns targeting SAP enterprise systems since its disclosure.
+  why: >-
+    SAP systems manage critical business processes including financial transactions, human
+    resources, and supply chain operations for major organizations worldwide. This vulnerability
+    provides complete unauthenticated access to SAP servers, enabling attackers to steal
+    sensitive business data, manipulate financial records, or disrupt critical operations.
+    The US-CERT issued alerts about active exploitation against over 36 global organizations.
+  how: >-
+    Attackers send HTTP requests to the Invoker Servlet endpoint that specify arbitrary Java
+    classes for direct invocation. Since the servlet provides unauthenticated access to the
+    Java class loader, attackers can instantiate and execute any class available in the server
+    classpath. This enables execution of system commands, file operations, and complete server
+    compromise. The attack requires only HTTP access to the SAP server. Mitigation requires
+    disabling the Invoker Servlet through SAP configuration and applying SAP Security Notes.
+  core_concepts:
+    - key: "Invoker Servlet"
+      value: "SAP component that allows direct HTTP-based invocation of server-side Java classes without access controls"
+    - key: "Unauthenticated RCE"
+      value: "Remote code execution requiring no credentials, enabling any network-accessible attacker to fully compromise the system"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "SAP Invoker Servlet exploitation is a form of injection through direct class invocation"
+  - type: "enables"
+    target: "VUL-INJECT-CVE201712149-001"
+    description: "Both represent Java application server deserialization and class loading vulnerabilities enabling RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2010-5326"
+  cvss_score: 10.0
+  affected_product: "SAP NetWeaver Application Server Java"
+  year: 2010
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2010-5326"
+    - "CWE-306 Missing Authentication for Critical Function"
+    - "US-CERT Alert TA16-132A"
+    - "SAP Security Note 1445998"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2010-5326"
+    - "SAP Invoker Servlet"
+    - "SAP NetWeaver RCE"
+    - "SAP unauthenticated code execution"
+    - "SAP J2EE vulnerability"
+    - "SAP critical vulnerability"
+    - "Invoker Servlet exploitation"
+  embedding_text: >-
+    CVE-2010-5326 is a maximum severity (CVSS 10.0) remote code execution vulnerability in
+    SAP NetWeaver Application Server Java. The Invoker Servlet allows unauthenticated HTTP
+    requests to directly invoke arbitrary Java classes on the server, enabling complete system
+    compromise without credentials. Actively exploited in nation-state campaigns against over
+    36 global organizations managing critical business processes. SAP systems handle financial
+    transactions, HR data, and supply chain operations, making this vulnerability extremely
+    high impact. Exploitation requires only HTTP access to the SAP server. Mitigation involves
+    disabling the Invoker Servlet and applying SAP Security Notes. US-CERT issued specific
+    alerts about active exploitation of this vulnerability.

@@ -1,0 +1,94 @@
+# GR Atom: Web Network Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-WEBNETTRA-001"
+  name: "Web Network Traffic"
+  normalized_name: "web_network_traffic"
+  aliases:
+    - "Web Traffic Detection"
+    - "HTTP/HTTPS Traffic Monitoring"
+    - "Web Protocol Traffic Analysis"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - WEB
+    - MONITOR
+    - WAF
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A broad detection concept encompassing all HTTP and HTTPS network traffic flowing through the organization's network in any direction (inbound, outbound, and internal). This covers web application traffic, API communications, web browsing, cloud service interactions, web-based administration interfaces, and any other traffic using HTTP/HTTPS protocols. It serves as the parent concept for all web-specific network detection patterns."
+  why: "Web protocols carry the majority of modern network traffic and represent the largest attack surface for both inbound and outbound threats. Comprehensive web traffic monitoring is essential for detecting web application attacks, C2 over HTTP/HTTPS, data exfiltration through web channels, unauthorized web service usage, and policy violations. Without holistic web traffic visibility, significant portions of adversary activity remain undetected."
+  how: "Detection is implemented through multiple monitoring points: web proxies and secure web gateways for outbound traffic; WAFs and reverse proxies for inbound traffic; and network sensors for internal web communications. Analysis combines HTTP event inspection, TLS metadata analysis, URL categorization, behavioral analytics, and content inspection to provide comprehensive web traffic security monitoring. Data is aggregated and correlated in SIEM platforms for cross-directional analysis and threat hunting."
+  core_concepts:
+    - key: "Bidirectional Web Visibility"
+      value: "Monitoring web traffic in all directions - inbound, outbound, and internal - for comprehensive threat detection."
+    - key: "Multi-Point Monitoring"
+      value: "Deploying web traffic sensors at proxies, WAFs, gateways, and network taps for complete coverage."
+    - key: "Web Protocol Ecosystem"
+      value: "Understanding the full ecosystem of HTTP-based protocols including REST APIs, WebSocket, HTTP/2, and gRPC."
+    - key: "Unified Web Analysis"
+      value: "Correlating web traffic data from multiple monitoring points for holistic security analysis."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: abstracts
+    target: "DETECT-NETWORK-ININWETR-001"
+    description: "Web network traffic abstracts specific inbound internet web traffic detection"
+  - type: abstracts
+    target: "DETECT-NETWORK-OUINWETR-001"
+    description: "Web network traffic abstracts specific outbound internet web traffic detection"
+  - type: requires
+    target: "DETECT-NETWORK-HTTP-001"
+    description: "Requires HTTP event analysis as the foundational data source"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.001"
+    tactic:
+      - "Command and Control"
+      - "Initial Access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Web Protocols T1071.001"
+    - "OWASP - Web Application Security Testing Guide"
+    - "SANS Institute - Comprehensive Web Traffic Monitoring"
+  search_keywords:
+    - "web traffic"
+    - "HTTP monitoring"
+    - "HTTPS traffic"
+    - "web network"
+    - "web protocol"
+    - "web traffic analysis"
+    - "web security monitoring"
+    - "HTTP detection"
+    - "web traffic detection"
+    - "web protocol monitoring"
+  embedding_text: "Web network traffic detection is a broad concept encompassing all HTTP and HTTPS traffic flowing through the organization in any direction. It covers web application traffic, API communications, browsing, cloud service interactions, and web-based administration. Monitoring is implemented through web proxies, WAFs, reverse proxies, and network sensors with data aggregated in SIEM platforms. This serves as the parent concept for all web-specific detection patterns and provides comprehensive visibility into the largest attack surface for both inbound threats like web application attacks and outbound threats like C2 over HTTPS and web-based data exfiltration."

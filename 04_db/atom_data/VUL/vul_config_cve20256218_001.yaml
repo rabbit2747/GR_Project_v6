@@ -1,0 +1,103 @@
+# GR Atom: CVE-2025-6218
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20256218-001"
+  name: "CVE-2025-6218"
+  normalized_name: "cve_2025_6218"
+  aliases:
+    - "Windows Group Policy Misconfiguration Exploit"
+    - "GPO Privilege Escalation Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - WINDOWS
+    - EXEC
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Windows Group Policy"
+    - "Windows Active Directory"
+
+definition:
+  what: >-
+    CVE-2025-6218 is a privilege escalation vulnerability in Windows Group Policy processing that
+    allows a domain-authenticated attacker to escalate privileges to SYSTEM on domain-joined
+    Windows machines. The vulnerability exists in how the Group Policy Client service processes
+    certain policy objects, enabling an attacker to inject malicious configuration that executes
+    with SYSTEM privileges during the next Group Policy refresh cycle. CVSS v3: 7.8 (High).
+  why: >-
+    Group Policy is the primary mechanism for managing configuration across Windows enterprise
+    environments. Every domain-joined Windows machine processes Group Policy Objects (GPOs) at
+    regular intervals with SYSTEM privileges. A vulnerability in GPO processing that enables
+    privilege escalation affects every domain-joined machine in the organization. Combined with
+    any initial foothold in the AD domain, this vulnerability provides a reliable path to SYSTEM
+    access on any target machine, making it a powerful tool for lateral movement and persistence.
+  how: >-
+    The attacker, who has compromised a domain user account, creates or modifies a Group Policy
+    Object to include specially crafted configuration data that exploits the vulnerability in the
+    Group Policy Client service. When target machines process the modified GPO during their next
+    refresh cycle (default: every 90 minutes), the malicious payload executes with SYSTEM
+    privileges. The attacker can target specific machines or OUs by linking the malicious GPO
+    appropriately. Microsoft released patches addressing the validation flaw in the Group Policy
+    Client service. Mitigation includes restricting GPO creation rights, monitoring GPO changes,
+    and enabling advanced Group Policy auditing.
+  core_concepts:
+    - key: "Group Policy Abuse for Privilege Escalation"
+      value: "Exploiting the GPO processing pipeline to execute arbitrary code with SYSTEM privileges on domain-joined machines"
+    - key: "Domain-Wide Impact"
+      value: "Group Policy processing affects all domain-joined machines, enabling widespread privilege escalation from a single GPO modification"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-6218 is a vulnerability in Windows Group Policy processing component"
+  - type: enables
+    target: "ATK-PRIV-SYSTEM-001"
+    description: "GPO processing vulnerability enables escalation from domain user to SYSTEM on targeted machines"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1484.001"
+    tactic: ["Privilege Escalation", "Lateral Movement"]
+  cve_mapping:
+    cve_id: "CVE-2025-6218"
+    cvss_score: 7.8
+    cwe_id: "CWE-269"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-6218 - NVD NIST"
+    - "Microsoft Security Response Center"
+    - "CWE-269 - Improper Privilege Management"
+    - "MITRE ATT&CK T1484.001 - Domain Policy Modification"
+  search_keywords:
+    - "CVE-2025-6218"
+    - "Windows Group Policy vulnerability"
+    - "GPO privilege escalation"
+    - "Windows domain escalation"
+    - "Group Policy exploit"
+    - "GPO SYSTEM execution"
+    - "Windows GPO security"
+  embedding_text: >-
+    CVE-2025-6218 is a privilege escalation vulnerability in Windows Group Policy processing that
+    allows domain-authenticated attackers to escalate to SYSTEM on domain-joined machines. CVSS v3
+    score is 7.8 High. The vulnerability exploits a flaw in how the Group Policy Client service
+    processes certain policy objects, enabling malicious configuration injection that executes with
+    SYSTEM privileges during GPO refresh cycles. Affects every domain-joined Windows machine.
+    Combined with any domain foothold, provides reliable SYSTEM access for lateral movement.
+    Mitigation includes restricting GPO creation rights and monitoring GPO changes. Maps to MITRE
+    ATT&CK T1484.001 Domain Policy Modification: Group Policy Modification.

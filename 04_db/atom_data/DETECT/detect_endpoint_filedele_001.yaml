@@ -1,0 +1,89 @@
+# GR Atom: File Delete
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEDELE-001"
+  name: "File Delete"
+  normalized_name: "file_delete"
+  aliases:
+    - "File Deletion Detection"
+    - "File Removal Monitoring"
+    - "File Delete Tracking"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - EVADE
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for monitoring file deletion operations on endpoints. File delete detection tracks when files are removed from the file system, capturing the deleted file path, the process performing deletion, user context, and timestamp. This includes standard file deletions, secure wipe operations, and deletion of files from recycle bin. File deletion monitoring is critical for detecting anti-forensic activities, evidence destruction, and malware self-cleanup behaviors."
+  why: "Attackers routinely delete files to cover their tracks, remove tools after use, destroy forensic evidence, and clean up staging directories after exfiltration. Ransomware deletes shadow copies and backups to prevent recovery. Monitoring file deletions enables detection of anti-forensic behavior, identifies when attack tools are being cleaned up, and preserves awareness of deleted evidence for incident response."
+  how: "Use Sysmon Event ID 23 (FileDelete) and Event ID 26 (FileDeleteDetected) for comprehensive file deletion logging on Windows. Deploy EDR mini-filter drivers to capture file deletion operations at the kernel level. Monitor deletion of security-relevant files including event logs, prefetch files, shadow copies, and temporary tool artifacts. Archive file metadata and hashes before deletion completes where possible."
+  core_concepts:
+    - key: "Anti-Forensics"
+      value: "Attacker techniques designed to destroy, alter, or obscure digital evidence to impede forensic investigation"
+    - key: "Sysmon Event 23/26"
+      value: "Windows Sysmon events that log file deletion operations, with Event 26 archiving the deleted file content for forensic recovery"
+    - key: "Shadow Copy Deletion"
+      value: "The deletion of Windows Volume Shadow Copies, commonly performed by ransomware to prevent file recovery"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File delete is a specific type of file event"
+  - type: abstracts
+    target: "DETECT-ENDPOINT-FILEDELE-002"
+    description: "General file delete pattern covers specific file deletion event implementations"
+  - type: effective_against
+    target: "ATK-EVASION-FILEREMOVAL-001"
+    description: "Detects anti-forensic file deletion and evidence destruction"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070.004"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1070.004"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Sysinternals - Sysmon Event ID 23/26"
+    - "MITRE ATT&CK T1070.004 - Indicator Removal: File Deletion"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file delete"
+    - "file deletion"
+    - "file removal"
+    - "Sysmon event 23"
+    - "anti-forensics"
+    - "evidence destruction"
+    - "shadow copy deletion"
+    - "file cleanup"
+  embedding_text: "File Delete is an endpoint detection pattern for monitoring file deletion operations. It tracks files removed from the file system including deleted file path, deleting process, user context, and timestamp. This detection covers standard deletions, secure wipes, and recycle bin operations. File deletion monitoring is critical for detecting anti-forensic activities, evidence destruction, malware self-cleanup, and ransomware shadow copy deletion. Detection uses Sysmon Event IDs 23 and 26, EDR mini-filter drivers, and OS audit logs. Monitoring focuses on security-relevant file deletions including event logs, prefetch files, shadow copies, and temporary attack tool artifacts."

@@ -1,0 +1,68 @@
+# GR Atom: Trend Micro Hideouts Lease
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TRMIHILE-001"
+  name: "Trend Micro Hideouts Lease"
+  normalized_name: "trend_micro_hideouts_lease"
+  aliases:
+    - "Trend Micro Hosted Email Security"
+    - "TMHES"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - MONITOR
+    - DLP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Trend Micro Hideouts Lease refers to Trend Micro's cloud-hosted email security and threat analysis services that provide sandboxing, content filtering, and advanced threat protection for email-borne threats. The service leverages Trend Micro's cloud infrastructure to analyze suspicious files, URLs, and email content in isolated environments to detect zero-day malware, phishing attacks, and business email compromise attempts."
+  why: "This service is significant because email remains the primary initial access vector for cyberattacks, and cloud-hosted email security solutions provide scalable protection without requiring on-premises infrastructure. Trend Micro's hosted analysis environments enable real-time detection of sophisticated email threats that bypass traditional signature-based filtering."
+  how: "The service operates through cloud-hosted analysis environments that detonate suspicious email attachments and URLs in sandboxed environments, applying behavioral analysis, machine learning, and threat intelligence to identify malicious content. Integration with Trend Micro's Smart Protection Network provides real-time reputation scoring and threat correlation across the company's global threat intelligence infrastructure."
+  core_concepts:
+    - key: "Cloud Email Security"
+      value: "Cloud-hosted email protection service providing sandboxing and advanced threat analysis for email-borne threats"
+    - key: "Sandbox Analysis"
+      value: "Isolated cloud environments for detonating and analyzing suspicious files and URLs from email"
+    - key: "Email Threat Detection"
+      value: "Multi-layered detection of phishing, malware, and business email compromise through behavioral analysis and ML"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "ACTOR-VENDOR-TRENMICR-001"
+    description: "Cloud-hosted email security service operated by Trend Micro using its threat intelligence infrastructure"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "https://www.trendmicro.com/en_us/business/products/user-protection/sps/email-and-collaboration.html"
+  search_keywords:
+    - "trend micro hosted email security"
+    - "trend micro hideouts"
+    - "cloud email security"
+    - "email sandboxing"
+    - "email threat protection"
+    - "hosted email analysis"
+    - "trend micro cloud"
+  embedding_text: "Trend Micro Hideouts Lease refers to Trend Micro's cloud-hosted email security and threat analysis services providing sandboxing, content filtering, and advanced threat protection for email-borne threats. The service leverages Trend Micro's cloud infrastructure to analyze suspicious files, URLs, and email content in isolated environments to detect zero-day malware, phishing attacks, and business email compromise attempts, integrating with the Smart Protection Network for real-time threat correlation."

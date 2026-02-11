@@ -1,0 +1,119 @@
+# GR Atom: File Share
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-FILESHAR-001"
+  name: "File Share"
+  normalized_name: "file_share"
+  aliases:
+    - "Network Share"
+    - "Shared Folder"
+    - "Network Drive"
+    - "Mapped Drive"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - SMB
+    - NETWORK
+    - LATERAL
+    - DISC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A File Share is a directory or folder on a file server that is made accessible to remote
+    clients over a network through file-sharing protocols such as SMB/CIFS, NFS, or WebDAV.
+    File shares are accessed via UNC paths (\\server\share on Windows) or mount points
+    (/mnt/share on Linux) and may be mapped as network drives. They are the fundamental unit
+    of shared file access in enterprise networks, providing collaborative storage for
+    departments, projects, or organizational units.
+  why: >-
+    File shares are critical for lateral movement and data collection during cyberattacks.
+    Adversaries enumerate accessible file shares during discovery (net view, net share) to
+    identify sensitive data, credentials stored in files, and organizational information.
+    Overly permissive file shares frequently expose sensitive documents to unauthorized users.
+    File shares are also used for malware distribution (dropping malicious files in shared
+    locations) and as staging areas for data exfiltration. Administrative shares (C$, ADMIN$)
+    enable remote code execution when credentials are compromised.
+  how: >-
+    File shares are created by configuring a directory on a file server to be accessible over
+    a network protocol. SMB shares are defined with share-level permissions (read, change, full
+    control) and NTFS ACLs provide file-level permissions. NFS exports define allowed hosts and
+    access modes. Access requires authentication to the file server or domain. Share enumeration
+    can be performed anonymously in some configurations, revealing share names and metadata.
+    Access-based enumeration (ABE) hides shares and files that users lack permission to access.
+    DFS (Distributed File System) provides namespace abstraction across multiple file servers.
+  core_concepts:
+    - key: "Share Enumeration"
+      value: >-
+        Adversaries enumerate file shares during network discovery to identify accessible
+        resources, sensitive data locations, and potential lateral movement paths.
+    - key: "Permission Inheritance"
+      value: >-
+        File share access is controlled through both share-level permissions and file system
+        ACLs, with the most restrictive combination determining effective access rights.
+    - key: "Administrative Shares"
+      value: >-
+        Default administrative shares (C$, ADMIN$, IPC$) on Windows systems enable remote
+        administration but can be abused by attackers with valid credentials for lateral movement.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-DATA-FILESERV-001"
+    description: "File shares are part of file servers that host and manage the shared directories"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A file share is a type of data store providing network-accessible directory-level storage"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1135"
+    tactic:
+      - "Discovery"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1135 - Network Share Discovery."
+    - "Microsoft File Share Security Best Practices. https://learn.microsoft.com/en-us/windows-server/storage/file-server/"
+    - "CIS Controls v8 - Control 3: Data Protection."
+  search_keywords:
+    - "file share"
+    - "network share"
+    - "shared folder"
+    - "network drive"
+    - "SMB share"
+    - "file share security"
+    - "share enumeration"
+    - "administrative share"
+    - "mapped drive"
+  embedding_text: >-
+    A File Share is a directory on a file server made accessible to remote clients over network
+    protocols such as SMB/CIFS, NFS, or WebDAV. Accessed via UNC paths or mount points, file
+    shares are the fundamental unit of shared file access in enterprise networks. They are
+    critical in cyberattacks for lateral movement and data collection. Adversaries enumerate
+    shares during discovery (MITRE ATT&CK T1135) to identify sensitive data and credentials.
+    Overly permissive shares frequently expose sensitive documents. Administrative shares (C$,
+    ADMIN$) enable remote code execution with compromised credentials. Access control combines
+    share-level permissions with file system ACLs. Access-based enumeration hides unauthorized
+    resources. File shares are also used for malware distribution and data staging for
+    exfiltration.

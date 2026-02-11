@@ -1,0 +1,111 @@
+# GR Atom: SMC Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SMC-001"
+  name: "SMC Service"
+  normalized_name: "smc_service"
+  aliases:
+    - "Symantec Management Client"
+    - "SmcService.exe"
+    - "Symantec Management Component"
+    - "Broadcom Management Client"
+    - "SEP Management Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - WINDOWS
+    - MONITOR
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z4"
+  function: "P3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SMC Service (SmcService.exe, Symantec Management Client) is the management and communication
+    component of Symantec Endpoint Protection. It handles client-server communication with the
+    Symantec Endpoint Protection Manager (SEPM), policy distribution to the SEP client,
+    LiveUpdate content download scheduling, client group membership, location awareness for
+    policy switching, and management task execution. SMC Service is the conduit through which
+    SEPM administers SEP clients across the enterprise.
+  why: >-
+    SMC Service is the management backbone connecting SEP clients to centralized administration.
+    Without functional SMC communication, clients cannot receive policy updates, new virus
+    definitions, or management commands. Attackers may target SMC Service to isolate endpoints
+    from management, preventing security teams from deploying emergency signature updates or
+    initiating remote response actions. Network-based attacks can intercept SMC-SEPM
+    communication to extract management credentials or manipulate policies.
+  how: >-
+    SMC Service establishes HTTPS connections to SEPM servers on configurable ports (default
+    443/8443). It implements a heartbeat protocol for regular check-ins transmitting client
+    status and receiving policy updates. Location awareness detects network changes and
+    applies appropriate policies (internal vs. external). Content distribution uses group
+    update providers (GUPs) to reduce bandwidth by caching updates locally. SMC manages
+    the client-side component of SEPM's client deployment, migration, and uninstallation
+    tasks. Communication can use direct or proxy connections.
+  core_concepts:
+    - key: "Client-Server Management"
+      value: "HTTPS heartbeat communication with SEPM for policy distribution, status reporting, and management task execution"
+    - key: "Location Awareness"
+      value: "Automatic detection of network environment triggering appropriate security policy application for internal vs. external locations"
+    - key: "Group Update Providers"
+      value: "Local content caching via GUPs reduces WAN bandwidth consumption for virus definition and engine update distribution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-SEC-SEPMAST-001"
+    description: "SMC Service is the management communication component of the Symantec Endpoint Protection suite"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "SMC Service functions as an endpoint management agent handling centralized policy enforcement and reporting"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Broadcom/Symantec - Endpoint Protection Client Management Guide"
+    - "Broadcom/Symantec - Communication Troubleshooting for SEP Clients"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+  search_keywords:
+    - "SMC Service"
+    - "SmcService.exe"
+    - "Symantec Management Client"
+    - "SEPM communication"
+    - "SEP management"
+    - "Symantec LiveUpdate"
+    - "Group Update Provider"
+    - "SEP client management"
+  embedding_text: >-
+    SMC Service (SmcService.exe, Symantec Management Client) handles management communication
+    for Symantec Endpoint Protection. Connects to SEPM via HTTPS heartbeat protocol for policy
+    distribution, LiveUpdate scheduling, and management tasks. Location awareness switches
+    policies based on network environment. Group Update Providers cache updates locally to
+    reduce bandwidth. Attackers target SMC to isolate endpoints from management, preventing
+    emergency signature updates and remote response. Essential for centralized administration
+    of SEP across enterprise environments. Supports direct and proxy connections.

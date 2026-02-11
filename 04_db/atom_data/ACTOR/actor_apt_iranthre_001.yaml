@@ -1,0 +1,88 @@
+# GR Atom: Iran Threats
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-IRANTHRE-001"
+  name: "Iran Threats"
+  normalized_name: "iran_threats"
+  aliases:
+    - "Iranian Cyber Threat Landscape"
+    - "IRGC Cyber Operations"
+    - "Iranian APT Ecosystem"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "IMPACT"
+    - "NETWORK"
+    - "WINDOWS"
+    - "WEB"
+    - "CLOUD"
+    - "ICS"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "government networks"
+    - "critical infrastructure"
+    - "industrial control systems"
+    - "energy sector systems"
+    - "telecommunications"
+    - "web applications"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Iran Threats encompasses the collective landscape of Iranian state-sponsored and state-affiliated cyber threat actors including groups attributed to the Islamic Revolutionary Guard Corps (IRGC), Ministry of Intelligence and Security (MOIS), and affiliated contractors. Notable groups include MuddyWater, OilRig/APT34, Charming Kitten/APT35, Moses Staff, and numerous others conducting espionage, destructive attacks, and influence operations globally."
+  why: "Iranian cyber operations serve multiple strategic objectives: intelligence collection on regional adversaries (Saudi Arabia, Israel, US), suppression of domestic dissent, retaliation for sanctions and geopolitical pressure, disruption of critical infrastructure in adversary nations, and projection of power in cyberspace as an asymmetric capability compensating for conventional military limitations."
+  how: "Iranian threat actors employ diverse techniques including spear-phishing campaigns, credential harvesting through fake login pages, exploitation of public-facing applications, deployment of custom backdoors and wipers, supply chain compromise, social engineering via fake social media personas, DNS hijacking, and destructive attacks using wiper malware. Groups frequently share tooling, infrastructure, and techniques, with MOIS-linked groups focusing on espionage and IRGC-linked groups conducting more destructive and disruptive operations."
+  core_concepts:
+    - "IRGC and MOIS cyber divisions"
+    - "regional adversary intelligence collection"
+    - "destructive wiper attacks"
+    - "critical infrastructure targeting"
+    - "asymmetric cyber warfare"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "ACTOR-APT-MUDDYWATER-001"
+    description: "MuddyWater is a prominent MOIS-affiliated Iranian APT group"
+  - type: "abstracts"
+    target: "ACTOR-APT-OILRIG-001"
+    description: "OilRig/APT34 is a key Iranian cyber espionage group"
+  - type: "abstracts"
+    target: "ACTOR-APT-MOSESTAF-001"
+    description: "Moses Staff conducts destructive operations aligned with Iranian interests"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "CISA - Iranian Government-Sponsored APT Actors (AA21-321A)"
+    - "Microsoft Threat Intelligence - Iranian Threat Actor Profiles"
+    - "Mandiant - APT42 and Iran's IRGC Cyber Operations"
+    - "CrowdStrike - Iranian Adversary Overview"
+  search_keywords:
+    - "iran cyber threats"
+    - "iranian APT"
+    - "IRGC cyber operations"
+    - "MOIS hacking"
+    - "iranian state sponsored"
+    - "iran destructive attacks"
+    - "charming kitten"
+    - "iranian wiper malware"
+    - "iran critical infrastructure attacks"
+  embedding_text: "Iran Threats represents the collective landscape of Iranian state-sponsored cyber operations conducted by groups affiliated with the Islamic Revolutionary Guard Corps (IRGC) and Ministry of Intelligence and Security (MOIS). This ecosystem includes prominent actors such as MuddyWater, OilRig/APT34, Charming Kitten/APT35, Moses Staff, and numerous others. Iranian operations span espionage targeting regional adversaries including Saudi Arabia, Israel, and the United States, destructive wiper attacks against critical infrastructure, influence operations, and suppression of domestic dissent. Attack techniques include spear-phishing, credential harvesting, exploitation of public-facing applications, custom backdoor deployment, DNS hijacking, and supply chain compromise. MOIS-linked groups primarily conduct espionage while IRGC-affiliated actors tend toward more destructive and disruptive operations. Iranian cyber capabilities represent a significant asymmetric warfare tool used to project power and retaliate against sanctions and geopolitical pressure."

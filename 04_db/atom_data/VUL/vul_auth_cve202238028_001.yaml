@@ -1,0 +1,77 @@
+# GR Atom: CVE-2022-38028
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202238028-001"
+  name: "CVE-2022-38028"
+  normalized_name: "cve_2022_38028"
+  aliases:
+    - "Windows Print Spooler Elevation of Privilege"
+    - "GooseEgg Print Spooler Exploit"
+    - "Forest Blizzard Print Spooler EoP"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - WINDOWS
+    - OS
+
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows Print Spooler Service"
+    - "Microsoft Windows 10"
+    - "Microsoft Windows 11"
+    - "Microsoft Windows Server 2008 through 2022"
+
+definition:
+  what: "CVE-2022-38028 is a privilege escalation vulnerability in the Windows Print Spooler service that allows an authenticated attacker to escalate privileges to SYSTEM by modifying a JavaScript constraints file used by the Print Spooler. An attacker who successfully exploits this vulnerability can gain SYSTEM privileges. CVSS v3: 7.8 (High). Disclosed in October 2022."
+  why: "The Windows Print Spooler has been a persistent source of critical vulnerabilities including PrintNightmare (CVE-2021-34527). CVE-2022-38028 was notably exploited by Forest Blizzard (APT28/Fancy Bear), the Russian GRU-affiliated threat group, using a custom tool called GooseEgg. Microsoft disclosed in April 2024 that Forest Blizzard had been actively exploiting this vulnerability since at least June 2020, two years before public disclosure. The tool was used to steal credentials, deploy additional payloads, and move laterally within compromised networks of government and education organizations."
+  how: "The attacker modifies a JavaScript constraints file (MPDW-constraints.js) located in the Print Spooler's driver store directory. By replacing or modifying this file with malicious JavaScript code, the attacker causes the Print Spooler service (running as SYSTEM) to execute the malicious code when processing print jobs. Forest Blizzard's GooseEgg tool automates this exploitation by deploying a batch script that modifies the constraints file and triggers the Print Spooler to execute it. The resulting SYSTEM-level code execution enables credential dumping, lateral movement, and persistence. Microsoft patched this in October 2022."
+  core_concepts:
+    - key: "Print Spooler JavaScript Constraints Abuse"
+      value: "The Windows Print Spooler loads and executes JavaScript constraints files as SYSTEM, and insufficient access controls allow authenticated users to modify these files for privilege escalation"
+    - key: "GooseEgg APT Tool"
+      value: "Forest Blizzard (APT28) developed the GooseEgg tool to automate exploitation of CVE-2022-38028, using it since at least 2020 for post-compromise credential theft and lateral movement"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2022-38028 is a privilege escalation vulnerability in the Windows Print Spooler service"
+  - type: enables
+    target: "VUL-MEMORY-CVE202134527-001"
+    description: "CVE-2022-38028 continues the pattern of Print Spooler privilege escalation vulnerabilities exemplified by PrintNightmare"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-38028 - NVD NIST"
+    - "Microsoft Security Advisory - Print Spooler EoP"
+    - "Microsoft Threat Intelligence - Forest Blizzard GooseEgg"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2022-38028"
+    - "GooseEgg"
+    - "Print Spooler privilege escalation"
+    - "Forest Blizzard"
+    - "APT28 GooseEgg"
+    - "Windows Print Spooler EoP"
+    - "MPDW-constraints.js"
+    - "Print Spooler vulnerability 2022"
+  embedding_text: "CVE-2022-38028 is a privilege escalation vulnerability in the Windows Print Spooler service allowing authenticated users to gain SYSTEM privileges by modifying JavaScript constraints files loaded by the Spooler. CVSS v3 score is 7.8 High. Exploited by Forest Blizzard APT28 since at least June 2020 using the custom GooseEgg tool for credential theft and lateral movement in government and education networks. Affects all Windows client and server versions. Microsoft disclosed the APT exploitation in April 2024. Continues the pattern of Print Spooler vulnerabilities including PrintNightmare. Maps to MITRE ATT&CK T1068 Exploitation for Privilege Escalation. Patched October 2022."

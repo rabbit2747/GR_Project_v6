@@ -1,0 +1,69 @@
+# GR Atom: GCP Assured Workloads
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-GCPASSWOR-001"
+  name: "GCP Assured Workloads"
+  normalized_name: "gcp_assured_workloads"
+  aliases: ["Assured Workloads", "Google Assured Workloads", "GCP Compliance Workloads"]
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags: [GCP, CLOUD, COMPLIANCE, ENCRYPT]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z3"
+  function: "P3.1"
+definition:
+  what: >-
+    GCP Assured Workloads is a compliance and sovereignty service that enables organizations to
+    create controlled environments within Google Cloud that enforce regulatory requirements such
+    as FedRAMP High, IL4/IL5, CJIS, ITAR, and regional data residency. Assured Workloads
+    automatically restricts resource locations, enforces encryption with customer-managed keys,
+    limits Google personnel access based on citizenship requirements, and applies organization
+    policy constraints to ensure continuous compliance.
+  why: >-
+    Assured Workloads addresses the critical challenge of running regulated workloads in public
+    cloud environments. Misconfiguration of compliance boundaries can result in data sovereignty
+    violations, regulatory penalties, and loss of government certifications. Attackers targeting
+    regulated environments may attempt to move data outside compliance boundaries or compromise
+    the encryption key management chain. Continuous compliance monitoring prevents drift.
+  how: >-
+    Assured Workloads creates compliance-enforced folders within GCP organizations with
+    automatically applied Organization Policy constraints. Resources within these folders are
+    restricted to approved regions and services. Customer-managed encryption keys (CMEK) with
+    Cloud KMS or Cloud External Key Manager enforce data protection. Key Access Justifications
+    provide visibility into Google access to encryption keys. Access Transparency logs all
+    Google administrative access. Monitoring detects compliance violations in real-time.
+  core_concepts:
+    - key: "Compliance-Enforced Boundaries"
+      value: "Automatically applies Organization Policy constraints to restrict resource locations, services, and access patterns to meet regulatory frameworks"
+    - key: "Data Sovereignty Controls"
+      value: "Enforces data residency requirements by restricting where data is stored and processed, with personnel access controls based on citizenship"
+    - key: "Key Access Justifications"
+      value: "Provides visibility and control over Google personnel access to customer encryption keys, enabling denial of unjustified access"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "Assured Workloads is a compliance service within the GCP platform"
+  - type: "enables"
+    target: "INFRA-COMPUTE-GCPCONVMS-001"
+    description: "Assured Workloads can enforce use of Confidential VMs for regulated workloads"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Google Cloud Assured Workloads Documentation", "FedRAMP Authorization Documentation", "NIST SP 800-53 Security Controls"]
+  search_keywords: ["assured workloads", "GCP compliance", "FedRAMP GCP", "data sovereignty", "IL4 cloud", "CJIS cloud", "regulated workloads"]
+  embedding_text: >-
+    GCP Assured Workloads is a compliance and sovereignty service creating controlled
+    environments enforcing regulatory requirements like FedRAMP High, IL4/IL5, CJIS, and ITAR.
+    It automatically restricts resource locations, enforces CMEK encryption, limits Google
+    personnel access based on citizenship, and applies Organization Policy constraints.
+    Misconfiguration can cause data sovereignty violations and regulatory penalties. Key Access
+    Justifications provide visibility into Google access to encryption keys. Continuous
+    compliance monitoring prevents configuration drift in regulated environments.

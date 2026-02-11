@@ -1,0 +1,71 @@
+# GR Atom: File Footer Block Signature
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-FIFOBLSI-001"
+  name: "File Footer Block Signature"
+  normalized_name: "file_footer_block_signature"
+  aliases:
+    - "File Trailer Signature"
+    - "File End-of-File Marker"
+    - "EOF Signature"
+    - "File Footer Magic"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - FORENSICS
+    - MONITOR
+    - EVADE
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "A file footer block signature is a specific byte sequence located at or near the end of a file that marks the termination of a file format's structured data. Many file formats define both header magic bytes at the beginning and footer signatures at the end to delineate the complete file boundary. Common examples include the JPEG end-of-image marker (FF D9), the PNG IEND chunk (00 00 00 00 49 45 4E 44 AE 42 60 82), the PDF end-of-file marker (%%EOF), and the ZIP end-of-central-directory record (50 4B 05 06). File footer signatures are used in digital forensics for file carving, in security tools for detecting file format manipulation, and in file integrity validation to confirm that files are structurally complete and have not been appended with extraneous data."
+  why: "File footer signatures are critical for detecting file format manipulation attacks where adversaries append malicious data after the legitimate file ending. Techniques such as polyglot files (files valid in multiple formats simultaneously), steganographic payloads appended after the footer, and file format confusion attacks rely on content existing beyond the expected footer boundary. In digital forensics, footer signatures enable accurate file carving from disk images and memory dumps. Security tools that validate both header and footer signatures can detect truncated files, files with appended payloads, and format manipulation attempts that header-only inspection misses."
+  how: "File footer signature detection is implemented by scanning from the end of a file or by traversing the file structure to locate the expected termination marker. Forensic file carving tools use footer signatures as stop markers when recovering files from unstructured data, matching a header signature with its corresponding footer to extract complete files. Security scanners validate that no significant data exists after the footer, flagging files with appended content as potentially manipulated. The implementation requires a database mapping file types to their expected footer byte sequences and offset tolerances, as some formats allow padding or alignment bytes after the footer."
+  core_concepts:
+    - key: "EOF Marker"
+      value: "End-of-file marker bytes specific to each file format that signal the logical end of file content"
+    - key: "File Carving"
+      value: "Forensic technique of extracting files from raw data by matching header and footer signatures without relying on filesystem metadata"
+    - key: "Appended Data Detection"
+      value: "Identification of data existing beyond the file footer, which may indicate steganographic payloads or polyglot file construction"
+
+relations:
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-FIHEBLSI-001"
+    description: "File footer signatures complement file header signatures; together they define complete file boundaries"
+  - type: enables
+    target: "DETECT-SIGNATURE-FILMAGBYT-001"
+    description: "File footer signatures enhance magic byte detection by validating file format integrity from both ends"
+  - type: effective_against
+    target: "ATK-EVADE-FILEMASK-001"
+    description: "Footer signature validation is effective against file masquerading and polyglot file attacks"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Gary Kessler - File Signature Table - https://www.garykessler.net/library/file_sigs.html"
+    - "NIST SP 800-86 - Guide to Integrating Forensic Techniques into Incident Response"
+    - "Forensics Wiki - File Format Identification"
+  search_keywords:
+    - "file footer signature"
+    - "file trailer bytes"
+    - "EOF marker"
+    - "end of file signature"
+    - "file carving footer"
+    - "file format termination"
+    - "appended data detection"
+    - "polyglot file detection"
+  embedding_text: "File footer block signatures are specific byte sequences located at or near the end of a file marking the termination of structured data. Common examples include JPEG FF D9, PNG IEND chunk, PDF %%EOF, and ZIP end-of-central-directory records. Footer signatures are used in digital forensics for file carving operations, in security tools for detecting file format manipulation, and in integrity validation to confirm files are structurally complete. Footer validation detects polyglot files, steganographic payloads appended after legitimate file endings, and format confusion attacks that header-only inspection misses. Detection requires mapping file types to expected footer byte sequences and checking for extraneous data beyond the footer."

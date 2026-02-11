@@ -1,0 +1,100 @@
+# GR Atom: CVE-2011-2005
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20112005-001"
+  name: "CVE-2011-2005"
+  normalized_name: "cve_2011_2005"
+  aliases:
+    - "Windows Ancillary Function Driver Elevation of Privilege"
+    - "afd.sys Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - PRIV
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Ancillary Function Driver (afd.sys)"
+    - "Windows XP SP3"
+    - "Windows Server 2003 SP2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-2005 is a local privilege escalation vulnerability (CVSS 7.2) in the Windows
+    Ancillary Function Driver (afd.sys) caused by improper validation of input passed from
+    user mode to the kernel. The vulnerability allows a local attacker to execute arbitrary
+    code in kernel mode, resulting in full system compromise. It affects Windows XP SP3 and
+    Windows Server 2003 SP2. Microsoft patched this vulnerability in MS11-080 (October 2011).
+  why: >-
+    The Ancillary Function Driver is a critical Windows kernel component that handles Winsock
+    operations. Kernel-level privilege escalation vulnerabilities in afd.sys are particularly
+    dangerous because they allow any local user to gain SYSTEM privileges. This vulnerability
+    was actively used as a post-exploitation privilege escalation tool and was integrated into
+    several exploit frameworks.
+  how: >-
+    The exploit sends specially crafted IOCTL requests to the afd.sys driver that bypass input
+    validation checks. The improper validation allows a buffer overflow in kernel memory space,
+    enabling the attacker to overwrite kernel structures or function pointers. By carefully
+    controlling the overflow data, the attacker gains arbitrary code execution in kernel mode,
+    escalating from a low-privileged user to SYSTEM.
+  core_concepts:
+    - key: "Kernel Driver Input Validation Failure"
+      value: "afd.sys fails to properly validate user-mode input in IOCTL handling, enabling kernel buffer overflow"
+    - key: "Local Privilege Escalation to SYSTEM"
+      value: "Exploitation of the kernel driver flaw allows any local user to execute code with SYSTEM privileges"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Buffer overflow memory corruption in Windows kernel driver afd.sys"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2011-2005 - CVSS 7.2"
+    - "Microsoft Security Bulletin MS11-080"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2011-2005"
+    - "afd.sys"
+    - "Ancillary Function Driver"
+    - "Windows kernel"
+    - "privilege escalation"
+    - "MS11-080"
+    - "buffer overflow"
+    - "local exploit"
+  embedding_text: >-
+    CVE-2011-2005 is a local privilege escalation vulnerability with CVSS 7.2 in the Windows
+    Ancillary Function Driver (afd.sys). The flaw results from improper validation of user-mode
+    input passed to the kernel driver through IOCTL requests, enabling a buffer overflow in
+    kernel memory. A local attacker can exploit this to execute arbitrary code with SYSTEM
+    privileges on Windows XP SP3 and Windows Server 2003 SP2. Patched in MS11-080 in October
+    2011, this vulnerability was widely used in post-exploitation scenarios and integrated
+    into exploit frameworks for reliable privilege escalation from low-privileged accounts.

@@ -1,0 +1,95 @@
+# GR Atom: Inbound Internet Mail Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-ININMATR-001"
+  name: "Inbound Internet Mail Traffic"
+  normalized_name: "inbound_internet_mail_traffic"
+  aliases:
+    - "Inbound Email Traffic Detection"
+    - "SMTP Inbound Monitoring"
+    - "Mail Server Traffic Analysis"
+    - "Incoming Email Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - SMTP
+    - MONITOR
+    - IDS
+    - FIREWALL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring and analyzing email traffic arriving from the internet via SMTP (port 25), SMTPS (port 465), and submission (port 587) protocols. This pattern examines inbound mail flows for indicators of phishing campaigns, malware delivery, spam, business email compromise, and unauthorized mail relay. Analysis covers SMTP session behavior, sender reputation, SPF/DKIM/DMARC validation, attachment characteristics, and mail flow anomalies."
+  why: "Email remains the primary vector for initial compromise through phishing, malware attachments, and business email compromise. Monitoring inbound mail traffic at the network level provides visibility into email-borne threats before they reach user mailboxes. This detection is critical for identifying phishing campaigns, spearphishing with weaponized attachments, mail server exploitation attempts, and unauthorized mail relay abuse."
+  how: "Detection monitors SMTP connections from the internet to mail servers, analyzing session metadata including sender and recipient addresses, source IP reputation, HELO/EHLO greetings, authentication results, message sizes, and attachment types. Network-level indicators include connections from blacklisted IP ranges, failed SPF/DKIM/DMARC checks, unusual mail volumes from single sources, connections from recently registered domains, and SMTP command anomalies. Flow analysis detects unusual patterns such as mail bombing, directory harvesting attacks, and mail relay probing."
+  core_concepts:
+    - key: "Sender Authentication"
+      value: "Validating email sender identity through SPF, DKIM, and DMARC protocol checks at the network level."
+    - key: "Mail Flow Baseline"
+      value: "Establishing normal inbound email volume and pattern baselines to detect anomalous campaigns."
+    - key: "Reputation Scoring"
+      value: "Evaluating sending IP and domain reputation against threat intelligence and blacklist databases."
+    - key: "SMTP Session Analysis"
+      value: "Examining SMTP protocol exchange patterns for indicators of abuse, exploitation, or reconnaissance."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-ININNETR-001"
+    description: "Inbound mail traffic is a specific type of inbound internet network traffic"
+  - type: effective_against
+    target: "ATK-PHISH-EMAIL-001"
+    description: "Detects email-based phishing delivery at the network level"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for mail traffic pattern analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+    sub_techniques:
+      - "T1566.001"
+      - "T1566.002"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Phishing T1566"
+    - "RFC 5321 - Simple Mail Transfer Protocol"
+    - "NIST SP 800-177 Rev 1 - Trustworthy Email"
+  search_keywords:
+    - "inbound mail traffic"
+    - "SMTP monitoring"
+    - "email traffic detection"
+    - "inbound email"
+    - "mail server monitoring"
+    - "phishing detection"
+    - "email security"
+    - "SMTP analysis"
+    - "mail flow monitoring"
+    - "inbound SMTP"
+  embedding_text: "Inbound internet mail traffic detection monitors email arriving from the internet via SMTP, SMTPS, and submission protocols. It analyzes SMTP session behavior, sender reputation, SPF/DKIM/DMARC validation, attachment characteristics, and mail flow patterns to detect phishing campaigns, malware delivery, business email compromise, spam, and mail server exploitation. This pattern provides network-level visibility into the primary initial access vector for cyberattacks, enabling early detection of email-borne threats before they reach user mailboxes."

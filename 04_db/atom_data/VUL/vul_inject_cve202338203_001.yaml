@@ -1,0 +1,77 @@
+# GR Atom: CVE-2023-38203
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202338203-001"
+  name: "CVE-2023-38203"
+  normalized_name: "cve_2023_38203"
+  aliases:
+    - "ColdFusion Deserialization Patch Bypass"
+    - "ColdFusion CVE-2023-29300 Bypass"
+    - "ColdFusion WDDX Deserialization Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - INITIAL
+    - WEB
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe ColdFusion 2018 (Update 17 and earlier)"
+    - "Adobe ColdFusion 2021 (Update 7 and earlier)"
+    - "Adobe ColdFusion 2023 (Update 1 and earlier)"
+
+definition:
+  what: "CVE-2023-38203 is a critical pre-authentication remote code execution vulnerability in Adobe ColdFusion that bypasses the patch for CVE-2023-29300. The vulnerability is another instance of insecure deserialization in ColdFusion's WDDX handling, where the blocklist-based mitigation applied in the CVE-2023-29300 patch can be circumvented using alternative deserialization gadget chains that were not included in the blocklist. An attacker can exploit this to achieve remote code execution without authentication via crafted HTTP requests. CVSS v3: 9.8 (Critical). Disclosed July 19, 2023."
+  why: "CVE-2023-38203 is significant because it demonstrates the inherent weakness of blocklist-based deserialization defenses. Organizations that had applied the emergency patch for CVE-2023-29300 remained vulnerable. The rapid discovery of this bypass (within days of the original patch) extended the exploitation window for ColdFusion servers and forced a second emergency patching cycle. The vulnerability was actively exploited in the wild, with threat actors combining both CVEs in attack campaigns targeting government and enterprise ColdFusion deployments. The Project Discovery team published a detailed proof-of-concept analysis that was weaponized before many organizations could apply the second patch."
+  how: "The attack is similar to CVE-2023-29300, using a crafted WDDX payload sent via HTTP to a ColdFusion endpoint. However, the serialized Java object uses an alternative deserialization gadget chain that is not blocked by the CVE-2023-29300 patch's blocklist. The new gadget chain achieves the same result of arbitrary code execution through a different class instantiation path. The attacker sends the crafted WDDX payload in an HTTP request parameter, ColdFusion deserializes it using the un-blocked class chain, and arbitrary code executes with ColdFusion process privileges. Mitigation requires applying Adobe ColdFusion Update 18 (2018), Update 8 (2021), or Update 2 (2023), restricting network access to ColdFusion servers, and implementing comprehensive deserialization controls beyond simple blocklists."
+  core_concepts:
+    - key: "Blocklist Bypass"
+      value: "The CVE-2023-29300 patch used a blocklist approach to prevent specific deserialization gadget chains, but CVE-2023-38203 bypasses this using alternative class chains not included in the blocklist, demonstrating the weakness of blocklist-based deserialization defenses"
+    - key: "Rapid Patch Bypass Cycle"
+      value: "The bypass was discovered within days of the original CVE-2023-29300 patch, extending the ColdFusion exploitation window and forcing a second emergency patching cycle before organizations completed the first"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2023-38203 is an injection vulnerability through insecure deserialization bypassing ColdFusion's blocklist defenses"
+  - type: supersedes
+    target: "VUL-INJECT-CVE202329300-001"
+    description: "CVE-2023-38203 bypasses the patch for CVE-2023-29300 using alternative deserialization gadget chains"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2023-38203 - NVD NIST"
+    - "Adobe Security Bulletin APSB23-47"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Project Discovery - ColdFusion Deserialization Bypass"
+    - "Rapid7 - ColdFusion CVE-2023-38203 Analysis"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2023-38203"
+    - "ColdFusion patch bypass"
+    - "ColdFusion deserialization bypass"
+    - "ColdFusion blocklist bypass"
+    - "Adobe ColdFusion RCE"
+    - "ColdFusion gadget chain"
+    - "ColdFusion WDDX bypass"
+  embedding_text: "CVE-2023-38203 is a critical CVSS 9.8 pre-authentication remote code execution vulnerability in Adobe ColdFusion that bypasses the patch for CVE-2023-29300. Disclosed July 2023, it exploits insecure WDDX deserialization using alternative gadget chains not included in the original patch's blocklist. The bypass was discovered within days of the CVE-2023-29300 patch, extending the exploitation window and forcing a second emergency patching cycle. Demonstrates the inherent weakness of blocklist-based deserialization defenses. Actively exploited in the wild targeting government and enterprise ColdFusion deployments. Mitigation requires applying subsequent Adobe updates and implementing comprehensive deserialization controls. Maps to MITRE ATT&CK T1190 Initial Access."

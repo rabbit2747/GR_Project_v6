@@ -1,0 +1,64 @@
+# GR Atom: Safety Detectives
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SAFEDETE-001"
+  name: "Safety Detectives"
+  normalized_name: "safety_detectives"
+  aliases:
+    - "SafetyDetectives"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Safety Detectives is a cybersecurity review and research website that publishes security product reviews, comparisons, and cybersecurity research. The site is known for its research team that discovers and responsibly discloses data exposures, misconfigured databases, and open data leaks on the internet. Safety Detectives has reported numerous significant data exposures involving unsecured Elasticsearch instances, MongoDB databases, and cloud storage buckets containing sensitive personal and business information."
+  why: "Safety Detectives is relevant to cybersecurity because their research team actively scans for and responsibly discloses exposed databases and data leaks, helping organizations discover and remediate inadvertent data exposures before they are exploited by malicious actors. Their data exposure reports highlight the persistent problem of misconfigured cloud storage and databases, raising awareness about basic security hygiene in cloud environments."
+  how: "Safety Detectives' research team uses internet scanning tools and techniques to identify publicly accessible databases, cloud storage buckets, and misconfigured services that expose sensitive data. When exposures are discovered, the team attempts to identify the data owner, notifies them through responsible disclosure, and publishes sanitized reports describing the scope and nature of the exposure. The website also provides consumer-oriented cybersecurity product reviews and guides."
+  core_concepts:
+    - key: "Data exposure discovery"
+      value: "Identifying and disclosing misconfigured databases and cloud storage exposing sensitive data"
+    - key: "Security product reviews"
+      value: "Consumer-oriented cybersecurity product comparisons and recommendations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-DATALEAK-001"
+    description: "Safety Detectives produces data exposure reports and responsible disclosure notifications"
+  - type: enables
+    target: "TECHNIQUE-VULNDISC-001"
+    description: "Safety Detectives enables vulnerability disclosure through data exposure research"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Safety Detectives Official Website"
+    - "Safety Detectives Research Blog"
+  search_keywords:
+    - "safety detectives"
+    - "safetydetectives"
+    - "safety detectives data leak"
+    - "safety detectives research"
+    - "safety detectives exposed database"
+    - "data exposure report"
+  embedding_text: "Safety Detectives is a cybersecurity review and research website known for its research team that actively discovers and responsibly discloses data exposures, misconfigured databases, and open data leaks on the internet. The team uses internet scanning tools to identify publicly accessible databases, cloud storage buckets, and misconfigured services exposing sensitive personal and business information, including unsecured Elasticsearch instances, MongoDB databases, and open S3 buckets. When exposures are discovered, Safety Detectives identifies the data owner, notifies them through responsible disclosure processes, and publishes sanitized reports describing the scope and nature of the exposure. Their data exposure reports highlight the persistent problem of misconfigured cloud storage and databases across the internet, raising awareness about basic security hygiene in cloud environments. The website also provides consumer-oriented cybersecurity product reviews, comparisons, and security guides."

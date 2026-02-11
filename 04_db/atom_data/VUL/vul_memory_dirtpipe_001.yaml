@@ -1,0 +1,124 @@
+# GR Atom: Dirty Pipe
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-DIRTPIPE-001"
+  name: "Dirty Pipe"
+  normalized_name: "dirty_pipe"
+  aliases:
+    - "CVE-2022-0847"
+    - "Linux Pipe Buffer Overwrite"
+    - "PIPE_BUF_FLAG_CAN_MERGE Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Linux kernel 5.8 through 5.16.11"
+    - "Linux pipe buffer subsystem"
+    - "Android devices with kernel 5.8+"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Dirty Pipe (CVE-2022-0847, CVSS 7.8) is a privilege escalation vulnerability in the
+    Linux kernel pipe buffer subsystem that allows unprivileged local users to overwrite
+    data in arbitrary read-only files, including SUID binaries and container images.
+    Discovered by Max Kellermann in March 2022, the flaw exists in how the kernel
+    initializes the PIPE_BUF_FLAG_CAN_MERGE flag for pipe buffer pages. When a splice()
+    operation maps a file into a pipe buffer, the CAN_MERGE flag from a previous pipe
+    operation persists, allowing subsequent write() calls to overwrite the cached page
+    of the read-only file. The vulnerability affects Linux kernels 5.8 through 5.16.11,
+    5.15.25, and 5.10.102.
+  why: >-
+    Dirty Pipe is considered one of the most significant Linux privilege escalation
+    vulnerabilities since Dirty COW (CVE-2016-5195) due to its trivial exploitation,
+    high reliability, and broad impact. Unlike Dirty COW's race condition, Dirty Pipe
+    provides deterministic exploitation without any timing requirements, making it even
+    more reliable. The vulnerability affects Linux servers, containerized environments,
+    and Android devices. Its discovery reinvigorated research into Linux pipe and splice
+    subsystem security, and it demonstrated that kernel data structure initialization
+    bugs can have critical security consequences.
+  how: >-
+    The exploit creates a pipe, fills it completely with data to ensure all pipe buffer
+    pages have the PIPE_BUF_FLAG_CAN_MERGE flag set, then drains the pipe. It then uses
+    splice() to map a target read-only file's pages into the now-empty pipe buffers.
+    Because the CAN_MERGE flag remains set from the initialization phase, a subsequent
+    write() to the pipe appends data to the existing page rather than creating a new
+    page, overwriting the cached content of the read-only file. Common exploitation
+    overwrites SUID-root binaries (like /usr/bin/su) or /etc/passwd for immediate root
+    access. The exploit is deterministic, requires no race conditions, and works
+    reliably on any affected kernel version.
+  core_concepts:
+    - key: "PIPE_BUF_FLAG_CAN_MERGE Persistence"
+      value: "Pipe buffer merge flag improperly persists after splice, enabling writes to read-only file page cache"
+    - key: "Deterministic Read-Only File Overwrite"
+      value: "Unlike Dirty COW, exploitation requires no race conditions and is fully deterministic and reliable"
+    - key: "Successor to Dirty COW"
+      value: "Most significant Linux privilege escalation since Dirty COW, affecting servers, containers, and Android"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Dirty Pipe is a memory management vulnerability in Linux kernel pipe buffer handling"
+  - type: "supersedes"
+    target: "VUL-MEMORY-DIRTCOW-001"
+    description: "Dirty Pipe succeeded Dirty COW as the premier Linux file overwrite privilege escalation technique"
+  - type: "enables"
+    target: "VUL-MEMORY-PWNKIT-001"
+    description: "Both are Linux privilege escalation vulnerabilities with trivially reliable exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Max Kellermann - The Dirty Pipe Vulnerability"
+    - "NVD Entry CVE-2022-0847 - CVSS 7.8"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Linux kernel patch commit - Fix PIPE_BUF_FLAG_CAN_MERGE"
+  search_keywords:
+    - "Dirty Pipe"
+    - "CVE-2022-0847"
+    - "Linux kernel"
+    - "pipe buffer"
+    - "privilege escalation"
+    - "PIPE_BUF_FLAG_CAN_MERGE"
+    - "splice"
+    - "read-only overwrite"
+    - "SUID"
+  embedding_text: >-
+    Dirty Pipe (CVE-2022-0847, CVSS 7.8) is a Linux kernel privilege escalation
+    vulnerability in the pipe buffer subsystem allowing deterministic overwrite of
+    read-only files. The PIPE_BUF_FLAG_CAN_MERGE flag improperly persists after splice
+    operations, enabling writes to cached file pages without race conditions. Affecting
+    kernels 5.8+, it enables trivial root escalation by overwriting SUID binaries or
+    /etc/passwd. Discovered by Max Kellermann in 2022, it is the most significant Linux
+    privilege escalation since Dirty COW, impacting servers, containers, and Android
+    devices with fully reliable deterministic exploitation.

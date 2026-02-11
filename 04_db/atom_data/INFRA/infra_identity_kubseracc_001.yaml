@@ -1,0 +1,125 @@
+# GR Atom: Kubernetes Service Account
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-KUBSERACC-001"
+  name: "Kubernetes Service Account"
+  normalized_name: "kubernetes_service_account"
+  aliases:
+    - "K8s Service Account"
+    - "Kube Service Account"
+    - "KSA"
+    - "Pod Service Account"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - AUTHN
+    - AUTHZ
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Kubernetes Service Account is a namespaced identity object that provides an authentication
+    identity for processes running inside pods to interact with the Kubernetes API server and
+    external services. Each namespace has a default service account automatically assigned to
+    pods that do not specify one. Service accounts are associated with bearer tokens (JWT)
+    projected into pods, which are used for API authentication. Service accounts can be
+    annotated for integration with external identity systems such as AWS IRSA or Azure
+    Workload Identity.
+  why: >-
+    Service accounts are a critical attack vector in Kubernetes environments because they
+    determine the API permissions available to pod workloads. The default service account in
+    each namespace often has more permissions than necessary. Compromised pods inherit the
+    service account's RBAC permissions, enabling attackers to enumerate cluster resources,
+    create new pods, access secrets, and potentially escalate to cluster-admin privileges.
+    Overly permissive ClusterRoleBindings on service accounts are a common finding in
+    Kubernetes security assessments. Auto-mounted service account tokens in pods that do not
+    need API access unnecessarily expand the attack surface.
+  how: >-
+    Service accounts are created as Kubernetes objects within namespaces. When a pod is
+    created, the admission controller mounts a projected service account token at
+    /var/run/secrets/kubernetes.io/serviceaccount/token. This JWT token identifies the
+    service account to the API server. RBAC policies (Roles, ClusterRoles, RoleBindings,
+    ClusterRoleBindings) define the API permissions granted to service accounts. Projected
+    service account tokens include audience restrictions and automatic expiration. The
+    automountServiceAccountToken field can be set to false to prevent unnecessary token
+    mounting. Service accounts can reference ImagePullSecrets for private registry
+    authentication.
+  core_concepts:
+    - key: "Pod Identity"
+      value: "Service accounts provide the authentication identity for pod workloads accessing the Kubernetes API and external services"
+    - key: "RBAC Permission Inheritance"
+      value: "Compromised pods inherit all RBAC permissions of their associated service account, making least-privilege binding critical"
+    - key: "Token Projection"
+      value: "JWT tokens are automatically projected into pods for API authentication, and automountServiceAccountToken should be disabled when not needed"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-IRSA-001"
+    description: "Service accounts are the Kubernetes identity that IRSA maps to AWS IAM roles"
+  - type: "requires"
+    target: "INFRA-IDENTITY-KUBESECR-001"
+    description: "Service accounts may reference secrets for image pull credentials and other authentication"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Service accounts implement workload authentication for Kubernetes API and external service access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.001"
+    tactic:
+      - "Defense Evasion"
+      - "Persistence"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Kubernetes Documentation - Service Accounts"
+    - "MITRE ATT&CK T1078.001 - Valid Accounts: Default Accounts"
+    - "Kubernetes Documentation - RBAC Authorization"
+  search_keywords:
+    - "Kubernetes Service Account"
+    - "K8s service account"
+    - "pod service account"
+    - "service account token"
+    - "automountServiceAccountToken"
+    - "Kubernetes RBAC"
+    - "default service account"
+    - "projected service account token"
+  embedding_text: >-
+    A Kubernetes Service Account provides authentication identity for processes running
+    inside pods to interact with the API server and external services. Service accounts are
+    namespaced objects with projected JWT tokens mounted into pods for API authentication.
+    RBAC policies define the API permissions granted to service accounts. Compromised pods
+    inherit all RBAC permissions of their service account, making over-permissive bindings
+    a critical risk. Default service accounts often have unnecessary permissions. Auto-
+    mounted tokens expand attack surface when pods do not need API access. Service accounts
+    integrate with external identity systems like AWS IRSA and Azure Workload Identity.
+    Security teams must enforce least-privilege RBAC bindings, disable automountServiceAccount
+    Token where unnecessary, create dedicated service accounts per workload, audit
+    ClusterRoleBindings, and monitor service account token usage for unauthorized API access.

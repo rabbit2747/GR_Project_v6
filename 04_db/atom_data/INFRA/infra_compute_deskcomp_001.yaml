@@ -1,0 +1,98 @@
+# GR Atom: Desktop Computer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-DESKCOMP-001"
+  name: "Desktop Computer"
+  normalized_name: "desktop_computer"
+  aliases:
+    - "Workstation"
+    - "PC"
+    - "Desktop PC"
+    - "Personal Computer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - OS
+    - WINDOWS
+    - LINUX
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Desktop Computer is a personal computing device designed for regular use at a fixed
+    location, consisting of a processor, memory, storage, display adapter, and peripherals
+    running a desktop operating system (Windows, macOS, Linux). In enterprise environments,
+    desktops serve as endpoints for user productivity, development, and administration tasks.
+    They connect to corporate networks and cloud services, accessing sensitive data and
+    internal resources through authenticated sessions.
+  why: >-
+    Desktop computers are the primary endpoint attack surface in enterprise environments,
+    targeted through phishing, drive-by downloads, supply chain attacks, and physical access.
+    They store cached credentials, browser sessions, SSH keys, VPN configurations, and local
+    data. Compromised desktops serve as initial access points for lateral movement, privilege
+    escalation, and data exfiltration. Endpoint security solutions (EDR, DLP, disk encryption)
+    are deployed on desktops as frontline defenses.
+  how: >-
+    Desktop computers run operating systems that manage hardware resources and provide the
+    execution environment for applications. Enterprise desktops are typically domain-joined
+    (Active Directory) or MDM-managed, with Group Policy or configuration profiles enforcing
+    security baselines. Security controls include disk encryption (BitLocker, FileVault),
+    endpoint detection (EDR agents), host firewalls, application whitelisting, and patch
+    management. Remote management is via RDP, SSH, or management agents.
+  core_concepts:
+    - key: "Endpoint Security"
+      value: "Desktop security encompasses EDR, disk encryption, host firewall, application control, and patch management as layered defenses"
+    - key: "Credential Storage"
+      value: "Desktops store cached domain credentials, browser passwords, SSH keys, and session tokens that are targeted by credential theft attacks"
+    - key: "Initial Access Vector"
+      value: "Desktops are the primary target for phishing, social engineering, and drive-by download attacks as entry points into enterprise networks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "Desktop computers access and interact with cloud infrastructure as endpoint devices"
+  - type: "enables"
+    target: "INFRA-COMPUTE-MACOS-001"
+    description: "Desktop computers provide the hardware platform on which macOS runs"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-123 - Guide to General Server Security"
+    - "CIS Benchmarks for Desktop Operating Systems"
+    - "MITRE ATT&CK Enterprise Matrix - Initial Access"
+  search_keywords:
+    - "desktop computer"
+    - "workstation"
+    - "endpoint security"
+    - "desktop PC"
+    - "enterprise endpoint"
+    - "workstation security"
+    - "desktop hardening"
+  embedding_text: >-
+    A Desktop Computer is a personal computing device running a desktop OS (Windows, macOS, Linux)
+    serving as an endpoint for enterprise productivity and administration. Desktops are the primary
+    endpoint attack surface targeted through phishing, drive-by downloads, and physical access.
+    They store cached credentials, browser sessions, SSH keys, and VPN configurations. Enterprise
+    desktops are domain-joined with Group Policy enforcement, disk encryption (BitLocker,
+    FileVault), EDR agents, host firewalls, and patch management. Compromised desktops serve as
+    initial access points for lateral movement, privilege escalation, and data exfiltration.

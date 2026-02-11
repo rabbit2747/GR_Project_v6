@@ -1,0 +1,122 @@
+# GR Atom: Global Address List
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-GLOADDLIS-001"
+  name: "Global Address List"
+  normalized_name: "global_address_list"
+  aliases:
+    - "GAL"
+    - "Exchange Global Address List"
+    - "Address Book"
+    - "Offline Address Book"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - LDAP
+    - SMTP
+    - DISC
+    - INFO_LEAK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Global Address List (GAL) is an Exchange Server and Microsoft 365 directory that
+    contains entries for every mail-enabled object in the organization, including users,
+    distribution groups, contacts, and public folders. The GAL is populated from Active
+    Directory attributes and served through the Global Catalog, Outlook clients, and
+    Exchange Web Services. The Offline Address Book (OAB) provides a downloadable snapshot
+    for disconnected access. Custom address lists and address book policies can segment
+    the GAL for multi-tenant or privacy scenarios.
+  why: >-
+    The GAL is a valuable reconnaissance resource that exposes the organization's user
+    directory including names, email addresses, titles, departments, phone numbers, and
+    organizational hierarchy. Attackers use GAL data for social engineering, spear phishing,
+    and organizational mapping. The OAB download provides a complete offline copy of the
+    directory. In environments without proper address book segmentation, the GAL exposes
+    sensitive accounts (executives, IT administrators, security personnel) to all
+    authenticated users. GAL scraping tools automate large-scale directory harvesting.
+  how: >-
+    The GAL is automatically generated from mail-enabled Active Directory objects and served
+    through the Global Catalog on LDAP port 3268. Outlook clients access the GAL through
+    Autodiscover-configured Exchange connections or the OAB download URL. Exchange Online
+    serves the GAL through the Microsoft Graph API and Exchange Web Services. Address Book
+    Policies (ABPs) enable virtual organization segmentation by filtering GAL entries based
+    on recipient attributes. The OAB is generated periodically and distributed through
+    Exchange virtual directories. Room lists and resource mailboxes are also included in
+    the default GAL.
+  core_concepts:
+    - key: "Directory Reconnaissance"
+      value: "GAL exposes organizational user directory with names, emails, titles, and hierarchy valuable for social engineering and phishing"
+    - key: "Offline Address Book"
+      value: "OAB provides downloadable complete directory snapshot enabling offline reconnaissance and bulk contact harvesting"
+    - key: "Address Book Policies"
+      value: "Segmentation mechanism filtering GAL visibility for multi-tenant or privacy requirements, preventing cross-organization information leakage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-FORGLOCAT-001"
+    description: "GAL data is sourced from Active Directory through the Global Catalog"
+  - type: "part_of"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "GAL entries are derived from mail-enabled Active Directory objects"
+  - type: "requires"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "GAL organization structure maps to Active Directory domain and OU hierarchy"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1087.003"
+    tactic:
+      - "Discovery"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Exchange Address Lists"
+    - "MITRE ATT&CK T1087.003 - Account Discovery: Email Account"
+    - "Microsoft Documentation - Address Book Policies"
+  search_keywords:
+    - "Global Address List"
+    - "GAL"
+    - "Exchange address book"
+    - "Offline Address Book"
+    - "OAB"
+    - "GAL scraping"
+    - "directory harvesting"
+    - "address book policy"
+  embedding_text: >-
+    The Global Address List (GAL) is an Exchange Server and Microsoft 365 directory
+    containing entries for every mail-enabled object in the organization. Populated from
+    Active Directory and served through the Global Catalog, it exposes user names, emails,
+    titles, departments, and organizational hierarchy. The Offline Address Book (OAB)
+    provides a downloadable offline snapshot. The GAL is a valuable reconnaissance resource
+    for social engineering, spear phishing, and organizational mapping. Without address
+    book segmentation, it exposes all users including executives and security personnel.
+    GAL scraping tools automate bulk directory harvesting. Address Book Policies enable
+    virtual segmentation filtering GAL visibility. Security teams should implement address
+    book policies for sensitive organizations, restrict OAB download access, monitor for
+    bulk GAL queries, limit exposed attributes, and consider GAL data as a reconnaissance
+    risk in threat modeling.

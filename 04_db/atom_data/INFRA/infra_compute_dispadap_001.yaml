@@ -1,0 +1,67 @@
+# GR Atom: Display Adapter
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-DISPADAP-001"
+  name: "Display Adapter"
+  normalized_name: "display_adapter"
+  aliases: ["Graphics Card", "GPU", "Video Card", "Graphics Adapter"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [OS, FIRMWARE, WINDOWS]
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    A Display Adapter (GPU/graphics card) is a hardware component that renders visual output
+    for display on monitors. Modern GPUs contain dedicated processors, memory (VRAM), and
+    firmware. In cybersecurity contexts, GPUs are relevant for their firmware attack surface,
+    kernel-mode driver vulnerabilities, DMA access capabilities, and use in password cracking
+    and cryptographic operations through CUDA/OpenCL compute capabilities.
+  why: >-
+    Display adapter drivers run in kernel mode, making driver vulnerabilities a path to kernel
+    compromise and privilege escalation. GPU firmware can harbor persistent malware that
+    survives OS reinstallation. GPUs with DMA access can read/write system memory. Additionally,
+    GPU compute (CUDA, OpenCL) enables massively parallel password cracking, hash brute-forcing,
+    and cryptocurrency mining in compromised environments.
+  how: >-
+    Display adapters interface with the CPU via PCIe bus, running kernel-mode drivers (NVIDIA,
+    AMD, Intel). The driver stack includes user-mode and kernel-mode components. GPU firmware
+    (VBIOS) initializes hardware during boot. Display adapter configuration is managed through
+    vendor control panels and Windows Display Driver Model (WDDM). Security involves keeping
+    drivers patched, monitoring GPU firmware integrity, and detecting unauthorized GPU compute
+    usage indicating cryptomining or password cracking.
+  core_concepts:
+    - key: "Kernel-Mode Drivers"
+      value: "GPU drivers run in kernel mode with full system access, making driver vulnerabilities equivalent to kernel exploits"
+    - key: "GPU Compute for Cracking"
+      value: "CUDA and OpenCL enable massively parallel computation used for password hash cracking and cryptographic brute-force attacks"
+    - key: "Firmware Persistence"
+      value: "GPU firmware (VBIOS) can be modified to harbor persistent malware that survives OS reinstallation"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "Display adapters are hardware components within desktop computers"
+  - type: "requires"
+    target: "INFRA-COMPUTE-DRIVSTOR-001"
+    description: "Display adapters require drivers from the Driver Store to function"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["NVIDIA Security Bulletins", "MITRE ATT&CK T1195.003 - Supply Chain Compromise: Hardware", "CIS Benchmark - GPU Driver Security"]
+  search_keywords: ["display adapter", "GPU", "graphics card", "GPU security", "driver vulnerability", "GPU firmware", "CUDA cracking"]
+  embedding_text: >-
+    A Display Adapter (GPU) is a hardware component rendering visual output, with cybersecurity
+    relevance through kernel-mode driver vulnerabilities, firmware persistence, DMA access, and
+    GPU compute for password cracking. Drivers run in kernel mode making vulnerabilities
+    equivalent to kernel exploits. GPU firmware can harbor persistent malware surviving OS
+    reinstall. CUDA/OpenCL enables massively parallel password hash cracking. Security involves
+    patching drivers, monitoring firmware integrity, and detecting unauthorized GPU compute.

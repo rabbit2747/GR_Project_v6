@@ -1,0 +1,77 @@
+# GR Atom: Gatekeeper Bypass Indicators
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-GATBYPIND-001"
+  name: "Gatekeeper Bypass Indicators"
+  normalized_name: "gatekeeper_bypass_indicators"
+  aliases:
+    - "macOS Gatekeeper Evasion Indicators"
+    - "Gatekeeper Circumvention Detection"
+    - "macOS Trust Control Bypass Indicators"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - MACOS
+    - EVADE
+    - BLUE_TEAM
+
+scope:
+  target_layers: ["L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Gatekeeper Bypass Indicators is a comprehensive endpoint detection pattern for macOS that identifies multiple techniques used to circumvent Apple Gatekeeper security enforcement. Beyond simple quarantine flag removal, this pattern encompasses detection of archive-based bypasses where files inside certain archive formats do not inherit quarantine flags, AppleScript-based execution that avoids Gatekeeper checks, disk image mounting with auto-execute capabilities, exploitation of vulnerabilities in the Gatekeeper assessment engine itself, abuse of developer-signed applications to load unsigned code, and manipulation of Launch Services database entries to bypass first-launch checks."
+  why: "Gatekeeper bypass techniques have become increasingly sophisticated, with multiple CVEs assigned to Gatekeeper bypass vulnerabilities in recent years. Adversaries combine multiple evasion vectors to execute malicious code on macOS without triggering security warnings. A comprehensive detection approach that covers all known bypass methods is essential because focusing only on quarantine flag removal misses archive-based bypasses, signed application abuse, and vulnerability exploitation. This pattern provides defense-in-depth detection coverage across the full spectrum of Gatekeeper evasion techniques."
+  how: "Detection systems combine multiple signal sources including quarantine attribute monitoring, file type analysis for archive formats known to bypass quarantine propagation, process tree analysis to identify AppleScript or osascript-based execution chains, disk image mount event monitoring, Launch Services database modification tracking, and behavioral analysis of newly executed applications that lack proper Gatekeeper assessment history. Machine learning models score the likelihood of Gatekeeper bypass based on combined indicators, and alerts are correlated with download events, email attachment extraction, and browser activity to establish the full attack chain."
+  core_concepts:
+    - key: "Archive-Based Bypass"
+      value: "Exploitation of certain archive formats where extracted files may not properly inherit the quarantine extended attribute from the containing archive"
+    - key: "Signed Application Abuse"
+      value: "Using legitimately signed applications as carriers to load and execute unsigned malicious code through dylib hijacking or plugin mechanisms"
+    - key: "Gatekeeper Vulnerability Exploitation"
+      value: "Leveraging CVEs in the Gatekeeper assessment engine to bypass verification checks without removing quarantine flags"
+
+relations:
+  - type: abstracts
+    target: "DETECT-ENDPOINT-GATBYPFLA-001"
+    description: "Gatekeeper bypass indicators is the broader detection category that encompasses specific bypass flag detection"
+  - type: effective_against
+    target: "ATK-EXEC-GATEKEEP-001"
+    description: "Provides comprehensive detection coverage against all known Gatekeeper bypass techniques"
+  - type: requires
+    target: "DETECT-ENDPOINT-FILSETATT-001"
+    description: "Extended attribute monitoring is required to detect quarantine flag manipulation as one bypass indicator"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1553.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1553.001 - Subvert Trust Controls: Gatekeeper Bypass"
+    - "Apple Security Updates - https://support.apple.com/en-us/HT201222"
+    - "Objective-See - macOS Gatekeeper Bypass Research - https://objective-see.org"
+  search_keywords:
+    - "Gatekeeper bypass indicators"
+    - "macOS Gatekeeper evasion"
+    - "Gatekeeper circumvention"
+    - "macOS trust control bypass"
+    - "archive quarantine bypass"
+    - "Gatekeeper vulnerability"
+    - "macOS security evasion"
+    - "signed application abuse macOS"
+  embedding_text: "Gatekeeper Bypass Indicators detection comprehensively identifies techniques used to circumvent macOS Gatekeeper security enforcement beyond simple quarantine flag removal. This includes archive-based bypasses where extracted files lack quarantine attributes, AppleScript execution chains avoiding Gatekeeper checks, disk image auto-execute abuse, Gatekeeper assessment engine vulnerability exploitation, signed application abuse for unsigned code loading, and Launch Services database manipulation. Multi-signal detection combines quarantine monitoring, file type analysis, process tree analysis, and behavioral scoring to provide defense-in-depth against the full spectrum of Gatekeeper evasion techniques."

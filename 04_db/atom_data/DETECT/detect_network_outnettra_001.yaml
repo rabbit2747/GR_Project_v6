@@ -1,0 +1,94 @@
+# GR Atom: Outbound Network Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUTNETTRA-001"
+  name: "Outbound Network Traffic"
+  normalized_name: "outbound_network_traffic"
+  aliases:
+    - "Egress Traffic Detection"
+    - "Outbound Traffic Monitoring"
+    - "Network Egress Analysis"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - FIREWALL
+    - DLP
+    - SIEM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A broad network detection concept covering all traffic originating from within the organization's network and destined for any external destination, including internet hosts, partner networks, cloud services, and remote sites. This encompasses both internet-bound and inter-zone traffic that crosses organizational boundaries. It represents the most general category of egress monitoring and serves as the parent concept for more specific outbound traffic detection patterns."
+  why: "All post-compromise adversary operations ultimately rely on outbound communications, whether for C2, exfiltration, or lateral movement to connected networks. Comprehensive outbound traffic monitoring provides the broadest detection surface for identifying active threats. It also supports compliance requirements for data handling, network segmentation enforcement, and unauthorized service detection across all network boundaries."
+  how: "Detection is implemented through centralized monitoring at all network egress points including internet gateways, partner network connections, cloud interconnects, and inter-zone boundaries. Analysis combines flow-level monitoring for volume and connection pattern analysis, application-layer inspection for protocol compliance and content analysis, and behavioral analytics for anomaly detection. Data from multiple egress points is aggregated in SIEM platforms for correlation, threat hunting, and compliance reporting."
+  core_concepts:
+    - key: "Comprehensive Egress Monitoring"
+      value: "Monitoring all traffic leaving the network across every boundary point, not limited to internet-bound traffic."
+    - key: "Multi-Boundary Coverage"
+      value: "Capturing outbound traffic at internet gateways, partner connections, cloud interconnects, and zone boundaries."
+    - key: "Aggregate Analysis"
+      value: "Combining egress data from multiple monitoring points for holistic visibility into outbound communications."
+    - key: "Segmentation Enforcement"
+      value: "Verifying that outbound traffic respects network segmentation policies and authorized communication paths."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: abstracts
+    target: "DETECT-NETWORK-OUINNETR-001"
+    description: "General outbound traffic abstracts the specific case of internet-bound traffic"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for comprehensive outbound traffic analysis"
+  - type: requires
+    target: "DETECT-NETWORK-EGREHEUR-001"
+    description: "Leverages egress heuristics for behavioral analysis of outbound traffic"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1041"
+    tactic:
+      - "Exfiltration"
+      - "Command and Control"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over C2 Channel T1041"
+    - "NIST SP 800-41 Rev 1 - Guidelines on Firewalls and Firewall Policy"
+    - "SANS Institute - Network Egress Monitoring Best Practices"
+  search_keywords:
+    - "outbound traffic"
+    - "egress monitoring"
+    - "outbound network"
+    - "traffic egress"
+    - "outgoing traffic"
+    - "network egress"
+    - "outbound detection"
+    - "egress traffic analysis"
+    - "outbound flow"
+    - "boundary traffic monitoring"
+  embedding_text: "Outbound network traffic detection is the broadest egress monitoring concept covering all traffic originating from within the organization destined for external destinations including internet hosts, partner networks, cloud services, and remote sites. It provides comprehensive visibility at all network egress points for detecting C2 communications, data exfiltration, and unauthorized service usage. Data is aggregated from multiple boundary monitoring points in SIEM platforms for correlation and threat hunting. This concept serves as the parent category for all specific outbound traffic detection patterns including internet, web, encrypted, mail, and file transfer traffic."

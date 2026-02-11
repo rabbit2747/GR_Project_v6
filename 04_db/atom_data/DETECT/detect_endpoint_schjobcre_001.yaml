@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Creation Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBCRE-001"
+  name: "Scheduled Job Creation Event"
+  normalized_name: "scheduled_job_creation_event"
+  aliases:
+    - "Scheduled Task Creation Detection"
+    - "Cron Job Creation Monitoring"
+    - "Task Scheduler New Task Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - PERSIST
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Creation Event is an endpoint detection pattern that captures the creation of new scheduled tasks, cron jobs, at jobs, systemd timers, and launchd agents/daemons across operating systems. The event records the job name, the command or script to be executed, the execution schedule (trigger conditions), the user context under which the job will run, the account that created the job, and the creation timestamp. On Windows this corresponds to Task Scheduler Event ID 4698, on Linux to crontab modifications and systemd timer unit file creation, and on macOS to launchd plist file creation."
+  why: "Scheduled job creation is one of the most common persistence mechanisms used by adversaries. Attackers create scheduled tasks to ensure their malware or command-and-control beacons execute at regular intervals, survive system reboots, and maintain access even after initial infection vectors are remediated. Scheduled jobs are attractive for persistence because they are a legitimate system feature, can execute with elevated privileges, and operate on configurable schedules. Detection of new scheduled job creation is critical for identifying persistence establishment before adversaries achieve long-term access."
+  how: "Detection systems monitor scheduled job creation through Windows Task Scheduler Event IDs (4698 for creation), Windows Security Event Log audit policies for scheduled task operations, Linux auditd rules monitoring writes to /var/spool/cron and /etc/cron.d directories, Linux systemd timer unit file creation in /etc/systemd and /lib/systemd, and macOS monitoring of LaunchAgent and LaunchDaemon plist file creation in /Library/LaunchAgents, /Library/LaunchDaemons, and user-level equivalents. Detection rules flag jobs created by non-administrative users, jobs with obfuscated or encoded command lines, jobs scheduled to run at boot or logon with SYSTEM privileges, jobs pointing to executables in temporary or unusual directories, and jobs created through command-line tools like schtasks or at rather than administrative interfaces."
+  core_concepts:
+    - key: "Persistence Mechanism Detection"
+      value: "Identifying new scheduled jobs as potential persistence mechanisms that allow adversaries to maintain access across reboots and remediation attempts"
+    - key: "Privileged Job Monitoring"
+      value: "Special attention to scheduled jobs configured to run with SYSTEM, root, or other elevated privileges that could enable privilege escalation"
+    - key: "Command Analysis"
+      value: "Analyzing the commands and scripts referenced by new scheduled jobs for indicators of malicious activity such as obfuscation, encoded payloads, or connections to external infrastructure"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job creation is a specific lifecycle event within the broader scheduled job event category"
+  - type: effective_against
+    target: "ATK-PERSIST-SCHEDTASK-001"
+    description: "Directly detects adversary use of scheduled tasks for persistence"
+  - type: enables
+    target: "DETECT-ENDPOINT-SCHJOBSTA-001"
+    description: "Job creation establishes jobs that will generate start events when triggered"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053.005"
+    tactic: ["Persistence", "Execution", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1053.005 - Scheduled Task/Job: Scheduled Task"
+    - "Microsoft - Audit Other Object Access Events - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4698"
+    - "Linux man pages - crontab(5), systemd.timer(5)"
+  search_keywords:
+    - "scheduled task creation"
+    - "cron job creation"
+    - "scheduled job detection"
+    - "task scheduler event 4698"
+    - "persistence mechanism"
+    - "launchd agent creation"
+    - "systemd timer creation"
+    - "scheduled task monitoring"
+  embedding_text: "Scheduled Job Creation Event detection captures creation of new scheduled tasks, cron jobs, systemd timers, and launchd agents across operating systems. Monitored through Windows Task Scheduler Event ID 4698, Linux auditd rules on crontab and systemd timer directories, and macOS LaunchAgent/LaunchDaemon plist creation, this telemetry records job names, commands, schedules, execution contexts, and creating accounts. Detection flags jobs by non-admin users, obfuscated commands, boot/logon triggers with SYSTEM privileges, executables in unusual directories, and command-line creation via schtasks, identifying persistence establishment by adversaries."

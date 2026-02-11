@@ -1,0 +1,73 @@
+# GR Atom: Red Hat
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-REDHAT-001"
+  name: "Red Hat"
+  normalized_name: "red_hat"
+  aliases:
+    - "Red Hat Inc."
+    - "IBM Red Hat"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - LINUX
+    - CONTAINER
+    - K8S
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Hat is a leading enterprise open-source software company, acquired by IBM in 2019, best known for Red Hat Enterprise Linux (RHEL), OpenShift container platform, and Ansible automation. In cybersecurity, Red Hat is significant as the maintainer of the most widely deployed enterprise Linux distribution, operating the Red Hat Product Security team that manages CVE assignments, security advisories (RHSA), and vulnerability response for the RHEL ecosystem. Red Hat also provides security-focused products including Red Hat Advanced Cluster Security and SELinux."
+  why: "Red Hat is critically important in cybersecurity because RHEL is the foundation of enterprise server infrastructure worldwide, and its security posture directly impacts millions of production systems. Red Hat's security advisories and patch releases drive Linux vulnerability management across enterprises. Their contributions to SELinux, container security through OpenShift, and Kubernetes security standards significantly influence how organizations secure Linux and container workloads."
+  how: "Red Hat provides security through the Product Security team that triages vulnerabilities, assigns CVEs, and publishes Red Hat Security Advisories with patches for RHEL and related products. SELinux provides mandatory access control for Linux systems. OpenShift includes built-in container security features including image scanning, network policies, and security context constraints. Red Hat Advanced Cluster Security (formerly StackRox) provides Kubernetes-native security. Red Hat Insights provides vulnerability management and compliance scanning for RHEL environments."
+  core_concepts:
+    - key: "Enterprise Linux security"
+      value: "RHEL security advisories and patch management driving enterprise Linux vulnerability response"
+    - key: "Container and Kubernetes security"
+      value: "OpenShift security features and Advanced Cluster Security for container workload protection"
+    - key: "SELinux"
+      value: "Mandatory access control framework for Linux systems enhancing OS-level security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-OS-RHEL-001"
+    description: "Red Hat produces Red Hat Enterprise Linux, the most deployed enterprise Linux distribution"
+  - type: enables
+    target: "TECHNIQUE-CONTAINERSEC-001"
+    description: "Red Hat enables container security through OpenShift and Advanced Cluster Security"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Red Hat Official Website"
+    - "Red Hat Product Security Center"
+    - "Red Hat Security Blog"
+  search_keywords:
+    - "red hat"
+    - "red hat security"
+    - "rhel security"
+    - "red hat enterprise linux"
+    - "openshift security"
+    - "selinux"
+    - "red hat cve"
+    - "rhsa advisories"
+    - "red hat advanced cluster security"
+  embedding_text: "Red Hat is a leading enterprise open-source software company, acquired by IBM in 2019, providing Red Hat Enterprise Linux (RHEL), OpenShift container platform, and Ansible automation tools. In cybersecurity, Red Hat is critically significant as the maintainer of the most widely deployed enterprise Linux distribution, with their Product Security team managing CVE assignments, publishing Red Hat Security Advisories, and coordinating vulnerability response for the RHEL ecosystem. Red Hat's security contributions include SELinux mandatory access control framework, OpenShift built-in container security features including image scanning and network policies, Red Hat Advanced Cluster Security for Kubernetes-native workload protection, and Red Hat Insights for vulnerability management and compliance scanning. RHEL security advisories and patch releases drive Linux vulnerability management across enterprises worldwide, and Red Hat's contributions to container security, Kubernetes security standards, and Linux hardening significantly influence how organizations secure their server infrastructure and cloud-native workloads."

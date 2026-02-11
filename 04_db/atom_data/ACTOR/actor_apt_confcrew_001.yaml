@@ -1,0 +1,85 @@
+# GR Atom: ConfCrew
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-CONFCREW-001"
+  name: "ConfCrew"
+  normalized_name: "confcrew"
+  aliases:
+    - "UAC-0165"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - IMPACT
+    - PERSIST
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ConfCrew, tracked by CERT-UA as UAC-0165, is a Russian-aligned threat group that has conducted destructive cyberattacks against Ukrainian critical infrastructure since the beginning of the Russia-Ukraine conflict. The group targets Ukrainian government agencies, telecommunications providers, energy companies, and internet service providers. ConfCrew is assessed to operate within or alongside the Sandworm (Seashell Blizzard) ecosystem, conducting disruptive operations using a combination of commodity tools and custom destructive malware."
+  why: "ConfCrew is significant as a destructive operator targeting Ukrainian critical infrastructure during active conflict. Their operations against telecommunications and energy sectors directly impact civilian populations and military communications. The group demonstrates how cyber operations are integrated into kinetic warfare, making their tactics relevant for understanding modern conflict-zone cyber threats."
+  how: "The group exploits internet-facing services and uses compromised VPN credentials for initial access. They deploy Cobalt Strike, Impacket, and custom destructive tools to move laterally and prepare for destructive actions. Destructive operations have included wiper malware deployment, Active Directory compromise and mass credential reset, and destruction of network equipment configurations. The group also conducts data theft prior to destructive operations, following a hack-and-leak model."
+  core_concepts:
+    - key: "Destructive Operations"
+      value: "Conducts wiper attacks and infrastructure destruction against Ukrainian critical infrastructure"
+    - key: "Conflict-Zone Cyber Warfare"
+      value: "Operations aligned with the Russia-Ukraine conflict targeting civilian and military infrastructure"
+    - key: "Sandworm Ecosystem"
+      value: "Operates within or alongside the broader Sandworm APT ecosystem"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-SEASBLIZ-001"
+    description: "ConfCrew operates within the broader Sandworm/Seashell Blizzard (GRU Unit 74455) ecosystem"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Exploits internet-facing services and compromised credentials for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1485"
+    tactic:
+      - "Initial Access"
+      - "Impact"
+      - "Lateral Movement"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CERT-UA - UAC-0165 Activity Reports"
+    - "Microsoft - Seashell Blizzard Ecosystem Analysis"
+  search_keywords:
+    - "confcrew"
+    - "uac-0165"
+    - "ukraine wiper attacks"
+    - "sandworm subgroup"
+    - "russian destructive cyber"
+    - "ukraine critical infrastructure"
+    - "ukrainian telecom attacks"
+    - "conflict cyber operations"
+    - "seashell blizzard ecosystem"
+    - "wiper malware ukraine"
+  embedding_text: "ConfCrew, tracked by CERT-UA as UAC-0165, is a Russian-aligned threat group conducting destructive cyberattacks against Ukrainian critical infrastructure during the Russia-Ukraine conflict. Operating within the Sandworm (Seashell Blizzard) ecosystem, the group targets Ukrainian government agencies, telecommunications providers, energy companies, and internet service providers. Their operations include wiper malware deployment, Active Directory compromise with mass credential reset, and destruction of network equipment configurations. Initial access comes through internet-facing service exploitation and compromised VPN credentials. The group uses Cobalt Strike, Impacket, and custom destructive tools. They also conduct data theft prior to destruction, following a hack-and-leak model. Their operations demonstrate integration of cyber capabilities into modern kinetic warfare."

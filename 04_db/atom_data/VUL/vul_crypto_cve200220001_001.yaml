@@ -1,0 +1,110 @@
+# GR Atom: CVE-2002-20001
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE200220001-001"
+  name: "CVE-2002-20001"
+  normalized_name: "cve_2002_20001"
+  aliases:
+    - "Diffie-Hellman Key Agreement Protocol D(HE)ater Attack"
+    - "DHEater"
+    - "DH Key Exchange DoS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - DOS
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Diffie-Hellman Key Exchange"
+    - "TLS/SSL Implementations"
+    - "IKE/IPsec Implementations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2002-20001 describes a denial-of-service vulnerability in the Diffie-Hellman Key Agreement
+    protocol where an attacker can send large DH exponents to force expensive modular exponentiation
+    computations on the server. The vulnerability affects any implementation using Diffie-Hellman
+    key exchange including TLS, SSH, and IKE/IPsec. Known as the D(HE)ater attack, it was formally
+    cataloged in 2002 but received renewed attention as a practical DoS vector. CVSS score is 7.5.
+  why: >-
+    This vulnerability is significant because Diffie-Hellman key exchange is fundamental to secure
+    communications across TLS, SSH, and VPN protocols. The asymmetric computational cost allows a
+    low-resource attacker to exhaust server CPU resources, causing denial of service for legitimate
+    users. The attack is particularly impactful because it targets the handshake phase before any
+    authentication occurs.
+  how: >-
+    The attacker initiates multiple TLS or IKE handshakes and sends carefully crafted large
+    Diffie-Hellman public values that force the server to perform computationally expensive modular
+    exponentiation operations. Since the server must compute the shared secret for each handshake
+    attempt, and the attacker can generate requests far cheaper than the server can process them,
+    this creates an asymmetric resource consumption that leads to CPU exhaustion and denial of
+    service.
+  core_concepts:
+    - name: "Asymmetric Resource Consumption"
+      value: "Exploiting the computational cost difference between generating DH requests and processing them to exhaust server resources"
+    - name: "Pre-Authentication Attack"
+      value: "Targeting the key exchange phase that occurs before client authentication, allowing unauthenticated denial of service"
+    - name: "Modular Exponentiation Cost"
+      value: "Large DH exponents force expensive mathematical operations that consume disproportionate CPU time on the server"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "DHEater is an instance of cryptographic protocol vulnerability exploiting DH key exchange computational costs"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Applies to TLS implementations using Diffie-Hellman key exchange"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1499"
+      tactic: ["Impact"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2002-20001"
+    - "D(HE)ater Attack Research Paper"
+    - "IETF RFC 7919 - Negotiated Finite Field Diffie-Hellman Ephemeral Parameters for TLS"
+  search_keywords:
+    - "CVE-2002-20001"
+    - "DHEater attack"
+    - "Diffie-Hellman denial of service"
+    - "DH key exchange DoS"
+    - "TLS handshake DoS"
+    - "asymmetric resource consumption"
+    - "modular exponentiation attack"
+  embedding_text: >-
+    CVE-2002-20001 describes the D(HE)ater attack, a denial-of-service vulnerability in the
+    Diffie-Hellman Key Agreement protocol. An attacker can send large DH exponents to force
+    expensive modular exponentiation computations on the server, causing CPU exhaustion. The
+    vulnerability affects TLS, SSH, IKE/IPsec and any implementation using Diffie-Hellman key
+    exchange. The attack exploits asymmetric computational costs where generating malicious
+    requests is far cheaper than processing them on the server side. Since the attack targets
+    the pre-authentication handshake phase, no credentials are required. Mitigation strategies
+    include rate limiting handshake attempts, using ECDHE instead of DHE for key exchange,
+    setting maximum DH parameter sizes, and implementing handshake timeouts. The vulnerability
+    has a CVSS score of 7.5 and remains relevant for servers that support DHE cipher suites
+    without proper resource management controls.

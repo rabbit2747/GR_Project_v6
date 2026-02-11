@@ -1,0 +1,107 @@
+# GR Atom: CVE-2016-4117
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20164117-001"
+  name: "CVE-2016-4117"
+  normalized_name: "cve_2016_4117"
+  aliases:
+    - "Adobe Flash Player Type Confusion"
+    - "Flash Player Zero-Day May 2016"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player 21.0.0.226 and earlier"
+    - "Flash browser plugin (Chrome, IE, Edge, Firefox)"
+    - "Windows, macOS, Linux, Chrome OS"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-4117 is a type confusion vulnerability (CVSS 10.0) in Adobe Flash Player that
+    allows remote attackers to execute arbitrary code via crafted Flash content. The vulnerability
+    was exploited as a zero-day in May 2016 in targeted attacks before Adobe released an
+    emergency patch in APSB16-15. The flaw exists in the ActionScript virtual machine where
+    type confusion during object processing enables memory corruption and code execution.
+    It affects Flash Player 21.0.0.226 and earlier across all platforms.
+  why: >-
+    This vulnerability was one of the last significant Flash Player zero-days exploited in
+    active targeted attacks. By May 2016, most major browsers had begun restricting Flash
+    content, but the plugin remained installed on billions of systems. The continued discovery
+    and exploitation of Flash zero-days reinforced the industry decision to phase out Flash
+    entirely. Adobe announced in July 2017 that Flash Player would reach end of life in
+    December 2020, a decision influenced by the ongoing stream of critical vulnerabilities.
+  how: >-
+    The exploit creates Flash content that triggers a type confusion in the ActionScript 3
+    virtual machine during object property access. The type confusion causes the VM to
+    interpret one object type as another, leading to memory corruption. The attacker
+    leverages the confusion to craft a read/write primitive over process memory, overwriting
+    function pointers or vtable entries to redirect execution to shellcode embedded in the
+    Flash content.
+  core_concepts:
+    - key: "ActionScript VM Type Confusion"
+      value: "Type confusion during object property access in the AS3 virtual machine enables memory corruption and arbitrary read/write primitives"
+    - key: "Flash Player End-of-Life Catalyst"
+      value: "Ongoing Flash zero-days including this vulnerability contributed to Adobe's decision to deprecate Flash Player entirely"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Type confusion memory corruption in Adobe Flash Player ActionScript virtual machine"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2016-4117 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB16-15"
+    - "FireEye - Flash Zero-Day Analysis May 2016"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2016-4117"
+    - "Adobe Flash Player"
+    - "type confusion"
+    - "zero-day"
+    - "ActionScript"
+    - "APSB16-15"
+    - "remote code execution"
+    - "Flash exploit"
+    - "memory corruption"
+  embedding_text: >-
+    CVE-2016-4117 is a type confusion vulnerability with CVSS 10.0 in Adobe Flash Player's
+    ActionScript 3 virtual machine. Type confusion during object property access causes memory
+    corruption enabling arbitrary read/write primitives and code execution through crafted
+    Flash content. Exploited as a zero-day in May 2016 in targeted attacks, it was patched
+    in emergency APSB16-15. Affecting Flash Player 21.0.0.226 and earlier across all platforms,
+    this vulnerability was among the final wave of significant Flash zero-days that reinforced
+    the industry decision to phase out Flash Player entirely. Adobe subsequently announced
+    Flash end-of-life for December 2020, ending an era of Flash-based web exploitation.

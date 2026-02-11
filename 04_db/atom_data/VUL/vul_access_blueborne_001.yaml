@@ -1,0 +1,131 @@
+# GR Atom: BlueBorne
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-BLUEBORNE-001"
+  name: "BlueBorne"
+  normalized_name: "blueborne"
+  aliases:
+    - "CVE-2017-0781"
+    - "CVE-2017-0782"
+    - "CVE-2017-0783"
+    - "CVE-2017-0785"
+    - "CVE-2017-8628"
+    - "CVE-2017-1000251"
+    - "CVE-2017-1000250"
+    - "CVE-2017-14315"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - MOBILE
+    - ANDROID
+    - LINUX
+    - WINDOWS
+    - IOT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Bluetooth protocol stack"
+    - "Android Bluetooth subsystem"
+    - "Linux kernel Bluetooth (BlueZ)"
+    - "Windows Bluetooth driver"
+    - "iOS CoreBluetooth"
+    - "IoT Bluetooth implementations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BlueBorne is a collection of eight zero-day Bluetooth vulnerabilities disclosed by Armis
+    Labs in September 2017 that affect Android, Linux, Windows, and iOS devices. The
+    vulnerabilities allow remote code execution, man-in-the-middle attacks, and information
+    disclosure over Bluetooth without requiring pairing or user interaction. CVE-2017-0781
+    and CVE-2017-0782 are Android RCE vulnerabilities in BNEP and PAN profiles.
+    CVE-2017-1000251 is a Linux kernel RCE in the L2CAP stack. CVE-2017-8628 is a Windows
+    logical flaw enabling MITM via Bluetooth Pineapple. The attack vector is airborne,
+    requiring only that Bluetooth be enabled on the target device within radio range,
+    estimated to affect over 5.3 billion devices at disclosure.
+  why: >-
+    BlueBorne represented a paradigm shift in Bluetooth security because it demonstrated that
+    Bluetooth vulnerabilities could be exploited without any user interaction, device pairing,
+    or discoverability. The airborne attack vector meant that any Bluetooth-enabled device
+    within approximately 10 meters was vulnerable. The cross-platform nature affecting every
+    major operating system and the potential to create self-propagating Bluetooth worms made
+    BlueBorne one of the most significant wireless vulnerability discoveries, threatening
+    enterprise networks, IoT infrastructure, and mobile devices simultaneously.
+  how: >-
+    BlueBorne attacks exploit vulnerabilities in Bluetooth protocol implementations at the
+    operating system level. The attacker scans for Bluetooth-enabled devices using the
+    Bluetooth radio, identifies the target OS through Bluetooth probing, and selects the
+    appropriate exploit. On Android, heap overflow vulnerabilities in BNEP allow arbitrary
+    code execution with kernel privileges. On Linux, a stack buffer overflow in the L2CAP
+    configuration response handler enables kernel-level RCE. On Windows, a logical flaw
+    in the Bluetooth Authentication process allows MITM positioning. Exploitation requires
+    no pairing, authentication, or discoverable mode. Patches were released by Google,
+    Microsoft, and Linux kernel maintainers in September-October 2017.
+  core_concepts:
+    - key: "Airborne Attack Vector"
+      value: "BlueBorne exploits Bluetooth without requiring pairing, user interaction, or device discoverability, attacking any device with Bluetooth enabled within radio range"
+    - key: "Cross-Platform Impact"
+      value: "Eight vulnerabilities across Android, Linux, Windows, and iOS affecting over 5.3 billion devices with platform-specific exploitation techniques"
+    - key: "Wormable Potential"
+      value: "The no-interaction airborne nature enables theoretical self-propagating Bluetooth worm capability spreading device to device autonomously"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "BlueBorne exploits access control weaknesses in Bluetooth protocol stacks enabling unauthorized remote access"
+  - type: "precedes"
+    target: "VUL-ACCESS-BLUEKEEP-001"
+    description: "BlueBorne (2017) established the paradigm of wormable remote access vulnerabilities that BlueKeep (2019) extended to RDP"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Armis Labs - BlueBorne Technical White Paper (September 2017)"
+    - "CVE-2017-0781 through CVE-2017-0785 - Android Bluetooth RCE"
+    - "CVE-2017-1000251 - Linux Kernel Bluetooth Stack RCE"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "BlueBorne"
+    - "Bluetooth vulnerability"
+    - "CVE-2017-0781"
+    - "CVE-2017-1000251"
+    - "Bluetooth RCE"
+    - "airborne attack"
+    - "Armis Bluetooth"
+    - "wireless remote code execution"
+  embedding_text: >-
+    BlueBorne is a set of eight zero-day Bluetooth vulnerabilities disclosed in September 2017
+    by Armis Labs affecting Android, Linux, Windows, and iOS. Enables remote code execution,
+    man-in-the-middle, and information disclosure without pairing or user interaction. Attacks
+    are airborne requiring only that Bluetooth is enabled within radio range. Android heap
+    overflow in BNEP allows kernel-level RCE. Linux L2CAP stack buffer overflow enables
+    kernel RCE. Windows Bluetooth logical flaw allows MITM. Affected over 5.3 billion
+    devices with wormable self-propagation potential. Cross-platform Bluetooth protocol
+    stack exploitation at the operating system level.

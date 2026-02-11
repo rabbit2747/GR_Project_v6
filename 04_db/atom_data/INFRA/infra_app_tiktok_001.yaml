@@ -1,0 +1,116 @@
+# GR Atom: TikTok
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-TIKTOK-001"
+  name: "TikTok"
+  normalized_name: "tiktok"
+  aliases:
+    - "ByteDance TikTok"
+    - "TikTok App"
+    - "Douyin International"
+    - "Musical.ly"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - MOBILE
+    - WEB
+    - PRIVACY
+    - RECON
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TikTok is a short-form video social media platform developed by ByteDance, available as
+    a mobile application for iOS and Android and as a web platform. It enables users to create,
+    share, and discover short videos with music, filters, and effects. The platform uses
+    algorithmic content recommendation, collects extensive user behavioral data, and has over
+    one billion monthly active users worldwide, making it one of the most widely used social
+    media applications.
+  why: >-
+    TikTok presents significant security and privacy concerns including extensive data collection
+    (device identifiers, location, browsing history, biometric data, clipboard content), potential
+    data access by Chinese government entities under China's national security laws, and use
+    as a platform for social engineering and disinformation campaigns. The app has been banned
+    on government devices in multiple countries. TikTok's in-app browser has been found to
+    inject JavaScript for keystroke monitoring. The platform is used for phishing link
+    distribution, credential harvesting through fake login pages, and targeting of specific
+    user demographics for intelligence collection.
+  how: >-
+    TikTok operates through native mobile applications and a web interface, with content
+    delivery through CDN infrastructure. The app collects device data including hardware
+    identifiers, IP addresses, GPS location, installed apps, and network information. An
+    algorithmic recommendation engine analyzes user behavior to serve personalized content.
+    The in-app browser processes external links within the TikTok context. APIs enable
+    third-party integrations and data access. Content moderation and data processing involve
+    backend infrastructure spanning multiple jurisdictions with varying data protection
+    standards.
+  core_concepts:
+    - key: "Extensive Data Collection"
+      value: "Collects device identifiers, location data, browsing history, biometric information, clipboard content, and behavioral patterns beyond core functionality requirements"
+    - key: "Data Sovereignty Concerns"
+      value: "ByteDance ownership and Chinese national security laws raise concerns about potential government access to user data collected globally"
+    - key: "In-App Browser Monitoring"
+      value: "TikTok in-app browser has been found to inject JavaScript capable of monitoring keystrokes and form inputs on external websites"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "TikTok is a consumer application that creates enterprise security concerns when installed on corporate devices"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1437"
+    tactic:
+      - "Collection"
+      - "Reconnaissance"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "TikTok Privacy Policy Analysis"
+    - "US Government TikTok Ban Executive Orders"
+    - "Felix Krause Research - In-App Browser Analysis"
+    - "CISA Guidance on Social Media Application Risks"
+  search_keywords:
+    - "TikTok"
+    - "ByteDance"
+    - "TikTok security"
+    - "TikTok privacy"
+    - "TikTok data collection"
+    - "TikTok ban"
+    - "TikTok in-app browser"
+    - "social media security risk"
+  embedding_text: >-
+    TikTok is a ByteDance short-form video platform with over one billion monthly users. It
+    collects extensive data including device identifiers, location, browsing history, biometric
+    data, and clipboard content. Security concerns include potential Chinese government data
+    access under national security laws, in-app browser JavaScript injection for keystroke
+    monitoring, platform use for social engineering and phishing campaigns, and disinformation
+    distribution. TikTok has been banned on government devices in multiple countries. The
+    algorithmic recommendation engine analyzes behavioral data extensively. Security teams
+    should restrict TikTok on corporate devices through MDM policies, implement network-level
+    blocking where appropriate, and educate users about data collection risks and social
+    engineering threats through the platform.

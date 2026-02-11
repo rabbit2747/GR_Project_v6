@@ -1,0 +1,71 @@
+# GR Atom: PortSwigger
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-PORTSWIGGE-001"
+  name: "PortSwigger"
+  normalized_name: "portswigger"
+  aliases:
+    - "PortSwigger Ltd"
+    - "PortSwigger Web Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - WAF
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "PortSwigger is a UK-based cybersecurity company that develops Burp Suite, the industry-standard web application security testing tool used by penetration testers, bug bounty hunters, and security researchers worldwide. The company also operates the Web Security Academy, a free educational platform teaching web vulnerability classes. Burp Suite provides an intercepting proxy, scanner, intruder, repeater, and extensibility framework for comprehensive web application security testing."
+  why: "PortSwigger is critically important in cybersecurity because Burp Suite is the de facto standard tool for web application penetration testing, used by virtually every professional web security tester. The Web Security Academy has trained hundreds of thousands of security practitioners on web vulnerability identification and exploitation. PortSwigger's research on web vulnerability classes including HTTP request smuggling, prototype pollution, and server-side template injection has significantly advanced the field."
+  how: "Burp Suite operates as an intercepting proxy between the browser and target web application, allowing testers to inspect, modify, and replay HTTP/HTTPS requests. The tool includes an automated scanner for identifying web vulnerabilities, Intruder for customized attack payloads, Repeater for manual request manipulation, and a marketplace for community extensions via BApp Store. The Web Security Academy provides interactive labs covering all major web vulnerability categories with hands-on practice environments."
+  core_concepts:
+    - key: "Burp Suite"
+      value: "Industry-standard web application security testing tool and intercepting proxy"
+    - key: "Web Security Academy"
+      value: "Free educational platform with interactive labs for learning web vulnerability exploitation"
+    - key: "Web vulnerability research"
+      value: "Pioneering research on HTTP smuggling, prototype pollution, and SSTI vulnerability classes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-PENTEST-BURPSUITE-001"
+    description: "PortSwigger produces Burp Suite web application security testing tool"
+  - type: enables
+    target: "TECHNIQUE-WEBAPPSEC-001"
+    description: "PortSwigger enables web application security testing through Burp Suite and educational resources"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PortSwigger Official Website"
+    - "PortSwigger Research Blog"
+    - "Web Security Academy"
+  search_keywords:
+    - "portswigger"
+    - "burp suite"
+    - "burpsuite"
+    - "web security academy"
+    - "portswigger research"
+    - "burp proxy"
+    - "web application testing"
+    - "http request smuggling"
+  embedding_text: "PortSwigger is a UK-based cybersecurity company that develops Burp Suite, the industry-standard web application security testing tool used by penetration testers, bug bounty hunters, and security researchers worldwide. Burp Suite provides an intercepting proxy, automated vulnerability scanner, Intruder for customized attack payloads, Repeater for manual request manipulation, and an extensibility framework through the BApp Store. PortSwigger also operates the Web Security Academy, a free educational platform with interactive labs covering all major web vulnerability categories that has trained hundreds of thousands of security practitioners. The company's research team has made significant contributions to web security knowledge, pioneering work on HTTP request smuggling, prototype pollution, server-side template injection, and other advanced web vulnerability classes. Burp Suite is considered essential tooling for professional web application penetration testing, and the Web Security Academy has become a foundational learning resource for aspiring web security specialists."

@@ -1,0 +1,77 @@
+# GR Atom: CVE-2021-27065
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202127065-001"
+  name: "CVE-2021-27065"
+  normalized_name: "cve_2021_27065"
+  aliases:
+    - "Exchange Server ECP File Write RCE"
+    - "ProxyLogon Chain - ECP Arbitrary File Write"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - WINDOWS
+    - WEB
+    - UPLOAD
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+    - "Microsoft Exchange Server 2010 SP3"
+
+definition:
+  what: "CVE-2021-27065 is a post-authentication arbitrary file write vulnerability in the Exchange Control Panel (ECP) of Microsoft Exchange Server. Exploited in conjunction with CVE-2021-26855 (ProxyLogon), it allows an attacker to write arbitrary files to the server by abusing the virtual directory configuration export functionality. This is the primary web shell deployment mechanism in the ProxyLogon chain. CVSS v3: 7.8 (High). Disclosed in March 2021."
+  why: "This vulnerability served as the primary persistence mechanism in the ProxyLogon mass exploitation campaign. HAFNIUM and other threat actors used it to deploy China Chopper web shells on tens of thousands of Exchange servers worldwide. The ability to write web shells through the ECP virtual directory feature provided attackers with persistent access that survived server reboots and could remain undetected for extended periods. It was one of four zero-days patched in the March 2021 emergency Exchange update."
+  how: "After gaining authentication through CVE-2021-26855, the attacker accesses the Exchange Control Panel and manipulates the virtual directory configuration. The attacker modifies the External URL field of a virtual directory to contain ASPX web shell code, then exports the virtual directory configuration to an arbitrary file path using the ResetOABVirtualDirectory functionality. Exchange writes the configuration file containing the embedded web shell code to the specified path in the web root. The web shell is then accessible via HTTP for remote command execution. The most common payload was China Chopper one-line web shell."
+  core_concepts:
+    - key: "Virtual Directory Configuration Abuse"
+      value: "Exchange ECP virtual directory configuration export writes attacker-controlled content to arbitrary file paths, enabling web shell deployment through the ResetOABVirtualDirectory function"
+    - key: "China Chopper Web Shell Deployment"
+      value: "Primary mechanism for deploying China Chopper and other ASPX web shells during the HAFNIUM mass exploitation campaign affecting tens of thousands of servers"
+
+relations:
+  - type: part_of
+    target: "VUL-AUTH-CVE202126855-001"
+    description: "CVE-2021-27065 is part of the ProxyLogon exploit chain, providing the file write component for web shell deployment"
+  - type: requires
+    target: "VUL-AUTH-CVE202126855-001"
+    description: "Exploitation requires prior authentication bypass via CVE-2021-26855 ProxyLogon SSRF"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic: ["Persistence", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-27065 - NVD NIST"
+    - "Microsoft Security Blog - HAFNIUM Exchange Exploitation"
+    - "CISA Emergency Directive 21-02"
+    - "Volexity - ProxyLogon Web Shell Analysis"
+    - "MITRE ATT&CK T1505.003 - Server Software Component: Web Shell"
+  search_keywords:
+    - "CVE-2021-27065"
+    - "Exchange ECP file write"
+    - "ProxyLogon web shell"
+    - "Exchange virtual directory exploit"
+    - "China Chopper web shell"
+    - "HAFNIUM web shell deployment"
+    - "Exchange ResetOABVirtualDirectory"
+    - "Exchange arbitrary file write"
+  embedding_text: "CVE-2021-27065 is a post-authentication arbitrary file write vulnerability in the Exchange Control Panel of Microsoft Exchange Server. Used as the primary web shell deployment mechanism in the ProxyLogon exploit chain. After authentication via CVE-2021-26855, attackers manipulate virtual directory configurations to embed ASPX web shell code and export it to arbitrary file paths via ResetOABVirtualDirectory. CVSS v3 score is 7.8 High. HAFNIUM deployed China Chopper web shells on tens of thousands of Exchange servers. Affects Exchange Server 2010 SP3 through 2019. Patched in March 2021 emergency update. Maps to MITRE ATT&CK T1505.003 Web Shell. One of the most widely exploited Exchange vulnerabilities in history."

@@ -1,0 +1,74 @@
+# GR Atom: WebTrust
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-WEBTRUST-001"
+  name: "WebTrust"
+  normalized_name: "webtrust"
+  aliases:
+    - "WebTrust for CAs"
+    - "WebTrust Seal"
+    - "CPA WebTrust"
+    - "WebTrust Certification Authorities"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - WEB
+    - ENCRYPT
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "WebTrust is an assurance program developed jointly by the AICPA and CPA Canada that provides trust seals and audit standards for Certificate Authorities (CAs) and other online service providers. The WebTrust for Certification Authorities program is the primary audit standard that CAs must comply with to have their root certificates included in major browser and operating system trust stores (Microsoft, Apple, Mozilla, Google). WebTrust for CAs evaluates CA operations including certificate lifecycle management, key protection, subscriber verification, certificate revocation, and operational security against the CA/Browser Forum Baseline Requirements and other applicable standards."
+  why: "The entire web PKI trust model depends on Certificate Authorities operating securely and following established practices. A compromised or poorly operated CA can issue fraudulent certificates enabling man-in-the-middle attacks, phishing, and data interception across the internet. WebTrust for CAs provides the independent assurance that browser vendors require before including a CA's root certificate in their trust store. Without WebTrust compliance, a CA cannot effectively operate in the public PKI ecosystem, as their certificates would not be trusted by browsers and operating systems."
+  how: "Certificate Authorities undergo annual WebTrust examinations conducted by licensed CPA firms. The examination evaluates CA controls against the WebTrust Principles and Criteria for Certification Authorities, which incorporate CA/Browser Forum Baseline Requirements, Extended Validation guidelines, and code signing requirements. The auditor tests key management practices, certificate issuance procedures, identity verification processes, revocation handling, physical and logical security, and business continuity. Upon successful examination, the CA receives the WebTrust seal and maintains its position in browser trust stores. Browser vendors monitor WebTrust compliance and can remove CAs that fail to maintain their certification."
+  core_concepts:
+    - key: "CA/Browser Forum Baseline Requirements"
+      value: "Minimum standards that publicly-trusted CAs must follow for issuing SSL/TLS certificates, incorporated into WebTrust audit criteria"
+    - key: "Root Trust Store Inclusion"
+      value: "The process by which browser and OS vendors approve CAs for inclusion in their trusted root certificate stores based on WebTrust compliance"
+    - key: "Certificate Lifecycle Management"
+      value: "Controls governing certificate issuance, renewal, revocation, and expiration processes audited under WebTrust"
+    - key: "Key Protection"
+      value: "Physical and logical security controls protecting CA private keys, including HSM requirements and ceremony procedures"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-DIGSAFCER-001"
+    description: "WebTrust is a specific digital safety certification for Certificate Authorities"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "WebTrust requires CA key protection using FIPS 140-2 validated hardware security modules"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "WebTrust requires annual CPA examination for ongoing audit compliance"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CPA Canada WebTrust - https://www.cpacanada.ca/en/business-and-accounting-resources/audit-and-assurance/overview-of-webtrust-services"
+    - "CA/Browser Forum Baseline Requirements - https://cabforum.org/baseline-requirements/"
+    - "Mozilla Root Store Policy - https://wiki.mozilla.org/CA"
+  search_keywords:
+    - "WebTrust"
+    - "WebTrust for CAs"
+    - "certificate authority audit"
+    - "CA compliance"
+    - "root trust store"
+    - "PKI audit"
+    - "CA/Browser Forum"
+    - "SSL certificate compliance"
+    - "TLS certificate authority"
+    - "browser trust"
+  embedding_text: "WebTrust is an AICPA/CPA Canada assurance program providing audit standards for Certificate Authorities to maintain inclusion in browser and OS trust stores. WebTrust for CAs evaluates certificate lifecycle management, key protection with HSMs, subscriber verification, revocation handling, and operational security against CA/Browser Forum Baseline Requirements. Annual CPA examinations test key management, issuance procedures, identity verification, and business continuity. Without WebTrust compliance, CAs cannot operate in the public PKI ecosystem as their certificates would not be trusted by browsers. Browser vendors monitor compliance and can remove non-compliant CAs from trust stores."

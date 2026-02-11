@@ -1,0 +1,91 @@
+# GR Atom: CactusPete
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-CACTUSPETE-001"
+  name: "CactusPete"
+  normalized_name: "cactuspete"
+  aliases:
+    - "Karma Panda"
+    - "Tonto Team"
+    - "Bronze Huntley"
+    - "Earth Akhlut"
+    - "TAG-74"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CactusPete, also known as Tonto Team, is a Chinese APT group active since at least 2012. The group targets military, diplomatic, and infrastructure organizations primarily in South Korea, Japan, Taiwan, and the United States, with additional operations against Russia and Mongolia. CactusPete is believed to be affiliated with the Chinese People's Liberation Army and specializes in espionage operations targeting defense and government entities in the Asia-Pacific region."
+  why: "CactusPete represents a persistent Chinese espionage threat focused on military and defense intelligence collection in the Asia-Pacific. The group's targeting of South Korean and Japanese military organizations, as well as Russian defense entities, provides strategic intelligence relevant to Chinese military planning and geopolitical maneuvering. Their long operational history demonstrates sustained state-directed collection requirements."
+  how: "The group primarily uses spearphishing with weaponized Rich Text Format (RTF) documents exploiting known vulnerabilities such as CVE-2017-11882 (Equation Editor). They deploy the Bisonal backdoor family, a long-running custom RAT, along with newer tools such as the Tonto Loader and dddkong backdoor. Post-compromise activities include keylogging, screenshot capture, document theft, and lateral movement via stolen credentials. The group uses multiple layers of C2 infrastructure including compromised websites and custom domains."
+  core_concepts:
+    - key: "Bisonal RAT"
+      value: "Long-running custom remote access trojan that has been continuously evolved since initial deployments"
+    - key: "RTF Exploitation"
+      value: "Heavy reliance on weaponized RTF documents exploiting Equation Editor vulnerabilities"
+    - key: "Military Intelligence"
+      value: "Primary collection focus on military and defense organizations in the Asia-Pacific region"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing with weaponized documents as primary initial access vector"
+  - type: is_a
+    target: "ACTOR-APT-CACTUSPETE-001"
+    description: "Chinese military-affiliated APT conducting Asia-Pacific espionage"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Collection"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - CactusPete APT Group Profile"
+    - "MITRE ATT&CK - Tonto Team Group"
+    - "Recorded Future - TAG-74 / Tonto Team Analysis"
+  search_keywords:
+    - "cactuspete"
+    - "tonto team"
+    - "karma panda"
+    - "bronze huntley"
+    - "bisonal rat"
+    - "chinese military apt"
+    - "south korea espionage"
+    - "rtf exploit apt"
+    - "earth akhlut"
+    - "tag-74"
+    - "asia pacific espionage"
+  embedding_text: "CactusPete, also known as Tonto Team and Karma Panda, is a Chinese APT group active since at least 2012, believed to be affiliated with the People's Liberation Army. The group targets military, diplomatic, and infrastructure organizations in South Korea, Japan, Taiwan, the United States, Russia, and Mongolia. Their primary initial access method is spearphishing with weaponized RTF documents exploiting vulnerabilities like CVE-2017-11882. The group deploys the Bisonal backdoor family, a continuously evolved custom RAT, along with the Tonto Loader and dddkong backdoor. Post-compromise activities include keylogging, screenshot capture, document theft, and lateral movement through stolen credentials. CactusPete maintains multiple layers of C2 infrastructure for sustained espionage collection on military and defense intelligence."

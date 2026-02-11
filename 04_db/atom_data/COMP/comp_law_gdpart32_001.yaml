@@ -1,0 +1,108 @@
+# GR Atom: GDPR Article 32
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-GDPART32-001"
+  name: "GDPR Article 32"
+  normalized_name: "gdpr_article_32"
+  aliases:
+    - "Security of Processing"
+    - "Art. 32 GDPR"
+    - "GDPR Technical and Organizational Measures"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - ENCRYPT
+    - PRIVACY
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    GDPR Article 32 requires data controllers and processors to implement appropriate technical
+    and organizational measures to ensure a level of security appropriate to the risk of processing
+    personal data. The article explicitly references four categories of measures: (a) pseudonymization
+    and encryption of personal data, (b) the ability to ensure ongoing confidentiality, integrity,
+    availability, and resilience of processing systems and services, (c) the ability to restore
+    availability and access to personal data in a timely manner following a physical or technical
+    incident, and (d) a process for regularly testing, assessing, and evaluating the effectiveness
+    of technical and organizational measures.
+  why: >
+    Article 32 is the primary GDPR provision linking data protection directly to information
+    security. It bridges privacy law and cybersecurity by requiring risk-based security controls
+    proportionate to the sensitivity and volume of personal data processed. Failure to implement
+    adequate security measures can result in administrative fines up to 10 million EUR or 2% of
+    global annual turnover, and additionally creates liability for damages resulting from data
+    breaches.
+  how: >
+    Organizations implement Article 32 by conducting risk assessments of their data processing
+    activities, deploying encryption for data at rest and in transit, applying pseudonymization
+    to reduce re-identification risk, implementing access controls and authentication mechanisms,
+    establishing backup and disaster recovery procedures, conducting regular penetration testing
+    and vulnerability assessments, maintaining incident response plans, and performing periodic
+    reviews of security measure effectiveness. The measures must account for the state of the art,
+    implementation costs, and the nature, scope, context, and purposes of processing.
+  core_concepts:
+    - key: "Encryption"
+      value: "Applying cryptographic protection to personal data at rest and in transit to prevent unauthorized access"
+    - key: "Confidentiality, Integrity, Availability, Resilience"
+      value: "The four security objectives that processing systems must continuously maintain under Article 32"
+    - key: "Incident Recovery"
+      value: "Capability to restore data availability and access in a timely manner after physical or technical incidents"
+    - key: "Regular Testing"
+      value: "Ongoing process to test, assess, and evaluate the effectiveness of security measures"
+    - key: "Risk-Based Approach"
+      value: "Security measures must be proportionate to the risk level, considering likelihood and severity of harm"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "COMP-LAW-GDPR-001"
+    description: "Article 32 is a specific provision within the GDPR"
+  - type: enables
+    target: "COMP-LAW-GDPART25-001"
+    description: "Security measures under Article 32 enable the data protection by design requirements of Article 25"
+  - type: implements
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "Article 32 implements security aspects of compliance obligations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Regulation (EU) 2016/679, Article 32 — Security of processing"
+    - "ENISA Guidelines on Article 32 — Measures for a High Common Level of Security"
+    - "EDPB Guidelines on security measures for personal data processing"
+  search_keywords:
+    - "GDPR article 32"
+    - "security of processing"
+    - "encryption personal data"
+    - "pseudonymization GDPR"
+    - "technical organizational measures"
+    - "confidentiality integrity availability resilience"
+    - "GDPR security requirements"
+    - "risk-based security GDPR"
+  embedding_text: >
+    GDPR Article 32 requires controllers and processors to implement appropriate technical and
+    organizational measures to ensure security of personal data processing. It explicitly mandates
+    four categories of measures: pseudonymization and encryption of personal data, ensuring ongoing
+    confidentiality, integrity, availability, and resilience of systems, the ability to restore
+    data access after incidents, and regular testing and evaluation of security effectiveness.
+    The article adopts a risk-based approach requiring measures proportionate to the processing
+    risk, considering state of the art, implementation costs, and data sensitivity. Non-compliance
+    carries fines up to 10 million EUR or 2% of global annual turnover.

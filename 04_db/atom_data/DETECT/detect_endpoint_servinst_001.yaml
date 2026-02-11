@@ -1,0 +1,99 @@
+# GR Atom: Service Installation Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVINST-001"
+  name: "Service Installation Event"
+  normalized_name: "service_installation_event"
+  aliases:
+    - "Service Install Detection"
+    - "New Service Created"
+    - "Service Registration Event"
+    - "Service Creation Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - EXEC
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies the creation and registration of new system services on an endpoint. On Windows, this corresponds to System Event ID 7045 (A new service was installed in the system) from the Service Control Manager, Security Event ID 4697, and Sysmon detection of new registry keys under HKLM\\SYSTEM\\CurrentControlSet\\Services. On Linux, this covers creation of new systemd unit files, init.d scripts, or xinetd service configurations. The event captures the service name, executable path, service type, start type, and the account that performed the installation."
+  why: "New service installation is one of the most common persistence and execution techniques used by adversaries. Malware frequently installs itself as a service to survive reboots, execute with elevated SYSTEM privileges, and blend in with legitimate system services. Monitoring service installations enables early detection of backdoors, rootkits, lateral movement tools, and other malicious software establishing persistence on compromised endpoints."
+  how: "Detection primarily monitors Windows System Event ID 7045 and Security Event ID 4697 for new service registrations. Sysmon Event ID 12 and 13 capture registry key and value creation under the Services hive. Command-line auditing detects sc.exe create, New-Service PowerShell, and installutil.exe usage. On Linux, file integrity monitoring on systemd unit directories and init.d detects new service files. EDR agents provide enhanced context including the parent process, full command line, and file hash of the service binary."
+  core_concepts:
+    - key: "service_binary_path"
+      value: "The executable path specified for the new service, which must be analyzed for legitimacy and potential malicious payload"
+    - key: "service_account_context"
+      value: "The account under which the new service will execute, with SYSTEM and LocalSystem being highest privilege"
+    - key: "kernel_mode_services"
+      value: "Driver services (type 1 or 2) installed as kernel-mode components have the deepest system access"
+    - key: "service_naming_convention"
+      value: "Adversaries often use service names that mimic legitimate services to avoid detection through casual inspection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service installation event is a specific type of service lifecycle event"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SERVSTAR-001"
+    description: "Service installation enables subsequent service start events"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SERVUPDA-001"
+    description: "An installed service can subsequently be updated"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1543.003"
+    tactic:
+      - "persistence"
+      - "privilege-escalation"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Event ID 7045"
+    - "Microsoft Documentation - Event ID 4697"
+    - "MITRE ATT&CK T1543.003 - Create or Modify System Process: Windows Service"
+    - "Sysmon Documentation - Registry Events"
+  search_keywords:
+    - "service installation"
+    - "new service installed"
+    - "service creation"
+    - "Event ID 7045"
+    - "Event ID 4697"
+    - "sc create"
+    - "service persistence"
+    - "malicious service"
+    - "service registration"
+    - "new service detection"
+  embedding_text: "Service installation event detection pattern identifies creation and registration of new system services on endpoints. On Windows this monitors System Event ID 7045 and Security Event ID 4697 from the Service Control Manager, plus Sysmon registry events for new service keys. On Linux it tracks creation of systemd unit files and init.d scripts. New service installation is a primary adversary persistence technique where malware registers as system services to survive reboots and execute with SYSTEM privileges. Detection captures service name, binary path, service type, start type, and installing account. Maps to MITRE ATT&CK T1543.003 for Windows Service persistence and privilege escalation."

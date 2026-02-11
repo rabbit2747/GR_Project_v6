@@ -1,0 +1,72 @@
+# GR Atom: ThreatFabric
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-THREATFABR-001"
+  name: "ThreatFabric"
+  normalized_name: "threatfabric"
+  aliases:
+    - "Threat Fabric"
+    - "ThreatFabric BV"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - MOBILE
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ThreatFabric is a Dutch cybersecurity vendor specializing in mobile threat intelligence, Android malware analysis, and mobile fraud detection. The company provides threat intelligence services focused on mobile banking trojans, overlay attacks, and mobile-based fraud schemes, and has become the primary source of research on Android banking malware families including Anatsa, Hydra, Cerberus, and numerous other mobile threat campaigns."
+  why: "ThreatFabric is critically important in cybersecurity because mobile banking malware represents one of the fastest-growing threat categories, and ThreatFabric's research provides the most comprehensive coverage of Android-based financial threats. Their identification and tracking of major mobile malware families has directly informed the security strategies of financial institutions and mobile platform providers worldwide."
+  how: "ThreatFabric operates through continuous monitoring of Android application stores, underground forums, and malware distribution networks to identify and analyze mobile threats. Their analysis includes reverse engineering of mobile malware, tracking of dropper campaigns on Google Play, and monitoring of overlay attack infrastructure. Findings are published through detailed technical blog posts and threat intelligence reports."
+  core_concepts:
+    - key: "Mobile Threat Intelligence"
+      value: "Specialized intelligence on Android banking trojans, overlay attacks, and mobile-based fraud campaigns"
+    - key: "Android Malware Analysis"
+      value: "In-depth reverse engineering and behavioral analysis of mobile malware families targeting financial applications"
+    - key: "Mobile Fraud Detection"
+      value: "Detection and prevention of mobile-based financial fraud through threat intelligence and behavioral analysis"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow threat intelligence publication platform providing detailed malware analysis and research"
+  - type: enables
+    target: "ACTOR-VENDOR-NOWSECURE-001"
+    description: "Mobile threat intelligence complements mobile application security testing capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.threatfabric.com"
+  search_keywords:
+    - "threatfabric"
+    - "mobile malware"
+    - "android banking trojan"
+    - "mobile threat intelligence"
+    - "overlay attack"
+    - "anatsa"
+    - "cerberus malware"
+    - "mobile fraud"
+  embedding_text: "ThreatFabric is a Dutch cybersecurity vendor specializing in mobile threat intelligence, Android malware analysis, and mobile fraud detection. The company provides threat intelligence services focused on mobile banking trojans, overlay attacks, and mobile-based fraud schemes, tracking major Android banking malware families including Anatsa, Hydra, Cerberus, and numerous other mobile threat campaigns. ThreatFabric's research provides the most comprehensive coverage of Android-based financial threats, directly informing the security strategies of financial institutions and mobile platform providers."

@@ -1,0 +1,79 @@
+# GR Atom: Azure NSG
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-NSG-001"
+  name: "Azure NSG"
+  normalized_name: "azure_nsg"
+  aliases:
+    - "Network Security Group"
+    - "Azure Network Security Group"
+    - "NSG"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - FIREWALL
+    - NETWORK
+    - CLOUD
+    - CONFIG
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "S1.2"
+
+definition:
+  what: "Azure Network Security Group (NSG) is a stateful packet filtering firewall that controls inbound and outbound network traffic to Azure resources at the subnet and network interface level. NSGs contain security rules that allow or deny traffic based on source/destination IP addresses, ports, and protocols. Each rule has a priority value, and rules are evaluated in priority order with the first matching rule applied."
+  why: "NSGs are fundamental to Azure network security because they enforce micro-segmentation and least-privilege network access between subnets and virtual machines. Misconfigured NSGs are one of the most common Azure security findings, with overly permissive rules exposing management ports (RDP/SSH) or databases directly to the internet. NSG flow logs provide essential network forensic data for incident investigation. Attackers frequently modify NSG rules to establish persistence or enable lateral movement."
+  how: "NSGs are associated with subnets or individual network interfaces within Azure Virtual Networks. Each NSG contains default rules that cannot be deleted but can be overridden by higher-priority custom rules. Inbound and outbound rules are evaluated independently. Service tags provide abstracted representations of Azure service IP ranges for rule definitions. Application Security Groups (ASGs) enable grouping VMs for rule application without explicit IP management. NSG flow logs capture traffic metadata and can be sent to Log Analytics for security analysis."
+  core_concepts:
+    - key: "Security Rules"
+      value: "Priority-ordered allow/deny rules evaluated by source, destination, port, and protocol for both inbound and outbound traffic directions"
+    - key: "Service Tags"
+      value: "Microsoft-managed groups of IP address prefixes representing Azure services, simplifying rule management without explicit IP tracking"
+    - key: "NSG Flow Logs"
+      value: "Network traffic metadata logs capturing source/destination, port, protocol, and allow/deny decisions for forensic analysis"
+    - key: "Application Security Groups"
+      value: "Logical groupings of virtual machine NICs enabling network policy application based on workload rather than IP addresses"
+
+relations:
+  - type: requires
+    target: "INFRA-DEVOPS-AZURDIAG-001"
+    description: "NSG flow logs and diagnostic data are collected through Azure Diagnostics for security monitoring"
+  - type: instance_of
+    target: "INFRA-DEVOPS-AZUKEYVAU-001"
+    description: "NSG rules can reference Key Vault for certificate-based authentication scenarios"
+  - type: is_a
+    target: "INFRA-DEVOPS-NSG-001"
+    description: "Azure NSG is a cloud-native network firewall implementation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.007"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Azure NSG Documentation - https://learn.microsoft.com/en-us/azure/virtual-network/network-security-groups-overview"
+    - "Azure NSG Flow Logs - https://learn.microsoft.com/en-us/azure/network-watcher/nsg-flow-logs-overview"
+    - "MITRE ATT&CK T1562.007 - Impair Defenses: Disable or Modify Cloud Firewall"
+  search_keywords:
+    - "Azure NSG"
+    - "Network Security Group"
+    - "Azure firewall rules"
+    - "NSG flow logs"
+    - "Azure network filtering"
+    - "Azure micro-segmentation"
+    - "Azure service tags"
+    - "Azure application security groups"
+  embedding_text: "Azure Network Security Group (NSG) is a stateful packet filtering firewall controlling inbound and outbound traffic to Azure resources at subnet and network interface levels. NSGs contain priority-ordered security rules allowing or denying traffic by source, destination, port, and protocol. Security significance includes micro-segmentation enforcement, least-privilege network access, and NSG flow logs for forensic analysis. Misconfigured NSGs are common security findings, with overly permissive rules exposing management ports to the internet. Service tags abstract Azure service IP ranges, and Application Security Groups enable workload-based policies. Attackers modify NSG rules for persistence or lateral movement."

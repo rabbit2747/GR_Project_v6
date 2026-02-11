@@ -1,0 +1,65 @@
+# GR Atom: ReasonLabs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-REASONLABS-001"
+  name: "ReasonLabs"
+  normalized_name: "reasonlabs"
+  aliases:
+    - "ReasonLabs Inc."
+    - "Reason Cybersecurity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ReasonLabs is a cybersecurity company that provides consumer-focused endpoint security products including RAV Endpoint Protection (antivirus), RAV VPN, and an online security suite. The company also operates a threat intelligence research team that publishes analysis on consumer-targeted malware campaigns, browser-based threats, and adware/PUP distribution networks. ReasonLabs focuses on protecting individual consumers and home users from cyber threats."
+  why: "ReasonLabs is relevant in cybersecurity because their research team regularly uncovers consumer-targeted malware campaigns that affect millions of home users, including malicious browser extensions, cryptominers distributed through popular software, and adware networks. Their findings help the security community understand the consumer threat landscape and inform broader detection efforts for threats that can bridge into enterprise environments through remote workers."
+  how: "ReasonLabs provides endpoint protection through RAV Endpoint Protection, which uses machine learning-based detection, behavioral analysis, and signature matching to identify malware on consumer devices. The company's threat research team investigates consumer malware distribution campaigns, analyzes malicious browser extensions, and publishes findings through their blog and industry conferences. Their research often involves tracking distribution networks and estimating the scale of consumer-targeted campaigns."
+  core_concepts:
+    - key: "Consumer endpoint protection"
+      value: "Antivirus and security suite products designed for individual and home users"
+    - key: "Consumer threat research"
+      value: "Investigation of malware campaigns targeting consumers including browser threats and adware"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-ANTIVIRUS-001"
+    description: "ReasonLabs provides consumer antivirus and endpoint protection through RAV products"
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "ReasonLabs produces threat research on consumer-targeted malware campaigns"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "ReasonLabs Official Website"
+    - "ReasonLabs Threat Intelligence Blog"
+  search_keywords:
+    - "reasonlabs"
+    - "reason cybersecurity"
+    - "rav endpoint protection"
+    - "reasonlabs threat research"
+    - "reasonlabs antivirus"
+    - "consumer malware research"
+  embedding_text: "ReasonLabs is a cybersecurity company providing consumer-focused endpoint security products including RAV Endpoint Protection antivirus, RAV VPN, and an online security suite designed to protect individual consumers and home users from cyber threats. The company operates a threat intelligence research team that investigates and publishes analysis on consumer-targeted malware campaigns, malicious browser extensions, cryptominers distributed through popular software, and adware distribution networks. ReasonLabs uses machine learning-based detection, behavioral analysis, and signature matching in their endpoint protection products. Their research regularly uncovers campaigns affecting millions of home users, helping the broader security community understand the consumer threat landscape and informing detection efforts for threats that can bridge into enterprise environments through remote workers and personal devices."

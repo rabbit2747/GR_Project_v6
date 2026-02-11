@@ -1,0 +1,132 @@
+# GR Atom: MITRE D3FEND
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MITRED3FEND-001"
+  name: "MITRE D3FEND"
+  normalized_name: "mitre_d3fend"
+  aliases:
+    - "D3FEND"
+    - "Detection Denial and Disruption Framework Empowering Network Defense"
+    - "MITRE D3FEND Matrix"
+    - "D3FEND Knowledge Graph"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - BLUE_TEAM
+    - THREAT_INTEL
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE D3FEND (Detection, Denial, and Disruption Framework Empowering Network Defense) is
+    a knowledge graph of cybersecurity countermeasure techniques that provides a complementary
+    defensive taxonomy to MITRE ATT&CK's offensive technique catalog. Funded by the NSA and
+    maintained by MITRE, D3FEND catalogs defensive techniques organized into five tactical
+    categories: Harden, Detect, Isolate, Deceive, and Evict. Each defensive technique is
+    linked to the specific ATT&CK offensive techniques it counters, the digital artifacts it
+    operates on, and the underlying technology components involved. D3FEND uses an ontological
+    knowledge graph structure rather than a simple matrix, enabling precise reasoning about
+    defensive capability relationships.
+  why: >-
+    While ATT&CK provides extensive documentation of offensive techniques, the cybersecurity
+    community lacked an equivalent standardized taxonomy for defensive countermeasures. Security
+    architects and analysts needed a systematic way to map defensive capabilities to specific
+    threats, identify gaps in defensive coverage, and make informed decisions about which
+    countermeasures to deploy against specific attack techniques. D3FEND fills this gap by
+    providing a structured, evidence-based catalog of defensive techniques with explicit
+    mappings to ATT&CK, enabling threat-informed defense architecture.
+  how: >-
+    D3FEND is organized into five defensive tactic categories: (1) Harden - techniques that
+    increase the difficulty of attack, including application hardening, credential hardening,
+    message hardening, and platform hardening; (2) Detect - techniques for identifying
+    adversary activity including file analysis, identifier analysis, message analysis, network
+    traffic analysis, and process analysis; (3) Isolate - techniques that create logical or
+    physical barriers including execution isolation, network isolation, and hardware-based
+    isolation; (4) Deceive - techniques that mislead adversaries including decoy environments,
+    decoy objects, and decoy personas; (5) Evict - techniques that remove adversary presence
+    including credential eviction, file eviction, and process eviction. Each technique is
+    linked to ATT&CK techniques it counters via the knowledge graph ontology.
+  core_concepts:
+    - key: "Defensive Technique Taxonomy"
+      value: >-
+        A standardized classification of cybersecurity countermeasures organized into five
+        tactical categories (Harden, Detect, Isolate, Deceive, Evict) providing a common
+        language for describing defensive capabilities.
+    - key: "ATT&CK-D3FEND Cross-Reference"
+      value: >-
+        Explicit mappings between D3FEND defensive techniques and the ATT&CK offensive
+        techniques they counter, enabling systematic identification of which defenses
+        address which threats.
+    - key: "Knowledge Graph Ontology"
+      value: >-
+        An ontological structure that models relationships between defensive techniques,
+        digital artifacts, technology components, and offensive techniques, enabling
+        precise reasoning about defensive architecture.
+    - key: "Digital Artifact Model"
+      value: >-
+        The D3FEND model of digital objects (files, processes, network traffic, credentials)
+        that defensive and offensive techniques operate on, providing the connective layer
+        between attack and defense taxonomies.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "D3FEND defensive techniques are explicitly mapped to the ATT&CK offensive techniques they counter"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATCOHE-001"
+    description: "D3FEND provides the defensive technique vocabulary for building comprehensive coverage heatmaps that include countermeasure depth"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "D3FEND defensive techniques map to NIST SP 800-53 security controls, providing implementation specificity"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE D3FEND. https://d3fend.mitre.org/"
+    - "Kaloroumakis, P. & Smith, M. (2021). Toward a Knowledge Graph of Cybersecurity Countermeasures. MITRE Corporation."
+    - "NSA - D3FEND Cybersecurity Ontology. https://d3fend.mitre.org/about"
+    - "MITRE D3FEND - Defensive Technique Taxonomy. https://d3fend.mitre.org/technique/"
+  search_keywords:
+    - "MITRE D3FEND"
+    - "D3FEND framework"
+    - "defensive technique taxonomy"
+    - "cybersecurity countermeasures"
+    - "D3FEND knowledge graph"
+    - "ATT&CK defense mapping"
+    - "defensive capabilities catalog"
+    - "harden detect isolate deceive evict"
+    - "threat-informed defense"
+    - "D3FEND ontology"
+  embedding_text: >-
+    MITRE D3FEND (Detection, Denial, and Disruption Framework Empowering Network Defense) is a
+    knowledge graph of cybersecurity countermeasure techniques complementing MITRE ATT&CK's
+    offensive taxonomy. Funded by the NSA and maintained by MITRE, D3FEND catalogs defensive
+    techniques in five categories: Harden, Detect, Isolate, Deceive, and Evict. Each defensive
+    technique is linked to specific ATT&CK offensive techniques it counters, digital artifacts
+    it operates on, and underlying technology components. The ontological knowledge graph
+    structure enables precise reasoning about defensive capability relationships. D3FEND fills
+    the gap where ATT&CK documents offensive techniques but the community lacked equivalent
+    defensive countermeasure standardization. Security architects use D3FEND to map defensive
+    capabilities to specific threats, identify coverage gaps, and make informed countermeasure
+    deployment decisions. The framework enables threat-informed defense architecture by providing
+    explicit attack-defense mappings through the knowledge graph ontology linking digital
+    artifacts, offensive techniques, and defensive countermeasures.

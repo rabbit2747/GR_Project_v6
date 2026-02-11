@@ -1,0 +1,120 @@
+# GR Atom: OWASP Mobile Top 10
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-OWMOTO10-001"
+  name: "OWASP Mobile Top 10"
+  normalized_name: "owasp_mobile_top_10"
+  aliases:
+    - "Mobile Top 10"
+    - "OWASP Mobile Security Top 10"
+    - "Mobile Application Security Top 10"
+    - "OWASP Mobile Top 10 2024"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Mobile Top 10 is a standard awareness document identifying the ten most critical
+    security risks to mobile applications on iOS and Android platforms. The 2024 edition covers:
+    M1-Improper Credential Usage, M2-Inadequate Supply Chain Security, M3-Insecure Authentication
+    and Authorization, M4-Insufficient Input/Output Validation, M5-Insecure Communication,
+    M6-Inadequate Privacy Controls, M7-Insufficient Binary Protections, M8-Security
+    Misconfiguration, M9-Insecure Data Storage, and M10-Insufficient Cryptography. Each risk
+    category includes descriptions, threat agents, attack vectors, security weaknesses, and
+    technical and business impact assessments specific to mobile platforms.
+  why: >-
+    Mobile applications present unique security challenges distinct from web applications
+    including local data storage on untrusted devices, client-side binary distribution
+    susceptible to reverse engineering, platform-specific security models, and intermittent
+    connectivity requiring offline data handling. The Mobile Top 10 raises awareness of these
+    mobile-specific risks among developers, security testers, and organizational leaders,
+    ensuring that mobile application security receives appropriate attention alongside
+    traditional web application security.
+  how: >-
+    The Mobile Top 10 is developed through data-driven analysis and expert consensus:
+    (1) Vulnerability data is collected from mobile application security assessments worldwide;
+    (2) Expert contributors review and categorize mobile-specific security risks;
+    (3) Risk categories are ranked based on prevalence, exploitability, and impact;
+    (4) Each category includes detailed descriptions, prevention guidelines, and example
+    attack scenarios; (5) Organizations use the Mobile Top 10 for developer training, security
+    requirements, penetration testing scope, and risk assessment of mobile applications.
+  core_concepts:
+    - key: "Mobile-Specific Attack Surface"
+      value: >-
+        Security risks unique to mobile platforms including insecure local data storage,
+        binary reverse engineering, inter-process communication vulnerabilities, and
+        platform permission model weaknesses.
+    - key: "Client-Side Security"
+      value: >-
+        Mobile applications run on devices controlled by users and potentially attackers,
+        requiring binary protection, tamper detection, and the assumption that client-side
+        controls can be bypassed.
+    - key: "Privacy Controls"
+      value: >-
+        Mobile applications access sensitive device data including location, contacts,
+        camera, and biometrics, requiring strict privacy controls and data minimization
+        to comply with privacy regulations.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "Mobile Top 10 is an OWASP project extending application security awareness to mobile platforms"
+  - type: "is_a"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "Mobile Top 10 applies the OWASP Top 10 awareness methodology to mobile-specific security risks"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "Mobile security verification leverages ASVS requirements adapted for mobile-specific controls"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Mobile Top 10. https://owasp.org/www-project-mobile-top-10/"
+    - "OWASP Mobile Security Testing Guide. https://owasp.org/www-project-mobile-security-testing-guide/"
+    - "OWASP Mobile Application Security. https://mas.owasp.org/"
+  search_keywords:
+    - "OWASP Mobile Top 10"
+    - "mobile application security"
+    - "mobile security risks"
+    - "iOS security"
+    - "Android security"
+    - "mobile app vulnerabilities"
+    - "insecure data storage"
+    - "mobile authentication"
+    - "binary protection"
+    - "mobile security testing"
+  embedding_text: >-
+    The OWASP Mobile Top 10 identifies the ten most critical security risks to mobile
+    applications on iOS and Android platforms. The 2024 edition covers improper credential
+    usage, inadequate supply chain security, insecure authentication and authorization,
+    insufficient input output validation, insecure communication, inadequate privacy controls,
+    insufficient binary protections, security misconfiguration, insecure data storage, and
+    insufficient cryptography. Mobile applications present unique security challenges including
+    local data storage on untrusted devices, client-side binary reverse engineering,
+    platform-specific security models, and offline data handling. The Mobile Top 10 raises
+    awareness of mobile-specific risks among developers, testers, and organizational leaders.
+    Each risk category includes descriptions, threat agents, attack vectors, and prevention
+    guidelines. Organizations use it for developer training, security requirements, penetration
+    testing scope, and mobile application risk assessment.

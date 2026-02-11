@@ -1,0 +1,147 @@
+# GR Atom: NTLMSSP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-NTLMSSP-001"
+  name: "NTLMSSP"
+  normalized_name: "ntlmssp"
+  aliases:
+    - "NTLM Security Support Provider"
+    - "NT LAN Manager Security Support Provider"
+    - "NTLMSSP Interface"
+    - "NTLM SSP"
+    - "NTLM SSPI"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NTLMSSP (NTLM Security Support Provider) is a Microsoft security interface that packages
+    NTLM authentication messages for transport over application-layer protocols. NTLMSSP
+    implements the Security Support Provider Interface (SSPI) on Windows and the Generic
+    Security Services API (GSSAPI) for interoperability, providing a standardized way for
+    applications to invoke NTLM authentication without implementing the protocol directly.
+    NTLMSSP encapsulates the three-message NTLM challenge-response exchange (Type 1 Negotiate,
+    Type 2 Challenge, Type 3 Authenticate) into opaque security tokens that can be embedded
+    in protocols such as HTTP, SMB, SMTP, LDAP, and RPC. The provider handles the cryptographic
+    operations, message formatting, and session key derivation on behalf of the calling
+    application.
+  why: >-
+    Application protocols need a standardized mechanism to carry authentication credentials
+    without implementing authentication logic directly. NTLMSSP provides this abstraction
+    layer, enabling any SSPI-aware application to use NTLM authentication transparently.
+    This design is why NTLM authentication appears across diverse protocols including HTTP
+    (via WWW-Authenticate: NTLM), SMB file sharing, SMTP mail relay, LDAP directory access,
+    and RPC services. From a security perspective, NTLMSSP's ubiquity extends the NTLM attack
+    surface across all protocols that support it. NTLM relay attacks exploit NTLMSSP by
+    capturing authentication tokens from one protocol and replaying them to another. HTTP-to-SMB
+    relay, HTTP-to-LDAP relay, and cross-protocol relay attacks all target NTLMSSP tokens. The
+    provider's transparent integration means applications often use NTLM authentication without
+    explicit configuration, creating unexpected authentication pathways that adversaries exploit.
+  how: >-
+    NTLMSSP operates as a security provider within the Windows SSPI framework: (1) the client
+    application calls InitializeSecurityContext with the NTLMSSP provider, which generates a
+    Type 1 Negotiate message as an opaque security token; (2) the application embeds this token
+    in the protocol-specific authentication header (e.g., HTTP Authorization: NTLM header,
+    SMB SESSION_SETUP request, or LDAP bind request); (3) the server extracts the token and
+    calls AcceptSecurityContext, which returns a Type 2 Challenge token; (4) the server embeds
+    the challenge token in the protocol response; (5) the client passes the challenge to
+    InitializeSecurityContext, which computes the NTLM response and returns a Type 3
+    Authenticate token; (6) the server validates the Type 3 token through AcceptSecurityContext,
+    either locally or by forwarding to a domain controller via Netlogon. NTLMSSP also negotiates
+    session security options including message signing (integrity) and sealing (confidentiality)
+    using derived session keys. Extended Protection for Authentication (EPA) adds channel binding
+    tokens to NTLMSSP to mitigate relay attacks by tying authentication to the TLS channel.
+  core_concepts:
+    - key: "Security Support Provider Interface (SSPI)"
+      value: >-
+        The Windows API framework that abstracts security services, allowing applications to
+        use authentication, message integrity, and confidentiality through a uniform interface.
+        NTLMSSP is one of several SSPs available alongside Kerberos, Negotiate, Schannel, and
+        CredSSP providers.
+    - key: "Opaque Security Tokens"
+      value: >-
+        NTLMSSP packages NTLM messages as opaque binary tokens that applications transport
+        without needing to understand their internal structure. This abstraction enables NTLM
+        authentication to be embedded in any protocol that supports carrying arbitrary
+        authentication data.
+    - key: "Cross-Protocol NTLM Relay"
+      value: >-
+        An attack exploiting NTLMSSP's protocol-agnostic token format, where authentication
+        tokens captured from one protocol (e.g., HTTP) are relayed to authenticate on a
+        different protocol (e.g., LDAP or SMB). This works because NTLMSSP tokens are not
+        bound to the transport protocol unless EPA channel binding is enforced.
+    - key: "Extended Protection for Authentication (EPA)"
+      value: >-
+        A security enhancement that binds NTLMSSP authentication to the underlying TLS
+        channel by incorporating channel binding tokens. EPA prevents relay attacks by ensuring
+        the NTLM authentication is only valid on the specific TLS session where it was
+        initiated, breaking cross-protocol and same-protocol relay scenarios.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-AUTH-NTLM-001"
+    description: "NTLMSSP is the security provider interface that packages and transports NTLM authentication messages across application protocols"
+  - type: "applies_to"
+    target: "PROTO-MSG-SMB-001"
+    description: "NTLMSSP provides authentication tokens for SMB session setup, enabling NTLM authentication for file sharing and named pipe access"
+  - type: "applies_to"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "NTLMSSP tokens are transported in HTTP Authorization and WWW-Authenticate headers for web-based NTLM authentication"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MS-NLMP - NT LAN Manager (NTLM) Authentication Protocol Specification. Microsoft. https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nlmp/"
+    - "MS-SPNG - Simple and Protected GSSAPI Negotiation Mechanism (SPNEGO) Extension. Microsoft. https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-spng/"
+    - "Microsoft SSPI Reference. Microsoft. https://learn.microsoft.com/en-us/windows/win32/secauthn/sspi"
+    - "Microsoft Extended Protection for Authentication. Microsoft. https://learn.microsoft.com/en-us/dotnet/framework/wcf/feature-details/extended-protection-for-authentication-overview"
+  search_keywords:
+    - "NTLMSSP"
+    - "NTLM Security Support Provider"
+    - "NTLM SSP"
+    - "SSPI NTLM"
+    - "NTLM relay"
+    - "cross-protocol relay"
+    - "Extended Protection for Authentication"
+    - "EPA"
+    - "NTLM token"
+    - "WWW-Authenticate NTLM"
+    - "SPNEGO"
+    - "InitializeSecurityContext"
+  embedding_text: >-
+    NTLMSSP (NTLM Security Support Provider) is a Microsoft security interface that packages
+    NTLM authentication messages as opaque tokens for transport over application-layer protocols.
+    Implementing the Windows SSPI and GSSAPI interfaces, NTLMSSP enables any SSPI-aware
+    application to invoke NTLM authentication transparently without implementing the protocol
+    directly. The provider encapsulates the three-message NTLM challenge-response exchange into
+    security tokens embedded in protocols including HTTP, SMB, SMTP, LDAP, and RPC. NTLMSSP's
+    protocol-agnostic token format creates a significant attack surface: cross-protocol NTLM
+    relay attacks capture tokens from one protocol and replay them on another because tokens
+    are not inherently bound to the transport. Extended Protection for Authentication (EPA)
+    mitigates relay by incorporating TLS channel binding tokens into NTLMSSP authentication.
+    NTLMSSP also negotiates session security including message signing and sealing using derived
+    session keys. The provider's ubiquity across Windows protocols makes it a central component
+    in both Windows authentication infrastructure and adversary attack methodologies targeting
+    credential relay and lateral movement.

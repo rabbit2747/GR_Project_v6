@@ -1,0 +1,117 @@
+# GR Atom: CVE-2014-0160
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20140160-001"
+  name: "CVE-2014-0160"
+  normalized_name: "cve_2014_0160"
+  aliases:
+    - "Heartbleed"
+    - "OpenSSL Heartbleed Bug"
+    - "TLS Heartbeat Extension Memory Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - OVERFLOW
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "OpenSSL 1.0.1 through 1.0.1f"
+    - "TLS Heartbeat Extension (RFC 6520)"
+    - "Web Servers, Mail Servers, VPN Gateways"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-0160 (Heartbleed) is a critical buffer over-read vulnerability in OpenSSL's
+    implementation of the TLS Heartbeat extension (RFC 6520) that allows an attacker to read up to
+    64KB of server memory per request without authentication or logging. The vulnerability existed
+    in OpenSSL versions 1.0.1 through 1.0.1f, affecting an estimated 17% of all TLS-enabled web
+    servers at disclosure. CVSS score is 7.5. Disclosed in April 2014, it is considered one of the
+    most impactful vulnerabilities in internet history.
+  why: >-
+    Heartbleed was catastrophic because it allowed unauthenticated extraction of server private keys,
+    session tokens, passwords, and other sensitive data from memory with no trace in server logs.
+    OpenSSL was used by the majority of TLS-enabled services on the internet, meaning the vulnerability
+    affected hundreds of millions of servers, routers, and devices. The leak of private keys meant
+    attackers could decrypt past and future traffic (absent perfect forward secrecy) and impersonate
+    servers indefinitely.
+  how: >-
+    The TLS Heartbeat extension allows peers to send a HeartbeatRequest message containing a payload
+    and a length field. The vulnerable OpenSSL code allocates a response buffer based on the
+    attacker-specified length rather than the actual payload length, then copies that many bytes from
+    memory into the response. By sending a HeartbeatRequest with a small payload but large length field
+    (up to 65535 bytes), the attacker receives back the payload plus whatever data is adjacent in
+    server memory, potentially including private keys, session cookies, and user credentials.
+  core_concepts:
+    - name: "Buffer Over-Read"
+      value: "Missing bounds check allows reading beyond the intended buffer, exposing adjacent memory contents to the attacker"
+    - name: "Heartbeat Extension Abuse"
+      value: "The TLS Heartbeat keep-alive mechanism is exploited by mismatching the declared payload length with actual payload size"
+    - name: "Server Memory Exposure"
+      value: "Each exploitation attempt can leak up to 64KB of server process memory including cryptographic keys and user credentials"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Heartbleed is an instance of cryptographic implementation vulnerability in OpenSSL"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Heartbleed affects TLS implementations using vulnerable OpenSSL versions"
+  - type: "enables"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Heartbleed enables further cryptographic attacks by exposing private key material from server memory"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1005"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2014-0160"
+    - "heartbleed.com - Official Heartbleed Disclosure"
+    - "OpenSSL Security Advisory 2014-04-07"
+  search_keywords:
+    - "CVE-2014-0160"
+    - "Heartbleed"
+    - "OpenSSL heartbeat vulnerability"
+    - "TLS heartbeat memory leak"
+    - "OpenSSL buffer over-read"
+    - "server memory disclosure"
+    - "private key extraction"
+    - "heartbleed bug"
+  embedding_text: >-
+    CVE-2014-0160, known as Heartbleed, is a critical buffer over-read vulnerability in OpenSSL's
+    implementation of the TLS Heartbeat extension. It allows unauthenticated attackers to read up
+    to 64KB of server memory per request by sending a HeartbeatRequest with a small payload but
+    large declared length. The vulnerable code copies memory beyond the payload buffer without
+    bounds checking. Leaked memory can contain server private keys, session tokens, passwords, and
+    other sensitive data. The vulnerability affected OpenSSL 1.0.1 through 1.0.1f, impacting an
+    estimated 17 percent of TLS-enabled web servers at disclosure in April 2014. Heartbleed is
+    considered one of the most impactful vulnerabilities in internet history because it enabled
+    silent extraction of cryptographic keys without logging, potentially compromising all past and
+    future encrypted communications. The fix involved proper bounds checking of the Heartbeat
+    payload length against the actual received data size. CVSS score is 7.5.

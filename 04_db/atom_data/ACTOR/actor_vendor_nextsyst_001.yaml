@@ -1,0 +1,71 @@
+# GR Atom: Nextron Systems
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-NEXTSYST-001"
+  name: "Nextron Systems"
+  normalized_name: "nextron_systems"
+  aliases:
+    - "Nextron Systems GmbH"
+    - "Nextron"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - THREAT_INTEL
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Nextron Systems is a German cybersecurity company that develops THOR, an advanced compromise assessment and APT scanner, and maintains the open-source YARA rule collection through the signature-base project. The company was founded by Florian Roth, the creator of YARA-based threat hunting methodologies and one of the most prolific creators of YARA detection rules in the cybersecurity community. Nextron also develops Aurora, a lightweight EDR agent based on Sigma rules."
+  why: "Nextron Systems is significant in cybersecurity because their YARA and Sigma rule contributions form a foundational layer of community-driven threat detection used by security teams worldwide. Florian Roth's open-source signature-base repository is one of the most widely referenced YARA rule collections. THOR scanner is used by incident response teams and CERTs for compromise assessment, and their work advances open-source detection engineering practices."
+  how: "Nextron's THOR scanner performs deep system scanning using YARA rules, anomaly detection, and heuristics to identify indicators of compromise, APT artifacts, and suspicious system states. The scanner checks files, processes, memory, registry, logs, and scheduled tasks against extensive rule databases. Aurora provides lightweight real-time endpoint monitoring using Sigma rules. The company maintains and distributes YARA rule sets through open-source and commercial channels, supporting community-driven detection engineering."
+  core_concepts:
+    - key: "THOR APT scanner"
+      value: "Advanced compromise assessment tool using YARA rules and heuristics for APT detection"
+    - key: "YARA rule community"
+      value: "Prolific contribution to open-source YARA detection rules through signature-base project"
+    - key: "Detection engineering"
+      value: "Advancing community-driven detection practices through YARA and Sigma rule development"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-DETECT-THOR-001"
+    description: "Nextron Systems produces THOR APT scanner and Aurora EDR agent"
+  - type: enables
+    target: "TECHNIQUE-YARASCANNING-001"
+    description: "Nextron enables YARA-based threat detection through signature-base and scanning tools"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Nextron Systems Official Website"
+    - "GitHub - Neo23x0/signature-base YARA Rules"
+    - "THOR Scanner Documentation"
+  search_keywords:
+    - "nextron systems"
+    - "thor scanner"
+    - "thor apt scanner"
+    - "florian roth"
+    - "neo23x0"
+    - "yara rules"
+    - "signature-base"
+    - "aurora edr"
+  embedding_text: "Nextron Systems is a German cybersecurity company founded by Florian Roth, one of the most prolific creators of YARA detection rules in the cybersecurity community. The company develops THOR, an advanced compromise assessment and APT scanner that performs deep system scanning using YARA rules, anomaly detection, and heuristics to identify indicators of compromise and APT artifacts across files, processes, memory, registry, logs, and scheduled tasks. Nextron also develops Aurora, a lightweight EDR agent based on Sigma rules for real-time endpoint monitoring. The company maintains the widely referenced open-source signature-base YARA rule repository that forms a foundational detection layer used by security teams, incident responders, and CERTs worldwide. Nextron's contributions to YARA and Sigma rule development have significantly advanced community-driven detection engineering practices, making their tools and rule sets essential components of many organizations' threat hunting and compromise assessment capabilities."

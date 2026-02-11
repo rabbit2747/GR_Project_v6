@@ -1,0 +1,73 @@
+# GR Atom: File Magic Bytes
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-FILMAGBYT-001"
+  name: "File Magic Bytes"
+  normalized_name: "file_magic_bytes"
+  aliases:
+    - "Magic Numbers"
+    - "File Signature Bytes"
+    - "File Type Magic"
+    - "Magic Number Identification"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - FORENSICS
+    - MONITOR
+    - EVADE
+    - EDR
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "File magic bytes (also known as magic numbers or file signatures) are short, fixed byte sequences at the beginning of a file that uniquely identify the file format independent of the file extension. These sequences are defined by file format specifications and serve as the authoritative method for determining file type. Common examples include PDF files beginning with 25 50 44 46 (%PDF), JPEG files with FF D8 FF, PNG files with 89 50 4E 47 0D 0A 1A 0A, ZIP archives with 50 4B 03 04 (PK), Windows executables with 4D 5A (MZ), and Java class files with CA FE BA BE. The magic byte database maintained by file identification utilities such as the UNIX file command contains thousands of format signatures used for reliable file type identification across operating systems and security tools."
+  why: "Magic byte identification is fundamental to security because file extensions are trivially spoofed by attackers. A malicious executable renamed with a .jpg extension will bypass extension-based filtering but still contains the MZ magic bytes identifying it as a PE executable. Security controls including upload validators, email attachment filters, WAF file inspection, and endpoint protection all rely on magic byte verification as the ground truth for file type identification. Without magic byte checking, attackers can trivially bypass file type restrictions by renaming malicious files with allowed extensions, enabling malware delivery through file upload forms, email attachments, and file sharing systems."
+  how: "Magic byte detection reads the first N bytes of a file (typically 2-16 bytes depending on the format) and compares them against a signature database. The UNIX file command uses the magic database (/usr/share/misc/magic) containing offset, byte sequence, and format description entries. Security tools implement magic byte checking at file upload endpoints, email gateways, and endpoint scanning engines. The check is performed by reading the initial bytes into a buffer, iterating through the signature database for matches, and returning the identified file type. Advanced implementations handle variable-offset signatures, nested formats (e.g., Office documents as ZIP containers), and multi-signature formats where multiple valid magic sequences exist for a single format family."
+  core_concepts:
+    - key: "Signature Database"
+      value: "Curated collection of magic byte sequences mapped to file format identifiers, maintained by tools like the UNIX file command and security vendors"
+    - key: "Extension Mismatch Detection"
+      value: "Comparison of magic byte identification against the file extension to detect mismatched or spoofed file types"
+    - key: "Offset-Based Matching"
+      value: "Some magic bytes appear at specific offsets rather than the beginning of the file, requiring offset-aware matching algorithms"
+
+relations:
+  - type: enables
+    target: "DETECT-SIGNATURE-FIHEBLSI-001"
+    description: "Magic byte identification enables deeper header block signature validation once the file format is determined"
+  - type: enables
+    target: "DETECT-SIGNATURE-FILCONRUL-001"
+    description: "Magic byte identification enables targeted file content rule scanning based on confirmed file type"
+  - type: effective_against
+    target: "ATK-EVADE-FILEMASK-001"
+    description: "Magic byte verification defeats file extension spoofing used to masquerade malicious files"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Gary Kessler - File Signature Table - https://www.garykessler.net/library/file_sigs.html"
+    - "UNIX file(1) man page and magic(5) database specification"
+    - "Wikipedia - List of File Signatures - https://en.wikipedia.org/wiki/List_of_file_signatures"
+  search_keywords:
+    - "file magic bytes"
+    - "magic numbers"
+    - "file signature identification"
+    - "file type detection"
+    - "magic byte database"
+    - "file format identification"
+    - "extension mismatch detection"
+    - "MZ header"
+    - "file magic number"
+  embedding_text: "File magic bytes are short fixed byte sequences at the beginning of a file that uniquely identify the file format independent of file extension. Common examples include PDF (%PDF), JPEG (FF D8 FF), PNG (89 50 4E 47), ZIP (PK), and Windows executables (MZ). Magic byte identification is fundamental to security because file extensions are trivially spoofed by attackers. Security controls including upload validators, email filters, WAFs, and endpoint protection rely on magic byte verification as ground truth for file type identification. Detection reads initial file bytes and matches against signature databases, handling variable offsets and nested formats. Extension mismatch detection compares magic byte results against claimed file extensions."

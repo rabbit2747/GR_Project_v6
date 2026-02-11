@@ -1,0 +1,105 @@
+# GR Atom: Transfer Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-TRANSFER-001"
+  name: "Transfer Protocol"
+  normalized_name: "transfer_protocol"
+  aliases:
+    - "File Transfer Protocol"
+    - "Data Transfer Protocol"
+    - "TFTP"
+    - "Trivial File Transfer Protocol"
+    - "SCP"
+    - "SFTP"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - FTP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Transfer Protocol is a category encompassing protocols designed for file and data transfer
+    between networked systems. This includes FTP (RFC 959, TCP ports 20/21), TFTP (RFC 1350,
+    UDP port 69), SFTP (SSH File Transfer Protocol over TCP port 22), SCP (Secure Copy Protocol
+    over SSH), and FTPS (FTP over TLS). Each protocol offers different security, performance,
+    and functionality trade-offs. FTP provides full-featured file management with authentication
+    and directory operations. TFTP provides minimal, unauthenticated transfer for bootstrapping.
+    SFTP and SCP provide encrypted file transfer over SSH. FTPS adds TLS encryption to standard
+    FTP.
+  why: >-
+    Transfer protocols are primary vectors for data exfiltration (MITRE T1048), malware staging,
+    and unauthorized data movement. FTP transmits credentials in cleartext, enabling credential
+    interception. Anonymous FTP servers expose sensitive files. TFTP's lack of authentication
+    allows unauthenticated file access for firmware extraction and configuration theft on
+    network devices. File transfer services are targeted for brute-force credential attacks
+    and exploited for staging attack tools and exfiltrating stolen data. Improper file transfer
+    configurations create data loss prevention (DLP) bypass opportunities. Even encrypted
+    protocols like SFTP can be abused for covert data exfiltration when not monitored.
+  how: >-
+    Transfer protocols operate through various mechanisms: (1) FTP uses a control connection
+    (port 21) for commands and a data connection (port 20 or dynamic) for file transfer, with
+    active and passive modes; (2) TFTP uses a single UDP connection with simple read/write
+    requests and block acknowledgments; (3) SFTP operates as a subsystem within SSH, providing
+    encrypted file operations with full directory management; (4) SCP uses SSH for encrypted
+    single-file transfer with minimal overhead; (5) FTPS wraps FTP commands and data in TLS
+    encryption, supporting explicit (STARTTLS on port 21) or implicit (port 990) modes.
+    Modern deployments favor SFTP for security and firewall compatibility.
+  core_concepts:
+    - key: "FTP Active vs. Passive Mode"
+      value: "Active mode has server connect back to client for data; passive mode has client initiate both connections — critical for firewall traversal and security configuration."
+    - key: "TFTP Bootstrapping"
+      value: "Unauthenticated UDP file transfer used for PXE network booting, firmware updates, and configuration distribution for network devices and embedded systems."
+    - key: "SFTP (SSH File Transfer Protocol)"
+      value: "Encrypted file transfer subsystem running over SSH providing secure authentication, data confidentiality, and full directory operations."
+    - key: "Data Exfiltration via Transfer"
+      value: "Abuse of file transfer protocols to move stolen data out of networks, detectable through volume analysis, destination monitoring, and DLP inspection."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Transfer protocols are application layer protocols for file and data exchange between networked systems"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "FTPS requires TLS encryption for secure file transfer, and SFTP requires SSH which uses similar cryptographic protections"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 959 — File Transfer Protocol (FTP)"
+    - "IETF RFC 1350 — The TFTP Protocol (Revision 2)"
+    - "IETF RFC 4251 — The Secure Shell (SSH) Protocol Architecture"
+    - "MITRE ATT&CK — T1048: Exfiltration Over Alternative Protocol"
+  search_keywords:
+    - "file transfer protocol"
+    - "FTP"
+    - "SFTP"
+    - "SCP"
+    - "TFTP"
+    - "FTPS"
+    - "data transfer"
+    - "port 21"
+    - "port 22"
+    - "file exfiltration"
+  embedding_text: >-
+    Transfer Protocol encompasses file and data transfer protocols including FTP (RFC 959,
+    ports 20/21), TFTP (RFC 1350, UDP 69), SFTP (SSH-based), SCP (SSH-based), and FTPS
+    (FTP over TLS). FTP transmits credentials in cleartext; TFTP provides unauthenticated
+    access. Transfer protocols are primary vectors for data exfiltration (MITRE T1048),
+    malware staging, and unauthorized data movement. SFTP and SCP provide encrypted transfer
+    over SSH. Security requires deprecating cleartext FTP in favor of SFTP, monitoring
+    transfer volumes for DLP, restricting anonymous access, and implementing file integrity
+    monitoring on transfer servers.

@@ -1,0 +1,111 @@
+# GR Atom: CVE-2009-4324
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20094324-001"
+  name: "CVE-2009-4324"
+  normalized_name: "cve_2009_4324"
+  aliases:
+    - "Adobe Reader newPlayer Use-After-Free"
+    - "Adobe Acrobat Doc.media.newPlayer UAF"
+    - "APSB10-02"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Reader 9.2 and earlier"
+    - "Adobe Acrobat 9.2 and earlier"
+    - "Adobe JavaScript Doc.media.newPlayer"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2009-4324 (CVSS 9.3) is a use-after-free vulnerability in Adobe Reader and Acrobat
+    versions 9.2 and earlier, triggered by the Doc.media.newPlayer JavaScript method. When
+    a specially crafted PDF document invokes this method, it causes Adobe Reader to access
+    a freed memory object, leading to arbitrary code execution. The vulnerability was a
+    zero-day actively exploited in targeted attacks when discovered in December 2009.
+    Patched by Adobe in APSB10-02 (January 2010).
+  why: >-
+    Adobe Reader was installed on virtually every business computer, making PDF-based exploits
+    one of the most effective vectors for targeted intrusions. This zero-day was actively
+    exploited in spearphishing campaigns by multiple APT groups. The exploitation of JavaScript
+    in PDF documents highlighted the dangerous attack surface created by rich scripting
+    capabilities in document readers.
+  how: >-
+    The vulnerability is triggered when JavaScript embedded in a PDF document calls the
+    Doc.media.newPlayer() method in a specific sequence that causes a media player object
+    to be freed while still referenced. Subsequent access to the freed object allows attacker
+    control over program execution. Exploitation typically uses heap spraying to place shellcode
+    at predictable memory locations, then triggers the use-after-free to redirect execution.
+    The malicious PDF is delivered via spearphishing email or watering hole websites.
+  core_concepts:
+    - key: "PDF JavaScript Use-After-Free"
+      value: "Doc.media.newPlayer method causes freed memory access when called in specific sequences within PDF JavaScript"
+    - key: "Zero-Day Exploitation"
+      value: "Discovered while actively being exploited in targeted attacks before any patch was available"
+    - key: "Heap Spray Exploitation"
+      value: "JavaScript heap spraying places shellcode at predictable addresses to reliably exploit the use-after-free condition"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "precedes"
+    target: "VUL-MEMORY-CVE20110609-001"
+    description: "Adobe product use-after-free exploitation pattern continued with Flash Player vulnerabilities"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20112462-001"
+    description: "Same exploitation pattern of Adobe Reader zero-day via PDF JavaScript for targeted attacks"
+  - type: "applies_to"
+    target: "INFRA-OS-WINDOWS-001"
+    description: "Primarily exploited on Windows platforms running Adobe Reader"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Adobe Security Bulletin APSB10-02"
+    - "CVE-2009-4324 - NIST NVD"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2009-4324"
+    - "Adobe Reader newPlayer"
+    - "PDF use-after-free"
+    - "Doc.media.newPlayer"
+    - "Adobe zero-day"
+    - "PDF JavaScript exploit"
+    - "APSB10-02"
+  embedding_text: >-
+    CVE-2009-4324 is a critical use-after-free vulnerability (CVSS 9.3) in Adobe Reader and
+    Acrobat 9.2 and earlier triggered by the Doc.media.newPlayer JavaScript method. Exploited
+    as a zero-day in targeted spearphishing campaigns, the vulnerability causes freed memory
+    access when specific JavaScript sequences are executed within a PDF document. Attackers
+    use heap spraying for reliable exploitation. Patched in APSB10-02 (January 2010). This
+    vulnerability exemplified the massive attack surface of JavaScript in PDF documents and
+    the threat of Adobe Reader as a primary intrusion vector.

@@ -1,0 +1,125 @@
+# GR Atom: Exynos Abuse
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-EXYNABUS-001"
+  name: "Exynos Abuse"
+  normalized_name: "exynos_abuse"
+  aliases:
+    - "Exynos-Abuse"
+    - "Samsung Exynos Kernel Exploit"
+    - "ExynosAbuse APK"
+    - "Samsung Exynos Memory Mapping Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - MOBILE
+    - ANDROID
+    - FIRMWARE
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L4"]
+  target_zones: ["Z2"]
+  target_components:
+    - "Samsung Exynos 4210 processor"
+    - "Samsung Exynos 4412 processor"
+    - "Samsung Galaxy S3"
+    - "Samsung Galaxy Note 2"
+    - "Samsung Galaxy devices with Exynos chipsets"
+    - "/dev/exynos-mem device driver"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Exynos Abuse is a privilege escalation vulnerability in Samsung's Exynos processor kernel
+    driver, disclosed in December 2012. The vulnerability exists in the /dev/exynos-mem device
+    node which is world-readable and world-writable on affected Samsung Galaxy devices. This
+    device provides direct read/write access to physical memory, allowing any application
+    running on the device to read and write arbitrary kernel memory. An attacker or malicious
+    application can exploit this to escalate privileges to root, bypass all Android security
+    controls, and gain complete control of the device. Affected devices include Samsung Galaxy
+    S3, Galaxy Note 2, and other devices using Exynos 4210 and 4412 processors.
+  why: >-
+    The Exynos Abuse vulnerability was significant because it affected millions of Samsung
+    Galaxy devices, the most popular Android smartphones at the time. The vulnerability was
+    trivially exploitable by any installed application without requiring any special permissions,
+    making it dangerous for drive-by attacks through malicious apps on the Google Play Store
+    or third-party app stores. The root cause was a fundamental design flaw in the Samsung
+    kernel driver that exposed physical memory access without any access control, violating
+    basic security principles of privilege separation and least privilege.
+  how: >-
+    The /dev/exynos-mem device node on affected Samsung devices is accessible to all users
+    and applications with no permission checks. An attacker installs a malicious application
+    (or exploits an existing app vulnerability) that opens /dev/exynos-mem and uses mmap()
+    to map physical memory pages including kernel memory. The attacker can then read sensitive
+    data from kernel memory (credentials, encryption keys) and write to kernel memory to
+    modify security structures, disable SELinux, or inject code into kernel space. This
+    achieves permanent root access on the device. The ExynosAbuse APK proof-of-concept
+    demonstrated one-click root access. Samsung released kernel patches to restrict
+    /dev/exynos-mem permissions, and custom kernels with the fix were distributed through
+    the community before the official patch.
+  core_concepts:
+    - key: "Physical Memory Exposure"
+      value: "World-readable /dev/exynos-mem device node provides unrestricted read/write access to physical memory including kernel space"
+    - key: "Zero-Permission Escalation"
+      value: "Any installed application can exploit the vulnerability without requiring any Android permissions, bypassing the Android security model"
+    - key: "Hardware Driver Flaw"
+      value: "Fundamental design flaw in Samsung Exynos kernel driver violating privilege separation by exposing memory-mapped hardware without access control"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Exynos Abuse is an access control vulnerability where kernel memory is exposed without any permission restrictions"
+  - type: "applies_to"
+    target: "VUL-ACCESS-HAEXVUDR-001"
+    description: "Both are kernel driver vulnerabilities that expose privileged memory operations to unprivileged users for educational or exploitation purposes"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "XDA Developers - Exynos Memory Mapping Vulnerability Disclosure"
+    - "Samsung Security Advisory - Exynos Kernel Driver"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Android Security Research - Exynos Abuse Analysis"
+  search_keywords:
+    - "Exynos Abuse"
+    - "Samsung Exynos vulnerability"
+    - "exynos-mem exploit"
+    - "Samsung Galaxy root"
+    - "Exynos kernel driver"
+    - "Android privilege escalation"
+    - "Samsung physical memory"
+    - "ExynosAbuse APK"
+  embedding_text: >-
+    Exynos Abuse is a privilege escalation vulnerability in Samsung Exynos processor kernel
+    driver disclosed December 2012. World-readable /dev/exynos-mem device node provides
+    unrestricted physical memory read/write access to any application. Affects Samsung Galaxy
+    S3, Note 2, and devices with Exynos 4210/4412 processors. Any installed application
+    exploits via mmap() without special permissions, bypassing entire Android security model.
+    Enables root access, kernel memory manipulation, SELinux bypass, and credential theft.
+    ExynosAbuse APK demonstrated one-click root. Fundamental hardware driver design flaw
+    violating privilege separation. Samsung released kernel patches to restrict device
+    node permissions.

@@ -1,0 +1,102 @@
+# GR Atom: Sea Lotus
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SEALOTU-001"
+  name: "Sea Lotus"
+  normalized_name: "sea_lotus"
+  aliases:
+    - "OceanLotus"
+    - "APT32"
+    - "APT-C-00"
+    - "Canvas Cyclone"
+    - "BISMUTH"
+    - "Cobalt Kitty"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - EVADE
+    - C2
+    - EXFIL
+    - WINDOWS
+    - MACOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Sea Lotus, most commonly tracked as OceanLotus or APT32, is a Vietnam-nexus advanced persistent threat group active since at least 2012. The group conducts cyber-espionage operations targeting foreign governments, journalists, dissidents, and private sector organizations in Southeast Asia, with particular focus on entities relevant to Vietnamese political and economic interests. Sea Lotus is also known for targeting multinational corporations with business interests in Vietnam."
+  why: "Sea Lotus is one of the most technically sophisticated APT groups in Southeast Asia, demonstrating advanced capabilities including supply chain compromises, macOS malware development, and innovative social engineering techniques. The group's targeting of foreign corporations operating in Vietnam, combined with espionage against government and dissident targets, indicates a dual mission supporting both national security and economic intelligence objectives."
+  how: "Sea Lotus employs highly targeted spear-phishing campaigns with meticulously crafted social engineering, watering hole attacks on Vietnamese-language websites, and strategic web compromises. The group deploys custom malware including METALJACK, Kerrdown, Denis, and macOS-specific backdoors. It uses Cobalt Strike extensively, implements sophisticated multi-stage infection chains with obfuscated loaders, and leverages steganography to hide payloads. C2 infrastructure frequently uses DNS tunneling and dead-drop resolvers."
+  core_concepts:
+    - key: "Cross-Platform Capability"
+      value: "Advanced malware development for both Windows and macOS platforms, demonstrating rare dual-platform expertise among APT groups"
+    - key: "Social Engineering Excellence"
+      value: "Highly refined spear-phishing campaigns with sophisticated social engineering and watering hole attacks targeting Vietnamese-language sites"
+    - key: "Economic and Political Espionage"
+      value: "Dual mission targeting foreign corporations in Vietnam for economic intelligence alongside government and dissident surveillance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Vietnam-nexus APT group conducting economic and political espionage"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses sophisticated spear-phishing and watering hole attacks for initial compromise"
+  - type: enables
+    target: "ATK-EVADE-STEGANO-001"
+    description: "Employs steganography techniques to hide malicious payloads within image files"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "defense-evasion"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - APT32"
+    - "FireEye/Mandiant - APT32 OceanLotus report"
+    - "ESET - OceanLotus macOS malware analysis"
+    - "Amnesty International - Vietnam cyber-espionage report"
+  search_keywords:
+    - "sea lotus"
+    - "oceanlotus"
+    - "apt32"
+    - "canvas cyclone"
+    - "bismuth"
+    - "cobalt kitty"
+    - "vietnam apt"
+    - "metaljack"
+    - "kerrdown"
+    - "macos backdoor"
+    - "southeast asia espionage"
+    - "steganography malware"
+    - "vietnamese cyber espionage"
+  embedding_text: "Sea Lotus, most commonly tracked as OceanLotus or APT32, is a Vietnam-nexus advanced persistent threat group active since at least 2012 conducting cyber-espionage against foreign governments, journalists, dissidents, and multinational corporations in Southeast Asia. The group demonstrates cross-platform capabilities with custom Windows and macOS malware including METALJACK, Kerrdown, and Denis. Sea Lotus employs sophisticated spear-phishing, watering hole attacks, steganography for payload concealment, and DNS tunneling for C2 communications. Its dual mission encompasses both national security espionage and economic intelligence collection targeting corporations operating in Vietnam."

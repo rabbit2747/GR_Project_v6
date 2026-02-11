@@ -1,0 +1,105 @@
+# GR Atom: CVE-2018-20781
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE201820781-001"
+  name: "CVE-2018-20781"
+  normalized_name: "cve_2018_20781"
+  aliases:
+    - "pam_unix Plaintext Password Exposure"
+    - "Linux PAM Credential Leak"
+    - "systemd Credential Cache Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - AUTHN
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Linux-PAM (pam_unix.so)"
+    - "Ubuntu systems"
+    - "Linux distributions using PAM"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-20781 is an information disclosure vulnerability in the Linux-PAM pam_unix
+    module where user passwords are stored in plaintext in process memory. When a user
+    authenticates through pam_unix, the password remains in cleartext in the PAM process
+    memory and can be recovered by a local attacker with access to read process memory.
+    This affects Ubuntu and other Linux distributions using the vulnerable version of PAM.
+    CVSS v3.0 score is 7.8.
+  why: >-
+    PAM (Pluggable Authentication Modules) is the standard authentication framework on Linux
+    systems. Plaintext credentials in process memory can be harvested by malware, other
+    authenticated users with appropriate capabilities, or through memory forensics. This is
+    analogous to the Windows mimikatz credential harvesting technique and provides a
+    significant post-exploitation credential access vector on Linux systems.
+  how: >-
+    A local attacker with the ability to read process memory (via ptrace, /proc/pid/mem, or
+    core dumps) can extract plaintext passwords from processes that have authenticated through
+    pam_unix. This includes accessing passwords from running login, sshd, or sudo processes.
+    Mitigation requires updating to patched PAM versions that properly clear credentials from
+    memory after use, restricting ptrace access through Yama LSM, and disabling core dumps
+    for sensitive processes.
+  core_concepts:
+    - key: "Credential Memory Exposure"
+      value: "Plaintext passwords remaining in process memory after PAM authentication, accessible through memory inspection"
+    - key: "Linux Credential Harvesting"
+      value: "The Linux equivalent of Windows credential dumping, extracting cleartext passwords from PAM authentication processes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2018-20781 is an authentication credential exposure vulnerability in Linux PAM"
+  - type: "enables"
+    target: "VUL-AUTH-PASSSECU-001"
+    description: "Plaintext credential exposure in memory enables broader password security compromise"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2018-20781"
+    - "NIST NVD CVE-2018-20781 (CVSS v3.0: 7.8)"
+    - "Ubuntu Security Advisory"
+  search_keywords:
+    - "CVE-2018-20781"
+    - "pam_unix plaintext password"
+    - "Linux PAM credential leak"
+    - "PAM memory credential exposure"
+    - "Linux credential harvesting"
+    - "pam_unix vulnerability"
+  embedding_text: >-
+    CVE-2018-20781 is an information disclosure vulnerability in Linux-PAM pam_unix module
+    with CVSS v3.0 score 7.8. User passwords are stored in plaintext in PAM process memory
+    after authentication. A local attacker can extract cleartext passwords through process
+    memory inspection via ptrace or /proc/pid/mem. This is the Linux equivalent of Windows
+    credential dumping techniques like mimikatz. Affects Ubuntu and other Linux distributions
+    using vulnerable PAM versions. Mitigation requires patched PAM versions, restricting
+    ptrace access via Yama LSM, and disabling core dumps. Impacts include credential theft,
+    lateral movement, and persistence through harvested passwords.

@@ -1,0 +1,86 @@
+# GR Atom: File Footer Block
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILFOOBLO-001"
+  name: "File Footer Block"
+  normalized_name: "file_footer_block"
+  aliases:
+    - "File Trailer Detection"
+    - "File Footer Signature"
+    - "End-of-File Marker Analysis"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - FORENSICS
+    - MONITOR
+    - LOG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for analyzing the footer block (trailer) of files on endpoints. File footers are structured data blocks at the end of files that contain format-specific metadata, integrity checksums, end-of-file markers, and structural closure information. Analyzing file footers enables detection of file format anomalies, appended data beyond the expected end-of-file boundary, steganographic content hidden after legitimate file trailers, and corrupted or truncated files indicative of tampering."
+  why: "Attackers exploit file footer regions to hide data, append malicious payloads after legitimate file content, and create polyglot files that are valid in multiple formats. Corrupted or missing footers indicate file tampering, interrupted transfers, or intentional manipulation. Footer analysis complements header analysis to provide complete file structure validation for threat detection."
+  how: "Parse file format specifications to locate expected footer signatures and validate their integrity. Detect content appended beyond the legitimate end-of-file marker. Compare footer checksums against computed values to identify tampering. Integrate footer analysis into file inspection pipelines alongside header block analysis for comprehensive file structure validation."
+  core_concepts:
+    - key: "End-of-File Marker"
+      value: "Format-specific byte sequence indicating the legitimate end of file content, beyond which appended data may indicate hidden payloads"
+    - key: "Footer Integrity Validation"
+      value: "Verifying that file trailer checksums and structural elements match the expected values for the detected file format"
+    - key: "Appended Data Detection"
+      value: "Identifying content written beyond the legitimate file footer boundary, which may contain hidden malicious payloads or exfiltrated data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File footer analysis is a component of file event detection"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-FILHEABLO-001"
+    description: "Footer analysis complements header analysis for complete file structure validation"
+  - type: enables
+    target: "DETECT-ENDPOINT-EMBCONIND-001"
+    description: "Footer analysis reveals hidden embedded content appended after legitimate file endings"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1027"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1027 - Obfuscated Files or Information"
+    - "SANS Digital Forensics - File Structure Analysis"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file footer"
+    - "file trailer"
+    - "end-of-file marker"
+    - "appended data"
+    - "file structure analysis"
+    - "footer integrity"
+    - "file format validation"
+    - "hidden payload"
+  embedding_text: "File Footer Block is an endpoint detection pattern for analyzing file footer (trailer) blocks. File footers contain format-specific metadata, integrity checksums, end-of-file markers, and structural closure information. Analysis detects file format anomalies, appended data beyond expected end-of-file boundaries, steganographic content hidden after legitimate trailers, and corrupted files indicating tampering. Attackers exploit footer regions to hide data, append malicious payloads, and create polyglot files. Detection involves parsing format specifications for expected footer signatures, detecting post-footer content, validating checksum integrity, and integrating with header analysis for comprehensive file structure validation."

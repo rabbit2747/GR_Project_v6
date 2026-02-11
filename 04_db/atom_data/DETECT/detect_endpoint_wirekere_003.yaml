@@ -1,0 +1,93 @@
+# GR Atom: Windows Registry Key Restore Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKERE-003"
+  name: "Windows Registry Key Restore Event"
+  normalized_name: "windows_registry_key_restore_event"
+  aliases:
+    - "Registry Restore Detection"
+    - "RegRestoreKey Event"
+    - "Registry Hive Restore"
+    - "Registry Rollback Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry keys are restored from saved hive files on an endpoint. This covers RegRestoreKey API calls, reg.exe restore commands, and System Restore operations that affect the registry. The event captures the target registry key path, the source hive file path, the restoring process, and user context. Registry restore operations replace the current key and all its subkeys and values with the contents of the saved hive file, making it a comprehensive overwrite operation."
+  why: "Registry restore operations are significant security events because adversaries can use them to revert security hardening by restoring registry hives from before security configurations were applied, to deploy pre-configured malicious registry states from prepared hive files, and to undo forensic markers or security tool installations by restoring clean registry snapshots. The destructive nature of restore operations (complete replacement of the target key tree) makes them particularly dangerous."
+  how: "Detection monitors command-line auditing for reg.exe restore commands. Process creation events capture reg.exe executions with restore arguments. API monitoring detects RegRestoreKey calls which require SE_RESTORE_NAME privilege. File access events detect reads of .hiv hive files used as restore sources. Sysmon registry events (IDs 12-13) capture the resulting key and value changes from the restore operation. EDR agents correlate restore commands with the resulting registry modifications. SIEM rules flag restore operations targeting security-critical registry paths and alert on restore of system hives."
+  core_concepts:
+    - key: "complete_key_replacement"
+      value: "Restore operations replace the entire key tree including subkeys and values, enabling comprehensive configuration rollback"
+    - key: "security_rollback_attack"
+      value: "Restoring registry hives from before security hardening to undo protective configurations and weaken system defenses"
+    - key: "privilege_requirement"
+      value: "RegRestoreKey requires SE_RESTORE_NAME privilege, limiting this operation to elevated processes and administrative accounts"
+    - key: "prepared_hive_deployment"
+      value: "Adversaries prepare malicious registry hive files in advance and restore them to rapidly deploy complex configurations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key restore is a specific type of registry key operation"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-WIREKEEX-001"
+    description: "Restore operations require previously saved or exported registry hive files"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - RegRestoreKey Function"
+    - "Microsoft Documentation - Reg Restore Command"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Windows Privileges - SE_RESTORE_NAME"
+  search_keywords:
+    - "registry restore"
+    - "reg restore"
+    - "RegRestoreKey"
+    - "registry hive restore"
+    - "registry rollback"
+    - "registry recovery"
+    - "security rollback registry"
+    - "hive file restore"
+    - "registry overwrite"
+    - "registry restore detection"
+  embedding_text: "Windows registry key restore event detection pattern identifies when registry keys are restored from saved hive files via RegRestoreKey API calls or reg.exe restore commands. Restore operations replace entire key trees including all subkeys and values with saved hive contents. Adversaries use restores to revert security hardening, deploy pre-configured malicious registry states, and undo forensic markers. Requires SE_RESTORE_NAME privilege limiting to elevated contexts. Maps to MITRE ATT&CK T1112 Modify Registry. Detection monitors command-line auditing, API calls, and correlates restore operations with resulting registry modifications to identify security rollback attacks and prepared hive deployment."

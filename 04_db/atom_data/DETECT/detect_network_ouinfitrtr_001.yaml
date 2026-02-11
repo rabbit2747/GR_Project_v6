@@ -1,0 +1,92 @@
+# GR Atom: Outbound Internet File Transfer Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINFITRTR-001"
+  name: "Outbound Internet File Transfer Traffic"
+  normalized_name: "outbound_internet_file_transfer_traffic"
+  aliases:
+    - "Outbound FTP/SFTP Detection"
+    - "File Transfer Egress Monitoring"
+    - "External File Upload Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - FTP
+    - DLP
+    - MONITOR
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring file transfer protocol traffic (FTP, SFTP, SCP, FTPS) leaving the organization's network to external internet destinations. This pattern identifies outbound file transfer sessions that may indicate data exfiltration, unauthorized data sharing with external parties, or adversaries staging stolen data on external infrastructure through file transfer protocols."
+  why: "Outbound file transfers to the internet are a common data exfiltration technique. Adversaries use FTP, SFTP, and SCP to transfer large volumes of stolen data to attacker-controlled servers. Insiders may use external file transfer services to move proprietary information outside organizational boundaries. Monitoring outbound file transfer traffic to internet destinations is critical for preventing data loss and detecting both external threat actor exfiltration and insider threat activity."
+  how: "Detection monitors outbound connections on file transfer ports (FTP 20/21, SFTP 22, FTPS 990) to external IP addresses. Analysis examines destination reputation and categorization, transfer volumes and file sizes, timing patterns including off-hours bulk transfers, user account authorization for external transfers, and frequency of transfers to specific destinations. Where protocol inspection is available, file metadata including names, types, and sizes are logged. Integration with DLP systems enables content-aware detection of sensitive data leaving through file transfer channels."
+  core_concepts:
+    - key: "External Transfer Detection"
+      value: "Identifying file transfer sessions from internal hosts to internet destinations that may indicate data exfiltration."
+    - key: "Volume Anomaly Detection"
+      value: "Flagging unusually large or frequent outbound file transfers compared to established baselines."
+    - key: "DLP Integration"
+      value: "Correlating file transfer activity with data loss prevention policies to detect sensitive data movement."
+    - key: "Destination Authorization"
+      value: "Validating that external file transfer destinations are approved and authorized for data exchange."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINNETR-001"
+    description: "Outbound file transfer traffic is a specific type of outbound internet network traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-FITRNETR-001"
+    description: "Internet-bound file transfer is a subset of file transfer network traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Outbound file transfer monitoring directly supports data exfiltration detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1048.003"
+    tactic:
+      - "Exfiltration"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over Unencrypted Non-C2 Protocol T1048.003"
+    - "SANS Institute - Detecting Data Exfiltration via File Transfer"
+    - "NIST SP 800-53 Rev 5 - AC-4 Information Flow Enforcement"
+  search_keywords:
+    - "outbound file transfer"
+    - "FTP egress"
+    - "SFTP exfiltration"
+    - "outbound SCP"
+    - "file transfer to internet"
+    - "external file upload"
+    - "file exfiltration"
+    - "outbound FTP"
+    - "file transfer DLP"
+    - "outbound data transfer"
+  embedding_text: "Outbound internet file transfer traffic detection monitors FTP, SFTP, SCP, and FTPS connections from internal hosts to external internet destinations. It identifies file transfer sessions that may indicate data exfiltration by analyzing destination reputation, transfer volumes, timing patterns, user authorization, and file metadata. Integration with DLP systems enables content-aware detection of sensitive data leaving through file transfer channels. This pattern is critical for preventing data loss through file transfer protocols, detecting both adversary exfiltration operations and insider threat data movement to external infrastructure."

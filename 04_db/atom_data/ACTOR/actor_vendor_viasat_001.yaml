@@ -1,0 +1,72 @@
+# GR Atom: Viasat
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-VIASAT-001"
+  name: "Viasat"
+  normalized_name: "viasat"
+  aliases:
+    - "Viasat Inc"
+    - "ViaSat"
+    - "Viasat KA-SAT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - CLOUD
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Viasat is a global communications and cybersecurity company providing satellite internet services, secure communications, and cybersecurity solutions for government and commercial customers. The company operates satellite broadband networks, provides encrypted communications for military and government use, and offers cybersecurity services. Viasat gained major cybersecurity significance when its KA-SAT satellite network was targeted in a destructive cyberattack at the onset of Russia's 2022 invasion of Ukraine."
+  why: "Viasat is significant in cybersecurity because the February 2022 attack on its KA-SAT network was one of the most impactful cyberattacks associated with a military conflict, disabling satellite modems across Europe using the AcidRain wiper malware. This attack demonstrated the vulnerability of satellite communications infrastructure to state-sponsored cyber operations and its potential for cascading effects across civilian infrastructure."
+  how: "Viasat operates through a constellation of geostationary satellites providing broadband internet and secure communications. The company provides link encryption, secure networking, and cybersecurity services for government and defense customers. Following the 2022 KA-SAT attack, Viasat's detailed public disclosure of the attack methodology provided the cybersecurity community with critical insights into satellite network exploitation techniques."
+  core_concepts:
+    - key: "Satellite Communications Security"
+      value: "Security of satellite broadband networks and encrypted communications for government and commercial use"
+    - key: "KA-SAT Attack"
+      value: "Landmark 2022 cyberattack using AcidRain wiper malware against satellite infrastructure during the Ukraine conflict"
+    - key: "Secure Government Communications"
+      value: "Encrypted communication solutions for military and government customers requiring high-assurance security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SOLARWINDS-001"
+    description: "Fellow technology vendor whose infrastructure was targeted in a high-profile state-sponsored cyberattack"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.viasat.com"
+    - "https://en.wikipedia.org/wiki/Viasat_Inc."
+    - "https://news.viasat.com/blog/corporate/ka-sat-network-cyber-attack-overview"
+  search_keywords:
+    - "viasat"
+    - "KA-SAT attack"
+    - "AcidRain"
+    - "satellite cyberattack"
+    - "satellite communications"
+    - "ukraine cyberattack"
+    - "satellite security"
+    - "wiper malware"
+  embedding_text: "Viasat is a global communications and cybersecurity company providing satellite internet services, secure communications, and cybersecurity solutions. The company gained major cybersecurity significance when its KA-SAT satellite network was targeted in a destructive cyberattack at the onset of Russia's 2022 invasion of Ukraine, using the AcidRain wiper malware to disable satellite modems across Europe. This attack demonstrated the vulnerability of satellite communications infrastructure to state-sponsored cyber operations and provided the cybersecurity community with critical insights into satellite network exploitation techniques."

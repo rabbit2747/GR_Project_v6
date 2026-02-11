@@ -1,0 +1,78 @@
+# GR Atom: File Entropy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILEENTR-001"
+  name: "File Entropy"
+  normalized_name: "file_entropy"
+  aliases:
+    - "File Entropy Analysis"
+    - "File Randomness Detection"
+    - "Encrypted File Detection"
+    - "Packed Executable Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EVADE
+    - IMPACT
+    - EDR
+    - MONITOR
+    - CRYPTO
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File Entropy detection applies Shannon entropy analysis specifically to file contents to identify files that are encrypted, packed, compressed, or obfuscated. The technique calculates the information entropy of file data either for the whole file or per-section, producing a score that indicates the degree of randomness. Files with abnormally high entropy relative to their declared file type are flagged as potentially malicious. This is particularly effective for identifying ransomware-encrypted files, packed malware executables, encoded shellcode payloads, and steganographic content hidden within media files."
+  why: "Ransomware is one of the most damaging cyber threats, and its primary mechanism is encrypting victim files, which produces characteristic high-entropy content. Detecting file entropy changes enables real-time ransomware detection during the encryption phase, potentially allowing automated response to stop the attack before all files are encrypted. Additionally, malware authors commonly pack executables to evade signature detection, producing files with higher entropy than legitimate executables. File entropy analysis provides a signature-independent detection mechanism that identifies both known and novel threats based on their fundamental data characteristics rather than specific byte patterns."
+  how: "File entropy detection systems calculate Shannon entropy for files at creation, modification, or access events. Whole-file entropy provides a global measure, while per-section entropy analysis for PE files reveals packed code sections even when the overall entropy is moderate. Detection rules compare entropy values against file-type-specific thresholds: document files (.docx, .pdf) normally exhibit entropy of 4.0-6.0, so values above 7.5 suggest encryption; PE executables normally show 5.0-6.5, so values above 7.0 suggest packing. For ransomware detection, monitoring focuses on entropy changes in user data directories, flagging when previously low-entropy files like documents and spreadsheets suddenly exhibit near-maximum entropy. Advanced implementations track entropy distributions across file repositories to detect gradual encryption campaigns and compare entropy before and after file modification events."
+  core_concepts:
+    - key: "File-Type Entropy Profile"
+      value: "Expected entropy ranges for different file formats, used as reference thresholds for anomaly detection"
+    - key: "Section Entropy"
+      value: "Per-section entropy calculation for PE executables that reveals packed code sections by comparing entropy across the .text, .data, and .rsrc sections"
+    - key: "Entropy Delta"
+      value: "The change in file entropy between versions, where a large increase from low to high entropy indicates encryption or packing"
+
+relations:
+  - type: instance_of
+    target: "DETECT-BEHAVIOR-ENTRSCOR-001"
+    description: "File entropy is a specific application of the entropy score concept to file content analysis"
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILRISSCO-001"
+    description: "File entropy is a component factor in comprehensive file risk scoring"
+  - type: effective_against
+    target: "ATK-IMPACT-RANSOM-001"
+    description: "Detects ransomware encryption through file entropy changes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic: ["Impact"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1486 - Data Encrypted for Impact - https://attack.mitre.org/techniques/T1486/"
+    - "SANS - Entropy Analysis for Ransomware Detection - https://www.sans.org/white-papers/"
+    - "VirusTotal - File Entropy Analysis - https://docs.virustotal.com/"
+  search_keywords:
+    - "file entropy detection"
+    - "ransomware entropy analysis"
+    - "packed executable entropy"
+    - "encrypted file detection"
+    - "file randomness score"
+    - "malware packing detection"
+    - "file entropy threshold"
+    - "entropy-based file analysis"
+  embedding_text: "File Entropy detection applies Shannon entropy analysis to file contents to identify encrypted, packed, compressed, or obfuscated files. It calculates entropy per file or per section, comparing values against file-type-specific thresholds. Normal documents have entropy of 4-6, executables 5-6.5, while encrypted content approaches 8. The technique detects ransomware during the encryption phase by monitoring entropy changes in user data directories, identifies packed malware executables through elevated code section entropy, and reveals encoded payloads and steganographic content. Per-section analysis of PE files reveals packing even when overall file entropy is moderate. This provides signature-independent detection of both known and novel threats."

@@ -1,0 +1,119 @@
+# GR Atom: AD IDNS Zone
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-ADIDNZON-001"
+  name: "AD IDNS Zone"
+  normalized_name: "ad_idns_zone"
+  aliases:
+    - "Active Directory Integrated DNS Zone"
+    - "AD-Integrated DNS"
+    - "ADIDNS"
+    - "Domain-Integrated DNS Zone"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - DNS
+    - LDAP
+    - NETWORK
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Active Directory Integrated DNS (ADIDNS) Zones store DNS records directly within Active
+    Directory as objects in the domain naming context rather than in traditional flat zone
+    files. ADIDNS leverages AD replication for zone transfer, inherits AD security descriptors
+    for access control, and supports secure dynamic updates authenticated via Kerberos. DNS
+    zones can be stored in DomainDnsZones or ForestDnsZones application partitions, controlling
+    replication scope across domain controllers.
+  why: >-
+    ADIDNS zones are targeted by attackers for DNS record injection and spoofing attacks.
+    By default, authenticated users can create new DNS records in ADIDNS zones, enabling
+    techniques such as ADIDNS wildcard record poisoning to redirect name resolution for
+    non-existent hostnames. Attackers exploit this for NTLM relay attacks by creating DNS
+    records pointing to attacker-controlled systems. ADIDNS record manipulation can also
+    facilitate machine-in-the-middle positioning and credential theft within the domain.
+  how: >-
+    ADIDNS stores DNS zone data as dnsNode objects under CN=MicrosoftDNS in the appropriate
+    AD application partition. Zone records are replicated through standard AD replication
+    rather than traditional DNS zone transfers (AXFR/IXFR). Security is enforced through
+    discretionary access control lists on DNS objects, with secure dynamic updates requiring
+    Kerberos authentication. DNS records support scavenging for stale entry cleanup. Clients
+    register their DNS records through dynamic updates during DHCP lease or domain join,
+    authenticated by their machine account credentials.
+  core_concepts:
+    - key: "DNS Record Injection"
+      value: "Default authenticated user permissions allow creation of new ADIDNS records, enabling wildcard poisoning and name resolution hijacking"
+    - key: "AD Replication-Based Zone Transfer"
+      value: "DNS data replicates via Active Directory replication eliminating traditional zone transfer vulnerabilities but inheriting AD replication attack surface"
+    - key: "Secure Dynamic Updates"
+      value: "Kerberos-authenticated DNS updates prevent unauthorized record modification but default ACLs may allow record creation by domain users"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "ADIDNS zones are stored within and managed by the Active Directory directory service"
+  - type: "requires"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "ADIDNS zone replication requires the Active Directory forest domain infrastructure"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "DNS name resolution is essential for Kerberos authentication and service location in AD environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557.001"
+    tactic:
+      - "Credential Access"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Active Directory-Integrated DNS Zones"
+    - "Kevin Robertson - ADIDNS Wildcard Attacks and Beyond"
+    - "MITRE ATT&CK T1557.001 - LLMNR/NBT-NS Poisoning and SMB Relay"
+  search_keywords:
+    - "AD Integrated DNS"
+    - "ADIDNS zone"
+    - "ADIDNS wildcard attack"
+    - "DNS record injection Active Directory"
+    - "dnsNode object"
+    - "secure dynamic updates"
+    - "DomainDnsZones"
+    - "AD DNS poisoning"
+  embedding_text: >-
+    Active Directory Integrated DNS (ADIDNS) Zones store DNS records as objects directly
+    within Active Directory, leveraging AD replication instead of traditional zone transfers.
+    ADIDNS inherits Active Directory security descriptors for access control and supports
+    Kerberos-authenticated secure dynamic updates. However, default permissions allow
+    authenticated domain users to create new DNS records, enabling ADIDNS wildcard record
+    poisoning attacks. Attackers exploit this to redirect name resolution for non-existent
+    hostnames to attacker-controlled systems for NTLM relay and credential theft. DNS data
+    is stored as dnsNode objects in DomainDnsZones or ForestDnsZones application partitions.
+    Security teams should restrict ADIDNS record creation permissions, monitor for wildcard
+    record additions, and audit DNS zone ACLs to prevent DNS-based lateral movement and
+    man-in-the-middle attacks within the domain environment.

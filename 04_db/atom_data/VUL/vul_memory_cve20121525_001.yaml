@@ -1,0 +1,101 @@
+# GR Atom: CVE-2012-1525
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20121525-001"
+  name: "CVE-2012-1525"
+  normalized_name: "cve_2012_1525"
+  aliases:
+    - "Adobe Acrobat Heap Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Acrobat 9.x before 9.5.2"
+    - "Adobe Acrobat 10.x before 10.1.4"
+    - "Adobe Reader 9.x before 9.5.2"
+    - "Adobe Reader 10.x before 10.1.4"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-1525 is a heap-based buffer overflow vulnerability (CVSS 10.0) in Adobe Reader
+    and Acrobat that allows remote attackers to execute arbitrary code or cause a denial of
+    service via a crafted PDF document. The vulnerability exists in the processing of certain
+    data structures within PDF files, where insufficient bounds checking leads to heap memory
+    corruption. It was patched by Adobe in APSB12-16 (August 2012) and affects Reader and
+    Acrobat versions 9.x before 9.5.2 and 10.x before 10.1.4.
+  why: >-
+    With a maximum CVSS score of 10.0, this vulnerability posed a critical risk to organizations
+    using Adobe Reader. Heap-based buffer overflows in PDF parsers were a reliable exploitation
+    primitive during this era, and Adobe Reader's massive installation base made it a high-value
+    target. The vulnerability could be exploited through email attachments or malicious web
+    content embedding PDF files.
+  how: >-
+    The exploit crafts a PDF document with malformed data structures that trigger a heap-based
+    buffer overflow during parsing. The overflow corrupts heap metadata, allowing the attacker
+    to achieve an arbitrary write primitive. Through heap manipulation techniques such as heap
+    feng shui, the attacker controls the layout of heap allocations to redirect execution flow
+    to shellcode, achieving arbitrary code execution in the context of the Adobe Reader process.
+  core_concepts:
+    - key: "Heap Buffer Overflow in PDF Parsing"
+      value: "Insufficient bounds checking during PDF data structure processing causes heap memory corruption enabling code execution"
+    - key: "PDF-Based Attack Vector"
+      value: "Malicious PDF documents delivered via email or web exploit the vulnerability for remote code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Heap-based buffer overflow memory corruption in Adobe Reader PDF parsing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-1525 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB12-16"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2012-1525"
+    - "Adobe Reader"
+    - "Adobe Acrobat"
+    - "heap buffer overflow"
+    - "PDF exploit"
+    - "memory corruption"
+    - "APSB12-16"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2012-1525 is a heap-based buffer overflow vulnerability with CVSS 10.0 in Adobe
+    Reader and Acrobat. The flaw occurs during parsing of malformed PDF data structures where
+    insufficient bounds checking causes heap memory corruption. Remote attackers can execute
+    arbitrary code by delivering crafted PDF documents via email or web content. Affecting
+    Reader and Acrobat 9.x before 9.5.2 and 10.x before 10.1.4, it was patched in APSB12-16
+    in August 2012. This vulnerability exemplified the class of heap-based PDF parsing flaws
+    that made Adobe Reader a primary target for both targeted and opportunistic attacks.

@@ -1,0 +1,118 @@
+# GR Atom: HIPAA
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-HIPAA-001"
+  name: "HIPAA"
+  normalized_name: "hipaa"
+  aliases:
+    - "Health Insurance Portability and Accountability Act"
+    - "HIPAA 1996"
+    - "Public Law 104-191"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+    - ENCRYPT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    The Health Insurance Portability and Accountability Act (HIPAA) is a United States federal law
+    enacted in 1996 that establishes national standards for the protection of individually
+    identifiable health information, known as Protected Health Information (PHI). HIPAA applies
+    to covered entities (health plans, healthcare clearinghouses, and healthcare providers conducting
+    electronic transactions) and their business associates. The law comprises multiple rules: the
+    Privacy Rule governing use and disclosure of PHI, the Security Rule mandating administrative,
+    physical, and technical safeguards for electronic PHI (ePHI), the Breach Notification Rule
+    requiring notification of unsecured PHI breaches, and the Enforcement Rule establishing
+    investigation and penalty procedures.
+  why: >
+    HIPAA is the foundational US law for healthcare data protection, with enforcement by the HHS
+    Office for Civil Rights (OCR). Violations can result in tiered civil monetary penalties ranging
+    from $100 to $50,000 per violation (up to $1.5 million per year per violation category) and
+    criminal penalties including fines up to $250,000 and imprisonment up to 10 years. Beyond
+    penalties, HIPAA breaches damage patient trust, disrupt healthcare operations, and create
+    litigation exposure. The HITECH Act of 2009 significantly strengthened HIPAA enforcement
+    and extended obligations to business associates.
+  how: >
+    Organizations achieve HIPAA compliance by conducting risk analyses to identify threats to ePHI,
+    implementing the Security Rule's administrative safeguards (security management process,
+    workforce training, contingency planning), physical safeguards (facility access controls,
+    workstation security, device controls), and technical safeguards (access controls, audit
+    controls, integrity controls, transmission security). The Privacy Rule requires minimum
+    necessary standards, patient rights management (access, amendment, accounting of disclosures),
+    and Notice of Privacy Practices. Business Associate Agreements (BAAs) must be established with
+    all third parties handling PHI.
+  core_concepts:
+    - key: "Protected Health Information (PHI)"
+      value: "Individually identifiable health information held or transmitted by a covered entity or business associate, in any form"
+    - key: "Covered Entities"
+      value: "Health plans, healthcare clearinghouses, and healthcare providers who conduct standard electronic transactions"
+    - key: "Business Associates"
+      value: "Third parties that create, receive, maintain, or transmit PHI on behalf of a covered entity"
+    - key: "Minimum Necessary Standard"
+      value: "Requirement to limit PHI use, disclosure, and requests to the minimum amount needed for the intended purpose"
+    - key: "Risk Analysis"
+      value: "Mandatory assessment of potential risks and vulnerabilities to the confidentiality, integrity, and availability of ePHI"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "HIPAA is a specific compliance regulation"
+  - type: enables
+    target: "COMP-LAW-HISERUPRRU-001"
+    description: "HIPAA establishes both the Security Rule and Privacy Rule"
+  - type: enables
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "HIPAA drives healthcare privacy compliance programs"
+  - type: applies_to
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "HIPAA applies as an industry compliance requirement in the healthcare sector"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Health Insurance Portability and Accountability Act of 1996, Public Law 104-191"
+    - "45 CFR Parts 160, 162, and 164 — HIPAA Administrative Simplification Regulations"
+    - "HHS Office for Civil Rights — HIPAA Guidance Materials"
+    - "HITECH Act — Health Information Technology for Economic and Clinical Health Act, 2009"
+  search_keywords:
+    - "HIPAA"
+    - "health insurance portability accountability act"
+    - "protected health information PHI"
+    - "ePHI electronic protected health information"
+    - "HIPAA security rule"
+    - "HIPAA privacy rule"
+    - "healthcare compliance"
+    - "business associate agreement BAA"
+    - "HIPAA breach notification"
+    - "HHS OCR enforcement"
+  embedding_text: >
+    HIPAA (Health Insurance Portability and Accountability Act) is the foundational US federal law
+    for healthcare data protection, enacted in 1996 as Public Law 104-191. It applies to covered
+    entities (health plans, clearinghouses, providers) and business associates that handle Protected
+    Health Information (PHI). HIPAA comprises the Privacy Rule governing PHI use and disclosure,
+    the Security Rule mandating administrative, physical, and technical safeguards for electronic
+    PHI, the Breach Notification Rule, and the Enforcement Rule. Key requirements include risk
+    analysis, access controls, encryption, audit logging, workforce training, and Business
+    Associate Agreements. Penalties range from $100 to $50,000 per violation with criminal
+    penalties up to $250,000 and imprisonment.

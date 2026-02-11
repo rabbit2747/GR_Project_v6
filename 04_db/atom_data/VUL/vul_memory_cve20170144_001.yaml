@@ -1,0 +1,125 @@
+# GR Atom: CVE-2017-0144
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20170144-001"
+  name: "CVE-2017-0144"
+  normalized_name: "cve_2017_0144"
+  aliases:
+    - "EternalBlue CVE"
+    - "SMBv1 Remote Code Execution"
+    - "MS17-010"
+    - "WannaCry SMB Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WINDOWS
+    - NETWORK
+    - SMB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Windows SMBv1 (srv.sys)"
+    - "Windows XP through Windows Server 2016"
+    - "Microsoft Server Message Block 1.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-0144 is a critical remote code execution vulnerability (CVSS 8.1) in
+    Microsoft's SMBv1 protocol implementation that allows unauthenticated attackers to
+    execute arbitrary code on target systems by sending specially crafted packets to the
+    SMBv1 server. This is the CVE identifier for the EternalBlue exploit (see
+    VUL-MEMORY-ETERBLUE-001 for comprehensive details). Originally developed by the NSA's
+    Equation Group and leaked by the Shadow Brokers in April 2017, it was patched by
+    Microsoft in MS17-010 in March 2017. The vulnerability was infamously used in the
+    WannaCry ransomware outbreak in May 2017 and the NotPetya destructive attack in
+    June 2017, causing billions of dollars in damage worldwide.
+  why: >-
+    CVE-2017-0144 is arguably the most consequential vulnerability of the 2010s decade.
+    The WannaCry and NotPetya attacks demonstrated the catastrophic potential of wormable
+    vulnerabilities combined with leaked nation-state exploit toolkits. WannaCry affected
+    over 200,000 systems across 150 countries, disrupting the UK National Health Service
+    and global enterprises. NotPetya caused an estimated $10 billion in damages. The
+    vulnerability fundamentally changed industry perspectives on SMBv1 deprecation,
+    patching urgency, and nation-state exploit stockpiling risks.
+  how: >-
+    The exploit sends crafted SMBv1 transaction packets to the target's port 445 that
+    trigger a buffer overflow in the Windows SMB server (srv.sys). Specifically, the
+    vulnerability exists in how SMBv1 handles Transaction2 requests. The exploit sends
+    a malformed Trans2 request that overflows a kernel buffer, corrupting adjacent pool
+    allocations. Through heap grooming and pool manipulation techniques, the attacker
+    achieves arbitrary kernel-mode code execution. No authentication is required and the
+    attack is fully remote, making it wormable. The original NSA exploit included
+    sophisticated pool grooming to achieve reliable exploitation across Windows versions.
+  core_concepts:
+    - key: "SMBv1 Buffer Overflow"
+      value: "Heap-based buffer overflow in Windows SMB server triggered by malformed Transaction2 requests to port 445"
+    - key: "Wormable Remote Code Execution"
+      value: "Unauthenticated remote exploitation with worm propagation capability that powered WannaCry and NotPetya"
+    - key: "NSA Exploit Leak Impact"
+      value: "Developed by NSA Equation Group, leaked by Shadow Brokers, causing billions in global damage through mass exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "CVE-2017-0144 is the CVE identifier for the EternalBlue named vulnerability"
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "EternalBlue is a heap-based buffer overflow memory corruption in Windows SMBv1"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170147-001"
+    description: "Both are SMBv1 vulnerabilities patched in MS17-010 and exploited by Shadow Brokers tools"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS17-010"
+    - "NVD Entry CVE-2017-0144 - CVSS 8.1"
+    - "Shadow Brokers Leak - EternalBlue exploit"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+    - "US-CERT Alert TA17-132A - WannaCry Ransomware"
+  search_keywords:
+    - "CVE-2017-0144"
+    - "EternalBlue"
+    - "MS17-010"
+    - "SMBv1"
+    - "WannaCry"
+    - "NotPetya"
+    - "Shadow Brokers"
+    - "wormable"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2017-0144 is the CVE identifier for EternalBlue, a critical wormable remote code
+    execution vulnerability in Windows SMBv1 with CVSS 8.1. The heap-based buffer overflow
+    in srv.sys is triggered by crafted Transaction2 requests to port 445, enabling
+    unauthenticated kernel-mode code execution. Developed by the NSA and leaked by Shadow
+    Brokers in 2017, it powered the WannaCry ransomware and NotPetya destructive attacks
+    causing billions in global damage. Patched in MS17-010, it remains one of the most
+    consequential vulnerabilities in cybersecurity history.

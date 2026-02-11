@@ -1,0 +1,77 @@
+# GR Atom: Kubernetes External Secrets Operator
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-KUEXSEOP-001"
+  name: "Kubernetes External Secrets Operator"
+  normalized_name: "kubernetes_external_secrets_operator"
+  aliases:
+    - "ESO"
+    - "External Secrets Operator"
+    - "K8s External Secrets"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - CRYPTO
+    - PAM
+    - DEVSECOPS
+
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "P2.1"
+
+definition:
+  what: "Kubernetes External Secrets Operator (ESO) is a Kubernetes operator that synchronizes secrets from external secret management systems (AWS Secrets Manager, Azure Key Vault, Google Secret Manager, HashiCorp Vault, CyberArk) into native Kubernetes Secrets. It uses Custom Resource Definitions (CRDs) including ExternalSecret, SecretStore, and ClusterSecretStore to declaratively define which external secrets to sync and how to map them to Kubernetes Secrets."
+  why: "ESO addresses the critical security gap of managing secrets in Kubernetes environments by avoiding hardcoded secrets in manifests, Helm charts, or GitOps repositories. Without ESO, teams often commit base64-encoded secrets to version control or use less secure secret distribution methods. ESO enables centralized secret governance through enterprise vault solutions while maintaining Kubernetes-native workflows. Compromise of ESO service account credentials or misconfigured SecretStores can expose secrets from external vaults to unauthorized pods."
+  how: "ESO runs as a controller in the Kubernetes cluster watching for ExternalSecret custom resources. When an ExternalSecret is created or updated, ESO authenticates to the configured SecretStore (external vault), retrieves the specified secret data, and creates or updates a corresponding native Kubernetes Secret. Authentication to external providers uses workload identity, service account keys, or Kubernetes service account token projection. Secrets are refreshed at configurable intervals. Template functions enable transformation of secret data during synchronization. ClusterSecretStores provide cluster-wide vault connections."
+  core_concepts:
+    - key: "ExternalSecret CRD"
+      value: "Custom resource defining which external secret to retrieve, from which SecretStore, and how to map it to a Kubernetes Secret"
+    - key: "SecretStore"
+      value: "Custom resource configuring authentication and connection to an external secret management provider"
+    - key: "Secret Synchronization"
+      value: "Periodic reconciliation loop that keeps Kubernetes Secrets in sync with their external vault sources at configurable intervals"
+
+relations:
+  - type: requires
+    target: "INFRA-DEVOPS-KEYVAUL-001"
+    description: "ESO requires external key vault services as the source of truth for secrets"
+  - type: requires
+    target: "INFRA-DEVOPS-ORCHESTRAT-001"
+    description: "ESO runs as a Kubernetes operator within container orchestration controllers"
+  - type: enables
+    target: "INFRA-DEVOPS-CODEBUILD-001"
+    description: "ESO enables secure secret injection into CI/CD pipelines running in Kubernetes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.007"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "External Secrets Operator Documentation - https://external-secrets.io/"
+    - "Kubernetes Secrets Best Practices - https://kubernetes.io/docs/concepts/configuration/secret/"
+    - "MITRE ATT&CK T1552.007 - Unsecured Credentials: Container API"
+  search_keywords:
+    - "External Secrets Operator"
+    - "ESO Kubernetes"
+    - "Kubernetes external secrets"
+    - "K8s secret sync"
+    - "ExternalSecret CRD"
+    - "SecretStore Kubernetes"
+    - "Kubernetes vault integration"
+    - "K8s secrets management"
+  embedding_text: "Kubernetes External Secrets Operator (ESO) synchronizes secrets from external vault systems (AWS Secrets Manager, Azure Key Vault, Google Secret Manager, HashiCorp Vault) into native Kubernetes Secrets. It uses CRDs including ExternalSecret, SecretStore, and ClusterSecretStore for declarative secret management. Security significance includes eliminating hardcoded secrets in manifests and GitOps repositories, enabling centralized secret governance through enterprise vaults. ESO authenticates to external providers via workload identity or service account tokens. Secrets refresh at configurable intervals. Compromise of ESO credentials or misconfigured SecretStores can expose vault secrets to unauthorized pods."

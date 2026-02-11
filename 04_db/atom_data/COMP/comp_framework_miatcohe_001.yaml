@@ -1,0 +1,129 @@
+# GR Atom: MITRE ATT&CK Coverage Heatmap
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MIATCOHE-001"
+  name: "MITRE ATT&CK Coverage Heatmap"
+  normalized_name: "mitre_att_ck_coverage_heatmap"
+  aliases:
+    - "ATT&CK Navigator Heatmap"
+    - "ATT&CK Coverage Map"
+    - "ATT&CK Detection Coverage"
+    - "MITRE Navigator Layer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - BLUE_TEAM
+    - THREAT_INTEL
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The MITRE ATT&CK Coverage Heatmap is a visual representation of an organization's detection
+    and prevention capabilities mapped against the MITRE ATT&CK framework matrix. Created using
+    the ATT&CK Navigator tool, heatmaps display color-coded overlays on the ATT&CK technique
+    matrix indicating the level of coverage (none, partial, full) that security controls and
+    detection rules provide for each technique and sub-technique. Organizations generate heatmaps
+    by mapping their SIEM detection rules, EDR capabilities, network monitoring, and security
+    control inventory to specific ATT&CK technique IDs, producing a gap analysis that reveals
+    which adversary techniques remain undetected or unmitigated.
+  why: >-
+    Security operations centers often deploy detection rules and security controls without a
+    systematic understanding of which adversary techniques they can detect or prevent. This
+    results in blind spots where advanced adversaries can operate undetected. Coverage heatmaps
+    provide an objective, evidence-based view of defensive posture against the full spectrum of
+    known adversary behaviors. They enable security teams to prioritize detection engineering
+    efforts toward the highest-risk gaps, justify security investments with quantifiable coverage
+    metrics, and track defensive improvement over time against a standardized framework.
+  how: >-
+    Implementation involves: (1) Inventorying all existing security controls, detection rules,
+    and monitoring capabilities across SIEM, EDR, NDR, and other security platforms;
+    (2) Mapping each control or detection rule to the specific ATT&CK technique(s) it addresses
+    using technique IDs; (3) Using the ATT&CK Navigator to create layer files that visually
+    represent coverage levels with color gradients; (4) Overlaying threat intelligence about
+    adversary groups targeting the organization's sector to prioritize gaps against relevant
+    threats; (5) Identifying coverage gaps and developing detection engineering roadmaps to
+    address high-priority techniques; (6) Regularly updating heatmaps as new detections are
+    deployed and the ATT&CK framework is updated with new techniques.
+  core_concepts:
+    - key: "ATT&CK Navigator"
+      value: >-
+        An open-source web application maintained by MITRE that provides an interactive
+        interface for creating, annotating, and visualizing ATT&CK matrix layers including
+        detection coverage, threat group overlays, and gap analysis views.
+    - key: "Detection Coverage Scoring"
+      value: >-
+        A quantitative assessment methodology that rates the depth and quality of detection
+        for each ATT&CK technique, typically using a scale from no coverage through partial
+        detection to full prevention and response capability.
+    - key: "Threat-Informed Gap Analysis"
+      value: >-
+        The practice of overlaying threat intelligence about adversary groups known to target
+        the organization's sector onto coverage heatmaps to prioritize detection engineering
+        against the most relevant and likely attack techniques.
+    - key: "Detection Engineering Roadmap"
+      value: >-
+        A prioritized plan for developing new detection rules and deploying additional security
+        controls to close gaps identified through coverage heatmap analysis, aligned with
+        organizational risk appetite and threat landscape.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "Coverage heatmaps are a direct application of the MITRE ATT&CK framework, using its technique taxonomy as the assessment baseline"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-MITATTEVA-001"
+    description: "Heatmap creation requires ATT&CK evaluation methodologies to accurately assess detection and prevention coverage quality"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATSOMA-001"
+    description: "Coverage heatmaps inform software mapping by revealing which tools provide coverage for which techniques"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK Navigator. https://mitre-attack.github.io/attack-navigator/"
+    - "MITRE ATT&CK - Getting Started with ATT&CK. https://attack.mitre.org/resources/getting-started/"
+    - "MITRE Center for Threat-Informed Defense - Mapping Security Controls to ATT&CK. https://ctid.mitre-engenuity.org/"
+    - "Freddie Barr-Smith et al. - ATT&CK Coverage: A Practical Approach to Measuring Detection Coverage"
+  search_keywords:
+    - "MITRE ATT&CK heatmap"
+    - "ATT&CK coverage"
+    - "ATT&CK Navigator"
+    - "detection coverage mapping"
+    - "ATT&CK gap analysis"
+    - "security coverage assessment"
+    - "detection engineering roadmap"
+    - "ATT&CK layer"
+    - "threat-informed defense"
+    - "SOC detection coverage"
+  embedding_text: >-
+    MITRE ATT&CK Coverage Heatmap is a visual representation of an organization's detection and
+    prevention capabilities mapped against the MITRE ATT&CK framework matrix. Created using the
+    ATT&CK Navigator tool, heatmaps display color-coded overlays indicating coverage levels for
+    each adversary technique. Organizations generate heatmaps by mapping SIEM detection rules,
+    EDR capabilities, and security controls to specific ATT&CK technique IDs, producing gap
+    analyses that reveal undetected adversary techniques. The methodology involves inventorying
+    security controls, mapping them to ATT&CK techniques, creating Navigator layer visualizations,
+    overlaying threat intelligence about relevant adversary groups, and developing detection
+    engineering roadmaps to address priority gaps. Coverage heatmaps provide objective evidence-based
+    views of defensive posture, enable prioritization of detection engineering efforts, justify
+    security investments with quantifiable metrics, and track improvement over time against
+    the standardized ATT&CK taxonomy of adversary behaviors.

@@ -1,0 +1,100 @@
+# GR Atom: AWS Nitro Enclave
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AWSNITENC-001"
+  name: "AWS Nitro Enclave"
+  normalized_name: "aws_nitro_enclave"
+  aliases:
+    - "Nitro Enclaves"
+    - "AWS Nitro Enclaves"
+    - "EC2 Nitro Enclave"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - ENCRYPT
+    - PRIVACY
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L1"
+  zone: "Z3"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS Nitro Enclaves is an EC2 capability that creates isolated compute environments (enclaves)
+    within EC2 instances to process highly sensitive data. Enclaves are isolated virtual machines
+    with no persistent storage, no interactive access, and no external networking, providing
+    cryptographic attestation of the code running inside. Built on the AWS Nitro System hardware
+    and hypervisor, they use a VSOCK connection for communication with the parent EC2 instance.
+  why: >-
+    Nitro Enclaves address the need to process sensitive data such as PII, healthcare records,
+    financial data, and cryptographic keys in a provably isolated environment where even the
+    instance owner or AWS operators cannot access the enclave memory. Cryptographic attestation
+    ensures only authorized code runs in the enclave, preventing tampering and providing
+    verifiable trust for compliance requirements including HIPAA, PCI-DSS, and GDPR.
+  how: >-
+    Nitro Enclaves partition CPU and memory resources from a parent EC2 instance into an
+    isolated enclave using the Nitro Hypervisor. The enclave runs its own kernel and has no
+    external network access, no persistent storage, and no SSH or console access. Communication
+    occurs exclusively through a local VSOCK channel. AWS KMS integration allows the enclave
+    to decrypt data only when attestation validates the enclave image (PCR measurements).
+    The Nitro CLI tool manages enclave lifecycle operations.
+  core_concepts:
+    - key: "Cryptographic Attestation"
+      value: "Hardware-rooted attestation using PCR measurements to verify the exact code, configuration, and state of an enclave before granting access to secrets"
+    - key: "Isolation Architecture"
+      value: "Enclaves have no persistent storage, no interactive access, and no external networking, communicating only via VSOCK to the parent instance"
+    - key: "Nitro Hypervisor"
+      value: "AWS custom hypervisor that provides hardware-enforced memory and CPU isolation between the parent instance and enclave"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "Nitro Enclaves are created as isolated partitions within EC2 instances"
+  - type: "requires"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "Nitro Enclaves are an AWS-specific service requiring the AWS cloud platform"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AZUCONCOM-001"
+    description: "AWS Nitro Enclaves compete with Azure Confidential Computing for trusted execution environments"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS Nitro Enclaves Documentation - docs.aws.amazon.com"
+    - "AWS Nitro System Architecture Whitepaper"
+    - "Confidential Computing Consortium - Technical Standards"
+  search_keywords:
+    - "aws nitro enclave"
+    - "nitro enclaves"
+    - "confidential computing aws"
+    - "trusted execution environment"
+    - "enclave attestation"
+    - "nitro hypervisor"
+    - "secure enclave aws"
+  embedding_text: >-
+    AWS Nitro Enclaves is an EC2 capability that creates isolated compute environments within
+    EC2 instances for processing highly sensitive data. Built on the Nitro Hypervisor, enclaves
+    are isolated virtual machines with no persistent storage, no interactive access, and no
+    external networking, communicating only via VSOCK to the parent instance. Cryptographic
+    attestation using PCR measurements verifies the exact code running inside before granting
+    access to secrets through KMS integration. Nitro Enclaves are used for processing PII,
+    healthcare records, financial data, and cryptographic operations where even the instance
+    owner cannot access enclave memory, supporting compliance with HIPAA, PCI-DSS, and GDPR.

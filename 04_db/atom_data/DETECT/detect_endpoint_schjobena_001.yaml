@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Enable Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBENA-001"
+  name: "Scheduled Job Enable Event"
+  normalized_name: "scheduled_job_enable_event"
+  aliases:
+    - "Scheduled Task Enable Detection"
+    - "Task Scheduler Enable Monitoring"
+    - "Cron Job Enable Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - PERSIST
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Enable Event is an endpoint detection pattern that captures when a previously disabled scheduled task is re-enabled, allowing it to resume execution on its configured schedule. On Windows this corresponds to Task Scheduler Event ID 4700 where a task transitions from disabled to enabled state. On Linux, this includes unmasking systemd timer units, uncommenting crontab entries, and setting timer enable flags to true. On macOS, this corresponds to launchctl load operations or clearing the Disabled key in plist files. The event records the task name, the account performing the enable, and the timestamp."
+  why: "Scheduled job enable events are security-relevant because adversaries may use a technique of pre-staging disabled scheduled tasks during initial access, then enabling them later when they are ready to establish persistence or execute payloads. This two-phase approach can evade detection systems that only monitor task creation events. Additionally, re-enabling previously disabled malicious tasks that were missed during incident remediation indicates incomplete cleanup. Monitoring enable events alongside creation and disable events provides complete visibility into the scheduled task lifecycle for detecting sophisticated attack patterns."
+  how: "Detection systems monitor scheduled job enable events through Windows Task Scheduler Event ID 4700, WMI subscriptions for task state changes, Linux monitoring of systemd unit unmasking operations and crontab modifications, and macOS monitoring of launchctl load commands and plist Disabled key changes. Detection rules flag enabling of tasks that have been disabled for extended periods, enabling of tasks with suspicious command lines or execution contexts, enable operations by accounts that did not create the original task, tasks enabled shortly after being created in a disabled state, and enable events that coincide with other indicators of adversary activity such as network beaconing or lateral movement."
+  core_concepts:
+    - key: "Staged Persistence Activation"
+      value: "Attack technique where adversaries create disabled scheduled tasks during initial access and enable them later, splitting the persistence mechanism across two distinct phases"
+    - key: "Remediation Validation"
+      value: "Using enable event monitoring to detect re-activation of malicious tasks that should have been removed during incident response cleanup"
+    - key: "Lifecycle Correlation"
+      value: "Correlating enable events with prior creation and disable events to identify suspicious patterns in the complete scheduled task lifecycle"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job enable is a specific lifecycle event within the broader scheduled job event category"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-SCHJOBDIS-001"
+    description: "Job enable events are the inverse of job disable events, tracking the opposite state transition"
+  - type: enables
+    target: "DETECT-ENDPOINT-SCHJOBSTA-001"
+    description: "Enabling a task allows it to execute on schedule, generating start events"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053.005"
+    tactic: ["Persistence", "Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1053.005 - Scheduled Task/Job: Scheduled Task"
+    - "Microsoft - Task Scheduler Event ID 4700 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4700"
+    - "Linux systemd documentation - systemctl unmask"
+  search_keywords:
+    - "scheduled task enable"
+    - "task scheduler enable event"
+    - "scheduled job enable"
+    - "cron job enable"
+    - "task scheduler event 4700"
+    - "staged persistence"
+    - "task re-enable detection"
+    - "systemd timer unmask"
+  embedding_text: "Scheduled Job Enable Event detection captures when previously disabled scheduled tasks are re-enabled for execution. Monitored through Windows Task Scheduler Event ID 4700, Linux systemd unit unmasking, and macOS launchctl load operations, this telemetry records task names, enabling accounts, and timestamps. Detection flags tasks disabled for extended periods being re-enabled, suspicious command lines in re-enabled tasks, enable operations by unauthorized accounts, tasks enabled shortly after disabled creation, and enable events coinciding with adversary indicators, identifying staged persistence activation and incomplete incident remediation."

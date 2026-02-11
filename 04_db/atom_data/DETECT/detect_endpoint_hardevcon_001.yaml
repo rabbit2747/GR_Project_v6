@@ -1,0 +1,76 @@
+# GR Atom: Hardware Device Connection Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVCON-001"
+  name: "Hardware Device Connection Event"
+  normalized_name: "hardware_device_connection_event"
+  aliases:
+    - "Device Plug-In Event"
+    - "Hardware Attachment Detection"
+    - "USB Device Connection Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L0", "L1"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Connection Event is an endpoint detection pattern that captures when a physical or virtual hardware device is connected to an endpoint system. This includes USB device insertions, Thunderbolt connections, PCI Express hot-plug events, Bluetooth device pairing, and virtual device attachments in hypervisor environments. The event records the device type, bus type, vendor ID, product ID, serial number, device class, connection timestamp, and the physical port used. This is the earliest detection point in the device lifecycle, occurring before driver binding and device enumeration."
+  why: "Device connection monitoring is essential for detecting physical attack vectors including BadUSB attacks, rogue charging cables with embedded implants, hardware keyloggers, unauthorized storage devices used for data exfiltration, and network implants. Physical device connections represent a critical trust boundary crossing where external hardware gains access to the system bus and potentially the operating system kernel. Detecting and evaluating device connections before driver loading enables blocking of unauthorized devices before they can establish kernel-level access."
+  how: "Detection systems capture device connection events through operating system device management subsystems including Windows Plug and Play notifications and SetupAPI logs, Linux udev hotplug events, and macOS IOKit device arrival notifications. Endpoint agents maintain approved device inventories including vendor ID, product ID, and serial number allowlists. Detection rules flag connections of devices not on the approved list, devices with suspicious characteristics such as multiple device classes, connections during screen-locked or off-hours periods, rapid connect-disconnect cycles suggesting device fuzzing, and devices presenting as HID keyboards that were not previously registered as input devices."
+  core_concepts:
+    - key: "Device Trust Boundary"
+      value: "The security boundary crossed when an external hardware device gains access to the system bus, representing a transition from untrusted physical environment to trusted system space"
+    - key: "Device Allowlisting"
+      value: "Security policy that only permits pre-approved hardware devices identified by vendor ID, product ID, and serial number to connect and operate"
+    - key: "Multi-Class Device Detection"
+      value: "Identification of devices that present multiple device classes such as mass storage combined with HID keyboard, which may indicate malicious composite devices"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device connection is the initial event in the hardware device lifecycle within the broader device event category"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDEVBIN-001"
+    description: "Device connection triggers driver binding as the next step in the device initialization lifecycle"
+  - type: effective_against
+    target: "ATK-INITIAL-HARDWARE-001"
+    description: "Detects hardware-based initial access attempts through monitoring of physical device connections"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1200"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1200 - Hardware Additions"
+    - "Microsoft - Device Installation Overview - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/"
+    - "NIST SP 800-53 - MP-7 Media Use"
+  search_keywords:
+    - "hardware device connection"
+    - "USB device detection"
+    - "device plug-in event"
+    - "hardware attachment monitoring"
+    - "BadUSB detection"
+    - "device allowlisting"
+    - "physical device security"
+    - "plug and play event"
+  embedding_text: "Hardware Device Connection Event detection captures physical and virtual hardware device connections to endpoints including USB insertions, Thunderbolt connections, PCI hot-plug events, and Bluetooth pairing. Monitored through Windows Plug and Play notifications, Linux udev hotplug events, and macOS IOKit device arrival notifications, this telemetry records device type, vendor/product IDs, serial numbers, and connection timestamps. Detection flags devices not on approved allowlists, suspicious multi-class devices, off-hours connections, rapid connect-disconnect cycles, and unexpected HID keyboard presentations, enabling identification of BadUSB attacks, hardware implants, and unauthorized storage devices."

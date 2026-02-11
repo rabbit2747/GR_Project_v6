@@ -1,0 +1,118 @@
+# GR Atom: Print Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-PRINSERV-001"
+  name: "Print Server"
+  normalized_name: "print_server"
+  aliases:
+    - "Windows Print Spooler"
+    - "Print Spooler Service"
+    - "spoolsv.exe"
+    - "LPD Print Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - NETWORK
+    - PRIV
+    - LATERAL
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Print Server is a system or service that manages print requests from client machines and
+    routes them to network-attached printers. On Windows systems, the Print Spooler service
+    (spoolsv.exe) handles print job queuing, driver management, and printer sharing across the
+    network. Print servers can operate as dedicated hardware appliances, software services on
+    general-purpose servers, or integrated OS components. They support protocols such as IPP,
+    LPD/LPR, SMB printing, and vendor-specific protocols.
+  why: >-
+    Print servers represent a significant attack surface due to the Print Spooler service running
+    with SYSTEM privileges on Windows. The PrintNightmare vulnerability family (CVE-2021-34527,
+    CVE-2021-1675) demonstrated how print spooler flaws enable remote code execution and local
+    privilege escalation. Attackers abuse print server functionality for lateral movement by
+    deploying malicious printer drivers across domain-joined systems. The spooler service is
+    enabled by default on most Windows installations, including domain controllers, expanding
+    the attack surface significantly.
+  how: >-
+    Print servers accept print jobs via network protocols and queue them through a spooling
+    mechanism before dispatching to physical printers. On Windows, the Print Spooler service
+    loads printer drivers into its process space, which runs as SYSTEM. Client machines connect
+    via SMB to shared printers and can automatically download drivers from the server. Group
+    Policy can deploy printer connections domain-wide. The Point and Print feature allows
+    driver installation without administrator privileges, which has been exploited in multiple
+    vulnerability chains.
+  core_concepts:
+    - key: "Print Spooler Service"
+      value: "Windows service (spoolsv.exe) running as SYSTEM that manages print queues and loads printer drivers, creating a high-privilege attack surface"
+    - key: "PrintNightmare Attack Chain"
+      value: "Family of vulnerabilities in Windows Print Spooler enabling RCE and privilege escalation through malicious printer driver installation"
+    - key: "Lateral Movement via Printers"
+      value: "Attackers deploy malicious printer drivers across the network using legitimate print server distribution mechanisms"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-SERVHOST-001"
+    description: "Print Spooler runs as a service hosted within the Windows Service Host infrastructure"
+  - type: "enables"
+    target: "INFRA-APP-REMOPRIN-001"
+    description: "Print Server provides the backend infrastructure that enables remote printing capabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547.012"
+    tactic:
+      - "Persistence"
+      - "Privilege Escalation"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Windows Print Spooler Documentation"
+    - "MITRE ATT&CK T1547.012 - Print Processors"
+    - "CVE-2021-34527 PrintNightmare Advisory"
+    - "CISA Alert AA21-189A - PrintNightmare"
+  search_keywords:
+    - "print server"
+    - "print spooler"
+    - "spoolsv.exe"
+    - "PrintNightmare"
+    - "CVE-2021-34527"
+    - "printer driver exploitation"
+    - "Windows print service"
+    - "Point and Print vulnerability"
+  embedding_text: >-
+    Print Server is a network service that manages print job queuing and printer driver
+    distribution across client machines. On Windows, the Print Spooler service (spoolsv.exe)
+    runs with SYSTEM privileges and handles driver loading, job scheduling, and printer
+    sharing via SMB. The PrintNightmare vulnerability family demonstrated critical security
+    risks including remote code execution and privilege escalation through malicious printer
+    driver installation. Attackers exploit print servers for lateral movement by deploying
+    weaponized drivers through legitimate distribution mechanisms. The Point and Print
+    feature allows driver installation without admin rights, creating additional attack
+    vectors. Security teams should disable the Print Spooler on systems that do not require
+    printing, especially domain controllers, and restrict driver installation policies.

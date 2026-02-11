@@ -1,0 +1,105 @@
+# GR Atom: FTP File Transfer Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-FTPFILTRA-001"
+  name: "FTP File Transfer Protocol"
+  normalized_name: "ftp_file_transfer_protocol"
+  aliases:
+    - "FTP"
+    - "File Transfer Protocol"
+    - "RFC 959"
+    - "FTPS"
+    - "FTP over TLS"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - FTP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    The File Transfer Protocol (FTP) is a standard application layer protocol defined in IETF
+    RFC 959 for transferring files between a client and server on a computer network. FTP uses a
+    dual-channel architecture with a control connection (port 21) for commands and authentication,
+    and a separate data connection (port 20 or dynamic port) for file transfers. The protocol
+    supports both active and passive transfer modes, anonymous and authenticated access, ASCII
+    and binary transfer types, and directory listing/navigation. FTPS (FTP Secure, RFC 4217)
+    adds TLS/SSL encryption. FTP was one of the original internet protocols, first specified in
+    RFC 114 (1971) and formalized in RFC 959 (1985).
+  why: >-
+    FTP presents significant security vulnerabilities in its standard implementation. Credentials
+    and data are transmitted in plaintext, enabling eavesdropping and credential theft. The
+    dual-channel architecture complicates firewall configuration and NAT traversal, often
+    requiring permissive firewall rules that expand the attack surface. FTP servers are frequently
+    targeted for brute-force attacks, anonymous access abuse, and exploitation of server
+    vulnerabilities. MITRE ATT&CK documents FTP abuse for exfiltration (T1048) and ingress tool
+    transfer (T1105). Modern security guidance recommends replacing FTP with SFTP or SCP.
+  how: >-
+    FTP operates through a command-response dialogue on the control channel (TCP port 21): the
+    client authenticates with USER/PASS commands, navigates directories with CWD/PWD/LIST, and
+    transfers files with RETR (download) and STOR (upload). Data transfer uses either active mode
+    (server initiates connection to client on PORT-specified address) or passive mode (client
+    connects to server on PASV-specified port). FTPS adds TLS encryption via explicit mode
+    (AUTH TLS command on port 21) or implicit mode (dedicated port 990). Session management
+    includes TYPE for transfer mode, REST for resume, and QUIT for disconnection.
+  core_concepts:
+    - key: "Dual-Channel Architecture"
+      value: "FTP uses separate TCP connections for control commands (port 21) and data transfer (port 20 or dynamic), unlike single-connection protocols."
+    - key: "Active vs. Passive Mode"
+      value: "Active mode has the server connect back to the client for data transfer; passive mode has the client connect to a server-specified port, which is more NAT/firewall friendly."
+    - key: "FTPS (FTP Secure)"
+      value: "TLS-encrypted variant of FTP defined in RFC 4217, supporting explicit mode (STARTTLS on port 21) and implicit mode (dedicated port 990)."
+    - key: "Anonymous FTP"
+      value: "Access mode allowing unauthenticated connections using 'anonymous' username, commonly used for public file distribution but frequently abused for malware staging."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "FTP is an application layer protocol for file transfer between networked hosts"
+  - type: "is_a"
+    target: "PROTO-MSG-TRANSFER-001"
+    description: "FTP is a specific implementation of a transfer protocol designed for file operations"
+  - type: "enables"
+    target: "PROTO-MSG-WEBDAV-001"
+    description: "FTP and WebDAV serve similar file management purposes, with WebDAV operating as a more modern HTTP-based alternative"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 959 — File Transfer Protocol (FTP)"
+    - "IETF RFC 4217 — Securing FTP with TLS"
+    - "MITRE ATT&CK — T1048: Exfiltration Over Alternative Protocol"
+    - "MITRE ATT&CK — T1105: Ingress Tool Transfer"
+  search_keywords:
+    - "FTP"
+    - "file transfer protocol"
+    - "RFC 959"
+    - "FTPS"
+    - "FTP over TLS"
+    - "anonymous FTP"
+    - "active passive FTP"
+    - "port 21"
+    - "file transfer"
+    - "FTP security"
+  embedding_text: >-
+    FTP (File Transfer Protocol) defined in RFC 959 is a standard application layer protocol for
+    transferring files between client and server using a dual-channel architecture with separate
+    control (port 21) and data connections. The protocol supports active and passive transfer
+    modes, anonymous and authenticated access, and ASCII/binary transfer types. FTPS (RFC 4217)
+    adds TLS encryption. FTP presents significant security risks including plaintext credential
+    transmission, complex firewall requirements, and common exploitation for brute-force attacks
+    and data exfiltration (MITRE T1048). Modern security guidance recommends replacement with
+    SFTP or SCP for encrypted file transfer.

@@ -1,0 +1,98 @@
+# GR Atom: CVE-2001-0507
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20010507-001"
+  name: "CVE-2001-0507"
+  normalized_name: "cve_2001_0507"
+  aliases:
+    - "IIS Cumulative Patch Logic Bypass"
+    - "MS01-044 IIS Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - PRIV
+    - EXEC
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2"]
+  target_components:
+    - "Microsoft IIS 4.0"
+    - "Microsoft IIS 5.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2001-0507 is a privilege escalation vulnerability in Microsoft IIS 4.0 and 5.0 where
+    a flaw in the server-side include (SSI) processing logic allows remote attackers to execute
+    arbitrary commands with elevated privileges. The vulnerability exists in how IIS processes
+    certain types of HTTP requests that interact with the SSI functionality, enabling code
+    execution in the SYSTEM security context. CVSS v2 base score: 7.5 (High).
+  why: >-
+    Exploitation grants SYSTEM-level code execution on Windows servers running IIS, providing
+    full control over the web server and potentially the entire host. In 2001, IIS was the
+    predominant web server for Windows environments and this vulnerability was part of a
+    series of critical flaws that led to widespread exploitation including by the Code Red worm.
+  how: >-
+    An attacker sends specially crafted HTTP requests that exploit the SSI processing logic in
+    IIS. The flaw in request handling allows bypassing the normal security context restrictions,
+    causing command execution under the SYSTEM account instead of the restricted IUSR account.
+    The vulnerability can be triggered remotely without authentication through normal HTTP
+    request channels.
+  core_concepts:
+    - key: "SSI Processing Logic Flaw"
+      value: "Server-side include processing fails to properly enforce security context, allowing privilege escalation to SYSTEM"
+    - key: "Security Context Bypass"
+      value: "HTTP request processing logic error causes code execution in SYSTEM context instead of restricted web server account"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Logic flaw in SSI processing that violates intended privilege separation"
+  - type: "enables"
+    target: "VUL-LOGIC-CVE19991122-001"
+    description: "Both target IIS request processing logic with different exploitation outcomes"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2001-0507"
+    - "Microsoft Security Bulletin MS01-044"
+    - "NIST NVD - CVE-2001-0507"
+  search_keywords:
+    - "CVE-2001-0507"
+    - "IIS SSI vulnerability"
+    - "MS01-044"
+    - "IIS privilege escalation"
+    - "server-side include flaw"
+    - "IIS SYSTEM execution"
+  embedding_text: >-
+    CVE-2001-0507 is a privilege escalation vulnerability in Microsoft IIS 4.0 and 5.0 where
+    server-side include processing logic allows remote attackers to execute commands with SYSTEM
+    privileges. The flaw bypasses security context restrictions through specially crafted HTTP
+    requests. Grants full control over the web server host. Part of MS01-044 cumulative patch.
+    CVSS v2 7.5 High. Contributed to the era of widespread IIS exploitation including Code Red.
+    Affects Windows NT and 2000 servers. Discovered 2001.

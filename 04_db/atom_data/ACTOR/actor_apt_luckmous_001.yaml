@@ -1,0 +1,87 @@
+# GR Atom: Lucky Mouse
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-LUCKMOUS-001"
+  name: "Lucky Mouse"
+  normalized_name: "lucky_mouse"
+  aliases:
+    - "APT27"
+    - "Emissary Panda"
+    - "Iron Tiger"
+    - "Bronze Union"
+    - "TEMP.Hippo"
+    - "Group-3390"
+    - "TG-3390"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "PRIV"
+    - "LATERAL"
+    - "EXFIL"
+    - "WINDOWS"
+    - "LINUX"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "web servers"
+    - "SharePoint servers"
+    - "Active Directory"
+    - "VPN gateways"
+    - "Linux servers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Lucky Mouse (also known as APT27, Emissary Panda, and Iron Tiger) is a Chinese state-sponsored cyber espionage group active since at least 2010, targeting government agencies, defense contractors, technology companies, and various industries across North America, Europe, Middle East, and Asia. The group is notable for its exploitation of web-facing servers as initial access vectors and increasingly sophisticated use of both Windows and Linux implants."
+  why: "Lucky Mouse conducts espionage operations aligned with Chinese strategic interests, focusing on political intelligence, defense technology theft, and economic espionage. The group has shifted targeting over the years from primarily government and defense to include technology, energy, and manufacturing sectors, reflecting evolving Chinese intelligence priorities for both political and economic advantage."
+  how: "The group frequently exploits vulnerabilities in public-facing applications including SharePoint, Exchange, and web servers for initial access. They deploy custom malware families including HyperBro, SysUpdate, and PlugX, and have developed sophisticated Linux backdoors. Lucky Mouse uses DLL side-loading, living-off-the-land techniques, and watering hole attacks. The group has been observed abusing legitimate signing certificates and deploying rootkits for persistence, and has increasingly targeted cloud infrastructure and virtualization platforms."
+  core_concepts:
+    - "web server exploitation"
+    - "cross-platform implants"
+    - "defense and technology espionage"
+    - "DLL side-loading"
+    - "cloud and virtualization targeting"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "Both Chinese groups share tooling including PlugX and target overlapping sectors"
+  - type: "enables"
+    target: "ACTOR-APT-INDIZEBR-001"
+    description: "Shares operational patterns with other Chinese APT groups targeting Central Asian governments"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - APT27/Emissary Panda (G0027)"
+    - "Kaspersky - LuckyMouse APT Analysis"
+    - "SecureWorks - Bronze Union Threat Profile"
+    - "Trend Micro - Iron Tiger APT Campaign"
+  search_keywords:
+    - "lucky mouse"
+    - "APT27"
+    - "emissary panda"
+    - "iron tiger"
+    - "bronze union"
+    - "TG-3390"
+    - "HyperBro malware"
+    - "SysUpdate backdoor"
+    - "chinese APT espionage"
+  embedding_text: "Lucky Mouse is a Chinese state-sponsored cyber espionage group also known as APT27, Emissary Panda, Iron Tiger, and Bronze Union. Active since at least 2010, the group targets government agencies, defense contractors, technology companies, and various industries across multiple continents. They are known for exploiting vulnerabilities in public-facing applications including SharePoint and Exchange servers for initial access. Custom malware families include HyperBro, SysUpdate, and PlugX, with increasingly sophisticated Linux backdoors. The group employs DLL side-loading, legitimate certificate abuse, rootkits for persistence, and has expanded operations to target cloud infrastructure and virtualization platforms. Lucky Mouse operations support Chinese intelligence priorities for political intelligence, defense technology acquisition, and economic espionage, with targeting patterns evolving from primarily government and defense to broader technology and manufacturing sectors."

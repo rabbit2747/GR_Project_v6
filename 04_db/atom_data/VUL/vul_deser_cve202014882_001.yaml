@@ -1,0 +1,107 @@
+# GR Atom: CVE-2020-14882
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202014882-001"
+  name: "CVE-2020-14882"
+  normalized_name: "cve_2020_14882"
+  aliases:
+    - "Oracle WebLogic Console RCE"
+    - "WebLogic Admin Console Authentication Bypass"
+    - "WebLogic Server Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - AUTHN
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle WebLogic Server Admin Console"
+    - "WebLogic Server 10.3.6.0 through 14.1.1.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-14882 is a critical remote code execution vulnerability in Oracle WebLogic Server that
+    allows unauthenticated attackers to execute arbitrary code through the WebLogic Admin Console.
+    The vulnerability bypasses console authentication through a path traversal in the URL, reaching
+    backend functionality that can be leveraged for code execution. CVSS score is 9.8. Disclosed
+    in the October 2020 Oracle Critical Patch Update and immediately exploited in the wild.
+  why: >-
+    WebLogic Server is one of the most widely deployed Java EE application servers in enterprise
+    environments. CVE-2020-14882 was trivially exploitable with a single HTTP GET request, making
+    it one of the most dangerous WebLogic vulnerabilities. Mass exploitation began within hours of
+    public proof-of-concept release, affecting thousands of internet-facing WebLogic servers.
+  how: >-
+    The attacker sends an HTTP request to the WebLogic Admin Console with a specially crafted URL
+    containing path traversal sequences that bypass the authentication filter. The URL reaches
+    internal console handler classes that can be used to invoke arbitrary code. Specifically, the
+    attacker accesses the console.portal resource with a crafted handle parameter that triggers
+    server-side code execution through the FileSystemXmlApplicationContext or similar mechanisms.
+  core_concepts:
+    - name: "Console Authentication Bypass"
+      value: "Path traversal in the URL bypasses the WebLogic Admin Console's authentication filter"
+    - name: "Trivial Exploitation"
+      value: "Remote code execution achievable with a single HTTP GET request without any authentication"
+    - name: "Mass Exploitation"
+      value: "Proof-of-concept release led to immediate mass exploitation of internet-facing WebLogic servers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "WebLogic console RCE involves insecure processing that enables code execution"
+  - type: "precedes"
+    target: "VUL-DESER-CVE202014750-001"
+    description: "CVE-2020-14882 preceded its patch bypass CVE-2020-14750"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2020-14882"
+    - "Oracle Critical Patch Update October 2020"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2020-14882"
+    - "WebLogic RCE"
+    - "WebLogic console bypass"
+    - "Oracle WebLogic authentication bypass"
+    - "WebLogic path traversal"
+    - "WebLogic Server exploit"
+    - "WebLogic unauthenticated RCE"
+  embedding_text: >-
+    CVE-2020-14882 is a critical remote code execution vulnerability in Oracle WebLogic Server
+    allowing unauthenticated RCE through the Admin Console. A path traversal in the URL bypasses
+    the authentication filter, enabling attackers to reach internal console handler classes for
+    code execution with a single HTTP GET request. CVSS score is 9.8, affecting WebLogic Server
+    versions 10.3.6.0 through 14.1.1.0. Mass exploitation began within hours of proof-of-concept
+    release. The vulnerability was patched in Oracle's October 2020 Critical Patch Update but the
+    patch was bypassed by CVE-2020-14750 within days. WebLogic Server is widely deployed in
+    enterprise environments, making this one of the most impactful application server
+    vulnerabilities. Listed in CISA's Known Exploited Vulnerabilities catalog. Mitigation
+    includes applying patches, restricting admin console access, and implementing WAF rules.

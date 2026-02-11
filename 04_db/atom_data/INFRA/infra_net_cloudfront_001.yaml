@@ -1,0 +1,80 @@
+# GR Atom: CloudFront
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-CLOUDFRONT-001"
+  name: "CloudFront"
+  normalized_name: "cloudfront"
+  aliases:
+    - "Amazon CloudFront"
+    - "AWS CloudFront"
+    - "CloudFront CDN"
+    - "CloudFront Distribution"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CACHE
+    - AWS
+    - HTTP
+    - TLS
+    - CLOUD
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z0A"
+  function: "D2.2"
+
+definition:
+  what: "Amazon CloudFront is a global content delivery network (CDN) service provided by AWS that accelerates the delivery of websites, APIs, video content, and other web assets by caching content at edge locations worldwide. CloudFront integrates with AWS services including S3, EC2, Elastic Load Balancing, and Lambda@Edge to deliver content with low latency and high transfer speeds. It supports HTTP, HTTPS, and WebSocket protocols and provides features such as custom SSL certificates, origin access control, geographic restrictions, signed URLs and cookies for private content, and real-time logging and metrics."
+  why: "CloudFront is a critical infrastructure component in AWS-based architectures that reduces latency by serving content from geographically distributed edge locations closest to end users. It offloads traffic from origin servers, provides DDoS protection through integration with AWS Shield, and enables organizations to enforce HTTPS and access control policies at the edge. From a security perspective, CloudFront distributions are significant attack surfaces as misconfigurations in origin access policies, cache behaviors, or signed URL implementations can expose sensitive content or enable domain fronting techniques."
+  how: "CloudFront operates through a global network of edge locations and regional edge caches. When a user requests content, CloudFront routes the request to the nearest edge location. If the content is cached at that edge, it is served directly. If not, CloudFront retrieves the content from the configured origin server, caches it according to the defined TTL and cache behavior rules, and serves it to the user. Administrators configure distributions with origin settings, cache behaviors, SSL certificates, access restrictions, and logging. Lambda@Edge and CloudFront Functions enable serverless code execution at edge locations for request and response manipulation."
+  core_concepts:
+    - key: "Edge Location"
+      value: "Geographically distributed data center in the CloudFront network where content is cached and served to end users with minimal latency"
+    - key: "Distribution"
+      value: "The CloudFront configuration object that specifies origins, cache behaviors, SSL settings, and access controls for content delivery"
+    - key: "Origin Access Control"
+      value: "Security mechanism restricting direct access to origin resources so that content can only be accessed through the CloudFront distribution"
+
+relations:
+  - type: is_a
+    target: "INFRA-NET-HTTPCACH-001"
+    description: "CloudFront is an implementation of HTTP content caching at global scale through a CDN edge network"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "CloudFront requires DNS resolution via Route 53 or custom DNS to route user requests to the nearest edge location"
+  - type: implements
+    target: "INFRA-NET-REVPROSER-001"
+    description: "CloudFront acts as a reverse proxy by intercepting client requests and forwarding them to configured origin servers"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1584.006"
+    tactic: ["Resource Development"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "AWS - Amazon CloudFront Developer Guide - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/"
+    - "AWS - CloudFront Security Best Practices - https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/security.html"
+    - "MITRE ATT&CK - T1584.006 Web Services"
+  search_keywords:
+    - "Amazon CloudFront"
+    - "AWS CDN"
+    - "CloudFront distribution"
+    - "content delivery network"
+    - "edge location caching"
+    - "CloudFront security"
+    - "Lambda@Edge"
+    - "origin access control"
+    - "domain fronting"
+  embedding_text: "Amazon CloudFront is a global content delivery network service from AWS that caches and delivers web content, APIs, and streaming media from edge locations worldwide. It integrates with S3, EC2, ELB, and Lambda@Edge to provide low-latency content delivery with HTTPS support, signed URLs, geographic restrictions, and origin access control. CloudFront distributions define origins, cache behaviors, and security policies. It provides DDoS mitigation through AWS Shield integration. Security considerations include misconfigured origin access policies, cache poisoning, domain fronting abuse, and exposure of private content through improperly configured signed URL implementations. CloudFront is a fundamental CDN component in AWS cloud architectures."

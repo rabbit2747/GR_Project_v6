@@ -1,0 +1,73 @@
+# GR Atom: FedRAMP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-FEDRAMP-001"
+  name: "FedRAMP"
+  normalized_name: "fedramp"
+  aliases:
+    - "Federal Risk and Authorization Management Program"
+    - "FedRAMP Authorization"
+    - "FedRAMP ATO"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - CLOUD
+    - AUDIT
+
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "FedRAMP (Federal Risk and Authorization Management Program) is a U.S. government-wide program that provides a standardized approach to security assessment, authorization, and continuous monitoring for cloud products and services used by federal agencies. FedRAMP leverages NIST SP 800-53 controls organized into three impact levels (Low, Moderate, High) and requires cloud service providers (CSPs) to obtain an Authority to Operate (ATO) through assessment by a Third-Party Assessment Organization (3PAO). The program is managed by the FedRAMP Program Management Office (PMO) under the General Services Administration (GSA)."
+  why: "Federal agencies increasingly adopt cloud services but must ensure those services meet rigorous security standards to protect government data. FedRAMP provides a 'do once, use many times' authorization framework that eliminates redundant security assessments across agencies, reduces costs, accelerates cloud adoption while maintaining consistent security, and ensures cloud services meet the stringent requirements of FISMA and OMB policies."
+  how: "Cloud service providers pursue FedRAMP authorization through either an agency-sponsored path or the Joint Authorization Board (JAB) provisional authorization path. The process involves: preparing the System Security Plan (SSP) documenting control implementations, engaging a 3PAO for independent security assessment, producing the Security Assessment Report (SAR), developing the Plan of Action and Milestones (POA&M) for any findings, obtaining the ATO decision, and maintaining continuous monitoring with monthly vulnerability scans, annual assessments, and incident reporting."
+  core_concepts:
+    - key: "Authority to Operate (ATO)"
+      value: "Formal authorization granted to a cloud service after successful security assessment and risk acceptance"
+    - key: "Impact Level"
+      value: "Classification (Low, Moderate, High) determining the control baseline based on potential impact of a security breach"
+    - key: "3PAO"
+      value: "Third-Party Assessment Organization accredited to perform independent security assessments of cloud services"
+    - key: "Continuous Monitoring"
+      value: "Ongoing security assessment activities including vulnerability scanning, configuration management, and incident reporting"
+
+relations:
+  - type: implements
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "FedRAMP control baselines are derived from NIST SP 800-53"
+  - type: applies_to
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "FedRAMP applies security compliance frameworks to cloud service providers"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "FedRAMP requires audit compliance through 3PAO assessments and continuous monitoring"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FedRAMP Official Website - https://www.fedramp.gov/"
+    - "FedRAMP Authorization Act (44 U.S.C. Ch. 36) - https://www.fedramp.gov/authorization-act/"
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls"
+  search_keywords:
+    - "FedRAMP"
+    - "Federal Risk and Authorization Management Program"
+    - "cloud authorization"
+    - "ATO"
+    - "authority to operate"
+    - "3PAO"
+    - "federal cloud security"
+    - "FedRAMP Moderate"
+    - "FedRAMP High"
+    - "continuous monitoring"
+  embedding_text: "FedRAMP is the U.S. government program providing standardized security assessment, authorization, and continuous monitoring for cloud products and services used by federal agencies. It leverages NIST SP 800-53 controls organized into Low, Moderate, and High impact baselines. Cloud service providers obtain an Authority to Operate through Third-Party Assessment Organization evaluation, System Security Plan documentation, Security Assessment Report production, and continuous monitoring with monthly vulnerability scans and annual assessments. FedRAMP enables a do-once-use-many authorization approach that reduces redundant assessments across agencies while maintaining consistent federal cloud security standards."

@@ -1,0 +1,114 @@
+# GR Atom: CVE-2018-1270
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20181270-001"
+  name: "CVE-2018-1270"
+  normalized_name: "cve_2018_1270"
+  aliases:
+    - "Spring Framework SpEL Injection"
+    - "Spring Messaging RCE"
+    - "Spring WebSocket STOMP SpEL Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Spring Framework 5.0.x before 5.0.5"
+    - "Spring Framework 4.3.x before 4.3.16"
+    - "Spring Messaging module"
+    - "STOMP over WebSocket"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-1270 is a remote code execution vulnerability in Spring Framework caused by
+    Spring Expression Language (SpEL) injection in the spring-messaging module. When STOMP
+    over WebSocket messaging is enabled, attackers can inject malicious SpEL expressions
+    through STOMP message headers that are evaluated server-side. The CVSS v3 base score is
+    9.8 (Critical) and it was disclosed in April 2018.
+  why: >-
+    Spring Framework is the most popular enterprise Java framework, and WebSocket-based
+    messaging is increasingly used in modern real-time applications. The vulnerability allows
+    complete remote code execution without authentication through a commonly enabled feature.
+    This was the first critical SpEL injection in Spring's messaging layer, demonstrating
+    that expression language injection risks extend beyond traditional HTTP request processing.
+  how: >-
+    Attackers connect to a WebSocket endpoint using STOMP protocol and send subscription
+    frames with crafted selector headers containing malicious SpEL expressions. The Spring
+    Messaging module evaluates these expressions server-side using SpEL evaluation, which
+    can invoke arbitrary Java methods including Runtime.exec(). The attack only requires
+    WebSocket connectivity to the application. Mitigation requires upgrading Spring Framework
+    to 5.0.5 or 4.3.16 and reviewing STOMP messaging configurations.
+  core_concepts:
+    - key: "SpEL Injection"
+      value: "Spring Expression Language expressions injected through STOMP headers are evaluated server-side, enabling arbitrary method invocation"
+    - key: "WebSocket Attack Surface"
+      value: "STOMP over WebSocket provides an alternative messaging attack vector beyond traditional HTTP request injection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "SpEL injection in Spring Messaging is a specific instance of expression language injection"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20101871-001"
+    description: "Both are expression language injection vulnerabilities in Java frameworks enabling RCE"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202222965-001"
+    description: "Spring SpEL injection in messaging predates the later Spring4Shell class manipulation RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2018-1270"
+  cvss_score: 9.8
+  affected_product: "Spring Framework 4.3.x/5.0.x"
+  year: 2018
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2018-1270"
+    - "CWE-917 Improper Neutralization of Special Elements used in an Expression Language Statement"
+    - "Spring Security Advisory CVE-2018-1270"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2018-1270"
+    - "Spring SpEL injection"
+    - "Spring Messaging RCE"
+    - "STOMP WebSocket exploit"
+    - "Spring Framework vulnerability"
+    - "expression language injection Spring"
+    - "Spring WebSocket RCE"
+  embedding_text: >-
+    CVE-2018-1270 is a critical SpEL injection vulnerability in Spring Framework with CVSS
+    score 9.8. The spring-messaging module evaluates Spring Expression Language expressions
+    from STOMP message headers over WebSocket connections without sanitization, enabling
+    remote code execution. Affecting Spring Framework 5.0.x before 5.0.5 and 4.3.x before
+    4.3.16, attackers inject SpEL expressions through STOMP subscription selector headers to
+    invoke arbitrary Java methods. This was the first critical SpEL injection in Spring
+    messaging, expanding the expression language attack surface beyond HTTP request processing.
+    Mitigation requires upgrading Spring Framework and reviewing STOMP messaging configurations.

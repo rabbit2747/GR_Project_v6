@@ -1,0 +1,73 @@
+# GR Atom: IMDS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-IMDS-001"
+  name: "IMDS"
+  normalized_name: "imds"
+  aliases: ["Instance Metadata Service", "Cloud Metadata Service", "Instance Metadata Endpoint"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [CLOUD, SSRF, CRED, API]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R3.1"
+definition:
+  what: >-
+    The Instance Metadata Service (IMDS) is an HTTP endpoint accessible from within cloud
+    virtual machine instances that provides instance-specific configuration data, IAM
+    credentials, user data scripts, and network information. Available at link-local address
+    169.254.169.254 across AWS, GCP, and Azure. AWS offers IMDSv1 (request/response) and
+    IMDSv2 (session-oriented with PUT token). IMDS is the primary mechanism by which cloud
+    instances obtain temporary IAM/service account credentials at runtime.
+  why: >-
+    IMDS is one of the most exploited cloud attack vectors. Server-Side Request Forgery (SSRF)
+    vulnerabilities in web applications allow attackers to query IMDS and steal IAM role
+    credentials, enabling lateral movement and privilege escalation within cloud environments.
+    The Capital One breach (2019) demonstrated this attack pattern at scale. IMDSv1's lack of
+    authentication makes it trivially exploitable via SSRF. Even IMDSv2 can be bypassed through
+    certain proxy configurations or container breakouts.
+  how: >-
+    IMDS responds to HTTP GET requests on 169.254.169.254 with instance metadata including
+    IAM credentials, hostname, instance ID, and user data. AWS IMDSv2 requires a PUT request
+    to obtain a session token before metadata queries. GCP uses the Metadata-Flavor: Google
+    header. Azure uses the Metadata: true header. Security mitigations include enforcing
+    IMDSv2 (AWS), limiting hop count to 1 for containers, blocking metadata access via iptables
+    or network policies, and using firewall rules to restrict access to the metadata endpoint.
+  core_concepts:
+    - key: "SSRF-Based Credential Theft"
+      value: "SSRF vulnerabilities in web applications enable unauthenticated access to IMDS, allowing theft of IAM credentials for cloud privilege escalation"
+    - key: "IMDSv2 Session Tokens"
+      value: "AWS IMDSv2 requires session tokens obtained via PUT requests, mitigating simple SSRF but not eliminating all attack vectors"
+    - key: "Cross-Cloud Metadata Patterns"
+      value: "AWS, GCP, and Azure all use 169.254.169.254 with provider-specific headers, creating a universal attack pattern across cloud providers"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOINSMET-001"
+    description: "IMDS is the service endpoint for cloud instance metadata"
+  - type: "enables"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "IMDS provides runtime credentials and configuration to EC2 instances"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "IMDS is a fundamental component of cloud infrastructure across all providers"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["AWS IMDS Documentation", "Capital One Breach Analysis", "MITRE ATT&CK T1552.005 - Cloud Instance Metadata API"]
+  search_keywords: ["IMDS", "instance metadata service", "169.254.169.254", "SSRF cloud", "IMDSv2", "metadata credential theft", "cloud metadata"]
+  embedding_text: >-
+    The Instance Metadata Service (IMDS) is an HTTP endpoint at 169.254.169.254 providing
+    cloud VM instances with IAM credentials, configuration, and network data. IMDS is one of
+    the most exploited cloud attack vectors through SSRF vulnerabilities, as demonstrated by
+    the Capital One breach. IMDSv1 lacks authentication making it trivially exploitable. AWS
+    IMDSv2 requires session tokens via PUT requests. GCP requires Metadata-Flavor header.
+    Azure requires Metadata header. Mitigations include enforcing IMDSv2, limiting hop count,
+    blocking metadata access via iptables, and network policies restricting endpoint access.

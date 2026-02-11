@@ -1,0 +1,108 @@
+# GR Atom: C2 Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-C2-001"
+  name: "C2 Protocol"
+  normalized_name: "c2_protocol"
+  aliases:
+    - "Command and Control Protocol"
+    - "C&C Protocol"
+    - "CnC Protocol"
+    - "C2 Communication"
+    - "Adversary C2 Channel"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    A Command and Control (C2) protocol is a communication mechanism used by adversaries to
+    maintain remote control over compromised systems within a target network. C2 protocols enable
+    attackers to issue commands, exfiltrate data, deploy additional payloads, and coordinate
+    multi-stage attack operations. These protocols range from custom binary protocols to the abuse
+    of legitimate application layer protocols such as HTTP/HTTPS, DNS, SMTP, and WebSocket. MITRE
+    ATT&CK categorizes C2 under tactic TA0011 with techniques including T1071 (Application Layer
+    Protocol), T1095 (Non-Application Layer Protocol), T1572 (Protocol Tunneling), and T1573
+    (Encrypted Channel).
+  why: >-
+    C2 protocols are the operational backbone of advanced persistent threats, enabling sustained
+    adversary presence and control within compromised networks. Detecting and disrupting C2
+    communications is one of the most critical objectives in network defense because severing C2
+    effectively neutralizes the attacker's ability to operate. Adversaries increasingly use
+    encrypted, protocol-conformant C2 channels that blend with legitimate traffic, making
+    detection challenging. Understanding C2 protocol patterns is essential for threat hunting,
+    network detection engineering, and incident response.
+  how: >-
+    C2 protocols operate through several mechanisms: (1) Beacon-based — implants periodically
+    contact the C2 server at configurable intervals with jitter to check for commands, commonly
+    using HTTP/HTTPS GET/POST requests; (2) Interactive — real-time bidirectional communication
+    using TCP sockets, WebSockets, or named pipes; (3) Asynchronous — dead-drop mechanisms using
+    cloud storage, social media, or pastebins; (4) Protocol tunneling — encapsulating C2 data
+    within legitimate protocols such as DNS TXT records or ICMP payloads; (5) Domain fronting —
+    using CDN infrastructure to hide the true C2 destination. Modern C2 frameworks like Cobalt
+    Strike, Sliver, and Mythic implement multiple channels with automatic failover.
+  core_concepts:
+    - key: "Beaconing"
+      value: "Periodic outbound connections from compromised hosts to C2 servers at regular or jittered intervals, the most common C2 pattern detectable through network metadata analysis."
+    - key: "Protocol Tunneling"
+      value: "Encapsulating C2 commands within legitimate protocol traffic (DNS, HTTP, ICMP) to evade network security controls and blend with normal traffic."
+    - key: "Domain Fronting"
+      value: "Technique using CDN or cloud infrastructure to route C2 traffic through high-reputation domains, making the true destination invisible to network inspection."
+    - key: "Malleable Profiles"
+      value: "Configurable C2 communication templates that modify network indicators to mimic legitimate application traffic patterns, as implemented in Cobalt Strike."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "C2 protocols typically operate as or abuse application layer protocols for adversary communication"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP/HTTPS is the most commonly abused transport for C2 beacon communication due to its ubiquity"
+  - type: "applies_to"
+    target: "PROTO-MSG-HTTPPOST-001"
+    description: "C2 frameworks frequently use HTTP POST requests to transmit exfiltrated data and receive tasking"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK — TA0011: Command and Control Tactic"
+    - "MITRE ATT&CK — T1071: Application Layer Protocol"
+    - "MITRE ATT&CK — T1572: Protocol Tunneling"
+    - "Cobalt Strike — Malleable Command and Control Documentation"
+  search_keywords:
+    - "command and control"
+    - "C2 protocol"
+    - "C2 communication"
+    - "C&C channel"
+    - "beaconing"
+    - "domain fronting"
+    - "protocol tunneling"
+    - "T1071"
+    - "cobalt strike C2"
+    - "adversary C2"
+  embedding_text: >-
+    Command and Control (C2) protocols are communication mechanisms used by adversaries to
+    maintain remote control over compromised systems. C2 channels enable command issuance, data
+    exfiltration, payload deployment, and attack coordination. Common implementations include
+    HTTP/HTTPS beaconing, DNS tunneling, WebSocket channels, and protocol tunneling. MITRE
+    ATT&CK documents C2 under tactic TA0011 with techniques including T1071 and T1572. Modern
+    C2 frameworks like Cobalt Strike use malleable profiles to mimic legitimate traffic, domain
+    fronting to hide destinations, and jittered beacon intervals to evade detection. Disrupting
+    C2 communications is a critical defense objective as it neutralizes adversary operational
+    capability.

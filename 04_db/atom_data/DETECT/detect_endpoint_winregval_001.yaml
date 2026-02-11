@@ -1,0 +1,96 @@
+# GR Atom: Windows Registry Value Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WINREGVAL-001"
+  name: "Windows Registry Value Event"
+  normalized_name: "windows_registry_value_event"
+  aliases:
+    - "Registry Value Operation"
+    - "Registry Value Monitoring"
+    - "Registry Value Activity"
+    - "Registry Data Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern category encompassing all operations on Windows registry values, including value creation (set), deletion, read (get), and modification (update). Registry values are the named data entries stored within registry keys that hold the actual configuration data including strings, integers, binary data, and multi-string arrays. This pattern captures value-level operations as distinct from key-level operations. Sources include Sysmon Event IDs 12 (value create/delete) and 13 (value set), Windows Security audit events, and ETW providers for kernel-level registry value operations."
+  why: "Registry value operations represent the actual data changes within the Windows registry and are the primary mechanism through which adversaries establish persistence (writing executable paths to Run key values), modify system behavior (changing security policy values), store malicious data (encoding payloads in registry values), and disable security features (setting configuration values to disabled states). Monitoring value operations provides direct visibility into the data being written to and removed from the registry."
+  how: "Detection aggregates registry value operations from Sysmon Event ID 12 (value create/delete), Event ID 13 (value set with old and new data), Windows Security Events 4657 for value modifications with configured SACLs, and the Microsoft-Windows-Kernel-Registry ETW provider. Events capture the full registry path, value name, value type (REG_SZ, REG_DWORD, REG_BINARY, etc.), and value data. SIEM rules analyze value operations against known indicators of compromise, persistence patterns, and security configuration baselines."
+  core_concepts:
+    - key: "value_data_types"
+      value: "Registry values support multiple data types (REG_SZ, REG_DWORD, REG_BINARY, REG_MULTI_SZ, REG_EXPAND_SZ) each used for different configuration purposes"
+    - key: "value_data_analysis"
+      value: "Analyzing the actual data written to registry values to identify malicious payloads, encoded commands, or suspicious configurations"
+    - key: "autostart_values"
+      value: "Values in Run, RunOnce, and other autostart keys that specify executables to launch at boot or logon"
+    - key: "security_configuration_values"
+      value: "Registry values that control security features, audit policies, and defense tool configurations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINDREGI-001"
+    description: "Registry value events are a category within the broader Windows registry event pattern"
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WIREVASE-001"
+    description: "Abstracts registry value set events"
+  - type: "abstracts"
+    target: "DETECT-ENDPOINT-WIREVADE-001"
+    description: "Abstracts registry value deletion events"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+      - "persistence"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Registry Events (IDs 12, 13)"
+    - "Microsoft Documentation - Registry Value Types"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Windows Registry Value Functions Reference"
+  search_keywords:
+    - "registry value event"
+    - "registry value operation"
+    - "registry value monitoring"
+    - "Sysmon Event ID 13"
+    - "registry value set"
+    - "registry data change"
+    - "registry value audit"
+    - "REG_SZ modification"
+    - "registry value activity"
+    - "registry value tracking"
+  embedding_text: "Windows registry value event detection pattern is the parent category for all registry value operations including creation, deletion, read, and modification. Captures value-level operations distinct from key operations using Sysmon Event IDs 12 and 13, Windows Security audit events, and kernel-level ETW providers. Registry values hold the actual configuration data that adversaries manipulate for persistence via autostart entries, defense evasion by modifying security settings, and payload storage in encoded binary values. Maps to MITRE ATT&CK T1112. Monitoring covers multiple value types (REG_SZ, REG_DWORD, REG_BINARY) with data analysis to identify malicious payloads and unauthorized security configuration changes."

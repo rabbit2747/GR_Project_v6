@@ -1,0 +1,119 @@
+# GR Atom: Cloud HSM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-HSM-001"
+  name: "Cloud HSM"
+  normalized_name: "cloud_hsm"
+  aliases:
+    - "Hardware Security Module"
+    - "AWS CloudHSM"
+    - "Azure Dedicated HSM"
+    - "Cloud Key Management HSM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - CRYPTO
+    - ENCRYPT
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z3"
+  function: "P2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Cloud HSM (Hardware Security Module) is a cloud-hosted, tamper-resistant hardware
+    appliance that provides secure cryptographic key generation, storage, and operations
+    within a FIPS 140-2 Level 3 or higher validated boundary. Cloud HSM services such as
+    AWS CloudHSM, Azure Dedicated HSM, and Google Cloud HSM offer dedicated hardware
+    instances where customers retain exclusive control of cryptographic keys, ensuring keys
+    never exist in plaintext outside the HSM's physical security boundary.
+  why: >-
+    Cloud HSMs are critical for organizations requiring strong key protection for compliance
+    with regulations like PCI DSS, HIPAA, and eIDAS that mandate hardware-based key storage.
+    While HSMs provide strong cryptographic protection, misconfigurations in HSM cluster
+    management, improper key export policies, weak HSM user authentication, and inadequate
+    audit logging can weaken their security posture. Attacks targeting HSM management
+    interfaces, firmware vulnerabilities, and side-channel exploits have been demonstrated
+    in research. Misconfigured key wrapping policies may inadvertently allow key extraction.
+  how: >-
+    Cloud HSMs operate as dedicated hardware appliances provisioned within the customer's
+    cloud VPC. Cryptographic operations (key generation, signing, encryption, decryption)
+    are performed inside the HSM boundary through PKCS#11, JCE, or CNG interfaces.
+    Applications connect to HSM clusters over TLS-encrypted channels using HSM client
+    libraries. Key management operations require authenticated sessions with HSM user
+    credentials. Cloud HSMs support clustering for high availability and load distribution.
+    Audit logs capture all key operations and management events. Keys can be configured as
+    non-exportable to prevent extraction from the HSM boundary.
+  core_concepts:
+    - key: "Hardware Security Boundary"
+      value: "FIPS 140-2 Level 3 validated tamper-resistant hardware ensuring cryptographic keys never exist in plaintext outside the HSM"
+    - key: "Customer-Controlled Keys"
+      value: "Unlike managed KMS services, Cloud HSM provides exclusive customer control over keys with no cloud provider access to key material"
+    - key: "Compliance Enablement"
+      value: "Meets regulatory requirements for hardware-based key protection mandated by PCI DSS, HIPAA, eIDAS, and other frameworks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-CERTAUTH-001"
+    description: "HSMs protect Certificate Authority private keys within hardware security boundaries"
+  - type: "enables"
+    target: "INFRA-IDENTITY-SECRMANA-001"
+    description: "HSMs provide hardware-backed encryption for secrets management systems"
+  - type: "implements"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "HSMs implement hardware-based credential protection for cryptographic key material"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1588.004"
+    tactic:
+      - "Resource Development"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST FIPS 140-2 - Security Requirements for Cryptographic Modules"
+    - "AWS Documentation - AWS CloudHSM"
+    - "Azure Documentation - Azure Dedicated HSM"
+  search_keywords:
+    - "Cloud HSM"
+    - "Hardware Security Module"
+    - "AWS CloudHSM"
+    - "Azure Dedicated HSM"
+    - "FIPS 140-2 Level 3"
+    - "hardware key protection"
+    - "cryptographic key management"
+    - "HSM cluster"
+  embedding_text: >-
+    A Cloud HSM is a cloud-hosted tamper-resistant hardware appliance providing secure
+    cryptographic key generation, storage, and operations within a FIPS 140-2 Level 3
+    validated boundary. Services like AWS CloudHSM and Azure Dedicated HSM offer dedicated
+    hardware where customers retain exclusive key control. Keys never exist in plaintext
+    outside the HSM's physical boundary. Applications interact through PKCS#11, JCE, or
+    CNG interfaces over TLS connections. Cloud HSMs meet compliance requirements for
+    PCI DSS, HIPAA, and eIDAS mandating hardware key protection. Security risks include
+    HSM management interface attacks, firmware vulnerabilities, weak user authentication,
+    and misconfigured key export policies. Security teams must enforce non-exportable key
+    policies, implement strong HSM user authentication, audit all key operations, secure
+    HSM cluster management access, and maintain firmware patching for HSM appliances.

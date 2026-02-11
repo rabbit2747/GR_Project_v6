@@ -1,0 +1,77 @@
+# GR Atom: File Creation Analysis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILECREA-001"
+  name: "File Creation Analysis"
+  normalized_name: "file_creation_analysis"
+  aliases:
+    - "File Creation Monitoring"
+    - "New File Detection"
+    - "Suspicious File Drop Detection"
+    - "File Write Analysis"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EXEC
+    - PERSIST
+    - EDR
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File Creation Analysis is a behavioral detection pattern that monitors file creation events across endpoints and servers to identify suspicious file drops that may indicate malware delivery, exploitation payload staging, persistence mechanism installation, or lateral movement tool deployment. The analysis evaluates the creating process, file location, file type, file attributes, naming patterns, and timing of creation events. It focuses on identifying files created in sensitive directories such as system folders, startup locations, and temporary directories, as well as files with suspicious characteristics like hidden attributes, unusual permissions, or mismatched extensions."
+  why: "Nearly every stage of an attack involves file creation, from initial payload drops during exploitation to persistence mechanisms, lateral movement tools, and data staging for exfiltration. Monitoring file creation provides visibility across the entire attack lifecycle. Malware must exist as a file at some point during its lifecycle even for fileless attacks that eventually write components to disk. Detecting suspicious file creation events in real-time enables early intervention before malicious files are executed, persistence is established, or data is exfiltrated. This is particularly critical for detecting supply chain attacks, insider threats, and zero-day exploits that bypass preventive controls."
+  how: "EDR agents and file integrity monitoring systems capture file creation events from OS-level file system telemetry including Windows ETW, Linux inotify/fanotify, and macOS FSEvents. Each file creation event is enriched with context including the creating process name and path, parent process chain, user context, file attributes, and content analysis. Detection rules evaluate risk based on multiple factors: files created in auto-start locations like Startup folders and cron directories, executables or scripts created by non-development processes, files with suspicious naming patterns or hidden attributes, files created during exploitation chains following document opens or browser downloads, and rapid creation of many files suggesting ransomware or data staging. Hash analysis against known-good and known-bad databases provides additional classification. Correlation with network events identifies files arriving from external sources."
+  core_concepts:
+    - key: "Sensitive Directory Monitoring"
+      value: "Focused monitoring of directories commonly used for persistence including startup folders, system directories, and scheduled task locations"
+    - key: "File Drop Context"
+      value: "The circumstances surrounding file creation including the creating process, preceding events, and user context that determine suspiciousness"
+    - key: "File Integrity Baseline"
+      value: "A known-good state of system files against which new file creation events are compared to identify unauthorized additions"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILACCPAT-001"
+    description: "File creation analysis is a specific component within broader file access pattern analysis"
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILRISSCO-001"
+    description: "File creation attributes contribute to overall file risk scoring"
+  - type: effective_against
+    target: "ATK-PERSIST-STARTUP-001"
+    description: "Detects persistence mechanisms installed through file creation in auto-start locations"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic: ["Command and Control", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1105 - Ingress Tool Transfer - https://attack.mitre.org/techniques/T1105/"
+    - "Microsoft Sysmon - Event ID 11 File Create - https://learn.microsoft.com/en-us/sysinternals/downloads/sysmon"
+    - "SANS - File System Monitoring for Threat Detection - https://www.sans.org/white-papers/"
+  search_keywords:
+    - "file creation analysis"
+    - "suspicious file drop detection"
+    - "file creation monitoring"
+    - "malware file creation"
+    - "endpoint file monitoring"
+    - "file integrity monitoring"
+    - "auto-start file detection"
+    - "payload staging detection"
+  embedding_text: "File Creation Analysis monitors file creation events across endpoints to identify suspicious file drops indicating malware delivery, persistence installation, or lateral movement tool deployment. It evaluates the creating process, file location, type, attributes, naming patterns, and timing. Detection focuses on sensitive directories like startup folders and system directories, files created by unexpected processes, suspicious naming patterns, and rapid mass creation suggesting ransomware. Context from process chains, network events, and hash reputation databases enriches analysis. This pattern provides visibility across the entire attack lifecycle from initial payload drops through persistence, lateral movement, and data staging."

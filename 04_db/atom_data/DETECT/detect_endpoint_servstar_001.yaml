@@ -1,0 +1,93 @@
+# GR Atom: Service Start Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVSTAR-001"
+  name: "Service Start Event"
+  normalized_name: "service_start_event"
+  aliases:
+    - "Service Started Detection"
+    - "Service Launch Event"
+    - "Service Running Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EXEC
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when a system service transitions to a running state on an endpoint. On Windows, this is recorded as System Event ID 7036 with the service entering the running state, and the Service Control Manager logs the start type trigger (automatic boot, manual, or demand). Sysmon captures the corresponding process creation (Event ID 1) for the service executable or svchost.exe instance. On Linux, this corresponds to systemd unit activation events in the journal, or init.d script execution events captured by auditd."
+  why: "Service start events are essential for detecting execution of malicious services installed by adversaries, identifying unauthorized service activation on hardened systems, and maintaining operational visibility into the service landscape. Attackers start services to execute payloads with SYSTEM privileges, initiate lateral movement tools, or activate previously planted backdoors. Correlating service starts with recently installed or modified services reveals the execution phase of persistence-based attacks."
+  how: "Detection monitors Windows System Event ID 7036 for service state changes to running, correlates with Sysmon Event ID 1 for process creation under services.exe parent, and captures command-line auditing for net start, sc.exe start, and Start-Service PowerShell commands. On Linux, systemd journal entries for unit start events and auditd rules on service management binaries provide visibility. EDR agents enrich service start events with the service binary hash, loaded modules, network connections established, and child processes spawned."
+  core_concepts:
+    - key: "service_execution_context"
+      value: "The security context under which the started service runs, determining the privileges available to the service process"
+    - key: "automatic_vs_manual_start"
+      value: "Distinguishing between services starting at boot, on demand, or triggered by specific events for anomaly detection"
+    - key: "first_time_service_start"
+      value: "Identifying services starting for the first time on an endpoint, which may indicate newly installed malicious services"
+    - key: "post_modification_start"
+      value: "Correlating service starts occurring after service binary or configuration modifications to detect activated tampering"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service start event is a specific type of service lifecycle event"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-SERVINST-001"
+    description: "A service must be installed before it can be started"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1569.002"
+    tactic:
+      - "execution"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - System Event ID 7036"
+    - "MITRE ATT&CK T1569.002 - System Services: Service Execution"
+    - "Sysmon Documentation - Process Creation Events"
+    - "Systemd Documentation - Unit Activation"
+  search_keywords:
+    - "service start"
+    - "service started"
+    - "service launch"
+    - "service running"
+    - "Event ID 7036"
+    - "service execution"
+    - "net start"
+    - "sc start"
+    - "systemctl start"
+    - "service start detection"
+  embedding_text: "Service start event detection pattern identifies when system services transition to running state on endpoints. On Windows this monitors System Event ID 7036 state changes, Sysmon process creation for service executables under services.exe, and command-line auditing for net start and sc.exe operations. On Linux it tracks systemd unit activation events. Service starts are critical for detecting execution of malicious services, unauthorized service activation on hardened systems, and activation of planted backdoors. Maps to MITRE ATT&CK T1569.002 Service Execution. Detection enriches events with binary hashes, loaded modules, and network connections to identify suspicious service behavior."

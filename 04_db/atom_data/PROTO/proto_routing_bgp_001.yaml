@@ -1,0 +1,133 @@
+# GR Atom: BGP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-ROUTING-BGP-001"
+  name: "BGP"
+  normalized_name: "bgp"
+  aliases:
+    - "Border Gateway Protocol"
+    - "BGP-4"
+    - "BGPv4"
+    - "External BGP"
+    - "eBGP"
+    - "Internal BGP"
+    - "iBGP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 3
+  atom_tags:
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BGP (Border Gateway Protocol) is the inter-domain routing protocol that forms the backbone of
+    Internet routing, defined in RFC 4271 (BGP-4). It is a path-vector protocol that exchanges
+    network reachability information between autonomous systems (AS), enabling routers to determine
+    the best paths for forwarding IP traffic across the global Internet. BGP maintains a table of
+    IP prefixes with associated AS paths, next-hop information, and policy attributes. It operates
+    over TCP port 179 and uses incremental updates rather than periodic full-table exchanges,
+    making it scalable to the current Internet routing table of over 900,000 IPv4 prefixes.
+  why: >-
+    BGP is the sole exterior gateway protocol that interconnects the approximately 75,000+
+    autonomous systems composing the Internet. Its security is critical because BGP hijacking
+    enables adversaries to redirect Internet traffic through malicious networks for interception,
+    traffic analysis, or denial of service. Notable incidents include the 2018 Russian BGP hijack
+    of Amazon DNS traffic and the 2008 Pakistan Telecom YouTube hijack. BGP lacks built-in
+    authentication of route origin, making it vulnerable to prefix hijacking, route leaks, and
+    AS path manipulation. BGP security directly impacts the integrity and availability of all
+    Internet-connected services and is a foundational concern for national cybersecurity.
+  how: >-
+    BGP operates through TCP-based peer sessions between routers in different autonomous systems
+    (eBGP) or within the same AS (iBGP). The protocol follows a finite state machine through
+    Idle, Connect, Active, OpenSent, OpenConfirm, and Established states. Route selection uses
+    a multi-step decision process evaluating attributes including LOCAL_PREF, AS_PATH length,
+    origin type, MED (Multi-Exit Discriminator), and next-hop reachability. Security mechanisms
+    include: (1) TCP MD5 authentication (RFC 5925 TCP-AO is the modern replacement); (2) prefix
+    filtering using IRR (Internet Routing Registry) data; (3) RPKI (Resource Public Key
+    Infrastructure) for cryptographic route origin validation; (4) BGPsec (RFC 8205) for AS path
+    validation; (5) route leak prevention through community-based filtering and peer locking.
+    BGP communities (RFC 1997) enable policy signaling between networks.
+  core_concepts:
+    - key: "Autonomous System (AS)"
+      value: >-
+        A collection of IP networks under the control of a single administrative entity that
+        presents a common routing policy to the Internet, identified by a unique AS Number (ASN)
+        assigned by Regional Internet Registries.
+    - key: "BGP Prefix Hijacking"
+      value: >-
+        An attack where a malicious or misconfigured AS announces IP prefixes it does not own,
+        redirecting traffic intended for legitimate networks through the attacker's infrastructure
+        for interception, modification, or black-holing.
+    - key: "AS Path"
+      value: >-
+        An ordered list of autonomous systems that a BGP route advertisement has traversed,
+        used for loop prevention and as a primary route selection criterion where shorter
+        paths are generally preferred.
+    - key: "Route Origin Validation"
+      value: >-
+        The process of cryptographically verifying that an AS is authorized to announce specific
+        IP prefixes, implemented through RPKI Route Origin Authorizations (ROAs) to prevent
+        prefix hijacking attacks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-ROUTING-BGP-002"
+    description: "BGP as a category encompasses the specific BGP protocol implementation and its extensions"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "BGP requires TCP port 179 for reliable peer session establishment and route exchange"
+  - type: "enables"
+    target: "PROTO-ROUTING-RPREPUKEIN-001"
+    description: "BGP route announcements are validated by RPKI to provide cryptographic route origin authentication"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4271 - A Border Gateway Protocol 4 (BGP-4) (January 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4271"
+    - "RFC 8205 - BGPsec Protocol Specification (September 2017). IETF. https://datatracker.ietf.org/doc/html/rfc8205"
+    - "NIST SP 800-189 - Resilient Interdomain Traffic Exchange: BGP Security and DDoS Mitigation (March 2019). https://csrc.nist.gov/publications/detail/sp/800-189/final"
+    - "MANRS - Mutually Agreed Norms for Routing Security. Internet Society. https://www.manrs.org/"
+  search_keywords:
+    - "BGP"
+    - "border gateway protocol"
+    - "BGP hijacking"
+    - "BGP prefix hijacking"
+    - "autonomous system"
+    - "AS path"
+    - "eBGP"
+    - "iBGP"
+    - "route leak"
+    - "BGP security"
+    - "RFC 4271"
+    - "inter-domain routing"
+    - "Internet routing"
+  embedding_text: >-
+    BGP (Border Gateway Protocol) is the inter-domain routing protocol that interconnects all
+    autonomous systems on the Internet, defined in RFC 4271. It is a path-vector protocol
+    exchanging IP prefix reachability over TCP port 179, maintaining routing tables with AS path,
+    next-hop, and policy attributes. BGP is security-critical because prefix hijacking enables
+    adversaries to redirect Internet traffic for interception or denial of service. The protocol
+    lacks built-in route origin authentication, making it vulnerable to prefix hijacking, route
+    leaks, and path manipulation. Security mechanisms include RPKI for cryptographic route origin
+    validation, BGPsec for AS path validation, TCP-AO for session authentication, prefix filtering
+    via IRR data, and community-based policy signaling. BGP security is foundational to Internet
+    infrastructure integrity and is addressed by frameworks including NIST SP 800-189 and MANRS.

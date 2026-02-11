@@ -1,0 +1,73 @@
+# GR Atom: Directional Network Link
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-DIRNETLIN-001"
+  name: "Directional Network Link"
+  normalized_name: "directional_network_link"
+  aliases:
+    - "Directional Link"
+    - "Point-to-Point Wireless Link"
+    - "Directional Antenna Link"
+    - "Microwave Link"
+    - "Line-of-Sight Network Link"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - IOT
+    - ICS
+
+gr_coordinates:
+  layer: "L0"
+  zone: "Z0B"
+  function: "N4.1"
+
+definition:
+  what: "A directional network link is a point-to-point or point-to-multipoint wireless communication connection that uses focused, directional antennas to transmit and receive data between two or more fixed locations. These links operate across various frequency bands including licensed microwave bands, unlicensed ISM bands (2.4 GHz, 5 GHz), and millimeter wave frequencies, providing high-bandwidth connectivity over distances ranging from hundreds of meters to tens of kilometers. Directional network links are used for building-to-building connectivity, backhaul connections for wireless networks, last-mile connectivity in rural areas, and interconnection of geographically separated network segments without physical cabling."
+  why: "Directional network links are important infrastructure components that provide high-bandwidth connectivity where physical cabling is impractical, cost-prohibitive, or impossible. They serve as critical backbone connections for enterprise campus networks, ISP backhaul infrastructure, and remote site connectivity. From a security perspective, directional links present unique considerations because the focused RF beam can potentially be intercepted by positioning receiving equipment within the signal path, the wireless medium is susceptible to jamming and interference, and misconfigured links may radiate signal beyond the intended path creating eavesdropping opportunities."
+  how: "Directional network links use highly focused antennas such as parabolic dishes, panel antennas, or phased arrays to concentrate RF energy in a narrow beam toward the remote endpoint. Link establishment requires careful antenna alignment, frequency coordination, and path planning to ensure clear line-of-sight. Modern directional links use adaptive modulation to adjust data rates based on signal conditions, forward error correction for reliability, and encryption protocols such as AES-256 for data confidentiality. Link monitoring systems track signal strength, signal-to-noise ratio, bit error rates, and environmental conditions to maintain optimal performance and detect potential interference or tampering."
+  core_concepts:
+    - key: "Line-of-Sight"
+      value: "The requirement for an unobstructed direct path between directional antennas, including accounting for Fresnel zone clearance to avoid signal degradation"
+    - key: "Directional Antenna Gain"
+      value: "The focusing of RF energy in a specific direction measured in dBi, which increases effective range and reduces interference from and to other directions"
+    - key: "Link Budget"
+      value: "The calculation of total signal gain and loss between transmitter and receiver including antenna gain, free-space path loss, cable losses, and atmospheric attenuation"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-NET-RADIMODE-001"
+    description: "Directional network links provide fixed high-bandwidth wireless connectivity as an alternative to omnidirectional radio modem links"
+  - type: enables
+    target: "INFRA-NET-WIRACCPOI-001"
+    description: "Directional links provide backhaul connectivity for wireless access points at remote or distributed locations"
+  - type: part_of
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Directional network links serve as WAN transport connections managed by router hosting infrastructure"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "IEEE 802.11 - Wireless LAN Medium Access Control and Physical Layer Specifications"
+    - "NIST SP 800-153 - Guidelines for Securing Wireless Local Area Networks"
+    - "ITU-R F.1520 - Fixed Wireless Systems Point-to-Point"
+  search_keywords:
+    - "directional network link"
+    - "point-to-point wireless"
+    - "microwave link"
+    - "directional antenna"
+    - "line-of-sight link"
+    - "wireless backhaul"
+    - "building-to-building link"
+    - "fixed wireless connection"
+  embedding_text: "A directional network link is a point-to-point or point-to-multipoint wireless communication connection using focused directional antennas to transmit data between fixed locations. Operating across licensed microwave, unlicensed ISM, and millimeter wave frequency bands, these links provide high-bandwidth connectivity over distances from meters to tens of kilometers. They are used for building-to-building connectivity, wireless backhaul, last-mile access, and remote site interconnection. Security considerations include signal interception along the beam path, RF jamming, and signal leakage from misconfigured antennas. Modern directional links employ adaptive modulation, forward error correction, and AES-256 encryption for reliable and secure data transmission."

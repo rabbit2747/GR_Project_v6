@@ -1,0 +1,133 @@
+# GR Atom: DNP3 Secure Authentication
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-DNPSECAUT-001"
+  name: "DNP3 Secure Authentication"
+  normalized_name: "dnp3_secure_authentication"
+  aliases:
+    - "DNP3-SA"
+    - "DNP3 SA v5"
+    - "Distributed Network Protocol Secure Auth"
+    - "IEEE 1815 Secure Authentication"
+    - "DNP3 SAv5"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DNP3 Secure Authentication (DNP3-SA) is the authentication extension to the Distributed
+    Network Protocol 3 (DNP3/IEEE 1815), providing cryptographic message authentication for
+    SCADA and industrial control communications. DNP3-SA version 5 (SAv5) uses HMAC-SHA-256
+    challenge-response authentication to verify the identity of communication partners before
+    executing critical operations. The protocol adds authentication objects to standard DNP3
+    messages, enabling master stations and outstations to mutually authenticate without
+    encrypting the entire message payload. DNP3-SA is specified in IEEE 1815-2012 and is the
+    primary security mechanism for DNP3 in electric utility SCADA systems.
+  why: >-
+    DNP3 is the dominant SCADA communication protocol in North American electric utilities,
+    water systems, and oil/gas infrastructure. Without Secure Authentication, DNP3 operates with
+    no authentication or encryption, allowing any device with network access to send commands to
+    outstations controlling physical processes (breakers, valves, pumps). The Ukraine power grid
+    attacks (2015, 2016) demonstrated real-world exploitation of unauthenticated industrial
+    protocols. NERC CIP standards increasingly require authenticated SCADA communications.
+    DNP3-SA addresses the critical gap between the protocol's widespread deployment in critical
+    infrastructure and the absence of built-in security in the base protocol, without requiring
+    complete protocol replacement that would be prohibitively costly and disruptive.
+  how: >-
+    DNP3-SA v5 operates through a challenge-response mechanism: (1) the master and outstation
+    pre-share symmetric keys during provisioning (or use asymmetric key exchange in SAv5);
+    (2) when a critical operation is requested, the outstation sends an Authentication Challenge
+    containing a random nonce and specifying the required HMAC algorithm; (3) the master computes
+    an HMAC-SHA-256 over the original request message concatenated with the challenge data using
+    the shared key; (4) the outstation verifies the HMAC, executing the operation only if
+    authentication succeeds; (5) aggressive mode allows pre-emptive HMAC inclusion for reduced
+    latency on repeated operations; (6) SAv5 adds asymmetric key management using IEC 62351-8
+    certificates for initial key exchange, update keys for symmetric HMAC operations, and session
+    keys for ongoing authentication; (7) key change intervals and error handling prevent replay
+    and brute-force attacks.
+  core_concepts:
+    - key: "Challenge-Response Authentication"
+      value: >-
+        The mechanism where an outstation challenges the master with a random nonce, and the
+        master must respond with a valid HMAC computed over the original command and challenge
+        data using a pre-shared key, proving knowledge of the secret without transmitting it.
+    - key: "Aggressive Mode"
+      value: >-
+        A DNP3-SA optimization where the master pre-emptively includes an HMAC with each
+        critical request based on the last received challenge parameters, reducing authentication
+        latency from two round trips to one for time-sensitive SCADA operations.
+    - key: "Critical Function Authentication"
+      value: >-
+        The selective application of authentication to operations that affect physical processes
+        (direct operate, select-before-operate, write) while allowing read operations without
+        authentication overhead, balancing security with operational performance requirements.
+    - key: "SAv5 Asymmetric Key Management"
+      value: >-
+        The addition in Secure Authentication version 5 of public key infrastructure for
+        initial key exchange and update key distribution, reducing the operational burden of
+        manual symmetric key provisioning across potentially thousands of outstations.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "DNP3-SA is a security-enhanced industrial protocol within the industrial control systems protocol family"
+  - type: "applies_to"
+    target: "PROTO-INDUSTRIAL-MODBUS-001"
+    description: "DNP3-SA authentication concepts parallel security needs in other industrial protocols like Modbus that lack native authentication"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "DNP3-SA over TCP/IP uses TCP port 20000 for reliable delivery in IP-networked SCADA environments"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IEEE 1815-2012 - IEEE Standard for Electric Power Systems Communications - Distributed Network Protocol (DNP3). IEEE."
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+    - "ICS-CERT - DNP3 Secure Authentication. CISA."
+    - "East, S. et al. (2009). A Taxonomy of Attacks on the DNP3 Protocol. IFIP Critical Infrastructure Protection."
+  search_keywords:
+    - "DNP3 secure authentication"
+    - "DNP3-SA"
+    - "SCADA authentication"
+    - "IEEE 1815"
+    - "DNP3 security"
+    - "industrial protocol authentication"
+    - "ICS SCADA security"
+    - "challenge-response SCADA"
+    - "DNP3 SAv5"
+    - "critical infrastructure protocol"
+    - "utility SCADA"
+  embedding_text: >-
+    DNP3 Secure Authentication (DNP3-SA) is the cryptographic authentication extension for DNP3
+    (IEEE 1815), the dominant SCADA protocol in North American electric utilities and critical
+    infrastructure. SAv5 uses HMAC-SHA-256 challenge-response to authenticate communication
+    partners before executing critical operations affecting physical processes. Without SA, DNP3
+    operates unauthenticated, allowing any network-accessible device to send commands to
+    outstations. The Ukraine grid attacks demonstrated exploitation of unauthenticated industrial
+    protocols. DNP3-SA adds authentication objects to standard messages, supports aggressive mode
+    for reduced latency, and SAv5 includes asymmetric key management for scalable provisioning.
+    It is the primary mechanism for securing DNP3 communications without requiring complete
+    protocol replacement in existing infrastructure.

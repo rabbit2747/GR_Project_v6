@@ -1,0 +1,72 @@
+# GR Atom: VirtualBox
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-VIRTUALBOX-001"
+  name: "VirtualBox"
+  normalized_name: "virtualbox"
+  aliases: ["Oracle VirtualBox", "VBox", "Oracle VM VirtualBox"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [VMWARE, OS, LINUX, WINDOWS]
+gr_coordinates:
+  layer: "L1"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Oracle VirtualBox is a free, open-source Type 2 hypervisor that runs on Windows, macOS,
+    Linux, and Solaris host operating systems. It enables running multiple guest operating
+    systems in virtual machines simultaneously. VirtualBox supports hardware virtualization
+    (VT-x, AMD-V), snapshots, shared folders, NAT/bridged/host-only networking, USB
+    passthrough, and Guest Additions for improved guest OS integration. It is widely used for
+    development, testing, malware analysis sandboxing, and educational environments.
+  why: >-
+    VirtualBox has security implications as both an attack target and a defensive tool.
+    VM escape vulnerabilities in VirtualBox (CVE-2023-22098 and others) allow guest-to-host
+    compromise through GPU emulation, network adapter, and USB controller bugs. Malware uses
+    VirtualBox detection (CPUID checks, registry keys, device drivers) for sandbox evasion.
+    Conversely, VirtualBox is used by security researchers for malware analysis sandboxing.
+    Shared folder misconfigurations can expose host filesystem to compromised guest VMs.
+  how: >-
+    VirtualBox runs as a user-space application loading kernel modules (vboxdrv) for hardware
+    virtualization. VMs are defined by XML configuration files and virtual disk images (VDI,
+    VMDK, VHD). Guest Additions provide paravirtualized drivers for improved performance.
+    Networking modes include NAT (default, isolated), bridged (host network access), host-only
+    (isolated network), and internal (VM-to-VM only). VBoxManage CLI provides full management
+    capability. Security hardening includes disabling USB passthrough, restricting shared
+    folders, using host-only networking, and keeping VirtualBox updated to patch VM escape
+    vulnerabilities.
+  core_concepts:
+    - key: "VM Escape Vulnerabilities"
+      value: "Guest-to-host escape through VirtualBox emulation bugs (GPU, network, USB) enables compromising the host system from within a guest VM"
+    - key: "Sandbox Evasion Detection"
+      value: "Malware detects VirtualBox through CPUID strings, registry keys, driver presence, and MAC address prefixes to evade analysis sandboxes"
+    - key: "Type 2 Hypervisor Security Model"
+      value: "Running atop a host OS means VirtualBox inherits host security posture and is vulnerable to host-level attacks unlike Type 1 hypervisors"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "VirtualBox provides virtualization infrastructure for local and development environments"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "VirtualBox provides local virtualization as an alternative to cloud-based VMs"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Oracle VirtualBox Security Documentation", "VirtualBox CVE Database", "MITRE ATT&CK T1497 - Virtualization/Sandbox Evasion"]
+  search_keywords: ["VirtualBox", "oracle virtualbox", "VM escape", "virtualbox security", "Type 2 hypervisor", "sandbox evasion", "virtualbox vulnerability"]
+  embedding_text: >-
+    Oracle VirtualBox is a free open-source Type 2 hypervisor for running guest VMs on
+    Windows, macOS, Linux, and Solaris hosts. Security concerns include VM escape vulnerabilities
+    through GPU emulation, network adapter, and USB controller bugs enabling guest-to-host
+    compromise. Malware detects VirtualBox through CPUID, registry, and driver checks for
+    sandbox evasion. Used by security researchers for malware analysis. Shared folder
+    misconfigurations expose host filesystem. Hardening includes disabling USB passthrough,
+    restricting shared folders, host-only networking, and patching VM escape vulnerabilities.

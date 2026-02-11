@@ -1,0 +1,94 @@
+# GR Atom: Unsigned Binary Network Usage
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-UNBINEUS-001"
+  name: "Unsigned Binary Network Usage"
+  normalized_name: "unsigned_binary_network_usage"
+  aliases:
+    - "Unsigned Process Network Activity"
+    - "Untrusted Binary Network Detection"
+    - "Unsigned Executable Network Communication"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - EDR
+    - MONITOR
+    - C2
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that identifies network communications initiated by unsigned or improperly signed binary executables. This pattern correlates endpoint process execution data with network connection logs to detect when executables lacking valid code signatures establish outbound or lateral network connections. Unsigned binaries making network connections are high-fidelity indicators of malware, attack tools, or unauthorized software communicating with external infrastructure or moving laterally within the network."
+  why: "Legitimate enterprise software is typically code-signed by trusted publishers. Malware, custom attack tools, compiled exploits, and unauthorized utilities frequently lack valid code signatures. Detecting network activity from unsigned binaries provides a powerful detection signal that can identify novel malware families, custom adversary tooling, and living-off-the-land techniques that compile or drop unsigned executables. This detection bridges the gap between endpoint and network security by correlating host execution context with network behavior."
+  how: "Detection requires integration between endpoint telemetry (EDR or process monitoring) and network monitoring. Endpoint agents identify processes establishing network connections and report their code signing status. Network connections initiated by processes with absent, expired, revoked, or untrusted signatures are flagged. Analysis evaluates the destination of unsigned binary connections, the binary's location on disk, execution context, parent process chain, and whether the binary matches known threat intelligence hashes. Allowlisting of known legitimate unsigned binaries (such as custom internal tools) reduces false positives."
+  core_concepts:
+    - key: "Code Signing Correlation"
+      value: "Cross-referencing process code signing status with network activity to identify unsigned binaries making network connections."
+    - key: "Endpoint-Network Fusion"
+      value: "Integrating endpoint process telemetry with network connection data for context-rich detection."
+    - key: "Unsigned Binary Allowlisting"
+      value: "Maintaining a curated list of legitimate unsigned binaries to reduce false positives while preserving detection coverage."
+    - key: "Execution Context Analysis"
+      value: "Examining the execution environment, parent process chain, and disk location of unsigned binaries making network connections."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: effective_against
+    target: "ATK-C2-CUSTOM-001"
+    description: "Detects custom malware and attack tools communicating over the network without valid signatures"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires network flow data correlated with endpoint process information"
+  - type: enables
+    target: "DETECT-NETWORK-BEACONING-001"
+    description: "Unsigned binary network connections provide high-priority candidates for beaconing analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036"
+    tactic:
+      - "Defense Evasion"
+      - "Command and Control"
+    sub_techniques:
+      - "T1036.001"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Masquerading T1036"
+    - "Microsoft - Code Signing Best Practices"
+    - "SANS Institute - Endpoint and Network Detection Correlation"
+  search_keywords:
+    - "unsigned binary"
+    - "unsigned process network"
+    - "code signing detection"
+    - "untrusted binary"
+    - "unsigned executable"
+    - "binary network activity"
+    - "unsigned malware"
+    - "code signature"
+    - "unsigned process communication"
+    - "binary signing validation"
+  embedding_text: "Unsigned binary network usage detection identifies network communications initiated by executables lacking valid code signatures by correlating endpoint process data with network connection logs. Unsigned binaries making network connections are high-fidelity indicators of malware, custom attack tools, or unauthorized software. This pattern bridges endpoint and network security by evaluating process signing status, destination analysis, execution context, and parent process chains. It is particularly effective at detecting novel malware families and custom adversary tooling that lack the code signatures typical of legitimate enterprise software."

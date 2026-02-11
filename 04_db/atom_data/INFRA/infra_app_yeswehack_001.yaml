@@ -1,0 +1,118 @@
+# GR Atom: YesWeHack
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-YESWEHACK-001"
+  name: "YesWeHack"
+  normalized_name: "yeswehack"
+  aliases:
+    - "YWH"
+    - "YesWeHack Bug Bounty"
+    - "YesWeHack VDP"
+    - "YesWeHack Platform"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - CLOUD
+    - API
+    - RECON
+    - AUTHN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    YesWeHack is a European bug bounty and vulnerability disclosure platform that connects
+    organizations with ethical hackers (security researchers) to identify vulnerabilities in
+    their digital assets. The platform supports public and private bug bounty programs,
+    vulnerability disclosure policies (VDP), and pentest-as-a-service engagements. Founded
+    in France, YesWeHack operates under European data sovereignty regulations (GDPR) and
+    serves enterprise, government, and critical infrastructure organizations. The platform
+    provides a community of over 50,000 security researchers with vulnerability reporting,
+    triage, and remediation tracking workflows.
+  why: >-
+    Bug bounty platforms like YesWeHack handle sensitive vulnerability data that, if exposed,
+    could provide attackers with exploitable zero-day information before patches are available.
+    The platform stores detailed vulnerability reports including proof-of-concept exploits,
+    affected system details, and remediation status. Compromised researcher accounts could
+    be used to access unremediated vulnerability data. Organizations participating in bug
+    bounty programs may inadvertently expose internal architecture details through program
+    scope definitions. The platform also serves as a reconnaissance source where program
+    scopes reveal an organization's internet-facing assets, technology stack, and security
+    priorities.
+  how: >-
+    YesWeHack operates as a SaaS platform with a web interface and REST API. Organizations
+    create programs defining scope (in-scope domains, applications, APIs), rules of engagement,
+    and reward structures. Security researchers submit vulnerability reports through the
+    platform with severity ratings, descriptions, and proof-of-concept details. Triage teams
+    validate submissions and coordinate with organizations for remediation. The platform
+    supports CVSS scoring, SLA tracking, and integration with issue tracking systems (Jira,
+    ServiceNow). Communication between researchers and organizations occurs through the
+    platform's messaging system. Payment processing handles researcher rewards.
+  core_concepts:
+    - key: "Vulnerability Data Sensitivity"
+      value: "Bug bounty platforms store detailed vulnerability reports with PoC exploits that represent pre-patch zero-day intelligence if exposed through platform compromise"
+    - key: "Reconnaissance Intelligence Source"
+      value: "Bug bounty program scopes publicly reveal an organization's internet-facing assets, technology stack, and security testing priorities to anyone viewing the program"
+    - key: "European Data Sovereignty"
+      value: "YesWeHack operates under GDPR with European data storage, providing an alternative for organizations requiring EU data sovereignty for vulnerability management"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "YesWeHack is an enterprise security application providing bug bounty and vulnerability disclosure services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1591"
+    tactic:
+      - "Reconnaissance"
+      - "Resource Development"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "YesWeHack Platform Security Documentation"
+    - "MITRE ATT&CK T1591 - Gather Victim Org Information"
+    - "European Bug Bounty Platform Comparison Reports"
+  search_keywords:
+    - "YesWeHack"
+    - "YesWeHack bug bounty"
+    - "European bug bounty"
+    - "vulnerability disclosure platform"
+    - "YesWeHack security"
+    - "bug bounty platform"
+    - "VDP platform"
+    - "crowdsourced security"
+  embedding_text: >-
+    YesWeHack is a European bug bounty and vulnerability disclosure platform connecting
+    organizations with 50,000+ ethical hackers to identify security vulnerabilities. Operating
+    under GDPR with European data sovereignty, it serves enterprise, government, and critical
+    infrastructure. Security concerns include sensitive vulnerability data exposure (pre-patch
+    zero-day intelligence), compromised researcher accounts accessing unremediated vulnerabilities,
+    and program scopes revealing organizational assets for reconnaissance. The platform
+    supports public/private programs, VDP, and pentest-as-a-service. Security teams should
+    carefully define program scopes to avoid exposing sensitive architecture details, monitor
+    for unauthorized access to vulnerability reports, implement strong authentication for
+    platform accounts, and establish clear remediation SLAs for reported vulnerabilities.

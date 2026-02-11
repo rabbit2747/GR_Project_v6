@@ -1,0 +1,117 @@
+# GR Atom: Digital Camera
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-DIGICAME-001"
+  name: "Digital Camera"
+  normalized_name: "digital_camera"
+  aliases:
+    - "IP Camera"
+    - "Network Camera"
+    - "Surveillance Camera"
+    - "CCTV Camera"
+    - "Security Camera"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - IOT
+    - NETWORK
+    - FIRMWARE
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A digital camera in the cybersecurity infrastructure context refers to network-connected
+    imaging devices including IP surveillance cameras, CCTV systems, webcams, and IoT camera
+    devices. These endpoints capture video and image data, often streaming over RTSP, ONVIF,
+    or HTTP protocols to network video recorders (NVRs) or cloud storage. Common manufacturers
+    include Hikvision, Dahua, Axis Communications, and Amcrest. Modern IP cameras run embedded
+    Linux or RTOS firmware and expose web management interfaces, RTSP streams, and API endpoints.
+  why: >-
+    Network cameras are among the most commonly compromised IoT devices. Default credentials,
+    unpatched firmware, and exposed management interfaces make them prime targets for botnets
+    (Mirai), unauthorized surveillance, and network pivot points. Compromised cameras enable
+    physical security bypass through surveillance feed manipulation, provide initial network
+    access footholds, and may be enrolled into DDoS botnets. Camera firmware vulnerabilities
+    have been widely exploited (CVE-2017-7921 Hikvision, CVE-2021-36260 Hikvision) enabling
+    remote code execution.
+  how: >-
+    Digital cameras connect to networks via Ethernet or Wi-Fi and stream video using RTSP, ONVIF,
+    or proprietary protocols. They run embedded operating systems (typically Linux-based) with
+    web servers for management interfaces. Video feeds are compressed using H.264/H.265 codecs
+    and transmitted to NVRs or cloud services. Management occurs through web browsers, mobile
+    apps, or centralized video management systems. Security controls include HTTPS for management,
+    RTSP authentication, firmware update mechanisms, and network segmentation to isolate camera
+    networks from production systems.
+  core_concepts:
+    - key: "IoT Attack Surface"
+      value: "Cameras present large attack surfaces with web interfaces, streaming protocols, firmware update mechanisms, and often default credentials"
+    - key: "Botnet Recruitment"
+      value: "Mirai and derivative botnets specifically target IP cameras using default credentials for DDoS attack infrastructure"
+    - key: "Physical Security Integration"
+      value: "Network cameras bridge cyber and physical security domains, making their compromise a dual-domain security incident"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-ENDPOINT-ECOSTRUXUR-001"
+    description: "IP cameras may be managed within building automation and SCADA platforms like EcoStruxure"
+  - type: "enables"
+    target: "DEF-PHYSICAL-SURVEILLANCE-001"
+    description: "Digital cameras provide the visual monitoring capability for physical security surveillance systems"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1498"
+    tactic:
+      - "Initial Access"
+      - "Impact"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA - Security of IP Cameras Advisory"
+    - "MITRE ATT&CK - IoT Device Exploitation Techniques"
+    - "OWASP IoT Top 10 - Insecure Default Settings"
+  search_keywords:
+    - "IP camera"
+    - "network camera"
+    - "CCTV camera security"
+    - "surveillance camera vulnerability"
+    - "Hikvision CVE"
+    - "Mirai botnet camera"
+    - "IoT camera firmware"
+    - "RTSP camera"
+    - "ONVIF security"
+  embedding_text: >-
+    Digital Camera in the cybersecurity context refers to network-connected imaging devices
+    including IP surveillance cameras, CCTV systems, and IoT camera endpoints manufactured by
+    Hikvision, Dahua, Axis, and others. These devices run embedded Linux firmware and expose
+    web management interfaces, RTSP streams, and API endpoints. Network cameras are among the
+    most commonly compromised IoT devices due to default credentials, unpatched firmware, and
+    exposed management interfaces. They are prime targets for botnets like Mirai, enable
+    physical security bypass through surveillance feed manipulation, and provide network pivot
+    points. Critical vulnerabilities like CVE-2017-7921 and CVE-2021-36260 in Hikvision cameras
+    have enabled remote code execution. Security controls include network segmentation, firmware
+    updates, credential management, and RTSP authentication.

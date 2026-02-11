@@ -1,0 +1,90 @@
+# GR Atom: File Set Permissions Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILSETPER-001"
+  name: "File Set Permissions Event"
+  normalized_name: "file_set_permissions_event"
+  aliases:
+    - "File Permission Modification"
+    - "ACL Change Event"
+    - "File Security Descriptor Modification"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - LOG
+    - PRIV
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a process modifies the security permissions of a file on an endpoint. This includes changes to Discretionary Access Control Lists (DACLs), System Access Control Lists (SACLs), file ownership, and security descriptor inheritance settings. The event captures the target file, previous and new permission configurations, the modifying process, and user context."
+  why: "File permission modifications are critical security events. Attackers weaken file permissions to enable unauthorized access, escalate privileges by modifying service binary ACLs, disable security audit logging by removing SACLs, and take ownership of protected files. Detecting permission changes on sensitive files enables rapid identification of privilege escalation, persistence, and defense evasion activities."
+  how: "Monitor SetSecurityInfo, SetNamedSecurityInfo, and NtSetSecurityObject system calls through ETW providers and EDR hooks. Track Windows Security Event 4670 (Permissions on an object were changed) for audited files. Monitor for permission weakening on system binaries, service executables, and configuration files. Detect ownership transfers of protected files. Alert on SACL removal which may indicate an attempt to disable security auditing for specific files."
+  core_concepts:
+    - key: "DACL Modification"
+      value: "Changes to the Discretionary Access Control List that alter which users and groups can access a file and what operations they may perform"
+    - key: "Ownership Transfer"
+      value: "Changing the owner of a file, which grants full control permissions and may enable bypass of existing access restrictions"
+    - key: "Permission Weakening"
+      value: "Modifying file permissions to grant broader access than originally configured, enabling unauthorized users or processes to access or modify the file"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File permission modification is a specific type of file event"
+  - type: requires
+    target: "DETECT-ENDPOINT-FILGETPER-001"
+    description: "Permission modifications typically follow permission queries in attack workflows"
+  - type: effective_against
+    target: "ATK-PRIVESC-WEAKPERM-001"
+    description: "Detects privilege escalation through deliberate file permission weakening"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1222.001"
+    tactic:
+      - "Defense Evasion"
+      - "Privilege Escalation"
+    sub_techniques:
+      - "T1222.001"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1222.001 - File and Directory Permissions Modification: Windows"
+    - "Microsoft Documentation - SetSecurityInfo Function"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file permissions"
+    - "ACL modification"
+    - "DACL change"
+    - "security descriptor"
+    - "permission modification"
+    - "ownership transfer"
+    - "event 4670"
+    - "file permission weakening"
+  embedding_text: "File Set Permissions Event is an endpoint detection pattern for events generated when file security permissions are modified. This covers DACL and SACL changes, ownership transfers, and inheritance modifications. Attackers modify file permissions to enable unauthorized access, escalate privileges by weakening service binary ACLs, disable audit logging by removing SACLs, and take ownership of protected files. Detection monitors SetSecurityInfo, SetNamedSecurityInfo, and NtSetSecurityObject calls through ETW providers, tracks Windows Event 4670 for permission changes, and alerts on permission weakening of system binaries, ownership transfers, and SACL removal indicating defense evasion."

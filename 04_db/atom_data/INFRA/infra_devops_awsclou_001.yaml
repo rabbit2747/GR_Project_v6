@@ -1,0 +1,80 @@
+# GR Atom: AWS CloudWatch
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-AWSCLOU-001"
+  name: "AWS CloudWatch"
+  normalized_name: "aws_cloudwatch"
+  aliases:
+    - "CloudWatch"
+    - "Amazon CloudWatch"
+    - "CW Metrics"
+    - "CloudWatch Logs"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - MONITOR
+    - LOG
+    - CLOUD
+    - AUDIT
+
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "M1.1"
+
+definition:
+  what: "AWS CloudWatch is Amazon Web Services' native monitoring and observability service that collects, aggregates, and analyzes metrics, logs, and event data from AWS resources, applications, and on-premises servers. It provides dashboards, alarms, anomaly detection, and automated actions to maintain operational health across cloud infrastructure. CloudWatch covers compute, storage, database, networking, and application layers with unified metric collection and log aggregation."
+  why: "CloudWatch is critical for security operations because it provides centralized visibility into AWS resource behavior, enables detection of anomalous activity patterns, supports compliance audit trails through log retention, and triggers automated incident response through CloudWatch Alarms and EventBridge integration. Adversaries frequently target CloudWatch configurations to disable monitoring or tamper with log data to evade detection."
+  how: "CloudWatch operates through agents installed on EC2 instances and Lambda functions, native integrations with AWS services, and API-based metric publication. It ingests metrics at configurable intervals (1-second to 5-minute granularity), stores logs in Log Groups with configurable retention, applies Metric Filters and Insights queries for analysis, and triggers CloudWatch Alarms that invoke SNS notifications, Auto Scaling actions, or Lambda functions. CloudWatch Logs Insights enables interactive log analysis using a purpose-built query language."
+  core_concepts:
+    - key: "CloudWatch Metrics"
+      value: "Time-ordered data points representing resource utilization and performance indicators collected from AWS services and custom sources"
+    - key: "CloudWatch Alarms"
+      value: "Threshold-based or anomaly detection monitors that trigger automated actions when metric conditions are met"
+    - key: "Log Groups and Log Streams"
+      value: "Hierarchical log organization where Log Groups contain Log Streams, each representing a single source of log events"
+    - key: "CloudWatch Logs Insights"
+      value: "Interactive query engine for analyzing log data using a purpose-built query language across multiple Log Groups"
+
+relations:
+  - type: part_of
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "CloudWatch is a core service within the AWS cloud platform"
+  - type: enables
+    target: "INFRA-DEVOPS-CLOUDTRAIL-001"
+    description: "CloudWatch receives and aggregates CloudTrail log data for centralized monitoring and alerting"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-AZURDIAG-001"
+    description: "AWS CloudWatch serves a similar monitoring role to Azure Diagnostics in the Azure ecosystem"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.008"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS CloudWatch Documentation - https://docs.aws.amazon.com/cloudwatch/"
+    - "MITRE ATT&CK T1562.008 - Impair Defenses: Disable Cloud Logs"
+    - "AWS Well-Architected Framework - Security Pillar"
+  search_keywords:
+    - "AWS CloudWatch"
+    - "Amazon CloudWatch monitoring"
+    - "CloudWatch Logs"
+    - "CloudWatch Alarms"
+    - "AWS cloud monitoring"
+    - "CloudWatch metrics"
+    - "AWS observability"
+    - "CloudWatch Logs Insights"
+  embedding_text: "AWS CloudWatch is Amazon's native monitoring and observability service for collecting metrics, logs, and events from AWS resources and applications. It provides dashboards, alarms, and anomaly detection for operational health. CloudWatch collects time-series metrics from compute, storage, database, and networking services, stores logs in Log Groups, and enables interactive analysis through Logs Insights queries. Security relevance includes centralized visibility into resource behavior, anomalous activity detection, compliance audit support, and automated incident response via alarms. Attackers may target CloudWatch to disable monitoring or tamper with logs to evade detection. It operates at the management layer across all AWS zones."

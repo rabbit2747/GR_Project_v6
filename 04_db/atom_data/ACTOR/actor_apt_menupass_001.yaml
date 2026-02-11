@@ -1,0 +1,87 @@
+# GR Atom: MenuPass
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-MENUPASS-001"
+  name: "MenuPass"
+  normalized_name: "menupass"
+  aliases:
+    - "APT10"
+    - "Stone Panda"
+    - "Red Apollo"
+    - "CVNX"
+    - "POTASSIUM"
+    - "Bronze Riverside"
+    - "Cicada"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "PERSIST"
+    - "LATERAL"
+    - "EXFIL"
+    - "WINDOWS"
+    - "CLOUD"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "managed service providers"
+    - "cloud infrastructure"
+    - "Active Directory"
+    - "email servers"
+    - "VPN systems"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "MenuPass (also known as APT10, Stone Panda, and Cicada) is a Chinese state-sponsored cyber espionage group attributed to the Tianjin State Security Bureau of the Ministry of State Security (MSS). Active since at least 2006, the group is notorious for its Operation Cloud Hopper campaign that targeted managed IT service providers (MSPs) to gain access to their clients' networks at scale, affecting organizations across healthcare, defense, aerospace, government, and technology sectors globally."
+  why: "MenuPass conducts espionage operations supporting Chinese economic and strategic intelligence priorities, including trade secrets theft, intellectual property acquisition, and political intelligence gathering. The group's innovative supply chain approach through MSP compromise allowed simultaneous access to multiple high-value targets across industries, serving China's industrial modernization and military advancement goals."
+  how: "The group is best known for compromising managed service providers to pivot into client networks (Operation Cloud Hopper). Attack techniques include spear-phishing with weaponized documents, exploitation of public-facing applications, deployment of custom malware including PlugX, QuasarRAT, Poison Ivy, and the ANEL backdoor, use of DLL side-loading for persistence, and living-off-the-land techniques. They conduct systematic lateral movement through Active Directory environments and exfiltrate large volumes of data through encrypted channels."
+  core_concepts:
+    - "MSP supply chain compromise"
+    - "Operation Cloud Hopper"
+    - "MSS Tianjin bureau operations"
+    - "global intellectual property theft"
+    - "multi-industry targeting at scale"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Both Chinese MSS groups share PlugX tooling and overlapping targeting"
+  - type: "enables"
+    target: "ACTOR-APT-MIRRORFACE-001"
+    description: "MenuPass shares infrastructure and tooling with MirrorFace operations targeting Japan"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - menuPass (G0045)"
+    - "US DOJ - Indictment of APT10 Members (2018)"
+    - "PwC/BAE Systems - Operation Cloud Hopper Report"
+    - "Symantec - Cicada: Chinese APT Group Widens Targeting"
+  search_keywords:
+    - "menupass"
+    - "APT10"
+    - "stone panda"
+    - "red apollo"
+    - "operation cloud hopper"
+    - "cicada APT"
+    - "MSP supply chain attack"
+    - "bronze riverside"
+    - "chinese MSS tianjin"
+  embedding_text: "MenuPass is a Chinese state-sponsored cyber espionage group also known as APT10, Stone Panda, Red Apollo, and Cicada, attributed to the Tianjin State Security Bureau of China's Ministry of State Security. Active since at least 2006, the group is notorious for Operation Cloud Hopper, a large-scale campaign targeting managed IT service providers to pivot into their clients' networks across healthcare, defense, aerospace, government, and technology sectors globally. Attack techniques include spear-phishing, exploitation of public-facing applications, deployment of custom malware such as PlugX, QuasarRAT, and ANEL backdoor, DLL side-loading, and systematic lateral movement through Active Directory. Two members were indicted by the US Department of Justice in 2018. MenuPass represents one of the most significant examples of supply chain compromise for cyber espionage, demonstrating how targeting service providers enables scaled access to multiple high-value organizations simultaneously."

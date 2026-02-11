@@ -1,0 +1,126 @@
+# GR Atom: API Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-API-001"
+  name: "API Vulnerability"
+  normalized_name: "api_vulnerability"
+  aliases:
+    - "API Security Flaw"
+    - "REST API Vulnerability"
+    - "Web Service Vulnerability"
+    - "OWASP API Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - API
+    - WEB
+    - AUTHZ
+    - AUTHN
+    - INJ
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "REST APIs"
+    - "GraphQL endpoints"
+    - "SOAP web services"
+    - "API gateways"
+    - "Microservice interfaces"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    API Vulnerability is a broad class of security weaknesses affecting Application Programming
+    Interfaces that expose application logic and sensitive data. As APIs have become the primary
+    attack surface for modern applications, the OWASP API Security Top 10 catalogs the most
+    critical risks including Broken Object Level Authorization (BOLA), Broken Authentication,
+    Broken Object Property Level Authorization, Unrestricted Resource Consumption, Broken
+    Function Level Authorization, Server-Side Request Forgery, Security Misconfiguration,
+    and Lack of Protection from Automated Threats. APIs are particularly vulnerable because
+    they are designed for programmatic access and often expose more functionality than
+    traditional web interfaces.
+  why: >-
+    APIs underpin virtually all modern applications including mobile apps, single-page
+    applications, microservices architectures, and IoT systems. API vulnerabilities are
+    increasingly exploited because APIs expose direct access to business logic and data,
+    often with weaker security controls than web interfaces. A compromised API can lead to
+    mass data exfiltration, unauthorized transactions, account takeovers, and cascading
+    failures across interconnected services.
+  how: >-
+    API vulnerabilities are exploited by manipulating API requests to bypass authorization
+    checks, injecting malicious payloads into API parameters, abusing rate limits for
+    enumeration or denial of service, exploiting excessive data exposure in API responses,
+    and chaining multiple API flaws for compound attacks. Common attack patterns include
+    BOLA attacks by manipulating object IDs, mass assignment through unfiltered request
+    bodies, JWT manipulation for authentication bypass, and GraphQL query abuse for data
+    harvesting. Mitigation requires API-specific security testing, authentication and
+    authorization at every endpoint, input validation, rate limiting, and API gateway
+    security policies.
+  core_concepts:
+    - key: "BOLA"
+      value: "Broken Object Level Authorization where APIs expose endpoints handling object identifiers allowing attackers to access any user's data"
+    - key: "API Attack Surface"
+      value: "APIs expose direct programmatic access to application logic and data, creating a broader and more accessible attack surface than web UIs"
+    - key: "Excessive Data Exposure"
+      value: "APIs returning more data than the client needs, relying on the client to filter sensitive fields rather than enforcing server-side filtering"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "API vulnerabilities abstract access control issues in the specific context of programmatic interfaces"
+  - type: "enables"
+    target: "VUL-ACCESS-MASSASSI-001"
+    description: "API vulnerabilities enable mass assignment when APIs accept unfiltered request body parameters"
+  - type: "applies_to"
+    target: "VUL-ACCESS-IDINDIOBRE-001"
+    description: "IDOR is one of the most common vulnerability patterns found in API implementations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP API Security Top 10 2023"
+    - "CWE-285 Improper Authorization"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "NIST SP 800-95 Guide to Secure Web Services"
+  search_keywords:
+    - "API vulnerability"
+    - "API security"
+    - "BOLA"
+    - "broken object level authorization"
+    - "REST API attack"
+    - "OWASP API Top 10"
+    - "API gateway security"
+    - "GraphQL vulnerability"
+  embedding_text: >-
+    API Vulnerability encompasses security weaknesses in Application Programming Interfaces
+    including REST, GraphQL, and SOAP services. OWASP API Security Top 10 catalogs critical
+    risks such as Broken Object Level Authorization (BOLA), broken authentication, excessive
+    data exposure, unrestricted resource consumption, and security misconfiguration. APIs
+    expose direct programmatic access to business logic and data, creating broader attack
+    surfaces than traditional web interfaces. Exploitation includes BOLA by manipulating
+    object IDs, mass assignment through unfiltered request bodies, JWT manipulation, and
+    GraphQL query abuse. Mitigation requires endpoint-level authentication and authorization,
+    input validation, rate limiting, and API gateway security policies.

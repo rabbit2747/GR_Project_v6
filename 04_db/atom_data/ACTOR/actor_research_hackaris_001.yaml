@@ -1,0 +1,72 @@
+# GR Atom: Hackers Arise
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-HACKARIS-001"
+  name: "Hackers Arise"
+  normalized_name: "hackers_arise"
+  aliases:
+    - "HackersArise"
+    - "Hackers-Arise"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Hackers Arise is a cybersecurity education platform and blog founded by OccupyTheWeb (OTW), focused on teaching practical hacking techniques, penetration testing methodologies, digital forensics, and security concepts. The platform provides tutorials on network hacking, web application security, wireless security, Linux administration for security professionals, and OSINT techniques. Hackers Arise has published multiple books on hacking topics and serves as a widely referenced educational resource for aspiring security professionals and ethical hackers."
+  why: "Hackers Arise is significant as an accessible entry point for cybersecurity education, providing free, practical tutorials that help aspiring security professionals develop hands-on hacking skills. The platform bridges the gap between theoretical security knowledge and practical offensive security capabilities, contributing to workforce development in the cybersecurity field."
+  how: "Hackers Arise operates through a blog featuring step-by-step tutorials on hacking techniques, tool usage, and security concepts. Content covers Kali Linux usage, Metasploit framework, network reconnaissance, web application testing, wireless hacking, and OSINT methodology. The platform also offers books and training materials that provide structured learning paths for cybersecurity beginners."
+  core_concepts:
+    - key: "Practical Hacking Education"
+      value: "Step-by-step tutorials teaching hands-on hacking techniques and penetration testing skills"
+    - key: "Tool-Based Learning"
+      value: "Educational content focused on security tools including Kali Linux, Metasploit, and OSINT tools"
+    - key: "Cybersecurity Workforce Development"
+      value: "Accessible education bridging theory and practice for aspiring security professionals"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-PENTACAD-001"
+    description: "Fellow cybersecurity education and training platform"
+  - type: enables
+    target: "ACTOR-RESEARCH-INFOINST-001"
+    description: "Contributes to the broader cybersecurity education ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for education platform
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://www.hackers-arise.com"
+  search_keywords:
+    - "hackers arise"
+    - "OccupyTheWeb"
+    - "hacking tutorials"
+    - "penetration testing education"
+    - "kali linux"
+    - "ethical hacking"
+    - "security training"
+    - "OSINT techniques"
+  embedding_text: "Hackers Arise is a cybersecurity education platform and blog founded by OccupyTheWeb, focused on teaching practical hacking techniques, penetration testing methodologies, digital forensics, and security concepts. The platform provides step-by-step tutorials on network hacking, web application security, wireless security, Linux administration for security professionals, and OSINT techniques using tools including Kali Linux and Metasploit. Hackers Arise has published multiple books on hacking topics and serves as a widely referenced educational resource for aspiring security professionals and ethical hackers. The platform bridges the gap between theoretical security knowledge and practical offensive security capabilities, contributing to cybersecurity workforce development through accessible, hands-on education."

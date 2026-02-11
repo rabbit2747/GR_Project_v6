@@ -1,0 +1,112 @@
+# GR Atom: Veeam Deploy SVC
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SVC-001"
+  name: "Veeam Deploy SVC"
+  normalized_name: "veeam_deploy_svc"
+  aliases:
+    - "Veeam Deployer Service"
+    - "VeeamDeploySvc"
+    - "Veeam Agent Deployment Service"
+    - "Veeam Distribution Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - BACKUP
+    - LATERAL
+    - EXEC
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z4"
+  function: "P1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Veeam Deploy SVC (VeeamDeploySvc) is a Windows service component of Veeam Backup &
+    Replication responsible for deploying and managing Veeam components across the backup
+    infrastructure. It handles the automated installation of Veeam transport services, proxy
+    agents, and backup agents on remote machines. The service coordinates software distribution,
+    version updates, and component lifecycle management for Veeam infrastructure elements
+    including proxies, repositories, and managed endpoints.
+  why: >-
+    Veeam Deploy SVC operates with high privileges and has network access to deploy software
+    across the infrastructure, making it a valuable lateral movement tool if compromised. The
+    service uses stored credentials to authenticate to remote systems for agent deployment,
+    and these credentials can be extracted for broader network access. Attackers who compromise
+    the Veeam backup server can abuse the deployment service to push malicious payloads to
+    any system where Veeam has deployment permissions, effectively weaponizing the legitimate
+    software distribution mechanism.
+  how: >-
+    VeeamDeploySvc runs as a Windows service on the Veeam Backup Server and components that
+    manage agent distribution. It connects to target machines using stored administrative
+    credentials via SMB and WMI to install Veeam components. The service manages MSI package
+    deployment, service configuration, and version management. Communication occurs over
+    standard Windows management ports (445 for SMB, 135 for RPC). The deployment process
+    copies installation packages to remote machines, executes installers, and verifies
+    successful deployment through status callbacks.
+  core_concepts:
+    - key: "Software Distribution Weaponization"
+      value: "Legitimate deployment mechanisms can be abused to push malicious payloads to any system where Veeam has deployment credentials"
+    - key: "Credential Access for Deployment"
+      value: "Stored administrative credentials used for remote deployment can be extracted and reused for broader network compromise"
+    - key: "Lateral Movement via Management"
+      value: "SMB and WMI-based deployment provides authenticated access to remote systems that attackers can abuse after Veeam server compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-VEEABACK-001"
+    description: "Veeam Deploy SVC is a component service within the Veeam Backup & Replication platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1072"
+    tactic:
+      - "Execution"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Veeam Backup & Replication Architecture Documentation"
+    - "MITRE ATT&CK T1072 - Software Deployment Tools"
+    - "Veeam Component Deployment Security Guide"
+  search_keywords:
+    - "Veeam Deploy SVC"
+    - "VeeamDeploySvc"
+    - "Veeam deployment service"
+    - "Veeam agent deployment"
+    - "Veeam lateral movement"
+    - "backup deployment service"
+    - "Veeam software distribution"
+    - "Veeam component deployment"
+  embedding_text: >-
+    Veeam Deploy SVC (VeeamDeploySvc) is a Windows service within Veeam Backup & Replication
+    that handles automated deployment of Veeam components across infrastructure using SMB and
+    WMI. It uses stored administrative credentials to install transport services, proxy agents,
+    and backup agents on remote systems. If the Veeam server is compromised, attackers can
+    abuse the deployment service to push malicious payloads to any system with Veeam deployment
+    permissions. Stored credentials can be extracted for broader network access. Security teams
+    should use dedicated service accounts with minimal necessary permissions, isolate Veeam
+    infrastructure, monitor for anomalous deployment activity, and audit stored credentials
+    for deployment operations.

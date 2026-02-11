@@ -1,0 +1,116 @@
+# GR Atom: CVE-2024-12084
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202412084-001"
+  name: "CVE-2024-12084"
+  normalized_name: "cve_2024_12084"
+  aliases:
+    - "rsync Heap Buffer Overflow"
+    - "rsync Daemon RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "rsync daemon (rsyncd) before 3.4.0"
+    - "Linux/Unix file synchronization service"
+    - "rsync protocol handler"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-12084 is a critical heap-based buffer overflow vulnerability (CVSS 9.8) in
+    the rsync file synchronization utility that allows unauthenticated remote code
+    execution on rsync daemon (rsyncd) instances. The vulnerability exists in how rsync
+    handles checksum lengths during file transfer negotiations. When an rsync server
+    processes a crafted request with an invalid checksum length, a heap buffer overflow
+    occurs that can be exploited for arbitrary code execution. Since rsync daemons are
+    widely deployed on Linux servers for backup and synchronization, the vulnerability
+    has broad impact across enterprise infrastructure. Patched in rsync 3.4.0 in
+    January 2025.
+  why: >-
+    rsync is one of the most ubiquitous Unix utilities, deployed on millions of servers
+    for file synchronization, backups, and mirroring. A CVSS 9.8 unauthenticated RCE in
+    the rsync daemon represents a critical risk to enterprise infrastructure, cloud
+    environments, and internet-facing services. The vulnerability is particularly
+    concerning because rsync daemons are often exposed to networks for legitimate
+    operational purposes and run with elevated privileges to access system files.
+    Multiple rsync vulnerabilities were disclosed simultaneously in January 2025.
+  how: >-
+    The exploit targets the rsync daemon by sending crafted file transfer requests with
+    manipulated checksum length values. The rsync protocol negotiates checksum parameters
+    during connection establishment. By specifying an invalid or oversized checksum
+    length, the attacker triggers a heap-based buffer overflow when the daemon allocates
+    and processes the checksum data. The overflow corrupts adjacent heap memory, enabling
+    the attacker to achieve arbitrary code execution within the rsync daemon process,
+    which typically runs with root or elevated privileges for file system access.
+  core_concepts:
+    - key: "rsync Checksum Overflow"
+      value: "Heap buffer overflow triggered by crafted checksum length values during rsync protocol negotiation"
+    - key: "Ubiquitous Infrastructure Risk"
+      value: "rsync deployed on millions of servers for backups and synchronization, often with elevated privileges"
+    - key: "Unauthenticated Remote Exploitation"
+      value: "No authentication required to exploit rsync daemons exposed to the network, CVSS 9.8 severity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2024-12084 is a heap-based buffer overflow memory corruption in the rsync daemon"
+  - type: "instance_of"
+    target: "VUL-MEMORY-INTEOVER-001"
+    description: "Checksum length manipulation involves integer handling leading to buffer overflow"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Initial Access"
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2024-12084 - CVSS 9.8"
+    - "rsync Security Advisory - January 2025"
+    - "CERT/CC Vulnerability Note VU#952657"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+  search_keywords:
+    - "CVE-2024-12084"
+    - "rsync"
+    - "heap buffer overflow"
+    - "rsyncd"
+    - "remote code execution"
+    - "file synchronization"
+    - "checksum"
+    - "Linux server"
+  embedding_text: >-
+    CVE-2024-12084 is a critical heap-based buffer overflow in the rsync daemon with
+    CVSS 9.8, enabling unauthenticated remote code execution on rsync servers. The
+    vulnerability is triggered by crafted checksum length values during rsync protocol
+    negotiation. Since rsync is deployed on millions of Linux servers for backup and
+    file synchronization, often with elevated privileges, the vulnerability has broad
+    enterprise impact. Patched in rsync 3.4.0 in January 2025 alongside multiple other
+    rsync security fixes. The critical severity reflects the ubiquity of rsync in
+    infrastructure environments.

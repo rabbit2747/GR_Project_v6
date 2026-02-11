@@ -1,0 +1,121 @@
+# GR Atom: Kubernetes Secrets
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-KUBESECR-001"
+  name: "Kubernetes Secrets"
+  normalized_name: "kubernetes_secrets"
+  aliases:
+    - "K8s Secrets"
+    - "Kube Secrets"
+    - "Kubernetes Secret Objects"
+    - "K8s Secret Store"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - CRED
+    - ENCRYPT
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Kubernetes Secrets are API objects designed to store and manage sensitive information
+    such as passwords, OAuth tokens, TLS certificates, and SSH keys within Kubernetes
+    clusters. Secrets decouple sensitive data from pod specifications and container images,
+    providing a native mechanism for injecting credentials into pods via environment
+    variables or mounted volumes. By default, secrets are stored as base64-encoded values
+    in etcd, the Kubernetes cluster state store.
+  why: >-
+    Kubernetes Secrets are a critical credential harvesting target because they frequently
+    contain database passwords, API tokens, TLS private keys, and cloud provider credentials.
+    By default, secrets are stored unencrypted in etcd (only base64 encoded, not encrypted),
+    and any user with API access to the namespace can read them. RBAC misconfigurations
+    granting broad secret access, exposed etcd instances, and secrets mounted to compromised
+    pods are common attack vectors. Secret enumeration is a standard post-exploitation step
+    after gaining cluster access. The Kubernetes secrets store CSI driver and external
+    secrets operators address some of these weaknesses.
+  how: >-
+    Secrets are created through kubectl or the Kubernetes API and stored in etcd. Pods
+    reference secrets through volume mounts or environment variable references in their
+    specifications. RBAC policies control which service accounts and users can create, read,
+    update, and delete secrets within namespaces. Encryption at rest can be configured
+    through EncryptionConfiguration to encrypt secrets in etcd using AES-CBC, AES-GCM, or
+    KMS provider encryption. External secrets management can be integrated through the
+    Secrets Store CSI Driver, which mounts secrets from external vaults (HashiCorp Vault,
+    AWS Secrets Manager) directly into pods.
+  core_concepts:
+    - key: "Base64 Not Encryption"
+      value: "Default Kubernetes secrets are base64-encoded not encrypted, providing no confidentiality protection without etcd encryption at rest configuration"
+    - key: "RBAC-Controlled Access"
+      value: "Namespace-scoped RBAC policies control secret access, and overly permissive bindings enable unauthorized credential harvesting"
+    - key: "External Secrets Integration"
+      value: "Secrets Store CSI Driver enables mounting secrets from external vaults, reducing reliance on native Kubernetes secrets storage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-KUBSERACC-001"
+    description: "Kubernetes Secrets provide credentials that service accounts use for authentication"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-SECRMANA-001"
+    description: "Kubernetes Secrets serve as a cluster-native alternative to external secrets managers"
+  - type: "is_a"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "Kubernetes Secrets function as a credential management mechanism within clusters"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.007"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Kubernetes Documentation - Secrets"
+    - "MITRE ATT&CK T1552.007 - Unsecured Credentials: Container API"
+    - "Kubernetes Documentation - Encrypting Secret Data at Rest"
+  search_keywords:
+    - "Kubernetes Secrets"
+    - "K8s secrets"
+    - "etcd secrets"
+    - "Kubernetes credential"
+    - "secrets store CSI driver"
+    - "Kubernetes RBAC secrets"
+    - "etcd encryption"
+    - "base64 secrets Kubernetes"
+  embedding_text: >-
+    Kubernetes Secrets are API objects storing sensitive data like passwords, tokens, TLS
+    certificates, and SSH keys within clusters. They decouple credentials from pod specs
+    and container images, injecting them via environment variables or volume mounts. By
+    default, secrets are base64-encoded (not encrypted) in etcd, making them a critical
+    harvesting target. Any user with namespace API access can read secrets. RBAC
+    misconfigurations, exposed etcd instances, and secrets mounted to compromised pods
+    are common attack vectors. Encryption at rest must be explicitly configured through
+    EncryptionConfiguration. The Secrets Store CSI Driver enables integration with external
+    vaults like HashiCorp Vault. Security teams must enable etcd encryption at rest, enforce
+    strict RBAC for secret access, use external secrets operators, audit secret access
+    patterns, and avoid storing highly sensitive credentials as native Kubernetes secrets.

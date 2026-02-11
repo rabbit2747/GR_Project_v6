@@ -1,0 +1,90 @@
+# GR Atom: Arid Viper
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-ARIDVIPE-001"
+  name: "Arid Viper"
+  normalized_name: "arid_viper"
+  aliases:
+    - "APT-C-23"
+    - "Desert Falcons"
+    - "TAG-63"
+    - "Mantis"
+    - "Grey Karkadann"
+    - "Two-tailed Scorpion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXFIL
+    - C2
+    - MOBILE
+    - ANDROID
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Arid Viper is a Middle Eastern advanced persistent threat group believed to be operating out of the Palestinian territories. Active since at least 2012, the group conducts cyber-espionage campaigns primarily targeting Israeli military, government, education, and transportation sectors, as well as Palestinian political entities. The group is notable for its use of custom Android and Windows malware, spearphishing campaigns, and social engineering via fake social media profiles."
+  why: "Arid Viper represents a persistent regional cyber-espionage threat with continuously evolving toolsets and a dual focus on both mobile and desktop platforms. Understanding this actor is critical for organizations operating in the Middle East, particularly government and defense sectors, as the group has demonstrated sustained capability to compromise mobile devices and exfiltrate sensitive communications and documents."
+  how: "The group employs spearphishing emails with malicious attachments or links to deliver custom backdoors such as Micropsia, PyMICROPSIA, and Arid Gopher. They also distribute trojanized Android applications through fake app stores and social engineering to compromise mobile devices. Command-and-control infrastructure relies on custom HTTP-based protocols, and the group uses staged payloads with multiple layers of obfuscation to evade detection."
+  core_concepts:
+    - key: "Mobile Espionage"
+      value: "Significant focus on Android malware to steal call logs, SMS, contacts, and recordings from mobile devices"
+    - key: "Social Engineering"
+      value: "Extensive use of fake social media personas to lure targets into installing malicious applications"
+    - key: "Regional Focus"
+      value: "Primarily targets Middle Eastern entities with emphasis on Israeli and Palestinian organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Arid Viper uses spearphishing as a primary initial access vector"
+  - type: is_a
+    target: "ACTOR-APT-ARIDVIPE-001"
+    description: "State-aligned APT group conducting cyber-espionage operations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+      - "Collection"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Arid Viper Group Profile"
+    - "Cisco Talos - Arid Viper Campaign Analysis"
+    - "Meta Threat Report - APT-C-23 Operations"
+  search_keywords:
+    - "arid viper"
+    - "apt-c-23"
+    - "desert falcons"
+    - "micropsia"
+    - "pymicropsia"
+    - "mantis apt"
+    - "two-tailed scorpion"
+    - "palestinian apt"
+    - "middle east espionage"
+    - "android malware apt"
+  embedding_text: "Arid Viper, also known as APT-C-23 and Desert Falcons, is a Palestinian-linked advanced persistent threat group active since 2012. The group conducts cyber-espionage targeting Israeli military, government, education, and Palestinian political entities. Arid Viper is distinguished by its dual-platform approach, deploying custom malware on both Windows (Micropsia, PyMICROPSIA, Arid Gopher) and Android devices through trojanized applications. Initial access relies heavily on spearphishing emails and social engineering via fake social media profiles. The group maintains persistent access through custom backdoors communicating over HTTP-based command-and-control channels. Their mobile espionage capabilities include exfiltrating call logs, SMS messages, contacts, and audio recordings from compromised Android devices."

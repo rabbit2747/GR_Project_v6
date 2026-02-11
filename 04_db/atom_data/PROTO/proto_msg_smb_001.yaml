@@ -1,0 +1,102 @@
+# GR Atom: SMB
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SMB-001"
+  name: "SMB"
+  normalized_name: "smb"
+  aliases:
+    - "Server Message Block"
+    - "CIFS"
+    - "Common Internet File System"
+    - "Windows File Sharing"
+    - "LAN Manager"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    Server Message Block (SMB) is a network file sharing protocol originally developed by IBM and
+    extensively extended by Microsoft that provides shared access to files, printers, serial ports,
+    and inter-process communication between networked nodes. SMB operates as a client-server,
+    request-response protocol primarily over TCP port 445 (direct hosting) or via NetBIOS over
+    TCP/IP on port 139. The protocol has evolved through multiple versions: SMBv1 (CIFS), SMBv2,
+    SMBv3, and SMB 3.1.1, each introducing significant security and performance improvements.
+    SMB is the foundational protocol for Windows networking and Active Directory file services.
+  why: >-
+    SMB is one of the most exploited protocols in enterprise networks. SMBv1 vulnerabilities have
+    enabled catastrophic attacks including EternalBlue (MS17-010) which powered WannaCry and
+    NotPetya ransomware. SMB is extensively used for lateral movement (MITRE T1021.002), credential
+    relay attacks (NTLM relay), and data exfiltration. Exposed SMB shares enable unauthorized file
+    access, ransomware propagation, and sensitive data theft. SMB signing, when not enforced,
+    allows man-in-the-middle attacks. Null session enumeration via SMB reveals users, groups,
+    shares, and policies on misconfigured systems. CISA consistently lists exposed SMB as a
+    critical enterprise risk.
+  how: >-
+    SMB operates through a client-server model: (1) Connection establishment via TCP port 445
+    (direct) or NetBIOS Session Service on port 139; (2) Protocol negotiation where client and
+    server agree on SMB dialect version and capabilities; (3) Session setup with authentication
+    using NTLM or Kerberos via SPNEGO; (4) Tree connect to access specific shared resources
+    (file shares, named pipes, printers); (5) File operations including open, read, write,
+    close, and directory listing using SMB commands; (6) Named pipe operations for RPC
+    communication over SMB. SMBv2+ introduces compounding (batched requests), durable handles,
+    leasing, and encryption. SMB 3.x adds transparent failover and multichannel support.
+  core_concepts:
+    - key: "SMB Dialect Negotiation"
+      value: "Protocol handshake where client and server agree on the highest mutually supported SMB version and feature set, determining security capabilities."
+    - key: "Named Pipes"
+      value: "Inter-process communication mechanism over SMB enabling RPC services, used by Windows for administrative tools, Active Directory, and remote management."
+    - key: "SMB Signing"
+      value: "Message integrity mechanism using cryptographic signatures to prevent tampering and man-in-the-middle attacks on SMB communications."
+    - key: "NTLM Relay Attack"
+      value: "Attack technique that captures and replays NTLM authentication from SMB sessions to gain unauthorized access to other network resources."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "SMB is an application layer protocol for networked file sharing and inter-process communication"
+  - type: "requires"
+    target: "PROTO-MSG-NETBIOS-001"
+    description: "Legacy SMB requires NetBIOS Session Service on port 139 for transport before direct TCP hosting on port 445"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-SMB]: Server Message Block Protocol"
+    - "Microsoft — [MS-SMB2]: Server Message Block Protocol Versions 2 and 3"
+    - "MITRE ATT&CK — T1021.002: SMB/Windows Admin Shares"
+    - "CVE-2017-0144 — EternalBlue (MS17-010). NIST NVD"
+  search_keywords:
+    - "SMB"
+    - "server message block"
+    - "CIFS"
+    - "Windows file sharing"
+    - "port 445"
+    - "EternalBlue"
+    - "SMB relay"
+    - "named pipes"
+    - "NTLM relay"
+    - "SMB signing"
+  embedding_text: >-
+    SMB (Server Message Block) is the foundational Windows network file sharing protocol operating
+    on TCP port 445, providing shared access to files, printers, and inter-process communication.
+    Evolved through SMBv1 (CIFS), SMBv2, SMBv3, and SMB 3.1.1 versions. SMB is one of the most
+    exploited enterprise protocols — EternalBlue (MS17-010) targeting SMBv1 powered WannaCry and
+    NotPetya ransomware. MITRE ATT&CK documents SMB for lateral movement (T1021.002). NTLM relay
+    attacks exploit SMB authentication. Named pipes enable RPC over SMB. Security requires SMB
+    signing enforcement, disabling SMBv1, and restricting port 445 access.

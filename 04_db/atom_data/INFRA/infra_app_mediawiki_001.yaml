@@ -1,0 +1,117 @@
+# GR Atom: MediaWiki
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-MEDIAWIKI-001"
+  name: "MediaWiki"
+  normalized_name: "mediawiki"
+  aliases:
+    - "Wikipedia Software"
+    - "MediaWiki Engine"
+    - "Wikimedia MediaWiki"
+    - "MW"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - INJ
+    - XSS
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MediaWiki is a free, open-source wiki engine written in PHP, originally developed for
+    Wikipedia and maintained by the Wikimedia Foundation. It powers Wikipedia, Wiktionary, and
+    thousands of other wikis worldwide. MediaWiki uses a MySQL or MariaDB backend, supports
+    rich text editing through wikitext markup, and provides an extensible architecture through
+    plugins, skins, and a comprehensive API. It is widely deployed in enterprise environments
+    as an internal knowledge management platform.
+  why: >-
+    MediaWiki installations are frequently targeted due to their public-facing nature and
+    extensive PHP codebase. Vulnerabilities have included cross-site scripting (XSS) through
+    wiki markup injection, SQL injection in API endpoints, remote code execution through
+    insecure file uploads and extension vulnerabilities, and server-side request forgery (SSRF)
+    through media handling. Unpatched MediaWiki instances on the internet are commonly scanned
+    and exploited. The extension ecosystem introduces additional attack surface, as third-party
+    extensions may not receive timely security updates. MediaWiki's Special pages and API
+    endpoints can leak sensitive server information if not properly configured.
+  how: >-
+    MediaWiki processes user-submitted wikitext markup through a parser that converts it to HTML
+    for display. The application exposes a comprehensive API (api.php) for programmatic access
+    to wiki content and administrative functions. File uploads are handled through configurable
+    media handlers. Extensions hook into MediaWiki's event system to modify behavior. Attackers
+    exploit XSS through crafted wikitext that bypasses sanitization, SQL injection through
+    improperly parameterized API queries, and RCE through malicious file uploads or vulnerable
+    extensions. Information disclosure occurs through exposed Special:Version pages, API
+    endpoints, and directory listings.
+  core_concepts:
+    - key: "PHP Wiki Engine"
+      value: "Open-source PHP-based wiki platform powering Wikipedia with extensive API, extension architecture, and wikitext markup processing"
+    - key: "Web Application Attack Surface"
+      value: "Public-facing PHP application vulnerable to XSS through markup injection, SQL injection in API endpoints, and RCE through file uploads and extensions"
+    - key: "Enterprise Knowledge Platform"
+      value: "Widely deployed as internal wiki for knowledge management, exposing sensitive organizational information if compromised or misconfigured"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "MediaWiki is an enterprise web application used for organizational knowledge management and documentation"
+  - type: "requires"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "MediaWiki requires web server infrastructure (Apache/Nginx) and database services (MySQL/MariaDB) to operate"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MediaWiki Security Advisories - Wikimedia Foundation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "OWASP Web Application Security Testing Guide"
+  search_keywords:
+    - "MediaWiki"
+    - "MediaWiki vulnerability"
+    - "MediaWiki exploit"
+    - "MediaWiki XSS"
+    - "MediaWiki SQL injection"
+    - "MediaWiki RCE"
+    - "wiki security"
+    - "MediaWiki extension vulnerability"
+  embedding_text: >-
+    MediaWiki is a free open-source PHP wiki engine developed by the Wikimedia Foundation,
+    powering Wikipedia and thousands of enterprise wikis. It uses MySQL/MariaDB backends and
+    provides extensible architecture through plugins and a comprehensive API. Security concerns
+    include XSS through wiki markup injection, SQL injection in API endpoints, remote code
+    execution through file uploads and vulnerable extensions, and SSRF through media handling.
+    Unpatched MediaWiki instances are commonly scanned and exploited. The extension ecosystem
+    introduces additional attack surface with varying security update cadences. Special pages
+    and API endpoints can leak server information. Security teams should keep MediaWiki updated,
+    audit installed extensions, restrict file upload types, configure access controls on
+    sensitive Special pages, and monitor API endpoint access for abuse.

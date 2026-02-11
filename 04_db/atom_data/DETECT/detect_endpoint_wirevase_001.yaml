@@ -1,0 +1,95 @@
+# GR Atom: Windows Registry Value Set Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREVASE-001"
+  name: "Windows Registry Value Set Event"
+  normalized_name: "windows_registry_value_set_event"
+  aliases:
+    - "Registry Value Write"
+    - "RegSetValueEx Detection"
+    - "Sysmon Event ID 13"
+    - "Registry Value Create"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry values are created or written to on an endpoint. This is primarily detected via Sysmon Event ID 13 (RegistryEvent - Value Set) which records the target registry path, value name, value type, and the new value data. Windows Security Event ID 4657 provides additional coverage when SACLs are configured. The event captures the full registry path including key and value name, the value data type (REG_SZ, REG_DWORD, REG_BINARY, REG_EXPAND_SZ, REG_MULTI_SZ), the actual data written, the writing process, and user context."
+  why: "Registry value set operations are the primary mechanism through which adversaries establish persistence, configure malicious services, disable security features, and store encoded payloads in the registry. Writing values to autostart locations (Run, RunOnce) creates persistence, modifying security policy values disables protections, and setting service ImagePath values redirects service execution. Sysmon Event ID 13 is one of the most critical detection data sources because it captures the actual data being written, enabling content-based detection of malicious payloads."
+  how: "Detection primarily monitors Sysmon Event ID 13 which provides the most comprehensive coverage of registry value set operations including the new value data. Windows Security Event ID 4657 with KEY_SET_VALUE access provides supplementary detection. EDR agents capture value set operations with full process context and enrichment. SIEM rules analyze the value data content for indicators such as executable paths in autostart locations, encoded PowerShell commands, unusual binary data patterns, and modifications to known security configuration values. Baseline comparison identifies unauthorized value changes."
+  core_concepts:
+    - key: "autostart_persistence"
+      value: "Writing executable paths to Run, RunOnce, or other autostart registry values to achieve persistence across reboots"
+    - key: "value_data_content_analysis"
+      value: "Analyzing the actual data written to registry values to identify malicious payloads, encoded commands, and suspicious paths"
+    - key: "security_policy_modification"
+      value: "Setting registry values that control security features to disabled states, weakening the endpoint's defensive posture"
+    - key: "payload_storage"
+      value: "Storing encoded or encrypted malicious payloads as registry value data for later retrieval and execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGVAL-001"
+    description: "Registry value set is a specific type of registry value operation event"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-WIREKECR-001"
+    description: "Value set operations require an existing registry key (created or pre-existing) to store the value"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547.001"
+    tactic:
+      - "persistence"
+      - "privilege-escalation"
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sysmon Documentation - Event ID 13 RegistryEvent Value Set"
+    - "Microsoft Documentation - RegSetValueEx Function"
+    - "MITRE ATT&CK T1547.001 - Boot or Logon Autostart Execution: Registry Run Keys"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+  search_keywords:
+    - "registry value set"
+    - "Sysmon Event ID 13"
+    - "RegSetValueEx"
+    - "registry value write"
+    - "registry value create"
+    - "Run key value"
+    - "registry persistence"
+    - "registry value modification"
+    - "autostart registry"
+    - "registry payload"
+  embedding_text: "Windows registry value set event detection pattern identifies when registry values are created or written via Sysmon Event ID 13 and Windows Security Event ID 4657. Sysmon Event ID 13 is one of the most critical detection sources as it captures the actual data written including executable paths, encoded commands, and configuration changes. Adversaries use value set operations for persistence via autostart entries, security policy modification, malicious service configuration, and encoded payload storage. Maps to MITRE ATT&CK T1547.001 Registry Run Keys and T1112 Modify Registry. Detection analyzes value data content for malicious indicators and compares against baselines to identify unauthorized modifications."

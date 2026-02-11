@@ -1,0 +1,74 @@
+# GR Atom: Kubernetes Runtime Class
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-KUBRUNCLA-001"
+  name: "Kubernetes Runtime Class"
+  normalized_name: "kubernetes_runtime_class"
+  aliases: ["RuntimeClass", "K8s Runtime Class", "Container Runtime Selection"]
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags: [K8S, CONTAINER, CONFIG]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R1.2"
+definition:
+  what: >-
+    Kubernetes RuntimeClass is a cluster-scoped resource that defines different container
+    runtime configurations available for running Pods. RuntimeClass allows administrators to
+    specify which container runtime handler (runc, gVisor/runsc, Kata Containers, etc.) should
+    be used for specific workloads, enabling per-pod runtime selection based on security
+    requirements, performance characteristics, or isolation needs. It also supports scheduling
+    constraints and pod overhead configuration.
+  why: >-
+    RuntimeClass is a critical security mechanism for implementing defense-in-depth container
+    isolation. Standard runc containers share the host kernel, making kernel exploits a
+    container escape vector. RuntimeClass enables deploying sensitive workloads with stronger
+    isolation (gVisor for syscall filtering, Kata for VM-level isolation) while allowing less
+    sensitive workloads to use standard runc for performance. Misconfigured RuntimeClass
+    assignments can result in workloads running with insufficient isolation.
+  how: >-
+    RuntimeClass objects are created as cluster resources with a handler field specifying the
+    CRI (Container Runtime Interface) runtime handler name. Pods reference a RuntimeClass via
+    the runtimeClassName field. The kubelet routes the pod to the appropriate runtime handler
+    on the node. Scheduling constraints ensure pods are placed on nodes with the required
+    runtime. Overhead fields account for additional memory/CPU consumed by sandbox runtimes.
+    Admission controllers can enforce RuntimeClass requirements for specific namespaces or
+    workload types.
+  core_concepts:
+    - key: "Per-Workload Runtime Selection"
+      value: "Enables selecting different container runtimes (runc, gVisor, Kata) per pod based on security requirements and isolation needs"
+    - key: "Defense-in-Depth Isolation"
+      value: "Sandbox runtimes like gVisor (syscall filtering) and Kata Containers (VM isolation) provide stronger isolation than standard runc"
+    - key: "Scheduling and Overhead"
+      value: "RuntimeClass specifies node scheduling constraints and resource overhead to ensure pods run on compatible nodes with accurate resource accounting"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "RuntimeClass is a Kubernetes cluster-scoped resource for runtime configuration"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "RuntimeClass references container runtime handlers available on cluster nodes"
+  - type: "enables"
+    target: "INFRA-COMPUTE-APPLCONT-001"
+    description: "RuntimeClass determines the isolation level for application containers"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Kubernetes RuntimeClass Documentation", "gVisor Security Model", "Kata Containers Architecture"]
+  search_keywords: ["runtime class", "kubernetes runtime", "gVisor", "kata containers", "container isolation", "runtimeClassName", "sandbox runtime"]
+  embedding_text: >-
+    Kubernetes RuntimeClass is a cluster-scoped resource enabling per-pod container runtime
+    selection based on security requirements. It allows choosing between standard runc, gVisor
+    (syscall filtering), and Kata Containers (VM isolation) for different workload isolation
+    needs. Critical for defense-in-depth container security since standard runc shares the host
+    kernel. Pods reference RuntimeClass via runtimeClassName field. Scheduling constraints
+    ensure pod placement on compatible nodes. Admission controllers can enforce RuntimeClass
+    requirements. Misconfigured assignments risk insufficient workload isolation.

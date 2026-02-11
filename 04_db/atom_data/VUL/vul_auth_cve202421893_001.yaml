@@ -1,0 +1,117 @@
+# GR Atom: CVE-2024-21893
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202421893-001"
+  name: "CVE-2024-21893"
+  normalized_name: "cve_2024_21893"
+  aliases:
+    - "Ivanti Connect Secure SSRF"
+    - "Ivanti SAML SSRF Vulnerability"
+    - "Ivanti ICS Server-Side Request Forgery"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - SSRF
+    - WEB
+    - NETWORK
+    - SAML
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Ivanti Connect Secure (ICS) VPN"
+    - "Ivanti Policy Secure"
+    - "Ivanti Neurons for ZTA"
+    - "SAML authentication component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-21893 is a server-side request forgery (SSRF) vulnerability in the SAML component
+    of Ivanti Connect Secure (versions 9.x and 22.x), Ivanti Policy Secure, and Ivanti Neurons
+    for ZTA. The vulnerability allows an unauthenticated attacker to access certain restricted
+    resources by sending crafted requests through the SAML authentication handler. This SSRF can
+    be chained with CVE-2024-21887 (command injection) as an alternative authentication bypass
+    path to achieve remote code execution. CVSS v3.1 score is 8.2.
+  why: >-
+    This SSRF vulnerability emerged as a critical alternative attack path after Ivanti deployed
+    mitigations for CVE-2023-46805. Threat actors quickly pivoted to using CVE-2024-21893 as
+    the new authentication bypass component in their exploit chains, demonstrating the adaptive
+    nature of sophisticated attackers. The vulnerability in the SAML component means that any
+    Ivanti deployment using SAML-based authentication (which is common in enterprise environments)
+    was vulnerable. Exploitation was observed at massive scale, with thousands of compromised
+    devices worldwide.
+  how: >-
+    The attacker sends crafted requests to the SAML authentication endpoint that trigger a
+    server-side request forgery, allowing access to internal resources and API endpoints that
+    should require authentication. When combined with CVE-2024-21887, the SSRF provides the
+    unauthenticated access needed to reach the command injection endpoint, achieving pre-auth
+    RCE. Mitigation includes applying Ivanti patches, performing factory resets, deploying the
+    external integrity checking tool, and monitoring for indicators of compromise. Organizations
+    were advised to assume compromise if patches were not applied promptly.
+  core_concepts:
+    - key: "SAML SSRF Authentication Bypass"
+      value: "Server-side request forgery in SAML component provides unauthenticated access to restricted internal API endpoints"
+    - key: "Alternative Attack Path"
+      value: "Used as a replacement authentication bypass after CVE-2023-46805 mitigations were deployed, demonstrating attacker adaptability"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-21893 is an SSRF-based authentication bypass in the SAML component of Ivanti products"
+  - type: "enables"
+    target: "VUL-AUTH-CVE202421887-001"
+    description: "SAML SSRF provides alternative unauthenticated access to reach the CVE-2024-21887 command injection endpoint"
+  - type: "alternative_to"
+    target: "VUL-AUTH-CVE202346805-001"
+    description: "Serves as an alternative authentication bypass to CVE-2023-46805 in Ivanti exploit chains"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-21893"
+    - "NIST NVD CVE-2024-21893 (CVSS v3.1: 8.2)"
+    - "Ivanti Security Advisory KB-2024-01-31"
+    - "CISA KEV Catalog - CVE-2024-21893"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Mandiant Ivanti Campaign Follow-Up Analysis"
+  search_keywords:
+    - "CVE-2024-21893"
+    - "Ivanti SAML SSRF"
+    - "Ivanti Connect Secure SSRF"
+    - "Ivanti SSRF vulnerability"
+    - "Ivanti authentication bypass SAML"
+    - "Ivanti alternative exploit path"
+    - "Ivanti Neurons ZTA vulnerability"
+  embedding_text: >-
+    CVE-2024-21893 is a server-side request forgery vulnerability in the SAML component of Ivanti
+    Connect Secure, Policy Secure, and Neurons for ZTA with CVSS v3.1 score 8.2. An unauthenticated
+    attacker exploits the SAML handler to access restricted internal resources. This SSRF emerged as
+    an alternative authentication bypass after mitigations for CVE-2023-46805 were deployed, and can
+    be chained with CVE-2024-21887 command injection for pre-auth RCE. Demonstrates attacker
+    adaptability in finding new paths when initial vulnerabilities are patched. Thousands of devices
+    were compromised worldwide. Mitigation requires patching, factory reset, integrity checking,
+    and organizations should assume compromise if not patched promptly.

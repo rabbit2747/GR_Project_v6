@@ -1,0 +1,71 @@
+# GR Atom: JetBrains
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-JETBRAINS-001"
+  name: "JetBrains"
+  normalized_name: "jetbrains"
+  aliases:
+    - "JetBrains s.r.o."
+    - "JetBrains International s.r.o."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - CLOUD
+    - CONTAINER
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "JetBrains is a Czech software development company that produces integrated development environments (IDEs), build tools, and collaboration platforms used by millions of developers worldwide. Key products include IntelliJ IDEA, PyCharm, TeamCity (CI/CD server), and Space (development platform). In cybersecurity, JetBrains is significant due to the TeamCity supply chain attack vector exploited by Russian state-sponsored actors (SVR/Cozy Bear) in the SolarWinds campaign era, and ongoing critical vulnerabilities in TeamCity that have been targeted by threat actors."
+  why: "JetBrains is relevant to cybersecurity as a critical component in software supply chains. TeamCity CI/CD servers are high-value targets because compromising them can enable supply chain attacks affecting all software built through those pipelines. Critical TeamCity vulnerabilities (such as CVE-2023-42793 and CVE-2024-27198) have been actively exploited by nation-state actors and ransomware groups, making JetBrains products important to monitor in enterprise security programs."
+  how: "JetBrains develops and distributes software development tools through direct download, JetBrains Toolbox, and cloud-hosted services. TeamCity operates as a build automation and CI/CD server that orchestrates software compilation, testing, and deployment pipelines. Organizations use JetBrains products in development workflows where compromise could enable injection of malicious code into production software. JetBrains responds to security incidents through advisories, patches, and coordination with security researchers."
+  core_concepts:
+    - key: "CI/CD supply chain risk"
+      value: "TeamCity servers as high-value targets enabling software supply chain compromise"
+    - key: "Development tooling vendor"
+      value: "Major IDE and build tool provider embedded in enterprise software development workflows"
+    - key: "TeamCity vulnerabilities"
+      value: "Critical vulnerabilities actively exploited by nation-state and ransomware actors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-DEVOPS-TEAMCITY-001"
+    description: "JetBrains produces TeamCity CI/CD server targeted in supply chain attacks"
+  - type: enables
+    target: "TECHNIQUE-SUPPLYCHAIN-001"
+    description: "JetBrains products enable software development workflows that are supply chain attack targets"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "JetBrains Security Advisories"
+    - "CISA Alert - TeamCity Vulnerabilities"
+    - "Microsoft Threat Intelligence - SVR Exploitation of TeamCity"
+  search_keywords:
+    - "jetbrains"
+    - "jetbrains teamcity"
+    - "teamcity vulnerability"
+    - "jetbrains security"
+    - "teamcity supply chain"
+    - "CVE-2023-42793"
+    - "jetbrains ide"
+    - "intellij idea"
+  embedding_text: "JetBrains is a major software development tools company producing integrated development environments, build automation tools, and collaboration platforms used by millions of developers worldwide. Key products include IntelliJ IDEA, PyCharm, WebStorm, and critically TeamCity, a CI/CD build server that has become a significant cybersecurity concern due to high-profile supply chain attack exploitation. TeamCity servers have been targeted by Russian state-sponsored actors including SVR/Cozy Bear during the SolarWinds campaign era, and critical vulnerabilities such as CVE-2023-42793 and CVE-2024-27198 have been actively exploited by nation-state actors and ransomware groups to compromise software build pipelines. JetBrains products are deeply embedded in enterprise software development workflows, making their security posture a critical factor in organizational supply chain risk assessment. The company responds to security incidents through advisories, patches, and coordinated disclosure with the security research community."

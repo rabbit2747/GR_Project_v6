@@ -1,0 +1,86 @@
+# GR Atom: File Get Attributes Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILGETATT-001"
+  name: "File Get Attributes Event"
+  normalized_name: "file_get_attributes_event"
+  aliases:
+    - "File Attribute Query"
+    - "File Metadata Read Event"
+    - "GetFileAttributes Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a process queries the attributes of a file on an endpoint. File attribute queries retrieve metadata including file size, timestamps (creation, modification, access), file attributes (hidden, system, read-only, archive, compressed, encrypted), owner information, and alternate data streams. This event captures the queried file path, requesting process, user context, and the specific attributes retrieved."
+  why: "File attribute queries are a common reconnaissance technique used by attackers to enumerate file system contents, discover hidden files, identify encryption status, and assess targets for modification or exfiltration. High-volume attribute queries against sensitive directories indicate systematic reconnaissance. Monitoring these events provides early detection of information gathering activities during post-exploitation."
+  how: "Monitor GetFileAttributes, GetFileAttributesEx, and NtQueryInformationFile system calls through ETW providers and EDR kernel callbacks. Track attribute queries against sensitive directories including system folders, credential stores, and administrative shares. Apply frequency analysis to detect automated enumeration patterns. Correlate with subsequent file access or modification events to identify complete attack chains."
+  core_concepts:
+    - key: "File Attribute Flags"
+      value: "Metadata flags describing file properties including hidden, system, read-only, archive, compressed, encrypted, and directory status"
+    - key: "Reconnaissance Detection"
+      value: "Identifying systematic file attribute enumeration patterns that indicate an attacker gathering information about the file system structure and contents"
+    - key: "Attribute Query API"
+      value: "Windows API functions (GetFileAttributes, GetFileAttributesEx, NtQueryInformationFile) used to retrieve file metadata"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File attribute queries are a specific type of file event"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEACCE-001"
+    description: "Attribute queries often precede file access operations in attack chains"
+  - type: effective_against
+    target: "ATK-DISCOVERY-FILEDISCOVERY-001"
+    description: "Detects file and directory discovery during post-exploitation reconnaissance"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1083"
+    tactic:
+      - "Discovery"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1083 - File and Directory Discovery"
+    - "Microsoft Documentation - GetFileAttributes Function"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file attributes"
+    - "GetFileAttributes"
+    - "file metadata query"
+    - "file enumeration"
+    - "file discovery"
+    - "attribute query"
+    - "file reconnaissance"
+    - "NtQueryInformationFile"
+  embedding_text: "File Get Attributes Event is an endpoint detection pattern for events generated when processes query file attributes. These queries retrieve metadata including file size, timestamps, attribute flags (hidden, system, read-only, encrypted), and owner information. Monitoring attribute queries detects reconnaissance activity where attackers enumerate file system contents, discover hidden files, and identify targets for modification or exfiltration. Detection leverages ETW providers and EDR kernel callbacks monitoring GetFileAttributes, GetFileAttributesEx, and NtQueryInformationFile calls. Frequency analysis identifies automated enumeration patterns against sensitive directories, correlated with subsequent access events to trace complete attack chains."

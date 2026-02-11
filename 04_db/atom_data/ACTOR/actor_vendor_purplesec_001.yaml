@@ -1,0 +1,63 @@
+# GR Atom: PurpleSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-PURPLESEC-001"
+  name: "PurpleSec"
+  normalized_name: "purplesec"
+  aliases:
+    - "PurpleSec LLC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "PurpleSec is a cybersecurity consultancy that provides managed cybersecurity services, vulnerability management, penetration testing, and compliance advisory for small and medium-sized businesses. The company is also known for publishing cybersecurity statistics and research reports that aggregate industry data on cyber threats, data breaches, ransomware trends, and security spending, making them a frequently cited source for cybersecurity metrics."
+  why: "PurpleSec is relevant in cybersecurity as both a managed security services provider for the SMB market and as a widely referenced source of aggregated cybersecurity statistics. Their published reports compiling industry data on breach costs, ransomware frequency, phishing statistics, and security spending trends are frequently cited in business cases, presentations, and security awareness materials across the industry."
+  how: "PurpleSec delivers cybersecurity services through vulnerability assessments, penetration testing, compliance auditing, and managed security monitoring for SMB clients. They publish regularly updated research reports aggregating data from multiple industry sources on cybersecurity trends, threat statistics, and market analysis. Their consulting approach combines technical security testing with compliance guidance for frameworks such as HIPAA, PCI DSS, and NIST."
+  core_concepts:
+    - key: "Managed security for SMB"
+      value: "Cybersecurity consulting and managed services for small and medium businesses"
+    - key: "Cybersecurity statistics"
+      value: "Widely cited aggregated reports on cyber threat trends and industry metrics"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-MSSP-001"
+    description: "PurpleSec provides managed cybersecurity services and consulting for SMB clients"
+  - type: "enables"
+    target: "ARTIFACT-SECREPORT-001"
+    description: "PurpleSec produces aggregated cybersecurity statistics and trend reports"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "PurpleSec Official Website"
+    - "PurpleSec Cyber Security Statistics Reports"
+  search_keywords:
+    - "purplesec"
+    - "purplesec cybersecurity"
+    - "purplesec statistics"
+    - "cybersecurity statistics"
+    - "purplesec managed security"
+  embedding_text: "PurpleSec is a cybersecurity consultancy providing managed security services, vulnerability management, penetration testing, and compliance advisory for small and medium-sized businesses. The company delivers security services through vulnerability assessments, penetration testing, compliance auditing against frameworks such as HIPAA, PCI DSS, and NIST, and ongoing managed security monitoring. PurpleSec is widely recognized in the cybersecurity community for publishing aggregated cybersecurity statistics and research reports that compile industry data on cyber threats, data breaches, ransomware trends, phishing statistics, and security spending. These reports are frequently cited in business cases, executive presentations, and security awareness materials across the industry, making PurpleSec a notable reference source for cybersecurity metrics and trend data."

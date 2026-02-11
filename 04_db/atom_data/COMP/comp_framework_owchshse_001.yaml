@@ -1,0 +1,117 @@
+# GR Atom: OWASP Cheat Sheet Series
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-OWCHSHSE-001"
+  name: "OWASP Cheat Sheet Series"
+  normalized_name: "owasp_cheat_sheet_series"
+  aliases:
+    - "OWASP Cheat Sheets"
+    - "Cheat Sheet Series"
+    - "OWASP Developer Cheat Sheets"
+    - "OWASP Security Cheat Sheets"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Cheat Sheet Series is a collection of over 80 concise, practical security
+    guidance documents designed to provide developers and security professionals with quick-
+    reference information on specific application security topics. Each cheat sheet covers a
+    single security domain with actionable implementation guidance, code examples, and common
+    pitfall warnings. Topics include authentication, authorization, input validation, SQL
+    injection prevention, cross-site scripting prevention, cryptographic storage, session
+    management, REST security, GraphQL security, Docker security, Kubernetes security, and
+    many other development-specific security concerns.
+  why: >-
+    Developers need accessible, concise security guidance that can be consumed quickly during
+    the development process. Comprehensive security standards like ASVS and full testing guides
+    are essential but too detailed for quick reference during coding. The Cheat Sheet Series
+    bridges this gap by providing focused, actionable guidance that developers can reference
+    when implementing specific security-sensitive features, enabling secure coding practices
+    without requiring deep security expertise.
+  how: >-
+    Each cheat sheet follows a consistent format: (1) Introduction explaining the security
+    topic and its importance; (2) Specific implementation guidance with language-agnostic
+    and framework-specific recommendations; (3) Code examples demonstrating secure implementation
+    patterns; (4) Common mistakes and anti-patterns to avoid; (5) References to related OWASP
+    resources and external standards. The series is maintained on GitHub with community
+    contributions and is available as a free website. New cheat sheets are added as new
+    security topics emerge, and existing sheets are updated to reflect current best practices.
+  core_concepts:
+    - key: "Developer-Focused Security Guidance"
+      value: >-
+        Practical, code-level security guidance written specifically for developers who are
+        implementing security-sensitive features, providing actionable recommendations rather
+        than abstract security principles.
+    - key: "Quick-Reference Format"
+      value: >-
+        Concise, focused documents covering single security topics that can be consumed
+        quickly during development, bridging the gap between comprehensive standards and
+        day-to-day coding practices.
+    - key: "Community-Maintained Currency"
+      value: >-
+        Open-source maintenance through GitHub ensuring cheat sheets remain current with
+        evolving threats, new frameworks, and updated best practices through community
+        contributions.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "The Cheat Sheet Series is an OWASP flagship project providing practical developer security guidance"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "Cheat sheets provide implementation guidance for specific ASVS security requirements"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "Cheat sheets provide remediation guidance for each OWASP Top 10 vulnerability category"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Cheat Sheet Series. https://cheatsheetseries.owasp.org/"
+    - "OWASP Cheat Sheet Series GitHub. https://github.com/OWASP/CheatSheetSeries"
+  search_keywords:
+    - "OWASP cheat sheet"
+    - "security cheat sheet"
+    - "developer security guide"
+    - "OWASP quick reference"
+    - "secure coding cheat sheet"
+    - "authentication cheat sheet"
+    - "input validation cheat sheet"
+    - "SQL injection prevention"
+    - "XSS prevention cheat sheet"
+    - "OWASP developer guidance"
+  embedding_text: >-
+    The OWASP Cheat Sheet Series is a collection of over 80 concise practical security guidance
+    documents for developers and security professionals. Each cheat sheet covers a single
+    security domain with actionable implementation guidance, code examples, and common pitfall
+    warnings. Topics include authentication, authorization, input validation, SQL injection
+    prevention, XSS prevention, cryptographic storage, session management, REST security,
+    GraphQL security, and Docker and Kubernetes security. The series bridges the gap between
+    comprehensive standards like ASVS and day-to-day coding by providing focused quick-reference
+    guidance consumable during development. Maintained on GitHub with community contributions,
+    cheat sheets are updated to reflect current best practices and new security topics. Each
+    follows a consistent format with introduction, implementation guidance, code examples,
+    common mistakes, and references to related OWASP resources.

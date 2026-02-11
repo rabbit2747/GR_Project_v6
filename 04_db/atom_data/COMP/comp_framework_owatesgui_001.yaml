@@ -1,0 +1,134 @@
+# GR Atom: OWASP Testing Guide
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-OWATESGUI-001"
+  name: "OWASP Testing Guide"
+  normalized_name: "owasp_testing_guide"
+  aliases:
+    - "OWASP Web Security Testing Guide"
+    - "WSTG"
+    - "OWASP WSTG"
+    - "OWASP Testing Guide v4"
+    - "Web Security Testing Guide"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Web Security Testing Guide (WSTG) is a comprehensive methodology for testing
+    the security of web applications and web services. The guide provides a complete framework
+    of security test cases organized into 12 categories: Information Gathering, Configuration
+    and Deployment Management, Identity Management, Authentication, Authorization, Session
+    Management, Input Validation, Error Handling, Cryptography, Business Logic, Client-Side
+    Testing, and API Testing. Each test case includes a unique identifier (WSTG-xxxx-nn),
+    summary, test objectives, step-by-step testing procedures, expected results, remediation
+    guidance, and references. The guide covers both black-box and gray-box testing approaches
+    and serves as the standard reference for web application penetration testing.
+  why: >-
+    Web application security testing requires a systematic, repeatable methodology to ensure
+    consistent coverage across all vulnerability categories. Without a standardized testing
+    framework, penetration testers and security assessors produce inconsistent results based
+    on individual experience and tool selection. The OWASP Testing Guide addresses this by
+    providing a complete catalog of test cases that ensures comprehensive coverage of all
+    common web application vulnerability categories, enabling organizations to set minimum
+    testing standards, measure assessment quality, and ensure that critical vulnerability
+    classes are not overlooked during security reviews.
+  how: >-
+    The OWASP Testing Guide is applied through a structured testing process: (1) Information
+    Gathering - passive and active reconnaissance to understand the application attack surface
+    including technology fingerprinting, content discovery, and application mapping;
+    (2) Configuration Testing - evaluating deployment security, platform configuration,
+    file handling, and HTTP security headers; (3) Identity and Authentication Testing -
+    assessing user registration, credential policies, authentication mechanisms, and account
+    lockout; (4) Authorization Testing - verifying access control enforcement, privilege
+    escalation, and insecure direct object references; (5) Session Management Testing -
+    evaluating session token generation, handling, timeout, and fixation vulnerabilities;
+    (6) Input Validation Testing - testing for injection flaws including SQL injection, XSS,
+    command injection, and other input-based attacks; (7) Business Logic Testing - identifying
+    application-specific logic flaws; (8) Client-Side Testing - evaluating browser-based
+    vulnerabilities. Each test case follows a standardized format enabling consistent execution
+    and reporting.
+  core_concepts:
+    - key: "Standardized Test Case Framework"
+      value: >-
+        Uniquely identified test cases (WSTG-xxxx-nn) with consistent structure including
+        summary, objectives, procedures, and remediation, enabling repeatable and measurable
+        security assessments across different testers and engagements.
+    - key: "Comprehensive Vulnerability Coverage"
+      value: >-
+        Twelve testing categories covering all major web application vulnerability classes
+        from information gathering through client-side and API testing, ensuring no common
+        vulnerability category is overlooked during security assessments.
+    - key: "Methodology-Agnostic Approach"
+      value: >-
+        Test cases applicable to both black-box and gray-box testing methodologies, with
+        manual testing procedures that complement automated scanning and provide deeper
+        vulnerability analysis than tools alone.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "The Testing Guide is an OWASP flagship project providing the standard web application security testing methodology"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "Testing Guide test cases provide the testing procedures to verify ASVS security requirements"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "Testing Guide includes specific test cases for each OWASP Top 10 vulnerability category"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-OWCHSHSE-001"
+    description: "Testing Guide references Cheat Sheets for remediation guidance on identified vulnerabilities"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Web Security Testing Guide. https://owasp.org/www-project-web-security-testing-guide/"
+    - "OWASP WSTG GitHub Repository. https://github.com/OWASP/wstg"
+    - "OWASP Testing Guide v4.2. https://owasp.org/www-project-web-security-testing-guide/v42/"
+  search_keywords:
+    - "OWASP Testing Guide"
+    - "web security testing guide"
+    - "WSTG"
+    - "web application penetration testing"
+    - "security testing methodology"
+    - "OWASP test cases"
+    - "web application security assessment"
+    - "penetration testing framework"
+    - "security testing categories"
+    - "web vulnerability testing"
+  embedding_text: >-
+    The OWASP Web Security Testing Guide (WSTG) is a comprehensive methodology for testing
+    web application and web service security. It provides a complete framework of test cases
+    organized into 12 categories: Information Gathering, Configuration and Deployment Management,
+    Identity Management, Authentication, Authorization, Session Management, Input Validation,
+    Error Handling, Cryptography, Business Logic, Client-Side Testing, and API Testing. Each
+    test case has a unique identifier with summary, objectives, step-by-step procedures, and
+    remediation guidance. The guide covers black-box and gray-box testing approaches and serves
+    as the standard reference for web application penetration testing. Without standardized
+    methodology, testers produce inconsistent results. The Testing Guide ensures comprehensive
+    coverage of all common vulnerability categories including injection flaws, authentication
+    weaknesses, authorization bypass, session management issues, and business logic errors.
+    It enables organizations to set testing standards and measure assessment quality.

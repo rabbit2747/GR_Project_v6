@@ -1,0 +1,135 @@
+# GR Atom: SSL
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-SSL-001"
+  name: "SSL"
+  normalized_name: "ssl"
+  aliases:
+    - "Secure Sockets Layer"
+    - "SSL 3.0"
+    - "SSL Protocol"
+    - "SSLv3"
+    - "SSLv2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SSL (Secure Sockets Layer) is a deprecated cryptographic protocol originally developed by
+    Netscape Communications in 1994-1996 to provide encrypted communication between web browsers
+    and servers. SSL 2.0 (1995) was the first publicly released version, followed by SSL 3.0
+    (1996, RFC 6101) which substantially redesigned the protocol. SSL 3.0 served as the direct
+    basis for TLS 1.0 (RFC 2246, 1999), which is its standardized successor. All SSL versions
+    have been deprecated: SSL 2.0 was prohibited by RFC 6176 (2011) and SSL 3.0 was deprecated
+    by RFC 7568 (2015) following the POODLE attack (CVE-2014-3566). Despite deprecation, the
+    term "SSL" persists colloquially as a generic reference to TLS-encrypted connections,
+    SSL certificates, and SSL/TLS libraries.
+  why: >-
+    SSL was created to address the fundamental lack of encryption on the World Wide Web, where
+    HTTP transmitted all data including passwords, credit card numbers, and personal information
+    in plaintext. Netscape developed SSL to enable secure e-commerce by providing confidentiality,
+    integrity, and server authentication for web connections. SSL's design innovations including
+    the handshake protocol, certificate-based authentication, and record layer encryption
+    established the architectural foundation that all subsequent TLS versions inherit. The
+    protocol's deprecation was driven by discovered cryptographic weaknesses: SSL 2.0 had
+    fundamental design flaws including the use of MD5 for message authentication and vulnerability
+    to truncation attacks; SSL 3.0 was vulnerable to the POODLE (Padding Oracle On Downgraded
+    Legacy Encryption) attack exploiting its CBC padding scheme, and used the weak RC4 cipher
+    and non-AEAD MAC-then-encrypt construction.
+  how: >-
+    SSL 3.0 operated through a four-phase handshake: (1) ClientHello/ServerHello exchange
+    negotiating cipher suite and protocol version; (2) server authentication via X.509
+    certificate and optional ServerKeyExchange; (3) client key exchange via RSA-encrypted
+    pre-master secret or Diffie-Hellman parameters; (4) ChangeCipherSpec activation and
+    Finished message verification. The record protocol fragmented, optionally compressed,
+    applied MAC (using HMAC with MD5 or SHA-1), encrypted (using RC4, DES, 3DES, or AES),
+    and transmitted application data. SSL 3.0's MAC-then-encrypt construction (apply MAC
+    first, then encrypt including MAC) created the vulnerability exploited by POODLE, as
+    the padding bytes were not covered by the MAC. TLS 1.0 modified this by including the
+    sequence number in the MAC computation and making other incremental improvements, while
+    retaining the overall SSL 3.0 architecture.
+  core_concepts:
+    - key: "Historical Foundation of TLS"
+      value: >-
+        SSL 3.0's architecture including the handshake protocol, record layer, alert protocol,
+        and change cipher spec became the direct foundation for TLS 1.0 and all subsequent
+        TLS versions.
+    - key: "POODLE Attack"
+      value: >-
+        CVE-2014-3566 exploited SSL 3.0's non-deterministic CBC padding to decrypt encrypted
+        data one byte at a time through a padding oracle, leading to SSL 3.0's formal
+        deprecation in RFC 7568.
+    - key: "MAC-then-Encrypt Weakness"
+      value: >-
+        SSL 3.0 applied the MAC before encryption but did not protect the padding bytes,
+        creating a fundamental vulnerability that was partially addressed in TLS 1.0 and
+        fully resolved in TLS 1.3 with mandatory AEAD ciphers.
+    - key: "Colloquial Persistence"
+      value: >-
+        Despite complete deprecation, the term SSL persists in common usage for TLS
+        connections (SSL certificate, SSL/TLS), in library names (OpenSSL), and in
+        configuration parameters across web servers and applications.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "SSL is the predecessor protocol to TLS within the Transport Layer Security protocol family"
+  - type: "enables"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "SSL established the architectural foundation that all TLS versions inherited and refined"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 6101 - The Secure Sockets Layer (SSL) Protocol Version 3.0. IETF. https://datatracker.ietf.org/doc/html/rfc6101"
+    - "RFC 7568 - Deprecating Secure Sockets Layer Version 3.0. IETF. https://datatracker.ietf.org/doc/html/rfc7568"
+    - "RFC 6176 - Prohibiting Secure Sockets Layer (SSL) Version 2.0. IETF. https://datatracker.ietf.org/doc/html/rfc6176"
+    - "Moller, B. (2014). This POODLE Bites: Exploiting The SSL 3.0 Fallback. Google Security Blog."
+  search_keywords:
+    - "SSL"
+    - "Secure Sockets Layer"
+    - "SSL 3.0"
+    - "SSLv3"
+    - "POODLE attack"
+    - "CVE-2014-3566"
+    - "Netscape SSL"
+    - "SSL deprecated"
+    - "RFC 7568"
+    - "SSL certificate"
+  embedding_text: >-
+    SSL (Secure Sockets Layer) is a deprecated cryptographic protocol developed by Netscape
+    in 1994-1996 that provided the first widely deployed encrypted web communication. SSL 2.0
+    (1995) and SSL 3.0 (1996, RFC 6101) established the handshake, record layer, and
+    certificate authentication architecture that all TLS versions inherit. SSL 3.0 served as
+    the direct basis for TLS 1.0. All SSL versions are deprecated: SSL 2.0 was prohibited by
+    RFC 6176 due to fundamental design flaws, and SSL 3.0 was deprecated by RFC 7568 following
+    the POODLE attack (CVE-2014-3566) which exploited its non-deterministic CBC padding to
+    decrypt data through a padding oracle. SSL 3.0 used MAC-then-encrypt construction without
+    padding protection, RC4 cipher support, and non-AEAD modes. Despite complete deprecation,
+    the term SSL persists colloquially for TLS connections, in library names like OpenSSL, and
+    in configuration parameters. SSL was created to enable secure e-commerce by encrypting
+    HTTP traffic that previously transmitted credentials and financial data in plaintext.

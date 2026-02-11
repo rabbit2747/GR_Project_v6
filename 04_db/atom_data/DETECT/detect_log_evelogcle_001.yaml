@@ -1,0 +1,117 @@
+# GR Atom: Event Log Clear Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGCLE-001"
+  name: "Event Log Clear Event"
+  normalized_name: "event_log_clear_event"
+  aliases:
+    - "Log Clear Event"
+    - "Event Log Wipe"
+    - "Audit Log Clear"
+    - "Log Purge Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - EVADE
+    - AUDIT
+    - FORENSICS
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Clear Event is a high-priority detection log entry generated when an event log
+    channel is cleared or purged of all its entries. On Windows, this is recorded as Event ID
+    1102 in the Security log (formerly Event ID 517 on pre-Vista systems) and Event ID 104 in
+    the System log when any other log channel is cleared. The event records the identity of the
+    user or process that performed the clear operation, the name of the log that was cleared,
+    and the timestamp. On Linux systems, clearing is detected through monitoring of log file
+    truncation (inode change without append), direct deletion, or journal vacuum operations.
+    Log clearing is one of the most commonly observed anti-forensics techniques used by
+    attackers to erase evidence of their activities after compromising a system.
+  why: >-
+    Event log clearing is a critical indicator of compromise and active anti-forensics activity.
+    Attackers routinely clear event logs after completing their objectives to remove evidence of
+    lateral movement, privilege escalation, credential theft, and data exfiltration. MITRE
+    ATT&CK classifies this under T1070.001 (Indicator Removal: Clear Windows Event Logs) as a
+    Defense Evasion technique. Any unexpected log clear event should be treated as a high-severity
+    security incident requiring immediate investigation. The irony of log clearing is that the
+    clear event itself is typically recorded in the Security log, providing a definitive indicator
+    even when the original evidence is destroyed.
+  how: >-
+    Event log clear detection operates through: (1) Monitoring Windows Security log for Event ID
+    1102 which is generated whenever the Security log is cleared — this event survives the clear
+    operation because it is written as the first entry in the newly cleared log; (2) Monitoring
+    System log for Event ID 104 which records clearing of any event log channel; (3) Configuring
+    SIEM forwarding so that log events are shipped in real-time, preserving copies before
+    potential clearing; (4) Setting up Windows Event Forwarding (WEF) to centrally collect
+    critical events; (5) On Linux, monitoring file integrity (inode metadata, file size changes)
+    on /var/log/ and systemd journal files; (6) Creating high-priority SIEM alerts for any log
+    clear event with immediate SOC notification.
+  core_concepts:
+    - key: "Event ID 1102"
+      value: "Windows Security log event generated when the Security log is cleared, recording the Subject Security ID, Account Name, and Domain of the user who performed the clearing."
+    - key: "Event ID 104"
+      value: "Windows System log event generated when any event log channel is cleared, identifying which log was cleared and by whom."
+    - key: "Anti-Forensics Indicator"
+      value: "Log clearing is a primary anti-forensics technique that attackers use to destroy evidence of compromise, making the clear event itself a high-confidence indicator of malicious activity."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Event log clearing generates a critical security event"
+  - type: "enables"
+    target: "DETECT-LOG-SEEVLOCL-001"
+    description: "A log clear event on the Security channel specifically produces a Security Event Log Cleared detection"
+  - type: "alternative_to"
+    target: "DETECT-LOG-EVELOGDEL-001"
+    description: "Log clearing and log deletion are alternative methods attackers use to destroy audit evidence"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Event ID 1102: The audit log was cleared"
+    - "MITRE ATT&CK — T1070.001: Indicator Removal: Clear Windows Event Logs"
+    - "SANS — Detecting Log Tampering and Anti-Forensics"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log clear"
+    - "Event ID 1102"
+    - "Event ID 104"
+    - "audit log cleared"
+    - "log tampering"
+    - "anti-forensics"
+    - "log wipe detection"
+    - "clear event log"
+    - "defense evasion logging"
+    - "T1070.001"
+    - "indicator removal"
+  embedding_text: >-
+    Event Log Clear Event is a high-priority detection pattern for log entries generated when
+    event logs are cleared or purged. On Windows, Event ID 1102 (Security log cleared) and
+    Event ID 104 (any log cleared) record the clearing action including the responsible user
+    identity. Log clearing is classified under MITRE ATT&CK T1070.001 (Indicator Removal: Clear
+    Windows Event Logs) as a Defense Evasion technique commonly used by attackers to destroy
+    evidence after compromise. Any unexpected log clear event is a critical security indicator
+    requiring immediate investigation. Detection relies on real-time SIEM forwarding, Windows
+    Event Forwarding, and centralized log collection to preserve evidence before potential
+    destruction.

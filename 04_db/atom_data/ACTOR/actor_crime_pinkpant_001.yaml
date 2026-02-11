@@ -1,0 +1,131 @@
+# GR Atom: Pink Panther
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-PINKPANT-001"
+  name: "Pink Panther"
+  normalized_name: "pink_panther"
+  aliases:
+    - "PinkPanther"
+    - "Pink Panther Cyber Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - EXFIL
+    - NETWORK
+    - WEB
+    - BLOCKCHAIN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Pink Panther is a cybercriminal group involved in financial fraud, money laundering, and
+    cryptocurrency-related crime operations. The group operates across dark web marketplaces and
+    encrypted communication platforms, conducting identity fraud, business email compromise (BEC),
+    account takeover attacks, and cryptocurrency laundering services. Pink Panther targets financial
+    institutions, payment processors, and e-commerce platforms, utilizing stolen credentials and
+    compromised accounts to facilitate fraudulent transactions. The group is also linked to money
+    mule recruitment networks and cryptocurrency tumbling services that support the broader
+    cybercriminal ecosystem by enabling the laundering of illicit proceeds from ransomware payments,
+    fraud, and other criminal activities.
+  why: >-
+    Pink Panther represents the financial operations layer of the cybercriminal ecosystem, providing
+    essential money laundering and fraud services that enable other cybercriminal operations. Money
+    laundering networks like Pink Panther are critical infrastructure for the broader cybercrime
+    economy, as without reliable cash-out and laundering mechanisms, ransomware groups and other
+    cybercriminals cannot convert their illicit gains into usable funds. The group's recruitment of
+    money mules across multiple countries creates a distributed network that is difficult for law
+    enforcement to disrupt. Their cryptocurrency laundering capabilities, including mixing services
+    and cross-chain bridging, help other criminal groups obscure the trail of stolen funds.
+    Understanding financial operations groups is essential for following the money and disrupting
+    the economic model that sustains cybercrime.
+  how: >-
+    Pink Panther operates through multiple financial fraud vectors. Business email compromise
+    attacks use social engineering to redirect wire transfers to accounts controlled by the group.
+    Account takeover operations leverage stolen credentials purchased from access brokers and
+    credential markets to compromise banking and payment platform accounts. Money mule networks
+    are recruited through job scam advertisements, social media outreach, and dark web forums,
+    with mules receiving and forwarding stolen funds through personal accounts in exchange for
+    commissions. Cryptocurrency laundering involves the use of mixing/tumbling services, privacy
+    coins (Monero), cross-chain bridges, and decentralized exchange protocols to obscure the
+    origin of stolen funds. The group operates through layered communication channels using
+    Telegram, Wickr, and encrypted email services for coordination with criminal partners.
+  core_concepts:
+    - key: "Cybercrime Financial Operations"
+      value: >-
+        Pink Panther operates the financial infrastructure layer of the cybercriminal ecosystem,
+        providing money laundering, money mule networks, and cryptocurrency tumbling services
+        that enable other criminal groups to monetize their operations.
+    - key: "Money Mule Network Operations"
+      value: >-
+        The group recruits and manages distributed networks of money mules across multiple
+        countries who receive and forward illicit funds through personal accounts, creating
+        layers of separation between criminal proceeds and their ultimate beneficiaries.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Pink Panther is a financially motivated cybercriminal group providing fraud and laundering services"
+  - type: "enables"
+    target: "ATK-CRED"
+    description: "Pink Panther operations enable credential-based financial fraud and account takeover"
+  - type: "enables"
+    target: "ACTOR-CRIME"
+    description: "Pink Panther money laundering services enable other cybercriminal groups to monetize operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "derived"
+  sources:
+    - "Europol - Internet Organised Crime Threat Assessment (IOCTA). https://www.europol.europa.eu/publications-events/main-reports/iocta-report"
+    - "FBI IC3 - Business Email Compromise Annual Report. https://www.ic3.gov/Media/PDF/AnnualReport/"
+    - "Chainalysis - Cryptocurrency Money Laundering Report. https://www.chainalysis.com/blog/crypto-money-laundering/"
+    - "FATF - Money Laundering Through Virtual Assets. https://www.fatf-gafi.org/en/publications/Fatfrecommendations/guidance-rba-virtual-assets-2021.html"
+  search_keywords:
+    - "pink panther cybercrime"
+    - "pink panther financial fraud"
+    - "pink panther money laundering"
+    - "cybercriminal money mule"
+    - "cryptocurrency laundering group"
+    - "BEC fraud group"
+    - "pink panther cyber group"
+  embedding_text: >-
+    Pink Panther is a cybercriminal group involved in financial fraud, money laundering, and
+    cryptocurrency-related crime operations. The group conducts business email compromise attacks,
+    account takeover operations using stolen credentials, and manages money mule recruitment networks
+    across multiple countries. Pink Panther also provides cryptocurrency laundering services including
+    mixing, privacy coin conversion, and cross-chain bridging to obscure the origin of stolen funds.
+    The group represents the financial operations layer of the cybercriminal ecosystem, providing
+    essential money laundering infrastructure that enables ransomware groups and other cybercriminals
+    to convert illicit gains into usable funds. Operations span dark web marketplaces and encrypted
+    communication platforms. Understanding financial operations groups like Pink Panther is essential
+    for following the money trail and disrupting the economic model that sustains the broader
+    cybercrime ecosystem.

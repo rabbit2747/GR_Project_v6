@@ -1,0 +1,112 @@
+# GR Atom: CVE-2009-0927
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20090927-001"
+  name: "CVE-2009-0927"
+  normalized_name: "cve_2009_0927"
+  aliases:
+    - "Adobe Reader getIcon Buffer Overflow"
+    - "Adobe Acrobat Collab.getIcon Stack Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Adobe Reader 9.0 and earlier"
+    - "Adobe Acrobat 9.0 and earlier"
+    - "Collab.getIcon JavaScript method"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2009-0927 is a stack-based buffer overflow vulnerability in the Collab.getIcon()
+    JavaScript method in Adobe Reader and Acrobat versions 9.0 and earlier. The vulnerability
+    allows remote attackers to execute arbitrary code by crafting a malicious PDF document
+    containing a specially designed JavaScript call with an overly long argument to the
+    getIcon method. The CVSS v2 base score is 9.3 (Critical) and it was actively exploited
+    in the wild in 2009.
+  why: >-
+    Adobe Reader was installed on virtually every desktop computer at the time, making PDF
+    files one of the most effective vectors for malware delivery. This vulnerability was
+    actively weaponized in targeted attacks and drive-by downloads, serving as a primary
+    initial access vector for advanced threat actors. The ubiquity of PDF files in business
+    communications made social engineering attacks particularly effective.
+  how: >-
+    Attackers create a malicious PDF file containing JavaScript that calls the Collab.getIcon()
+    method with an excessively long string argument. When a victim opens the PDF in a vulnerable
+    version of Adobe Reader or Acrobat, the oversized argument overflows a stack buffer in the
+    getIcon implementation. By carefully crafting the overflow payload, attackers redirect
+    execution to embedded shellcode that installs malware, establishes backdoor access, or
+    downloads additional payloads. Delivery commonly occurs via email attachments or
+    compromised websites hosting malicious PDFs.
+  core_concepts:
+    - key: "Stack Buffer Overflow"
+      value: "Memory corruption on the stack caused by the getIcon method failing to check argument length before copying to a fixed-size buffer"
+    - key: "PDF Weaponization"
+      value: "Technique of embedding exploit code within PDF documents to leverage the trusted document format for malware delivery"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "PDF JavaScript injection leading to buffer overflow is a specific class of injection vulnerability"
+  - type: "enables"
+    target: "VUL-INJECT-CVE20178759-001"
+    description: "Both represent document-based injection vectors that enable initial access through crafted file payloads"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+  cve_id: "CVE-2009-0927"
+  cvss_score: 9.3
+  affected_product: "Adobe Reader/Acrobat 9.0 and earlier"
+  year: 2009
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2009-0927"
+    - "CWE-121 Stack-based Buffer Overflow"
+    - "Adobe Security Bulletin APSB09-04"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2009-0927"
+    - "Adobe Reader buffer overflow"
+    - "Collab.getIcon exploit"
+    - "PDF malware"
+    - "Adobe Acrobat vulnerability"
+    - "stack overflow Adobe"
+    - "PDF JavaScript exploit"
+  embedding_text: >-
+    CVE-2009-0927 is a critical stack-based buffer overflow in Adobe Reader and Acrobat
+    Collab.getIcon() JavaScript method with a CVSS score of 9.3. Remote attackers craft
+    malicious PDF documents containing JavaScript that triggers a stack overflow through
+    oversized arguments to the getIcon function. Actively exploited in the wild, this
+    vulnerability was a primary initial access vector delivered through email attachments and
+    compromised websites. The ubiquity of Adobe Reader made it an extremely high-value target
+    for threat actors. Exploitation enables arbitrary code execution on the victim system
+    when they open the malicious PDF. Mitigation requires updating Adobe Reader and Acrobat
+    to patched versions and disabling JavaScript in PDF readers.

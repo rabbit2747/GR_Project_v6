@@ -1,0 +1,74 @@
+# GR Atom: CVE-2020-12812
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202012812-001"
+  name: "CVE-2020-12812"
+  normalized_name: "cve_2020_12812"
+  aliases:
+    - "FortiOS SSL VPN Authentication Bypass"
+    - "FortiGate Two-Factor Authentication Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - INITIAL
+    - NETWORK
+    - VPN
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Fortinet FortiOS 6.4.0"
+    - "Fortinet FortiOS 6.2.0 through 6.2.3"
+    - "Fortinet FortiOS 6.0.9 and below"
+    - "FortiGate SSL VPN"
+
+definition:
+  what: "CVE-2020-12812 is an improper authentication vulnerability in Fortinet FortiOS SSL VPN that allows a remote attacker to bypass two-factor authentication by manipulating the case of the username. When a user is configured with local or remote authentication and two-factor authentication, changing the case of the username causes the system to skip the second authentication factor. CVSS v3: 9.8 (Critical). Disclosed in July 2020."
+  why: "Fortinet FortiGate firewalls with SSL VPN are widely deployed as perimeter security appliances protecting corporate networks. The SSL VPN provides remote access to internal resources. Bypassing two-factor authentication allows attackers with stolen or guessed single-factor credentials to gain VPN access without the second factor. This vulnerability was listed in a joint FBI and CISA advisory regarding commonly exploited VPN vulnerabilities used by APT actors to gain initial network access."
+  how: "The vulnerability is triggered by changing the case of the username during SSL VPN authentication. For example, if the configured username is 'admin', authenticating as 'Admin' or 'ADMIN' causes FortiOS to fail to match the user against the two-factor authentication policy, effectively requiring only the password. The attacker needs valid credentials for the first factor but can bypass any configured second factor including FortiToken, email, or SMS verification. Fortinet released patches for FortiOS 6.0.10, 6.2.4, and 6.4.1."
+  core_concepts:
+    - key: "Case-Sensitive Authentication Bypass"
+      value: "FortiOS fails to perform case-insensitive username matching against two-factor authentication policies, allowing bypass by simply changing the case of the username"
+    - key: "VPN Perimeter Compromise"
+      value: "Bypassing SSL VPN two-factor authentication provides unauthorized remote access to internal corporate networks using only single-factor credentials"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2020-12812 is an authentication bypass vulnerability in FortiOS SSL VPN"
+  - type: enables
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Two-factor authentication bypass enables unauthorized VPN access with single-factor credentials"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1133"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-12812 - NVD NIST"
+    - "Fortinet PSIRT Advisory FG-IR-19-283"
+    - "FBI-CISA Joint Advisory on FortiOS Vulnerabilities"
+    - "MITRE ATT&CK T1133 - External Remote Services"
+  search_keywords:
+    - "CVE-2020-12812"
+    - "FortiOS SSL VPN bypass"
+    - "FortiGate two-factor authentication bypass"
+    - "Fortinet authentication vulnerability"
+    - "FortiOS 2FA bypass"
+    - "FortiGate SSL VPN vulnerability"
+    - "Fortinet case sensitivity"
+  embedding_text: "CVE-2020-12812 is a critical improper authentication vulnerability in Fortinet FortiOS SSL VPN that allows attackers to bypass two-factor authentication by manipulating the case of the username. When a user authenticates with a different case than configured, FortiOS fails to match the two-factor policy and only requires the password. CVSS v3 score is 9.8 Critical. Affects FortiOS 6.4.0, 6.2.0 through 6.2.3, and 6.0.9 and below. Listed in FBI-CISA joint advisory on VPN vulnerabilities exploited by APT actors. Provides unauthorized remote VPN access to internal networks. Maps to MITRE ATT&CK T1133 External Remote Services. Patches available in FortiOS 6.0.10, 6.2.4, and 6.4.1."

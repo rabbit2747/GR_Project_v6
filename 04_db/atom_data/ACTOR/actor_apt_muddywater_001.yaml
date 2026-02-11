@@ -1,0 +1,85 @@
+# GR Atom: MuddyWater
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-MUDDYWATER-001"
+  name: "MuddyWater"
+  normalized_name: "muddywater"
+  aliases:
+    - "MERCURY"
+    - "Mango Sandstorm"
+    - "Static Kitten"
+    - "Seedworm"
+    - "TEMP.Zagros"
+    - "Earth Vetala"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PERSIST"
+    - "C2"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "Exchange servers"
+    - "Windows workstations"
+    - "government networks"
+    - "telecommunications systems"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "MuddyWater (also known as Mango Sandstorm, MERCURY, and Seedworm) is an Iranian cyber espionage group attributed to Iran's Ministry of Intelligence and Security (MOIS) by US Cyber Command in January 2022. Active since at least 2017, the group targets government agencies, telecommunications, defense, oil and gas, and other critical sectors primarily in the Middle East, with expanded operations into Europe, North America, and Asia."
+  why: "MuddyWater conducts espionage operations aligned with Iranian MOIS intelligence priorities, collecting political and strategic intelligence from Middle Eastern governments, monitoring regional adversaries, and gathering information on sanctions-related activities. Their targeting of telecommunications and IT service providers indicates interest in enabling broader intelligence collection through upstream access to communications infrastructure."
+  how: "The group relies heavily on spear-phishing emails with macro-enabled Office documents, HTML attachments delivering malicious archives, and exploitation of public-facing applications. MuddyWater deploys a variety of custom and open-source tools including the PowerShell-based POWERSTATS backdoor, its successors MuddyC2Go and PhonyC2, Small Sieve Python backdoor, and legitimate remote administration tools like Atera Agent, ScreenConnect, and SimpleHelp. The group is known for rapidly evolving its tooling and techniques while maintaining consistent operational patterns."
+  core_concepts:
+    - "MOIS-attributed espionage operations"
+    - "PowerShell-based backdoors"
+    - "legitimate remote admin tool abuse"
+    - "Middle Eastern government targeting"
+    - "rapid tooling evolution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-IRANTHRE-001"
+    description: "Formally attributed to Iran's Ministry of Intelligence and Security by USCYBERCOM"
+  - type: "enables"
+    target: "ACTOR-APT-OILRIG-001"
+    description: "Both MOIS-affiliated groups with overlapping Middle Eastern targeting and occasional infrastructure sharing"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - MuddyWater (G0069)"
+    - "USCYBERCOM - MuddyWater Attribution (2022)"
+    - "CISA - Iranian Government-Sponsored APT MuddyWater (AA22-055A)"
+    - "Symantec - Seedworm Threat Actor Profile"
+  search_keywords:
+    - "muddywater"
+    - "mango sandstorm"
+    - "MERCURY APT"
+    - "static kitten"
+    - "seedworm"
+    - "POWERSTATS"
+    - "iranian MOIS"
+    - "MuddyC2Go"
+    - "iran espionage middle east"
+  embedding_text: "MuddyWater is an Iranian cyber espionage group attributed to Iran's Ministry of Intelligence and Security by US Cyber Command in 2022. Also known as Mango Sandstorm, MERCURY, Seedworm, and Static Kitten, the group has been active since at least 2017 targeting government agencies, telecommunications, defense, and critical sectors primarily in the Middle East with expanded operations globally. MuddyWater employs spear-phishing with macro-enabled documents, exploitation of public-facing applications, and deploys custom tools including POWERSTATS PowerShell backdoor, MuddyC2Go, PhonyC2, and Small Sieve. Notably, the group abuses legitimate remote administration tools such as Atera Agent, ScreenConnect, and SimpleHelp for persistent access. MuddyWater is characterized by rapid tooling evolution while maintaining consistent spear-phishing operational patterns. Their intelligence collection focuses on Middle Eastern political affairs, regional adversary monitoring, and telecommunications infrastructure access."

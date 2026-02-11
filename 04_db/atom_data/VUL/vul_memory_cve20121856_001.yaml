@@ -1,0 +1,101 @@
+# GR Atom: CVE-2012-1856
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20121856-001"
+  name: "CVE-2012-1856"
+  normalized_name: "cve_2012_1856"
+  aliases:
+    - "MSCOMCTL.OCX TabStrip ActiveX Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "MSCOMCTL.OCX ActiveX control"
+    - "Microsoft Office 2003, 2007, 2010"
+    - "Windows Common Controls TabStrip"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-1856 is a remote code execution vulnerability (CVSS 9.3) in the MSCOMCTL.OCX
+    ActiveX control, specifically in the TabStrip control handling. The vulnerability allows
+    remote attackers to execute arbitrary code via crafted web pages or Office documents that
+    embed a malicious TabStrip ActiveX control. This is a distinct vulnerability from
+    CVE-2012-0158 but affects the same MSCOMCTL.OCX component. It was patched in MS12-060
+    (August 2012) and affects Microsoft Office 2003, 2007, and 2010.
+  why: >-
+    This vulnerability is significant because it affected the same widely-deployed MSCOMCTL.OCX
+    component as CVE-2012-0158, demonstrating that critical Windows ActiveX controls had
+    multiple exploitable flaws. The TabStrip control vulnerability provided an additional
+    avenue for document-based attacks when the ListView vulnerability was patched, and was
+    used in targeted attacks against organizations.
+  how: >-
+    The exploit embeds a specially crafted TabStrip ActiveX control in a web page or Office
+    document. When the control is instantiated, malformed initialization data triggers a
+    memory corruption condition in MSCOMCTL.OCX. The attacker controls the corrupted memory
+    to hijack execution flow, achieving arbitrary code execution in the context of the
+    hosting application (Internet Explorer or Office).
+  core_concepts:
+    - key: "TabStrip ActiveX Memory Corruption"
+      value: "Malformed TabStrip control initialization data in MSCOMCTL.OCX triggers memory corruption during ActiveX instantiation"
+    - key: "Multiple MSCOMCTL.OCX Vulnerabilities"
+      value: "Second critical vulnerability in MSCOMCTL.OCX after CVE-2012-0158, demonstrating systemic ActiveX control weaknesses"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory corruption in MSCOMCTL.OCX TabStrip ActiveX control"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-1856 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS12-060"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2012-1856"
+    - "MSCOMCTL.OCX"
+    - "TabStrip"
+    - "ActiveX"
+    - "MS12-060"
+    - "Microsoft Office"
+    - "memory corruption"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2012-1856 is a remote code execution vulnerability with CVSS 9.3 in the MSCOMCTL.OCX
+    ActiveX TabStrip control used by Microsoft Office. The flaw allows arbitrary code execution
+    through crafted web pages or Office documents that embed a malicious TabStrip control,
+    triggering memory corruption during initialization. A companion vulnerability to
+    CVE-2012-0158 in the same component, it demonstrated systemic weaknesses in Windows
+    ActiveX controls. Patched in MS12-060 in August 2012, affecting Office 2003, 2007, and
+    2010, this vulnerability was used in targeted attacks as an alternative when the ListView
+    flaw was patched.

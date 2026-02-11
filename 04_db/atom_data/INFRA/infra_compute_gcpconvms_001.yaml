@@ -1,0 +1,73 @@
+# GR Atom: GCP Confidential VMs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-GCPCONVMS-001"
+  name: "GCP Confidential VMs"
+  normalized_name: "gcp_confidential_vms"
+  aliases: ["Confidential VMs", "Google Confidential Computing", "GCP Confidential Compute"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [GCP, CLOUD, ENCRYPT, PRIVACY]
+gr_coordinates:
+  layer: "L1"
+  zone: "Z3"
+  function: "R1.1"
+definition:
+  what: >-
+    GCP Confidential VMs provide hardware-based memory encryption for virtual machine instances
+    using AMD SEV (Secure Encrypted Virtualization) or Intel TDX (Trust Domain Extensions)
+    technology. Confidential VMs encrypt data in use (in memory) so that the cloud provider
+    and hypervisor cannot access VM memory contents in plaintext. This provides a hardware-rooted
+    trust boundary that protects sensitive workloads even from privileged infrastructure
+    compromise.
+  why: >-
+    Confidential VMs address the threat of data exposure from compromised hypervisors, malicious
+    cloud insiders, or physical infrastructure attacks. Traditional VMs rely on trusting the
+    cloud provider's hypervisor and infrastructure. Confidential computing reduces this trust
+    requirement by encrypting memory with hardware keys inaccessible to the provider. This is
+    critical for processing sensitive data including PII, financial records, healthcare data,
+    and cryptographic key material in cloud environments.
+  how: >-
+    Confidential VMs use AMD SEV-SNP or Intel TDX processors to encrypt VM memory with
+    per-VM encryption keys managed by the CPU hardware. The hypervisor cannot decrypt VM memory.
+    Remote attestation verifies the VM is running on genuine confidential computing hardware
+    with expected firmware. Confidential VMs integrate with GCP's virtual TPM for measured boot
+    and integrity monitoring. They work with standard GCP services including load balancers,
+    Cloud KMS, and Assured Workloads for regulated environments.
+  core_concepts:
+    - key: "Hardware Memory Encryption"
+      value: "AMD SEV-SNP or Intel TDX encrypts VM memory with hardware-managed keys, preventing hypervisor and physical access to plaintext data"
+    - key: "Remote Attestation"
+      value: "Cryptographic verification that workloads are running on genuine confidential computing hardware with expected firmware and configuration"
+    - key: "Reduced Trust Boundary"
+      value: "Eliminates the need to trust the cloud provider's hypervisor and infrastructure staff, protecting against insider threats and infrastructure compromise"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "Confidential VMs are a compute service within the GCP platform"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWSNITENC-001"
+    description: "Confidential VMs provide similar confidential computing to AWS Nitro Enclaves"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AZUCONCOM-001"
+    description: "Confidential VMs provide similar confidential computing to Azure Confidential Computing"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Google Cloud Confidential Computing Documentation", "AMD SEV-SNP White Paper", "Confidential Computing Consortium"]
+  search_keywords: ["confidential VM", "GCP confidential computing", "AMD SEV", "Intel TDX", "memory encryption", "hardware encryption", "confidential compute"]
+  embedding_text: >-
+    GCP Confidential VMs provide hardware-based memory encryption using AMD SEV-SNP or Intel
+    TDX, encrypting data in use so the cloud provider and hypervisor cannot access VM memory
+    in plaintext. This addresses threats from compromised hypervisors, malicious insiders, and
+    physical attacks. Remote attestation verifies genuine confidential computing hardware.
+    Critical for processing PII, financial data, and cryptographic keys in cloud. Integrates
+    with virtual TPM for measured boot and works with Assured Workloads for regulated
+    environments. Alternative to AWS Nitro Enclaves and Azure Confidential Computing.

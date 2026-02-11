@@ -1,0 +1,76 @@
+# GR Atom: CocoaPods
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-COCOAPODS-001"
+  name: "CocoaPods"
+  normalized_name: "cocoapods"
+  aliases:
+    - "Cocoa Pods"
+    - "iOS Package Manager"
+    - "CocoaPods.org"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - IOS
+    - MACOS
+    - SUPPLY_CHAIN
+    - MOBILE
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "CocoaPods is a dependency manager for Swift and Objective-C projects that automates the integration of third-party libraries into Apple platform applications (iOS, macOS, watchOS, tvOS). It hosts a centralized public spec repository containing metadata for over 90,000 libraries, resolves dependency graphs, and manages library compilation and linking through Xcode workspace integration."
+  why: "CocoaPods is a significant supply chain attack vector for Apple platform development because it manages code dependencies that execute within applications distributed to millions of devices. Compromised CocoaPods packages can inject malicious code into iOS and macOS applications, potentially accessing sensitive device data, credentials, and user information. The centralized trunk server and spec repository represent single points of failure. Historical vulnerabilities in CocoaPods infrastructure have exposed the entire Apple developer ecosystem to supply chain attacks."
+  how: "Developers define dependencies in a Podfile, then run pod install to resolve and download library source code. CocoaPods generates an Xcode workspace integrating the project with its dependencies. The CocoaPods Trunk server manages library publication and version registration. Podspec files describe each library's metadata, source location, and compilation requirements. The CDN-based spec repository distributes metadata without requiring full git clones. Pod authors authenticate via email-based session tokens to publish updates."
+  core_concepts:
+    - key: "Podfile"
+      value: "Project-level configuration file declaring library dependencies, version constraints, and platform targets for CocoaPods resolution"
+    - key: "Podspec"
+      value: "Library metadata file describing source location, version, dependencies, compilation settings, and platform compatibility"
+    - key: "Trunk Server"
+      value: "Centralized publication server managing library ownership, version registration, and author authentication for the CocoaPods ecosystem"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-SOFTREPO-001"
+    description: "CocoaPods is a specific software repository for Apple platform development libraries"
+  - type: is_a
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "CocoaPods is a software distribution mechanism for iOS/macOS dependencies"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-NUGET-001"
+    description: "CocoaPods serves a similar package management role for Apple platforms as NuGet does for .NET"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CocoaPods Documentation - https://guides.cocoapods.org/"
+    - "CocoaPods Supply Chain Vulnerabilities - EVA Information Security Research"
+    - "MITRE ATT&CK T1195.001 - Supply Chain Compromise: Compromise Software Dependencies"
+  search_keywords:
+    - "CocoaPods"
+    - "iOS dependency manager"
+    - "CocoaPods security"
+    - "Podfile"
+    - "CocoaPods supply chain"
+    - "iOS package manager"
+    - "CocoaPods trunk"
+    - "Swift dependency management"
+  embedding_text: "CocoaPods is a dependency manager for Swift and Objective-C projects automating third-party library integration into Apple platform applications. It hosts a centralized spec repository with over 90,000 libraries, resolves dependency graphs, and integrates with Xcode workspaces. Security significance centers on supply chain risks where compromised packages inject malicious code into iOS and macOS applications reaching millions of devices. The centralized Trunk server and spec repository are single points of failure. Historical infrastructure vulnerabilities have exposed the Apple developer ecosystem. Developers declare dependencies in Podfiles, and Podspec files describe library metadata and compilation requirements."

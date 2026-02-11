@@ -1,0 +1,75 @@
+# GR Atom: PyPI
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-PYPI-001"
+  name: "PyPI"
+  normalized_name: "pypi"
+  aliases:
+    - "Python Package Index"
+    - "PyPI.org"
+    - "Cheese Shop"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SUPPLY_CHAIN
+    - LINUX
+    - CICD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "PyPI (Python Package Index) is the official third-party software repository for Python, hosting over 500,000 packages that Python developers install using pip. It provides package publishing, versioning, metadata management, and download distribution for the global Python ecosystem. PyPI supports both source distributions and pre-built wheel packages, with optional PGP signatures and API tokens for authentication."
+  why: "PyPI is one of the most targeted software supply chain vectors due to Python's widespread use in enterprise applications, DevOps tooling, data science, and security tools. Malicious packages uploaded through typosquatting, dependency confusion, and compromised maintainer accounts execute arbitrary code during pip install. PyPI has experienced numerous supply chain incidents including cryptomining packages, credential stealers, and backdoors. The absence of mandatory code signing and limited automated malware scanning make PyPI particularly vulnerable."
+  how: "Developers publish packages to PyPI using twine with API token authentication. pip install resolves dependency trees and downloads packages from PyPI by default. Packages execute setup.py during installation, enabling arbitrary code execution. PyPI enforces two-factor authentication for critical projects. Trusted Publishers enable OIDC-based publishing from CI/CD pipelines without long-lived tokens. Private PyPI indexes (Artifactory, devpi, AWS CodeArtifact) provide internal package hosting. pip's --require-hashes flag enables hash-based verification of downloaded packages."
+  core_concepts:
+    - key: "Package Installation"
+      value: "pip install process that resolves dependencies, downloads packages, and executes setup scripts, representing a code execution vector"
+    - key: "Typosquatting"
+      value: "Attack technique publishing malicious packages with names similar to popular packages to trick developers into installing them"
+    - key: "Trusted Publishers"
+      value: "OIDC-based publishing mechanism enabling CI/CD pipelines to publish to PyPI without long-lived API tokens"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-SOFTREPO-001"
+    description: "PyPI is a specific software repository for the Python ecosystem"
+  - type: is_a
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "PyPI is a software distribution mechanism for Python packages"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-NUGET-001"
+    description: "PyPI serves a similar package management role for Python as NuGet does for .NET"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "PyPI Documentation - https://pypi.org/help/"
+    - "PyPI Security - https://pypi.org/security/"
+    - "MITRE ATT&CK T1195.001 - Supply Chain Compromise: Compromise Software Dependencies"
+  search_keywords:
+    - "PyPI"
+    - "Python Package Index"
+    - "pip install security"
+    - "PyPI supply chain"
+    - "Python package security"
+    - "PyPI typosquatting"
+    - "pip dependency"
+    - "Python package repository"
+  embedding_text: "PyPI (Python Package Index) is the official third-party software repository for Python, hosting over 500,000 packages installed via pip. Security significance centers on being one of the most targeted supply chain vectors due to Python's widespread use. Malicious packages through typosquatting, dependency confusion, and compromised accounts execute arbitrary code during installation via setup.py. PyPI has experienced numerous supply chain incidents including cryptominers and credential stealers. Limited mandatory code signing and automated malware scanning increase vulnerability. Trusted Publishers enable OIDC-based CI/CD publishing. Private indexes provide internal package hosting with additional controls."

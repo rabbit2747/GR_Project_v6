@@ -1,0 +1,121 @@
+# GR Atom: Let's Encrypt
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-LETENCR-001"
+  name: "Let's Encrypt"
+  normalized_name: "let_s_encrypt"
+  aliases:
+    - "LE"
+    - "ISRG Certificate Authority"
+    - "Let's Encrypt CA"
+    - "ACME Certificate Provider"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - CRYPTO
+    - HTTP
+    - AUTHN
+    - ENCRYPT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "S5.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Let's Encrypt is a free, automated, open Certificate Authority operated by the Internet
+    Security Research Group (ISRG) that issues Domain Validation (DV) TLS certificates using
+    the ACME (Automatic Certificate Management Environment) protocol. It provides short-lived
+    90-day certificates with automated issuance and renewal, enabling widespread TLS adoption.
+    Let's Encrypt is the largest public CA by volume, issuing certificates for hundreds of
+    millions of websites and enabling encrypted HTTPS connections at scale.
+  why: >-
+    While Let's Encrypt has significantly improved internet encryption adoption, its automated
+    issuance model creates security considerations. Attackers use Let's Encrypt certificates
+    to add legitimacy to phishing sites, command-and-control infrastructure, and malicious
+    domains because DV certificates only verify domain control, not organizational identity.
+    The short certificate lifetime mitigates some risks but also means automated renewal
+    failures can cause service outages. ACME account key compromise enables unauthorized
+    certificate issuance for validated domains. Certificate Transparency logs provide
+    monitoring capability for detecting unauthorized issuance.
+  how: >-
+    Let's Encrypt uses the ACME protocol (RFC 8555) for automated certificate lifecycle
+    management. ACME clients (certbot, acme.sh, cert-manager) initiate certificate requests
+    by proving domain control through HTTP-01 challenges (placing tokens at
+    /.well-known/acme-challenge/), DNS-01 challenges (creating TXT records), or TLS-ALPN-01
+    challenges. Upon successful validation, Let's Encrypt issues signed certificates.
+    Automated renewal occurs before the 90-day expiration. Certificate Transparency (CT)
+    logging is mandatory, publishing all issued certificates to public logs. Wildcard
+    certificates require DNS-01 validation. Rate limits prevent abuse.
+  core_concepts:
+    - key: "ACME Protocol Automation"
+      value: "Fully automated certificate lifecycle using ACME protocol for request, validation, issuance, and renewal without manual intervention"
+    - key: "Domain Validation Only"
+      value: "DV certificates verify domain control only, not organizational identity, enabling malicious actors to obtain valid TLS certificates"
+    - key: "Certificate Transparency"
+      value: "All issued certificates are logged to public CT logs, enabling monitoring for unauthorized certificate issuance for managed domains"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-IDENTITY-CERTAUTH-001"
+    description: "Let's Encrypt is a public Certificate Authority issuing DV TLS certificates"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "TLS certificates from Let's Encrypt enable server authentication for HTTPS connections"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-SIGNSERV-001"
+    description: "Let's Encrypt provides automated public certificate issuance as an alternative to private signing services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1588.004"
+    tactic:
+      - "Resource Development"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Let's Encrypt Documentation - How It Works"
+    - "RFC 8555 - Automatic Certificate Management Environment (ACME)"
+    - "MITRE ATT&CK T1588.004 - Obtain Capabilities: Digital Certificates"
+  search_keywords:
+    - "Let's Encrypt"
+    - "ACME protocol"
+    - "certbot"
+    - "free TLS certificate"
+    - "Let's Encrypt phishing"
+    - "ISRG certificate"
+    - "automated certificate"
+    - "domain validation certificate"
+  embedding_text: >-
+    Let's Encrypt is a free automated Certificate Authority operated by ISRG issuing Domain
+    Validation TLS certificates via the ACME protocol. It provides 90-day short-lived
+    certificates with automated issuance and renewal through challenges proving domain
+    control (HTTP-01, DNS-01, TLS-ALPN-01). Let's Encrypt is the largest public CA by
+    volume enabling widespread HTTPS adoption. However, its automated DV-only model means
+    attackers can obtain valid TLS certificates for phishing sites and C2 infrastructure.
+    ACME account key compromise enables unauthorized issuance. Certificate Transparency
+    logging is mandatory, providing detection capability. Security teams should monitor CT
+    logs for unauthorized certificate issuance, protect ACME account keys, automate renewal
+    to prevent outages, and understand that DV certificates on adversary infrastructure
+    appear legitimate to end users despite no organizational vetting.

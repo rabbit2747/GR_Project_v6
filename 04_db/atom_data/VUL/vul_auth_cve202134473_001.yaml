@@ -1,0 +1,78 @@
+# GR Atom: CVE-2021-34473
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202134473-001"
+  name: "CVE-2021-34473"
+  normalized_name: "cve_2021_34473"
+  aliases:
+    - "ProxyShell - Pre-Auth Path Confusion"
+    - "Exchange Server Pre-Authentication SSRF"
+    - "ProxyShell Stage 1"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - INITIAL
+    - SSRF
+    - WINDOWS
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+definition:
+  what: "CVE-2021-34473 is a critical pre-authentication path confusion vulnerability in Microsoft Exchange Server that enables server-side request forgery. It is the first stage of the ProxyShell exploit chain. An unauthenticated attacker can exploit a URL normalization flaw to access backend Exchange services by sending specially crafted requests to the Exchange Autodiscover endpoint. CVSS v3: 9.8 (Critical). Patched in April 2021 but disclosed publicly in August 2021."
+  why: "ProxyShell represents the evolution of the ProxyLogon attack vector against Microsoft Exchange Server. This vulnerability enables unauthenticated remote attackers to access privileged Exchange backend endpoints. When chained with CVE-2021-34523 (privilege escalation) and CVE-2021-31207 (arbitrary file write), it provides complete remote code execution. Mass exploitation began in August 2021 after public disclosure at Black Hat USA, with ransomware groups including Conti and LockFile deploying payloads through ProxyShell."
+  how: "The vulnerability exploits a URL normalization inconsistency in the Exchange Client Access Service. The attacker sends a request to the Autodiscover endpoint with a specially crafted URL path that includes an encoded path suffix. The Exchange front-end proxy normalizes the URL differently than the back-end, causing the request to be routed to privileged backend services without authentication. Specifically, the attacker accesses /autodiscover/autodiscover.json with a crafted email parameter and path suffix that reaches the MAPI or PowerShell backend endpoints. This provides access to Exchange PowerShell remoting as the Exchange server machine account."
+  core_concepts:
+    - key: "URL Path Confusion"
+      value: "Inconsistent URL normalization between Exchange front-end proxy and back-end services allows unauthenticated access to privileged backend endpoints through crafted path suffixes"
+    - key: "ProxyShell Attack Chain Entry Point"
+      value: "First stage of the three-vulnerability ProxyShell chain enabling full unauthenticated remote code execution on Exchange, actively exploited by ransomware operators"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "ProxyShell CVE-2021-34473 is a pre-authentication access vulnerability in Exchange Server"
+  - type: enables
+    target: "VUL-AUTH-CVE202134523-001"
+    description: "ProxyShell path confusion enables exploitation of CVE-2021-34523 for Exchange PowerShell privilege escalation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-34473 - NVD NIST"
+    - "Orange Tsai - ProxyShell Black Hat USA 2021"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Microsoft Security Advisory - Exchange Server RCE"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2021-34473"
+    - "ProxyShell"
+    - "Exchange path confusion"
+    - "Exchange pre-authentication SSRF"
+    - "Exchange Autodiscover exploit"
+    - "Exchange Server ProxyShell"
+    - "Exchange unauthenticated access"
+    - "ProxyShell ransomware"
+  embedding_text: "CVE-2021-34473 is the first stage of the ProxyShell exploit chain, a critical pre-authentication path confusion vulnerability in Microsoft Exchange Server. URL normalization inconsistencies between the Exchange front-end proxy and back-end services allow unauthenticated attackers to access privileged backend endpoints through crafted Autodiscover requests. CVSS v3 score is 9.8 Critical. Chained with CVE-2021-34523 and CVE-2021-31207 for full unauthenticated RCE. Mass-exploited by Conti, LockFile, and other ransomware groups after Black Hat USA 2021 disclosure. Affects Exchange Server 2013, 2016, and 2019. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application. Discovered by Orange Tsai of DEVCORE."

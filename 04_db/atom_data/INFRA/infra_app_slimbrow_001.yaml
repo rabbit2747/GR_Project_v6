@@ -1,0 +1,109 @@
+# GR Atom: Slim Browser
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SLIMBROW-001"
+  name: "Slim Browser"
+  normalized_name: "slim_browser"
+  aliases:
+    - "SlimBrowser"
+    - "FlashPeak SlimBrowser"
+    - "SlimBrowser Web Browser"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - WINDOWS
+    - EXEC
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Slim Browser (SlimBrowser) is a lightweight web browser developed by FlashPeak that uses
+    the Trident (Internet Explorer) rendering engine on Windows. It provides features including
+    built-in ad blocker, form filler, download manager, translation tools, and customizable
+    toolbar. As a Trident-based browser, it shares the Internet Explorer rendering engine
+    and its associated security characteristics while adding convenience features.
+  why: >-
+    Slim Browser inherits all vulnerabilities associated with the Trident/MSHTML rendering
+    engine, including ActiveX-related exploits, script injection attacks, and memory corruption
+    flaws. The browser's reliance on the legacy IE engine means it lacks modern security
+    features like process isolation and strict Content Security Policy enforcement found in
+    Chromium-based browsers. Its built-in form filler stores credentials that could be targeted
+    by credential harvesting malware. As a less common browser, it may receive less security
+    scrutiny and slower vulnerability patching compared to major browsers.
+  how: >-
+    Slim Browser operates as a Windows application wrapping the Trident rendering engine with
+    a custom user interface and additional features. It processes web content through the same
+    MSHTML engine used by Internet Explorer, supporting ActiveX controls, VBScript, and legacy
+    web technologies. The built-in form filler stores credentials in local storage accessible
+    to the browser process. Extensions and plugins are loaded within the browser process context.
+    The download manager handles file downloads with configurable security settings.
+  core_concepts:
+    - key: "Legacy Engine Vulnerabilities"
+      value: "Trident/MSHTML rendering engine inherits all Internet Explorer vulnerabilities including ActiveX exploits and memory corruption flaws"
+    - key: "Credential Storage Risk"
+      value: "Built-in form filler stores passwords in local storage accessible to credential harvesting malware targeting the browser process"
+    - key: "Reduced Security Posture"
+      value: "Lacks modern browser security features like process isolation, sandboxing, and strict CSP enforcement available in Chromium-based browsers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-INTEEXPL-001"
+    description: "Slim Browser uses the Internet Explorer Trident rendering engine and inherits its security profile"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FlashPeak SlimBrowser Documentation"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+    - "Microsoft MSHTML/Trident Security Advisories"
+  search_keywords:
+    - "Slim Browser"
+    - "SlimBrowser"
+    - "FlashPeak"
+    - "Trident browser"
+    - "MSHTML browser"
+    - "lightweight browser security"
+    - "IE engine browser"
+    - "SlimBrowser vulnerability"
+  embedding_text: >-
+    Slim Browser is a lightweight Windows web browser by FlashPeak using the Trident (Internet
+    Explorer) rendering engine. It provides built-in ad blocking, form filling, and download
+    management. Security concerns include inheritance of all Trident/MSHTML vulnerabilities
+    (ActiveX exploits, memory corruption), credential storage in local form filler accessible
+    to malware, and lack of modern browser security features like process isolation and
+    sandboxing. The browser supports legacy web technologies including ActiveX and VBScript.
+    Security teams should discourage use of Trident-based browsers, migrate to modern
+    Chromium-based alternatives, and monitor for credential theft targeting Slim Browser's
+    stored passwords.

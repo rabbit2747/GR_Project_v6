@@ -1,0 +1,73 @@
+# GR Atom: SLA for Security Incidents
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-SLASECINC-001"
+  name: "SLA for Security Incidents"
+  normalized_name: "sla_for_security_incidents"
+  aliases:
+    - "Security Incident SLA"
+    - "Incident Response SLA"
+    - "Security SLA"
+    - "Incident Response Time Requirements"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "SLA for Security Incidents defines the contractual and operational service level agreements governing the detection, response, containment, and resolution of security incidents. These SLAs establish measurable time-bound commitments for each phase of incident response, typically organized by incident severity level. Critical incidents may require detection within 15 minutes, initial response within 1 hour, containment within 4 hours, and resolution within 24 hours. SLAs also define notification requirements, escalation procedures, communication cadences, and post-incident review timelines. They apply to internal security teams, managed security service providers (MSSPs), and cloud service provider security operations."
+  why: "Without defined SLAs, security incident response times are unpredictable and inconsistent, leading to extended dwell times, larger breach impact, and regulatory non-compliance. Security SLAs create accountability for response times, enable measurement of security operations effectiveness, satisfy regulatory notification requirements (GDPR 72-hour, HIPAA 60-day), and establish clear expectations between organizations and their security service providers. SLAs also drive investment in detection and response capabilities to meet committed timelines."
+  how: "Organizations establish security incident SLAs by defining severity classification criteria, mapping response time commitments to each severity level, establishing escalation procedures and communication protocols, implementing monitoring and alerting systems capable of meeting detection SLAs, staffing security operations to meet response time commitments, deploying incident management platforms for tracking and measuring SLA adherence, conducting regular exercises to validate response capabilities, and reporting SLA metrics to stakeholders through security dashboards and governance reviews."
+  core_concepts:
+    - key: "Severity Classification"
+      value: "System for categorizing incidents by business impact and urgency, typically Critical/High/Medium/Low, determining applicable response SLAs"
+    - key: "Response Time Commitments"
+      value: "Measurable time targets for each incident response phase: detection, triage, containment, eradication, and recovery"
+    - key: "Notification Requirements"
+      value: "Contractual and regulatory timelines for notifying affected parties, regulators, and stakeholders of security incidents"
+    - key: "SLA Measurement"
+      value: "Metrics and reporting processes for tracking actual incident response performance against committed SLA targets"
+
+relations:
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Security SLAs provide measurable criteria for auditing incident response effectiveness"
+  - type: implements
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "SLAs implement incident response requirements of security compliance frameworks"
+  - type: applies_to
+    target: "COMP-STANDARD-SOC2-001"
+    description: "Security incident SLAs support SOC 2 availability and security trust service criteria"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-61 Rev. 2 - Computer Security Incident Handling Guide - https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final"
+    - "ISO/IEC 27035:2023 Information Security Incident Management"
+    - "SANS Incident Response Process - https://www.sans.org/white-papers/"
+  search_keywords:
+    - "security incident SLA"
+    - "incident response SLA"
+    - "response time requirements"
+    - "incident severity"
+    - "incident notification"
+    - "mean time to respond"
+    - "MTTR"
+    - "incident management"
+    - "security operations SLA"
+    - "breach notification timeline"
+  embedding_text: "SLA for Security Incidents defines service level agreements governing detection, response, containment, and resolution of security incidents with measurable time-bound commitments organized by severity level. SLAs establish response time targets, notification requirements, escalation procedures, and post-incident review timelines. They apply to internal security teams, MSSPs, and cloud provider security operations. Organizations implement SLAs by defining severity criteria, staffing security operations, deploying incident management platforms, and measuring adherence through metrics. Security SLAs satisfy regulatory notification requirements like GDPR 72-hour and HIPAA deadlines while driving investment in detection and response capabilities."

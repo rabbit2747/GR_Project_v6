@@ -1,0 +1,75 @@
+# GR Atom: Hacking Team
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-HACKTEAM-001"
+  name: "Hacking Team"
+  normalized_name: "hacking_team"
+  aliases:
+    - "HT S.r.l."
+    - "Memento Labs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "EXEC"
+    - "PERSIST"
+    - "EVADE"
+    - "WINDOWS"
+    - "MOBILE"
+    - "MACOS"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "mobile devices"
+    - "desktop operating systems"
+    - "web browsers"
+    - "telecommunications infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Hacking Team was an Italian offensive security company (HT S.r.l.) that developed and sold surveillance software, primarily its Remote Control System (RCS/Galileo), to law enforcement and intelligence agencies worldwide. The company gained notoriety after a massive data breach in July 2015 exposed 400GB of internal data including source code, emails, and client lists, revealing sales to authoritarian regimes and the use of zero-day exploits."
+  why: "Hacking Team operated as a commercial surveillance vendor, providing lawful intercept capabilities to government clients. However, the 2015 breach revealed sales to governments with poor human rights records including Sudan, Ethiopia, and Saudi Arabia. Their tools were used against journalists, dissidents, and human rights activists, raising significant ethical and legal concerns about the private surveillance industry."
+  how: "Hacking Team's primary product, RCS/Galileo, was a full-featured surveillance platform capable of intercepting communications, activating device cameras and microphones, keystroke logging, and extracting stored data from Windows, macOS, Linux, Android, iOS, and BlackBerry devices. The company maintained a stockpile of zero-day exploits for Adobe Flash, Windows kernel, and mobile platforms to facilitate infection, and used sophisticated evasion techniques to avoid detection by security products."
+  core_concepts:
+    - "commercial surveillance vendor"
+    - "lawful intercept technology"
+    - "zero-day exploit stockpiling"
+    - "Remote Control System (RCS/Galileo)"
+    - "private sector offensive capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-IRANTHRE-001"
+    description: "Hacking Team tools were purchased and deployed by various state actors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "WikiLeaks - Hacking Team Archive (2015)"
+    - "Citizen Lab - Mapping Hacking Team's Untraceable Spyware"
+    - "MITRE ATT&CK - Software S0071 (RCS)"
+  search_keywords:
+    - "hacking team"
+    - "RCS galileo"
+    - "remote control system"
+    - "HT S.r.l."
+    - "memento labs"
+    - "commercial spyware"
+    - "lawful intercept"
+    - "hacking team breach 2015"
+  embedding_text: "Hacking Team was an Italian offensive security company that developed and sold the Remote Control System (RCS/Galileo) surveillance platform to law enforcement and intelligence agencies globally. Founded in Milan, the company provided capabilities for intercepting communications, activating device cameras and microphones, keystroke logging, and data extraction across Windows, macOS, Linux, Android, and iOS platforms. Hacking Team maintained zero-day exploit stockpiles for Adobe Flash, Windows, and mobile platforms. In July 2015, a massive breach exposed 400GB of internal data including source code, client lists, and communications revealing sales to authoritarian governments. The breach disclosed sales to Sudan, Ethiopia, Saudi Arabia, and other nations with poor human rights records, where tools targeted journalists and dissidents. The company later rebranded as Memento Labs. Hacking Team represents a landmark case in the commercial surveillance industry and offensive security vendor accountability."

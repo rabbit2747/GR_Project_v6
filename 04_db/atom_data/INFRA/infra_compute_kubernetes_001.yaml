@@ -1,0 +1,73 @@
+# GR Atom: Kubernetes
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-KUBERNETES-001"
+  name: "Kubernetes"
+  normalized_name: "kubernetes"
+  aliases: ["K8s", "Kube", "Kubernetes Platform", "K8s Cluster"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags: [K8S, CONTAINER, CLOUD, LINUX]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+definition:
+  what: >-
+    Kubernetes (K8s) is an open-source container orchestration platform originally developed
+    by Google that automates deployment, scaling, and management of containerized applications.
+    The architecture consists of a control plane (API server, etcd, scheduler, controller
+    manager) and worker nodes (kubelet, kube-proxy, container runtime). Kubernetes manages
+    workloads through declarative configurations using Pods, Deployments, Services, and other
+    resource types, with RBAC for access control and Namespaces for multi-tenancy.
+  why: >-
+    Kubernetes clusters are prime attack targets due to their role orchestrating critical
+    workloads. Attack vectors include exposed API servers, misconfigured RBAC (cluster-admin
+    to anonymous users), container escape to node, etcd data exposure, supply chain attacks
+    through malicious container images, secrets stored unencrypted in etcd, service account
+    token abuse, and lateral movement between pods. The MITRE ATT&CK Containers Matrix
+    documents systematic Kubernetes attack techniques.
+  how: >-
+    The API server authenticates requests via certificates, tokens, or OIDC, then authorizes
+    via RBAC. Admission controllers (PodSecurity, OPA Gatekeeper) enforce security policies.
+    Network policies restrict pod-to-pod communication. Secrets management uses etcd encryption
+    at rest or external vaults (HashiCorp Vault, AWS Secrets Manager). Container runtime
+    security uses seccomp, AppArmor, SELinux profiles. Service mesh (Istio, Linkerd) provides
+    mTLS between services. Audit logging tracks API server operations for security monitoring.
+  core_concepts:
+    - key: "RBAC and API Server Security"
+      value: "Role-Based Access Control governs all Kubernetes API access; misconfigured RBAC is the most common vulnerability enabling privilege escalation"
+    - key: "Container Escape and Node Compromise"
+      value: "Container breakout via kernel exploits, privileged containers, or hostPath mounts enables node-level access and cluster-wide compromise"
+    - key: "Supply Chain Security"
+      value: "Container image provenance, image signing, admission controllers, and registry security prevent deployment of compromised or vulnerable images"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CONORCSOF-001"
+    description: "Kubernetes is the leading container orchestration platform"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Kubernetes requires a container runtime (containerd, CRI-O) on each node"
+  - type: "enables"
+    target: "INFRA-COMPUTE-DAEMONSET-001"
+    description: "Kubernetes provides the DaemonSet workload type for node-level operations"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Kubernetes Security Documentation", "CIS Kubernetes Benchmark", "MITRE ATT&CK Containers Matrix", "NSA/CISA Kubernetes Hardening Guide"]
+  search_keywords: ["kubernetes", "K8s", "kubernetes security", "RBAC", "container orchestration", "kubernetes attack", "pod security", "etcd"]
+  embedding_text: >-
+    Kubernetes (K8s) is the leading open-source container orchestration platform with control
+    plane (API server, etcd, scheduler) and worker nodes. Attack vectors include exposed API
+    servers, misconfigured RBAC, container escape, etcd exposure, supply chain attacks, secret
+    theft, and service account abuse. Security relies on RBAC, admission controllers
+    (PodSecurity, OPA), network policies, secrets encryption, seccomp/AppArmor profiles,
+    service mesh mTLS, and audit logging. The MITRE ATT&CK Containers Matrix documents
+    systematic attack techniques against Kubernetes clusters.

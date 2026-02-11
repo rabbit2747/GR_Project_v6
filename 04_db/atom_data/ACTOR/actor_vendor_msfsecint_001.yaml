@@ -1,0 +1,72 @@
+# GR Atom: MSFT Sec Intel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-MSFSECINT-001"
+  name: "MSFT Sec Intel"
+  normalized_name: "msft_sec_intel"
+  aliases:
+    - "Microsoft Security Intelligence"
+    - "Microsoft Threat Intelligence"
+    - "MSTIC"
+    - "Microsoft Threat Intelligence Center"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - MONITOR
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Microsoft Security Intelligence, operating primarily through the Microsoft Threat Intelligence Center (MSTIC) and related teams, is Microsoft's dedicated threat intelligence and security research organization. MSTIC tracks nation-state threat actors using Microsoft's weather-themed naming taxonomy (Midnight Blizzard, Forest Blizzard, etc.), publishes detailed campaign analysis, discovers zero-day vulnerabilities, and provides threat intelligence that feeds into Microsoft's security products and public advisories."
+  why: "Microsoft Security Intelligence is one of the most influential threat intelligence organizations globally due to its unparalleled visibility into the threat landscape through telemetry from billions of Windows endpoints, Azure cloud instances, Office 365 accounts, and Defender installations. Their APT tracking and campaign disclosure directly shapes industry threat models, attribution, and defensive priorities. MSTIC's renamed threat actor taxonomy has become a widely referenced standard."
+  how: "MSTIC leverages Microsoft's massive telemetry base spanning over 65 trillion daily security signals from endpoints, cloud, email, and identity systems to detect and track threat actor campaigns. The team publishes detailed reports through the Microsoft Security Blog, coordinates with government agencies and industry partners, contributes to MITRE ATT&CK framework, and integrates intelligence into Microsoft Defender Threat Intelligence products. They maintain dedicated tracking of nation-state, cybercriminal, and hacktivist groups."
+  core_concepts:
+    - key: "Nation-state threat tracking"
+      value: "Dedicated tracking of APT groups using weather-themed naming taxonomy"
+    - key: "Massive telemetry advantage"
+      value: "Visibility from billions of endpoints and cloud instances for threat detection"
+    - key: "Public threat intelligence"
+      value: "Published campaign analysis and attribution informing global defense strategies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "MSFT Security Intelligence produces nation-state threat campaign reports and attribution"
+  - type: part_of
+    target: "ACTOR-VENDOR-MICROSOFT-001"
+    description: "Microsoft Security Intelligence is a division within Microsoft Corporation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Security Blog"
+    - "Microsoft Threat Intelligence Center Publications"
+    - "Microsoft Digital Defense Report"
+  search_keywords:
+    - "microsoft security intelligence"
+    - "mstic"
+    - "microsoft threat intelligence"
+    - "microsoft threat intelligence center"
+    - "midnight blizzard"
+    - "microsoft apt tracking"
+    - "microsoft security blog"
+  embedding_text: "Microsoft Security Intelligence, operating through the Microsoft Threat Intelligence Center (MSTIC) and related teams, is Microsoft's dedicated threat intelligence and security research organization. MSTIC tracks nation-state threat actors using Microsoft's weather-themed naming taxonomy including groups like Midnight Blizzard, Forest Blizzard, Volt Typhoon, and Silk Typhoon. The organization leverages Microsoft's unparalleled telemetry from over 65 trillion daily security signals across Windows endpoints, Azure cloud instances, Office 365 accounts, and Defender installations to detect, track, and attribute cyber campaigns conducted by nation-state, cybercriminal, and hacktivist groups. MSTIC publishes detailed campaign analysis through the Microsoft Security Blog, coordinates with government agencies and industry partners, contributes to the MITRE ATT&CK framework, and integrates intelligence into Microsoft Defender Threat Intelligence products. Their threat actor tracking, campaign disclosure, and attribution analysis directly shape global threat models and defensive priorities, making MSTIC one of the most influential threat intelligence organizations in the cybersecurity industry."

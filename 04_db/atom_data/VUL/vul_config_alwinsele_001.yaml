@@ -1,0 +1,80 @@
+# GR Atom: Always Install Elevated
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-ALWINSELE-001"
+  name: "Always Install Elevated"
+  normalized_name: "always_install_elevated"
+  aliases:
+    - "AlwaysInstallElevated"
+    - "MSI Elevated Install"
+    - "Windows Installer Elevation"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - WINDOWS
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows Installer (msiexec.exe)"
+    - "Group Policy"
+    - "Windows Registry"
+
+definition:
+  what: "Always Install Elevated is a Windows configuration vulnerability where the AlwaysInstallElevated registry keys are set to 1 in both HKLM and HKCU hives, allowing any user to install MSI packages with SYSTEM-level privileges. This misconfiguration effectively grants local privilege escalation to any authenticated user who can craft or obtain a malicious MSI installer package."
+  why: "This misconfiguration is highly significant because it provides a trivial path to SYSTEM-level privilege escalation on Windows hosts. Penetration testers and red teamers routinely check for this setting as it is one of the easiest Windows privilege escalation vectors. Threat actors abuse it post-compromise to elevate from a standard user account to full system control without requiring any exploit code."
+  how: "The vulnerability exists when two registry values are both set to 1: HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer\\AlwaysInstallElevated and HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer\\AlwaysInstallElevated. When both are enabled, Windows Installer runs all .msi files with elevated (SYSTEM) privileges regardless of the user's actual permission level. Attackers generate a malicious MSI payload (e.g., using msfvenom), execute it on the target, and gain a SYSTEM shell. Detection involves querying these registry keys or using tools like PowerUp, winPEAS, or Seatbelt."
+  core_concepts:
+    - key: "AlwaysInstallElevated Registry Keys"
+      value: "Two registry entries in HKLM and HKCU that when both set to 1 instruct Windows Installer to use elevated privileges for all MSI installations"
+    - key: "MSI Privilege Escalation"
+      value: "Technique of crafting malicious MSI packages that execute arbitrary code with SYSTEM privileges when the AlwaysInstallElevated policy is enabled"
+    - key: "Group Policy Misconfiguration"
+      value: "The vulnerable setting is typically deployed via Group Policy (Computer Configuration and User Configuration > Administrative Templates > Windows Installer)"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "Always Install Elevated is a specific instance of a configuration vulnerability in Windows systems"
+  - type: enables
+    target: "VUL-CONFIG-HIJAPATH-001"
+    description: "Elevated MSI installation can enable further path hijacking through installed service binaries"
+  - type: applies_to
+    target: "VUL-CONFIG-VULSCHTAS-001"
+    description: "Elevated installation privileges can be combined with vulnerable scheduled tasks for persistence"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1574.007"
+    tactic: ["Privilege Escalation", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft Documentation - AlwaysInstallElevated Policy"
+    - "MITRE ATT&CK T1574.007 - Hijack Execution Flow: Path Interception by PATH Environment Variable"
+    - "HackTricks - Windows Local Privilege Escalation"
+    - "PayloadsAllTheThings - Windows Privilege Escalation"
+  search_keywords:
+    - "AlwaysInstallElevated"
+    - "MSI privilege escalation"
+    - "Windows Installer elevated"
+    - "msiexec SYSTEM"
+    - "Windows local privilege escalation"
+    - "registry misconfiguration"
+    - "AlwaysInstallElevated registry"
+    - "PowerUp AlwaysInstallElevated"
+  embedding_text: "Always Install Elevated is a Windows configuration vulnerability where the AlwaysInstallElevated registry keys in both HKLM and HKCU are set to 1, allowing any authenticated user to install MSI packages with SYSTEM-level privileges. This is a well-known local privilege escalation vector exploited by crafting malicious MSI payloads. The setting is typically deployed through Group Policy misconfiguration. Detection involves checking registry keys using tools like PowerUp, winPEAS, or Seatbelt. Remediation requires setting both registry values to 0 or disabling the corresponding Group Policy settings. This vulnerability is commonly checked during penetration testing and red team engagements as one of the simplest Windows privilege escalation paths."

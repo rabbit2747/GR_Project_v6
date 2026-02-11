@@ -1,0 +1,74 @@
+# GR Atom: PCI P2PE
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCIP2PE-001"
+  name: "PCI P2PE"
+  normalized_name: "pci_p2pe"
+  aliases:
+    - "PCI Point-to-Point Encryption"
+    - "Point-to-Point Encryption Standard"
+    - "P2PE"
+    - "PCI P2PE Standard"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - ENCRYPT
+    - NETWORK
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "PCI P2PE (Point-to-Point Encryption) is a PCI SSC standard that defines requirements for encrypting payment card data from the point of interaction (POI) device through to the secure decryption environment. A PCI P2PE validated solution encrypts cardholder data at the earliest possible point in the transaction flow using hardware-based encryption in the payment terminal, and only decrypts it in a hardened decryption environment operated by the solution provider. The standard covers encryption device management, application management, decryption environment security, key management, and chain of custody procedures."
+  why: "PCI P2PE dramatically reduces PCI DSS scope for merchants by removing unencrypted cardholder data from the merchant environment. When a validated P2PE solution is used, the merchant's systems never have access to cleartext cardholder data, reducing the applicable PCI DSS requirements and simplifying compliance. This approach provides strong protection against point-of-sale malware and network-based data theft attacks that target cardholder data in transit within merchant environments."
+  how: "Solution providers develop P2PE solutions that include validated encryption devices (POI terminals), secure key injection facilities, key management infrastructure, and hardened decryption environments. The solution undergoes assessment by a P2PE Qualified Security Assessor (P2PE QSA) who validates all components against the P2PE standard. Merchants deploying a validated P2PE solution follow the P2PE Instruction Manual (PIM) provided by the solution provider and can use the simplified SAQ P2PE for their PCI DSS compliance validation, significantly reducing their assessment scope and effort."
+  core_concepts:
+    - key: "POI Device Encryption"
+      value: "Hardware-based encryption in the payment terminal that encrypts cardholder data before it enters the merchant network"
+    - key: "Decryption Environment"
+      value: "Hardened, isolated environment operated by the solution provider where encrypted cardholder data is decrypted for processing"
+    - key: "Key Injection Facility"
+      value: "Secure facility for loading encryption keys into POI devices following strict chain of custody procedures"
+    - key: "Scope Reduction"
+      value: "Significant reduction in PCI DSS compliance scope for merchants using validated P2PE solutions"
+
+relations:
+  - type: part_of
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "PCI P2PE is part of the PCI security standards family"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "P2PE encryption devices must use FIPS 140-2 validated cryptographic modules"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSSCOM-001"
+    description: "P2PE validated solutions significantly simplify PCI DSS compliance for merchants"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI SSC P2PE Standard - https://www.pcisecuritystandards.org/document_library/?category=p2pe"
+    - "PCI P2PE Solution Requirements and Testing Procedures"
+    - "PCI SSC P2PE Program Guide"
+  search_keywords:
+    - "PCI P2PE"
+    - "point-to-point encryption"
+    - "P2PE"
+    - "payment terminal encryption"
+    - "POI encryption"
+    - "PCI scope reduction"
+    - "key injection"
+    - "decryption environment"
+    - "payment data encryption"
+    - "POS encryption"
+  embedding_text: "PCI P2PE is a PCI SSC standard for encrypting payment card data from the point-of-interaction device through to the secure decryption environment. It uses hardware-based encryption in payment terminals to protect cardholder data before it enters the merchant network. The standard covers encryption device management, application security, decryption environment hardening, key management, and chain of custody. Validated P2PE solutions dramatically reduce PCI DSS scope for merchants since cleartext cardholder data never traverses the merchant environment, enabling use of simplified SAQ P2PE for compliance validation."

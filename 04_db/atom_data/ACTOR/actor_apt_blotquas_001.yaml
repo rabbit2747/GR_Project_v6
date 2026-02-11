@@ -1,0 +1,83 @@
+# GR Atom: Blotchy Quasar
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BLOTQUAS-001"
+  name: "Blotchy Quasar"
+  normalized_name: "blotchy_quasar"
+  aliases:
+    - "TAG-110"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - PERSIST
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Blotchy Quasar is a Russian-aligned threat activity cluster tracked by Recorded Future as TAG-110, believed to overlap with the UAC-0063 activity set tracked by CERT-UA. The group targets government entities, diplomatic missions, research institutions, and defense organizations in Central Asia, East Asia, and Europe. They are known for deploying custom .NET-based malware families including HatVibe and CherrySpy for espionage operations."
+  why: "Blotchy Quasar is significant as a Russian-aligned espionage operation focused on Central Asian countries and their diplomatic relationships. The group's targeting of government and research entities in post-Soviet states and neighboring regions suggests intelligence collection priorities aligned with Russian geopolitical interests in maintaining influence across its near-abroad region."
+  how: "The group uses spearphishing emails with malicious document attachments that deploy the HatVibe loader, a .NET-based malware that establishes initial persistence and downloads secondary payloads. CherrySpy, a Python-based backdoor, is used for sustained access and data exfiltration. The group leverages legitimate web services for command-and-control and employs scheduled tasks and registry run keys for persistence."
+  core_concepts:
+    - key: "HatVibe Loader"
+      value: "Custom .NET-based loader used for initial compromise and payload delivery"
+    - key: "CherrySpy Backdoor"
+      value: "Python-based backdoor deployed for persistent access and espionage data collection"
+    - key: "Central Asian Focus"
+      value: "Primary targeting of government and diplomatic entities in Central Asia aligned with Russian interests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing with malicious documents as primary initial access vector"
+  - type: is_a
+    target: "ACTOR-APT-BLOTQUAS-001"
+    description: "Russian-aligned APT cluster targeting Central Asian diplomatic entities"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Recorded Future - TAG-110 Activity Cluster Analysis"
+    - "CERT-UA - UAC-0063 Activity Reports"
+  search_keywords:
+    - "blotchy quasar"
+    - "tag-110"
+    - "uac-0063"
+    - "hatvibe malware"
+    - "cherryspy backdoor"
+    - "russian apt central asia"
+    - "diplomatic espionage russia"
+    - "net loader malware"
+    - "central asian targeting"
+    - "post-soviet espionage"
+  embedding_text: "Blotchy Quasar is a Russian-aligned threat activity cluster tracked by Recorded Future as TAG-110, with overlap to the UAC-0063 activity set tracked by CERT-UA. The group targets government entities, diplomatic missions, research institutions, and defense organizations in Central Asia, East Asia, and Europe. Their operations employ custom malware families including HatVibe, a .NET-based loader for initial compromise and payload delivery, and CherrySpy, a Python-based backdoor for persistent access and espionage data collection. Initial access relies on spearphishing emails with malicious document attachments. The group leverages legitimate web services for command-and-control communications and uses scheduled tasks and registry modifications for persistence. Their targeting aligns with Russian intelligence priorities in maintaining influence across Central Asian states."

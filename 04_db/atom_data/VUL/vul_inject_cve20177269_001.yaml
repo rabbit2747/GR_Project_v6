@@ -1,0 +1,112 @@
+# GR Atom: CVE-2017-7269
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20177269-001"
+  name: "CVE-2017-7269"
+  normalized_name: "cve_2017_7269"
+  aliases:
+    - "IIS WebDAV ScStoragePathFromUrl Buffer Overflow"
+    - "IIS 6.0 WebDAV RCE"
+    - "Microsoft IIS PROPFIND Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - OVERFLOW
+    - EXEC
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft IIS 6.0"
+    - "Windows Server 2003 R2"
+    - "WebDAV service (ScStoragePathFromUrl)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-7269 is a buffer overflow vulnerability in the ScStoragePathFromUrl function in
+    the WebDAV service of Microsoft Internet Information Services (IIS) 6.0 on Windows Server
+    2003 R2. The vulnerability allows remote attackers to execute arbitrary code via a long
+    header in a PROPFIND HTTP request. The CVSS v3 base score is 9.8 (Critical) and it was
+    disclosed in March 2017, notably targeting software that was already end-of-life.
+  why: >-
+    Despite IIS 6.0 and Windows Server 2003 being end-of-life at disclosure, many organizations
+    continued to run these legacy systems. The vulnerability was actively exploited in the wild
+    before disclosure, making it a zero-day. Organizations running legacy IIS deployments were
+    particularly vulnerable as no official patch was initially available for the end-of-life
+    software.
+  how: >-
+    Attackers send a crafted HTTP PROPFIND request with an oversized If header containing a
+    long URL to the WebDAV-enabled IIS 6.0 server. The ScStoragePathFromUrl function fails
+    to properly validate the header length, causing a buffer overflow that overwrites the
+    return address on the stack. By controlling the overflow content, attackers redirect
+    execution to shellcode embedded in the request, achieving remote code execution with
+    the privileges of the IIS worker process. Mitigation requires disabling WebDAV on IIS 6.0
+    or migrating to a supported IIS version.
+  core_concepts:
+    - key: "ScStoragePathFromUrl Overflow"
+      value: "Buffer overflow in the WebDAV URL parsing function triggered by oversized PROPFIND request headers"
+    - key: "Legacy Software Risk"
+      value: "Vulnerability in end-of-life software with no official patch support, demonstrating risks of running unsupported systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "IIS WebDAV buffer overflow is a specific instance of injection through malformed HTTP requests"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20020559-001"
+    description: "Both are buffer overflow vulnerabilities in web server components triggered by oversized HTTP input"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2017-7269"
+  cvss_score: 9.8
+  affected_product: "Microsoft IIS 6.0 on Windows Server 2003 R2"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-7269"
+    - "CWE-120 Buffer Copy without Checking Size of Input"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-7269"
+    - "IIS 6.0 WebDAV exploit"
+    - "ScStoragePathFromUrl buffer overflow"
+    - "IIS PROPFIND overflow"
+    - "Windows Server 2003 IIS vulnerability"
+    - "WebDAV remote code execution"
+    - "IIS zero-day"
+  embedding_text: >-
+    CVE-2017-7269 is a critical buffer overflow in Microsoft IIS 6.0 WebDAV service with
+    CVSS score 9.8. The ScStoragePathFromUrl function fails to validate header length in
+    PROPFIND requests, enabling stack-based buffer overflow and remote code execution. Actively
+    exploited as a zero-day against end-of-life Windows Server 2003 R2 systems. Attackers send
+    crafted PROPFIND requests with oversized If headers to overflow the buffer and redirect
+    execution to embedded shellcode. This vulnerability highlights the severe risk of running
+    end-of-life software with no official patch support. Mitigation requires disabling WebDAV
+    on IIS 6.0 or migrating to supported IIS versions on current Windows Server platforms.

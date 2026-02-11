@@ -1,0 +1,107 @@
+# GR Atom: SNMP Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SNMP-001"
+  name: "SNMP Protocol"
+  normalized_name: "snmp_protocol"
+  aliases:
+    - "SNMP"
+    - "Simple Network Management Protocol"
+    - "RFC 3411-3418"
+    - "SNMPv1"
+    - "SNMPv2c"
+    - "SNMPv3"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SNMP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    Simple Network Management Protocol (SNMP) is an application layer protocol for monitoring
+    and managing network devices including routers, switches, firewalls, servers, printers, and
+    IoT devices. SNMP operates over UDP ports 161 (agent queries) and 162 (trap notifications).
+    The protocol uses a manager-agent architecture where managers poll agents for data organized
+    in Management Information Bases (MIBs). Three versions exist: SNMPv1 (RFC 1157) with
+    community string authentication, SNMPv2c (RFC 3416) adding bulk operations, and SNMPv3
+    (RFC 3414) providing authentication (HMAC-MD5/SHA) and encryption (DES/AES) through the
+    User-based Security Model (USM).
+  why: >-
+    SNMP is a critical attack surface in enterprise networks. SNMPv1/v2c community strings are
+    transmitted in cleartext, enabling credential interception and unauthorized device
+    management. Default community strings ("public", "private") remain widely deployed.
+    SNMP write access enables remote device reconfiguration, firmware modification, and
+    denial of service. SNMP enumeration reveals detailed network topology, device inventory,
+    interface configurations, routing tables, and ARP caches — providing comprehensive
+    reconnaissance data. SNMP reflection/amplification attacks exploit GetBulk requests for
+    DDoS. MITRE ATT&CK documents SNMP for network discovery (T1046) and remote services
+    exploitation. CVE-2017-6736 and similar Cisco SNMP vulnerabilities enabled remote code
+    execution on network infrastructure.
+  how: >-
+    SNMP operates through a manager-agent model: (1) Manager sends GET/GETNEXT/GETBULK requests
+    to agent on UDP 161 to read MIB objects; (2) Agent responds with requested OID values from
+    its local MIB tree; (3) Manager sends SET requests to modify writable MIB objects for
+    configuration changes; (4) Agent sends TRAP/INFORM notifications to manager on UDP 162
+    for asynchronous events (link up/down, threshold alerts). SNMPv1/v2c authenticates using
+    plaintext community strings. SNMPv3 USM provides username-based authentication (authNoPriv)
+    and encryption (authPriv). MIB objects are addressed by Object Identifiers (OIDs) in a
+    hierarchical tree structure (e.g., 1.3.6.1.2.1 for standard MIB-II objects).
+  core_concepts:
+    - key: "Community String"
+      value: "Plaintext password used in SNMPv1/v2c for authentication — 'public' for read-only, 'private' for read-write access, transmitted unencrypted over the network."
+    - key: "Management Information Base (MIB)"
+      value: "Hierarchical database of managed objects identified by OIDs, defining device properties (interfaces, routing, performance) that SNMP can query or modify."
+    - key: "SNMPv3 USM"
+      value: "User-based Security Model providing authentication (HMAC-MD5/SHA) and privacy (DES/AES) for SNMP operations, replacing insecure community string authentication."
+    - key: "SNMP Amplification Attack"
+      value: "DDoS technique exploiting SNMP GetBulk requests with spoofed source addresses to generate large response volumes against target systems."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "SNMP is an application layer protocol for network device monitoring and management"
+  - type: "enables"
+    target: "PROTO-MSG-HEARTBEAT-001"
+    description: "SNMP polling and trap notifications provide health monitoring and availability checking for managed network devices"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 3411-3418 — SNMPv3 Framework"
+    - "IETF RFC 3416 — Version 2 of SNMP Protocol Operations"
+    - "MITRE ATT&CK — T1046: Network Service Discovery"
+    - "US-CERT — SNMP Amplification Attacks Advisory"
+  search_keywords:
+    - "SNMP"
+    - "simple network management protocol"
+    - "community string"
+    - "SNMPv3"
+    - "MIB"
+    - "OID"
+    - "port 161"
+    - "SNMP trap"
+    - "SNMP enumeration"
+    - "SNMP amplification"
+  embedding_text: >-
+    SNMP (Simple Network Management Protocol) monitors and manages network devices over UDP
+    ports 161/162 using a manager-agent architecture with MIB data organized by OIDs. Three
+    versions exist: SNMPv1/v2c use plaintext community strings, SNMPv3 adds HMAC authentication
+    and AES encryption. SNMP is a critical attack surface — default community strings enable
+    unauthorized device management, SNMP enumeration reveals network topology and device
+    inventory (MITRE T1046), and SNMP amplification attacks enable DDoS. Write access allows
+    remote device reconfiguration. Security requires SNMPv3 with authPriv, changing default
+    community strings, restricting SNMP access via ACLs, and monitoring for unauthorized queries.

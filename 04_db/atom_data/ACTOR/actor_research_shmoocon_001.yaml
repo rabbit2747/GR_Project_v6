@@ -1,0 +1,74 @@
+# GR Atom: ShmOOCon
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-SHMOOCON-001"
+  name: "ShmOOCon"
+  normalized_name: "shmoocon"
+  aliases:
+    - "ShmooCon"
+    - "Shmoo Con"
+    - "Shmoo Group Conference"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - THREAT_INTEL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ShmooCon is an annual hacker convention organized by the Shmoo Group, held in Washington, D.C. since 2005. The conference focuses on information security research, with three presentation tracks covering topics such as exploitation techniques, reverse engineering, hardware hacking, wireless security, privacy, and policy. ShmooCon is known for its intimate, community-driven atmosphere, affordable ticket prices, and emphasis on original research presentations. The conference attracts a mix of security researchers, government cybersecurity professionals, and industry practitioners given its proximity to federal agencies."
+  why: "ShmooCon is significant for providing a community-oriented platform for sharing original security research in the Washington, D.C. area, attracting a unique mix of private sector researchers and government cybersecurity professionals. The conference has historically featured important disclosures in hardware hacking, wireless security, and privacy research, and its affordable format helps maintain diversity and accessibility in the security conference ecosystem."
+  how: "ShmooCon operates through three presentation tracks: One Track Mind (single-topic deep dives), Build It (constructive security projects), and Belay It (quick lightning talks). The conference features a highly competitive CFP process emphasizing original research. Additional events include Hack or Halo (gaming tournament), ShmooCon Labs, and social events. Talks are recorded and made available online post-conference."
+  core_concepts:
+    - key: "Community Hacker Convention"
+      value: "Intimate, affordable security conference emphasizing original research and community engagement"
+    - key: "Multi-Track Research"
+      value: "Three tracks covering deep-dive research, constructive security projects, and lightning talks"
+    - key: "DC Security Community"
+      value: "Unique blend of private sector researchers and government cybersecurity professionals"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Fellow cybersecurity conference in the hacker conference ecosystem"
+  - type: is_a
+    target: "ACTOR-RESEARCH-DERBYCON-001"
+    description: "Fellow community-oriented hacker conference"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for conference
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.shmoocon.org"
+    - "https://en.wikipedia.org/wiki/ShmooCon"
+  search_keywords:
+    - "shmoocon"
+    - "shmooCon"
+    - "shmoo group"
+    - "hacker convention"
+    - "DC security conference"
+    - "hardware hacking"
+    - "wireless security"
+    - "security research conference"
+  embedding_text: "ShmooCon is an annual hacker convention organized by the Shmoo Group, held in Washington, D.C. since 2005, focusing on information security research across three presentation tracks covering exploitation techniques, reverse engineering, hardware hacking, wireless security, privacy, and policy. Known for its intimate, community-driven atmosphere and affordable ticket prices, ShmooCon attracts a unique mix of security researchers, government cybersecurity professionals, and industry practitioners. The conference features a highly competitive CFP process emphasizing original research through three tracks: One Track Mind for deep dives, Build It for constructive projects, and Belay It for lightning talks. Talks are recorded and made available online, extending the conference's educational impact beyond in-person attendance."

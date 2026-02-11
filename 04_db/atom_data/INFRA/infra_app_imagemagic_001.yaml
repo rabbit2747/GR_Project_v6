@@ -1,0 +1,118 @@
+# GR Atom: ImageMagick
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-IMAGEMAGIC-001"
+  name: "ImageMagick"
+  normalized_name: "imagemagick"
+  aliases:
+    - "ImageMagick Studio"
+    - "convert"
+    - "identify"
+    - "magick"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - UPLOAD
+    - SSRF
+    - INJ
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ImageMagick is an open-source image processing library and command-line toolkit used to
+    create, edit, compose, and convert bitmap images. It supports over 200 image formats and
+    provides tools including convert, identify, mogrify, and composite. ImageMagick is widely
+    deployed in web applications, content management systems, and image processing pipelines
+    for server-side image manipulation including resizing, format conversion, and thumbnail
+    generation.
+  why: >-
+    ImageMagick has a history of critical vulnerabilities including ImageTragick (CVE-2016-3714)
+    which allowed remote code execution through crafted image files. The library processes
+    complex image formats with delegates that can execute external commands, creating RCE
+    vectors. SSRF vulnerabilities allow attackers to make server-side requests through SVG
+    or MVG image processing. File read vulnerabilities (CVE-2022-44268) enable reading
+    arbitrary server files through crafted PNG images. Web applications that process user-
+    uploaded images through ImageMagick without proper sandboxing are particularly vulnerable.
+  how: >-
+    ImageMagick processes images through a modular architecture with format-specific coders
+    and external delegates for format conversion. The delegate system invokes external programs
+    (like ghostscript, ffmpeg) configured in delegates.xml and policy.xml. ImageTragick
+    exploited insufficient input validation in MVG and SVG coders to inject shell commands
+    through delegate invocation. The policy.xml file controls which coders and delegates
+    are permitted. Web applications typically invoke ImageMagick through command-line tools
+    or library bindings (MagickWand, Imagick PHP, RMagick) to process uploaded images.
+    Exploitation targets the image parser, delegate system, or covert channel capabilities.
+  core_concepts:
+    - key: "Server-Side Image Processing"
+      value: "Widely deployed image processing library used in web applications for server-side manipulation of user-uploaded images across 200+ formats"
+    - key: "ImageTragick RCE"
+      value: "Critical vulnerability (CVE-2016-3714) enabling shell command injection through crafted images exploiting the delegate system for external program invocation"
+    - key: "Policy-Based Security Controls"
+      value: "policy.xml configuration controls permitted coders and delegates but is often left at insecure defaults in production deployments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "ImageMagick is a component commonly integrated into enterprise web application server infrastructure for image processing"
+  - type: "enables"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "ImageMagick provides image processing capabilities used by enterprise web applications and CMS platforms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "critical"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ImageMagick Security Policy Documentation"
+    - "CVE-2016-3714 - ImageTragick"
+    - "CVE-2022-44268 - ImageMagick Arbitrary File Read"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "ImageMagick"
+    - "ImageTragick"
+    - "CVE-2016-3714"
+    - "ImageMagick RCE"
+    - "ImageMagick vulnerability"
+    - "image processing exploit"
+    - "ImageMagick SSRF"
+    - "CVE-2022-44268"
+  embedding_text: >-
+    ImageMagick is an open-source image processing library supporting 200+ formats, widely
+    deployed in web applications for server-side image manipulation. It has a critical
+    vulnerability history including ImageTragick (CVE-2016-3714) enabling RCE through crafted
+    images that exploit the delegate system for shell command injection. SSRF and arbitrary
+    file read vulnerabilities (CVE-2022-44268) enable server-side request forgery and reading
+    server files through crafted PNGs. The delegate system invokes external programs configured
+    in delegates.xml, and policy.xml controls security restrictions but is often left at
+    insecure defaults. Web applications processing user-uploaded images through ImageMagick
+    without sandboxing are particularly vulnerable. Security teams should enforce strict
+    policy.xml configurations, disable unnecessary coders and delegates, sandbox ImageMagick
+    processing, and validate uploaded images before processing.

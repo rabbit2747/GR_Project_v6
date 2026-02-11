@@ -1,0 +1,121 @@
+# GR Atom: AWS SSM Parameter Store
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AWSSPAST-001"
+  name: "AWS SSM Parameter Store"
+  normalized_name: "aws_ssm_parameter_store"
+  aliases:
+    - "AWS Systems Manager Parameter Store"
+    - "SSM Parameter Store"
+    - "Parameter Store"
+    - "AWS Config Store"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - ENCRYPT
+    - CONFIG
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS Systems Manager Parameter Store is a managed configuration and secrets storage
+    service that provides a centralized hierarchical store for configuration data, database
+    connection strings, API keys, and encrypted secrets. It supports String, StringList,
+    and SecureString parameter types, with SecureString parameters encrypted using AWS KMS
+    keys. Parameter Store integrates natively with AWS services for configuration management
+    and secrets retrieval without requiring custom secrets management infrastructure.
+  why: >-
+    Parameter Store is a common target for credential harvesting in AWS environments because
+    it frequently stores database passwords, API tokens, service credentials, and other
+    sensitive configuration values. Attackers with ssm:GetParameter or ssm:GetParametersByPath
+    permissions can extract secrets from the parameter hierarchy. Misconfigured IAM policies
+    granting broad SSM access, unencrypted String parameters containing secrets, and
+    insufficient parameter access logging via CloudTrail are common security weaknesses.
+    Parameter Store access is a standard post-exploitation step in AWS attacks.
+  how: >-
+    Parameter Store organizes parameters in a hierarchical path structure (e.g.,
+    /production/database/password) and stores values as plaintext String or KMS-encrypted
+    SecureString types. Applications retrieve parameters via the SSM GetParameter API,
+    with IAM policies controlling access through resource ARN patterns. SecureString
+    parameters are encrypted with AWS KMS customer-managed or service-default keys.
+    Parameter Store supports versioning, change notification through EventBridge, and
+    cross-account access through resource policies. Integration with ECS, Lambda, and
+    EC2 enables automatic secrets injection at runtime.
+  core_concepts:
+    - key: "SecureString Encryption"
+      value: "KMS-encrypted parameter type protecting sensitive values at rest with envelope encryption and IAM-controlled decryption access"
+    - key: "Hierarchical Parameter Paths"
+      value: "Hierarchical path structure enables IAM policies to scope access to specific parameter trees using resource ARN patterns"
+    - key: "Credential Harvesting Target"
+      value: "Parameter Store is a primary reconnaissance target for attackers seeking stored credentials, API keys, and connection strings"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-IDENTITY-SECRMANA-001"
+    description: "Parameter Store functions as a secrets manager for configuration and credential storage"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AWIAIDAC-001"
+    description: "Access to parameters is controlled by AWS IAM policies"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "Parameter Store serves as an alternative to dedicated credential management systems for AWS-native workloads"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.005"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - AWS Systems Manager Parameter Store"
+    - "MITRE ATT&CK T1552.005 - Unsecured Credentials: Cloud Instance Metadata API"
+    - "Rhino Security Labs - Exploiting AWS Parameter Store"
+  search_keywords:
+    - "SSM Parameter Store"
+    - "AWS Parameter Store secrets"
+    - "SecureString parameter"
+    - "ssm:GetParameter"
+    - "AWS configuration store"
+    - "parameter store credential"
+    - "AWS secrets storage"
+    - "SSM parameter harvesting"
+  embedding_text: >-
+    AWS Systems Manager Parameter Store is a managed service providing centralized
+    hierarchical storage for configuration data, API keys, database credentials, and
+    encrypted secrets. It supports String, StringList, and SecureString parameter types
+    with SecureString values encrypted using AWS KMS. Parameters are organized in path
+    hierarchies with IAM policies controlling access via resource ARN patterns. Parameter
+    Store is a common credential harvesting target in AWS post-exploitation because it
+    frequently stores sensitive values. Attackers with ssm:GetParameter permissions can
+    extract secrets from the parameter hierarchy. Common security issues include overly
+    permissive IAM policies, unencrypted parameters containing secrets, and insufficient
+    CloudTrail monitoring. Security teams should enforce SecureString for all sensitive
+    parameters, use customer-managed KMS keys, scope IAM access to specific parameter
+    paths, and monitor parameter access events through CloudTrail.

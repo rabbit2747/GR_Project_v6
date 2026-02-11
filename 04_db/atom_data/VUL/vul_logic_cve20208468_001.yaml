@@ -1,0 +1,97 @@
+# GR Atom: CVE-2020-8468
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20208468-001"
+  name: "CVE-2020-8468"
+  normalized_name: "cve_2020_8468"
+  aliases:
+    - "Trend Micro Apex One Content Validation Bypass"
+    - "Apex One Agent Component Download Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EVADE
+    - EXEC
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Trend Micro Apex One"
+    - "Trend Micro OfficeScan"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-8468 is a content validation bypass vulnerability in Trend Micro Apex One and
+    OfficeScan that allows an attacker to manipulate certain agent client components. The
+    logic flaw in the content validation mechanism allows a man-in-the-middle attacker to
+    modify component downloads during updates, potentially enabling code execution on
+    endpoints managed by the security platform. CVSS v3 base score: 8.0 (High). Exploited
+    in the wild as a zero-day.
+  why: >-
+    Trend Micro Apex One is an endpoint protection platform deployed across enterprise
+    environments. Bypassing content validation of agent updates allows an attacker to deliver
+    malicious components to managed endpoints through the trusted update channel. This is
+    particularly impactful because security software updates are typically trusted and
+    whitelisted, making this an effective supply chain attack vector.
+  how: >-
+    A man-in-the-middle attacker intercepts the communication between Apex One agents and
+    the management server during component updates. The content validation logic insufficiently
+    verifies the integrity of downloaded components, allowing the attacker to substitute
+    malicious components that are then executed by the agent with elevated privileges.
+  core_concepts:
+    - key: "Content Validation Logic Bypass"
+      value: "Insufficient integrity verification of agent component downloads allows substitution of malicious updates"
+    - key: "Trusted Channel Abuse"
+      value: "Security software update mechanism becomes an attack vector when content validation can be bypassed"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Content validation logic flaw enabling malicious component injection through trusted update channel"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2020-8468"
+    - "Trend Micro Security Advisory"
+    - "NIST NVD - CVE-2020-8468"
+    - "CISA Alert"
+  search_keywords:
+    - "CVE-2020-8468"
+    - "Trend Micro Apex One"
+    - "OfficeScan vulnerability"
+    - "content validation bypass"
+    - "agent update manipulation"
+    - "security software bypass"
+  embedding_text: >-
+    CVE-2020-8468 is a content validation bypass vulnerability in Trend Micro Apex One and
+    OfficeScan. Logic flaw in update integrity verification allows man-in-the-middle attackers
+    to substitute malicious components during agent updates. Exploited as zero-day. CVSS v3
+    8.0 High. Security software update channel becomes attack vector. Trusted channel abuse
+    through content validation logic flaw. Affects enterprise endpoint protection deployments.
+    Year 2020.

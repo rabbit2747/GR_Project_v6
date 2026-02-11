@@ -1,0 +1,104 @@
+# GR Atom: SMBv1
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SMBV1-001"
+  name: "SMBv1"
+  normalized_name: "smbv1"
+  aliases:
+    - "SMB Version 1"
+    - "CIFS"
+    - "Common Internet File System"
+    - "MS-SMB"
+    - "SMB1"
+    - "NT LM 0.12"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    SMBv1 (Server Message Block version 1), also known as CIFS (Common Internet File System), is
+    the original version of the SMB protocol developed in the 1980s by IBM and extended by
+    Microsoft. SMBv1 operates over TCP port 445 or NetBIOS on port 139 and provides file sharing,
+    printer sharing, and named pipe communication. The protocol uses the NT LM 0.12 dialect and
+    supports NTLM authentication. SMBv1 was the default file sharing protocol in Windows XP
+    through Windows Server 2008. Microsoft officially deprecated SMBv1 in 2014 and began
+    disabling it by default in Windows 10 Fall Creators Update (1709) and Windows Server 2019.
+  why: >-
+    SMBv1 is one of the most dangerous legacy protocols in enterprise networks. The EternalBlue
+    exploit (MS17-010, CVE-2017-0144) targeting SMBv1 enabled the WannaCry and NotPetya attacks
+    that caused billions of dollars in damage worldwide. SMBv1 lacks modern security features:
+    no encryption, weak signing enforcement, no secure dialect negotiation (vulnerable to
+    downgrade attacks), and no pre-authentication integrity. Null sessions on SMBv1 allow
+    anonymous enumeration of shares, users, and system information. Microsoft and CISA strongly
+    recommend disabling SMBv1 on all systems, yet many legacy applications and devices (printers,
+    NAS, embedded systems) still require it.
+  how: >-
+    SMBv1 operates through: (1) NetBIOS or direct TCP connection establishment; (2) Dialect
+    negotiation using the Negotiate Protocol Request selecting NT LM 0.12; (3) Session setup
+    with NTLM challenge-response authentication (no Kerberos support in original SMBv1); (4)
+    Tree connect to shared resources using UNC paths; (5) File operations via individual SMB
+    commands — each operation requires a separate round trip (no compounding). SMBv1 uses
+    opportunistic locks (oplocks) for caching, supports 16-bit transaction IDs limiting
+    concurrent operations, and relies on NetBIOS naming for service discovery on legacy
+    networks.
+  core_concepts:
+    - key: "EternalBlue (MS17-010)"
+      value: "Critical buffer overflow vulnerability in SMBv1 transaction handling that enabled wormable remote code execution, exploited by WannaCry and NotPetya."
+    - key: "SMBv1 Null Session"
+      value: "Anonymous connection using empty credentials that enumerates shares, users, groups, and policies — a key reconnaissance technique on legacy Windows systems."
+    - key: "Dialect Downgrade Attack"
+      value: "Man-in-the-middle technique forcing SMBv1 negotiation instead of SMBv2/v3, exploiting SMBv1's lack of secure dialect negotiation."
+    - key: "Opportunistic Locks (Oplocks)"
+      value: "Client-side caching mechanism allowing temporary exclusive access to files for performance, replaced by leases in SMBv2."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-SMB-001"
+    description: "SMBv1 is the original version of the Server Message Block file sharing protocol"
+  - type: "requires"
+    target: "PROTO-MSG-NETBIOS-001"
+    description: "SMBv1 traditionally requires NetBIOS for name resolution and session transport on port 139"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-SMB]: Server Message Block Protocol"
+    - "CVE-2017-0144 — EternalBlue (MS17-010). NIST NVD"
+    - "Microsoft — Stop Using SMB1 (Security Advisory)"
+    - "CISA — SMBv1 Deprecation and Migration Guidance"
+  search_keywords:
+    - "SMBv1"
+    - "CIFS"
+    - "EternalBlue"
+    - "MS17-010"
+    - "CVE-2017-0144"
+    - "WannaCry"
+    - "SMB version 1"
+    - "NT LM 0.12"
+    - "SMBv1 disable"
+    - "null session"
+  embedding_text: >-
+    SMBv1 (CIFS) is the deprecated original version of the Server Message Block protocol developed
+    in the 1980s. Operating over TCP port 445 or NetBIOS port 139, SMBv1 lacks encryption, secure
+    dialect negotiation, and pre-authentication integrity. The EternalBlue exploit (MS17-010,
+    CVE-2017-0144) targeting SMBv1 powered the WannaCry and NotPetya attacks causing billions in
+    damage. SMBv1 null sessions enable anonymous enumeration. Microsoft deprecated SMBv1 in 2014
+    and disables it by default since Windows 10 1709. Legacy applications and devices still
+    requiring SMBv1 create persistent enterprise risk. CISA strongly recommends disabling SMBv1
+    on all systems.

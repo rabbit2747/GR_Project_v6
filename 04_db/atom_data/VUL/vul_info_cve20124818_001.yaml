@@ -1,0 +1,100 @@
+# GR Atom: CVE-2012-4818
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-CVE20124818-001"
+  name: "CVE-2012-4818"
+  normalized_name: "cve_2012_4818"
+  aliases:
+    - "IBM InfoSphere Information Server Information Disclosure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - WEB
+    - API
+    - CRED
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "IBM InfoSphere Information Server 8.1 through 8.7"
+    - "IBM InfoSphere DataStage"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-4818 is an information disclosure vulnerability in IBM InfoSphere Information Server
+    versions 8.1 through 8.7. The application exposes sensitive credential information through
+    improper handling of authentication data, allowing remote authenticated attackers to obtain
+    sensitive information such as encrypted passwords and database connection strings that could
+    facilitate further attacks against the system.
+  why: >-
+    Information disclosure of credential material in enterprise data integration platforms like
+    IBM InfoSphere is critical because these systems typically have broad access to multiple
+    backend databases and data warehouses. Compromised credentials from these systems can provide
+    attackers with lateral movement paths to sensitive data stores across the enterprise, making
+    them high-value targets.
+  how: >-
+    The vulnerability exists in the way IBM InfoSphere Information Server handles and exposes
+    authentication-related data. Authenticated users can access sensitive configuration data
+    containing encrypted passwords and connection strings through the application interfaces.
+    The exposed credential material can potentially be decrypted or reused to gain unauthorized
+    access to connected database systems and data integration workflows.
+  core_concepts:
+    - key: "Credential Exposure"
+      value: "Encrypted passwords and database connection strings exposed to authenticated users through application interfaces"
+    - key: "Enterprise Data Platform Risk"
+      value: "Data integration servers connect to multiple databases making credential compromise a lateral movement enabler"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "CVE-2012-4818 is an information disclosure vulnerability exposing credential data in IBM InfoSphere"
+  - type: "enables"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Leaked credential material enables authentication bypass or credential reuse attacks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2012-4818"
+    - "IBM Security Advisory"
+    - "MITRE CVE Database"
+  search_keywords:
+    - "CVE-2012-4818"
+    - "IBM InfoSphere Information Server"
+    - "InfoSphere DataStage"
+    - "credential disclosure"
+    - "information disclosure"
+    - "encrypted password exposure"
+    - "IBM data integration vulnerability"
+  embedding_text: >-
+    CVE-2012-4818 is an information disclosure vulnerability in IBM InfoSphere Information Server
+    versions 8.1 through 8.7. The application improperly exposes sensitive credential data including
+    encrypted passwords and database connection strings to authenticated users. Since InfoSphere
+    serves as an enterprise data integration platform connecting to multiple backend databases and
+    data warehouses, credential compromise provides attackers with lateral movement opportunities
+    across connected data stores. The vulnerability highlights risks inherent in enterprise data
+    integration platforms that maintain multiple database credentials. Discovered in 2012.

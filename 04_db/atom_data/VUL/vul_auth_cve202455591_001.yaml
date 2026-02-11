@@ -1,0 +1,117 @@
+# GR Atom: CVE-2024-55591
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202455591-001"
+  name: "CVE-2024-55591"
+  normalized_name: "cve_2024_55591"
+  aliases:
+    - "FortiOS Authentication Bypass"
+    - "Fortinet FortiGate Admin Bypass"
+    - "FortiProxy Authentication Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - AUTHN
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Fortinet FortiOS (7.0.0 through 7.0.16)"
+    - "Fortinet FortiProxy (7.0.0 through 7.0.19, 7.2.0 through 7.2.12)"
+    - "FortiGate firewall management interface"
+    - "Node.js WebSocket module"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-55591 is a critical authentication bypass vulnerability in Fortinet FortiOS and
+    FortiProxy products. The vulnerability exists in the Node.js WebSocket module of the
+    administrative interface and allows a remote unauthenticated attacker to gain super-admin
+    privileges by sending specially crafted requests to the management interface. It affects
+    FortiOS versions 7.0.0 through 7.0.16 and FortiProxy versions 7.0.0 through 7.0.19 and
+    7.2.0 through 7.2.12. CVSS v3.1 score is 9.8 (Critical). Actively exploited in the wild
+    as a zero-day starting in November 2024.
+  why: >-
+    Fortinet FortiGate firewalls are among the most widely deployed network security appliances
+    globally, protecting enterprise and government networks. This vulnerability grants super-admin
+    access without credentials to the management interface, providing complete control over firewall
+    rules, VPN configurations, and network routing. Attackers exploited this at scale to create
+    rogue administrator accounts, modify firewall policies, establish SSL VPN tunnels for
+    persistent access, and pivot into internal networks. The vulnerability was used in campaigns
+    targeting critical infrastructure and government organizations.
+  how: >-
+    The attacker sends crafted requests to the Node.js WebSocket module on the FortiOS/FortiProxy
+    administrative interface, bypassing authentication to obtain a valid session token with
+    super-admin privileges. With this access, the attacker creates new administrator accounts,
+    modifies firewall policies to allow inbound connections, configures SSL VPN portals with new
+    user accounts for persistent remote access, and alters routing to intercept traffic. Mitigation
+    includes upgrading to patched FortiOS/FortiProxy versions, restricting management interface
+    access to trusted networks only, disabling HTTP/HTTPS administrative access on public-facing
+    interfaces, monitoring for unauthorized administrator accounts, and auditing VPN and firewall
+    policy changes.
+  core_concepts:
+    - key: "WebSocket Authentication Bypass"
+      value: "Exploiting the Node.js WebSocket module in Fortinet management interface to bypass authentication and obtain super-admin session tokens"
+    - key: "Firewall Admin Takeover"
+      value: "Complete administrative control over network firewall enabling policy manipulation, VPN creation, and traffic interception"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-55591 is a critical authentication bypass granting super-admin privileges on Fortinet devices"
+  - type: "instance_of"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "This is a specific instance of pre-authentication bypass requiring no credentials"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-55591"
+    - "NIST NVD CVE-2024-55591 (CVSS v3.1: 9.8)"
+    - "Fortinet PSIRT Advisory FG-IR-24-535"
+    - "CISA KEV Catalog - CVE-2024-55591"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Arctic Wolf - FortiGate Exploitation Campaign Analysis"
+  search_keywords:
+    - "CVE-2024-55591"
+    - "FortiOS authentication bypass"
+    - "Fortinet FortiGate vulnerability"
+    - "FortiProxy authentication bypass"
+    - "Fortinet super-admin bypass"
+    - "FortiGate zero-day 2024"
+    - "Fortinet WebSocket exploit"
+  embedding_text: >-
+    CVE-2024-55591 is a critical authentication bypass vulnerability in Fortinet FortiOS and
+    FortiProxy with CVSS v3.1 score 9.8. A remote unauthenticated attacker exploits the Node.js
+    WebSocket module on the management interface to gain super-admin privileges without credentials.
+    Affects FortiOS 7.0.0-7.0.16 and FortiProxy 7.0.0-7.0.19 and 7.2.0-7.2.12. Actively
+    exploited as a zero-day since November 2024 to create rogue admin accounts, modify firewall
+    policies, and establish SSL VPN tunnels for persistent access. FortiGate is one of the most
+    widely deployed firewalls globally. Mitigation requires upgrading, restricting management
+    interface access, disabling public-facing admin interfaces, and auditing for unauthorized
+    accounts and policy changes.

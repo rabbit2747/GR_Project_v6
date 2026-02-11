@@ -1,0 +1,105 @@
+# GR Atom: GDPR Article 25
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-GDPART25-001"
+  name: "GDPR Article 25"
+  normalized_name: "gdpr_article_25"
+  aliases:
+    - "Data Protection by Design and by Default"
+    - "Privacy by Design"
+    - "Art. 25 GDPR"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    GDPR Article 25 mandates that data controllers implement data protection by design and by
+    default. This requires that appropriate technical and organizational measures be integrated
+    into the design of processing operations from the outset, and that by default only personal
+    data necessary for each specific purpose is processed. The article specifies that measures
+    such as pseudonymization and data minimization shall be implemented, taking into account the
+    state of the art, the cost of implementation, and the nature, scope, context, and purposes
+    of processing, as well as the risks to data subjects.
+  why: >
+    Article 25 shifts the privacy paradigm from reactive remediation to proactive design. By
+    requiring privacy controls to be embedded at the system architecture level, it ensures that
+    data protection is not an afterthought but a fundamental design constraint. This reduces
+    the risk of data breaches, limits unnecessary data exposure, and minimizes the attack surface
+    for personal data. Violations can result in administrative fines up to 10 million EUR or 2%
+    of global annual turnover.
+  how: >
+    Implementation involves conducting Data Protection Impact Assessments (DPIAs) during system
+    design, applying data minimization principles to limit collection and retention, implementing
+    pseudonymization and anonymization where feasible, configuring default privacy settings to
+    the most restrictive level, applying purpose limitation controls, building access controls
+    that enforce need-to-know principles, and documenting design decisions that demonstrate
+    compliance with Article 25 requirements.
+  core_concepts:
+    - key: "Data Protection by Design"
+      value: "Embedding data protection measures into the design of systems and processing operations from inception"
+    - key: "Data Protection by Default"
+      value: "Ensuring that by default only personal data necessary for each specific purpose is processed, limiting collection, storage duration, and accessibility"
+    - key: "Data Minimization"
+      value: "Collecting and processing only the minimum personal data required for the stated purpose"
+    - key: "Pseudonymization"
+      value: "Processing personal data so it can no longer be attributed to a specific data subject without additional information stored separately"
+    - key: "State of the Art"
+      value: "Technical measures must reflect current technological capabilities and evolving best practices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "COMP-LAW-GDPR-001"
+    description: "Article 25 is a specific provision within the GDPR"
+  - type: requires
+    target: "COMP-LAW-GDPART32-001"
+    description: "Data protection by design requires appropriate security measures as specified in Article 32"
+  - type: enables
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "Article 25 compliance enables broader privacy compliance objectives"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Regulation (EU) 2016/679, Article 25 — Data protection by design and by default"
+    - "EDPB Guidelines 4/2019 on Article 25 Data Protection by Design and by Default"
+    - "ENISA Privacy and Data Protection by Design Report"
+  search_keywords:
+    - "GDPR article 25"
+    - "data protection by design"
+    - "data protection by default"
+    - "privacy by design"
+    - "data minimization"
+    - "pseudonymization"
+    - "privacy engineering"
+    - "DPIA data protection impact assessment"
+  embedding_text: >
+    GDPR Article 25 establishes the legal requirement for data protection by design and by default.
+    It mandates that data controllers implement appropriate technical and organizational measures
+    such as pseudonymization and data minimization at the time of system design and throughout
+    processing operations. By default, only personal data necessary for each specific purpose
+    should be processed, limiting collection scope, storage duration, and accessibility. The
+    article considers the state of the art, implementation costs, and risks to data subjects.
+    Implementation involves DPIAs, privacy-centric architecture decisions, restrictive default
+    settings, and access controls enforcing need-to-know principles.

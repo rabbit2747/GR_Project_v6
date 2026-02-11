@@ -1,0 +1,141 @@
+# GR Atom: Email Authentication Method Extension
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-EMAUMEEX-001"
+  name: "Email Authentication Method Extension"
+  normalized_name: "email_authentication_method_extension"
+  aliases:
+    - "SMTP AUTH Extension"
+    - "SMTP Authentication"
+    - "AUTH PLAIN"
+    - "AUTH LOGIN"
+    - "SASL SMTP Authentication"
+    - "RFC 4954"
+    - "ESMTP AUTH"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - SMTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Email Authentication Method Extension is an SMTP service extension defined in RFC 4954
+    (superseding RFC 2554) that provides a mechanism for SMTP clients to authenticate to mail
+    servers before sending messages. The extension adds the AUTH command to the SMTP protocol,
+    enabling the server to indicate supported authentication mechanisms (such as PLAIN, LOGIN,
+    CRAM-MD5, DIGEST-MD5, and SCRAM-SHA-256) via the EHLO response. Clients select a mechanism
+    and exchange credentials through a SASL (Simple Authentication and Security Layer) negotiation.
+    Upon successful authentication, the client gains relay privileges that would otherwise be
+    denied to unauthenticated senders, enabling legitimate mail submission while preventing
+    open relay abuse.
+  why: >-
+    Without SMTP authentication, mail servers must rely on IP-based access controls or operate
+    as open relays to accept outbound mail. Open relays were historically exploited for mass
+    spam distribution and phishing campaigns. The AUTH extension enables mail servers to verify
+    sender identity before accepting messages for relay, which is essential for enforcing
+    submission policies, enabling roaming users to send mail through their provider's servers,
+    and establishing sender accountability. From a security perspective, SMTP AUTH is a critical
+    control for preventing unauthorized mail relay, attributing messages to authenticated
+    identities, and supporting downstream email authentication mechanisms such as SPF, DKIM,
+    and DMARC that depend on controlled submission paths.
+  how: >-
+    The SMTP AUTH extension operates through a SASL-based negotiation: (1) the client initiates
+    a connection and sends EHLO, receiving the server's capability list including AUTH followed
+    by supported mechanisms; (2) the client selects an authentication mechanism and issues the
+    AUTH command with the chosen method and optional initial response data; (3) the server and
+    client exchange challenge-response messages specific to the selected SASL mechanism until
+    authentication succeeds or fails; (4) upon successful authentication, the server grants
+    relay privileges and may record the authenticated identity in message headers. PLAIN and
+    LOGIN mechanisms transmit credentials in base64 encoding and must be used exclusively over
+    TLS-encrypted connections (STARTTLS) to prevent credential interception. Stronger mechanisms
+    like SCRAM-SHA-256 provide channel binding and mutual authentication. The extension is
+    implemented on SMTP submission port 587 (RFC 6409) rather than port 25 to separate
+    authenticated submission from server-to-server relay traffic.
+  core_concepts:
+    - key: "SASL Authentication Negotiation"
+      value: >-
+        The framework through which SMTP clients and servers negotiate authentication using
+        standardized mechanisms. SASL decouples the authentication method from the application
+        protocol, allowing SMTP to support multiple credential exchange methods including
+        PLAIN, LOGIN, CRAM-MD5, and SCRAM-SHA-256.
+    - key: "AUTH Command"
+      value: >-
+        The SMTP extension command that initiates the authentication handshake between client
+        and server. The command specifies the chosen SASL mechanism and optionally includes
+        initial response data to reduce round trips during authentication.
+    - key: "Mail Submission Port 587"
+      value: >-
+        RFC 6409 designates port 587 for authenticated mail submission, separating
+        client-to-server message submission from server-to-server relay on port 25. This
+        architectural separation enables mandatory authentication for submission while
+        preserving unauthenticated relay between MTAs.
+    - key: "Credential Protection via STARTTLS"
+      value: >-
+        PLAIN and LOGIN mechanisms encode credentials in base64 without encryption, requiring
+        TLS transport security via STARTTLS to protect credentials in transit. Servers should
+        advertise AUTH only after successful STARTTLS negotiation to prevent credential
+        exposure on unencrypted connections.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-TRANSFER-001"
+    description: "SMTP AUTH is an extension to the SMTP message transfer protocol that adds authentication capabilities to mail submission"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "SMTP AUTH with PLAIN or LOGIN mechanisms requires TLS encryption via STARTTLS to protect credentials during transmission"
+  - type: "enables"
+    target: "PROTO-AUTH-SENDER-001"
+    description: "SMTP AUTH enables SPF enforcement by restricting mail submission to authenticated senders through controlled relay paths"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4954 - SMTP Service Extension for Authentication (July 2007). IETF. https://datatracker.ietf.org/doc/html/rfc4954"
+    - "RFC 4422 - Simple Authentication and Security Layer (SASL) (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4422"
+    - "RFC 6409 - Message Submission for Mail (November 2011). IETF. https://datatracker.ietf.org/doc/html/rfc6409"
+    - "RFC 7628 - A Set of SASL Mechanisms for OAuth (August 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7628"
+  search_keywords:
+    - "SMTP AUTH"
+    - "email authentication method extension"
+    - "RFC 4954"
+    - "SASL SMTP"
+    - "AUTH PLAIN"
+    - "AUTH LOGIN"
+    - "mail submission authentication"
+    - "ESMTP AUTH"
+    - "SMTP relay authentication"
+    - "port 587 submission"
+    - "CRAM-MD5"
+    - "SCRAM-SHA-256 SMTP"
+  embedding_text: >-
+    Email Authentication Method Extension is an SMTP service extension defined in RFC 4954 that
+    adds the AUTH command to SMTP, enabling clients to authenticate before sending messages. The
+    extension uses SASL negotiation to support multiple authentication mechanisms including PLAIN,
+    LOGIN, CRAM-MD5, and SCRAM-SHA-256. Upon successful authentication, clients gain mail relay
+    privileges. PLAIN and LOGIN mechanisms require TLS protection via STARTTLS since they transmit
+    base64-encoded credentials without inherent encryption. RFC 6409 designates port 587 for
+    authenticated mail submission, separating it from server-to-server relay on port 25. SMTP AUTH
+    prevents open relay abuse, enables sender accountability, and supports downstream email
+    authentication mechanisms like SPF, DKIM, and DMARC. The extension is fundamental to modern
+    email infrastructure security, ensuring that only authorized users can submit messages through
+    a mail server for delivery to external recipients.

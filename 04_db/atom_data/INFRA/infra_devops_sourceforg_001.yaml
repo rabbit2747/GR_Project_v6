@@ -1,0 +1,73 @@
+# GR Atom: SourceForge
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-SOURCEFORG-001"
+  name: "SourceForge"
+  normalized_name: "sourceforge"
+  aliases:
+    - "SourceForge.net"
+    - "SF.net"
+    - "SourceForge Project Hosting"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SUPPLY_CHAIN
+    - CICD
+    - CLOUD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "SourceForge is a web-based source code hosting and software distribution platform that provides version control (Git, SVN, Mercurial), file release hosting, project websites, bug tracking, and download mirrors for open-source software projects. Founded in 1999, it hosts over 500,000 projects and serves as a distribution point for software downloads with mirror networks and download statistics. SourceForge also provides a software directory and review platform."
+  why: "SourceForge is security-relevant as a software distribution platform that serves millions of downloads. Historically, SourceForge faced controversy for bundling adware with open-source project downloads and modifying project binaries without maintainer consent. Attackers have used SourceForge to host malicious software disguised as legitimate tools, leveraging the platform's reputation for software distribution. Projects hosted on SourceForge may lack the security features of modern platforms such as mandatory MFA, branch protection, and automated vulnerability scanning."
+  how: "SourceForge provides web-based project management with Git, SVN, or Mercurial repositories. Software releases are uploaded as file archives and distributed through a CDN mirror network. Download pages present file listings with platform detection. Project pages include wikis, forums, and bug trackers. SourceForge accounts authenticate via email/password. API access enables programmatic project management. The platform provides download analytics and project activity metrics. RSS feeds notify users of new releases."
+  core_concepts:
+    - key: "File Release System"
+      value: "Distribution mechanism for software binary releases with CDN mirroring, download statistics, and platform-specific file organization"
+    - key: "Project Hosting"
+      value: "Integrated platform providing version control, file hosting, bug tracking, forums, and project websites for open-source software"
+    - key: "Mirror Network"
+      value: "Geographically distributed CDN nodes serving software downloads for performance and availability"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-CODEREPO-001"
+    description: "SourceForge is a specific code repository and software hosting platform"
+  - type: is_a
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "SourceForge serves as a software distribution platform for open-source projects"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-BITBUCKET-001"
+    description: "SourceForge serves as an alternative code hosting and distribution platform to Bitbucket"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "SourceForge Documentation - https://sourceforge.net/p/forge/documentation/"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "SourceForge"
+    - "SourceForge.net"
+    - "open source hosting"
+    - "SourceForge download"
+    - "SourceForge project"
+    - "software hosting platform"
+    - "SourceForge security"
+  embedding_text: "SourceForge is a web-based source code hosting and software distribution platform providing version control (Git, SVN, Mercurial), file release hosting, and project websites for over 500,000 open-source projects. It serves millions of downloads through a CDN mirror network. Security significance includes historical controversy over bundling adware with project downloads and binary modification without maintainer consent. Attackers use SourceForge to host malicious software disguised as legitimate tools. Projects may lack modern security features like mandatory MFA and automated vulnerability scanning. Serves as both a code repository and software distribution platform."

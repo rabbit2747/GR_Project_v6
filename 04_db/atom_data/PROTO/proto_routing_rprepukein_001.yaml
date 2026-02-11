@@ -1,0 +1,136 @@
+# GR Atom: RPKI Resource Public Key Infrastructure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-ROUTING-RPREPUKEIN-001"
+  name: "RPKI Resource Public Key Infrastructure"
+  normalized_name: "rpki_resource_public_key_infrastructure"
+  aliases:
+    - "RPKI"
+    - "Resource PKI"
+    - "Resource Certification"
+    - "Route Origin Validation"
+    - "ROV"
+    - "BGP RPKI"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    RPKI (Resource Public Key Infrastructure) is a cryptographic framework defined in RFC 6480
+    that enables network operators to verifiably associate BGP route announcements with their
+    authorized origin autonomous systems. RPKI uses a hierarchical PKI rooted at the five Regional
+    Internet Registries (RIRs) to issue resource certificates binding IP address allocations to
+    public keys. Operators create Route Origin Authorizations (ROAs) that cryptographically
+    declare which AS numbers are authorized to originate specific IP prefixes. BGP routers
+    perform Route Origin Validation (ROV) by comparing received BGP announcements against
+    validated ROA data to classify routes as Valid, Invalid, or NotFound.
+  why: >-
+    BGP prefix hijacking remains one of the most severe Internet infrastructure threats, enabling
+    traffic interception, route-based denial of service, and cryptocurrency theft (as in the 2018
+    Amazon Route 53 BGP hijack targeting MyEtherWallet). Without RPKI, any autonomous system can
+    announce any IP prefix without cryptographic verification, and neighboring networks have no
+    automated mechanism to distinguish legitimate from fraudulent announcements. RPKI provides the
+    only standardized, deployable mechanism for cryptographic route origin authentication at Internet
+    scale. NIST SP 800-189 recommends RPKI deployment, and the White House 2023 National
+    Cybersecurity Strategy identifies routing security as critical infrastructure protection.
+    Global RPKI adoption has reached approximately 50% of IPv4 prefixes covered by ROAs as of 2024.
+  how: >-
+    RPKI operates through a hierarchical trust model: (1) RIRs (ARIN, RIPE, APNIC, AFRINIC, LACNIC)
+    serve as trust anchors, issuing resource certificates to their members; (2) resource holders
+    create ROAs using their certificates, specifying the IP prefixes they hold and the AS numbers
+    authorized to originate them, including maximum prefix length constraints; (3) ROAs are
+    published in RPKI repositories using the RPKI Repository Delta Protocol (RRDP, RFC 8182) or
+    rsync; (4) RPKI validators (e.g., Routinator, Fort, RPKI-client) fetch and cryptographically
+    validate the certificate chain and ROA signatures; (5) validated ROA data is fed to BGP routers
+    via the RPKI-to-Router protocol (RTR, RFC 8210); (6) routers perform Route Origin Validation
+    on BGP announcements, classifying them as Valid (matching ROA), Invalid (conflicting ROA), or
+    NotFound (no covering ROA); (7) operators configure routing policy to prefer Valid routes and
+    drop or deprioritize Invalid routes.
+  core_concepts:
+    - key: "Route Origin Authorization (ROA)"
+      value: >-
+        A cryptographically signed object created by an IP address holder that authorizes a
+        specific AS number to originate a defined IP prefix up to a specified maximum length.
+        ROAs are the core data objects in RPKI that enable route origin validation.
+    - key: "Route Origin Validation (ROV)"
+      value: >-
+        The process by which BGP routers compare incoming route announcements against validated
+        RPKI data, classifying each announcement as Valid, Invalid, or NotFound to inform
+        routing policy decisions and prevent acceptance of hijacked prefixes.
+    - key: "RPKI Validator"
+      value: >-
+        Software that fetches RPKI repository data, validates the cryptographic certificate
+        chain from RIR trust anchors through resource certificates to ROAs, and provides
+        validated prefix-origin pairs to BGP routers via the RTR protocol.
+    - key: "RPKI Trust Anchor"
+      value: >-
+        The root certificates issued by each Regional Internet Registry forming the top of
+        the RPKI certificate hierarchy. All validation chains ultimately trace back to these
+        trust anchors, making RIR operational security critical to RPKI integrity.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "PROTO-ROUTING-BGP-001"
+    description: "RPKI provides cryptographic route origin validation for BGP announcements to prevent prefix hijacking"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "RPKI-to-Router protocol and RRDP repository synchronization operate over TCP connections"
+  - type: "enables"
+    target: "PROTO-ROUTING-BGP-002"
+    description: "RPKI certificates serve as the foundation for BGPsec AS path validation within the BGP protocol family"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 6480 - An Infrastructure to Support Secure Internet Routing (February 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6480"
+    - "RFC 8210 - The Resource Public Key Infrastructure (RPKI) to Router Protocol Version 1 (September 2017). IETF. https://datatracker.ietf.org/doc/html/rfc8210"
+    - "RFC 6482 - A Profile for Route Origin Authorizations (ROAs) (February 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6482"
+    - "NIST SP 800-189 - Resilient Interdomain Traffic Exchange: BGP Security and DDoS Mitigation (March 2019). https://csrc.nist.gov/publications/detail/sp/800-189/final"
+  search_keywords:
+    - "RPKI"
+    - "resource public key infrastructure"
+    - "route origin validation"
+    - "ROV"
+    - "route origin authorization"
+    - "ROA"
+    - "BGP security"
+    - "prefix hijacking prevention"
+    - "RFC 6480"
+    - "RPKI validator"
+    - "BGP RPKI"
+    - "routing security"
+    - "internet routing integrity"
+  embedding_text: >-
+    RPKI (Resource Public Key Infrastructure) is a cryptographic framework defined in RFC 6480
+    that enables verifiable association between BGP route announcements and authorized origin
+    autonomous systems. The hierarchical PKI is rooted at Regional Internet Registries, which
+    issue resource certificates binding IP allocations to public keys. Operators create Route
+    Origin Authorizations (ROAs) declaring which AS numbers may originate specific IP prefixes.
+    RPKI validators fetch and cryptographically verify the certificate chain, providing validated
+    data to BGP routers via the RTR protocol for Route Origin Validation. Routes are classified
+    as Valid, Invalid, or NotFound to inform routing policy. RPKI is the primary defense against
+    BGP prefix hijacking, recommended by NIST SP 800-189 and identified as critical infrastructure
+    protection in national cybersecurity strategies. Global adoption has reached approximately 50%
+    of IPv4 prefixes covered by ROAs.

@@ -1,0 +1,72 @@
+# GR Atom: QianXin
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-QIANXIN-001"
+  name: "QianXin"
+  normalized_name: "qianxin"
+  aliases:
+    - "QianXin Technology Group"
+    - "Qi An Xin"
+    - "QAX"
+    - "RedDrip Team"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "QianXin (Qi An Xin) Technology Group is one of China's largest cybersecurity companies, providing enterprise security products including endpoint protection, network security, cloud security, and threat intelligence services. QianXin's RedDrip Team is a prominent threat intelligence research unit that publishes analysis on APT campaigns, particularly those targeting East Asian organizations. The company serves Chinese government and enterprise customers and is listed on the Shanghai Stock Exchange."
+  why: "QianXin is significant in global cybersecurity because their RedDrip Team produces notable threat intelligence on APT campaigns operating in the Asia-Pacific region, including analysis of groups targeting Chinese organizations. Their research provides a Chinese-perspective view of the threat landscape that complements Western intelligence sources. QianXin is also relevant as one of the largest cybersecurity vendors in the Chinese market, influencing regional security practices and standards."
+  how: "QianXin delivers cybersecurity through endpoint detection and response solutions, next-generation firewalls, security operations center platforms, and cloud security services for Chinese enterprise and government customers. The RedDrip Team conducts threat intelligence research, tracks APT campaigns, and publishes findings through conference presentations, blog posts, and social media. QianXin participates in international security conferences and coordinates with global CERTs on threat intelligence sharing."
+  core_concepts:
+    - key: "Chinese cybersecurity leader"
+      value: "One of China's largest cybersecurity companies serving government and enterprise markets"
+    - key: "RedDrip threat intelligence"
+      value: "Research team publishing APT campaign analysis from a Chinese perspective"
+    - key: "Asia-Pacific threat landscape"
+      value: "Intelligence on threat actors targeting East Asian organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "QianXin RedDrip Team produces APT threat intelligence and campaign analysis"
+  - type: "enables"
+    target: "SERVICE-EDR-001"
+    description: "QianXin provides endpoint security and network protection for Chinese markets"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "QianXin Technology Group Official Website"
+    - "QianXin RedDrip Team Research Publications"
+    - "Virus Bulletin - QianXin Conference Presentations"
+  search_keywords:
+    - "qianxin"
+    - "qi an xin"
+    - "reddrip team"
+    - "qianxin threat intelligence"
+    - "qax"
+    - "qianxin cybersecurity"
+    - "chinese cybersecurity vendor"
+  embedding_text: "QianXin (Qi An Xin) Technology Group is one of China's largest cybersecurity companies, providing enterprise security products including endpoint protection, network security, cloud security, and threat intelligence services to Chinese government and enterprise customers. The company's RedDrip Team is a prominent threat intelligence research unit that publishes analysis on APT campaigns, particularly those targeting East Asian organizations, providing a Chinese-perspective view of the threat landscape that complements Western intelligence sources. QianXin is listed on the Shanghai Stock Exchange and represents a major force in the Chinese cybersecurity market. The RedDrip Team participates in international security conferences and coordinates with global CERTs on threat intelligence sharing. QianXin's research and products influence regional security practices and standards across the Asia-Pacific cybersecurity ecosystem."

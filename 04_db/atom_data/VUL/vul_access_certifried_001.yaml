@@ -1,0 +1,131 @@
+# GR Atom: CertiFried
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CERTIFRIED-001"
+  name: "CertiFried"
+  normalized_name: "certifried"
+  aliases:
+    - "CVE-2022-26923"
+    - "AD CS Domain Escalation"
+    - "Active Directory Certificate Services Privilege Escalation"
+    - "Machine Account Certificate Spoofing"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - AUTHZ
+    - WINDOWS
+    - CRED
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Active Directory Certificate Services (AD CS)"
+    - "Active Directory Domain Services"
+    - "Windows Certificate Enrollment"
+    - "Kerberos PKINIT authentication"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CertiFried (CVE-2022-26923) is a critical privilege escalation vulnerability in Active
+    Directory Certificate Services (AD CS) with a CVSS score of 8.8, disclosed by Oliver
+    Lyak in May 2022. The vulnerability allows a low-privileged domain user to escalate to
+    Domain Administrator by exploiting how AD CS handles machine certificate enrollment.
+    An attacker creates a new machine account (permitted by default for domain users up to
+    the ms-DS-MachineAccountQuota limit), sets the dNSHostName attribute of the new machine
+    account to match a Domain Controller's hostname, then requests a machine certificate.
+    The issued certificate can authenticate as the Domain Controller via Kerberos PKINIT,
+    granting Domain Admin privileges.
+  why: >-
+    CertiFried is particularly dangerous because it requires only low-privilege domain user
+    credentials to achieve full domain compromise. The default Active Directory configuration
+    allows any authenticated user to join up to 10 machine accounts to the domain
+    (ms-DS-MachineAccountQuota=10), and the default AD CS certificate template for machine
+    authentication does not properly validate the relationship between the requesting account
+    and the dNSHostName. This makes the attack highly reliable and simple to execute in
+    default AD environments, affecting virtually all Active Directory deployments with AD CS.
+  how: >-
+    The attack chain begins by creating a new machine account using the domain user's default
+    quota. The attacker sets the dNSHostName attribute of the new machine account to the FQDN
+    of a Domain Controller. Next, a machine certificate is requested from AD CS using the
+    spoofed machine account. AD CS issues a certificate with the DC's identity because it
+    trusts the dNSHostName attribute without validating ownership. The attacker uses the
+    certificate for Kerberos PKINIT authentication, obtaining a TGT as the Domain Controller
+    machine account. With DC machine account privileges, the attacker can perform DCSync to
+    extract all domain credentials. Microsoft patched this in May 2022 by adding stronger
+    validation of certificate enrollment requests against machine account ownership.
+  core_concepts:
+    - key: "Machine Account Spoofing"
+      value: "Creating a machine account with dNSHostName matching a Domain Controller to obtain certificates with DC identity for PKINIT authentication"
+    - key: "AD CS Certificate Abuse"
+      value: "Exploiting Active Directory Certificate Services lack of validation between requesting machine account and claimed DNS hostname identity"
+    - key: "Default Configuration Risk"
+      value: "Default ms-DS-MachineAccountQuota of 10 allows any domain user to create machine accounts enabling the spoofing attack chain"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CertiFried is a specific access control vulnerability where AD CS fails to validate certificate enrollment authorization"
+  - type: "enables"
+    target: "VUL-ACCESS-ESC2-001"
+    description: "CertiFried and ESC2 both exploit AD CS certificate template misconfigurations for privilege escalation"
+  - type: "causes"
+    target: "VUL-ACCESS-HIVENIGH-001"
+    description: "Both CertiFried and Hive Nightmare enable domain privilege escalation through different Windows default configuration weaknesses"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1649"
+    tactic:
+      - "Privilege Escalation"
+      - "Credential Access"
+  cve_id: "CVE-2022-26923"
+  cvss_score: 8.8
+  affected_product: "Microsoft Active Directory Certificate Services"
+  disclosure_year: 2022
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2022-26923"
+    - "Oliver Lyak - CertiFried: Active Directory Domain Privilege Escalation"
+    - "MITRE ATT&CK T1649 - Steal or Forge Authentication Certificates"
+    - "NVD CVE-2022-26923 CVSS 8.8"
+  search_keywords:
+    - "CertiFried"
+    - "CVE-2022-26923"
+    - "AD CS privilege escalation"
+    - "Active Directory certificate"
+    - "machine account spoofing"
+    - "dNSHostName"
+    - "PKINIT abuse"
+    - "domain escalation"
+  embedding_text: >-
+    CertiFried (CVE-2022-26923) is a critical Active Directory Certificate Services privilege
+    escalation vulnerability with CVSS 8.8. Low-privileged domain users escalate to Domain
+    Admin by creating machine accounts with dNSHostName matching a Domain Controller, then
+    requesting certificates that authenticate as the DC via Kerberos PKINIT. Default
+    ms-DS-MachineAccountQuota of 10 allows any domain user to create machine accounts.
+    AD CS fails to validate ownership between requesting account and claimed DNS hostname.
+    Enables DCSync credential extraction with DC machine account privileges. Patched May
+    2022 with stronger certificate enrollment validation. Affects virtually all AD
+    deployments with Certificate Services.

@@ -1,0 +1,128 @@
+# GR Atom: ESC2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-ESC2-001"
+  name: "ESC2"
+  normalized_name: "esc2"
+  aliases:
+    - "AD CS ESC2"
+    - "Any Purpose EKU Certificate Abuse"
+    - "SubCA Certificate Template Abuse"
+    - "Certified Pre-Owned ESC2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHZ
+    - WINDOWS
+    - CRED
+    - CRYPTO
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Active Directory Certificate Services (AD CS)"
+    - "Certificate templates with Any Purpose EKU"
+    - "SubCA certificate templates"
+    - "Kerberos PKINIT authentication"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ESC2 is a privilege escalation vulnerability in Active Directory Certificate Services
+    (AD CS) identified in the SpecterOps "Certified Pre-Owned" research paper published in
+    June 2021. The vulnerability arises when certificate templates are configured with the
+    "Any Purpose" Extended Key Usage (EKU) attribute (OID 2.5.29.37.0) or no EKU at all
+    (SubCA template equivalent). Certificates issued from such templates can be used for any
+    purpose including client authentication, server authentication, code signing, and
+    encryption. A low-privileged user who can enroll in such a template can obtain a
+    certificate usable for client authentication to any service, effectively enabling
+    domain privilege escalation to any identity in the domain.
+  why: >-
+    ESC2 is dangerous because it exploits a misconfiguration that appears in many default
+    and custom AD CS deployments. The "Any Purpose" EKU or missing EKU restrictions mean
+    certificates are not constrained to specific uses, allowing a certificate intended for
+    email encryption to be used for Kerberos authentication. Combined with overly permissive
+    enrollment permissions (where low-privileged users can request certificates from these
+    templates), this creates a direct path to domain privilege escalation. Many organizations
+    are unaware of the implications of EKU configurations in their certificate templates.
+  how: >-
+    An attacker with low-privilege domain credentials identifies certificate templates with
+    "Any Purpose" EKU or no EKU using tools like Certify or Certipy. The attacker requests
+    a certificate from the misconfigured template, specifying a Subject Alternative Name
+    (SAN) if the template allows it, or using the enrolled certificate as-is. The issued
+    certificate with "Any Purpose" EKU can authenticate to any Kerberos service via PKINIT.
+    If the template also allows SAN specification (combining ESC1 and ESC2), the attacker
+    can request a certificate for a Domain Admin identity. Mitigation includes auditing
+    certificate templates for "Any Purpose" EKU, restricting enrollment permissions to only
+    required groups, enabling Manager Approval for sensitive templates, and removing the
+    SubCA and other overly permissive templates.
+  core_concepts:
+    - key: "Any Purpose EKU"
+      value: "Certificate template with OID 2.5.29.37.0 or no EKU allows issued certificates to be used for any purpose including Kerberos client authentication"
+    - key: "Certificate Template Misconfiguration"
+      value: "Overly permissive EKU and enrollment settings in AD CS templates create privilege escalation paths for low-privileged domain users"
+    - key: "Certified Pre-Owned Research"
+      value: "SpecterOps research identifying eight AD CS escalation techniques (ESC1-ESC8) that systematically abuse certificate services misconfigurations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "ESC2 exploits broken access control in AD CS certificate template EKU restrictions enabling unauthorized authentication"
+  - type: "applies_to"
+    target: "VUL-ACCESS-CERTIFRIED-001"
+    description: "Both ESC2 and CertiFried exploit AD CS misconfigurations for domain privilege escalation through certificate abuse"
+  - type: "requires"
+    target: "VUL-ACCESS-AWCODEPR-001"
+    description: "ESC2 and confused deputy share the pattern of a trusted intermediary (AD CS) being tricked into issuing excessive privileges"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1649"
+    tactic:
+      - "Privilege Escalation"
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "SpecterOps - Certified Pre-Owned: Abusing Active Directory Certificate Services"
+    - "MITRE ATT&CK T1649 - Steal or Forge Authentication Certificates"
+    - "CWE-295 Improper Certificate Validation"
+    - "Microsoft AD CS Security Configuration Guide"
+  search_keywords:
+    - "ESC2"
+    - "AD CS ESC2"
+    - "Any Purpose EKU"
+    - "certificate template abuse"
+    - "Certified Pre-Owned"
+    - "AD CS privilege escalation"
+    - "SubCA template"
+    - "Active Directory certificate attack"
+  embedding_text: >-
+    ESC2 is an Active Directory Certificate Services privilege escalation technique from the
+    Certified Pre-Owned research by SpecterOps. Exploits certificate templates configured
+    with Any Purpose EKU (OID 2.5.29.37.0) or no EKU restrictions, allowing certificates
+    to be used for Kerberos client authentication regardless of intended purpose. Low-privileged
+    users with enrollment permissions obtain certificates usable for domain privilege escalation
+    via PKINIT authentication. Common in default and custom AD CS deployments. Mitigation
+    includes auditing EKU configurations, restricting enrollment permissions, enabling Manager
+    Approval, and removing overly permissive templates. Part of systematic AD CS attack
+    techniques ESC1 through ESC8.

@@ -1,0 +1,103 @@
+# GR Atom: CVE-2025-53771
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202553771-001"
+  name: "CVE-2025-53771"
+  normalized_name: "cve_2025_53771"
+  aliases:
+    - "Kubernetes Kubelet Node Authorization Bypass"
+    - "K8s Node Privilege Escalation"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - K8S
+    - CLOUD
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Kubernetes Kubelet"
+    - "Kubernetes Node Authorization"
+
+definition:
+  what: >-
+    CVE-2025-53771 is a privilege escalation vulnerability in the Kubernetes kubelet's node
+    authorization mechanism. The vulnerability allows an attacker who has compromised a single
+    Kubernetes node to escalate their access beyond the node's authorized scope, accessing secrets
+    and resources belonging to pods scheduled on other nodes. This breaks the node-level isolation
+    boundary that is fundamental to the Kubernetes security model. CVSS v3: 8.1 (High).
+  why: >-
+    The Kubernetes node authorization model is designed to restrict each kubelet to only accessing
+    the secrets, configmaps, and persistent volumes associated with pods scheduled on its specific
+    node. This vulnerability breaks that isolation boundary, meaning compromise of a single node
+    exposes resources across the entire cluster. In multi-tenant Kubernetes environments, this
+    enables cross-tenant data access. The vulnerability is particularly impactful in managed
+    Kubernetes services (EKS, AKS, GKE) where node isolation is a critical security boundary.
+  how: >-
+    An attacker who has gained access to a Kubernetes node (through container escape or direct
+    node compromise) exploits a flaw in how the kubelet's node authorizer validates resource
+    requests. By crafting specific API requests through the kubelet's credentials, the attacker
+    can access secrets and configmaps that should only be accessible to pods on other nodes.
+    This is achieved by manipulating the node authorization token to request resources outside
+    the node's authorized scope. Kubernetes released patched versions addressing the authorization
+    validation flaw. Mitigation includes upgrading kubelet components and implementing pod security
+    policies that limit container escape vectors.
+  core_concepts:
+    - key: "Node Isolation Boundary Breach"
+      value: "Breaking the fundamental Kubernetes security boundary that restricts each node's access to only its scheduled pod resources"
+    - key: "Cross-Node Secret Exfiltration"
+      value: "Accessing secrets and sensitive data belonging to pods on other cluster nodes through kubelet authorization bypass"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-53771 is a vulnerability in the Kubernetes kubelet node authorization component"
+  - type: enables
+    target: "ATK-CRED-SECRET-001"
+    description: "Node authorization bypass enables extraction of secrets from pods across the entire cluster"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.007"
+    tactic: ["Credential Access", "Lateral Movement"]
+  cve_mapping:
+    cve_id: "CVE-2025-53771"
+    cvss_score: 8.1
+    cwe_id: "CWE-863"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-53771 - NVD NIST"
+    - "Kubernetes Security Advisory"
+    - "CWE-863 - Incorrect Authorization"
+    - "MITRE ATT&CK T1552.007 - Container API"
+  search_keywords:
+    - "CVE-2025-53771"
+    - "Kubernetes kubelet vulnerability"
+    - "K8s node authorization bypass"
+    - "Kubernetes node isolation"
+    - "kubelet privilege escalation"
+    - "K8s cross-node secret access"
+    - "Kubernetes node security"
+  embedding_text: >-
+    CVE-2025-53771 is a privilege escalation vulnerability in the Kubernetes kubelet's node
+    authorization mechanism that breaks node-level isolation boundaries. An attacker who has
+    compromised a single node can access secrets and resources belonging to pods on other nodes.
+    CVSS v3 score is 8.1 High. The node authorization model is designed to restrict each kubelet
+    to resources associated with its scheduled pods. This vulnerability breaks that isolation,
+    enabling cross-node secret exfiltration. Particularly impactful in managed Kubernetes services
+    and multi-tenant environments. Mitigation includes upgrading kubelet components and implementing
+    pod security policies. Maps to MITRE ATT&CK T1552.007 Unsecured Credentials: Container API.

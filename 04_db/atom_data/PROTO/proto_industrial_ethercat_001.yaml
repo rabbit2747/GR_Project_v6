@@ -1,0 +1,135 @@
+# GR Atom: EtherCAT
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-ETHERCAT-001"
+  name: "EtherCAT"
+  normalized_name: "ethercat"
+  aliases:
+    - "Ethernet for Control Automation Technology"
+    - "EtherCAT Protocol"
+    - "EtherCAT P"
+    - "IEC 61158"
+    - "EtherCAT Fieldbus"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    EtherCAT (Ethernet for Control Automation Technology) is a high-performance real-time
+    industrial Ethernet protocol developed by Beckhoff Automation and standardized as IEC 61158
+    and IEC 61784. EtherCAT achieves deterministic, sub-microsecond communication by processing
+    Ethernet frames on-the-fly as they pass through each slave device in a logical ring topology.
+    Each slave reads its addressed data from and inserts its data into the passing frame without
+    buffering the entire packet, enabling cycle times under 100 microseconds for hundreds of I/O
+    points. EtherCAT uses standard Ethernet hardware (EtherType 0x88A4) and is widely deployed
+    in motion control, robotics, CNC machining, packaging, and semiconductor manufacturing.
+  why: >-
+    EtherCAT's direct Ethernet-frame processing model introduces security concerns because the
+    protocol was designed for determinism and performance rather than security. EtherCAT lacks
+    native authentication, encryption, or integrity checking, meaning any device physically
+    connected to the EtherCAT segment can inject or modify frames affecting real-time control
+    operations. The protocol's processing-on-the-fly architecture means a compromised slave
+    device can manipulate data destined for all downstream slaves. In safety-critical
+    environments (robotics, CNC, semiconductor), unauthorized frame manipulation could cause
+    physical damage, production disruption, or safety incidents. Network segmentation is critical
+    because EtherCAT segments must be completely isolated from IT networks - any bridge between
+    EtherCAT and IP networks exposes the control system to remote exploitation.
+  how: >-
+    EtherCAT operates through a master-slave architecture with unique frame processing: (1) the
+    master sends a single Ethernet frame containing datagrams addressed to multiple slaves;
+    (2) each slave's EtherCAT Slave Controller (ESC) hardware processes the frame in hardware
+    as it passes through, reading input data and writing output data within nanoseconds; (3) the
+    frame propagates through all slaves and returns to the master in a logical ring; (4) the
+    master extracts all process data from the returned frame. Security measures include: physical
+    isolation of EtherCAT networks from IT/IP networks, implementing network segmentation with
+    unidirectional gateways for data extraction, using EtherCAT Security (EtherCAT P) where
+    available for TLS-based authentication, monitoring EtherCAT diagnostics for frame errors
+    indicating tampering, implementing physical access controls to prevent unauthorized device
+    connection, and deploying EtherCAT-aware firewalls at segment boundaries.
+  core_concepts:
+    - key: "Processing-on-the-Fly"
+      value: >-
+        EtherCAT's unique data handling where slave devices read and write process data directly
+        from passing Ethernet frames without store-and-forward buffering, enabling sub-microsecond
+        cycle times but creating a vulnerability where compromised slaves can manipulate data
+        for all downstream devices.
+    - key: "EtherCAT Segment Isolation"
+      value: >-
+        The critical security requirement to completely separate EtherCAT networks from IT/IP
+        networks, as the protocol's real-time Ethernet frames operate at Layer 2 without IP-based
+        security controls and any network bridge exposes deterministic control to remote threats.
+    - key: "Distributed Clock Synchronization"
+      value: >-
+        EtherCAT's hardware-based time synchronization mechanism achieving sub-microsecond clock
+        accuracy across all slaves, essential for coordinated motion control and representing a
+        target for denial-of-service through clock manipulation attacks.
+    - key: "EtherCAT Safety (FSoE)"
+      value: >-
+        Fail Safe over EtherCAT (IEC 61784-3) implements functional safety communication on
+        top of EtherCAT for SIL 3 safety applications, providing safety-relevant data integrity
+        through CRC checks and watchdog mechanisms independent of network security.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "EtherCAT is a real-time industrial Ethernet protocol within the industrial control systems protocol family"
+  - type: "requires"
+    target: "PROTO-ROUTING-ARP-001"
+    description: "EtherCAT master stations require ARP for IP communication on network segments bridging to IT networks"
+  - type: "enables"
+    target: "PROTO-INDUSTRIAL-OPCUA-001"
+    description: "EtherCAT integrates with OPC UA for higher-level data access and enterprise connectivity through gateway configurations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IEC 61158 - Industrial Communication Networks - Fieldbus Specifications. International Electrotechnical Commission."
+    - "EtherCAT Technology Group - EtherCAT Specification. https://www.ethercat.org/"
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+    - "Beckhoff Automation - EtherCAT System Documentation."
+  search_keywords:
+    - "EtherCAT"
+    - "EtherCAT security"
+    - "real-time industrial Ethernet"
+    - "IEC 61158"
+    - "industrial Ethernet protocol"
+    - "EtherCAT Safety"
+    - "FSoE"
+    - "Beckhoff"
+    - "processing on the fly"
+    - "EtherCAT isolation"
+    - "OT network security"
+  embedding_text: >-
+    EtherCAT (Ethernet for Control Automation Technology) is a high-performance real-time
+    industrial Ethernet protocol standardized as IEC 61158, achieving sub-microsecond cycle times
+    through unique processing-on-the-fly frame handling where slaves read and write data directly
+    from passing Ethernet frames. Widely deployed in motion control, robotics, and manufacturing,
+    EtherCAT lacks native authentication, encryption, or integrity checking. Compromised slave
+    devices can manipulate data for all downstream slaves. Security requires complete physical
+    isolation from IT networks, unidirectional gateways for data extraction, physical access
+    controls, and monitoring for frame errors indicating tampering. EtherCAT Safety (FSoE)
+    provides SIL 3 functional safety but is independent of cybersecurity. Network segmentation
+    is the primary defense as any bridge to IP networks exposes deterministic control to
+    remote exploitation.

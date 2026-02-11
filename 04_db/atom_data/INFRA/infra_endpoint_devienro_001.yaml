@@ -1,0 +1,108 @@
+# GR Atom: Device Enroller
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-DEVIENRO-001"
+  name: "Device Enroller"
+  normalized_name: "device_enroller"
+  aliases:
+    - "Windows Device Enroller"
+    - "DeviceEnroller.exe"
+    - "MDM Device Enrollment"
+    - "Workplace Join Enrollment"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - OS
+    - AUTHN
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Device Enroller (DeviceEnroller.exe) is a Windows system component responsible for enrolling
+    devices into Mobile Device Management (MDM) solutions such as Microsoft Intune, SCCM, or
+    third-party MDM platforms. It handles the enrollment workflow including device identity
+    provisioning, certificate enrollment, policy synchronization, and ongoing device compliance
+    verification. The component supports multiple enrollment methods including Azure AD Join,
+    Workplace Join, bulk enrollment via provisioning packages, and Windows Autopilot.
+  why: >-
+    Device enrollment is a critical security boundary because it establishes the device identity
+    and trust relationship with the management infrastructure. A compromised enrollment process
+    can allow unauthorized devices onto the corporate network, enable attackers to bypass
+    conditional access policies, or permit rogue devices to receive corporate credentials and
+    certificates. Proper MDM enrollment ensures devices comply with security policies including
+    encryption requirements, patch levels, and security configurations before accessing resources.
+  how: >-
+    Device Enroller initiates enrollment by communicating with the MDM discovery endpoint,
+    typically via HTTPS. It performs certificate enrollment through the Simple Certificate
+    Enrollment Protocol (SCEP) or certificate-based device authentication via Azure AD. Once
+    enrolled, the device receives MDM policies through the OMA-DM (Open Mobile Alliance Device
+    Management) protocol. The enrollment process registers the device identity, provisions
+    management certificates, applies initial security policies, and establishes the recurring
+    sync schedule for compliance checking and policy updates.
+  core_concepts:
+    - key: "MDM Enrollment Workflow"
+      value: "Multi-step process of device identity establishment, certificate provisioning, and policy application that creates the management trust relationship"
+    - key: "Conditional Access Integration"
+      value: "Enrollment status serves as a gating factor for Azure AD conditional access policies, restricting resource access to enrolled compliant devices"
+    - key: "Device Compliance"
+      value: "Continuous verification that enrolled devices meet organizational security requirements including encryption, patch level, and security configuration standards"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-ENDPOINT-DEVICENS-001"
+    description: "Device Enroller uses Device Census data to assess device characteristics during the enrollment process"
+  - type: "enables"
+    target: "INFRA-ENDPOINT-LANDESK-001"
+    description: "Enrollment establishes the management relationship that endpoint management tools like LANDESK require to operate"
+  - type: "implements"
+    target: "DEF-CONCEPT-ZTNA-001"
+    description: "Device enrollment implements zero trust device identity verification as part of the network access control chain"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Microsoft Documentation - Enroll Windows devices in Intune"
+    - "Microsoft - Mobile Device Enrollment Protocol specification"
+    - "NIST SP 800-124 Rev. 2 - Guidelines for Managing the Security of Mobile Devices"
+  search_keywords:
+    - "Device Enroller"
+    - "DeviceEnroller.exe"
+    - "MDM enrollment"
+    - "Intune enrollment"
+    - "Windows device enrollment"
+    - "Workplace Join"
+    - "Azure AD Join"
+    - "device management enrollment"
+    - "OMA-DM"
+  embedding_text: >-
+    Device Enroller (DeviceEnroller.exe) is a Windows system component that handles enrollment
+    of devices into Mobile Device Management solutions such as Microsoft Intune and SCCM. It
+    manages the enrollment workflow including device identity provisioning, certificate
+    enrollment via SCEP, policy synchronization through OMA-DM protocol, and ongoing compliance
+    verification. Supporting Azure AD Join, Workplace Join, bulk enrollment, and Windows
+    Autopilot methods, Device Enroller establishes the trust relationship between the endpoint
+    and management infrastructure. Security significance stems from enrollment being a critical
+    trust boundary that gates conditional access policies and determines which devices receive
+    corporate credentials, certificates, and resource access. Compromised enrollment can enable
+    unauthorized devices to bypass security controls and access corporate resources.

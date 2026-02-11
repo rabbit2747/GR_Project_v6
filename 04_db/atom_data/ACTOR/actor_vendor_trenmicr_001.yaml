@@ -1,0 +1,76 @@
+# GR Atom: Trend Micro
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TRENMICR-001"
+  name: "Trend Micro"
+  normalized_name: "trend_micro"
+  aliases:
+    - "Trend Micro Inc"
+    - "Trend Micro Incorporated"
+    - "TrendMicro"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - CLOUD
+    - THREAT_INTEL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Trend Micro is a major global cybersecurity vendor headquartered in Japan, providing endpoint protection, cloud security, network defense, and threat intelligence solutions. The company's product portfolio includes Trend Vision One XDR platform, Cloud One cloud security, Deep Security server protection, and TippingPoint network intrusion prevention, serving enterprise customers across all industries worldwide with comprehensive multi-layer security capabilities."
+  why: "Trend Micro is one of the largest cybersecurity companies globally and holds significant importance due to its extensive threat research capabilities, particularly regarding Asia-Pacific threats, underground cybercrime markets, and industrial control system security. The company's Zero Day Initiative (ZDI) vulnerability disclosure program is the world's largest vendor-agnostic bug bounty program, critical to the responsible disclosure ecosystem."
+  how: "Trend Micro operates through a comprehensive platform strategy centered on Trend Vision One, which provides unified visibility across endpoints, email, network, and cloud workloads. The company's Smart Protection Network processes billions of daily threat queries, while its Zero Day Initiative acquires and discloses vulnerabilities, and Trend Labs conducts deep threat research. Products are deployed across on-premises, cloud, and hybrid environments."
+  core_concepts:
+    - key: "Vision One XDR Platform"
+      value: "Unified extended detection and response platform providing correlated security visibility across all attack surfaces"
+    - key: "Zero Day Initiative"
+      value: "World's largest vendor-agnostic vulnerability disclosure program facilitating responsible security research"
+    - key: "Cloud Security"
+      value: "Comprehensive cloud workload protection covering containers, serverless, virtual machines, and cloud-native applications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-KASPLAB-001"
+    description: "Fellow major global cybersecurity vendor providing endpoint, network, and threat intelligence solutions"
+  - type: "enables"
+    target: "ACTOR-VENDOR-TRENLABS-001"
+    description: "Operates Trend Labs threat research division producing threat intelligence and security research"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.trendmicro.com"
+    - "https://en.wikipedia.org/wiki/Trend_Micro"
+  search_keywords:
+    - "trend micro"
+    - "vision one"
+    - "zero day initiative"
+    - "ZDI"
+    - "deep security"
+    - "cloud one"
+    - "tippingpoint"
+    - "endpoint protection"
+    - "smart protection network"
+  embedding_text: "Trend Micro is a major global cybersecurity vendor headquartered in Japan, providing endpoint protection, cloud security, network defense, and threat intelligence solutions through its Vision One XDR platform, Cloud One, Deep Security, and TippingPoint products. The company's Zero Day Initiative is the world's largest vendor-agnostic vulnerability disclosure program, and Trend Labs conducts extensive threat research with particular expertise in Asia-Pacific threats, underground cybercrime markets, and industrial control system security. Trend Micro's Smart Protection Network processes billions of daily threat queries to protect enterprise customers worldwide."

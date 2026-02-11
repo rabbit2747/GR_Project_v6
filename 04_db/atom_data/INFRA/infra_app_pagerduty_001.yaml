@@ -1,0 +1,114 @@
+# GR Atom: PagerDuty
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-PAGERDUTY-001"
+  name: "PagerDuty"
+  normalized_name: "pagerduty"
+  aliases:
+    - "PagerDuty Operations Cloud"
+    - "PagerDuty Incident Management"
+    - "PD"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - API
+    - AUTHN
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    PagerDuty is a cloud-based incident management and digital operations platform that provides
+    real-time alerting, on-call scheduling, escalation policies, and incident response
+    orchestration. It integrates with monitoring tools (Datadog, Nagios, Splunk, CloudWatch),
+    ITSM platforms (ServiceNow, Jira), and communication tools (Slack, Teams) through extensive
+    API integrations and webhooks. PagerDuty processes alerts from infrastructure monitoring
+    systems and routes them to on-call responders based on configurable escalation policies.
+  why: >-
+    PagerDuty is security-relevant as a critical operations infrastructure component with deep
+    integration into monitoring and incident response workflows. Compromise of PagerDuty accounts
+    enables attackers to suppress security alerts, manipulate escalation policies to prevent
+    incident detection, and access sensitive infrastructure information exposed through
+    integrations. PagerDuty API keys and integration tokens are frequently found in code
+    repositories, configuration files, and CI/CD pipelines. Attackers who compromise PagerDuty
+    can blind security operations during active attacks by suppressing or acknowledging alerts.
+    The platform's webhooks and API integrations can be abused for data exfiltration or
+    command-and-control communication.
+  how: >-
+    PagerDuty operates as a SaaS platform accessed through web interface and REST API. Monitoring
+    tools send alerts via API integrations using service-specific integration keys. Webhooks
+    deliver event notifications to configured endpoints. The Events API v2 accepts structured
+    alert payloads. Attackers exploit leaked API keys to manipulate incidents (acknowledge,
+    resolve, suppress alerts), modify escalation policies, or extract infrastructure information
+    from alert payloads. Compromised integration webhooks can serve as data exfiltration channels.
+    Account takeover through credential stuffing or phishing of PagerDuty accounts enables
+    manipulation of incident response workflows during active attacks.
+  core_concepts:
+    - key: "Incident Management Platform"
+      value: "Cloud-based alerting and incident response orchestration platform deeply integrated with monitoring, ITSM, and communication infrastructure"
+    - key: "Alert Suppression Risk"
+      value: "Compromise enables suppression of security alerts and manipulation of escalation policies to blind security operations during active attacks"
+    - key: "API Key and Integration Exposure"
+      value: "PagerDuty API keys and integration tokens frequently leaked in code repositories and CI/CD pipelines enabling unauthorized platform access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "PagerDuty is an enterprise SaaS application used for incident management and operational alerting across organizations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PagerDuty Security Best Practices Documentation"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "Cloud Security Alliance - SaaS Security Guidance"
+  search_keywords:
+    - "PagerDuty"
+    - "PagerDuty security"
+    - "PagerDuty API key"
+    - "PagerDuty compromise"
+    - "incident management security"
+    - "PagerDuty alert suppression"
+    - "PagerDuty integration"
+    - "PagerDuty webhook"
+  embedding_text: >-
+    PagerDuty is a cloud-based incident management platform providing real-time alerting, on-call
+    scheduling, and escalation policies with deep integrations into monitoring tools, ITSM
+    platforms, and communication systems. Security concerns include alert suppression by
+    attackers who compromise PagerDuty accounts to blind security operations during active
+    attacks, API key and integration token leakage in code repositories and CI/CD pipelines,
+    and webhook abuse for data exfiltration. Compromised accounts enable manipulation of
+    escalation policies and incident acknowledgment to prevent detection. PagerDuty's extensive
+    API integrations expose infrastructure information through alert payloads. Security teams
+    should rotate API keys regularly, enforce MFA on PagerDuty accounts, monitor for unauthorized
+    escalation policy changes, audit webhook configurations, and implement alerts on PagerDuty
+    administrative actions to detect compromise of the incident management platform itself.

@@ -1,0 +1,76 @@
+# GR Atom: Firmware Build Hash
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-FIRBUIHAS-001"
+  name: "Firmware Build Hash"
+  normalized_name: "firmware_build_hash"
+  aliases:
+    - "Firmware Integrity Hash"
+    - "BIOS/UEFI Hash Verification"
+    - "Firmware Image Hash Validation"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - FORENSICS
+    - OS
+
+scope:
+  target_layers: ["L0", "L1"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Firmware Build Hash is an endpoint detection pattern that validates the cryptographic hash of firmware images installed on endpoint hardware components including UEFI/BIOS, baseboard management controllers (BMC), network interface card firmware, storage controller firmware, and other embedded device firmware. The pattern compares computed hashes of firmware binaries against known-good reference hashes provided by hardware vendors or maintained in organizational firmware inventories to detect unauthorized modifications, corruption, or implant insertion."
+  why: "Firmware-level compromise represents one of the most severe and persistent threats in cybersecurity because firmware executes before the operating system and traditional security tools, providing adversaries with pre-boot persistence that survives OS reinstallation and disk replacement. Firmware rootkits and implants such as LoJax, MosaicRegressor, and CosmicStrand demonstrate real-world firmware threats. Verifying firmware build hashes is essential for detecting supply chain attacks, firmware downgrade attacks, and unauthorized firmware modifications that establish persistent backdoors below the operating system."
+  how: "Firmware hash verification is performed through multiple mechanisms including UEFI Secure Boot measured boot chains with TPM PCR measurements, dedicated firmware scanning tools that extract and hash firmware images from SPI flash chips, hardware security modules that store and verify reference hashes, and endpoint agents that query firmware version APIs and compare against vendor-published hash databases. Detection logic flags hash mismatches between installed firmware and vendor reference, unexpected firmware version changes, firmware images with unknown or untrusted hashes, and discrepancies between TPM-measured boot values and expected measurements."
+  core_concepts:
+    - key: "Measured Boot"
+      value: "A boot process where each firmware component is cryptographically measured and stored in TPM Platform Configuration Registers before execution, creating a verifiable chain of trust"
+    - key: "Firmware Integrity Baseline"
+      value: "A database of known-good firmware hashes maintained per hardware model and firmware version for comparison against installed firmware images"
+    - key: "SPI Flash Verification"
+      value: "Direct reading and hashing of firmware stored in SPI flash memory chips to detect modifications that may not be visible through standard firmware APIs"
+
+relations:
+  - type: enables
+    target: "DETECT-ENDPOINT-FIRMLOGS-001"
+    description: "Firmware hash verification provides integrity assurance that complements firmware log analysis"
+  - type: effective_against
+    target: "ATK-PERSIST-FIRMWARE-001"
+    description: "Detects firmware-level persistence implants by identifying unauthorized firmware modifications through hash comparison"
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Firmware hash verification is a component of comprehensive hardware device event monitoring"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1542.001"
+    tactic: ["Persistence", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1542.001 - Pre-OS Boot: System Firmware"
+    - "NIST SP 800-193 - Platform Firmware Resiliency Guidelines"
+    - "UEFI Forum - Secure Boot Specification - https://uefi.org/specifications"
+  search_keywords:
+    - "firmware build hash"
+    - "firmware integrity verification"
+    - "UEFI hash validation"
+    - "BIOS integrity check"
+    - "firmware rootkit detection"
+    - "measured boot"
+    - "TPM PCR measurement"
+    - "firmware supply chain"
+  embedding_text: "Firmware Build Hash detection validates cryptographic hashes of firmware images on endpoint hardware including UEFI/BIOS, BMC, NIC firmware, and storage controllers against known-good vendor references. Using UEFI Secure Boot measured boot chains with TPM PCR measurements, dedicated firmware scanning tools, and firmware version APIs, this pattern detects unauthorized modifications, firmware implants, and supply chain attacks. Detection logic flags hash mismatches, unexpected version changes, unknown firmware hashes, and TPM measurement discrepancies. This addresses firmware-level threats like LoJax and CosmicStrand that persist below the operating system."

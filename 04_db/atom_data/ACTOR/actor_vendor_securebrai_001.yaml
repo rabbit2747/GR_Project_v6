@@ -1,0 +1,69 @@
+# GR Atom: SecureBrain
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SECUREBRAI-001"
+  name: "SecureBrain"
+  normalized_name: "securebrain"
+  aliases:
+    - "SecureBrain Corporation"
+    - "SecureBrain PhishWall"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SecureBrain is a Japanese cybersecurity vendor specializing in online fraud prevention, phishing detection, and web threat analysis. The company is known for its PhishWall anti-phishing solution and malware analysis services, providing internet banking protection and web-based threat intelligence primarily to financial institutions and enterprises in the Asia-Pacific region."
+  why: "SecureBrain is significant in cybersecurity because it addresses the persistent threat of online banking fraud and phishing attacks targeting financial institutions, particularly in the Japanese market. Its PhishWall technology provides real-time detection of man-in-the-browser attacks and phishing sites, protecting end users from credential theft and fraudulent transactions."
+  how: "SecureBrain operates through its PhishWall client-server architecture that detects phishing websites and man-in-the-browser malware by verifying the authenticity of banking websites in real time. The company also provides malware analysis services using behavioral analysis and threat intelligence to identify and classify emerging web-based threats targeting financial services."
+  core_concepts:
+    - key: "Anti-Phishing Technology"
+      value: "Real-time phishing site detection and man-in-the-browser attack prevention for online banking protection"
+    - key: "Online Fraud Prevention"
+      value: "Specialized solutions for detecting and preventing fraudulent transactions in internet banking environments"
+    - key: "Web Threat Analysis"
+      value: "Behavioral analysis and threat intelligence services focused on web-based malware and banking trojans"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-KASPLAB-001"
+    description: "Fellow cybersecurity vendor providing threat detection and malware analysis capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.securebrain.co.jp"
+  search_keywords:
+    - "securebrain"
+    - "phishwall"
+    - "anti-phishing"
+    - "online fraud prevention"
+    - "banking security"
+    - "man-in-the-browser"
+    - "web threat analysis"
+    - "japanese cybersecurity"
+  embedding_text: "SecureBrain is a Japanese cybersecurity vendor specializing in online fraud prevention, phishing detection, and web threat analysis. The company is known for its PhishWall anti-phishing solution and malware analysis services, providing internet banking protection and web-based threat intelligence primarily to financial institutions and enterprises in the Asia-Pacific region. SecureBrain's PhishWall technology provides real-time detection of man-in-the-browser attacks and phishing sites, protecting end users from credential theft and fraudulent transactions through client-server verification of banking website authenticity."

@@ -1,0 +1,73 @@
+# GR Atom: CVE-2022-41328
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202241328-001"
+  name: "CVE-2022-41328"
+  normalized_name: "cve_2022_41328"
+  aliases:
+    - "FortiOS Path Traversal"
+    - "Fortinet FortiGate Firmware Tampering"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PATH
+    - PERSIST
+    - NETWORK
+
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Fortinet FortiOS"
+    - "FortiGate Firewalls"
+
+definition:
+  what: "CVE-2022-41328 is a path traversal vulnerability in FortiOS that allows a privileged attacker to read and write arbitrary files on the FortiGate device's filesystem through crafted CLI commands. The vulnerability enables modification of firmware images and system files, providing persistent access that survives firmware upgrades and factory resets."
+  why: "This vulnerability was actively exploited by a Chinese state-sponsored threat group (suspected UNC3886) to install persistent backdoors in FortiGate firewall firmware. FortiGate devices sit at network perimeters and process all ingress/egress traffic, making firmware-level compromise extremely valuable for espionage. The persistence mechanism survives standard remediation procedures including firmware updates, making it exceptionally difficult to detect and eradicate. CISA added it to the Known Exploited Vulnerabilities catalog."
+  how: "The attack leverages path traversal in FortiOS CLI commands to write malicious code to the device's firmware partition. The threat actor modifies the boot process to load a custom implant that provides reverse shell access and traffic interception capabilities. The modifications are made to the firmware image on disk, ensuring persistence across reboots and updates. Detection requires firmware integrity verification against known-good checksums. Fortinet released patches and integrity verification tools. CVSS v3: 7.1 (High)."
+  core_concepts:
+    - key: "Firmware-Level Persistence"
+      value: "Modification of FortiGate device firmware to install persistent backdoors that survive standard remediation including firmware upgrades and factory resets"
+    - key: "Network Perimeter Implant"
+      value: "Backdoor installed in a border firewall that provides visibility into all network traffic and persistent access to the protected network"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-HIJAPATH-001"
+    description: "CVE-2022-41328 uses path traversal to access restricted filesystem areas on FortiGate devices"
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2022-41328 exploits insufficient path validation in FortiOS CLI command processing"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1542.001"
+    tactic: ["Persistence", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-41328 - NVD NIST"
+    - "Fortinet PSIRT Advisory FG-IR-22-369"
+    - "Mandiant - Fortinet Zero-Day and Custom Malware"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1542.001 - Pre-OS Boot: System Firmware"
+  search_keywords:
+    - "CVE-2022-41328"
+    - "FortiOS path traversal"
+    - "FortiGate firmware tampering"
+    - "Fortinet firmware backdoor"
+    - "FortiGate persistence"
+    - "UNC3886 Fortinet"
+    - "FortiOS arbitrary file write"
+  embedding_text: "CVE-2022-41328 is a path traversal vulnerability in FortiOS that allows privileged attackers to read and write arbitrary files on FortiGate firewalls, enabling firmware-level persistence that survives upgrades and factory resets. Actively exploited by a Chinese state-sponsored group to install persistent backdoors in FortiGate firmware, providing reverse shell access and traffic interception at the network perimeter. CISA added it to the Known Exploited Vulnerabilities catalog. CVSS v3 score is 7.1 High. Detection requires firmware integrity verification. Maps to MITRE ATT&CK T1542.001 Pre-OS Boot: System Firmware."

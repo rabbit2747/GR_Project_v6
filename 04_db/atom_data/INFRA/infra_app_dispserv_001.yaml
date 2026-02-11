@@ -1,0 +1,117 @@
+# GR Atom: Display Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-DISPSERV-001"
+  name: "Display Server"
+  normalized_name: "display_server"
+  aliases:
+    - "X11 Display Server"
+    - "Wayland Compositor"
+    - "X Window System"
+    - "Xorg Server"
+    - "X Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - LINUX
+    - OS
+    - PRIV
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A display server is a system-level component that manages graphical output and input device
+    handling for the operating system's windowing system. The two primary implementations on
+    Linux are X11 (X Window System / Xorg) and Wayland. X11 uses a client-server architecture
+    where applications connect to the X server via sockets to render graphics and receive input
+    events. Wayland is a modern replacement protocol where the compositor directly manages
+    display hardware, eliminating the separate server process.
+  why: >-
+    Display servers, particularly X11, present significant security concerns. X11's architecture
+    allows any connected client to capture keystrokes, screenshots, and inject input events into
+    other windows through the X protocol. This enables keylogging (xinput), screen capture
+    (xwd, xdotool), and input injection attacks without elevated privileges. X11 forwarding
+    over SSH (X11 forwarding) can expose the display server to remote exploitation. The
+    DISPLAY environment variable and X authority files (.Xauthority) are targets for credential
+    theft. Wayland improves security by isolating client windows from each other by design.
+  how: >-
+    X11 operates as a network-transparent server process (Xorg) listening on a Unix socket
+    or TCP port 6000+. Clients authenticate using MIT-MAGIC-COOKIE stored in .Xauthority
+    files and communicate through the X protocol. The server manages framebuffer, input
+    devices, and window hierarchy. Wayland replaces this with a compositor that communicates
+    directly with clients through a Wayland protocol socket, enforcing per-client isolation.
+    Attacks target X11 by accessing the display socket, stealing .Xauthority cookies, or
+    using X11 protocol features for keylogging and screen capture.
+  core_concepts:
+    - key: "X11 Client-Server Architecture"
+      value: "Network-transparent windowing protocol where any connected client can monitor keystrokes and capture screen content from other windows"
+    - key: "Display Credential Theft"
+      value: ".Xauthority cookie files and DISPLAY environment variables provide authentication tokens that grant full display server access"
+    - key: "Wayland Security Model"
+      value: "Modern display protocol with per-client isolation that prevents cross-window keylogging and screen capture by design"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-FREEDESKTO-001"
+    description: "Display servers implement the graphical layer of the FreeDesktop.org desktop stack on Linux"
+  - type: "enables"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Display server provides the graphical interface layer required by desktop enterprise applications"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1056.001"
+    tactic:
+      - "Collection"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "X.Org Foundation - X Window System Documentation"
+    - "Wayland Protocol Documentation"
+    - "MITRE ATT&CK T1056.001 - Keylogging"
+    - "Linux Security - X11 vs Wayland Security Comparison"
+  search_keywords:
+    - "display server"
+    - "X11 security"
+    - "Xorg vulnerability"
+    - "Wayland compositor"
+    - "X Window System"
+    - "X11 keylogging"
+    - ".Xauthority"
+    - "X11 forwarding"
+  embedding_text: >-
+    A display server manages graphical output and input handling for operating system windowing
+    systems. X11 (Xorg) and Wayland are the primary Linux implementations. X11 uses a
+    client-server architecture allowing any connected client to capture keystrokes, take
+    screenshots, and inject input events into other windows through the X protocol, making it
+    a significant security concern for keylogging and screen capture attacks. Authentication
+    uses MIT-MAGIC-COOKIE stored in .Xauthority files which are targets for credential theft.
+    X11 forwarding over SSH can expose display servers to remote exploitation. Wayland improves
+    security by isolating client windows from each other by design, preventing cross-window
+    monitoring. Security teams should consider migrating to Wayland, restrict X11 socket access,
+    protect .Xauthority files, and disable unnecessary X11 forwarding.

@@ -1,0 +1,97 @@
+# GR Atom: Direct Connect
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-DIRECONN-001"
+  name: "Direct Connect"
+  normalized_name: "direct_connect"
+  aliases:
+    - "DC Protocol"
+    - "DC++"
+    - "Advanced Direct Connect"
+    - "ADC Protocol"
+    - "NMDC Protocol"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    Direct Connect (DC) is a peer-to-peer file sharing protocol and network that enables users
+    to connect to centralized hubs for peer discovery and then establish direct TCP connections
+    between clients for file transfers. Originally created by Jonathan Hess in 1999, the protocol
+    exists in two variants: the legacy NMDC (Neo-Modus Direct Connect) protocol and the modern
+    ADC (Advanced Direct Connect) protocol. Direct Connect hubs act as directories where users
+    share file lists and search for content, while actual file transfers occur directly between
+    peers without hub intermediation.
+  why: >-
+    Direct Connect poses security risks in enterprise environments as an unauthorized data
+    sharing channel. The protocol can facilitate data exfiltration, malware distribution, and
+    bandwidth abuse. NMDC protocol transmits credentials in plaintext, exposing users to
+    credential theft. Shared file lists may inadvertently expose sensitive documents. The
+    protocol's hub-based architecture creates single points of compromise where an attacker
+    controlling a hub can intercept search queries and inject malicious file listings. Enterprise
+    security policies should monitor and restrict Direct Connect traffic.
+  how: >-
+    Direct Connect operates in two phases: (1) Hub connection where the client authenticates
+    with a central hub server, shares its file list, and performs searches across connected
+    peers; (2) Client-to-client transfer where peers establish direct TCP connections for file
+    downloads using the CTM (Connect To Me) protocol mechanism. The ADC protocol improves upon
+    NMDC with TLS support, Tiger Tree Hashing (TTH) for file integrity verification, and a
+    structured message format. Hub operators can enforce minimum share sizes, bandwidth limits,
+    and client version requirements.
+  core_concepts:
+    - key: "Hub Architecture"
+      value: "Centralized directory server that facilitates peer discovery, search queries, and chat while file transfers occur directly between clients."
+    - key: "Connect To Me (CTM)"
+      value: "Protocol mechanism where one peer requests a direct TCP connection to another for file transfer, bypassing the hub for actual data exchange."
+    - key: "Tiger Tree Hashing (TTH)"
+      value: "Cryptographic hash tree used in ADC protocol for file integrity verification, enabling partial file validation and resumable transfers."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Direct Connect is an application layer peer-to-peer protocol for file sharing via hub-based peer discovery"
+  - type: "enables"
+    target: "PROTO-MSG-DIRESEND-001"
+    description: "Direct Connect enables direct send operations between peers for file transfer"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ADC Protocol Specification — adc.sourceforge.io"
+    - "NMDC Protocol Documentation — nmdc.sourceforge.net"
+    - "DC++ Client Documentation — dcplusplus.sourceforge.io"
+  search_keywords:
+    - "direct connect"
+    - "DC protocol"
+    - "DC++"
+    - "advanced direct connect"
+    - "ADC protocol"
+    - "NMDC"
+    - "peer to peer hub"
+    - "file sharing protocol"
+    - "connect to me"
+  embedding_text: >-
+    Direct Connect is a peer-to-peer file sharing protocol using centralized hubs for peer
+    discovery and direct TCP connections for file transfers. The protocol exists in two variants:
+    legacy NMDC and modern ADC with TLS support and Tiger Tree Hashing for file integrity. Hubs
+    act as directories where users share file lists and search content, while transfers occur
+    directly between peers. Security risks include plaintext credential transmission in NMDC,
+    inadvertent exposure of sensitive files, and hub compromise enabling search interception and
+    malicious file injection. Enterprise security controls should monitor and restrict Direct
+    Connect traffic to prevent unauthorized data sharing and exfiltration.

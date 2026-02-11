@@ -1,0 +1,103 @@
+# GR Atom: Application Container
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-APPLCONT-001"
+  name: "Application Container"
+  normalized_name: "application_container"
+  aliases:
+    - "App Container"
+    - "Docker Container"
+    - "OCI Container"
+    - "Linux Container"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CONTAINER
+    - DOCKER
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Application Container is a lightweight, standalone, executable software package that
+    bundles application code together with its runtime dependencies, libraries, system tools,
+    and configuration files into an isolated unit. Containers use OS-level virtualization via
+    Linux namespaces and cgroups (or Windows containers) to provide process isolation without
+    the overhead of full virtual machines. They conform to Open Container Initiative (OCI)
+    standards for image format and runtime specification.
+  why: >-
+    Application containers solve the dependency management and environment consistency problem
+    by packaging applications with all required dependencies into portable, reproducible units.
+    They enable consistent deployment across development, testing, and production environments,
+    reduce resource overhead compared to VMs, support microservices architectures, and enable
+    rapid scaling. Containers are fundamental to modern cloud-native application delivery.
+  how: >-
+    Application containers are built from container images defined by Dockerfiles or OCI-compliant
+    build specifications. A container runtime (Docker Engine, containerd, CRI-O) uses Linux
+    kernel features including namespaces for process isolation, cgroups for resource limits, and
+    union filesystems for layered image storage. Containers share the host OS kernel but maintain
+    isolated process trees, network stacks, and filesystem views. They are orchestrated at scale
+    using platforms like Kubernetes.
+  core_concepts:
+    - key: "OS-Level Virtualization"
+      value: "Containers use kernel namespaces and cgroups for process isolation without hypervisor overhead, sharing the host kernel"
+    - key: "Image Layering"
+      value: "Container images use union filesystems with read-only layers and a writable top layer, enabling efficient storage and fast startup"
+    - key: "OCI Standards"
+      value: "Open Container Initiative defines image format and runtime specifications ensuring portability across container runtimes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Application containers require a container runtime to execute and manage their lifecycle"
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "Application containers are a cloud infrastructure compute primitive used to run workloads"
+  - type: "enables"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "Application containers are the fundamental unit that Kubernetes orchestrates and manages"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Open Container Initiative (OCI) Runtime Specification"
+    - "Docker Documentation - docs.docker.com"
+    - "NIST SP 800-190 - Application Container Security Guide"
+  search_keywords:
+    - "application container"
+    - "docker container"
+    - "OCI container"
+    - "linux container"
+    - "container image"
+    - "container isolation"
+    - "containerization"
+    - "container runtime"
+  embedding_text: >-
+    An Application Container is a lightweight executable software package that bundles application
+    code with its runtime dependencies, libraries, and configuration into an isolated unit using
+    OS-level virtualization. Containers leverage Linux kernel namespaces for process isolation and
+    cgroups for resource control without hypervisor overhead, sharing the host OS kernel. Built
+    from layered images conforming to OCI standards, containers are executed by runtimes such as
+    Docker Engine, containerd, or CRI-O. They provide consistent deployment across environments,
+    support microservices architectures, and enable rapid scaling when orchestrated by platforms
+    like Kubernetes. Container security considerations include image vulnerability scanning,
+    runtime protection, and network policy enforcement.

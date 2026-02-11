@@ -1,0 +1,79 @@
+# GR Atom: CVE-2021-45046
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202145046-001"
+  name: "CVE-2021-45046"
+  normalized_name: "cve_2021_45046"
+  aliases:
+    - "Log4j Incomplete Fix Bypass"
+    - "Log4Shell Bypass"
+    - "Log4j Thread Context Map Injection"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WEB
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Apache Log4j 2.x (2.0-beta9 through 2.15.0)"
+    - "Java Applications using Log4j with non-default Pattern Layout"
+    - "Applications using Thread Context Map input"
+
+definition:
+  what: "CVE-2021-45046 is a critical remote code execution vulnerability in Apache Log4j 2 that bypasses the incomplete fix for CVE-2021-44228 (Log4Shell) in version 2.15.0. The initial mitigation restricted JNDI lookups to localhost by default, but this could be bypassed when applications use non-default Pattern Layout configurations with a Thread Context Map (MDC) pattern such as $${ctx:loginId} or Context Lookup patterns. Attackers can craft malicious input data using JNDI Lookup patterns to cause information leakage, remote code execution in certain environments, and denial of service. Initially scored CVSS 3.7, it was reclassified to CVSS 9.0 (Critical) when RCE was confirmed in certain configurations."
+  why: "This vulnerability demonstrates the difficulty of completely mitigating deeply embedded injection flaws. The Log4j 2.15.0 release, which was the emergency patch for Log4Shell, contained an incomplete fix that left applications vulnerable under specific but common configurations. Organizations that believed they were protected after upgrading to 2.15.0 remained exposed. The reclassification from moderate to critical severity after RCE was confirmed on macOS caused additional emergency patching cycles. This CVE extended the Log4Shell crisis timeline and reinforced that complex vulnerability remediation often requires multiple iterations."
+  how: "The vulnerability is exploited by crafting input data that reaches a Log4j Thread Context Map (MDC) pattern in a non-default Pattern Layout. While Log4j 2.15.0 restricted JNDI lookups to localhost, the restriction could be bypassed through crafted lookup strings that use nested resolution patterns. The attacker constructs payloads that exploit the incomplete validation in the JNDI lookup restriction, allowing connection to external servers. On certain operating systems (notably macOS) and in specific JVM configurations, this leads to remote code execution. On other configurations, it causes information leakage or denial of service. The fix in Log4j 2.16.0 completely disables JNDI lookups by default and removes message lookup substitution entirely."
+  core_concepts:
+    - key: "Incomplete Patch Bypass"
+      value: "The Log4j 2.15.0 fix for CVE-2021-44228 restricted JNDI to localhost but failed to account for Thread Context Map patterns and nested lookup resolution, enabling bypass in non-default configurations"
+    - key: "Severity Reclassification"
+      value: "Initially rated CVSS 3.7 as information leak and DoS only, reclassified to CVSS 9.0 Critical when remote code execution was confirmed possible on macOS and specific JVM environments"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2021-45046 is an injection vulnerability exploiting Log4j JNDI lookup bypass"
+  - type: supersedes
+    target: "VUL-INJECT-CVE202144228-001"
+    description: "CVE-2021-45046 bypasses the incomplete fix for CVE-2021-44228 in Log4j 2.15.0"
+  - type: precedes
+    target: "VUL-INJECT-CVE202145105-001"
+    description: "Further patching after CVE-2021-45046 led to discovery of CVE-2021-45105 DoS"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2021-45046 - NVD NIST"
+    - "Apache Log4j Security Advisory - CVE-2021-45046"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Praetorian - Log4j 2.15.0 RCE Bypass"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2021-45046"
+    - "Log4j bypass"
+    - "Log4Shell bypass"
+    - "Log4j 2.15.0 bypass"
+    - "Log4j Thread Context"
+    - "Log4j incomplete fix"
+    - "Log4j MDC injection"
+    - "Log4j JNDI bypass"
+  embedding_text: "CVE-2021-45046 is a critical vulnerability in Apache Log4j 2 that bypasses the incomplete fix for Log4Shell (CVE-2021-44228) in version 2.15.0. The initial patch restricted JNDI lookups to localhost but could be bypassed through Thread Context Map patterns in non-default Pattern Layout configurations. Initially rated CVSS 3.7 it was reclassified to CVSS 9.0 Critical when remote code execution was confirmed on macOS and specific JVM configurations. The vulnerability demonstrated that complex injection flaws often require multiple remediation iterations. Log4j 2.16.0 completely disabled JNDI lookups by default and removed message lookup substitution to comprehensively address both CVE-2021-44228 and CVE-2021-45046. This extended the global Log4Shell remediation crisis. Maps to MITRE ATT&CK T1190 Initial Access."

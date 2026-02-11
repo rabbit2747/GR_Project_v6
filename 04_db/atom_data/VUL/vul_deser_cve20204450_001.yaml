@@ -1,0 +1,109 @@
+# GR Atom: CVE-2020-4450
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE20204450-001"
+  name: "CVE-2020-4450"
+  normalized_name: "cve_2020_4450"
+  aliases:
+    - "IBM WebSphere IIOP Deserialization RCE"
+    - "WebSphere Application Server RCE"
+    - "IBM WebSphere IIOP Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "IBM WebSphere Application Server 8.5"
+    - "IBM WebSphere Application Server 9.0"
+    - "IIOP Protocol Handler"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-4450 is a critical deserialization vulnerability in IBM WebSphere Application Server
+    that allows unauthenticated remote code execution through the IIOP protocol. The vulnerability
+    exploits a chain of deserialization gadgets in the WebSphere classpath to achieve full server
+    compromise. CVSS score is 9.8. Affects IBM WebSphere Application Server versions 8.5 and 9.0.
+    Discovered by ZDI researchers and disclosed in June 2020.
+  why: >-
+    IBM WebSphere is one of the major enterprise Java application servers alongside Oracle WebLogic.
+    This vulnerability demonstrates that deserialization attacks are not limited to WebLogic but
+    affect the entire Java application server ecosystem. The IIOP protocol vector means the
+    vulnerability is exploitable even when HTTP-based protections are in place, and the unauthenticated
+    nature makes it immediately exploitable on exposed instances.
+  how: >-
+    The attacker connects to the WebSphere IIOP listener and sends a crafted serialized Java object
+    that exploits a multi-step gadget chain. The chain leverages classes from the WebSphere
+    transaction service and javax.management package to achieve arbitrary method invocation. The
+    deserialization triggers a sequence of object instantiations and method calls that ultimately
+    allow the attacker to execute operating system commands or deploy arbitrary code on the server.
+  core_concepts:
+    - name: "WebSphere-Specific Gadgets"
+      value: "Novel gadget chain leveraging WebSphere transaction service and JMX classes unique to the WebSphere classpath"
+    - name: "Cross-Platform Deserialization"
+      value: "Demonstrates that deserialization vulnerabilities affect all major Java application servers, not just WebLogic"
+    - name: "IIOP Pre-Authentication RCE"
+      value: "Unauthenticated code execution through IIOP protocol before any application-level security is applied"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "WebSphere IIOP deserialization is an instance of insecure deserialization in Java application servers"
+  - type: "alternative_to"
+    target: "VUL-DESER-CVE20202551-001"
+    description: "WebSphere IIOP deserialization is analogous to WebLogic IIOP deserialization, targeting a different app server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2020-4450"
+    - "IBM Security Bulletin 6226576"
+    - "ZDI Advisory ZDI-20-755"
+  search_keywords:
+    - "CVE-2020-4450"
+    - "IBM WebSphere deserialization"
+    - "WebSphere IIOP RCE"
+    - "WebSphere Application Server vulnerability"
+    - "IBM WebSphere RCE"
+    - "IIOP deserialization attack"
+    - "Java application server deserialization"
+  embedding_text: >-
+    CVE-2020-4450 is a critical deserialization vulnerability in IBM WebSphere Application Server
+    enabling unauthenticated remote code execution through the IIOP protocol. The vulnerability
+    exploits a multi-step gadget chain leveraging WebSphere transaction service and JMX classes
+    to achieve arbitrary code execution. CVSS score is 9.8, affecting WebSphere versions 8.5 and
+    9.0. The IIOP vector bypasses HTTP-focused security controls. This vulnerability demonstrates
+    that deserialization attacks affect all major Java application servers, not just Oracle
+    WebLogic. IBM WebSphere is widely deployed in enterprise environments for mission-critical
+    applications. Discovered by ZDI researchers, the vulnerability requires no authentication and
+    can be exploited over the network. Mitigation includes applying IBM security patches,
+    disabling IIOP if not required, implementing network segmentation, and using Java
+    serialization filters to restrict deserializable classes.

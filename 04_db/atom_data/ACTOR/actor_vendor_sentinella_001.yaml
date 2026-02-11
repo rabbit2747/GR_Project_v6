@@ -1,0 +1,73 @@
+# GR Atom: SentinelLabs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SENTINELLA-001"
+  name: "SentinelLabs"
+  normalized_name: "sentinellabs"
+  aliases:
+    - "SentinelOne Labs"
+    - "Sentinel Labs"
+    - "S1 Labs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SentinelLabs is the threat intelligence and security research division of SentinelOne, producing in-depth analysis of APT campaigns, malware families, vulnerability disclosures, and emerging cyber threats. The research team publishes detailed technical reports on state-sponsored threat actors, crimeware operations, and novel attack techniques, contributing indicators of compromise and detection strategies to the cybersecurity community."
+  why: "SentinelLabs is significant because it serves as a primary source of actionable threat intelligence that informs both SentinelOne's endpoint protection platform and the broader security community. The team has published groundbreaking research on numerous threat actor campaigns and malware families, establishing itself as one of the leading vendor research teams in the cybersecurity industry."
+  how: "SentinelLabs conducts threat research through malware reverse engineering, campaign tracking, vulnerability research, and analysis of telemetry data from SentinelOne's global endpoint protection deployment. Findings are published through blog posts, technical reports, and conference presentations, including indicators of compromise and YARA rules that enable the security community to detect and respond to emerging threats."
+  core_concepts:
+    - key: "Threat Research Publications"
+      value: "Detailed technical analysis of APT campaigns, malware families, and emerging threats with indicators of compromise"
+    - key: "Vulnerability Research"
+      value: "Discovery and responsible disclosure of security vulnerabilities in software and hardware systems"
+    - key: "Detection Engineering"
+      value: "Development of detection rules, YARA signatures, and behavioral indicators for identifying threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow vendor threat intelligence publication platform providing security research and analysis"
+  - type: enables
+    target: "ACTOR-VENDOR-FIREEYE-001"
+    description: "Contributes to the collective threat intelligence ecosystem alongside other major vendor research teams"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.sentinelone.com/labs/"
+  search_keywords:
+    - "sentinellabs"
+    - "sentinel labs"
+    - "sentinelone research"
+    - "threat intelligence"
+    - "malware research"
+    - "apt analysis"
+    - "vulnerability research"
+    - "endpoint detection"
+  embedding_text: "SentinelLabs is the threat intelligence and security research division of SentinelOne, producing in-depth analysis of APT campaigns, malware families, vulnerability disclosures, and emerging cyber threats. The research team publishes detailed technical reports on state-sponsored threat actors, crimeware operations, and novel attack techniques, contributing indicators of compromise, YARA rules, and detection strategies to the cybersecurity community. SentinelLabs has established itself as one of the leading vendor research teams through groundbreaking research on numerous threat actor campaigns and malware families."

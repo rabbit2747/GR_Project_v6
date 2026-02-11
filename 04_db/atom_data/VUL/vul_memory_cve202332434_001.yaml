@@ -1,0 +1,122 @@
+# GR Atom: CVE-2023-32434
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202332434-001"
+  name: "CVE-2023-32434"
+  normalized_name: "cve_2023_32434"
+  aliases:
+    - "Apple Kernel Integer Overflow"
+    - "Operation Triangulation Kernel Exploit"
+    - "iOS Kernel Integer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OVERFLOW
+    - EXEC
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Apple iOS kernel (XNU)"
+    - "Apple macOS kernel"
+    - "Apple watchOS kernel"
+    - "iOS before 16.5.1, macOS before 13.4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-32434 is a critical integer overflow vulnerability (CVSS 7.8) in the Apple
+    XNU kernel affecting iOS, iPadOS, macOS, and watchOS. The vulnerability allows an
+    application to execute arbitrary code with kernel privileges due to an integer overflow
+    in kernel memory management. It was exploited as a zero-day in the sophisticated
+    Operation Triangulation spyware campaign discovered by Kaspersky in June 2023. The
+    attack chain used zero-click iMessage exploitation to deliver spyware without user
+    interaction. Apple patched the vulnerability in iOS 16.5.1, macOS 13.4.1, and
+    watchOS 9.5.2 in June 2023.
+  why: >-
+    CVE-2023-32434 was a key component of Operation Triangulation, one of the most
+    sophisticated mobile spyware campaigns ever documented. The zero-click attack chain
+    combined multiple zero-days (CVE-2023-32434, CVE-2023-32435, CVE-2023-38606,
+    CVE-2023-41990) to achieve full device compromise without user interaction. The
+    campaign targeted iOS devices of Kaspersky employees and others, demonstrating the
+    advanced capabilities of nation-state level spyware operations. The exploit chain's
+    use of undocumented hardware features in Apple chips was particularly unprecedented.
+  how: >-
+    The exploit leverages an integer overflow in the XNU kernel's memory management
+    subsystem. When specific memory allocation requests trigger an integer overflow
+    condition, the kernel allocates a smaller-than-expected buffer. Subsequent operations
+    write beyond the allocated buffer, causing a heap buffer overflow in kernel space.
+    In the Operation Triangulation chain, this vulnerability was used after initial
+    code execution via CVE-2023-41990 (font processing) and CVE-2023-32435 (WebKit)
+    to escalate from application-level to kernel-level privileges, enabling full device
+    compromise and spyware installation.
+  core_concepts:
+    - key: "Kernel Integer Overflow"
+      value: "Integer overflow in XNU kernel memory management leads to undersized buffer allocation and heap overflow"
+    - key: "Operation Triangulation"
+      value: "Part of a sophisticated zero-click spyware chain targeting iOS devices, discovered by Kaspersky in 2023"
+    - key: "Zero-Click Attack Chain"
+      value: "Combined with three other zero-days for full iPhone compromise via iMessage without user interaction"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-INTEOVER-001"
+    description: "CVE-2023-32434 is an integer overflow vulnerability in the Apple XNU kernel"
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Integer overflow leading to heap buffer overflow in kernel memory management"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332435-001"
+    description: "Both are zero-days in the Operation Triangulation exploit chain targeting iOS devices"
+  - type: "requires"
+    target: "VUL-MEMORY-CVE202341990-001"
+    description: "Operation Triangulation chain uses CVE-2023-41990 for initial code execution before kernel escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Apple Security Update - iOS 16.5.1"
+    - "NVD Entry CVE-2023-32434 - CVSS 7.8"
+    - "Kaspersky - Operation Triangulation Analysis"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2023-32434"
+    - "Apple kernel"
+    - "integer overflow"
+    - "Operation Triangulation"
+    - "iOS zero-day"
+    - "XNU kernel"
+    - "zero-click"
+    - "Kaspersky"
+  embedding_text: >-
+    CVE-2023-32434 is a critical integer overflow vulnerability in the Apple XNU kernel
+    with CVSS 7.8, affecting iOS, macOS, and watchOS. The flaw in kernel memory management
+    causes undersized buffer allocations leading to heap overflow and kernel-level code
+    execution. Exploited as a zero-day in Operation Triangulation, one of the most
+    sophisticated zero-click spyware campaigns ever documented, targeting iOS devices
+    via iMessage without user interaction. Combined with CVE-2023-32435, CVE-2023-38606,
+    and CVE-2023-41990 for full device compromise. Patched by Apple in June 2023.

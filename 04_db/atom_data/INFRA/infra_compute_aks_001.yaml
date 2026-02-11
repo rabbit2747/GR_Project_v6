@@ -1,0 +1,101 @@
+# GR Atom: AKS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AKS-001"
+  name: "AKS"
+  normalized_name: "aks"
+  aliases:
+    - "Azure Kubernetes Service"
+    - "Azure K8s"
+    - "AKS Cluster"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - AZURE
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Kubernetes Service (AKS) is Microsoft Azure's managed Kubernetes container orchestration
+    platform that automates deployment, scaling, and management of containerized applications.
+    AKS handles critical tasks such as health monitoring, node provisioning, Kubernetes version
+    upgrades, and control plane management, reducing the operational overhead of running Kubernetes
+    clusters. It integrates natively with Azure Active Directory, Azure Monitor, Azure Policy,
+    and Azure Container Registry for enterprise-grade security and governance.
+  why: >-
+    Organizations require managed Kubernetes platforms to reduce the complexity of self-hosting
+    container orchestration infrastructure. AKS eliminates the need to manage the Kubernetes
+    control plane, automates patching and upgrades, and provides built-in integration with
+    Azure security services. This enables development teams to focus on application workloads
+    rather than infrastructure management while maintaining enterprise compliance requirements.
+  how: >-
+    AKS provisions and manages the Kubernetes control plane as a fully managed Azure service,
+    abstracting master node operations. Users define node pools with specified VM sizes and
+    autoscaling policies. AKS integrates with Azure CNI or kubenet for networking, Azure Disk
+    and Azure Files for persistent storage, and Azure AD for RBAC-based access control.
+    Workloads are deployed via kubectl, Helm charts, or CI/CD pipelines using Azure DevOps
+    or GitHub Actions.
+  core_concepts:
+    - key: "Managed Control Plane"
+      value: "Azure manages the Kubernetes API server, etcd, scheduler, and controller manager, eliminating control plane operational burden"
+    - key: "Node Pool Management"
+      value: "AKS supports multiple node pools with different VM sizes, autoscaling policies, and OS types for workload-specific optimization"
+    - key: "Azure Integration"
+      value: "Native integration with Azure AD, Azure Monitor, Azure Policy, and Azure Container Registry for identity, observability, and governance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "INFRA-COMPUTE-CONORCSOF-001"
+    description: "AKS is a managed instance of container orchestration software based on Kubernetes"
+  - type: "requires"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "AKS runs exclusively on the Microsoft Azure cloud platform"
+  - type: "implements"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "AKS implements the Kubernetes container orchestration standard as a managed service"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Microsoft Azure AKS Documentation - docs.microsoft.com"
+    - "CIS Benchmark for Azure Kubernetes Service"
+    - "MITRE ATT&CK Cloud Matrix - Containers"
+  search_keywords:
+    - "azure kubernetes service"
+    - "AKS"
+    - "managed kubernetes azure"
+    - "azure container orchestration"
+    - "AKS cluster"
+    - "azure k8s"
+    - "azure container service"
+  embedding_text: >-
+    Azure Kubernetes Service (AKS) is Microsoft Azure's managed Kubernetes container orchestration
+    platform that automates deployment, scaling, and operations of containerized applications.
+    AKS manages the Kubernetes control plane including the API server, etcd, scheduler, and
+    controllers as a fully managed service. It supports multiple node pools with autoscaling,
+    integrates natively with Azure Active Directory for RBAC, Azure Monitor for observability,
+    Azure Policy for governance, and Azure Container Registry for image management. AKS reduces
+    operational overhead by handling version upgrades, health monitoring, and node provisioning
+    automatically, enabling teams to focus on application workloads.

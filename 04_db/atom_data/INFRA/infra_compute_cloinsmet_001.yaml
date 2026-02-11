@@ -1,0 +1,104 @@
+# GR Atom: Cloud Instance Metadata
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOINSMET-001"
+  name: "Cloud Instance Metadata"
+  normalized_name: "cloud_instance_metadata"
+  aliases:
+    - "Instance Metadata"
+    - "VM Metadata"
+    - "Instance Identity Document"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - CRED
+    - INFO_LEAK
+    - SSRF
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Cloud Instance Metadata is data about a cloud compute instance that is made available to
+    the instance itself through a link-local HTTP service (typically 169.254.169.254). This
+    metadata includes the instance ID, hostname, network configuration, attached storage,
+    security group membership, and critically, temporary IAM/service account credentials that
+    grant the instance permissions to access cloud APIs and services. Each major cloud provider
+    (AWS, Azure, GCP) implements its own metadata service endpoint.
+  why: >-
+    Instance metadata services are a primary target in cloud attacks because they expose
+    temporary credentials that can be harvested through SSRF vulnerabilities, compromised
+    applications, or malicious code running on the instance. The Capital One breach (2019) was
+    a landmark example where SSRF was used to access AWS instance metadata and steal IAM
+    credentials. Understanding metadata services is critical for both offensive security
+    testing and defensive hardening of cloud workloads.
+  how: >-
+    Cloud instances query the metadata service via HTTP GET requests to the link-local address
+    169.254.169.254. AWS IMDSv1 allows simple GET requests while IMDSv2 requires a PUT request
+    to obtain a session token first (mitigating SSRF). Azure uses a required Metadata header.
+    GCP uses a required Metadata-Flavor header. The metadata endpoint returns instance identity,
+    network info, user-data scripts, and IAM/service account credentials with configurable TTLs.
+    Hardening involves enforcing IMDSv2, restricting metadata access via firewall rules, and
+    using network policies to limit which processes can reach 169.254.169.254.
+  core_concepts:
+    - key: "Link-Local Metadata Service"
+      value: "HTTP endpoint at 169.254.169.254 providing instance metadata including credentials, accessible only from within the instance"
+    - key: "Credential Exposure Risk"
+      value: "Temporary IAM/service account credentials available through metadata are a primary target in SSRF attacks and cloud exploitation"
+    - key: "IMDSv2 Token Requirement"
+      value: "AWS Instance Metadata Service v2 requires a session token from a PUT request, mitigating many SSRF-based credential theft attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-COMPUTE-API-001"
+    description: "Cloud instance metadata is accessed through the Cloud Metadata API endpoint"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "Instance metadata services are a core component of cloud infrastructure platforms"
+  - type: "enables"
+    target: "INFRA-COMPUTE-IMDS-001"
+    description: "Cloud instance metadata is the data served by the IMDS endpoint"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS Instance Metadata Service Documentation"
+    - "MITRE ATT&CK T1552.005 - Cloud Instance Metadata API"
+    - "NIST SP 800-190 - Application Container Security Guide"
+  search_keywords:
+    - "cloud instance metadata"
+    - "instance metadata service"
+    - "169.254.169.254"
+    - "SSRF metadata"
+    - "IMDSv2"
+    - "credential theft cloud"
+    - "metadata endpoint"
+  embedding_text: >-
+    Cloud Instance Metadata is data about a cloud compute instance available through a link-local
+    HTTP service at 169.254.169.254, including instance identity, network configuration, and
+    temporary IAM or service account credentials. Metadata services are a primary attack target
+    because SSRF vulnerabilities or compromised applications can harvest credentials to access
+    cloud APIs. AWS IMDSv1 allows simple GET requests while IMDSv2 requires session tokens to
+    mitigate SSRF. Azure and GCP require specific request headers. The Capital One breach
+    demonstrated credential theft via SSRF to the metadata endpoint. Hardening involves enforcing
+    IMDSv2, restricting metadata access with firewall rules, and network policies limiting
+    process access to 169.254.169.254.

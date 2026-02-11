@@ -1,0 +1,111 @@
+# GR Atom: Service Desk
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SERVDESK-001"
+  name: "Service Desk"
+  normalized_name: "service_desk"
+  aliases:
+    - "IT Service Desk"
+    - "Help Desk Software"
+    - "ITSM Platform"
+    - "Ticketing System"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - AUTHN
+    - INFO_LEAK
+    - CLOUD
+    - API
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Service Desk software provides IT Service Management (ITSM) capabilities including incident
+    management, problem tracking, change management, asset management, and knowledge base
+    functionality. These platforms serve as the central hub for IT support operations, managing
+    tickets, workflows, SLAs, and communication between IT teams and end users. Common examples
+    include Jira Service Management, Freshdesk, Zendesk, and ManageEngine ServiceDesk Plus.
+  why: >-
+    Service desk platforms accumulate sensitive operational data including system configurations,
+    credential reset workflows, network diagrams, and vulnerability reports in knowledge base
+    articles. Compromised service desk accounts can be leveraged for social engineering by
+    impersonating IT support staff. Password reset workflows in service desks can be exploited
+    for account takeover if verification is insufficient. Ticket contents often contain
+    sensitive information such as error logs with credentials, configuration details, and
+    security incident reports accessible to authenticated users with broad permissions.
+  how: >-
+    Service desk platforms typically operate as web applications with REST APIs, using role-based
+    access control for ticket management. They integrate with directory services (LDAP/AD) for
+    authentication, email systems for ticket creation via email, and monitoring tools for
+    automatic incident creation. Workflows automate ticket routing, escalation, and notification.
+    Knowledge bases store searchable articles accessible to various user roles. API integrations
+    connect with CMDB, monitoring, and automation platforms.
+  core_concepts:
+    - key: "Sensitive Data Aggregation"
+      value: "Service desks accumulate credentials, configurations, and security incident details in tickets and knowledge bases accessible to authenticated users"
+    - key: "Social Engineering Leverage"
+      value: "Compromised service desk accounts enable impersonation of IT support staff for targeted social engineering and credential harvesting"
+    - key: "Password Reset Attack Vector"
+      value: "Service desk password reset workflows with insufficient verification enable account takeover through social engineering of help desk staff"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Service Desk is an enterprise application providing IT service management capabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1213"
+    tactic:
+      - "Collection"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ITIL Service Desk Best Practices"
+    - "MITRE ATT&CK T1213 - Data from Information Repositories"
+    - "NIST SP 800-53 - Security Assessment and IT Service Management"
+  search_keywords:
+    - "service desk"
+    - "IT service management"
+    - "ITSM security"
+    - "help desk vulnerability"
+    - "ticketing system"
+    - "service desk compromise"
+    - "IT support social engineering"
+    - "password reset attack"
+  embedding_text: >-
+    Service Desk platforms provide IT Service Management including incident tracking, change
+    management, asset management, and knowledge base functionality. These web-based applications
+    integrate with directory services, email, and monitoring tools. Security concerns include
+    sensitive data aggregation in tickets containing credentials and configuration details,
+    social engineering through compromised IT support accounts, password reset workflow
+    exploitation for account takeover, and knowledge base articles exposing system architecture
+    and vulnerability information. Service desks use RBAC and integrate with LDAP/AD for
+    authentication. Security teams should enforce least-privilege access, implement strong
+    verification for password resets, audit ticket content for sensitive data exposure, and
+    monitor for unauthorized API access to service desk platforms.

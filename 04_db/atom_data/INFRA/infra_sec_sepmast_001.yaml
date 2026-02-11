@@ -1,0 +1,115 @@
+# GR Atom: SEP Master Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SEPMAST-001"
+  name: "SEP Master Service"
+  normalized_name: "sep_master_service"
+  aliases:
+    - "Symantec Endpoint Protection"
+    - "SepMasterService.exe"
+    - "Symantec SEP"
+    - "Broadcom SEP"
+    - "SEP Manager"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - EDR
+    - WINDOWS
+    - FIREWALL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "S1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SEP Master Service (SepMasterService.exe) is the primary service process for Symantec
+    Endpoint Protection (SEP), now owned by Broadcom. It orchestrates all SEP protection
+    components including antivirus/antimalware scanning, intrusion prevention (IPS), firewall,
+    application and device control, host integrity checking, and the Symantec Endpoint
+    Detection and Response (EDR) module. SEP Master Service manages communication with
+    the Symantec Endpoint Protection Manager (SEPM) for policy distribution and event
+    reporting.
+  why: >-
+    Symantec Endpoint Protection is one of the most widely deployed enterprise endpoint
+    security products. SEP Master Service is the primary target for defense evasion
+    techniques as disabling it shuts down all SEP protection modules simultaneously.
+    CVE-2019-12750 allowed privilege escalation via SEP, and CVE-2020-5820 through
+    CVE-2020-5823 were a series of privilege escalation vulnerabilities. Attackers use
+    service stop commands, driver unloading, and tamper protection bypass to neutralize SEP.
+  how: >-
+    SEP Master Service loads and coordinates protection modules running as kernel drivers
+    (SRTSP for real-time scanning, SymEFASI for advanced threat protection) and user-mode
+    services. It communicates with SEPM via HTTPS for policy updates, definition downloads,
+    and event reporting. Tamper protection prevents unauthorized modification of SEP files,
+    registry keys, and services. LiveUpdate downloads virus definitions, IPS signatures,
+    and engine updates. SONAR behavioral analysis detects zero-day threats through
+    application behavior monitoring.
+  core_concepts:
+    - key: "Multi-Layer Endpoint Protection"
+      value: "Orchestrates antivirus, IPS, firewall, application control, and EDR modules as coordinated defense layers"
+    - key: "SONAR Behavioral Analysis"
+      value: "Symantec's behavioral detection technology monitors application behavior to detect zero-day threats without signatures"
+    - key: "Tamper Protection"
+      value: "Self-defense mechanisms protect SEP files, registry keys, services, and drivers from unauthorized modification"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-SMC-001"
+    description: "SEP Master Service coordinates with SMC Service for Symantec Management Client communication and management tasks"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "SEP Master Service functions as an enterprise endpoint security agent with detection and prevention capabilities"
+  - type: "alternative_to"
+    target: "INFRA-SEC-MCAFEE-001"
+    description: "Symantec Endpoint Protection is an alternative enterprise endpoint security platform to McAfee/Trellix"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Broadcom/Symantec - Endpoint Protection Administration Guide"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "CVE-2019-12750 - Symantec Endpoint Protection Privilege Escalation"
+  search_keywords:
+    - "SEP Master Service"
+    - "Symantec Endpoint Protection"
+    - "SepMasterService"
+    - "Broadcom SEP"
+    - "SONAR behavioral"
+    - "Symantec antivirus"
+    - "SEP vulnerability"
+    - "SEPM"
+  embedding_text: >-
+    SEP Master Service (SepMasterService.exe) is the primary service for Symantec Endpoint
+    Protection (Broadcom). Orchestrates antivirus, IPS, firewall, application control, and
+    EDR modules. Communicates with SEPM via HTTPS for policy and definitions. SONAR behavioral
+    analysis detects zero-day threats. Tamper protection defends against unauthorized modification.
+    CVE-2019-12750 and CVE-2020-5820 series allowed privilege escalation. Attackers target SEP
+    Master Service to disable all protection simultaneously. One of the most widely deployed
+    enterprise endpoint security products. LiveUpdate manages definition downloads.

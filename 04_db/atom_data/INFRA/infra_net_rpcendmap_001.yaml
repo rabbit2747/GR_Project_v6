@@ -1,0 +1,80 @@
+# GR Atom: RPC Endpoint Mapper
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-RPCENDMAP-001"
+  name: "RPC Endpoint Mapper"
+  normalized_name: "rpc_endpoint_mapper"
+  aliases:
+    - "RPC Portmapper"
+    - "Endpoint Mapper Service"
+    - "RPCSS"
+    - "DCE/RPC Endpoint Mapper"
+    - "MS-RPC Endpoint Mapper"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - WINDOWS
+    - CONFIG
+    - DISC
+    - SMB
+
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "N3.1"
+
+definition:
+  what: "The RPC Endpoint Mapper is a Windows service (RPCSS) that listens on TCP port 135 and provides a directory service for Microsoft Remote Procedure Call (MS-RPC) endpoints. When an RPC server application starts, it registers its available interfaces and associated dynamic port numbers with the Endpoint Mapper. RPC clients query the Endpoint Mapper to discover which port a specific RPC service is listening on, enabling communication with services that use dynamic port allocation. The Endpoint Mapper is essential for Windows infrastructure services including Active Directory replication, DCOM, Exchange Server, SCCM, WMI, and numerous other Microsoft management and communication protocols. On Unix/Linux systems, the equivalent functionality is provided by the portmapper (rpcbind) service on port 111."
+  why: "The RPC Endpoint Mapper is a critical service discovery component in Windows environments because most core Windows infrastructure services depend on it for inter-process and inter-system communication. From a security perspective, the Endpoint Mapper is significant because querying port 135 reveals all registered RPC services on a target system, providing attackers with detailed reconnaissance information about available services and their versions. The Endpoint Mapper has been targeted by exploits such as the MS03-026 DCOM vulnerability used by the Blaster worm. Exposure of port 135 to untrusted networks is a significant security risk that enables service enumeration and potential exploitation of registered RPC interfaces."
+  how: "The RPC Endpoint Mapper service starts automatically on Windows systems and binds to TCP port 135. When RPC server applications initialize, they call RpcServerRegisterIf and RpcEpRegister to register their interface UUIDs, protocol sequences, and dynamically allocated port numbers with the Endpoint Mapper. When a client needs to communicate with an RPC service, it connects to port 135 on the target server, sends an EPM lookup request specifying the desired interface UUID, and receives the dynamic port number where that service is listening. The client then establishes a direct connection to the service on the returned port. The Endpoint Mapper also supports named pipe endpoints for local and SMB-based RPC communication. Firewall configurations must account for both port 135 and the dynamic port range used by RPC services."
+  core_concepts:
+    - key: "Interface UUID"
+      value: "A unique identifier for each RPC service interface that clients use to query the Endpoint Mapper for the specific service they need to connect to"
+    - key: "Dynamic Port Allocation"
+      value: "RPC services bind to ports dynamically assigned from a configurable range (default 49152-65535), with the Endpoint Mapper tracking which service is on which port"
+    - key: "Service Enumeration"
+      value: "The ability to query the Endpoint Mapper to discover all registered RPC services, interface versions, and associated ports on a target system"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-RPCPROX-001"
+    description: "The RPC Endpoint Mapper is required for RPC Proxy to locate and route connections to RPC services"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "RPC service discovery relies on DNS for locating domain controllers and RPC endpoint hosts"
+  - type: part_of
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "RPC Endpoint Mapper services run on server infrastructure that router networks must permit access to"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1135"
+    tactic: ["Discovery", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - RPC Endpoint Mapper - https://learn.microsoft.com/en-us/windows/win32/rpc/the-endpoint-mapper"
+    - "Microsoft - MS-RPCE: Remote Procedure Call Protocol Extensions - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rpce/"
+    - "SANS Institute - Securing Windows RPC Services"
+  search_keywords:
+    - "RPC Endpoint Mapper"
+    - "port 135"
+    - "RPCSS"
+    - "MS-RPC"
+    - "endpoint mapper"
+    - "DCE RPC"
+    - "RPC portmapper"
+    - "RPC service enumeration"
+    - "dynamic RPC ports"
+  embedding_text: "The RPC Endpoint Mapper is a Windows service (RPCSS) on TCP port 135 that provides a directory for MS-RPC endpoints. RPC servers register their interfaces and dynamic port numbers, and clients query the mapper to discover service locations. It is essential for Windows infrastructure including Active Directory replication, DCOM, Exchange Server, WMI, and SCCM. Security significance includes service enumeration by querying port 135 to reveal all registered RPC services, and historical exploitation through vulnerabilities like MS03-026 used by the Blaster worm. Firewall configurations must address both port 135 and the dynamic RPC port range. Exposure to untrusted networks enables detailed reconnaissance."

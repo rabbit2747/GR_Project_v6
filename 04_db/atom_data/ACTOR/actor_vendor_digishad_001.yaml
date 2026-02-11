@@ -1,0 +1,75 @@
+# GR Atom: Digital Shadows
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DIGISHAD-001"
+  name: "Digital Shadows"
+  normalized_name: "digital_shadows"
+  aliases:
+    - "Digital Shadows Ltd"
+    - "ReliaQuest Digital Shadows"
+    - "SearchLight"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - MONITOR
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Digital Shadows (now part of ReliaQuest) is a digital risk protection company that monitors the open, deep, and dark web for threats to organizations. The company's SearchLight platform provides external threat intelligence, data leak detection, brand protection, attack surface monitoring, and dark web surveillance. Digital Shadows specializes in identifying exposed credentials, sensitive document leaks, phishing infrastructure, and threat actor activity targeting specific organizations."
+  why: "Digital Shadows is significant in cybersecurity because external digital risk represents a growing attack surface that traditional perimeter-focused security tools do not address. By monitoring criminal forums, paste sites, dark web marketplaces, and code repositories, Digital Shadows provides early warning of data breaches, credential theft, planned attacks, and brand impersonation, enabling proactive rather than reactive security postures."
+  how: "Digital Shadows operates the SearchLight platform that continuously monitors thousands of sources across the open, deep, and dark web using automated collection systems and analyst curation. The platform identifies exposed data, credentials, infrastructure, and threat actor discussions relevant to customers. Alerts are enriched with context and delivered through an API and portal, integrating with SIEM, SOAR, and threat intelligence platforms for automated response workflows."
+  core_concepts:
+    - key: "Digital Risk Protection"
+      value: "Continuous monitoring of open, deep, and dark web sources for external threats and data exposure"
+    - key: "Dark Web Intelligence"
+      value: "Surveillance of criminal forums, marketplaces, and paste sites for credential leaks and threat actor activity"
+    - key: "Attack Surface Monitoring"
+      value: "External attack surface discovery including exposed assets, misconfigurations, and brand impersonation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "Produces digital risk intelligence feeds from dark web and external threat monitoring"
+  - type: "enables"
+    target: "DEF-SIEM-PLATFORM-001"
+    description: "Enhances SIEM platforms with external threat intelligence and dark web monitoring data"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for digital risk protection vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.digitalshadows.com"
+    - "https://www.reliaquest.com/digital-shadows"
+  search_keywords:
+    - "digital shadows"
+    - "searchlight platform"
+    - "digital risk protection"
+    - "dark web monitoring"
+    - "credential leak detection"
+    - "brand protection"
+    - "external threat intelligence"
+    - "reliaquest digital shadows"
+    - "attack surface monitoring"
+  embedding_text: "Digital Shadows (now part of ReliaQuest) is a digital risk protection company that monitors the open, deep, and dark web for threats to organizations. The SearchLight platform provides external threat intelligence, data leak detection, brand protection, attack surface monitoring, and dark web surveillance. Digital Shadows specializes in identifying exposed credentials, sensitive document leaks, phishing infrastructure, and threat actor activity targeting specific organizations. The company monitors criminal forums, paste sites, dark web marketplaces, and code repositories to provide early warning of data breaches, credential theft, planned attacks, and brand impersonation. Alerts are enriched with context and delivered through APIs for integration with SIEM, SOAR, and threat intelligence platforms. Digital risk protection addresses the growing external attack surface that traditional perimeter-focused security tools do not cover."

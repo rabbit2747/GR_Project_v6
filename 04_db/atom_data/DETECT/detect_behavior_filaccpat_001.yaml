@@ -1,0 +1,78 @@
+# GR Atom: File Access Pattern Analysis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILACCPAT-001"
+  name: "File Access Pattern Analysis"
+  normalized_name: "file_access_pattern_analysis"
+  aliases:
+    - "File Access Behavioral Analysis"
+    - "Data Access Pattern Detection"
+    - "File System Activity Monitoring"
+    - "Abnormal File Access Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - COLLECT
+    - DLP
+    - MONITOR
+    - EXFIL
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "File Access Pattern Analysis is a behavioral detection technique that monitors how users and processes interact with files on storage systems, identifying anomalous access patterns that may indicate data theft, ransomware activity, insider threats, or compromised accounts. The analysis tracks metrics including the volume of files accessed per time period, the breadth of directories traversed, the types of files accessed, read versus write ratios, access timing patterns, and deviations from the user's or process's established baseline behavior. It covers local file systems, network shares, cloud storage, and document management systems."
+  why: "Data exfiltration, ransomware encryption, and insider theft typically produce file access patterns that differ dramatically from normal user behavior. A user who normally accesses 20-30 files per day suddenly accessing thousands of files across multiple departments indicates potential compromise or malicious intent. Ransomware systematically traverses directory structures and modifies files in patterns distinct from normal operations. Early detection of anomalous file access patterns enables security teams to interrupt data theft and ransomware operations before significant damage occurs, reducing breach impact and data loss."
+  how: "File access monitoring systems capture file operations including open, read, write, rename, delete, and permission changes from OS audit logs, file server logs, cloud storage APIs, and EDR telemetry. Per-user and per-process baselines are built capturing normal file access volume, typical directories accessed, common file types interacted with, and standard access schedules. Anomaly detection algorithms identify deviations including mass file reads suggesting data staging for exfiltration, rapid sequential file modifications indicating ransomware encryption, access to directories outside the user's normal scope, file access outside business hours, and bulk file downloads from cloud storage. Risk scores incorporate user context, data sensitivity classifications, and correlation with other behavioral indicators."
+  core_concepts:
+    - key: "Access Baseline"
+      value: "A statistical model of normal file access behavior per user or process including volume, timing, file types, and directory scope"
+    - key: "Mass File Enumeration"
+      value: "Rapid traversal and reading of many files across directories, characteristic of data staging for exfiltration or ransomware reconnaissance"
+    - key: "Data Sensitivity Context"
+      value: "Classification of accessed files by sensitivity level to weight anomaly severity based on the value of data being accessed"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-INSTHRIND-001"
+    description: "Anomalous file access patterns are key indicators in insider threat detection"
+  - type: effective_against
+    target: "ATK-COLLECT-DATA-001"
+    description: "Detects data collection and staging activities preceding exfiltration"
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILECREA-001"
+    description: "File access pattern analysis includes file creation monitoring as a component"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic: ["Collection", "Exfiltration"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1005 - Data from Local System - https://attack.mitre.org/techniques/T1005/"
+    - "NIST SP 800-123 - Guide to General Server Security"
+    - "Varonis - File Access Monitoring Best Practices - https://www.varonis.com/blog/file-access-monitoring"
+  search_keywords:
+    - "file access pattern analysis"
+    - "data access anomaly detection"
+    - "file system monitoring"
+    - "abnormal file access"
+    - "ransomware file access"
+    - "data exfiltration detection"
+    - "file access baseline"
+    - "mass file access alert"
+  embedding_text: "File Access Pattern Analysis monitors how users and processes interact with files, identifying anomalous patterns indicating data theft, ransomware, or insider threats. It tracks file access volume, directory breadth, file types, read-write ratios, and timing deviations from established baselines across local systems, network shares, and cloud storage. Detection identifies mass file reads suggesting exfiltration staging, rapid sequential modifications indicating ransomware encryption, out-of-scope directory access, and after-hours activity. Risk scores incorporate user context and data sensitivity classifications. This technique is critical for early detection of data breaches and ransomware operations before significant damage occurs."

@@ -1,0 +1,70 @@
+# GR Atom: Recorded Future
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-RECOFUTU-001"
+  name: "Recorded Future"
+  normalized_name: "recorded_future"
+  aliases:
+    - "Recorded Future Inc."
+    - "Insikt Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - AI
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Recorded Future is the world's largest threat intelligence company, acquired by Mastercard in 2024. The platform uses AI and natural language processing to collect, analyze, and deliver threat intelligence from the open web, dark web, and technical sources in real time. Insikt Group is Recorded Future's in-house threat research team that publishes detailed analysis of nation-state campaigns, cybercrime operations, and geopolitical cyber threats. The platform serves government, enterprise, and security vendor customers globally."
+  why: "Recorded Future is critically important in cybersecurity as the dominant threat intelligence platform that provides real-time visibility into the global threat landscape. Their AI-driven approach to intelligence collection and analysis processes millions of sources to identify emerging threats, track threat actors, and correlate indicators at a scale impossible through manual analysis. Insikt Group's research is widely cited and influences both government and private sector security strategies."
+  how: "Recorded Future collects data from over one million sources including dark web forums, paste sites, social media, technical feeds, and open web publications. AI and NLP models process this data to extract indicators of compromise, threat actor profiles, vulnerability intelligence, and geopolitical risk assessments. Intelligence is delivered through a web platform, API integrations, browser extensions, and SIEM/SOAR connectors. Insikt Group conducts deep-dive research and publishes reports on significant campaigns and threat actor operations."
+  core_concepts:
+    - key: "AI-driven threat intelligence"
+      value: "Machine learning and NLP processing millions of sources for real-time threat analysis"
+    - key: "Insikt Group research"
+      value: "In-house threat research team publishing nation-state and cybercrime campaign analysis"
+    - key: "Intelligence at scale"
+      value: "Automated collection and correlation from over one million diverse intelligence sources"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "Recorded Future Insikt Group produces threat intelligence reports and campaign analysis"
+  - type: "enables"
+    target: "SERVICE-THREATINTEL-001"
+    description: "Recorded Future provides AI-driven threat intelligence platform and feeds"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Recorded Future Official Website"
+    - "Insikt Group Threat Intelligence Blog"
+    - "Mastercard Acquisition Announcement 2024"
+  search_keywords:
+    - "recorded future"
+    - "insikt group"
+    - "recorded future threat intelligence"
+    - "recorded future platform"
+    - "recorded future mastercard"
+    - "threat intelligence platform"
+    - "recorded future ai"
+  embedding_text: "Recorded Future is the world's largest threat intelligence company, acquired by Mastercard in 2024, using AI and natural language processing to collect, analyze, and deliver threat intelligence from the open web, dark web, and technical sources in real time. The platform processes data from over one million sources including dark web forums, paste sites, social media, technical feeds, and open web publications, using machine learning and NLP models to extract indicators of compromise, threat actor profiles, vulnerability intelligence, and geopolitical risk assessments. Insikt Group is Recorded Future's in-house threat research team that publishes detailed analysis of nation-state campaigns, cybercrime operations, and geopolitical cyber threats, with their research widely cited across government and private sector security organizations. Intelligence is delivered through a web platform, API integrations, browser extensions, and SIEM/SOAR connectors serving government, enterprise, and security vendor customers globally. Recorded Future represents the leading edge of AI-driven threat intelligence at enterprise scale."

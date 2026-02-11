@@ -1,0 +1,81 @@
+# GR Atom: CVE-2024-3400
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE20243400-001"
+  name: "CVE-2024-3400"
+  normalized_name: "cve_2024_3400"
+  aliases:
+    - "PAN-OS GlobalProtect Command Injection"
+    - "Palo Alto Networks Firewall RCE"
+    - "PAN-OS Zero-Day"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - NETWORK
+
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Palo Alto Networks PAN-OS 10.2.x (before 10.2.9-h1)"
+    - "Palo Alto Networks PAN-OS 11.0.x (before 11.0.4-h1)"
+    - "Palo Alto Networks PAN-OS 11.1.x (before 11.1.2-h3)"
+    - "GlobalProtect Gateway feature"
+
+definition:
+  what: "CVE-2024-3400 is a critical command injection vulnerability in the GlobalProtect gateway feature of Palo Alto Networks PAN-OS software. The vulnerability allows an unauthenticated remote attacker to execute arbitrary operating system commands with root privileges on the firewall by exploiting improper input handling in the GlobalProtect portal/gateway interface. The flaw exists in how the GlobalProtect feature processes session identifiers (SESSID cookie values), where specially crafted values are passed to a system shell command without adequate sanitization. CVSS v3: 10.0 (Critical). Disclosed April 12, 2024, as an actively exploited zero-day."
+  why: "Palo Alto Networks firewalls are among the most widely deployed enterprise network security appliances globally, protecting critical network perimeters. Unauthenticated root-level command execution on a firewall represents one of the most severe types of network security compromise, as firewalls sit at the boundary between trusted and untrusted networks with visibility into all transit traffic. The vulnerability was exploited as a zero-day by a sophisticated threat actor (tracked as UTA0218 by Volexity) in targeted attacks beginning at least as early as March 2024. CISA issued Emergency Directive 24-02 and added it to the KEV catalog. The exploitation provided attackers with the ability to exfiltrate firewall configuration, harvest credentials, pivot into internal networks, and disable security controls."
+  how: "The vulnerability is exploited by sending crafted HTTP requests to the GlobalProtect gateway endpoint with a specially formed SESSID cookie value. The cookie value is incorporated into a file path that is subsequently processed by a system command. By injecting OS command separators and commands into the SESSID value, the attacker achieves command injection that executes with root privileges on the PAN-OS device. The observed exploitation chain involves: creating a file with a command-injection filename via the SESSID cookie, then triggering the execution of the injected command through a scheduled task that processes the file. Post-exploitation involves deploying a Python-based backdoor (UPSTYLE) for persistent access. Mitigation includes applying PAN-OS hotfixes, disabling GlobalProtect device telemetry as a temporary workaround, and using Palo Alto Networks Threat Prevention signatures."
+  core_concepts:
+    - key: "SESSID Cookie Command Injection"
+      value: "The GlobalProtect feature incorporates SESSID cookie values into file system paths and shell commands without sanitization, enabling OS command injection with root privileges through crafted HTTP requests"
+    - key: "Network Security Appliance Compromise"
+      value: "Root-level compromise of perimeter firewalls provides attackers with traffic visibility, credential harvesting, network pivoting, and the ability to disable security controls across the protected network"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2024-3400 is an OS command injection vulnerability in PAN-OS GlobalProtect"
+  - type: causes
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Command injection in the firewall enables further arbitrary code execution and network compromise"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2024-3400 - NVD NIST"
+    - "Palo Alto Networks Security Advisory PAN-252214"
+    - "CISA Emergency Directive 24-02"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Volexity - UTA0218 PAN-OS Zero-Day Exploitation"
+    - "Unit 42 - CVE-2024-3400 Threat Brief"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2024-3400"
+    - "PAN-OS command injection"
+    - "GlobalProtect vulnerability"
+    - "Palo Alto firewall RCE"
+    - "PAN-OS zero-day"
+    - "GlobalProtect SESSID exploit"
+    - "PAN-OS root command injection"
+    - "Palo Alto Networks vulnerability"
+    - "UTA0218"
+    - "UPSTYLE backdoor"
+  embedding_text: "CVE-2024-3400 is a critical CVSS 10.0 command injection vulnerability in the GlobalProtect gateway feature of Palo Alto Networks PAN-OS. Disclosed April 2024 as an actively exploited zero-day, it allows unauthenticated remote attackers to execute OS commands with root privileges through crafted SESSID cookie values in HTTP requests. Palo Alto Networks firewalls are among the most widely deployed enterprise network security appliances. Exploited by UTA0218 threat actor since March 2024 to deploy UPSTYLE backdoor, exfiltrate configurations, harvest credentials, and pivot into internal networks. CISA issued Emergency Directive 24-02. Root-level compromise of perimeter firewalls provides traffic visibility and the ability to disable security controls. Maps to MITRE ATT&CK T1190 Initial Access."

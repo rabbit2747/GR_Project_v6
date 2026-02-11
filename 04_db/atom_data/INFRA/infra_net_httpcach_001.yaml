@@ -1,0 +1,79 @@
+# GR Atom: HTTP Cache Module
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-HTTPCACH-001"
+  name: "HTTP Cache Module"
+  normalized_name: "http_cache_module"
+  aliases:
+    - "Web Cache"
+    - "HTTP Caching Proxy"
+    - "Content Cache"
+    - "Web Content Cache"
+    - "HTTP Accelerator"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CACHE
+    - HTTP
+    - PROXY
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "D2.2"
+
+definition:
+  what: "An HTTP Cache Module is a software component or standalone service that stores copies of HTTP responses (web pages, images, API responses, static assets) to serve subsequent requests for the same content without contacting the origin server. HTTP cache modules operate according to HTTP caching directives defined in RFC 7234, including Cache-Control headers, ETag validators, Last-Modified timestamps, and Expires headers. They can be implemented as modules within web servers (Nginx, Apache mod_cache, IIS Output Caching), standalone caching proxies (Varnish, Squid), CDN edge nodes (CloudFront, Cloudflare), or reverse proxy cache layers. HTTP caching reduces origin server load, decreases response latency, and lowers bandwidth consumption."
+  why: "HTTP caching is a fundamental web infrastructure optimization that directly impacts application performance, scalability, and user experience. By serving cached responses, HTTP cache modules reduce the number of requests reaching origin servers, enabling applications to handle significantly more concurrent users. They reduce network bandwidth consumption by eliminating redundant data transfers and decrease page load times by serving content from geographically or topologically closer cache nodes. From a security perspective, HTTP cache modules are relevant because cache poisoning attacks can serve malicious content to users, and misconfigured cache headers can expose sensitive data to unintended recipients."
+  how: "HTTP cache modules intercept HTTP requests and check whether a valid cached response exists for the requested resource. Cache validity is determined by evaluating HTTP caching headers including Cache-Control directives (max-age, no-cache, no-store, public, private), ETag validators for conditional requests, and Last-Modified timestamps. On a cache hit with a fresh response, the cached content is served directly. On a stale cache hit, the cache module sends a conditional request to the origin server using If-None-Match or If-Modified-Since headers to validate freshness. On a cache miss, the full response is fetched from the origin, cached according to the response headers, and served to the client. Cache eviction policies such as LRU manage storage when capacity limits are reached."
+  core_concepts:
+    - key: "Cache-Control Directives"
+      value: "HTTP headers that define caching behavior including max-age for freshness lifetime, no-store to prevent caching, public/private for shared vs user-specific caching, and must-revalidate for stale content handling"
+    - key: "Cache Validation"
+      value: "The process of verifying cached content freshness through conditional requests using ETag and If-None-Match or Last-Modified and If-Modified-Since header pairs"
+    - key: "Cache Poisoning"
+      value: "An attack technique that manipulates HTTP cache behavior to store and serve malicious content to users by exploiting unkeyed request components or cache key collisions"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-CLOUDFRONT-001"
+    description: "HTTP caching is the core functionality that enables CloudFront CDN to serve content from edge locations"
+  - type: enables
+    target: "INFRA-NET-REVPROSER-001"
+    description: "HTTP cache modules enhance reverse proxy server performance by caching backend responses"
+  - type: enables
+    target: "INFRA-NET-FORWPROX-001"
+    description: "HTTP caching within forward proxies reduces bandwidth usage for repeated outbound content requests"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1659"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 7234 - Hypertext Transfer Protocol (HTTP/1.1): Caching - https://datatracker.ietf.org/doc/html/rfc7234"
+    - "RFC 9111 - HTTP Caching - https://datatracker.ietf.org/doc/html/rfc9111"
+    - "OWASP - Web Cache Poisoning - https://owasp.org/www-community/attacks/Cache_Poisoning"
+  search_keywords:
+    - "HTTP cache"
+    - "web cache"
+    - "HTTP caching proxy"
+    - "content cache"
+    - "Cache-Control headers"
+    - "cache poisoning"
+    - "Varnish cache"
+    - "web content caching"
+    - "HTTP accelerator"
+  embedding_text: "An HTTP Cache Module stores copies of HTTP responses to serve subsequent requests without contacting the origin server. Operating according to RFC 7234 and RFC 9111 caching directives including Cache-Control headers, ETag validators, and Last-Modified timestamps, these modules are implemented within web servers like Nginx and Apache, as standalone caching proxies like Varnish and Squid, or as CDN edge nodes. HTTP caching reduces origin server load, decreases response latency, and lowers bandwidth consumption. Security considerations include cache poisoning attacks that serve malicious content, and misconfigured cache headers that expose sensitive data. Cache validation uses conditional requests to verify content freshness."

@@ -1,0 +1,112 @@
+# GR Atom: CVE-2010-1871
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20101871-001"
+  name: "CVE-2010-1871"
+  normalized_name: "cve_2010_1871"
+  aliases:
+    - "JBoss Seam EL Injection"
+    - "JBoss Seam Framework Remote Code Execution"
+    - "Seam Expression Language Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "JBoss Seam 2 Framework"
+    - "JBoss Enterprise Application Platform"
+    - "JBoss Expression Language evaluator"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-1871 is an Expression Language (EL) injection vulnerability in JBoss Seam 2
+    framework that allows remote attackers to execute arbitrary code. The JBoss Seam framework
+    improperly evaluates user-supplied EL expressions through the actionOutcome parameter in
+    URLs, enabling injection of arbitrary Java Unified Expression Language expressions. The
+    vulnerability has a CVSS v2 base score of 6.8 and was disclosed in 2010.
+  why: >-
+    JBoss Seam was a widely used Java web framework for building enterprise applications on
+    JBoss Application Server. Expression Language injection bypasses normal application logic
+    to directly invoke Java methods on the server, providing attackers with a powerful code
+    execution primitive. This vulnerability type became increasingly important as EL injection
+    was later found in numerous Java frameworks including Spring and Struts.
+  how: >-
+    Attackers inject malicious EL expressions through the actionOutcome URL parameter in
+    JBoss Seam applications. The framework evaluates these expressions server-side without
+    proper sanitization, allowing attackers to call arbitrary Java methods including
+    Runtime.exec() for operating system command execution. A typical exploit URL contains
+    an EL expression like #{expressions} that gets evaluated by the Seam framework engine.
+    Mitigation requires upgrading JBoss Seam to patched versions and implementing input
+    validation to prevent EL expression injection.
+  core_concepts:
+    - key: "Expression Language Injection"
+      value: "Injection of Java Unified EL expressions that are evaluated server-side, enabling arbitrary method invocation"
+    - key: "Server-Side Evaluation"
+      value: "The Seam framework automatically evaluates URL parameter values as EL expressions without sanitization"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "EL injection in JBoss Seam is a specific instance of injection vulnerability"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE20175638-001"
+    description: "Early EL injection pattern in Java frameworks predates the OGNL injection in Apache Struts"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2010-1871"
+  cvss_score: 6.8
+  affected_product: "JBoss Seam 2 Framework"
+  year: 2010
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2010-1871"
+    - "CWE-917 Improper Neutralization of Special Elements used in an Expression Language Statement"
+    - "Red Hat Security Advisory RHSA-2010:0564"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2010-1871"
+    - "JBoss Seam EL injection"
+    - "Expression Language injection"
+    - "JBoss remote code execution"
+    - "Seam framework vulnerability"
+    - "Java EL injection"
+    - "actionOutcome injection"
+  embedding_text: >-
+    CVE-2010-1871 is an Expression Language injection vulnerability in JBoss Seam 2 framework
+    allowing remote code execution with CVSS score 6.8. The framework improperly evaluates
+    user-supplied EL expressions through the actionOutcome URL parameter without sanitization.
+    Attackers inject malicious Java Unified EL expressions to invoke arbitrary Java methods
+    including system command execution via Runtime.exec(). This vulnerability was significant
+    as an early example of EL injection in enterprise Java frameworks, a pattern later
+    replicated in Apache Struts OGNL injection and Spring Framework SpEL injection
+    vulnerabilities. Mitigation requires patching JBoss Seam and implementing strict input
+    validation against EL expression patterns.

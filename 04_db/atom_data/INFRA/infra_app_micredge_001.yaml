@@ -1,0 +1,121 @@
+# GR Atom: Microsoft Edge
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-MICREDGE-001"
+  name: "Microsoft Edge"
+  normalized_name: "microsoft_edge"
+  aliases:
+    - "Edge"
+    - "Edge Chromium"
+    - "Microsoft Edge Chromium"
+    - "msedge.exe"
+    - "Edge Browser"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CRED
+    - WINDOWS
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Microsoft Edge is a Chromium-based web browser developed by Microsoft, replacing the
+    legacy Edge (EdgeHTML) and Internet Explorer as the default Windows browser. Since its
+    Chromium rewrite in 2020, Edge shares the Blink rendering engine with Google Chrome and
+    supports Chrome extensions. Edge includes enterprise management features, Microsoft 365
+    integration, IE mode for legacy compatibility, and built-in security features like
+    Microsoft Defender SmartScreen. It stores credentials, cookies, and browsing data in the
+    standard Chromium profile format with DPAPI encryption on Windows.
+  why: >-
+    Microsoft Edge is a primary target for credential theft by infostealer malware due to its
+    position as the default Windows browser with high market share. Major infostealers
+    (RedLine, Raccoon, Vidar, LummaC2) target Edge's Chromium-based credential stores alongside
+    Chrome. Edge inherits Chromium engine vulnerabilities and has a rapid CVE disclosure cadence.
+    Edge's IE mode maintains the legacy MSHTML attack surface within a modern browser. Enterprise
+    deployments with synchronized profiles create lateral credential exposure risks. Edge's deep
+    Windows integration through COM and WebView2 creates additional attack vectors.
+  how: >-
+    Microsoft Edge renders web content using the Chromium Blink engine and V8 JavaScript engine.
+    Credentials are stored in the Login Data SQLite database encrypted with DPAPI, and cookies
+    in the Cookies database with AES-256-GCM encryption using a key stored in the Local State
+    file. Infostealer malware targets Edge profile directories at known filesystem paths to
+    extract credentials, cookies, and autofill data. Edge's IE mode invokes the MSHTML rendering
+    engine for legacy sites, maintaining the Trident attack surface. WebView2 embeds Edge's
+    rendering engine in desktop applications, extending the browser attack surface into native
+    applications. Exploitation targets include V8 engine vulnerabilities, extension abuse, and
+    SmartScreen bypasses.
+  core_concepts:
+    - key: "Default Windows Chromium Browser"
+      value: "Microsoft's default Windows browser built on Chromium, sharing the Blink engine and credential storage format with Chrome while adding enterprise management"
+    - key: "Infostealer Primary Target"
+      value: "High-value target for credential theft malware due to default Windows installation, Chromium credential format, and enterprise profile synchronization"
+    - key: "IE Mode Legacy Attack Surface"
+      value: "Built-in IE mode invokes the MSHTML Trident engine for legacy compatibility, maintaining the Internet Explorer attack surface within Edge"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-GOOGCHRO-001"
+    description: "Microsoft Edge is a Chromium-based browser fork sharing the Blink rendering engine and credential storage format with Google Chrome"
+  - type: "supersedes"
+    target: "INFRA-APP-INTEEXPL-001"
+    description: "Microsoft Edge replaced Internet Explorer as the default Windows browser while maintaining IE mode for backward compatibility"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.003"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Edge Security Documentation"
+    - "MITRE ATT&CK T1555.003 - Credentials from Web Browsers"
+    - "Infostealer Analysis - Chromium Browser Targeting"
+    - "Microsoft Edge IE Mode Security Considerations"
+  search_keywords:
+    - "Microsoft Edge"
+    - "Edge browser vulnerability"
+    - "Edge credential theft"
+    - "Edge Chromium security"
+    - "Edge infostealer"
+    - "Edge IE mode"
+    - "msedge exploit"
+    - "WebView2 security"
+    - "Edge SmartScreen bypass"
+  embedding_text: >-
+    Microsoft Edge is a Chromium-based web browser and the default Windows browser, replacing
+    Internet Explorer and legacy EdgeHTML. It shares the Blink rendering engine with Chrome and
+    stores credentials in DPAPI-encrypted SQLite databases. Edge is a primary target for
+    infostealer malware families including RedLine, Raccoon, Vidar, and LummaC2 for credential
+    and cookie harvesting. Edge inherits Chromium engine vulnerabilities and maintains legacy
+    MSHTML attack surface through built-in IE mode. WebView2 extends Edge's rendering engine
+    into desktop applications. Enterprise deployments with synchronized profiles create lateral
+    credential exposure risks. Security teams should enforce browser security policies, monitor
+    for credential extraction from Edge profile directories, manage IE mode access, keep Edge
+    updated for Chromium security patches, and implement controls against infostealer malware.

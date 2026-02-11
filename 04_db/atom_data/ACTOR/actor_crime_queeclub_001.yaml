@@ -1,0 +1,133 @@
+# GR Atom: Queen of Clubs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-QUEECLUB-001"
+  name: "Queen of Clubs"
+  normalized_name: "queen_of_clubs"
+  aliases:
+    - "QueenOfClubs"
+    - "Queen of Clubs Group"
+    - "QoC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - EXFIL
+    - NETWORK
+    - WEB
+    - INJ
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Queen of Clubs is a cybercriminal group operating in the carding and financial fraud ecosystem,
+    specializing in the acquisition, validation, and resale of stolen payment card data, compromised
+    online banking credentials, and personally identifiable information (PII). The group operates
+    through dark web carding forums and marketplaces, providing curated and validated stolen financial
+    data to other cybercriminals for fraudulent transactions. Queen of Clubs is also associated with
+    web skimming (Magecart-style) operations that inject malicious JavaScript into e-commerce
+    websites to harvest payment card data in real-time as customers enter their information during
+    checkout. The group serves as both an operator conducting direct attacks and a marketplace
+    reseller aggregating data from multiple sources.
+  why: >-
+    Queen of Clubs represents the organized carding and payment fraud segment of the cybercriminal
+    ecosystem that directly impacts consumers, merchants, and financial institutions. Carding
+    operations cause billions of dollars in annual losses globally, with stolen card data being one
+    of the most traded commodities on dark web marketplaces. The group's Magecart-style web skimming
+    operations pose particular risks to e-commerce businesses, as injected skimmer scripts can
+    operate undetected for weeks or months, harvesting thousands of payment cards before discovery.
+    The professionalization of carding operations, with quality controls, customer support, and
+    refund guarantees for invalid cards, has lowered barriers to entry for financial fraud and
+    increased the reliability of stolen data markets.
+  how: >-
+    Queen of Clubs conducts web skimming attacks by compromising e-commerce websites through
+    exploitation of vulnerabilities in content management systems (Magento, WooCommerce, PrestaShop),
+    third-party JavaScript libraries, and supply chain compromises of payment processing scripts.
+    Injected skimmer JavaScript intercepts payment card data, billing addresses, and personal
+    information during checkout and exfiltrates it to attacker-controlled collection servers.
+    Harvested card data is validated through small-value test transactions to verify card
+    availability before being listed on dark web carding marketplaces. The group also acquires
+    stolen data from other breach operators, validates and categorizes it by card type, issuing
+    bank, and geographic region, then resells through curated listings. Communication and sales
+    are conducted through dark web forums (Joker's Stash successors), Telegram channels, and
+    encrypted messaging. Pricing varies based on card type, freshness, and available balance.
+  core_concepts:
+    - key: "Magecart-Style Web Skimming"
+      value: >-
+        Queen of Clubs deploys JavaScript-based payment card skimmers on compromised e-commerce
+        websites, intercepting customer payment data in real-time during checkout, representing
+        a persistent supply-side threat to the stolen card data market.
+    - key: "Carding Marketplace Operations"
+      value: >-
+        The group operates as both a skimming operator and a marketplace reseller, curating and
+        validating stolen payment card data with quality controls and organizing listings by
+        card type, bank, and region for efficient criminal commerce.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Queen of Clubs is a cybercriminal group specializing in carding and payment fraud"
+  - type: "enables"
+    target: "ATK-CRED"
+    description: "Queen of Clubs operations enable credential and payment card theft from e-commerce platforms"
+  - type: "applies_to"
+    target: "SECTOR-ECOMMERCE"
+    description: "Queen of Clubs targets e-commerce websites for web skimming attacks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1185"
+    tactic:
+      - "Collection"
+      - "Credential Access"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "derived"
+  sources:
+    - "RiskIQ/Microsoft - Magecart Web Skimming Research. https://www.riskiq.com/research/magecart/"
+    - "Gemini Advisory - Dark Web Carding Market Intelligence. https://geminiadvisory.io/research/"
+    - "Group-IB - JavaScript Sniffers and Web Skimming Analysis. https://www.group-ib.com/blog/js-sniffers/"
+    - "Recorded Future - Payment Fraud Intelligence. https://www.recordedfuture.com/payment-fraud"
+  search_keywords:
+    - "queen of clubs cybercrime"
+    - "queen of clubs carding"
+    - "carding group"
+    - "web skimming group"
+    - "magecart operation"
+    - "payment card fraud"
+    - "dark web carding"
+    - "e-commerce skimmer"
+  embedding_text: >-
+    Queen of Clubs is a cybercriminal group operating in the carding and financial fraud ecosystem,
+    specializing in stolen payment card data acquisition, validation, and resale through dark web
+    marketplaces. The group conducts Magecart-style web skimming operations injecting malicious
+    JavaScript into e-commerce websites to harvest payment card data in real-time during checkout.
+    Compromised platforms include Magento, WooCommerce, and PrestaShop installations. Harvested
+    card data is validated through test transactions before being listed on carding marketplaces.
+    Queen of Clubs operates as both a direct attack operator and marketplace reseller, curating
+    stolen data with quality controls and organizing listings by card type, bank, and region. The
+    group represents the organized carding segment of cybercrime that directly impacts consumers,
+    merchants, and financial institutions. Web skimming operations can run undetected for weeks,
+    harvesting thousands of cards. Communication uses dark web forums and Telegram channels.

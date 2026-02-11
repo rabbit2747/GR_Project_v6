@@ -1,0 +1,75 @@
+# GR Atom: Virus Bulletin
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-VIRUBULL-001"
+  name: "Virus Bulletin"
+  normalized_name: "virus_bulletin"
+  aliases:
+    - "VB"
+    - "VB Conference"
+    - "VirusBulletin"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - EDR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Virus Bulletin is an independent security testing and certification organization and conference established in 1989, focused on malware research, anti-malware product testing, and threat intelligence. The organization publishes the VB100 certification for anti-virus products, conducts comparative testing of security solutions, and hosts the annual Virus Bulletin Conference (VB Conference), one of the longest-running and most respected conferences dedicated to malware research and threat analysis. Virus Bulletin also publishes research papers, threat reports, and the Virus Bulletin magazine covering malware trends, detection techniques, and security product evaluations."
+  why: "Virus Bulletin is important to the cybersecurity community as the premier independent authority on anti-malware product testing and certification. The VB100 certification is widely recognized as a benchmark for anti-virus effectiveness. The VB Conference provides a critical venue for malware researchers to share technical findings on new threats, detection methodologies, and the evolving malware landscape, contributing significantly to collective defense capabilities."
+  how: "Virus Bulletin conducts systematic testing of anti-malware products against curated malware sample sets, awarding VB100 certification to products that meet detection and false-positive thresholds. The annual VB Conference features peer-reviewed presentations from leading malware researchers, threat intelligence analysts, and security vendors. The organization also publishes research papers and threat analysis reports that document emerging malware families, campaign analysis, and detection techniques."
+  core_concepts:
+    - key: "Anti-Malware Testing"
+      value: "Independent testing and VB100 certification of anti-virus and security products"
+    - key: "Malware Research Conference"
+      value: "Annual VB Conference featuring peer-reviewed presentations on malware analysis and threat intelligence"
+    - key: "Threat Analysis Publications"
+      value: "Research papers and reports documenting malware trends, detection techniques, and campaign analysis"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Fellow cybersecurity conference with specialized focus on malware research"
+  - type: enables
+    target: "ACTOR-RESEARCH-WELIVESECU-001"
+    description: "Platform where security vendor researchers present malware findings"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for testing/conference organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.virusbulletin.com"
+    - "https://en.wikipedia.org/wiki/Virus_Bulletin"
+  search_keywords:
+    - "virus bulletin"
+    - "VB100"
+    - "anti-malware testing"
+    - "malware research"
+    - "VB conference"
+    - "anti-virus certification"
+    - "malware analysis"
+    - "security product testing"
+    - "threat intelligence"
+  embedding_text: "Virus Bulletin is an independent security testing and certification organization and conference established in 1989, focused on malware research, anti-malware product testing, and threat intelligence. The organization publishes the VB100 certification for anti-virus products, conducts comparative testing of security solutions, and hosts the annual Virus Bulletin Conference, one of the longest-running and most respected conferences dedicated to malware research and threat analysis. Virus Bulletin publishes research papers, threat reports, and the Virus Bulletin magazine covering malware trends, detection techniques, and security product evaluations. As the premier independent authority on anti-malware product testing, the VB100 certification is widely recognized as a benchmark for anti-virus effectiveness across the security industry."

@@ -1,0 +1,105 @@
+# GR Atom: SMBv2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SMBV2-001"
+  name: "SMBv2"
+  normalized_name: "smbv2"
+  aliases:
+    - "SMB Version 2"
+    - "SMBv2.1"
+    - "SMBv3"
+    - "SMB 3.0"
+    - "SMB 3.0.2"
+    - "SMB 3.1.1"
+    - "MS-SMB2"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    SMBv2 and SMBv3 are the modern versions of the Server Message Block protocol introduced with
+    Windows Vista (SMBv2.0, 2006) and continually enhanced through Windows 8 (SMBv3.0, 2012),
+    Windows 8.1 (SMBv3.0.2, 2013), and Windows 10 (SMBv3.1.1, 2015). These versions share a
+    single protocol specification (MS-SMB2) and represent a complete redesign from SMBv1 with
+    reduced command set (19 vs 100+), compound requests, durable handles, leasing, large MTU
+    support, and dramatically improved security. SMBv3 adds end-to-end encryption (AES-128-CCM/
+    AES-128-GCM/AES-256-GCM), SMB Direct (RDMA), Multichannel, and pre-authentication integrity
+    using SHA-512.
+  why: >-
+    While significantly more secure than SMBv1, SMBv2/v3 still presents attack surface. SMBv2
+    vulnerabilities include SMBGhost (CVE-2020-0796) — a wormable RCE in SMBv3.1.1 compression,
+    and SMBleed (CVE-2020-1206) for information disclosure. NTLM relay attacks remain effective
+    against SMBv2 when signing is not required. SMBv3 encryption can be downgraded if not
+    enforced. Lateral movement via SMBv2 admin shares (C$, ADMIN$) remains a primary post-
+    exploitation technique (MITRE T1021.002). Pre-authentication integrity in SMBv3.1.1 prevents
+    downgrade attacks but requires both client and server to support it. Understanding SMBv2/v3
+    capabilities is essential for secure configuration hardening.
+  how: >-
+    SMBv2/v3 operates through: (1) Negotiate request with dialect list (0x0202 through 0x0311)
+    and pre-authentication integrity contexts (SMB 3.1.1); (2) Session setup with SPNEGO
+    authentication (NTLM or Kerberos), optional encryption negotiation; (3) Tree connect with
+    optional per-share encryption; (4) Compound requests batching multiple operations in single
+    round trips; (5) Durable handles maintaining file state across brief network interruptions;
+    (6) Directory leasing reducing metadata round trips. SMBv3 encryption wraps entire SMB
+    packets in AES, protecting data in transit. SMB 3.1.1 adds pre-authentication integrity
+    hashing (SHA-512) preventing man-in-the-middle modification of negotiate and session setup.
+  core_concepts:
+    - key: "SMBv3 Encryption"
+      value: "End-to-end AES encryption (CCM/GCM modes) of SMB traffic protecting data confidentiality without requiring IPsec or VPN infrastructure."
+    - key: "Pre-Authentication Integrity"
+      value: "SMB 3.1.1 SHA-512 hash chain verifying negotiate and session setup messages to prevent downgrade and man-in-the-middle attacks."
+    - key: "SMBGhost (CVE-2020-0796)"
+      value: "Critical wormable RCE vulnerability in SMBv3.1.1 compression handling enabling unauthenticated remote code execution on Windows 10 and Server 2019."
+    - key: "Compound Requests"
+      value: "Batching multiple SMB operations into single network round trips, dramatically improving performance over high-latency connections compared to SMBv1."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-SMB-001"
+    description: "SMBv2/v3 is the modern version of the Server Message Block file sharing protocol"
+  - type: "supersedes"
+    target: "PROTO-MSG-SMBV1-001"
+    description: "SMBv2/v3 supersedes SMBv1 with improved security, performance, and reduced attack surface"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-SMB2]: Server Message Block Protocol Versions 2 and 3"
+    - "CVE-2020-0796 — SMBGhost. NIST NVD"
+    - "Microsoft — SMB Security Enhancements (Windows Server Documentation)"
+    - "MITRE ATT&CK — T1021.002: SMB/Windows Admin Shares"
+  search_keywords:
+    - "SMBv2"
+    - "SMBv3"
+    - "SMB 3.1.1"
+    - "SMBGhost"
+    - "CVE-2020-0796"
+    - "SMB encryption"
+    - "SMB signing"
+    - "pre-authentication integrity"
+    - "SMB multichannel"
+    - "MS-SMB2"
+  embedding_text: >-
+    SMBv2/v3 are the modern Server Message Block protocol versions (2006-2015) with compound
+    requests, durable handles, leasing, and end-to-end AES encryption. SMB 3.1.1 adds pre-
+    authentication integrity (SHA-512) preventing downgrade attacks. Vulnerabilities include
+    SMBGhost (CVE-2020-0796) — a wormable RCE in SMBv3.1.1 compression. NTLM relay attacks
+    remain effective when signing is not required. Lateral movement via admin shares (T1021.002)
+    is a primary post-exploitation technique. Security requires enforcing SMB signing, enabling
+    encryption, deploying SMB 3.1.1, and restricting admin share access.

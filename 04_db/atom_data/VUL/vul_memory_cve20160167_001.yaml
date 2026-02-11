@@ -1,0 +1,106 @@
+# GR Atom: CVE-2016-0167
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20160167-001"
+  name: "CVE-2016-0167"
+  normalized_name: "cve_2016_0167"
+  aliases:
+    - "Windows win32k.sys Elevation of Privilege"
+    - "Win32k Menu Object Use-After-Free"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - PRIV
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows kernel-mode driver win32k.sys"
+    - "Windows Vista through Windows 10"
+    - "Windows Server 2008 through 2012 R2"
+    - "Win32k menu handling subsystem"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-0167 is a privilege escalation vulnerability (CVSS 7.8) in the Windows kernel-mode
+    driver win32k.sys related to improper handling of window menu objects. The vulnerability
+    allows a local authenticated attacker to execute code in kernel mode, escalating to SYSTEM
+    privileges. It was exploited in the wild as part of targeted attack campaigns and was
+    patched in MS16-039 (April 2016). The vulnerability affects Windows Vista through Windows 10
+    and Windows Server 2008 through 2012 R2.
+  why: >-
+    The win32k.sys kernel driver continues to be one of the most prolific sources of Windows
+    privilege escalation vulnerabilities. This vulnerability was actively exploited in targeted
+    attacks as a post-compromise privilege escalation component, typically chained with a
+    browser or document exploit for initial access. The GUI subsystem's complexity and legacy
+    code in win32k.sys make it a persistent target for kernel exploitation.
+  how: >-
+    The exploit manipulates Windows menu objects through user-mode API calls to trigger a
+    use-after-free or type confusion condition in win32k.sys during menu processing. By
+    setting up specific menu structures and triggering callback functions during menu operations,
+    the attacker causes the kernel to access freed or type-confused memory. The controlled
+    memory contents redirect kernel execution flow, achieving arbitrary code execution in
+    kernel mode for SYSTEM privilege escalation.
+  core_concepts:
+    - key: "Win32k Menu Object Kernel Vulnerability"
+      value: "Improper handling of window menu objects in win32k.sys enables kernel code execution through user-mode menu API manipulation"
+    - key: "Post-Compromise Privilege Escalation"
+      value: "Used as privilege escalation component in multi-stage attacks after initial access through browser or document exploits"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory corruption in Windows win32k.sys kernel driver during menu object handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2016-0167 - CVSS 7.8"
+    - "Microsoft Security Bulletin MS16-039"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2016-0167"
+    - "win32k.sys"
+    - "privilege escalation"
+    - "kernel exploit"
+    - "menu object"
+    - "MS16-039"
+    - "Windows kernel"
+    - "SYSTEM"
+    - "elevation of privilege"
+  embedding_text: >-
+    CVE-2016-0167 is a privilege escalation vulnerability with CVSS 7.8 in the Windows
+    kernel-mode driver win32k.sys involving improper handling of window menu objects. Local
+    authenticated attackers exploit menu API calls to trigger memory corruption in kernel
+    mode, achieving SYSTEM privileges. Actively exploited in targeted attacks as a post-
+    compromise privilege escalation component, it affected Windows Vista through Windows 10
+    and was patched in MS16-039 in April 2016. The vulnerability exemplified the persistent
+    security challenges in the win32k.sys GUI subsystem, which remains one of the most
+    prolific sources of Windows kernel privilege escalation vulnerabilities due to its
+    complex legacy code and large attack surface.

@@ -1,0 +1,131 @@
+# GR Atom: SMB File Shares
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-SMBFILSHA-001"
+  name: "SMB File Shares"
+  normalized_name: "smb_file_shares"
+  aliases:
+    - "CIFS Shares"
+    - "Windows File Shares"
+    - "SMB Network Shares"
+    - "Samba Shares"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - WINDOWS
+    - LATERAL
+    - CRED
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SMB File Shares are network-accessible shared directories that use the Server Message Block
+    (SMB) protocol (also known as CIFS - Common Internet File System) for file access. SMB is
+    the primary file sharing protocol in Windows environments, operating on TCP port 445 (and
+    historically NetBIOS ports 137-139). SMB file shares are hosted on Windows servers, NAS
+    appliances, Linux servers running Samba, and cloud services (Azure Files SMB). Versions
+    include SMBv1 (deprecated, vulnerable), SMBv2, SMBv3 (with encryption support), and
+    SMB 3.1.1 (with pre-authentication integrity).
+  why: >-
+    SMB file shares are among the most exploited network services in enterprise environments.
+    SMBv1 vulnerabilities enabled the WannaCry and NotPetya ransomware outbreaks through
+    EternalBlue (MS17-010). SMB is extensively used for lateral movement through admin share
+    access (C$, ADMIN$), PsExec-style remote execution, and credential relay attacks (NTLM
+    relay). Adversaries enumerate SMB shares for sensitive data discovery, use them for malware
+    staging and distribution, and exploit authentication weaknesses for credential theft.
+    SMB signing, when not enforced, enables man-in-the-middle attacks.
+  how: >-
+    SMB shares are created on Windows through the File Server role or net share command, and
+    on Linux through Samba configuration. Clients connect to \\server\share using domain or
+    local credentials authenticated via NTLM or Kerberos. Share-level permissions (read,
+    change, full) and NTFS ACLs jointly control access. SMBv3 supports encryption in transit.
+    SMB signing validates message integrity to prevent tampering. Named pipes over SMB enable
+    remote procedure calls (RPC) used by many Windows management tools. Group Policy controls
+    SMB protocol versions, signing requirements, and encryption enforcement across domain-joined
+    systems.
+  core_concepts:
+    - key: "EternalBlue and SMBv1 Vulnerabilities"
+      value: >-
+        SMBv1 vulnerabilities including EternalBlue (MS17-010) enabled the WannaCry and NotPetya
+        global ransomware outbreaks, leading to widespread SMBv1 deprecation.
+    - key: "NTLM Relay Attacks"
+      value: >-
+        SMB authentication can be relayed to other services in NTLM relay attacks when SMB
+        signing is not enforced, enabling unauthorized access to resources using captured
+        authentication credentials.
+    - key: "Lateral Movement via Admin Shares"
+      value: >-
+        Administrative shares (C$, ADMIN$, IPC$) on Windows systems enable remote administration
+        and are commonly abused by attackers with valid credentials for lateral movement using
+        tools like PsExec, wmiexec, and smbexec.
+    - key: "SMBv3 Encryption"
+      value: >-
+        SMBv3 supports end-to-end encryption of file transfer data, protecting against
+        eavesdropping on network traffic without requiring separate VPN or IPsec tunnels.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-FILESHAR-001"
+    description: "SMB file shares are a specific type of file share using the SMB/CIFS protocol"
+  - type: "part_of"
+    target: "INFRA-DATA-FILESERV-001"
+    description: "SMB file shares are part of file servers that host the SMB service and shared directories"
+  - type: "enables"
+    target: "INFRA-DATA-SMBSHAR-001"
+    description: "SMB file shares enable individual SMB share instances on servers and NAS devices"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.002"
+    tactic:
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft SMB Protocol documentation. https://learn.microsoft.com/en-us/windows-server/storage/file-server/file-server-smb-overview"
+    - "MITRE ATT&CK T1021.002 - Remote Services: SMB/Windows Admin Shares."
+    - "MS17-010 EternalBlue Advisory. https://msrc.microsoft.com/update-guide/vulnerability/CVE-2017-0144"
+  search_keywords:
+    - "SMB file share"
+    - "CIFS share"
+    - "Windows file share"
+    - "SMB vulnerability"
+    - "EternalBlue"
+    - "SMB lateral movement"
+    - "NTLM relay"
+    - "admin share"
+    - "SMB signing"
+    - "Samba share"
+  embedding_text: >-
+    SMB File Shares are network-accessible shared directories using the Server Message Block
+    protocol on TCP port 445. SMB is the primary file sharing protocol in Windows environments,
+    also supported via Samba on Linux and NAS appliances. SMB file shares are among the most
+    exploited network services. SMBv1 vulnerabilities (EternalBlue MS17-010) enabled WannaCry
+    and NotPetya ransomware outbreaks. SMB is extensively used for lateral movement through
+    admin shares (C$, ADMIN$), PsExec-style execution, and NTLM relay attacks. Adversaries
+    enumerate shares for sensitive data discovery and malware distribution. Security controls
+    include SMBv3 encryption, SMB signing enforcement, disabling SMBv1, NTFS ACLs, and Group
+    Policy management. SMB maps to MITRE ATT&CK T1021.002 (Remote Services: SMB/Windows Admin
+    Shares) as a primary lateral movement mechanism.

@@ -1,0 +1,77 @@
+# GR Atom: CVE-2021-42287
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202142287-001"
+  name: "CVE-2021-42287"
+  normalized_name: "cve_2021_42287"
+  aliases:
+    - "noPac"
+    - "sAMAccountName Spoofing"
+    - "Active Directory Privilege Escalation"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - PRIV
+    - CRED
+    - WINDOWS
+    - KERBEROS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Windows Server 2008 through 2022"
+    - "Active Directory Domain Services"
+    - "Kerberos Key Distribution Center (KDC)"
+
+definition:
+  what: "CVE-2021-42287 (noPac) is a privilege escalation vulnerability in Active Directory's Kerberos Privilege Attribute Certificate (PAC) handling. When combined with CVE-2021-42278 (sAMAccountName spoofing), any authenticated domain user can impersonate a domain controller and obtain domain admin privileges by manipulating Kerberos ticket requests. CVSS v3: 7.5 (High). Disclosed in November 2021."
+  why: "This vulnerability enables any standard domain user to escalate to domain administrator within seconds. The combination of CVE-2021-42287 and CVE-2021-42278 (collectively known as noPac) provides a trivially exploitable path to full Active Directory domain compromise. Unlike Zerologon which required network access to the DC, noPac only requires any valid domain user credentials. Public exploit code was released shortly after disclosure, and the vulnerability was rapidly adopted by threat actors and penetration testers."
+  how: "The attacker creates a machine account (allowed by default for domain users) and renames its sAMAccountName to match a domain controller's name without the trailing dollar sign (CVE-2021-42278). The attacker requests a Kerberos TGT for this spoofed account, then renames the machine account back. When requesting a service ticket using the TGT, the KDC cannot find the original account name and instead issues the ticket for the domain controller account (CVE-2021-42287). The resulting service ticket has domain controller privileges, enabling DCSync to extract all domain credentials. Microsoft patched both vulnerabilities in November 2021."
+  core_concepts:
+    - key: "Kerberos PAC Confusion"
+      value: "The KDC fails to validate PAC information when the requesting account's sAMAccountName no longer matches, falling back to issuing tickets for the domain controller account with the same name"
+    - key: "sAMAccountName to Domain Admin"
+      value: "Any domain user can create a machine account, spoof its name to match a domain controller, obtain a privileged Kerberos ticket, and perform DCSync for complete domain compromise"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "noPac is a Kerberos authentication vulnerability enabling privilege escalation through PAC manipulation"
+  - type: enables
+    target: "VUL-AUTH-CVE20201472-001"
+    description: "noPac achieves similar domain compromise outcomes as Zerologon through Kerberos ticket manipulation rather than Netlogon"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1558.001"
+    tactic: ["Privilege Escalation", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-42287 - NVD NIST"
+    - "Microsoft Security Advisory - AD DS Privilege Escalation"
+    - "Cube0x0 and Exploitph - noPac Exploit"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1558.001 - Steal or Forge Kerberos Tickets: Golden Ticket"
+  search_keywords:
+    - "CVE-2021-42287"
+    - "noPac"
+    - "sAMAccountName spoofing"
+    - "Active Directory privilege escalation"
+    - "Kerberos PAC vulnerability"
+    - "domain controller impersonation"
+    - "CVE-2021-42278"
+    - "AD DS escalation"
+  embedding_text: "CVE-2021-42287 known as noPac is a privilege escalation vulnerability in Active Directory Kerberos PAC handling. Combined with CVE-2021-42278 sAMAccountName spoofing, any authenticated domain user can impersonate a domain controller and obtain domain admin privileges. CVSS v3 score is 7.5 High. The attacker creates a machine account, renames it to match a domain controller, obtains a Kerberos TGT, then exploits the KDC PAC confusion to receive a domain controller service ticket. Enables DCSync for complete credential extraction. Affects all Windows Server versions. Public exploit code available. Maps to MITRE ATT&CK T1558.001 Steal or Forge Kerberos Tickets. Patched November 2021. Trivially exploitable by any domain user."

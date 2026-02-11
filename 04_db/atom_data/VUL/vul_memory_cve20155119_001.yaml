@@ -1,0 +1,108 @@
+# GR Atom: CVE-2015-5119
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20155119-001"
+  name: "CVE-2015-5119"
+  normalized_name: "cve_2015_5119"
+  aliases:
+    - "Hacking Team Flash Use-After-Free"
+    - "Flash Player ByteArray Use-After-Free"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player before 18.0.0.203"
+    - "Adobe Flash Player 13.x before 13.0.0.302"
+    - "Flash browser plugin (all major browsers)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-5119 is a use-after-free vulnerability (CVSS 10.0) in Adobe Flash Player related
+    to the ActionScript ByteArray class. The vulnerability allows remote attackers to execute
+    arbitrary code via crafted Flash content that triggers improper ByteArray object handling.
+    This vulnerability gained notoriety when it was discovered in the July 2015 Hacking Team
+    data breach, which exposed the exploit as part of their surveillance toolkit. Adobe
+    released an emergency patch within days of the disclosure, affecting Flash Player versions
+    before 18.0.0.203.
+  why: >-
+    This vulnerability is historically significant because it was leaked in the massive Hacking
+    Team data breach, exposing a government-grade surveillance exploit to the public. Within
+    hours of the leak, the exploit was integrated into major exploit kits including Angler,
+    Nuclear, and Neutrino, causing massive-scale exploitation. The Hacking Team leak
+    fundamentally changed the threat landscape by releasing polished zero-day exploits into
+    the hands of cybercriminals and accelerated Adobe's timeline to deprecate Flash Player.
+  how: >-
+    The exploit manipulates the ActionScript 3 ByteArray class by setting a ByteArray's length
+    property within a custom valueOf() callback during a sort operation. This creates a
+    use-after-free condition where the ByteArray's internal buffer is freed but still accessible.
+    The attacker uses this to achieve an arbitrary read/write primitive over process memory,
+    which is leveraged to overwrite function pointers and redirect execution to shellcode.
+  core_concepts:
+    - key: "ByteArray Use-After-Free via valueOf Callback"
+      value: "Custom valueOf callback during sort operation modifies ByteArray length, freeing internal buffer while maintaining access for arbitrary read/write"
+    - key: "Hacking Team Leak Impact"
+      value: "Government surveillance exploit leaked in Hacking Team breach was weaponized in exploit kits within hours, causing mass exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free in Adobe Flash Player ByteArray class during ActionScript operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2015-5119 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB15-16"
+    - "Hacking Team Data Breach Analysis July 2015"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2015-5119"
+    - "Adobe Flash Player"
+    - "ByteArray"
+    - "use-after-free"
+    - "Hacking Team"
+    - "Angler exploit kit"
+    - "zero-day"
+    - "APSB15-16"
+    - "surveillance"
+  embedding_text: >-
+    CVE-2015-5119 is a use-after-free vulnerability with CVSS 10.0 in Adobe Flash Player's
+    ActionScript ByteArray class. A custom valueOf callback during sort operations modifies
+    ByteArray length, freeing the internal buffer while maintaining access for arbitrary
+    read/write over process memory. Leaked in the July 2015 Hacking Team data breach as
+    a government surveillance exploit, it was weaponized in Angler, Nuclear, and Neutrino
+    exploit kits within hours, causing massive-scale exploitation. Patched in emergency
+    APSB15-16, this vulnerability fundamentally changed the threat landscape by releasing
+    polished zero-day exploits to cybercriminals and accelerated industry efforts to
+    deprecate Flash Player entirely.

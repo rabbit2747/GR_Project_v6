@@ -1,0 +1,112 @@
+# GR Atom: Application Configuration Database
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-APPCONDAT-001"
+  name: "Application Configuration Database"
+  normalized_name: "application_configuration_database"
+  aliases:
+    - "App Config DB"
+    - "Application Config Store"
+    - "App Settings Database"
+    - "Configuration Repository"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - DATABASE
+    - CONFIG
+    - CLOUD
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Application Configuration Database is a specialized data store that centralizes and manages
+    configuration parameters, feature flags, environment-specific settings, and runtime properties
+    for one or more applications. Unlike general-purpose databases, it is purpose-built to serve
+    application configuration data with low-latency reads, versioning, and change propagation
+    capabilities. Examples include Azure App Configuration, AWS AppConfig, Spring Cloud Config
+    Server backed by a database, and HashiCorp Consul KV store when used for application settings.
+  why: >-
+    Application Configuration Databases exist to decouple configuration from application code,
+    enabling dynamic runtime changes without redeployment. They provide centralized governance
+    over settings that would otherwise be scattered across environment variables, property files,
+    and hardcoded values. This centralization supports environment parity, audit trails for
+    configuration changes, feature flag management, and consistent configuration across
+    distributed microservice architectures.
+  how: >-
+    Application Configuration Databases typically expose a key-value or hierarchical data model
+    optimized for fast reads. They support namespace or label-based organization to separate
+    configurations by environment, application, or tenant. Change notification mechanisms such
+    as polling, webhooks, or pub/sub push updated values to connected applications. Access is
+    controlled through authentication and role-based authorization. Versioning and change history
+    enable rollback to previous configurations. Encryption at rest and in transit protects
+    sensitive configuration values such as connection strings and API keys.
+  core_concepts:
+    - key: "Configuration Centralization"
+      value: >-
+        Consolidates application settings from multiple sources into a single authoritative
+        store, eliminating configuration drift and enabling consistent management across
+        environments and services.
+    - key: "Dynamic Configuration"
+      value: >-
+        Supports runtime configuration changes that propagate to running applications without
+        requiring redeployment, enabling feature flags, A/B testing, and operational tuning.
+    - key: "Configuration Versioning"
+      value: >-
+        Maintains a history of configuration changes with timestamps and authorship, supporting
+        audit requirements and enabling rollback to known-good states.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "An application configuration database is a specialized type of data store purpose-built for configuration management"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "Application configuration databases enable database applications by providing their runtime configuration parameters"
+  - type: "requires"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "Application configuration databases require an underlying database server for persistent storage"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Microsoft Azure App Configuration documentation. https://learn.microsoft.com/en-us/azure/azure-app-configuration/"
+    - "AWS AppConfig documentation. https://docs.aws.amazon.com/appconfig/"
+    - "Spring Cloud Config reference. https://spring.io/projects/spring-cloud-config"
+  search_keywords:
+    - "application configuration database"
+    - "app config store"
+    - "centralized configuration management"
+    - "feature flag store"
+    - "dynamic configuration"
+    - "configuration versioning"
+    - "runtime settings database"
+  embedding_text: >-
+    An Application Configuration Database is a specialized data store that centralizes application
+    configuration parameters, feature flags, environment-specific settings, and runtime properties.
+    It decouples configuration from application code, enabling dynamic changes without redeployment.
+    These databases use key-value or hierarchical data models optimized for fast reads and support
+    namespace-based organization for multi-environment separation. Change notification mechanisms
+    propagate updates to connected applications. Access control, encryption, versioning, and audit
+    trails protect sensitive configuration values. Common implementations include Azure App
+    Configuration, AWS AppConfig, Spring Cloud Config Server, and HashiCorp Consul KV. Application
+    configuration databases are critical infrastructure in microservice architectures where
+    consistent configuration across distributed services is essential for reliability and security.

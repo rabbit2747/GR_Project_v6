@@ -1,0 +1,134 @@
+# GR Atom: CAN CAN Community
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-HACKTIVIST-CANCANCOM-001"
+  name: "CAN CAN Community"
+  normalized_name: "can_can_community"
+  aliases:
+    - "CANCAN Community"
+    - "CAN CAN"
+    - "CanCan Hacktivists"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CAN CAN Community is a hacktivist collective that conducts ideologically motivated cyber
+    operations including distributed denial-of-service (DDoS) attacks, website defacements, data
+    breaches, and information operations against government entities and organizations perceived
+    as adversaries to their political causes. The group operates through decentralized coordination
+    on encrypted messaging platforms and social media, recruiting participants for campaigns that
+    align with their ideological objectives. CAN CAN Community engages in coordinated cyber campaigns
+    targeting government websites, critical infrastructure portals, and corporate entities,
+    typically timed to coincide with geopolitical events, political decisions, or social
+    controversies. The group shares DDoS tools, target lists, and attack methodologies with
+    participants through Telegram channels and dark web forums.
+  why: >-
+    CAN CAN Community represents the hacktivist threat model where ideologically motivated groups
+    use cyber operations to advance political agendas, disrupt government services, and attract
+    public attention to their causes. While hacktivist groups are generally less technically
+    sophisticated than nation-state actors or professional cybercriminal organizations, their
+    willingness to target government infrastructure and their ability to mobilize distributed
+    participants make them a persistent operational concern. DDoS attacks and website defacements
+    from hacktivist groups can disrupt government services, damage public confidence, and create
+    distractions that may be exploited by more sophisticated threat actors. The decentralized
+    nature of hacktivist collectives makes them difficult to predict, attribute, and disrupt
+    through traditional law enforcement methods.
+  how: >-
+    CAN CAN Community conducts operations primarily through coordinated DDoS campaigns using
+    publicly available DDoS tools (LOIC, HOIC, custom scripts) and commercial DDoS-for-hire
+    (booter/stresser) services to overwhelm target web infrastructure. Website defacement
+    operations exploit vulnerabilities in content management systems, web applications, and
+    hosting platforms to replace legitimate content with hacktivist messaging. Data breach
+    operations target poorly secured databases, exposed APIs, and misconfigured cloud storage
+    to exfiltrate and leak sensitive information for public exposure. The group coordinates
+    campaigns through Telegram channels, sharing target lists, attack timing, and tool
+    configurations. Recruitment and mobilization occur through social media campaigns that
+    frame participation as activism. Some operations involve the creation of fake social media
+    accounts and disinformation campaigns to amplify the impact of their cyber operations.
+  core_concepts:
+    - key: "Decentralized Hacktivist Coordination"
+      value: >-
+        CAN CAN Community operates as a decentralized collective coordinating through encrypted
+        messaging platforms, enabling rapid mobilization of participants for campaigns while
+        making the group difficult to attribute and disrupt through traditional methods.
+    - key: "Ideologically Motivated Cyber Operations"
+      value: >-
+        The group's operations are driven by political and ideological objectives rather than
+        financial gain, targeting government entities and organizations perceived as adversaries
+        to advance specific political causes and attract public attention.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-HACKTIVIST"
+    description: "CAN CAN Community is an ideologically motivated hacktivist collective"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "CAN CAN Community DDoS and defacement operations enable disruption of government and corporate services"
+  - type: "applies_to"
+    target: "SECTOR-GOVERNMENT"
+    description: "CAN CAN Community primarily targets government websites and infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1498"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "derived"
+  sources:
+    - "Radware - Hacktivism Threat Landscape Report. https://www.radware.com/cybersecurity-threats/hacktivism/"
+    - "Cloudflare - DDoS Threat Landscape and Hacktivist Activity. https://blog.cloudflare.com/ddos-threat-report/"
+    - "Mandiant - Hacktivism and Information Operations. https://www.mandiant.com/resources/blog/hacktivism"
+    - "ENISA - Threat Landscape for Denial of Service Attacks. https://www.enisa.europa.eu/publications/enisa-threat-landscape"
+  search_keywords:
+    - "CAN CAN community hacktivist"
+    - "CANCAN hacktivism"
+    - "CAN CAN DDoS"
+    - "CAN CAN defacement"
+    - "hacktivist collective"
+    - "hacktivist DDoS campaign"
+    - "CAN CAN community cyber"
+    - "hacktivist government attack"
+  embedding_text: >-
+    CAN CAN Community is a hacktivist collective conducting ideologically motivated cyber operations
+    including DDoS attacks, website defacements, data breaches, and information operations against
+    government entities and organizations. The group coordinates through decentralized encrypted
+    messaging platforms and Telegram channels, recruiting participants and sharing DDoS tools,
+    target lists, and attack methodologies. Operations are typically timed to coincide with
+    geopolitical events and political controversies. CAN CAN Community uses publicly available DDoS
+    tools, booter/stresser services, and CMS vulnerability exploitation for defacement campaigns.
+    Data breach operations target exposed databases and misconfigured cloud storage. The group
+    represents the hacktivist threat model where ideologically motivated actors use cyber operations
+    to disrupt government services and advance political agendas. Their decentralized nature makes
+    attribution and disruption challenging. While generally less sophisticated than nation-state
+    actors, their persistent targeting of government infrastructure poses ongoing operational
+    concerns for defenders.

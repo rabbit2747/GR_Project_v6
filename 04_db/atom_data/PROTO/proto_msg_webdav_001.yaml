@@ -1,0 +1,105 @@
+# GR Atom: WebDAV
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-WEBDAV-001"
+  name: "WebDAV"
+  normalized_name: "webdav"
+  aliases:
+    - "Web Distributed Authoring and Versioning"
+    - "RFC 4918"
+    - "HTTP Extensions for Web DAV"
+    - "CalDAV"
+    - "CardDAV"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Web Distributed Authoring and Versioning (WebDAV) is an extension of HTTP defined in RFC 4918
+    that enables collaborative editing, file management, and property manipulation on web servers.
+    WebDAV adds HTTP methods including PROPFIND (retrieve properties), PROPPATCH (modify
+    properties), MKCOL (create collections/directories), COPY, MOVE, LOCK, and UNLOCK. Operating
+    over HTTP/HTTPS ports 80/443, WebDAV enables web-based file systems accessible through
+    standard browsers and native OS file managers. Extensions include CalDAV (RFC 4791) for
+    calendar synchronization and CardDAV (RFC 6352) for contact management. WebDAV is used by
+    SharePoint, ownCloud, Nextcloud, and Apache/IIS web servers.
+  why: >-
+    WebDAV extends the HTTP attack surface with additional file management capabilities. Enabled
+    WebDAV on public web servers allows unauthorized file upload, directory traversal, and remote
+    code execution through uploaded web shells. The PUT and MKCOL methods enable attackers to
+    write files directly to web server directories. WebDAV authentication bypass vulnerabilities
+    (CVE-2009-1535 in IIS) have enabled unauthorized access. Malware and threat actors use
+    WebDAV for payload hosting and C2 file staging, leveraging its HTTP-based transport to
+    bypass firewall restrictions. WebDAV PROPFIND requests can enumerate server directory
+    structures. Microsoft's WebClient service enables UNC path coercion attacks for NTLM
+    credential capture.
+  how: >-
+    WebDAV operates as an HTTP extension: (1) Client sends PROPFIND request to discover server
+    capabilities, directory contents, and resource properties using XML request/response bodies;
+    (2) MKCOL creates new collections (directories) on the server; (3) PUT uploads files to
+    specified URIs; (4) COPY/MOVE operations transfer resources between locations; (5) LOCK/
+    UNLOCK provides concurrency control for collaborative editing using exclusive or shared
+    locks with timeout management; (6) DELETE removes resources from the server. WebDAV uses
+    XML for metadata exchange and supports depth headers for recursive operations. Authentication
+    typically uses HTTP Basic/Digest or integrated Windows authentication.
+  core_concepts:
+    - key: "WebDAV Methods"
+      value: "Extended HTTP methods (PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, UNLOCK) enabling full file system operations over HTTP/HTTPS."
+    - key: "Web Shell Upload"
+      value: "Attack technique using WebDAV PUT method to upload executable scripts (web shells) to web server directories for remote code execution."
+    - key: "WebClient Service Abuse"
+      value: "Windows WebClient service enabling UNC path coercion over WebDAV, used to capture NTLM credentials through authentication coercion attacks."
+    - key: "PROPFIND Enumeration"
+      value: "Directory and resource discovery using WebDAV PROPFIND requests with depth headers to map server file structures and metadata."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "WebDAV is an HTTP extension protocol adding file management methods to the HTTP protocol"
+  - type: "enables"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "WebDAV extends the HTTP method vocabulary with PROPFIND, MKCOL, COPY, MOVE, LOCK, and UNLOCK operations"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 4918 — HTTP Extensions for Web Distributed Authoring and Versioning (WebDAV)"
+    - "IETF RFC 4791 — Calendaring Extensions to WebDAV (CalDAV)"
+    - "CVE-2009-1535 — Microsoft IIS WebDAV Authentication Bypass. NIST NVD"
+    - "MITRE ATT&CK — T1105: Ingress Tool Transfer"
+  search_keywords:
+    - "WebDAV"
+    - "web distributed authoring"
+    - "RFC 4918"
+    - "PROPFIND"
+    - "CalDAV"
+    - "CardDAV"
+    - "WebDAV upload"
+    - "web shell"
+    - "WebClient"
+    - "MKCOL"
+  embedding_text: >-
+    WebDAV (Web Distributed Authoring and Versioning, RFC 4918) extends HTTP with file management
+    methods including PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, LOCK, and UNLOCK. Operating over
+    HTTP/HTTPS ports, WebDAV enables web-based file systems used by SharePoint, ownCloud, and
+    Nextcloud. WebDAV creates attack surface through web shell upload via PUT method, directory
+    enumeration via PROPFIND, authentication bypass vulnerabilities, and Windows WebClient
+    service abuse for NTLM credential coercion. Extensions include CalDAV and CardDAV. Security
+    requires disabling WebDAV on public servers, restricting PUT/MKCOL methods, and monitoring
+    for unauthorized file uploads.

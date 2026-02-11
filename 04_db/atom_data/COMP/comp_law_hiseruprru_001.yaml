@@ -1,0 +1,115 @@
+# GR Atom: HIPAA Security Rule vs Privacy Rule
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-HISERUPRRU-001"
+  name: "HIPAA Security Rule vs Privacy Rule"
+  normalized_name: "hipaa_security_rule_vs_privacy_rule"
+  aliases:
+    - "HIPAA Security Rule and Privacy Rule Comparison"
+    - "HIPAA Rule Differentiation"
+    - "45 CFR 164 Subpart C vs Subpart E"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+    - ENCRYPT
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    The HIPAA Security Rule (45 CFR 164, Subpart C) and Privacy Rule (45 CFR 164, Subpart E) are
+    two distinct but complementary regulatory frameworks within HIPAA. The Privacy Rule governs
+    the use and disclosure of Protected Health Information (PHI) in all forms (oral, written,
+    electronic) and establishes patient rights over their health data. The Security Rule specifically
+    addresses the protection of electronic PHI (ePHI) and mandates three categories of safeguards:
+    administrative (risk analysis, workforce training, contingency planning), physical (facility
+    access, workstation security, device controls), and technical (access controls, audit controls,
+    integrity controls, transmission security). While the Privacy Rule defines what information
+    must be protected and under what conditions it may be shared, the Security Rule specifies how
+    electronic health information must be technically secured.
+  why: >
+    Understanding the distinction between these two rules is critical because they impose different
+    obligations, apply to different forms of data, and require different compliance activities.
+    The Security Rule is technology-focused and requires IT controls, while the Privacy Rule is
+    policy-focused and addresses organizational data handling practices. Many HIPAA violations
+    result from confusion between the two rules, such as implementing strong technical controls
+    (Security Rule) while failing to properly restrict disclosures (Privacy Rule) or vice versa.
+    Both rules must be addressed together for complete HIPAA compliance.
+  how: >
+    Organizations address both rules by implementing parallel compliance programs. For the Privacy
+    Rule: designating a Privacy Officer, developing Notice of Privacy Practices, establishing
+    policies for minimum necessary use, managing patient rights requests (access, amendment,
+    accounting of disclosures), and training workforce on permitted uses and disclosures. For
+    the Security Rule: designating a Security Officer, conducting ePHI risk analyses, implementing
+    required and addressable safeguard specifications, deploying encryption and access controls,
+    establishing audit logging and monitoring, developing contingency and disaster recovery plans,
+    and conducting periodic security evaluations.
+  core_concepts:
+    - key: "Privacy Rule Scope"
+      value: "Covers all PHI in any form (oral, written, electronic); governs use, disclosure, and patient rights"
+    - key: "Security Rule Scope"
+      value: "Covers only electronic PHI (ePHI); mandates administrative, physical, and technical safeguards"
+    - key: "Required vs Addressable Specifications"
+      value: "Security Rule specifications are either required (must implement) or addressable (must implement or document equivalent alternative)"
+    - key: "Administrative Safeguards"
+      value: "Security management process, assigned security responsibility, workforce security, information access management, security awareness training, security incident procedures, contingency plan, evaluation"
+    - key: "Technical Safeguards"
+      value: "Access control (unique user ID, emergency access, auto-logoff, encryption), audit controls, integrity controls, person or entity authentication, transmission security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "COMP-LAW-HIPAA-001"
+    description: "Both the Security Rule and Privacy Rule are components of HIPAA"
+  - type: applies_to
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "Both rules apply to healthcare privacy compliance programs"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Both rules require audit and compliance verification mechanisms"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "45 CFR 164, Subpart C — Security Standards for the Protection of Electronic Protected Health Information"
+    - "45 CFR 164, Subpart E — Privacy of Individually Identifiable Health Information"
+    - "HHS Office for Civil Rights — Summary of the HIPAA Security Rule"
+    - "HHS Office for Civil Rights — Summary of the HIPAA Privacy Rule"
+  search_keywords:
+    - "HIPAA security rule"
+    - "HIPAA privacy rule"
+    - "security rule vs privacy rule"
+    - "ePHI safeguards"
+    - "administrative physical technical safeguards"
+    - "HIPAA required addressable specifications"
+    - "protected health information"
+    - "HIPAA compliance requirements"
+  embedding_text: >
+    The HIPAA Security Rule and Privacy Rule are distinct but complementary regulatory frameworks.
+    The Privacy Rule (45 CFR 164 Subpart E) governs the use and disclosure of all Protected Health
+    Information in any form and establishes patient rights. The Security Rule (45 CFR 164 Subpart C)
+    specifically addresses electronic PHI and mandates three categories of safeguards: administrative
+    (risk analysis, workforce training, contingency planning), physical (facility access, device
+    controls), and technical (access controls, audit controls, encryption, transmission security).
+    Security Rule specifications are classified as either required or addressable. Both rules must
+    be addressed together for complete HIPAA compliance, with separate Privacy Officer and Security
+    Officer designations typically required.

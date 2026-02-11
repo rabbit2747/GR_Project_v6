@@ -1,0 +1,113 @@
+# GR Atom: Security Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-SECURITY-001"
+  name: "Security Event"
+  normalized_name: "security_event"
+  aliases:
+    - "Security Log Event"
+    - "Security Audit Event"
+    - "Security Event Log Entry"
+    - "Sec Event"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 3
+  atom_tags:
+    - LOG
+    - MONITOR
+    - AUDIT
+    - SIEM
+
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    A Security Event is the fundamental unit of security-relevant information recorded by
+    operating systems, applications, network devices, and security infrastructure. It represents
+    any observable occurrence that has significance for the security posture of a system or
+    network. Security events encompass a broad taxonomy including authentication events (logon,
+    logoff, failed login), authorization events (privilege use, access granted/denied), system
+    events (service start/stop, policy changes), object access events (file, registry, directory
+    access), account management events (user creation, modification, deletion), and network
+    events (connection established, firewall actions, DNS queries). On Windows, security events
+    are recorded in the Security event log with specific Event IDs categorized by audit policy.
+    On Linux, they are captured through syslog, auditd, and systemd journal. Security events
+    form the raw data layer upon which all detection, correlation, and forensic analysis is built.
+  why: >-
+    Security events are the foundational data source for the entire detection and response
+    lifecycle. Without comprehensive security event collection, organizations cannot detect
+    intrusions, investigate incidents, demonstrate compliance, or perform forensic analysis.
+    Security events feed into SIEM correlation engines, threat hunting workflows, automated
+    response playbooks, and compliance reporting systems. The quality, completeness, and
+    integrity of security event data directly determines an organization's ability to detect
+    threats, respond to incidents, and maintain regulatory compliance. Failure to collect and
+    monitor security events is consistently identified as a root cause in post-breach analyses.
+  how: >-
+    Security event management operates through: (1) Event generation by operating systems,
+    applications, and security tools based on configured audit policies and logging levels;
+    (2) Local event storage in platform-specific formats (Windows .evtx, Linux syslog/journal,
+    application logs); (3) Event collection via agents (Beats, NXLog, Fluentd), agentless
+    collection (WEF, syslog forwarding), or API-based collection (cloud audit APIs); (4) Event
+    normalization to common schemas (CEF, LEEF, ECS, OCSF) for cross-platform analysis; (5)
+    Centralized storage in SIEM platforms, data lakes, or log management systems; (6) Real-time
+    correlation against detection rules, threat intelligence, and behavioral baselines; (7)
+    Alerting, investigation, and response workflows triggered by correlated security events;
+    (8) Long-term retention for compliance and forensic requirements.
+  core_concepts:
+    - key: "Audit Policy"
+      value: "Configuration that determines which categories of security events are generated, balancing detection coverage against storage and performance requirements."
+    - key: "Event Normalization"
+      value: "The process of converting security events from diverse source formats into a common schema for consistent cross-platform analysis and correlation."
+    - key: "Event Correlation"
+      value: "The process of analyzing relationships between multiple security events to identify patterns indicative of attacks, policy violations, or anomalous behavior."
+    - key: "Event Fidelity"
+      value: "The completeness, accuracy, and integrity of security event data, which directly impacts detection effectiveness and forensic reliability."
+
+relations:
+  - type: "enables"
+    target: "DETECT-LOG-SIECORRUL-001"
+    description: "Security events are the input data that SIEM correlation rules evaluate"
+  - type: "enables"
+    target: "DETECT-LOG-HUNTREPO-001"
+    description: "Security events provide the raw data analyzed during threat hunting missions"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Windows Security Log Reference"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+    - "OCSF — Open Cybersecurity Schema Framework"
+  search_keywords:
+    - "security event"
+    - "security log"
+    - "audit event"
+    - "security event log"
+    - "event ID"
+    - "security monitoring"
+    - "audit policy"
+    - "event correlation"
+    - "SIEM event"
+    - "log management"
+    - "security telemetry"
+  embedding_text: >-
+    Security Event is the fundamental unit of security-relevant information recorded by operating
+    systems, applications, and security infrastructure. It encompasses authentication, authorization,
+    system, object access, account management, and network events. Security events form the raw
+    data layer for SIEM correlation, threat hunting, incident response, compliance reporting, and
+    forensic analysis. On Windows, events are recorded in the Security event log with specific
+    Event IDs; on Linux, through syslog, auditd, and systemd journal. Event collection, normalization
+    to common schemas (CEF, ECS, OCSF), centralized storage, and real-time correlation constitute
+    the security event management pipeline that determines an organization's detection and response
+    capability.

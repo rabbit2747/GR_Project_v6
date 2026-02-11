@@ -1,0 +1,71 @@
+# GR Atom: Lazy Scripter
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-LAZYSCRI-001"
+  name: "Lazy Scripter"
+  normalized_name: "lazy_scripter"
+  aliases:
+    - "LazyScripter"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "C2"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "Windows workstations"
+    - "airline reservation systems"
+    - "IATA communications"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Lazy Scripter is a threat actor identified by Malwarebytes in 2021 that has been active since at least 2018, targeting airlines and IATA (International Air Transport Association) members with spear-phishing campaigns. The group is characterized by its reliance on open-source and publicly available tools rather than custom malware development, suggesting a less technically sophisticated but operationally persistent actor."
+  why: "The group targets the aviation sector to collect intelligence on airline operations, passenger data, and IATA-related communications. The specific focus on airlines and aviation governance suggests possible intelligence collection objectives related to travel monitoring, economic intelligence, or support for other operational activities requiring aviation industry knowledge."
+  how: "Lazy Scripter employs spear-phishing emails with aviation-themed lures, including fake IATA communications and airline ticketing documents. Payloads typically include open-source remote access tools such as Octopus and Koadic, PowerShell-based loaders, and VBScript downloaders. The group uses GitHub repositories to host malware and leverages legitimate cloud services for command and control. Their tooling choices reflect a preference for freely available offensive tools over custom development."
+  core_concepts:
+    - "aviation sector targeting"
+    - "open-source RAT deployment"
+    - "IATA-themed spear-phishing"
+    - "low-sophistication persistent operations"
+    - "PowerShell-based attack chains"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "Both groups target aviation and transportation sectors in their operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Malwarebytes - LazyScripter: From Empire to Double RAT (2021)"
+    - "Cyble - LazyScripter APT Analysis"
+  search_keywords:
+    - "lazy scripter"
+    - "LazyScripter"
+    - "IATA phishing"
+    - "airline APT"
+    - "octopus RAT"
+    - "koadic framework"
+    - "aviation sector threat"
+  embedding_text: "Lazy Scripter is a threat actor identified by Malwarebytes active since at least 2018, targeting airlines and International Air Transport Association members through spear-phishing campaigns. The group uses aviation-themed lures including fake IATA communications and airline ticketing documents to deliver open-source remote access tools such as Octopus and Koadic. Their attack chains rely on PowerShell-based loaders, VBScript downloaders, and publicly available offensive frameworks rather than custom malware. The group hosts malware on GitHub repositories and uses legitimate cloud services for command and control infrastructure. Lazy Scripter's focus on the aviation industry suggests intelligence collection objectives related to airline operations, passenger data, and travel monitoring. Despite lower technical sophistication compared to other APT groups, Lazy Scripter demonstrates operational persistence and effective social engineering targeting the aviation sector."

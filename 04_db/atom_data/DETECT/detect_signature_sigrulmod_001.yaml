@@ -1,0 +1,74 @@
+# GR Atom: Sigma Rule Modifiers
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-SIGRULMOD-001"
+  name: "Sigma Rule Modifiers"
+  normalized_name: "sigma_rule_modifiers"
+  aliases:
+    - "Sigma Detection Modifiers"
+    - "Sigma Field Modifiers"
+    - "Sigma Value Modifiers"
+    - "Sigma Condition Modifiers"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - BLUE_TEAM
+    - LOG
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Sigma rule modifiers are syntax elements within the Sigma detection rule language that control how detection field values are matched against log data. Modifiers are appended to field names using the pipe character (|) and alter the default matching behavior. Core modifiers include: contains (substring match), startswith and endswith (prefix/suffix match), base64 and base64offset (match base64-encoded values), re (regular expression match), cidr (CIDR network range match), all (require all values to match instead of any), windash (match both - and / style command-line switches), wide (match UTF-16LE encoded strings), and utf8 (explicit UTF-8 matching). Modifiers can be chained (e.g., fieldname|contains|all:) to combine matching behaviors. They are a core component of the Sigma rule specification that enables flexible and precise detection logic portable across SIEM platforms."
+  why: "Sigma modifiers are essential for writing accurate detection rules that minimize false positives and detect obfuscated adversary techniques. Without modifiers, Sigma rules would be limited to exact string matching, which is insufficient for detecting real-world attacks where adversaries use encoding (base64), case manipulation, string concatenation, and parameter variations to evade detection. The base64 modifier enables detection of commands hidden in encoded payloads without requiring the SIEM to decode content. The windash modifier handles command-line parameter variations between Windows tools. The all modifier enables detection logic that requires multiple indicators to be present simultaneously, reducing false positives."
+  how: "Sigma rule modifiers are implemented in the detection section of a Sigma rule YAML file. They are appended to field names before the colon separator. During Sigma rule compilation, the sigma converter (sigmac or pySigma) translates each modifier into the target SIEM's native query syntax. For example, 'CommandLine|contains: mimikatz' becomes '*mimikatz*' in Splunk or contains(CommandLine, 'mimikatz') in KQL. The base64 modifier pre-computes all possible base64 encodings of the search value and generates OR conditions for each encoding offset. The re modifier passes the value as a regular expression to the target platform. Modifier chaining is processed left-to-right, with each modifier transforming the match operation. Custom backends can implement platform-specific optimizations for each modifier."
+  core_concepts:
+    - key: "Value Transformation Modifiers"
+      value: "Modifiers like base64, wide, and utf8 that transform the search value before matching, enabling detection of encoded or differently-encoded content"
+    - key: "Match Behavior Modifiers"
+      value: "Modifiers like contains, startswith, endswith, and re that change how the value is compared against log data"
+    - key: "Aggregation Modifiers"
+      value: "The all modifier changes the default OR logic between multiple values to AND logic, requiring all values to be present"
+    - key: "Modifier Chaining"
+      value: "Combining multiple modifiers using pipe syntax to create complex matching conditions processed left-to-right"
+
+relations:
+  - type: part_of
+    target: "DETECT-SIGNATURE-SIGRULSTR-001"
+    description: "Sigma modifiers are a component of the Sigma rule structure within the detection section"
+  - type: enables
+    target: "DETECT-SIGNATURE-SIGMRULE-001"
+    description: "Modifiers enable Sigma rules to detect obfuscated and encoded adversary techniques"
+  - type: applies_to
+    target: "INFRA-SEC-SIEM-001"
+    description: "Sigma modifiers are translated to platform-specific syntax when deployed to SIEM infrastructure"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sigma Specification - https://sigmahq.io/docs/basics/modifiers.html"
+    - "SigmaHQ GitHub Repository - https://github.com/SigmaHQ/sigma"
+    - "pySigma Documentation - https://sigmahq-pysigma.readthedocs.io/"
+  search_keywords:
+    - "Sigma rule modifiers"
+    - "Sigma detection modifiers"
+    - "Sigma contains modifier"
+    - "Sigma base64 modifier"
+    - "Sigma field modifiers"
+    - "Sigma value modifiers"
+    - "Sigma pipe syntax"
+    - "Sigma windash modifier"
+  embedding_text: "Sigma rule modifiers are syntax elements that control how detection field values are matched against log data. Appended to field names using the pipe character, modifiers include contains for substring matching, startswith and endswith for prefix/suffix matching, base64 and base64offset for encoded value detection, re for regular expressions, cidr for network ranges, all for requiring all values to match, windash for command-line switch variations, and wide for UTF-16LE strings. Modifiers can be chained to combine behaviors. During compilation, sigma converters translate modifiers into target SIEM native query syntax. Modifiers are essential for detecting obfuscated adversary techniques and reducing false positives in detection rules."

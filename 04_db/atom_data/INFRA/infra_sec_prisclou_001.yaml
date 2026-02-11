@@ -1,0 +1,114 @@
+# GR Atom: Prisma Cloud
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-PRISCLOU-001"
+  name: "Prisma Cloud"
+  normalized_name: "prisma_cloud"
+  aliases:
+    - "Palo Alto Prisma Cloud"
+    - "Prisma Cloud CNAPP"
+    - "RedLock"
+    - "Twistlock"
+    - "Prisma Cloud Compute"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - CONTAINER
+    - COMPLIANCE
+    - MONITOR
+    - API
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "M3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Prisma Cloud is Palo Alto Networks' Cloud-Native Application Protection Platform (CNAPP)
+    providing security across the full cloud-native lifecycle. Built from acquisitions of
+    RedLock (CSPM), Twistlock (container security), PureSec (serverless), and Bridgecrew
+    (IaC scanning). Covers Cloud Security Posture Management (CSPM), Cloud Workload Protection
+    (CWP), Cloud Infrastructure Entitlement Management (CIEM), Cloud Network Security, and
+    Infrastructure as Code (IaC) scanning across AWS, Azure, GCP, and OCI.
+  why: >-
+    Cloud environments have unique security challenges including misconfiguration, identity
+    sprawl, container vulnerabilities, and serverless risks that traditional tools cannot
+    address. Prisma Cloud provides unified visibility across multi-cloud deployments. Cloud
+    misconfigurations are the leading cause of cloud data breaches, and runtime protection
+    is essential for detecting container escapes, cryptomining, and lateral movement in
+    cloud-native architectures.
+  how: >-
+    Prisma Cloud connects to cloud provider APIs (AWS, Azure, GCP) for CSPM assessment,
+    scanning configurations against CIS Benchmarks and compliance frameworks. Agents (Defenders)
+    deploy into container runtimes, Kubernetes clusters, and serverless functions for workload
+    protection. IaC scanning integrates with CI/CD pipelines via Bridgecrew/Checkov. CIEM
+    analyzes cloud IAM permissions for excess privilege. Network Security monitors cloud
+    network flows. Unified dashboard provides risk prioritization across all cloud assets.
+  core_concepts:
+    - key: "CNAPP Consolidation"
+      value: "Unified platform combining CSPM, CWP, CIEM, network security, and IaC scanning for comprehensive cloud-native protection"
+    - key: "Shift-Left Security"
+      value: "IaC scanning via Bridgecrew/Checkov catches misconfigurations in Terraform, CloudFormation, and Kubernetes manifests before deployment"
+    - key: "Runtime Protection"
+      value: "Container and serverless runtime defenders detect anomalous behavior, container escapes, and cryptomining in production"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-CLONETFIR-001"
+    description: "Prisma Cloud Network Security provides cloud network firewall capabilities for micro-segmentation"
+  - type: "alternative_to"
+    target: "INFRA-SEC-AWSGUAR-001"
+    description: "Prisma Cloud CSPM provides multi-cloud security posture management as an alternative to AWS-native GuardDuty"
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "Prisma Cloud functions as a cloud-native cyber sensor providing security monitoring across cloud environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Palo Alto Networks - Prisma Cloud Documentation"
+    - "Gartner - Cloud-Native Application Protection Platform Market Guide"
+    - "CIS Benchmarks - Cloud Provider Security Configuration"
+  search_keywords:
+    - "Prisma Cloud"
+    - "CNAPP"
+    - "Palo Alto cloud security"
+    - "Twistlock"
+    - "RedLock"
+    - "cloud security posture management"
+    - "container security"
+    - "cloud workload protection"
+  embedding_text: >-
+    Prisma Cloud is Palo Alto Networks' CNAPP providing security across the cloud-native
+    lifecycle. Built from RedLock (CSPM), Twistlock (container security), PureSec (serverless),
+    and Bridgecrew (IaC). Covers CSPM, CWP, CIEM, network security, and IaC scanning across
+    AWS, Azure, GCP, and OCI. Connects to cloud APIs for configuration assessment against CIS
+    Benchmarks. Deploys Defender agents for container and serverless runtime protection. Shifts
+    left with Checkov IaC scanning in CI/CD. Cloud misconfigurations are the leading cause of
+    cloud breaches.

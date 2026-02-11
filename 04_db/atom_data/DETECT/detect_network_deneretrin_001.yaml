@@ -1,0 +1,98 @@
+# GR Atom: Detecting Network Reconnaissance by Tracking Intranet Dark
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-DENERETRIN-001"
+  name: "Detecting Network Reconnaissance by Tracking Intranet Dark"
+  normalized_name: "detecting_network_reconnaissance_by_tracking_intranet_dark"
+  aliases:
+    - "Darknet Monitoring"
+    - "Internal Darkspace Detection"
+    - "Unused IP Space Monitoring"
+    - "Network Telescope Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - RECON
+    - LATERAL
+    - SIEM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies network reconnaissance and scanning activities by monitoring traffic directed at unused or unallocated IP address space within the internal network (intranet dark space). Since no legitimate services reside on these addresses, any traffic targeting dark space is inherently suspicious and indicates scanning, worm propagation, or misconfigured systems. This technique functions as an internal network telescope or honeypot at the network layer."
+  why: "Network reconnaissance is a critical early phase of most attacks, occurring during both initial compromise and lateral movement. Monitoring dark space provides high-fidelity alerts with extremely low false positive rates because legitimate traffic should never target unallocated addresses. This makes it one of the most reliable indicators of active scanning, worm propagation, or attacker enumeration within the internal network."
+  how: "Implementation involves identifying unused IP address ranges within the organization's allocated subnets and configuring monitoring to capture all traffic directed to these addresses. Traffic analysis examines source hosts generating dark space hits, the scanning patterns used (sequential, random, targeted subnet sweeps), port distributions being probed, and temporal patterns. Correlation with asset inventory databases ensures the dark space map remains current. Alerts trigger on any traffic to monitored dark addresses, with severity escalation based on scan velocity, coverage breadth, and source host criticality."
+  core_concepts:
+    - key: "Dark Space Definition"
+      value: "Unused or unallocated IP addresses within an organization's address space that should receive no legitimate traffic."
+    - key: "Network Telescope"
+      value: "A passive monitoring system that captures traffic destined for dark space to detect scanning and reconnaissance."
+    - key: "Scan Pattern Analysis"
+      value: "Characterizing the scanning technique (sequential, random, targeted) to determine attacker intent and tool usage."
+    - key: "Asset Inventory Correlation"
+      value: "Maintaining accurate records of allocated addresses to ensure dark space monitoring covers truly unused ranges."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: effective_against
+    target: "ATK-RECON-SCAN-001"
+    description: "Detects internal network reconnaissance scanning targeting unused address space"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs to capture traffic directed at dark space addresses"
+  - type: enables
+    target: "DETECT-NETWORK-NETPORANO-001"
+    description: "Dark space hits reveal port scanning patterns that feed port anomaly detection"
+  - type: precedes
+    target: "DETECT-NETWORK-ADMNETTRA-001"
+    description: "Reconnaissance detection typically precedes detection of unauthorized administrative access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1046"
+    tactic:
+      - "Discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-DNSA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Network Service Discovery T1046"
+    - "SANS Institute - Detecting Network Reconnaissance"
+    - "CAIDA - Network Telescope and Darknet Monitoring"
+  search_keywords:
+    - "dark space monitoring"
+    - "network reconnaissance"
+    - "intranet darknet"
+    - "unused IP monitoring"
+    - "network telescope"
+    - "internal scanning detection"
+    - "dark address space"
+    - "network enumeration"
+    - "scan detection"
+    - "unused subnet monitoring"
+  embedding_text: "Detecting network reconnaissance by tracking intranet dark space is a high-fidelity detection pattern that monitors traffic directed at unused or unallocated IP addresses within the internal network. Since no legitimate services reside on these addresses, any traffic targeting dark space is inherently suspicious and indicates scanning, worm propagation, or attacker enumeration. The pattern functions as an internal network telescope, providing extremely low false positive rates. It analyzes scanning patterns, port distributions, and source host behavior to characterize reconnaissance activities during both initial compromise and lateral movement phases."

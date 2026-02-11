@@ -1,0 +1,102 @@
+# GR Atom: NetBIOS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-NETBIOS-001"
+  name: "NetBIOS"
+  normalized_name: "netbios"
+  aliases:
+    - "NetBIOS Protocol"
+    - "Network Basic Input/Output System"
+    - "NBT"
+    - "NetBIOS over TCP/IP"
+    - "RFC 1001/1002"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - NETWORK
+
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    NetBIOS (Network Basic Input/Output System) is a legacy networking API and protocol suite
+    that provides name resolution, session management, and datagram services for applications on
+    local area networks. Defined in RFC 1001/1002 for operation over TCP/IP (NBT), NetBIOS uses
+    three services: Name Service (UDP port 137) for name registration and resolution, Datagram
+    Service (UDP port 138) for connectionless messaging, and Session Service (TCP port 139) for
+    connection-oriented communication. NetBIOS was originally developed by IBM in 1983 and became
+    the foundation for Windows networking, providing the transport layer for SMB file sharing
+    before SMB adopted direct TCP hosting on port 445.
+  why: >-
+    NetBIOS is a significant attack surface in Windows environments. NetBIOS Name Service enables
+    NBNS poisoning (similar to LLMNR/mDNS poisoning) where attackers respond to name queries to
+    redirect traffic and capture credentials. NetBIOS broadcasts leak internal network information
+    including hostnames, domain memberships, and active services. The NetBIOS Session Service on
+    TCP 139 provides legacy SMB access exploitable by null session attacks, brute-force, and
+    relay attacks. MITRE ATT&CK documents NetBIOS exploitation for discovery (T1046) and
+    credential access. Modern security guidance recommends disabling NetBIOS in favor of DNS
+    and direct SMB over TCP 445.
+  how: >-
+    NetBIOS over TCP/IP operates through three services: (1) Name Service (NBNS, port 137) —
+    hosts register NetBIOS names and resolve names to IP addresses through broadcast queries
+    or WINS servers; (2) Datagram Service (port 138) — connectionless message delivery for
+    broadcasts, group messages, and small data transfers; (3) Session Service (port 139) —
+    establishes reliable sessions between hosts for SMB file sharing and printer access. NetBIOS
+    names are 16 bytes, with the 16th byte indicating the service type. WINS (Windows Internet
+    Name Service) centralizes NetBIOS name resolution to reduce broadcast traffic.
+  core_concepts:
+    - key: "NetBIOS Name Service (NBNS)"
+      value: "UDP port 137 service for registering and resolving 15-character NetBIOS names to IP addresses via broadcast or WINS server queries."
+    - key: "NBNS Poisoning"
+      value: "Attack where an adversary responds to NetBIOS name queries before legitimate hosts, redirecting traffic for credential capture and man-in-the-middle attacks."
+    - key: "Null Session"
+      value: "Anonymous NetBIOS/SMB connection using empty credentials that can enumerate shares, users, groups, and policies on misconfigured Windows systems."
+    - key: "WINS"
+      value: "Windows Internet Name Service centralizing NetBIOS name resolution to reduce broadcast traffic and enable cross-subnet name resolution."
+
+relations:
+  - type: "enables"
+    target: "PROTO-MSG-SMB-001"
+    description: "NetBIOS Session Service on port 139 provides the transport layer for legacy SMB file sharing"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "NetBIOS is an application layer protocol suite for LAN name resolution and session management"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 1001 — Protocol Standard for a NetBIOS Service on a TCP/UDP Transport: Concepts and Methods"
+    - "IETF RFC 1002 — Protocol Standard for a NetBIOS Service on a TCP/UDP Transport: Detailed Specifications"
+    - "MITRE ATT&CK — T1046: Network Service Discovery"
+    - "Microsoft — NetBIOS over TCP/IP Documentation"
+  search_keywords:
+    - "NetBIOS"
+    - "NBT"
+    - "NetBIOS over TCP"
+    - "port 137"
+    - "port 139"
+    - "NBNS"
+    - "WINS"
+    - "NetBIOS name service"
+    - "null session"
+    - "NBNS poisoning"
+  embedding_text: >-
+    NetBIOS (Network Basic Input/Output System) is a legacy networking protocol suite defined in
+    RFC 1001/1002 providing name resolution (UDP 137), datagram messaging (UDP 138), and session
+    services (TCP 139) for LAN applications. Originally the transport for Windows SMB file
+    sharing, NetBIOS is a significant attack surface through NBNS poisoning for credential
+    capture, null session enumeration of shares and users, and information leakage via broadcasts.
+    MITRE ATT&CK documents NetBIOS exploitation for network discovery. Modern security guidance
+    recommends disabling NetBIOS in favor of DNS and direct SMB over TCP 445.

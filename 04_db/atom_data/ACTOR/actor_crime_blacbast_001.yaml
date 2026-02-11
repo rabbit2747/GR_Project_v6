@@ -1,0 +1,141 @@
+# GR Atom: Black Basta
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BLACBAST-001"
+  name: "Black Basta"
+  normalized_name: "black_basta"
+  aliases:
+    - "BlackBasta"
+    - "Black Basta Ransomware"
+    - "UNC4393"
+    - "Storm-1811"
+    - "Cardinal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - LATERAL
+    - C2
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Black Basta is a prolific ransomware-as-a-service (RaaS) operation that emerged in April 2022
+    and is believed to have originated from former members of the Conti ransomware group following
+    its dissolution. The group operates a double-extortion model, encrypting victim data and
+    threatening to publish stolen information on their Tor-based leak site called "Basta News."
+    Black Basta has compromised over 500 organizations globally across critical infrastructure
+    sectors including healthcare, manufacturing, financial services, technology, and government.
+    The group targets both Windows and Linux (including VMware ESXi) systems and is known for its
+    rapid encryption speed and sophisticated initial access techniques including QakBot, Cobalt
+    Strike, and social engineering via Microsoft Teams.
+  why: >-
+    Black Basta is one of the most active and damaging ransomware operations, with estimated
+    ransom payments exceeding $100 million by late 2023. The group's connections to former Conti
+    operators provide it with experienced personnel and established tooling. CISA and FBI issued
+    joint advisory AA24-131A in May 2024 specifically addressing Black Basta. Their targeting of
+    healthcare organizations, as demonstrated in the Ascension Health attack in May 2024, poses
+    direct threats to patient safety. Internal chat leaks in February 2025 exposed the group's
+    organizational structure, operational methods, and connections to Russian-speaking cybercriminal
+    networks, providing significant intelligence for defenders.
+  how: >-
+    Black Basta employs diverse initial access vectors including phishing emails with QakBot or
+    DarkGate malware, exploitation of known vulnerabilities (ConnectWise ScreenConnect CVE-2024-1709,
+    Windows SmartScreen CVE-2024-21412), social engineering through Microsoft Teams impersonating
+    IT support, and credential abuse. Post-compromise, the group deploys Cobalt Strike beacons for
+    command and control, uses SystemBC for tunneling, and leverages tools including Mimikatz,
+    SharpHound/BloodHound for Active Directory enumeration, and PsExec for lateral movement. The
+    ransomware binary encrypts files using ChaCha20 with RSA-4096 key wrapping. The group disables
+    security tools, deletes volume shadow copies, and modifies boot settings before encryption.
+    Data exfiltration is performed using Rclone to attacker-controlled cloud storage prior to
+    ransomware deployment.
+  core_concepts:
+    - key: "Conti Successor"
+      value: >-
+        Black Basta is widely assessed as a successor or splinter group from the Conti ransomware
+        operation, inheriting experienced operators, established infrastructure, and refined TTPs
+        from one of the most prolific ransomware groups in history.
+    - key: "RaaS Double Extortion"
+      value: >-
+        The group operates a ransomware-as-a-service model with double extortion, combining file
+        encryption with data theft and the threat of public data exposure through their Basta News
+        leak site.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Black Basta is a financially motivated ransomware-as-a-service cybercriminal group"
+  - type: "precedes"
+    target: "ACTOR-CRIME-CONTLEAK-001"
+    description: "Black Basta emerged from the dissolution of the Conti ransomware operation"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "Black Basta operations enable destructive ransomware impact on victim infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Execution"
+      - "Lateral Movement"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Advisory AA24-131A - Black Basta Ransomware. https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-131a"
+    - "Trend Micro - Black Basta Ransomware Analysis. https://www.trendmicro.com/vinfo/us/security/news/ransomware-spotlight/ransomware-spotlight-blackbasta"
+    - "Elliptic - Black Basta Ransom Payments Exceed $100M. https://www.elliptic.co/blog/black-basta-ransomware-blockchain"
+    - "ExploitWhispers - Black Basta Chat Leaks (February 2025). https://github.com/ExploitWhispers"
+  search_keywords:
+    - "black basta ransomware"
+    - "black basta RaaS"
+    - "CISA AA24-131A"
+    - "UNC4393"
+    - "storm-1811"
+    - "black basta conti"
+    - "basta news leak site"
+    - "black basta chat leaks"
+    - "black basta healthcare"
+    - "black basta qakbot"
+  embedding_text: >-
+    Black Basta is a major ransomware-as-a-service operation that emerged in April 2022, widely
+    believed to be a successor to the Conti ransomware group. The group has compromised over 500
+    organizations using double extortion, combining file encryption with data theft. Black Basta
+    targets critical infrastructure including healthcare, manufacturing, and financial services
+    across Windows and Linux platforms. Initial access leverages QakBot, phishing, Microsoft Teams
+    social engineering, and vulnerability exploitation. Post-compromise tools include Cobalt Strike,
+    SystemBC, Mimikatz, and BloodHound. The ransomware uses ChaCha20 with RSA-4096 encryption.
+    CISA and FBI issued joint advisory AA24-131A addressing the threat. Estimated ransom payments
+    exceeded $100 million by late 2023. Internal chat leaks in February 2025 exposed organizational
+    structure and connections to Russian-speaking cybercriminal networks. The group operates the
+    Basta News Tor leak site for publishing stolen data from non-paying victims.

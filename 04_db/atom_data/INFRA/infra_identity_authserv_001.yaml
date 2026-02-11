@@ -1,0 +1,124 @@
+# GR Atom: Authentication Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AUTHSERV-001"
+  name: "Authentication Server"
+  normalized_name: "authentication_server"
+  aliases:
+    - "Auth Server"
+    - "Identity Provider Server"
+    - "Authentication Infrastructure"
+    - "AuthN Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - MFA
+    - KERBEROS
+    - LDAP
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Authentication Server is a dedicated infrastructure component responsible for verifying
+    the identity of users, services, and devices attempting to access network resources. It
+    processes authentication requests using protocols such as Kerberos, RADIUS, LDAP, SAML,
+    and OAuth, validating credentials against an identity store and issuing authentication
+    tokens, tickets, or assertions that grant access to protected systems. Authentication
+    servers may operate as standalone appliances, dedicated server roles, or cloud-hosted
+    identity provider services.
+  why: >-
+    Authentication servers are high-value targets because they represent the central trust
+    anchor for identity verification across the environment. Compromise of an authentication
+    server enables attackers to forge credentials, bypass multi-factor authentication, issue
+    unauthorized tokens, and impersonate any user or service account. Attacks targeting
+    authentication infrastructure include credential stuffing, Kerberos ticket manipulation
+    (Golden/Silver Ticket), RADIUS secret extraction, and identity provider configuration
+    tampering. Availability attacks against authentication servers can deny service to
+    all dependent systems.
+  how: >-
+    Authentication servers receive credential submissions from clients, validate them against
+    an identity store (directory service, database, or external IdP), and return
+    authentication results in the form of tickets (Kerberos TGT), tokens (OAuth JWT), or
+    assertions (SAML). The server enforces authentication policies including password
+    complexity, account lockout, MFA requirements, and conditional access rules. Load
+    balancing and redundancy are typically implemented to ensure high availability.
+    Communication channels are secured with TLS, and audit logging captures all
+    authentication events for security monitoring.
+  core_concepts:
+    - key: "Credential Validation"
+      value: "Verifies submitted credentials against authoritative identity stores using standard protocols like Kerberos, LDAP, RADIUS, and OAuth"
+    - key: "Token Issuance"
+      value: "Issues authentication artifacts such as Kerberos tickets, JWT tokens, or SAML assertions upon successful credential verification"
+    - key: "Central Trust Anchor"
+      value: "Acts as the authoritative identity verification point for the environment, making it a critical target for attackers seeking broad access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Authentication server infrastructure enables authentication service delivery"
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Requires a directory service as the backend identity store for credential validation"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Successful authentication is a prerequisite for authorization decisions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1556"
+    tactic:
+      - "Credential Access"
+      - "Defense Evasion"
+      - "Persistence"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-63B - Digital Identity Guidelines: Authentication and Lifecycle Management"
+    - "MITRE ATT&CK T1556 - Modify Authentication Process"
+    - "RFC 4120 - The Kerberos Network Authentication Service (V5)"
+  search_keywords:
+    - "authentication server"
+    - "auth server infrastructure"
+    - "identity provider server"
+    - "Kerberos KDC"
+    - "RADIUS authentication server"
+    - "authentication infrastructure"
+    - "credential validation server"
+    - "token issuance server"
+  embedding_text: >-
+    An Authentication Server is a critical infrastructure component that verifies user,
+    service, and device identities by processing authentication requests through protocols
+    such as Kerberos, RADIUS, LDAP, SAML, and OAuth. It validates credentials against an
+    identity store and issues authentication tokens, tickets, or assertions granting access
+    to protected resources. Authentication servers are high-value targets because their
+    compromise enables credential forgery, MFA bypass, and unauthorized token issuance.
+    Attacks include Golden Ticket forgery, RADIUS secret extraction, and authentication
+    process modification. The server enforces authentication policies including password
+    requirements, lockout thresholds, and conditional access. Security teams must ensure
+    authentication server hardening, monitoring of authentication events, redundancy for
+    availability, and protection of cryptographic material used for token generation.

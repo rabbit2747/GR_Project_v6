@@ -1,0 +1,118 @@
+# GR Atom: Password Reuse Pattern
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PASREUPAT-001"
+  name: "Password Reuse Pattern"
+  normalized_name: "password_reuse_pattern"
+  aliases:
+    - "Credential Reuse"
+    - "Password Recycling"
+    - "Cross-Service Password Reuse"
+    - "Credential Stuffing Enabler"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - CRED
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "User authentication systems"
+    - "Active Directory accounts"
+    - "Web application accounts"
+    - "Cloud service accounts"
+    - "VPN and remote access credentials"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Password Reuse Pattern is a vulnerability class where users employ the same password or
+    predictable variations across multiple accounts, services, or systems. This includes using
+    identical passwords for corporate and personal accounts, reusing passwords across different
+    internal systems, and using minor variations (appending numbers or special characters) that
+    are easily guessable from a known password. This practice creates a cascading authentication
+    failure where compromise of one credential enables access to multiple systems.
+  why: >-
+    Password reuse is one of the most pervasive authentication vulnerabilities in enterprise
+    environments. When credentials from one breach are used to access other services (credential
+    stuffing), the impact multiplies exponentially. Major data breaches at services like LinkedIn,
+    Adobe, and Yahoo exposed billions of credential pairs that attackers use in automated stuffing
+    campaigns against corporate systems. Studies consistently show that over 60% of users reuse
+    passwords across services, and password reuse between personal and corporate accounts creates
+    direct paths from public breaches to enterprise network compromise.
+  how: >-
+    Attackers exploit password reuse through credential stuffing attacks (automated testing of
+    known username/password pairs from breaches against target services), password spraying with
+    common reuse patterns, and lateral movement using discovered credentials across internal
+    systems. Mitigation includes implementing multi-factor authentication (MFA) across all
+    services, deploying password breach detection services (like HaveIBeenPwned integration),
+    enforcing unique password requirements through password policy, using password managers to
+    enable unique complex passwords, implementing credential monitoring for compromised passwords,
+    and educating users about password reuse risks.
+  core_concepts:
+    - key: "Credential Stuffing Attack Vector"
+      value: "Automated testing of known credential pairs from data breaches against target services, exploiting users who reuse passwords across platforms"
+    - key: "Cascading Authentication Failure"
+      value: "A single credential compromise cascades to multiple systems when the same password is reused, amplifying breach impact exponentially"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Password reuse is an authentication vulnerability that undermines credential-based security across multiple systems"
+  - type: "enables"
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "Password reuse patterns often correlate with weak password practices and insufficient password policies"
+  - type: "causes"
+    target: "VUL-AUTH-PASNOTREQ-001"
+    description: "Reused credentials from breached services effectively reduce authentication to known-compromised secrets"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1110.004"
+    tactic:
+      - "Credential Access"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE ATT&CK T1110.004 - Brute Force: Credential Stuffing"
+    - "NIST SP 800-63B Digital Identity Guidelines"
+    - "OWASP Credential Stuffing Prevention Cheat Sheet"
+    - "Verizon Data Breach Investigations Report"
+  search_keywords:
+    - "password reuse"
+    - "credential stuffing"
+    - "credential reuse vulnerability"
+    - "password recycling"
+    - "cross-service password reuse"
+    - "password spraying"
+    - "breached credential reuse"
+  embedding_text: >-
+    Password Reuse Pattern is a vulnerability class where users employ the same password across
+    multiple accounts and services. When credentials from one breach are tested against other
+    services through credential stuffing attacks, the impact cascades across all systems sharing
+    that password. Studies show over 60% of users reuse passwords, and breaches at major services
+    have exposed billions of credential pairs used in automated attacks against corporate systems.
+    Password reuse between personal and corporate accounts creates direct paths from public
+    breaches to enterprise compromise. Mitigation includes multi-factor authentication, password
+    breach detection integration, unique password enforcement, password manager adoption,
+    credential monitoring, and user education about reuse risks.

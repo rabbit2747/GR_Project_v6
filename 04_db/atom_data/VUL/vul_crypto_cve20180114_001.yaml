@@ -1,0 +1,114 @@
+# GR Atom: CVE-2018-0114
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20180114-001"
+  name: "CVE-2018-0114"
+  normalized_name: "cve_2018_0114"
+  aliases:
+    - "node-jose JWT Key Confusion"
+    - "JWT Algorithm Confusion Vulnerability"
+    - "Cisco node-jose JWK Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - AUTHN
+    - AUTHZ
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Cisco node-jose JavaScript Library"
+    - "JSON Web Token (JWT) Implementations"
+    - "JSON Web Key (JWK) Processing"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-0114 is a vulnerability in the Cisco node-jose JavaScript library that allows an
+    attacker to forge JSON Web Tokens (JWTs) by creating a new key pair, signing the token with
+    the attacker's private key, and embedding the attacker's public key in the JWT header. The
+    library uses the embedded JWK for signature verification rather than the server's trusted key,
+    enabling authentication bypass. CVSS score is 7.5. The vulnerability affects node-jose versions
+    prior to 0.11.0.
+  why: >-
+    JWT is widely used for authentication and authorization in web applications and APIs. This
+    vulnerability allows complete authentication bypass by forging valid-looking tokens that the
+    server accepts. The flaw represents a fundamental trust model violation where the library
+    trusts key material provided by the untrusted party rather than using server-side configured
+    keys, a pattern that can appear in other JWT libraries.
+  how: >-
+    The attacker generates an RSA or EC key pair, creates a JWT with desired claims (e.g., admin
+    role, victim user ID), signs it with the attacker's private key, and includes the attacker's
+    public key in the JWT header as a JWK. When the server verifies the token using node-jose, the
+    library extracts and trusts the embedded JWK rather than using the server's configured
+    verification key. Since the token is validly signed against the embedded key, verification
+    succeeds and the forged claims are accepted.
+  core_concepts:
+    - name: "JWK Embedding Attack"
+      value: "Including the attacker's public key in the JWT header causes the library to use it for verification instead of the trusted server key"
+    - name: "Trust Model Violation"
+      value: "The library trusts key material from the untrusted JWT token itself rather than from server configuration"
+    - name: "Authentication Bypass"
+      value: "Forged JWTs with arbitrary claims are accepted as valid, enabling complete authentication and authorization bypass"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "JWT key confusion is an instance of cryptographic implementation vulnerability in token verification"
+  - type: "causes"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "JWT key confusion causes authentication bypass by undermining cryptographic signature verification"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1078"
+      tactic: ["Initial Access", "Privilege Escalation"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2018-0114"
+    - "Cisco Security Advisory cisco-sa-20180117-node-jose"
+    - "Auth0 - Critical Vulnerabilities in JSON Web Token Libraries"
+  search_keywords:
+    - "CVE-2018-0114"
+    - "node-jose vulnerability"
+    - "JWT key confusion"
+    - "JWK embedding attack"
+    - "JWT forgery"
+    - "JSON Web Token bypass"
+    - "JWT algorithm confusion"
+    - "authentication bypass JWT"
+  embedding_text: >-
+    CVE-2018-0114 is a vulnerability in the Cisco node-jose JavaScript library that allows
+    attackers to forge JSON Web Tokens by embedding their own public key in the JWT header.
+    The library incorrectly uses the JWK from the token header for signature verification
+    instead of the server's trusted key. An attacker generates a key pair, creates a JWT with
+    arbitrary claims, signs it with their private key, and includes their public key as a JWK
+    in the header. The server accepts the forged token because the signature is valid against
+    the embedded key. This enables complete authentication and authorization bypass in
+    applications using vulnerable node-jose versions. CVSS score is 7.5 affecting versions
+    prior to 0.11.0. The vulnerability represents a fundamental trust model violation in JWT
+    verification and similar patterns have been found in other JWT libraries. Mitigation
+    requires configuring explicit trusted keys for verification and ignoring embedded JWK
+    headers in tokens received from untrusted sources.

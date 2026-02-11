@@ -1,0 +1,116 @@
+# GR Atom: CVE-2017-8759
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20178759-001"
+  name: "CVE-2017-8759"
+  normalized_name: "cve_2017_8759"
+  aliases:
+    - ".NET SOAP WSDL Parser Code Injection"
+    - "Microsoft .NET Framework RCE"
+    - ".NET WSDL Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft .NET Framework 2.0 through 4.7"
+    - ".NET SOAP WSDL parser"
+    - "Microsoft Office applications"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-8759 is a code injection vulnerability in the Microsoft .NET Framework SOAP WSDL
+    parser that allows remote attackers to execute arbitrary code. The vulnerability exists in
+    how the .NET Framework processes SOAP WSDL definition content, where a CRLF injection in
+    the WSDL parser enables insertion of arbitrary code into generated .NET source files. The
+    CVSS v3 base score is 7.8 and it was actively exploited as a zero-day in September 2017,
+    discovered by FireEye in targeted attacks using malicious Office documents.
+  why: >-
+    The .NET Framework is ubiquitous on Windows systems, and Office documents are the most
+    common file type in business communications. This vulnerability was used in active APT
+    campaigns delivering FinSpy surveillance malware through Office documents. The combination
+    of a trusted file format (Office) with a framework-level vulnerability (.NET) created an
+    extremely effective attack vector for targeted intrusions.
+  how: >-
+    Attackers create a malicious Office document containing a SOAP moniker that references a
+    remote WSDL definition file. When the document is opened, the .NET Framework fetches and
+    parses the WSDL file. The WSDL content contains CRLF sequences that inject arbitrary code
+    into the generated source, which is then compiled and executed. The injected code typically
+    downloads and executes secondary payloads like FinSpy or other malware. Mitigation requires
+    applying Microsoft security update MS17-SEP and educating users about opening untrusted
+    Office documents.
+  core_concepts:
+    - key: "WSDL Parser Injection"
+      value: "CRLF injection in .NET SOAP WSDL parsing enables insertion of arbitrary code into dynamically generated source files"
+    - key: "Office Document Vector"
+      value: "Malicious SOAP monikers embedded in Office documents trigger the vulnerable .NET WSDL parsing when opened"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: ".NET WSDL code injection is a specific instance of injection vulnerability through parser manipulation"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20090927-001"
+    description: "Both are document-based injection vectors used for initial access through crafted file payloads"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202230190-001"
+    description: "Earlier Office-based code injection precedes the later Follina MSDT injection through Office documents"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+  cve_id: "CVE-2017-8759"
+  cvss_score: 7.8
+  affected_product: "Microsoft .NET Framework 2.0-4.7"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-8759"
+    - "CWE-94 Improper Control of Generation of Code"
+    - "FireEye Threat Research Blog"
+    - "Microsoft Security Update Guide"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2017-8759"
+    - ".NET SOAP WSDL injection"
+    - ".NET Framework RCE"
+    - "WSDL parser code injection"
+    - "FinSpy delivery vulnerability"
+    - "Office document exploit"
+    - "SOAP moniker attack"
+  embedding_text: >-
+    CVE-2017-8759 is a code injection vulnerability in the Microsoft .NET Framework SOAP WSDL
+    parser with CVSS score 7.8. CRLF injection in WSDL parsing enables insertion of arbitrary
+    code into generated .NET source files that are compiled and executed. Exploited as a
+    zero-day in APT campaigns delivering FinSpy surveillance malware through malicious Office
+    documents containing SOAP monikers. Affects .NET Framework 2.0 through 4.7 across all
+    Windows platforms. The attack chain leverages trusted Office document format to trigger
+    framework-level vulnerability, creating an effective targeted intrusion vector. Mitigation
+    requires Microsoft security updates and user awareness about untrusted Office documents.

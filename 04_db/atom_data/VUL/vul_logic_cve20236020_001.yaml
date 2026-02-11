@@ -1,0 +1,99 @@
+# GR Atom: CVE-2023-6020
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20236020-001"
+  name: "CVE-2023-6020"
+  normalized_name: "cve_2023_6020"
+  aliases:
+    - "Ray AI Framework SSRF"
+    - "Anyscale Ray Server-Side Request Forgery"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - SSRF
+    - AI
+    - API
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray"
+    - "Ray AI/ML framework"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-6020 is a server-side request forgery (SSRF) vulnerability in Anyscale Ray that
+    allows an attacker to make the Ray server issue arbitrary HTTP requests to internal network
+    resources. The vulnerability exists in the dashboard API where URL parameters are processed
+    without proper validation of the target destination, enabling access to internal services,
+    cloud metadata endpoints, and other network resources. CVSS v3 base score: 7.5 (High).
+  why: >-
+    Ray clusters are typically deployed in cloud environments with access to cloud metadata
+    services (AWS IMDSv1, GCP metadata, Azure IMDS). SSRF enables extraction of cloud
+    credentials from metadata endpoints, access to internal services, and network reconnaissance.
+    Combined with the lack of default authentication, this provides unauthenticated access
+    to internal infrastructure from any exposed Ray instance.
+  how: >-
+    An attacker sends requests to the Ray dashboard API specifying internal URLs as target
+    parameters. The API processing logic makes HTTP requests to the attacker-specified URLs
+    without validation, enabling access to internal services, cloud metadata endpoints
+    (169.254.169.254), and other network resources. The response content is returned to the
+    attacker, enabling data exfiltration from internal systems.
+  core_concepts:
+    - key: "SSRF Through AI API"
+      value: "Dashboard API processes URL parameters without destination validation, enabling server-side requests to internal network resources"
+    - key: "Cloud Credential Theft"
+      value: "SSRF access to cloud metadata endpoints enables extraction of IAM credentials for cloud infrastructure compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "URL validation logic failure in AI framework API enabling server-side request forgery"
+  - type: "enables"
+    target: "VUL-LOGIC-CVE20236021-001"
+    description: "SSRF can be chained with other Ray vulnerabilities for deeper compromise"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-6020"
+    - "NIST NVD - CVE-2023-6020"
+    - "Protect AI - Ray Vulnerability Research"
+  search_keywords:
+    - "CVE-2023-6020"
+    - "Ray SSRF"
+    - "Anyscale Ray vulnerability"
+    - "AI framework SSRF"
+    - "cloud metadata theft"
+    - "Ray dashboard SSRF"
+  embedding_text: >-
+    CVE-2023-6020 is a server-side request forgery vulnerability in Anyscale Ray AI/ML
+    framework. Dashboard API processes URL parameters without destination validation, enabling
+    requests to internal services and cloud metadata endpoints. CVSS v3 7.5 High. Enables
+    cloud credential theft through IMDS access. Ray clusters in cloud environments expose
+    IAM credentials. No authentication required by default. URL validation logic failure
+    in AI framework. Year 2023.

@@ -1,0 +1,134 @@
+# GR Atom: Consequence Driven Risk Assessment
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-CONDRIRIS-001"
+  name: "Consequence Driven Risk Assessment"
+  normalized_name: "consequence_driven_risk_assessment"
+  aliases:
+    - "CCE"
+    - "Consequence-driven Cyber-informed Engineering"
+    - "Idaho National Laboratory CCE"
+    - "INL CCE"
+    - "Consequence-Based Risk Assessment"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Consequence Driven Risk Assessment, formally known as Consequence-driven Cyber-informed
+    Engineering (CCE), is a methodology developed by Idaho National Laboratory (INL) that
+    prioritizes cybersecurity efforts based on the potential consequences of successful
+    cyberattacks against critical infrastructure. Unlike traditional risk assessment
+    approaches that focus on threat likelihood and vulnerability enumeration, CCE begins
+    with identifying the highest-consequence events that an adversary could achieve and
+    works backward to determine the cyber-physical attack paths that could produce those
+    consequences. The methodology was developed under the direction of the U.S. Department
+    of Energy to protect industrial control systems and operational technology environments.
+  why: >-
+    Traditional cybersecurity risk assessments often produce overwhelming lists of
+    vulnerabilities without adequate prioritization based on actual impact to the organization
+    or national security. Critical infrastructure operators face resource constraints that
+    prevent addressing all vulnerabilities simultaneously. CCE addresses this by focusing
+    defensive resources on preventing the specific high-consequence events that matter most,
+    such as loss of safety systems, environmental damage, or disruption of essential services.
+    This consequence-first approach ensures that the most impactful risks are mitigated first,
+    regardless of perceived likelihood.
+  how: >-
+    CCE follows a four-phase methodology: (1) Consequence Prioritization - identify and rank
+    the highest-consequence events that could result from cyberattack, including safety
+    incidents, environmental releases, and operational disruption; (2) System-of-Systems
+    Analysis - map the digital infrastructure supporting critical functions, identifying
+    all cyber-connected pathways to high-consequence targets; (3) Consequence-Based Targeting -
+    analyze how a sophisticated adversary would exploit identified pathways to achieve
+    high-consequence outcomes, developing detailed attack scenarios; (4) Mitigations and
+    Protections - implement engineering-based mitigations that eliminate or reduce the
+    possibility of high-consequence outcomes, prioritizing controls that provide physical
+    protection against cyber-enabled attacks.
+  core_concepts:
+    - key: "Consequence-First Prioritization"
+      value: >-
+        Beginning risk assessment by identifying the worst possible outcomes rather than
+        starting from vulnerability enumeration, ensuring defensive resources are focused
+        on the highest-impact scenarios regardless of perceived likelihood.
+    - key: "Cyber-Physical Attack Path Analysis"
+      value: >-
+        Systematic mapping of digital pathways that connect IT networks to operational
+        technology and physical processes, identifying how cyber intrusions could produce
+        physical-world consequences.
+    - key: "Engineering-Based Mitigations"
+      value: >-
+        Controls that use physical engineering principles to prevent cyber-enabled
+        consequences, such as analog safety systems, physical interlocks, and hardwired
+        controls that cannot be defeated through cyber means alone.
+    - key: "Adversary-Informed Analysis"
+      value: >-
+        Assessment approach that assumes a sophisticated, well-resourced adversary with
+        knowledge of target systems, ensuring mitigations are effective against advanced
+        persistent threats rather than only opportunistic attackers.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "CCE consequence analysis informs MITRE ATT&CK-based threat modeling by identifying which attack techniques lead to highest-consequence outcomes"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "CCE consequence prioritization guides the selection and tailoring of NIST SP 800-53 controls for critical infrastructure protection"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-RMF-001"
+    description: "CCE provides a consequence-driven methodology for the risk assessment step within the NIST Risk Management Framework"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Idaho National Laboratory - Consequence-driven Cyber-informed Engineering (CCE). https://inl.gov/cce/"
+    - "Bochman, A. (2018). Countering Cyber Sabotage: Introducing Consequence-Driven, Cyber-Informed Engineering. Idaho National Laboratory."
+    - "U.S. Department of Energy - Cybersecurity for Energy Delivery Systems Program"
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security. https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+  search_keywords:
+    - "consequence driven risk assessment"
+    - "CCE methodology"
+    - "cyber-informed engineering"
+    - "Idaho National Laboratory cybersecurity"
+    - "critical infrastructure risk"
+    - "consequence prioritization"
+    - "OT cybersecurity"
+    - "ICS risk assessment"
+    - "cyber-physical attack paths"
+    - "consequence based targeting"
+  embedding_text: >-
+    Consequence Driven Risk Assessment, formally known as Consequence-driven Cyber-informed
+    Engineering (CCE), is a methodology developed by Idaho National Laboratory that prioritizes
+    cybersecurity efforts based on the potential consequences of successful cyberattacks against
+    critical infrastructure. Unlike traditional vulnerability-focused approaches, CCE begins by
+    identifying the highest-consequence events an adversary could achieve and works backward to
+    determine cyber-physical attack paths. The four-phase methodology includes consequence
+    prioritization, system-of-systems analysis, consequence-based targeting, and engineering-based
+    mitigations. CCE focuses on protecting operational technology and industrial control systems
+    by assuming sophisticated adversaries and implementing physical engineering controls that
+    cannot be defeated through cyber means alone. Developed under the U.S. Department of Energy,
+    this approach ensures defensive resources address the most impactful risks first, including
+    safety incidents, environmental damage, and essential service disruption, rather than
+    attempting to address all vulnerabilities equally.

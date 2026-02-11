@@ -1,0 +1,73 @@
+# GR Atom: Dark Reading
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-DARKREAD-001"
+  name: "Dark Reading"
+  normalized_name: "dark_reading"
+  aliases:
+    - "DarkReading"
+    - "DR"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Dark Reading is a leading cybersecurity news and information portal owned by Informa Tech, providing comprehensive coverage of security vulnerabilities, threat intelligence, data breaches, attack techniques, and defensive strategies. The publication serves as one of the most widely read cybersecurity media outlets, covering topics including application security, cloud security, endpoint protection, identity management, vulnerability management, and threat detection. Dark Reading also hosts virtual events and produces in-depth research reports on cybersecurity trends."
+  why: "Dark Reading is one of the most influential cybersecurity news sources, providing security professionals with timely reporting on vulnerabilities, threat actor campaigns, and defensive technologies. Its broad coverage across all security domains makes it a primary daily reference for CISOs, security analysts, and IT professionals making informed decisions about their security posture and technology investments."
+  how: "Dark Reading publishes daily news articles, expert commentary, analysis pieces, and research reports across multiple security topic channels. Contributing authors include industry practitioners, security researchers, and analysts who provide expert perspectives on emerging threats and defensive strategies. The platform also hosts webinars, virtual events, and produces annual survey-based research reports."
+  core_concepts:
+    - key: "Cybersecurity News Portal"
+      value: "Comprehensive daily coverage of security vulnerabilities, threats, breaches, and industry developments"
+    - key: "Multi-Domain Coverage"
+      value: "Reporting across application security, cloud, endpoint, identity, vulnerability management, and more"
+    - key: "Practitioner Community"
+      value: "Platform connecting security professionals with expert analysis and peer insights"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-SECUWEEK-001"
+    description: "Fellow leading cybersecurity news publication"
+  - type: enables
+    target: "ACTOR-RESEARCH-THREATPOST-001"
+    description: "Part of the cybersecurity media ecosystem providing threat intelligence reporting"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.darkreading.com"
+    - "https://en.wikipedia.org/wiki/Dark_Reading"
+  search_keywords:
+    - "dark reading"
+    - "cybersecurity news"
+    - "security news"
+    - "vulnerability reporting"
+    - "threat intelligence"
+    - "infosec media"
+    - "security analysis"
+    - "data breach news"
+  embedding_text: "Dark Reading is a leading cybersecurity news and information portal owned by Informa Tech, providing comprehensive coverage of security vulnerabilities, threat intelligence, data breaches, attack techniques, and defensive strategies. As one of the most widely read cybersecurity media outlets, it covers application security, cloud security, endpoint protection, identity management, vulnerability management, and threat detection. Dark Reading publishes daily news articles, expert commentary, research reports, and hosts virtual events, serving as a primary daily reference for CISOs, security analysts, and IT professionals. Contributing authors include industry practitioners and security researchers who provide expert perspectives on emerging threats and defensive strategies across all security domains."

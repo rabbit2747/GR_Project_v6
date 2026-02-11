@@ -1,0 +1,89 @@
+# GR Atom: File Create
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILECREA-001"
+  name: "File Create"
+  normalized_name: "file_create"
+  aliases:
+    - "File Creation Detection"
+    - "New File Monitoring"
+    - "File Write Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+    - PERSIST
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for monitoring file creation operations on endpoints. File create detection tracks when new files are written to the file system, capturing the file path, creating process, user context, file attributes, and content characteristics. This is one of the most fundamental endpoint detection capabilities, providing visibility into malware drops, tool deployment, persistence mechanism installation, and data staging activities."
+  why: "File creation is a prerequisite for most attack activities on an endpoint. Malware must be written to disk before execution, persistence mechanisms require files in specific locations, and data staging involves creating collection files. Monitoring file creation in security-sensitive directories enables early detection of threats before they achieve their objectives."
+  how: "EDR mini-filter drivers and kernel callbacks (PsSetCreateProcessNotifyRoutine, ObRegisterCallbacks) capture file creation events at the kernel level. Windows Sysmon Event ID 11 (FileCreate) provides user-mode file creation logging. Monitor creation events in sensitive paths including system directories, startup folders, scheduled task locations, and temporary directories. Apply content inspection to newly created files using YARA rules and magic byte analysis."
+  core_concepts:
+    - key: "File System Mini-Filter"
+      value: "Kernel-mode driver that intercepts file I/O operations including file creation, providing real-time notification to security monitoring agents"
+    - key: "Sysmon Event 11"
+      value: "Windows Sysmon event type that logs file creation operations with process context, file path, and creation timestamp"
+    - key: "Sensitive Path Monitoring"
+      value: "Focused detection on file creation in high-risk directories such as system folders, startup locations, and temporary paths commonly used by attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File create is a specific type of file event"
+  - type: abstracts
+    target: "DETECT-ENDPOINT-FILECREA-002"
+    description: "General file create pattern abstracts specific file creation implementations"
+  - type: effective_against
+    target: "ATK-PERSIST-STARTUP-001"
+    description: "Detects persistence mechanism installation through file creation in startup locations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic:
+      - "Command and Control"
+      - "Persistence"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Sysinternals - Sysmon Event ID 11"
+    - "MITRE ATT&CK T1105 - Ingress Tool Transfer"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file create"
+    - "file creation"
+    - "new file detection"
+    - "Sysmon event 11"
+    - "malware drop"
+    - "file write"
+    - "persistence file"
+    - "sensitive path monitoring"
+  embedding_text: "File Create is an endpoint detection pattern for monitoring file creation operations on endpoints. It tracks new files written to the file system including file path, creating process, user context, attributes, and content characteristics. This fundamental detection capability provides visibility into malware drops, tool deployment, persistence mechanism installation, and data staging. Detection uses EDR mini-filter drivers, kernel callbacks, and Sysmon Event ID 11 for file creation logging. Monitoring focuses on sensitive paths including system directories, startup folders, scheduled task locations, and temporary directories, with content inspection using YARA rules and magic byte analysis on newly created files."

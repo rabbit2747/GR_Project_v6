@@ -1,0 +1,76 @@
+# GR Atom: Project Discovery
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-PROJDISC-001"
+  name: "Project Discovery"
+  normalized_name: "project_discovery"
+  aliases:
+    - "ProjectDiscovery"
+    - "pdtm"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RECON
+    - PENTEST
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Project Discovery is an open-source security tools organization that develops and maintains a suite of widely used reconnaissance, vulnerability scanning, and attack surface discovery tools for security researchers and bug bounty hunters. Key tools include Nuclei (template-based vulnerability scanner), httpx (HTTP probing toolkit), subfinder (subdomain discovery), naabu (port scanner), katana (web crawler), and numerous other utilities. The organization has built one of the largest open-source vulnerability detection template ecosystems, with thousands of community-contributed detection templates covering CVEs, misconfigurations, and exposures."
+  why: "Project Discovery is one of the most impactful open-source security tool organizations, providing freely available tools that are used globally by security researchers, penetration testers, bug bounty hunters, and enterprise security teams. The Nuclei template ecosystem enables rapid detection of newly disclosed vulnerabilities across the internet, significantly reducing the time between vulnerability disclosure and widespread detection. Their tools have democratized attack surface management capabilities."
+  how: "Project Discovery develops tools in Go language, maintaining them as open-source projects on GitHub. Nuclei operates through YAML-based templates that describe vulnerability detection logic, allowing the community to rapidly contribute new detections. The tool suite integrates to form a complete reconnaissance and vulnerability assessment pipeline: subdomain enumeration, port scanning, HTTP probing, web crawling, and vulnerability detection."
+  core_concepts:
+    - key: "Nuclei Vulnerability Scanner"
+      value: "Template-based vulnerability scanner with thousands of community-contributed detection templates"
+    - key: "Attack Surface Discovery"
+      value: "Suite of tools for subdomain enumeration, port scanning, HTTP probing, and web crawling"
+    - key: "Open-Source Security Tooling"
+      value: "Free, community-driven security tools democratizing vulnerability detection and reconnaissance capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-BISHFOX-001"
+    description: "Tools used by security firms for reconnaissance and vulnerability assessment"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Tools and research presented at major security conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for tool development organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://projectdiscovery.io"
+    - "https://github.com/projectdiscovery"
+  search_keywords:
+    - "project discovery"
+    - "nuclei scanner"
+    - "subfinder"
+    - "httpx"
+    - "vulnerability scanner"
+    - "bug bounty tools"
+    - "reconnaissance"
+    - "attack surface"
+    - "open source security"
+    - "naabu"
+  embedding_text: "Project Discovery is an open-source security tools organization that develops and maintains a suite of widely used reconnaissance, vulnerability scanning, and attack surface discovery tools. Key tools include Nuclei (template-based vulnerability scanner), httpx (HTTP probing toolkit), subfinder (subdomain discovery), naabu (port scanner), and katana (web crawler). The organization has built one of the largest open-source vulnerability detection template ecosystems with thousands of community-contributed templates covering CVEs, misconfigurations, and exposures. Project Discovery tools are used globally by security researchers, penetration testers, bug bounty hunters, and enterprise security teams, democratizing attack surface management capabilities and enabling rapid detection of newly disclosed vulnerabilities across the internet."

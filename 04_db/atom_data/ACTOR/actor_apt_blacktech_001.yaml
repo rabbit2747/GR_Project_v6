@@ -1,0 +1,92 @@
+# GR Atom: BlackTech
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BLACKTECH-001"
+  name: "BlackTech"
+  normalized_name: "blacktech"
+  aliases:
+    - "Palmerworm"
+    - "Temp.Overboard"
+    - "Circuit Panda"
+    - "Radio Panda"
+    - "T-APT-03"
+    - "Manga Taurus"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - EVADE
+    - LATERAL
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BlackTech is a Chinese state-sponsored APT group active since at least 2010, targeting government, industrial, technology, media, electronics, and telecommunications sectors primarily in Japan, Taiwan, and the United States. In 2023, a joint advisory from NSA, FBI, and CISA highlighted BlackTech's ability to modify router firmware on Cisco and other brand routers to establish persistent, covert access, enabling them to pivot from international subsidiaries into corporate headquarters networks."
+  why: "BlackTech is among the most technically sophisticated Chinese APT groups, with the rare capability to modify router firmware without detection, creating persistent network access that survives reboots and evades standard monitoring. This router-level compromise enables the group to intercept traffic, pivot through trusted network segments, and maintain long-term access to high-value corporate and government targets."
+  how: "BlackTech compromises branch office routers through stolen or default credentials, then replaces legitimate firmware with modified versions containing backdoors. The group uses GRE tunnels and other network-level techniques to exfiltrate data through compromised routers. They also deploy multiple custom backdoors including BendyBear, FakeDead (TSCookie), FlagPro, and SpiderPig on endpoint systems. Initial access often comes through spearphishing, exploitation of internet-facing applications, and supply chain compromise through trusted vendor relationships."
+  core_concepts:
+    - key: "Router Firmware Modification"
+      value: "Modifies Cisco and other router firmware to create persistent backdoor access that survives reboots"
+    - key: "Subsidiary Pivoting"
+      value: "Compromises international subsidiary networks to pivot into corporate headquarters"
+    - key: "Custom Malware Arsenal"
+      value: "Maintains extensive custom backdoor toolkit including BendyBear, TSCookie, FlagPro, and SpiderPig"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing and supply chain compromise for initial access"
+  - type: is_a
+    target: "ACTOR-APT-BLACKTECH-001"
+    description: "Chinese state-sponsored APT group with router firmware compromise capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1542.004"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Defense Evasion"
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NSA/FBI/CISA Joint Advisory - BlackTech Router Firmware Attacks 2023"
+    - "MITRE ATT&CK - BlackTech Group Profile"
+    - "Trend Micro - Palmerworm Campaign Analysis"
+  search_keywords:
+    - "blacktech"
+    - "palmerworm"
+    - "circuit panda"
+    - "router firmware backdoor"
+    - "cisco firmware modification"
+    - "chinese apt japan"
+    - "tscookie"
+    - "flagpro malware"
+    - "subsidiary pivoting"
+    - "manga taurus"
+  embedding_text: "BlackTech is a Chinese state-sponsored APT group active since at least 2010, targeting government, industrial, technology, media, electronics, and telecommunications sectors in Japan, Taiwan, and the United States. The group is distinguished by its ability to modify router firmware on Cisco and other brand devices to establish persistent, covert backdoor access that survives reboots and evades standard monitoring. BlackTech compromises branch office routers and uses them to pivot from international subsidiaries into corporate headquarters networks via GRE tunnels. They deploy an extensive custom malware arsenal including BendyBear, TSCookie (FakeDead), FlagPro, and SpiderPig. Initial access methods include spearphishing, internet-facing application exploitation, and supply chain compromise through trusted vendor relationships."

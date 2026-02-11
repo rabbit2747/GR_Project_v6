@@ -1,0 +1,92 @@
+# GR Atom: Windows Registry Value Get Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREVAGE-001"
+  name: "Windows Registry Value Get Event"
+  normalized_name: "windows_registry_value_get_event"
+  aliases:
+    - "Registry Value Read"
+    - "RegQueryValueEx Detection"
+    - "Registry Value Query"
+    - "Registry Data Read"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry values are read or queried by processes on an endpoint. This covers RegQueryValueEx, RegGetValue, and RegEnumValue API calls that retrieve value data from registry keys. Detection relies on Windows Security Event IDs 4656 and 4663 when SACLs are configured on the containing registry keys, as Sysmon does not natively log value read operations. The event captures the accessed registry key and value name, the value type and data returned, the querying process, and user context."
+  why: "Registry value read operations indicate reconnaissance activity where adversaries query system configuration, retrieve stored credentials, read security tool settings, or enumerate installed software. Monitoring reads on values containing sensitive data such as cached credentials, encryption keys, license information, and security configurations helps detect information gathering activities. Value reads often precede modification attacks as adversaries assess current configurations before changing them."
+  how: "Detection requires configuring SACLs on registry keys containing sensitive values, with audit entries for KEY_QUERY_VALUE access. Windows Security Events 4656 and 4663 capture these value access attempts. ETW providers including Microsoft-Windows-Kernel-Registry can capture kernel-level value read operations. EDR agents provide value read telemetry with process context. Due to the extremely high volume of legitimate value reads, detection rules must be highly selective, focusing on reads of specific sensitive values by unexpected or untrusted processes."
+  core_concepts:
+    - key: "credential_value_access"
+      value: "Monitoring reads of registry values known to contain cached credentials, password hashes, or encryption keys"
+    - key: "configuration_reconnaissance"
+      value: "Detecting adversary queries of security tool configurations, system settings, and network parameters stored as registry values"
+    - key: "selective_auditing"
+      value: "Due to extreme volume, value read auditing must be precisely targeted to specific high-value entries to be operationally viable"
+    - key: "pre_modification_read"
+      value: "Value reads preceding value modifications indicate an adversary assessing current state before making changes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGVAL-001"
+    description: "Registry value get is a specific type of registry value operation event"
+  - type: "precedes"
+    target: "DETECT-ENDPOINT-WIREVAUP-001"
+    description: "Value read operations often precede value update operations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1012"
+    tactic:
+      - "discovery"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - RegQueryValueEx Function"
+    - "MITRE ATT&CK T1012 - Query Registry"
+    - "Windows Security Audit Events 4656, 4663"
+    - "Microsoft Documentation - Registry Value Types"
+  search_keywords:
+    - "registry value read"
+    - "registry value get"
+    - "RegQueryValueEx"
+    - "registry value query"
+    - "registry data read"
+    - "Event ID 4663"
+    - "registry value access"
+    - "registry discovery"
+    - "credential registry read"
+    - "registry value enumeration"
+  embedding_text: "Windows registry value get event detection pattern identifies when registry values are read or queried by processes via RegQueryValueEx and RegGetValue API calls. Relies on Windows Security Events 4656 and 4663 with configured SACLs since Sysmon does not log value reads natively. Registry value reads indicate reconnaissance including credential access, security tool configuration enumeration, and system information gathering. Maps to MITRE ATT&CK T1012 Query Registry. Due to extremely high volume of legitimate reads, detection must be precisely targeted to specific sensitive values. Often precedes modification attacks as adversaries assess current configurations before changing them."

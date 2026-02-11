@@ -1,0 +1,99 @@
+# GR Atom: App Protocol Abuse Pattern
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-APPRABPA-001"
+  name: "App Protocol Abuse Pattern"
+  normalized_name: "app_protocol_abuse_pattern"
+  aliases:
+    - "Application Layer Protocol Abuse"
+    - "Protocol Misuse Detection"
+    - "Application Protocol Anomaly"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - HTTP
+    - DNS
+    - C2
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies misuse or abuse of legitimate application-layer protocols for malicious purposes. This includes tunneling non-standard payloads through HTTP/HTTPS, encoding command-and-control traffic within DNS queries, using SMTP for data exfiltration, or embedding covert channels within protocols like ICMP or WebSocket. The pattern examines protocol compliance, payload characteristics, and behavioral anomalies to distinguish normal application protocol usage from adversarial abuse."
+  why: "Adversaries frequently abuse trusted application protocols to bypass network security controls such as firewalls, proxies, and IDS. By hiding malicious traffic within legitimate protocol channels, attackers can maintain persistent command-and-control communications, exfiltrate data, and evade signature-based detection. Identifying protocol abuse is essential for detecting sophisticated threats that leverage the implicit trust of standard application protocols."
+  how: "Detection relies on deep packet inspection to verify protocol conformance, analyzing payload entropy and structure for anomalies, monitoring request-response ratios and timing patterns, and correlating session behavior against established protocol specifications. Techniques include inspecting HTTP headers for non-standard fields, analyzing DNS query lengths and frequencies for tunneling indicators, checking SMTP conversations for unusual attachment patterns, and monitoring for protocol encapsulation or tunneling behaviors that deviate from RFC specifications."
+  core_concepts:
+    - key: "Protocol Conformance"
+      value: "Validating that traffic within a given protocol adheres to its RFC specification and expected behavioral norms."
+    - key: "Covert Channel Detection"
+      value: "Identifying hidden communication channels embedded within legitimate protocol traffic used for C2 or data exfiltration."
+    - key: "Payload Anomaly Analysis"
+      value: "Examining payload characteristics including entropy, encoding, and structure to detect non-standard or malicious content."
+    - key: "Behavioral Protocol Profiling"
+      value: "Building profiles of normal protocol usage patterns to detect deviations indicative of abuse."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: effective_against
+    target: "ATK-C2-PROTO-001"
+    description: "Detects command-and-control traffic hidden within application protocols"
+  - type: enables
+    target: "DETECT-NETWORK-DNSBEAC-001"
+    description: "Protocol abuse pattern analysis enables specific DNS beaconing detection"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Identifies protocol abuse techniques used for data exfiltration"
+  - type: requires
+    target: "DETECT-NETWORK-HTTP-001"
+    description: "Requires HTTP event inspection for web protocol abuse detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071"
+    tactic:
+      - "Command and Control"
+    sub_techniques:
+      - "T1071.001"
+      - "T1071.004"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Application Layer Protocol T1071"
+    - "SANS Institute - Detecting Covert Channels in Network Traffic"
+    - "RFC 7230 - HTTP/1.1 Message Syntax and Routing"
+  search_keywords:
+    - "protocol abuse"
+    - "application layer misuse"
+    - "covert channel"
+    - "protocol tunneling"
+    - "DNS tunneling"
+    - "HTTP abuse"
+    - "protocol anomaly"
+    - "C2 protocol"
+    - "deep packet inspection"
+    - "protocol conformance"
+  embedding_text: "Application protocol abuse pattern detection identifies misuse of legitimate application-layer protocols such as HTTP, DNS, SMTP, and ICMP for malicious purposes including command-and-control communication, data exfiltration, and covert channel establishment. The pattern uses deep packet inspection, payload entropy analysis, protocol conformance validation, and behavioral profiling to distinguish normal protocol usage from adversarial abuse. This is critical for detecting sophisticated threats that tunnel malicious traffic through trusted protocols to bypass firewalls, proxies, and signature-based network security controls."

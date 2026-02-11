@@ -1,0 +1,72 @@
+# GR Atom: CVE-2020-15257
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202015257-001"
+  name: "CVE-2020-15257"
+  normalized_name: "cve_2020_15257"
+  aliases:
+    - "containerd Host Network Namespace Escape"
+    - "containerd Abstract Socket Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - CONTAINER
+    - DOCKER
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "containerd"
+    - "Docker"
+    - "Kubernetes"
+
+definition:
+  what: "CVE-2020-15257 is a privilege escalation vulnerability in containerd versions before 1.3.9 and 1.4.3 where containers running with host network namespace access can escalate privileges by accessing the containerd shim API through abstract Unix domain sockets. The containerd-shim API socket is accessible to containers sharing the host network namespace, allowing container escape."
+  why: "containerd is the default container runtime for Docker and Kubernetes, making this vulnerability widespread across container orchestration platforms. Containers running with host network namespace (--net=host or hostNetwork: true) are common in monitoring agents, network tools, and service meshes. The ability to escape container isolation and interact with the containerd shim API allows attackers to manipulate other containers, access host filesystem, and achieve full host compromise."
+  how: "When a container runs with host network namespace access, it can reach abstract Unix domain sockets created by containerd-shim processes. The shim API was not protected by proper access controls, allowing any process in the host network namespace to send commands to the shim. An attacker within such a container can use the shim API to start new processes in the context of other containers or the host, effectively escaping container isolation. Fixed in containerd 1.3.9 and 1.4.3 by restricting shim API socket access. CVSS v3: 5.2 (Medium)."
+  core_concepts:
+    - key: "Abstract Unix Domain Sockets"
+      value: "Linux-specific socket type in the abstract namespace that is accessible to all processes sharing the same network namespace, used by containerd-shim without proper access control"
+    - key: "Host Network Namespace Escape"
+      value: "Container escape technique exploiting shared host network namespace to access containerd management APIs that should be isolated from container processes"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2020-15257 is a configuration vulnerability in containerd's shim API access controls"
+  - type: applies_to
+    target: "VUL-CONFIG-CLOUD-001"
+    description: "This containerd vulnerability affects cloud-hosted Kubernetes and Docker deployments"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1611"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-15257 - NVD NIST"
+    - "containerd Security Advisory GHSA-36xw-fx78-c5r4"
+    - "MITRE ATT&CK T1611 - Escape to Host"
+  search_keywords:
+    - "CVE-2020-15257"
+    - "containerd privilege escalation"
+    - "containerd shim API"
+    - "container escape"
+    - "host network namespace"
+    - "containerd abstract socket"
+    - "Docker container escape"
+  embedding_text: "CVE-2020-15257 is a privilege escalation vulnerability in containerd before versions 1.3.9 and 1.4.3 where containers running with host network namespace access can reach containerd-shim API abstract Unix domain sockets. The shim API lacked proper access controls, allowing containers to manipulate other containers or escape to the host. containerd is the default runtime for Docker and Kubernetes, making this widely impactful. Containers with host networking are common for monitoring and network tools. CVSS v3 score is 5.2 Medium. Fixed by restricting shim API socket access. Maps to MITRE ATT&CK T1611 Escape to Host."

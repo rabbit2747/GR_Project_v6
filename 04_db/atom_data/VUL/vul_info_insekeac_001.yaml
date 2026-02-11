@@ -1,0 +1,115 @@
+# GR Atom: Insecure Secret Key Access
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-INSEKEAC-001"
+  name: "Insecure Secret Key Access"
+  normalized_name: "insecure_secret_key_access"
+  aliases:
+    - "Secret Key Exposure"
+    - "Insecure Key Storage"
+    - "Hardcoded Secret Key"
+    - "CWE-798"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - CRED
+    - CRYPTO
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Application configuration files"
+    - "Environment variables"
+    - "Source code repositories"
+    - "Secret management systems"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Insecure Secret Key Access is a vulnerability class where cryptographic keys, API secrets,
+    signing keys, or other sensitive key material are stored or accessed insecurely. This includes
+    hardcoded secrets in source code, plaintext keys in configuration files, overly permissive
+    file permissions on key stores, secrets committed to version control, unencrypted transmission
+    of key material, and insufficient access controls on secret management systems. Exposure of
+    secret keys undermines all security controls that depend on them.
+  why: >-
+    Secret keys are the foundation of authentication, encryption, digital signatures, and access
+    control in modern systems. Compromised secret keys allow attackers to forge authentication
+    tokens, decrypt sensitive data, sign malicious code, impersonate services, and bypass security
+    controls entirely. The impact cascades because a single exposed key can compromise all data
+    and sessions protected by that key, potentially affecting millions of users.
+  how: >-
+    Attackers discover insecure secret keys through multiple vectors: scanning public repositories
+    for committed secrets, reading configuration files exposed through path traversal or
+    misconfiguration, extracting hardcoded keys from application binaries through reverse
+    engineering, accessing environment variables through SSRF or server-side injection, and
+    exploiting insufficient access controls on key management systems. Once obtained, keys
+    enable token forging, data decryption, and service impersonation.
+  core_concepts:
+    - key: "Secret Key Exposure Vectors"
+      value: "Hardcoded secrets, plaintext configs, repository commits, insecure transmission, and weak access controls on key stores"
+    - key: "Cascading Impact"
+      value: "Single key compromise undermines all dependent security controls including authentication, encryption, and signing"
+    - key: "Defense in Depth Failure"
+      value: "Insecure key access represents a fundamental break in the trust chain that cannot be mitigated by other controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "Insecure secret key access is a critical information disclosure vulnerability class"
+  - type: "enables"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Exposed keys enable cryptographic attacks including forged signatures and data decryption"
+  - type: "enables"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Compromised signing keys enable authentication bypass through forged tokens"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.004"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OWASP - Cryptographic Storage Cheat Sheet"
+    - "CWE-798 - Use of Hard-coded Credentials"
+    - "CWE-321 - Use of Hard-coded Cryptographic Key"
+    - "MITRE ATT&CK T1552.004"
+  search_keywords:
+    - "insecure secret key"
+    - "hardcoded credentials"
+    - "secret key exposure"
+    - "key management vulnerability"
+    - "plaintext secret"
+    - "committed secrets"
+    - "CWE-798"
+    - "API key exposure"
+  embedding_text: >-
+    Insecure Secret Key Access encompasses vulnerabilities where cryptographic keys, API secrets,
+    and signing keys are stored or accessed insecurely. Includes hardcoded secrets in source code,
+    plaintext keys in configuration files, secrets in version control, and weak access controls
+    on key management systems. Compromised keys undermine all dependent security controls
+    including authentication, encryption, and digital signatures. Attackers discover keys through
+    repository scanning, configuration file exposure, binary reverse engineering, and SSRF attacks.
+    Single key compromise can cascade to affect all protected data and sessions. Maps to CWE-798
+    and CWE-321.

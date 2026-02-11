@@ -1,0 +1,93 @@
+# GR Atom: Inbound Internet Encrypted Web Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-ININENWETR-001"
+  name: "Inbound Internet Encrypted Web Traffic"
+  normalized_name: "inbound_internet_encrypted_web_traffic"
+  aliases:
+    - "Inbound HTTPS Web Traffic"
+    - "Incoming Encrypted Web Requests"
+    - "TLS Web Traffic Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - TLS
+    - WAF
+    - MONITOR
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern specifically targeting encrypted web traffic (HTTPS) arriving from the internet to organization-hosted web applications and APIs. This pattern combines TLS metadata analysis with web-specific detection logic to identify threats within inbound HTTPS sessions including web application attacks, API abuse, bot activity, and credential stuffing concealed within encrypted web connections on ports 443 and 8443."
+  why: "The vast majority of modern web traffic is encrypted with TLS, meaning web application attacks like SQL injection, XSS, and CSRF are delivered through HTTPS channels. Without specific monitoring of inbound encrypted web traffic, web application threats bypass network-level inspection entirely. This detection pattern is essential for protecting internet-facing web applications and APIs from attacks that leverage encryption to evade security controls."
+  how: "Detection operates at two levels: without decryption, analysis examines TLS handshake metadata, certificate properties, connection patterns, request frequencies, and client fingerprints to identify suspicious behavior; with TLS termination at WAF or reverse proxy, full HTTP content inspection applies web attack signatures, behavioral analytics, bot detection, and rate limiting. Key indicators include unusual request rates from single sources, TLS fingerprints matching known attack tools, connections from Tor exit nodes or anonymizing proxies, and certificate pinning violations."
+  core_concepts:
+    - key: "HTTPS Inspection"
+      value: "Analyzing encrypted web traffic through TLS termination at WAF or reverse proxy to enable full HTTP content inspection."
+    - key: "Web Attack Signature Matching"
+      value: "Applying known web attack patterns to decrypted HTTPS traffic to detect injection, XSS, and other OWASP Top 10 threats."
+    - key: "Bot Detection"
+      value: "Identifying automated web requests through behavioral analysis, TLS fingerprinting, and request pattern analysis."
+    - key: "Client Fingerprinting"
+      value: "Using TLS and HTTP characteristics to fingerprint and classify web clients as legitimate browsers or attack tools."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-ININENTR-001"
+    description: "Inbound encrypted web traffic is a specific type of inbound encrypted traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-ININWETR-001"
+    description: "Encrypted web traffic is a subset of all inbound web traffic"
+  - type: requires
+    target: "DETECT-NETWORK-HTTP-001"
+    description: "Requires HTTP event analysis capabilities for decrypted content inspection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exploit Public-Facing Application T1190"
+    - "OWASP - TLS Cheat Sheet"
+    - "SANS Institute - Monitoring Encrypted Web Traffic"
+  search_keywords:
+    - "inbound HTTPS traffic"
+    - "encrypted web traffic"
+    - "HTTPS monitoring"
+    - "TLS web inspection"
+    - "inbound web security"
+    - "HTTPS attack detection"
+    - "encrypted web monitoring"
+    - "WAF TLS inspection"
+    - "HTTPS bot detection"
+    - "web TLS analysis"
+  embedding_text: "Inbound internet encrypted web traffic detection targets HTTPS sessions arriving from the internet to web applications and APIs. It combines TLS metadata analysis with web-specific detection including attack signatures, behavioral analytics, bot detection, and client fingerprinting. Without decryption, it analyzes TLS handshakes, certificate properties, and connection patterns. With TLS termination at WAF or reverse proxy, full HTTP inspection detects web application attacks concealed within encrypted channels. This is essential for protecting internet-facing web services from OWASP Top 10 threats delivered over HTTPS."

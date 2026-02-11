@@ -1,0 +1,81 @@
+# GR Atom: CVE-2021-26855
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202126855-001"
+  name: "CVE-2021-26855"
+  normalized_name: "cve_2021_26855"
+  aliases:
+    - "ProxyLogon"
+    - "Exchange Server SSRF"
+    - "HAFNIUM Exchange Exploit"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - INITIAL
+    - SSRF
+    - WINDOWS
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+definition:
+  what: "CVE-2021-26855 (ProxyLogon) is a critical server-side request forgery (SSRF) vulnerability in Microsoft Exchange Server that allows an unauthenticated attacker to send arbitrary HTTP requests and authenticate as the Exchange server itself. By exploiting this SSRF, an attacker bypasses all authentication and gains access to Exchange backend services. CVSS v3: 9.8 (Critical). Disclosed in March 2021."
+  why: "Microsoft Exchange Server is the dominant on-premises enterprise email platform worldwide. ProxyLogon was mass-exploited by HAFNIUM, a Chinese state-sponsored group, and subsequently by dozens of other threat actors before and immediately after patch release. Microsoft estimated that at least 30,000 organizations in the US alone were compromised. The vulnerability enabled complete email exfiltration, webshell deployment, and lateral movement into corporate networks. CISA issued Emergency Directive 21-02."
+  how: "The vulnerability exists in the Exchange Server's handling of requests to the /owa/auth/x.js endpoint through the Client Access Service proxy. An attacker sends specially crafted HTTP requests with a malicious X-BEResource cookie that causes the Exchange server to make SSRF requests to its own backend services, authenticating as SYSTEM. This SSRF is chained with CVE-2021-27065 (arbitrary file write) to deploy web shells. The attacker sends a POST request to /ecp/x.js with the SSRF payload, gains an authenticated session, then writes a web shell to an accessible directory. Microsoft released out-of-band emergency patches in March 2021."
+  core_concepts:
+    - key: "Exchange SSRF Authentication Bypass"
+      value: "Server-side request forgery in Exchange's Client Access Service proxy allows unauthenticated attackers to authenticate as the Exchange server itself to backend services"
+    - key: "Mass Exploitation Campaign"
+      value: "HAFNIUM and dozens of threat groups mass-exploited ProxyLogon before and after patch availability, compromising tens of thousands of Exchange servers worldwide"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "ProxyLogon is an authentication bypass vulnerability via SSRF in Microsoft Exchange Server"
+  - type: enables
+    target: "VUL-AUTH-CVE202127065-001"
+    description: "ProxyLogon SSRF enables exploitation of CVE-2021-27065 for arbitrary file write and web shell deployment"
+  - type: enables
+    target: "VUL-AUTH-CVE202126858-001"
+    description: "ProxyLogon authentication bypass enables exploitation of CVE-2021-26858 for arbitrary file write"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-26855 - NVD NIST"
+    - "Microsoft Security Blog - HAFNIUM Exchange Exploitation"
+    - "CISA Emergency Directive 21-02"
+    - "Volexity - ProxyLogon Discovery and Analysis"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2021-26855"
+    - "ProxyLogon"
+    - "HAFNIUM"
+    - "Exchange SSRF"
+    - "Exchange Server authentication bypass"
+    - "Exchange Server mass exploitation"
+    - "Exchange ProxyLogon exploit"
+    - "Microsoft Exchange zero-day"
+  embedding_text: "CVE-2021-26855 known as ProxyLogon is a critical server-side request forgery vulnerability in Microsoft Exchange Server allowing unauthenticated attackers to bypass authentication and access Exchange backend services. CVSS v3 score is 9.8 Critical. Exploited by HAFNIUM Chinese state-sponsored group in a mass exploitation campaign compromising over 30,000 organizations in the US. Chained with CVE-2021-27065 for web shell deployment. The SSRF exploits the Client Access Service proxy via crafted X-BEResource cookies. CISA issued Emergency Directive 21-02. Affects Exchange Server 2013, 2016, and 2019. Microsoft released emergency out-of-band patches March 2021. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application. One of the most impactful Exchange vulnerabilities ever disclosed."

@@ -1,0 +1,89 @@
+# GR Atom: File Mount Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEMOUN-001"
+  name: "File Mount Event"
+  normalized_name: "file_mount_event"
+  aliases:
+    - "Volume Mount Detection"
+    - "Disk Image Mount Event"
+    - "File System Mount Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a file-based volume or disk image is mounted on an endpoint. This includes mounting of ISO images, VHD/VHDX virtual disks, IMG disk images, WIM images, and encrypted container files. The event captures the mounted image file path, mount point, file system type, the process initiating the mount, and user context. File mount events are increasingly important as attackers use container files to bypass Mark of the Web protections and deliver payloads."
+  why: "Attackers use mountable disk images (ISO, VHD, IMG) as delivery containers because files extracted from mounted images may not inherit the Mark of the Web security flag, bypassing SmartScreen and other zone-based security controls. This technique has become a primary alternative to macro-based document attacks. Monitoring mount events enables detection of this evasion technique before payload extraction and execution."
+  how: "Monitor Windows Virtual Disk Service events and CDrom class driver mount notifications. Track process creation of explorer.exe handling mounted volume content. Detect ImDisk, Virtual CloneDrive, and native Windows mount operations through ETW providers. Monitor for ISO/VHD/IMG file creation followed by immediate mount operations, especially from email clients and browser download directories. Correlate mount events with subsequent file access and execution events within mounted volumes."
+  core_concepts:
+    - key: "Mark of the Web Bypass"
+      value: "Technique using container files (ISO, VHD) to deliver payloads that avoid inheriting the Zone.Identifier alternate data stream, bypassing SmartScreen protection"
+    - key: "Virtual Disk Mount"
+      value: "The operating system operation of attaching a disk image file as a virtual drive, making its contents accessible through a drive letter or mount point"
+    - key: "Container-Based Delivery"
+      value: "Attack technique of packaging malicious payloads inside mountable container files to bypass security controls that inspect individual files"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File mount events are a specific type of file event"
+  - type: effective_against
+    target: "ATK-EVASION-MOTW-001"
+    description: "Detects Mark of the Web bypass through container file mounting"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILEACCE-001"
+    description: "Mounted volumes enable access to contained files for subsequent detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1553.005"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1553.005"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1553.005 - Subvert Trust Controls: Mark-of-the-Web Bypass"
+    - "Microsoft Documentation - Virtual Hard Disk"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file mount"
+    - "ISO mount"
+    - "VHD mount"
+    - "disk image mount"
+    - "MOTW bypass"
+    - "container delivery"
+    - "virtual disk"
+    - "volume mount event"
+  embedding_text: "File Mount Event is an endpoint detection pattern for events generated when file-based volumes or disk images are mounted. This covers ISO, VHD, VHDX, IMG, and WIM image mounting. Attackers increasingly use mountable container files to bypass Mark of the Web protections because extracted files may not inherit the Zone.Identifier security flag, evading SmartScreen. Detection monitors Virtual Disk Service events, CDrom driver mount notifications, and ETW providers for mount operations. Correlation of ISO/VHD creation from email clients and browser downloads with immediate mount operations and subsequent payload execution provides high-fidelity detection of container-based delivery attacks."

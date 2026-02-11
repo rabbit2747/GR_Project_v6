@@ -1,0 +1,110 @@
+# GR Atom: ScSecSvc
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SCSECSVC-001"
+  name: "ScSecSvc"
+  normalized_name: "scsecsvc"
+  aliases:
+    - "Security Center Service"
+    - "Windows Security Center Service"
+    - "wscsvc"
+    - "SecurityHealthService"
+    - "Windows Security Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - MONITOR
+    - EDR
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ScSecSvc (Security Center Service, wscsvc) is a Windows operating system service that
+    monitors the security health state of the system. It tracks the status of antivirus,
+    firewall, automatic updates, Internet security settings, User Account Control, and
+    Windows Defender. The service reports security provider registration status to the
+    Windows Security Center (Action Center in Windows 10/11) and provides WMI interfaces
+    for third-party security products to register their status.
+  why: >-
+    The Security Center Service provides centralized visibility into endpoint security posture
+    on Windows systems. It detects when antivirus is disabled, firewall is turned off, or
+    updates are not current. Attackers frequently target this service to suppress security
+    alerts after disabling protection tools. Malware may modify Security Center registry
+    keys or stop the service to prevent users and administrators from receiving alerts about
+    disabled security controls.
+  how: >-
+    The service monitors Windows Security Providers via WMI (Windows Management Instrumentation)
+    namespace root\SecurityCenter2. Security products register as antivirus, antispyware, or
+    firewall providers through the Windows Security Center API. The service polls provider
+    status and generates Windows notifications when security state degrades. Registry keys
+    under HKLM\SOFTWARE\Microsoft\Security Center control service behavior. Group Policy
+    can configure notification suppression. The service interacts with Windows Defender,
+    third-party AV products, and Windows Firewall state.
+  core_concepts:
+    - key: "Security State Monitoring"
+      value: "Centralized monitoring of antivirus, firewall, updates, and UAC status providing unified endpoint security visibility"
+    - key: "Provider Registration"
+      value: "Third-party security products register via WMI SecurityCenter2 namespace to report status to Windows Security Center"
+    - key: "Alert Suppression Target"
+      value: "Attackers disable Security Center service or modify registry to suppress alerts about disabled security controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-SECUHEAL-001"
+    description: "ScSecSvc provides security state data consumed by the Windows Security Health Service for health reporting"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "Security Center Service functions as a Windows built-in endpoint sensor monitoring security product status"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Microsoft - Windows Security Center Service Documentation"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "Microsoft - WMI SecurityCenter2 Namespace Reference"
+  search_keywords:
+    - "ScSecSvc"
+    - "wscsvc"
+    - "Windows Security Center"
+    - "Security Center Service"
+    - "SecurityCenter2"
+    - "Windows security monitoring"
+    - "security provider registration"
+  embedding_text: >-
+    ScSecSvc (Security Center Service, wscsvc) is a Windows service monitoring endpoint security
+    health including antivirus, firewall, updates, and UAC status. Reports security provider
+    status via WMI SecurityCenter2 namespace. Third-party security products register through
+    the Windows Security Center API. Generates notifications when security state degrades.
+    Attackers target this service to suppress alerts after disabling protection tools. Malware
+    modifies Security Center registry keys or stops the service to prevent detection alerts.
+    Interacts with Windows Defender and third-party AV products.

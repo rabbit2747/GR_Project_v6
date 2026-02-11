@@ -1,0 +1,117 @@
+# GR Atom: ColdFusion
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-COLDFUSION-001"
+  name: "ColdFusion"
+  normalized_name: "coldfusion"
+  aliases:
+    - "Adobe ColdFusion"
+    - "CF Server"
+    - "ColdFusion Application Server"
+    - "CFML Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CONFIG
+    - EXEC
+    - UPLOAD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Adobe ColdFusion is a commercial rapid web application development platform and application
+    server that uses the ColdFusion Markup Language (CFML) to build dynamic websites and web
+    applications. It runs as a Java EE application on top of Apache Tomcat and provides built-in
+    features for database connectivity, PDF generation, charting, file management, and web service
+    integration. ColdFusion can be deployed as a standalone server or as a WAR file on existing
+    Java application servers.
+  why: >-
+    ColdFusion has a long history of critical security vulnerabilities including remote code
+    execution (CVE-2023-26360, CVE-2023-29298, CVE-2023-38205), arbitrary file read (CVE-2023-26359),
+    and deserialization attacks. Its administrator console, if exposed, provides a direct path to
+    server compromise. ColdFusion servers are frequently targeted by attackers due to often being
+    outdated, internet-facing, and running with elevated privileges. CISA has added multiple
+    ColdFusion vulnerabilities to its Known Exploited Vulnerabilities catalog.
+  how: >-
+    ColdFusion processes CFML templates through its application server engine, compiling them into
+    Java bytecode for execution on the JVM. The server handles HTTP requests through an embedded
+    Tomcat instance, routing them to CFML pages that interact with databases via JDBC, generate
+    dynamic content, and manage sessions. The ColdFusion Administrator console provides web-based
+    management of data sources, scheduled tasks, security settings, and server configuration.
+    Exploitation typically targets deserialization endpoints, the administrator console, or
+    file upload/read vulnerabilities in the CFML processing engine.
+  core_concepts:
+    - key: "CFML Application Server"
+      value: "Java-based application server processing ColdFusion Markup Language templates into dynamic web content through JVM bytecode compilation"
+    - key: "Critical Vulnerability History"
+      value: "Extensive history of RCE, deserialization, and file access vulnerabilities actively exploited in the wild and tracked by CISA KEV catalog"
+    - key: "Administrator Console Exposure"
+      value: "Web-based administration interface that if accessible provides direct server compromise through configuration manipulation and code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "ColdFusion is an enterprise application server platform for web application hosting"
+  - type: "requires"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "ColdFusion runs on embedded Tomcat and can integrate with external web servers for request handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Adobe ColdFusion Security Bulletins"
+    - "CISA Known Exploited Vulnerabilities Catalog - ColdFusion entries"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "CVE-2023-26360 ColdFusion Deserialization RCE Advisory"
+  search_keywords:
+    - "Adobe ColdFusion"
+    - "ColdFusion vulnerability"
+    - "CFML server"
+    - "ColdFusion RCE"
+    - "CVE-2023-26360"
+    - "ColdFusion deserialization"
+    - "ColdFusion administrator exploit"
+    - "ColdFusion application server"
+  embedding_text: >-
+    Adobe ColdFusion is a commercial web application server using ColdFusion Markup Language
+    (CFML) running on Java EE with embedded Apache Tomcat. It provides rapid development
+    features including database connectivity, PDF generation, and web service integration.
+    ColdFusion has an extensive history of critical security vulnerabilities including remote
+    code execution through deserialization (CVE-2023-26360), arbitrary file read, and
+    administrator console exploitation. Multiple vulnerabilities appear in CISA Known Exploited
+    Vulnerabilities catalog. Common attack vectors target the administrator console, CFML
+    template processing engine, and Java deserialization endpoints. ColdFusion servers are
+    frequently targeted due to being internet-facing, often outdated, and running with elevated
+    privileges. Security teams should restrict administrator console access, apply patches
+    promptly, and monitor for exploitation indicators on ColdFusion deployments.

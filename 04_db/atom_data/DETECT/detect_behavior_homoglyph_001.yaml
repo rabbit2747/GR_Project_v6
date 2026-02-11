@@ -1,0 +1,78 @@
+# GR Atom: Homoglyph Detection
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-HOMOGLYPH-001"
+  name: "Homoglyph Detection"
+  normalized_name: "homoglyph_detection"
+  aliases:
+    - "IDN Homograph Attack Detection"
+    - "Unicode Lookalike Detection"
+    - "Visual Spoofing Detection"
+    - "Punycode Attack Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - EVADE
+    - MONITOR
+    - WEB
+    - DNS
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Homoglyph Detection identifies the use of visually similar characters from different Unicode scripts to create deceptive domain names, email addresses, filenames, and URLs that appear identical to legitimate ones. Homoglyphs are characters that look alike but have different Unicode code points, such as Cyrillic 'a' (U+0430) and Latin 'a' (U+0061), or Greek omicron (U+03BF) and Latin 'o' (U+006F). Attackers exploit these visual similarities to create phishing domains, spoofed email addresses, and deceptive filenames that are nearly indistinguishable from legitimate ones to human observers. The detection technique analyzes strings for mixed-script usage and visual similarity to known trusted domains."
+  why: "Homoglyph attacks, also known as IDN homograph attacks, are highly effective because the spoofed content is virtually indistinguishable from the legitimate original when displayed in web browsers, email clients, and file managers. A phishing domain using Cyrillic characters to replicate a bank's domain name can fool even security-aware users. Traditional string-matching security filters may not detect these attacks because the underlying character codes differ from the legitimate domain. Browser vendors have implemented partial mitigations, but homoglyph attacks remain effective particularly in email, messaging platforms, and file sharing where IDN display policies vary."
+  how: "Detection systems analyze domain names, email addresses, URLs, and filenames by decomposing each character into its Unicode code point and script classification. Mixed-script detection identifies strings that combine characters from multiple Unicode scripts, which is unusual for legitimate content. Confusable character databases, such as the Unicode Consortium's confusables.txt, map characters that are visually similar across scripts. The detection algorithm normalizes each input string to its skeleton form by replacing each character with its confusable equivalent, then compares the skeleton against known legitimate domains and entity names. Additional analysis includes Punycode conversion detection where internationalized domain names are decoded and checked for homoglyphs, Levenshtein distance calculation against known trusted domains, and visual rendering comparison. Integration with email security, web proxies, and DNS monitoring provides comprehensive coverage of homoglyph-based attacks."
+  core_concepts:
+    - key: "Homoglyph"
+      value: "Characters from different Unicode scripts that are visually identical or nearly identical, such as Latin 'a' and Cyrillic 'a'"
+    - key: "IDN Homograph Attack"
+      value: "An attack using internationalized domain names with homoglyphs to create domain names that appear identical to legitimate ones"
+    - key: "Skeleton Normalization"
+      value: "The process of converting each character to its base confusable equivalent to enable comparison against legitimate strings"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-EMAIPATT-001"
+    description: "Homoglyph detection is a component of email pattern analysis for identifying phishing emails"
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILNAMANO-001"
+    description: "Homoglyph detection is a component of file name anomaly analysis"
+  - type: effective_against
+    target: "ATK-INITIAL-PHISH-001"
+    description: "Detects phishing attacks using homoglyph domain spoofing"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Unicode Consortium - Security Mechanisms - https://www.unicode.org/reports/tr39/"
+    - "MITRE ATT&CK T1566.002 - Phishing: Spearphishing Link - https://attack.mitre.org/techniques/T1566/002/"
+    - "ICANN - IDN Homograph Attack Mitigation - https://www.icann.org/resources"
+  search_keywords:
+    - "homoglyph detection"
+    - "IDN homograph attack"
+    - "Unicode lookalike"
+    - "visual spoofing detection"
+    - "Punycode attack"
+    - "domain homoglyph"
+    - "mixed script detection"
+    - "confusable character"
+  embedding_text: "Homoglyph Detection identifies visually similar characters from different Unicode scripts used to create deceptive domain names, email addresses, and filenames. Attackers exploit characters like Cyrillic 'a' and Latin 'a' that appear identical but have different code points to create phishing domains indistinguishable from legitimate ones. Detection decomposes characters into Unicode code points and script classifications, identifies mixed-script usage, normalizes strings to skeleton forms using confusable character databases, and compares against known legitimate domains. Additional analysis includes Punycode conversion, Levenshtein distance calculation, and visual rendering comparison. Integration with email security, web proxies, and DNS monitoring provides comprehensive homoglyph attack coverage."

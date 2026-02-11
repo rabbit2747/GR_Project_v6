@@ -1,0 +1,137 @@
+# GR Atom: DNS Domain Name System
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-NAMING-DNSDOMNAM-001"
+  name: "DNS Domain Name System"
+  normalized_name: "dns_domain_name_system"
+  aliases:
+    - "DNS"
+    - "Domain Name System"
+    - "DNS Protocol"
+    - "DNS Resolution"
+    - "DNSSEC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 3
+  atom_tags:
+    - DNS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DNS (Domain Name System) is the hierarchical, distributed naming system defined in RFC 1034
+    and RFC 1035 that translates human-readable domain names to IP addresses and provides other
+    resource record lookups essential for Internet operation. DNS operates as a globally distributed
+    database organized in a tree structure from the root zone through TLDs (Top-Level Domains) to
+    individual domain names. The protocol uses UDP port 53 for queries (with TCP fallback for large
+    responses and zone transfers) and employs recursive and authoritative resolution models. DNS
+    is one of the most critical Internet infrastructure protocols, as virtually all network
+    communication begins with a DNS lookup.
+  why: >-
+    DNS is a primary target for cyberattacks because controlling name resolution enables
+    traffic redirection, data interception, and denial of service at massive scale. DNS cache
+    poisoning (Kaminsky attack, 2008) allows attackers to inject forged records into resolver
+    caches, redirecting users to malicious servers. DNS tunneling exfiltrates data through DNS
+    queries, bypassing firewalls that permit DNS traffic. DNS amplification is a leading DDoS
+    vector with up to 70x amplification factor. DNS hijacking through compromised registrars
+    or authoritative servers enables domain takeover. Domain generation algorithms (DGAs) use
+    DNS for malware command and control. DNSSEC deployment remains incomplete, leaving most DNS
+    traffic vulnerable to manipulation. DNS monitoring and security is fundamental to network
+    defense, threat detection, and incident response.
+  how: >-
+    DNS resolution operates through a hierarchical query process: (1) the client stub resolver
+    sends a query to its configured recursive resolver; (2) the recursive resolver queries root
+    name servers for TLD delegation; (3) TLD servers delegate to authoritative name servers for
+    the target domain; (4) authoritative servers return the requested resource records; (5) the
+    recursive resolver caches results according to TTL values and returns them to the client.
+    Security mechanisms include: DNSSEC (RFC 4033-4035) providing cryptographic data authenticity
+    via digital signatures on DNS records, DNS over HTTPS (DoH, RFC 8484) and DNS over TLS
+    (DoT, RFC 7858) encrypting DNS traffic, DNS Cookies (RFC 7873) for source verification,
+    Response Policy Zones (RPZ) for DNS-based threat blocking, DNS rate limiting for
+    amplification mitigation, and DANE (RFC 6698) binding TLS certificates to DNS records.
+    Monitoring DNS traffic patterns is essential for detecting tunneling, DGA activity, and
+    data exfiltration.
+  core_concepts:
+    - key: "DNS Cache Poisoning"
+      value: >-
+        An attack injecting forged DNS records into resolver caches to redirect users to
+        attacker-controlled servers. The Kaminsky attack (2008) demonstrated that DNS's reliance
+        on predictable transaction IDs made all resolvers vulnerable, driving DNSSEC adoption
+        and source port randomization.
+    - key: "DNSSEC"
+      value: >-
+        DNS Security Extensions (RFC 4033-4035) add cryptographic signatures to DNS records
+        using a chain of trust from the root zone, enabling resolvers to verify that responses
+        have not been modified in transit. DNSSEC validates data authenticity but does not
+        provide confidentiality.
+    - key: "DNS Tunneling"
+      value: >-
+        A technique encoding arbitrary data within DNS query names and response records to
+        establish covert communication channels that bypass firewalls permitting DNS traffic.
+        Used for data exfiltration, command and control, and circumventing network restrictions.
+    - key: "DNS Amplification"
+      value: >-
+        A DDoS attack exploiting DNS's use of UDP and the asymmetry between small queries and
+        large responses (especially ANY or TXT records) to amplify attack traffic by up to 70x
+        against targets whose IP addresses are spoofed in the source field.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "DNS primarily operates over UDP port 53 for standard queries and responses"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "DNS uses TCP for zone transfers, large responses exceeding UDP limits, and as fallback transport"
+  - type: "enables"
+    target: "PROTO-NAMING-HTTPS-001"
+    description: "DNS Domain Name System is the base protocol that DNS over HTTPS encrypts and secures"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 1034 - Domain Names: Concepts and Facilities (November 1987). IETF. https://datatracker.ietf.org/doc/html/rfc1034"
+    - "RFC 1035 - Domain Names: Implementation and Specification (November 1987). IETF. https://datatracker.ietf.org/doc/html/rfc1035"
+    - "RFC 4033 - DNS Security Introduction and Requirements (March 2005). IETF. https://datatracker.ietf.org/doc/html/rfc4033"
+    - "Kaminsky, D. (2008). Black Ops 2008: It's The End Of The Cache As We Know It. Black Hat USA 2008."
+  search_keywords:
+    - "DNS"
+    - "domain name system"
+    - "DNS cache poisoning"
+    - "DNSSEC"
+    - "DNS tunneling"
+    - "DNS amplification"
+    - "DNS hijacking"
+    - "DNS security"
+    - "RFC 1034"
+    - "DNS over HTTPS"
+    - "DNS over TLS"
+    - "domain generation algorithm"
+    - "DNS exfiltration"
+  embedding_text: >-
+    DNS (Domain Name System) is the hierarchical distributed naming protocol defined in RFC 1034/1035
+    that translates domain names to IP addresses and provides resource record lookups critical to
+    Internet operation. DNS is a primary attack target because controlling name resolution enables
+    traffic redirection, data interception, and denial of service at scale. Attack vectors include
+    cache poisoning, DNS tunneling for data exfiltration, amplification DDoS, DNS hijacking, and
+    domain generation algorithms for malware C2. Security mechanisms include DNSSEC for cryptographic
+    data authenticity, DNS over HTTPS/TLS for encryption, DNS Cookies for source verification,
+    Response Policy Zones for threat blocking, and traffic analysis for detecting tunneling and
+    DGA activity. DNS monitoring is fundamental to network defense and incident response.

@@ -1,0 +1,111 @@
+# GR Atom: CVE-2010-4398
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20104398-001"
+  name: "CVE-2010-4398"
+  normalized_name: "cve_2010_4398"
+  aliases:
+    - "win32k.sys Driver Privilege Escalation"
+    - "MS11-011"
+    - "Windows Kernel win32k.sys Stack Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OVERFLOW
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3"]
+  target_components:
+    - "Microsoft Windows win32k.sys"
+    - "Windows XP"
+    - "Windows Vista"
+    - "Windows 7"
+    - "Windows Server 2003/2008"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-4398 (CVSS 7.2) is a privilege escalation vulnerability in the Windows kernel-mode
+    driver win32k.sys caused by improper handling of a user-mode callback parameter. The
+    vulnerability allows a local attacker to trigger a stack-based buffer overflow in kernel
+    mode by passing a specially crafted parameter through a system call, enabling execution of
+    arbitrary code with SYSTEM privileges. Affects Windows XP through Windows 7 and Server
+    editions. Patched in MS11-011 (February 2011).
+  why: >-
+    This vulnerability continued the pattern of win32k.sys privilege escalation bugs that
+    became a primary exploitation technique for APT groups needing SYSTEM access after initial
+    compromise. The reliability of win32k.sys kernel exploits made them standard components
+    in exploit kits and targeted attack toolchains. The recurring nature of win32k.sys
+    vulnerabilities highlighted fundamental design issues in the Windows kernel graphics subsystem.
+  how: >-
+    The vulnerability is exploited by making a specific system call to win32k.sys with a
+    carefully crafted parameter that triggers a user-mode callback with a manipulated return
+    value. The kernel driver fails to properly validate the callback result, causing a stack
+    buffer overflow when processing the returned data. The attacker controls the overflow data
+    to overwrite the kernel stack return address, redirecting execution to shellcode that
+    elevates the current process token to SYSTEM privileges.
+  core_concepts:
+    - key: "User-Mode Callback Exploitation"
+      value: "win32k.sys fails to validate user-mode callback return values, enabling kernel stack overflow through crafted parameters"
+    - key: "Kernel Stack Overflow"
+      value: "Controlled kernel stack corruption enables overwriting return address for SYSTEM-level code execution"
+    - key: "Recurring win32k.sys Pattern"
+      value: "Part of a long series of privilege escalation vulnerabilities in the Windows kernel graphics driver"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-MEMORY-CVE20081084-001"
+    description: "Same vulnerability class: win32k.sys kernel buffer overflow for privilege escalation"
+  - type: "precedes"
+    target: "VUL-MEMORY-CVE20112005-001"
+    description: "Followed by another win32k.sys privilege escalation vulnerability in 2011"
+  - type: "applies_to"
+    target: "INFRA-OS-WINDOWS-001"
+    description: "Affects Windows XP through Windows 7 and Server editions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS11-011"
+    - "CVE-2010-4398 - NIST NVD"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2010-4398"
+    - "MS11-011"
+    - "win32k.sys privilege escalation"
+    - "kernel stack overflow"
+    - "user-mode callback"
+    - "Windows kernel vulnerability"
+    - "SYSTEM privilege escalation"
+  embedding_text: >-
+    CVE-2010-4398 is a privilege escalation vulnerability (CVSS 7.2) in Windows win32k.sys
+    kernel driver (MS11-011). Improper handling of user-mode callback parameters causes a
+    kernel stack buffer overflow enabling SYSTEM-level code execution. Affects Windows XP
+    through Windows 7 and Server editions. Part of the recurring pattern of win32k.sys
+    privilege escalation vulnerabilities that became standard components in APT exploit chains
+    and targeted attack toolkits.

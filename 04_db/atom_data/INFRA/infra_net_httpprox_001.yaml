@@ -1,0 +1,78 @@
+# GR Atom: HTTP Proxy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-HTTPPROX-001"
+  name: "HTTP Proxy"
+  normalized_name: "http_proxy"
+  aliases:
+    - "HTTP Proxy Server"
+    - "Web Proxy Server"
+    - "Application Layer Proxy"
+    - "HTTP Intermediary"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - LOG
+    - MONITOR
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N2.2"
+
+definition:
+  what: "An HTTP Proxy is a network intermediary that operates at the application layer to handle HTTP and HTTPS traffic between clients and servers. Unlike generic network proxies that forward traffic at lower layers, HTTP proxies understand HTTP protocol semantics and can inspect, modify, filter, cache, and log HTTP requests and responses. HTTP proxies can function as forward proxies handling outbound client requests, reverse proxies mediating inbound traffic to servers, or transparent proxies that intercept traffic without requiring client configuration. They support HTTP methods including GET, POST, PUT, DELETE, and CONNECT for tunneling HTTPS traffic. Common HTTP proxy implementations include Squid, Nginx, HAProxy, Apache mod_proxy, and various commercial web gateway appliances."
+  why: "HTTP proxies provide essential security and operational capabilities at the application layer where the majority of enterprise network traffic flows. They enable deep inspection of web traffic content for malware detection, data loss prevention, and policy enforcement that cannot be achieved by network-layer devices alone. HTTP proxies provide centralized logging of all web transactions for security monitoring, compliance auditing, and forensic investigation. They also improve performance through content caching, connection pooling, and compression. From an attacker perspective, HTTP proxies are both targets for compromise and tools used for anonymization, C2 communication, and traffic manipulation."
+  how: "HTTP proxies receive client HTTP requests through explicit configuration, PAC files, or transparent interception. The proxy parses the HTTP request headers and body, applies security policies including URL filtering, content inspection, authentication requirements, and rate limiting. For CONNECT method requests (HTTPS tunneling), the proxy can either tunnel the encrypted traffic passively or perform SSL/TLS interception to inspect the decrypted content. The proxy then forwards permitted requests to the destination server, receives the response, applies response-side policies, optionally caches the response, and returns it to the client. Connection pooling and keep-alive management optimize performance for high-traffic environments. Comprehensive access logs record source IP, username, destination URL, HTTP method, response code, and bytes transferred."
+  core_concepts:
+    - key: "HTTP CONNECT Method"
+      value: "The HTTP method used by clients to establish an end-to-end tunnel through the proxy for HTTPS and other protocols, creating a transparent TCP connection to the destination"
+    - key: "Application Layer Inspection"
+      value: "The ability of HTTP proxies to parse and understand HTTP protocol semantics enabling content-aware filtering, modification, and policy enforcement beyond what network-layer devices can achieve"
+    - key: "Connection Pooling"
+      value: "Proxy optimization technique that maintains persistent connections to frequently accessed backend servers, reducing connection establishment overhead for multiple client requests"
+
+relations:
+  - type: abstracts
+    target: "INFRA-NET-FORWPROX-001"
+    description: "HTTP proxy is a broader category that encompasses forward proxy functionality for outbound HTTP traffic"
+  - type: abstracts
+    target: "INFRA-NET-WEBPROX-001"
+    description: "HTTP proxy is the protocol-level concept that web proxy implementations build upon"
+  - type: enables
+    target: "INFRA-NET-HTTPCACH-001"
+    description: "HTTP proxies enable HTTP caching by intercepting and storing responses for repeated request patterns"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1090.002"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 7230 - HTTP/1.1 Message Syntax and Routing - https://datatracker.ietf.org/doc/html/rfc7230"
+    - "RFC 7235 - HTTP/1.1 Authentication - https://datatracker.ietf.org/doc/html/rfc7235"
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+  search_keywords:
+    - "HTTP proxy"
+    - "HTTP proxy server"
+    - "web proxy"
+    - "application layer proxy"
+    - "CONNECT method proxy"
+    - "HTTP intermediary"
+    - "SSL proxy inspection"
+    - "transparent HTTP proxy"
+  embedding_text: "An HTTP Proxy is a network intermediary operating at the application layer to handle HTTP and HTTPS traffic between clients and servers. Understanding HTTP protocol semantics, it can inspect, modify, filter, cache, and log web requests and responses. HTTP proxies function as forward proxies for outbound traffic, reverse proxies for inbound traffic, or transparent proxies intercepting traffic without client configuration. They support SSL/TLS interception for encrypted traffic inspection, URL filtering, content-aware policy enforcement, connection pooling, and comprehensive access logging. HTTP proxies are both critical security controls for enterprise web traffic monitoring and potential targets for attackers seeking to intercept or manipulate web communications."

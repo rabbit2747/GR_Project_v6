@@ -1,0 +1,128 @@
+# GR Atom: NIST RMF
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-RMF-001"
+  name: "NIST RMF"
+  normalized_name: "nist_rmf"
+  aliases:
+    - "Risk Management Framework"
+    - "NIST Risk Management Framework"
+    - "NIST SP 800-37"
+    - "RMF"
+    - "SP 800-37 RMF"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The NIST Risk Management Framework (RMF), defined in NIST SP 800-37 Rev. 2, is a structured
+    process for integrating security, privacy, and supply chain risk management activities into
+    the system development lifecycle of information systems. The RMF provides a seven-step
+    process: Prepare, Categorize, Select, Implement, Assess, Authorize, and Monitor. Originally
+    developed for federal information systems under FISMA, the RMF is mandatory for all U.S.
+    federal agencies and Department of Defense systems, and is increasingly adopted by private
+    sector organizations as a comprehensive risk management methodology.
+  why: >-
+    Organizations need a disciplined, structured approach to managing cybersecurity risk that
+    integrates security into the system development lifecycle rather than treating it as an
+    afterthought. The RMF provides this structure by establishing a repeatable process for
+    categorizing systems, selecting and implementing appropriate security controls, assessing
+    control effectiveness, making risk-based authorization decisions, and continuously monitoring
+    security posture. Without this framework, security decisions are ad hoc, controls may be
+    inappropriate for actual risk levels, and authorization decisions lack documented rationale.
+  how: >-
+    The RMF follows seven steps: (1) Prepare - establish organizational context, define roles,
+    and prepare for risk management activities; (2) Categorize - classify the information system
+    and data based on impact levels (low, moderate, high) using FIPS 199; (3) Select - choose
+    appropriate security controls from NIST SP 800-53 based on system categorization and
+    organizational risk assessment; (4) Implement - deploy selected security controls and
+    document implementation details; (5) Assess - evaluate whether controls are implemented
+    correctly, operating as intended, and producing desired outcomes; (6) Authorize - senior
+    officials make risk-based decisions to authorize system operation based on assessment
+    results; (7) Monitor - continuously track changes, reassess controls, and report security
+    status to maintain ongoing authorization.
+  core_concepts:
+    - key: "Seven-Step Process"
+      value: >-
+        The structured lifecycle of Prepare, Categorize, Select, Implement, Assess, Authorize,
+        and Monitor that provides a repeatable methodology for integrating security into
+        system development and operations.
+    - key: "System Categorization"
+      value: >-
+        Classification of information systems based on the potential impact of security
+        breaches to confidentiality, integrity, and availability using FIPS 199 impact
+        levels to determine appropriate security control baselines.
+    - key: "Authorization to Operate (ATO)"
+      value: >-
+        A formal decision by a senior official to accept the risk associated with operating
+        an information system based on documented assessment of security control effectiveness
+        and residual risk.
+    - key: "Continuous Monitoring"
+      value: >-
+        Ongoing assessment of security controls, system changes, and threat environment to
+        maintain security authorization and ensure controls remain effective throughout
+        the system lifecycle.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "The RMF is a NIST publication (SP 800-37) developed and maintained by NIST"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "RMF Select step draws security controls from the SP 800-53 catalog based on system categorization"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "RMF provides the system-level risk management process that operationalizes CSF organizational risk management"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-37 Rev. 2 - Risk Management Framework for Information Systems and Organizations. https://csrc.nist.gov/publications/detail/sp/800-37/rev-2/final"
+    - "NIST SP 800-37 Rev. 2 (December 2018). https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-37r2.pdf"
+    - "FIPS 199 - Standards for Security Categorization of Federal Information and Information Systems. https://csrc.nist.gov/publications/detail/fips/199/final"
+  search_keywords:
+    - "NIST RMF"
+    - "risk management framework"
+    - "SP 800-37"
+    - "authorization to operate"
+    - "ATO"
+    - "system categorization"
+    - "FISMA compliance"
+    - "continuous monitoring"
+    - "security control assessment"
+    - "federal risk management"
+  embedding_text: >-
+    The NIST Risk Management Framework defined in SP 800-37 Rev 2 is a structured seven-step
+    process for integrating security, privacy, and supply chain risk management into information
+    system development lifecycles. The steps are Prepare, Categorize, Select, Implement, Assess,
+    Authorize, and Monitor. Mandatory for U.S. federal agencies and DoD systems under FISMA,
+    the RMF provides disciplined risk management by categorizing systems using FIPS 199 impact
+    levels, selecting appropriate controls from SP 800-53, implementing and assessing those
+    controls, making risk-based authorization decisions through Authorization to Operate, and
+    continuously monitoring security posture. The framework ensures security is integrated
+    throughout the system lifecycle rather than treated as an afterthought. Without the RMF,
+    security decisions lack structure, controls may be inappropriate for actual risk levels,
+    and authorization decisions lack documented rationale. The RMF is increasingly adopted by
+    private sector organizations as a comprehensive risk management methodology.

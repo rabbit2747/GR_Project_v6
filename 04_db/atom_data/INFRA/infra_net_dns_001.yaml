@@ -1,0 +1,80 @@
+# GR Atom: DNS System
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-DNS-001"
+  name: "DNS System"
+  normalized_name: "dns_system"
+  aliases:
+    - "Domain Name System"
+    - "DNS Server"
+    - "DNS Infrastructure"
+    - "Name Resolution Service"
+    - "DNS Resolver"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - DNS
+    - CONFIG
+    - CACHE
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N3.2"
+
+definition:
+  what: "A DNS System is the network infrastructure responsible for translating human-readable domain names into IP addresses and providing other resource record lookups essential for internet and intranet communication. DNS systems consist of authoritative name servers that hold definitive records for domains, recursive resolvers that query on behalf of clients, caching servers that store recent query results to reduce latency, and forwarders that relay queries to upstream resolvers. DNS operates over UDP port 53 for standard queries and TCP port 53 for zone transfers and large responses, with DNS over HTTPS (DoH) and DNS over TLS (DoT) providing encrypted query channels. Enterprise DNS implementations such as Microsoft Active Directory DNS, BIND, Unbound, and cloud-based services like AWS Route 53 and Cloudflare DNS are foundational to network operation."
+  why: "DNS is one of the most critical infrastructure services because virtually all network communication depends on name resolution. DNS failures or compromises can render entire networks and applications unusable. From a security perspective, DNS is a high-value target and attack vector exploited for reconnaissance through zone transfers and passive DNS analysis, data exfiltration through DNS tunneling, command-and-control communication through DNS beaconing, cache poisoning attacks to redirect traffic, and DNS hijacking to intercept credentials. DNS monitoring and security controls are essential components of any defense strategy."
+  how: "When a client application needs to resolve a domain name, it sends a query to its configured DNS resolver. The resolver checks its cache for a recent answer. On a cache miss, the resolver performs iterative queries starting from the root name servers, proceeding through top-level domain servers to the authoritative name server for the target domain. The authoritative server responds with the requested resource record, which the resolver caches according to the TTL value and returns to the client. DNS security extensions (DNSSEC) provide authentication of DNS responses through cryptographic signatures. Enterprise DNS systems integrate with Active Directory, DHCP, and network access control systems to provide dynamic DNS registration and policy enforcement."
+  core_concepts:
+    - key: "Recursive Resolution"
+      value: "The process where a DNS resolver iteratively queries root, TLD, and authoritative name servers to resolve a domain name on behalf of a client"
+    - key: "DNS Caching"
+      value: "Temporary storage of DNS query results at resolvers and clients to reduce query latency and upstream server load, governed by TTL values"
+    - key: "DNSSEC"
+      value: "DNS Security Extensions that add cryptographic authentication to DNS responses, preventing cache poisoning and response forgery through digital signatures"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-FORWPROX-001"
+    description: "DNS resolution is required for forward proxy servers to resolve destination hostnames for client requests"
+  - type: enables
+    target: "INFRA-NET-CLOUDFRONT-001"
+    description: "DNS is essential for CloudFront CDN edge routing through CNAME and alias records that direct clients to the nearest edge location"
+  - type: enables
+    target: "INFRA-NET-VPN-001"
+    description: "DNS resolution is required for VPN clients to locate VPN gateway endpoints and for split-tunnel DNS configurations"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.004"
+    tactic: ["Command and Control", "Exfiltration"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 1035 - Domain Names - Implementation and Specification - https://datatracker.ietf.org/doc/html/rfc1035"
+    - "RFC 4033 - DNS Security Introduction and Requirements (DNSSEC)"
+    - "NIST SP 800-81-2 - Secure Domain Name System Deployment Guide - https://csrc.nist.gov/publications/detail/sp/800-81/2/final"
+    - "MITRE ATT&CK - T1071.004 Application Layer Protocol: DNS"
+  search_keywords:
+    - "DNS system"
+    - "domain name system"
+    - "DNS server"
+    - "DNS resolver"
+    - "DNSSEC"
+    - "DNS security"
+    - "DNS tunneling"
+    - "DNS cache poisoning"
+    - "name resolution"
+  embedding_text: "A DNS System is the network infrastructure that translates domain names into IP addresses and provides resource record lookups essential for all network communication. It comprises authoritative name servers, recursive resolvers, caching servers, and forwarders operating over UDP/TCP port 53, with encrypted variants including DNS over HTTPS and DNS over TLS. DNS is a critical attack surface exploited for reconnaissance via zone transfers, data exfiltration via DNS tunneling, command-and-control via DNS beaconing, and traffic redirection via cache poisoning. DNSSEC provides cryptographic authentication of responses. Enterprise DNS integrates with Active Directory, DHCP, and network access control systems for dynamic registration and policy enforcement."

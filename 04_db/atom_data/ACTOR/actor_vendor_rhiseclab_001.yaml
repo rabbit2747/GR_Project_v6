@@ -1,0 +1,70 @@
+# GR Atom: Rhino Security Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-RHISECLAB-001"
+  name: "Rhino Security Labs"
+  normalized_name: "rhino_security_labs"
+  aliases:
+    - "Rhino Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - CLOUD
+    - AWS
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Rhino Security Labs is a penetration testing and security research firm specializing in cloud security, particularly AWS environments. The company is known for developing Pacu, an open-source AWS exploitation framework used for cloud penetration testing and security assessments. Rhino Security Labs provides penetration testing, cloud security assessments, and red team services with deep expertise in cloud-native attack techniques and misconfigurations."
+  why: "Rhino Security Labs is significant in cybersecurity because their AWS-focused research and the Pacu exploitation framework have defined how the industry approaches cloud penetration testing. As organizations migrate to cloud infrastructure, understanding cloud-specific attack techniques and misconfigurations is essential. Rhino's research on AWS privilege escalation, IAM misconfiguration exploitation, and cloud attack paths directly informs defensive cloud security strategies."
+  how: "Rhino Security Labs conducts cloud penetration testing by identifying and exploiting misconfigurations in AWS IAM policies, S3 buckets, Lambda functions, EC2 instances, and other cloud services. Pacu provides automated enumeration, privilege escalation, and exploitation modules for AWS environments. The company publishes detailed research on cloud attack techniques through their blog, presents at security conferences, and maintains open-source tools on GitHub for cloud security assessment."
+  core_concepts:
+    - key: "Pacu AWS exploitation"
+      value: "Open-source AWS exploitation framework for cloud penetration testing and assessment"
+    - key: "Cloud penetration testing"
+      value: "Specialized security assessments of AWS and cloud-native environments"
+    - key: "Cloud attack research"
+      value: "Research on AWS privilege escalation, IAM exploitation, and cloud misconfiguration attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-PENTEST-PACU-001"
+    description: "Rhino Security Labs produces Pacu AWS exploitation framework"
+  - type: enables
+    target: "TECHNIQUE-CLOUDPENTEST-001"
+    description: "Rhino Security Labs enables cloud penetration testing through tools and research"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Rhino Security Labs Official Website"
+    - "GitHub - Pacu AWS Exploitation Framework"
+    - "Rhino Security Labs Research Blog"
+  search_keywords:
+    - "rhino security labs"
+    - "rhino security"
+    - "pacu aws"
+    - "pacu exploitation framework"
+    - "aws penetration testing"
+    - "cloud security assessment"
+    - "aws privilege escalation"
+  embedding_text: "Rhino Security Labs is a penetration testing and security research firm specializing in cloud security, particularly Amazon Web Services environments. The company developed Pacu, a widely used open-source AWS exploitation framework for cloud penetration testing that provides automated enumeration, privilege escalation, and exploitation modules for AWS services. Rhino Security Labs conducts cloud penetration testing by identifying and exploiting misconfigurations in AWS IAM policies, S3 buckets, Lambda functions, EC2 instances, and other cloud services. Their research on AWS privilege escalation paths, IAM misconfiguration exploitation, and cloud-native attack techniques has defined how the cybersecurity industry approaches cloud penetration testing and directly informs defensive cloud security strategies. The company publishes detailed research on cloud attack techniques through their blog, presents at security conferences, and maintains open-source tools for cloud security assessment."

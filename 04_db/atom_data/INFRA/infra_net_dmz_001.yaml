@@ -1,0 +1,79 @@
+# GR Atom: DMZ
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-DMZ-001"
+  name: "DMZ"
+  normalized_name: "dmz"
+  aliases:
+    - "Demilitarized Zone"
+    - "Perimeter Network"
+    - "Screened Subnet"
+    - "Network DMZ"
+    - "Security Zone"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - FIREWALL
+    - CONFIG
+    - PROXY
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "S1.1"
+
+definition:
+  what: "A DMZ (Demilitarized Zone) is a physical or logical network segment that sits between an organization's internal trusted network and an external untrusted network such as the internet. The DMZ hosts public-facing services including web servers, mail relays, DNS servers, reverse proxies, and VPN concentrators, isolating them from the internal network through firewall rules and access control lists. Traffic from the external network can reach DMZ-hosted services but cannot directly access the internal network, while internal network traffic can reach the DMZ and external networks subject to security policy. The DMZ architecture typically employs a dual-firewall design or a single firewall with three or more interfaces separating external, DMZ, and internal zones."
+  why: "The DMZ is a foundational network security architecture that provides defense in depth by creating a buffer zone between untrusted external networks and the trusted internal network. By placing public-facing services in the DMZ, organizations limit the blast radius of a compromise since an attacker who gains access to a DMZ-hosted server still faces additional firewall barriers before reaching internal resources. The DMZ enables organizations to provide external services while maintaining strict control over what traffic can flow between network zones, supporting the principle of least privilege at the network layer."
+  how: "A DMZ is implemented using firewalls that enforce zone-based security policies. In a dual-firewall configuration, the outer firewall allows inbound traffic from the internet to specific DMZ services on designated ports, while the inner firewall controls traffic from the DMZ to the internal network with strict rules allowing only necessary communication. Network address translation, intrusion detection and prevention systems, and logging are typically deployed at the DMZ boundaries. DMZ servers are hardened with minimal services, and management access to DMZ systems is provided through separate management networks or jump hosts. Security monitoring focuses heavily on DMZ traffic for indicators of compromise."
+  core_concepts:
+    - key: "Dual-Firewall Architecture"
+      value: "DMZ design using separate outer and inner firewalls from different vendors to provide defense in depth and reduce the risk of a single vulnerability compromising both boundaries"
+    - key: "Zone-Based Policy"
+      value: "Firewall rules that define permitted traffic flows between external, DMZ, and internal zones based on source zone, destination zone, protocol, and port"
+    - key: "Service Isolation"
+      value: "The principle of hosting only public-facing services in the DMZ with minimal connectivity to internal resources, limiting lateral movement after compromise"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-REVPROSER-001"
+    description: "DMZ architectures commonly require reverse proxy servers to mediate access to internal application servers"
+  - type: enables
+    target: "INFRA-NET-FORWPROX-001"
+    description: "The DMZ enables forward proxy deployment for controlling and monitoring outbound traffic from internal networks"
+  - type: enables
+    target: "INFRA-NET-VPN-001"
+    description: "The DMZ provides a secure location for VPN concentrator deployment handling external remote access connections"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1590.004"
+    tactic: ["Reconnaissance"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy - https://csrc.nist.gov/publications/detail/sp/800-41/rev-1/final"
+    - "NIST SP 800-123 - Guide to General Server Security"
+    - "CIS Controls v8 - Control 12: Network Infrastructure Management"
+  search_keywords:
+    - "DMZ"
+    - "demilitarized zone"
+    - "perimeter network"
+    - "screened subnet"
+    - "network segmentation"
+    - "dual firewall architecture"
+    - "security zones"
+    - "DMZ design"
+    - "network isolation"
+  embedding_text: "A DMZ (Demilitarized Zone) is a network segment between an organization's trusted internal network and untrusted external networks like the internet. It hosts public-facing services such as web servers, mail relays, DNS servers, reverse proxies, and VPN concentrators, isolated from the internal network through firewalls and access control lists. DMZ architecture typically uses dual firewalls or multi-interface firewalls to enforce zone-based security policies that control traffic flows between external, DMZ, and internal zones. The DMZ provides defense in depth by limiting the blast radius of compromises and preventing direct external access to internal resources. It is a foundational security architecture supporting the principle of least privilege at the network layer."

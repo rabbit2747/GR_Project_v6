@@ -1,0 +1,76 @@
+# GR Atom: BlackBerry
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BLACKBERRY-001"
+  name: "BlackBerry"
+  normalized_name: "blackberry"
+  aliases:
+    - "BlackBerry Cylance"
+    - "BlackBerry Limited"
+    - "Cylance"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - AI
+    - MOBILE
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BlackBerry is a Canadian technology company that pivoted from mobile device manufacturing to cybersecurity and IoT security. Through its acquisition of Cylance in 2019, BlackBerry provides AI-driven endpoint protection, threat detection, and managed security services. The BlackBerry Threat Research and Intelligence team publishes detailed reports on APT campaigns, malware families, and emerging cyber threats, and the company's QNX real-time operating system secures critical infrastructure including automotive and medical devices."
+  why: "BlackBerry is significant in cybersecurity for its AI-first approach to endpoint protection through Cylance technology, which uses machine learning models for pre-execution malware prevention rather than traditional signature-based detection. Their threat research team produces high-quality intelligence reports, and their QNX RTOS presence in embedded systems and IoT devices gives them unique visibility into threats targeting critical infrastructure."
+  how: "BlackBerry provides endpoint security through CylancePROTECT (AI-based prevention), CylanceOPTICS (EDR), and CylanceGUARD (managed detection and response). Their unified endpoint management (UEM) platform secures mobile devices and IoT endpoints. The Threat Research team conducts malware analysis, tracks threat actors, and publishes comprehensive threat reports and annual global threat intelligence reports."
+  core_concepts:
+    - key: "AI-Driven Prevention"
+      value: "Machine learning-based malware prevention using predictive models trained on malware features for pre-execution blocking"
+    - key: "Cylance Technology"
+      value: "Pioneering AI endpoint protection acquired in 2019, using mathematical models instead of signatures for threat detection"
+    - key: "QNX & IoT Security"
+      value: "Real-time operating system securing embedded systems in automotive, medical, and critical infrastructure domains"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-EPP-ENDPOINT-001"
+    description: "Produces AI-driven CylancePROTECT and CylanceOPTICS endpoint protection and EDR solutions"
+  - type: enables
+    target: "DEF-IOT-SECURITY-001"
+    description: "QNX RTOS provides security foundation for embedded systems in automotive and critical infrastructure"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.blackberry.com/us/en/solutions/cybersecurity"
+    - "https://blogs.blackberry.com/en/category/research-and-intelligence"
+  search_keywords:
+    - "blackberry cybersecurity"
+    - "cylance"
+    - "blackberry cylance"
+    - "ai endpoint protection"
+    - "cylanceprotect"
+    - "qnx security"
+    - "blackberry threat research"
+    - "iot security"
+    - "machine learning malware detection"
+  embedding_text: "BlackBerry is a Canadian technology company that pivoted from mobile device manufacturing to cybersecurity and IoT security. Through its acquisition of Cylance in 2019, BlackBerry provides AI-driven endpoint protection using machine learning models for pre-execution malware prevention rather than traditional signature-based detection. The company offers CylancePROTECT for AI-based prevention, CylanceOPTICS for endpoint detection and response, and CylanceGUARD for managed detection and response. BlackBerry's Threat Research and Intelligence team publishes detailed reports on APT campaigns, malware families, and emerging cyber threats. The company's QNX real-time operating system secures critical infrastructure including automotive, medical devices, and industrial control systems, providing unique visibility into threats targeting embedded systems and IoT environments. BlackBerry's unified endpoint management platform also secures mobile devices across enterprise environments."

@@ -1,0 +1,71 @@
+# GR Atom: Hardware Device State Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVSTA-001"
+  name: "Hardware Device State Event"
+  normalized_name: "hardware_device_state_event"
+  aliases:
+    - "Device Power State Change"
+    - "Hardware State Transition"
+    - "Device Operational State Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device State Event is an endpoint detection pattern that captures changes in the operational state of hardware devices including power state transitions (D0 working, D1-D3 sleep states), error states, degraded operation modes, and device health status changes. The event records the device identifier, the previous state, the new state, the trigger for the state change (user action, power management, error condition, or external event), and the timestamp. This pattern covers transitions that do not involve full enable/disable or connect/disconnect operations but rather changes in the device's operational parameters."
+  why: "Device state monitoring provides visibility into subtle changes that may indicate security-relevant activity. Adversaries may manipulate device power states to disable monitoring capabilities without triggering obvious disable events, exploit device error states to trigger vulnerable error-handling code paths, or monitor device state transitions to time their activities with system power management events. State monitoring also supports detection of hardware failures that could impact security infrastructure and identification of devices behaving anomalously due to firmware modification."
+  how: "Detection systems capture device state events through Windows Power Management ETW providers, Device Power State notifications via WMI, Linux sysfs power state attributes and ACPI event notifications, and macOS IOKit power management callbacks. Endpoint agents track the state machine for each monitored device and alert on unexpected transitions such as security devices entering sleep states during active operation, devices experiencing repeated error states suggesting exploitation attempts, network adapters entering promiscuous mode, and devices reporting capabilities that differ from their known hardware specifications. State histories are maintained for forensic timeline reconstruction."
+  core_concepts:
+    - key: "Device Power States"
+      value: "ACPI-defined operational states (D0 fully on, D1-D2 intermediate, D3 off) that control device power consumption and availability"
+    - key: "State Machine Monitoring"
+      value: "Tracking the sequence of state transitions for each device to identify unexpected or impossible state changes that may indicate manipulation"
+    - key: "Anomalous State Detection"
+      value: "Identifying device states that are inconsistent with expected behavior such as security devices entering power-saving modes during active operation"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device state events are a specific category within the broader hardware device event monitoring framework"
+  - type: requires
+    target: "DETECT-ENDPOINT-HARDEVCON-001"
+    description: "State monitoring requires knowledge of connected devices from device connection events"
+  - type: enables
+    target: "DETECT-ENDPOINT-ENDHEABEA-001"
+    description: "Device state events contribute to overall endpoint health beacon assessments"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Device Power Management - https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/device-power-management"
+    - "ACPI Specification - Device Power States - https://uefi.org/specifications"
+    - "Linux Kernel - Power Management Documentation"
+  search_keywords:
+    - "hardware device state"
+    - "device power state change"
+    - "device state transition"
+    - "hardware state monitoring"
+    - "ACPI device state"
+    - "device error state"
+    - "device health monitoring"
+    - "power management event"
+  embedding_text: "Hardware Device State Event detection captures changes in operational state of hardware devices including power state transitions between ACPI D0-D3 states, error conditions, degraded operation modes, and health status changes. Monitored through Windows Power Management ETW providers, Linux sysfs power attributes, and macOS IOKit power management callbacks, this telemetry tracks device state machines for unexpected transitions. Detection flags security devices entering sleep states during active operation, repeated error states suggesting exploitation, network adapters entering promiscuous mode, and devices reporting capabilities inconsistent with specifications."

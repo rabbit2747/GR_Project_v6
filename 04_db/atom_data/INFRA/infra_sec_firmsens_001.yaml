@@ -1,0 +1,97 @@
+# GR Atom: Firmware Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-FIRMSENS-001"
+  name: "Firmware Sensor"
+  normalized_name: "firmware_sensor"
+  aliases:
+    - "Firmware Integrity Monitor"
+    - "BIOS/UEFI Sensor"
+    - "Firmware Security Scanner"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 3
+  atom_tags:
+    - FIRMWARE
+    - MONITOR
+    - OS
+    - SUPPLY_CHAIN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Firmware Sensor inspects and validates integrity of firmware on devices including
+    BIOS/UEFI, BMC, NIC firmware, and SSD controllers. Products include Eclypsium, Intel Boot
+    Guard, and Microsoft Secured-core PC. Detects unauthorized modifications, vulnerable
+    versions, and supply chain compromise indicators.
+  why: >-
+    Firmware attacks are among the most persistent threats, surviving OS reinstallation and disk
+    formatting. Real-world UEFI rootkits include LoJax, MosaicRegressor, and CosmicStrand.
+    Traditional security tools cannot detect firmware-level compromise, making dedicated sensors
+    essential. Vulnerabilities like LogoFAIL affect billions of devices.
+  how: >-
+    Sensors read firmware images via SPI flash, IPMI, or vendor APIs and perform hash comparison,
+    signature verification, and CVE matching. Some operate out-of-band; others use OS-level
+    access. Continuous monitoring detects drift from validated firmware states.
+  core_concepts:
+    - key: "Below-OS Security"
+      value: "Firmware operates below the OS trust boundary, invisible to traditional tools and persistent across reinstallation"
+    - key: "Supply Chain Integrity"
+      value: "Validates hardware components contain authentic vendor firmware, detecting supply chain compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "Firmware sensors are specialized cyber sensors for hardware firmware integrity"
+  - type: "effective_against"
+    target: "ATK-PERSIST-FIRMWARE-001"
+    description: "Detects UEFI rootkits and firmware-level persistence implants"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1542"
+    tactic:
+      - "Persistence"
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-193 - Platform Firmware Resiliency Guidelines"
+    - "MITRE ATT&CK T1542 - Pre-OS Boot"
+    - "Eclypsium - Firmware Security Platform"
+  search_keywords:
+    - "firmware sensor"
+    - "firmware integrity"
+    - "UEFI security"
+    - "BIOS monitoring"
+    - "LoJax rootkit"
+    - "firmware scanner"
+    - "BMC security"
+  embedding_text: >-
+    Firmware Sensor validates integrity of BIOS/UEFI, BMC, NIC firmware using hash comparison,
+    signature verification, and CVE matching. Products include Eclypsium and Intel Boot Guard.
+    Firmware attacks survive OS reinstallation with real-world rootkits including LoJax and
+    CosmicStrand. Traditional tools cannot detect firmware compromise. Sensors read firmware via
+    SPI flash, IPMI, or vendor APIs. Vulnerabilities like LogoFAIL affect billions of devices.

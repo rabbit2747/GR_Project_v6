@@ -1,0 +1,100 @@
+# GR Atom: CVE-2023-4966
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20234966-001"
+  name: "CVE-2023-4966"
+  normalized_name: "cve_2023_4966"
+  aliases:
+    - "Citrix Bleed"
+    - "NetScaler ADC Session Token Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INFO_LEAK
+    - CRED
+    - NETWORK
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Citrix NetScaler ADC"
+    - "Citrix NetScaler Gateway"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-4966, known as Citrix Bleed, is a sensitive information disclosure vulnerability
+    in Citrix NetScaler ADC and Gateway that allows unauthenticated attackers to extract
+    valid session tokens from device memory. The vulnerability exists in the HTTP response
+    handling logic where a buffer over-read condition leaks adjacent memory contents including
+    active session cookies. CVSS v3 base score: 9.4 (Critical). Massively exploited in the
+    wild by ransomware groups including LockBit.
+  why: >-
+    Citrix NetScaler ADC and Gateway appliances serve as network perimeter devices for
+    thousands of organizations. Stolen session tokens allow attackers to hijack authenticated
+    sessions, bypassing all authentication including MFA. This was one of the most exploited
+    vulnerabilities of 2023-2024, used by LockBit and other ransomware groups for initial
+    access to enterprise networks.
+  how: >-
+    An attacker sends specially crafted HTTP requests to the NetScaler web interface that
+    trigger a buffer over-read in the response handling logic. The server's memory management
+    logic fails to properly bound the response buffer, causing adjacent memory contents
+    (including valid session tokens) to be included in the HTTP response. The attacker
+    extracts these tokens and uses them to hijack authenticated sessions.
+  core_concepts:
+    - key: "Buffer Over-Read Information Leak"
+      value: "HTTP response logic includes adjacent memory contents containing session tokens due to improper buffer boundary enforcement"
+    - key: "Session Hijacking via Memory Leak"
+      value: "Leaked session tokens enable authentication bypass including MFA circumvention through direct session takeover"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Memory management logic flaw in HTTP response handling causing session token leakage"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-4966"
+    - "Citrix Security Advisory CTX579459"
+    - "NIST NVD - CVE-2023-4966"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Mandiant - Citrix Bleed Analysis"
+  search_keywords:
+    - "CVE-2023-4966"
+    - "Citrix Bleed"
+    - "NetScaler session leak"
+    - "Citrix ADC vulnerability"
+    - "session token theft"
+    - "LockBit Citrix"
+    - "NetScaler Gateway exploit"
+  embedding_text: >-
+    CVE-2023-4966 (Citrix Bleed) is an information disclosure vulnerability in Citrix NetScaler
+    ADC and Gateway leaking session tokens through buffer over-read. Attackers steal valid
+    session cookies to hijack authenticated sessions, bypassing MFA. CVSS v3 9.4 Critical.
+    Massively exploited by LockBit ransomware and other threat groups. One of the most
+    exploited vulnerabilities of 2023-2024. Memory management logic flaw in HTTP response
+    handling. CISA Known Exploited. Year 2023.

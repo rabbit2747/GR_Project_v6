@@ -1,0 +1,108 @@
+# GR Atom: TryHackMe
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-TRYHACKME-001"
+  name: "TryHackMe"
+  normalized_name: "tryhackme"
+  aliases:
+    - "THM"
+    - "TryHackMe Platform"
+    - "TryHackMe Labs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - BLUE_TEAM
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z0A"
+  function: "C1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TryHackMe is a cloud-based cybersecurity training platform that provides browser-accessible
+    virtual lab environments for learning offensive and defensive security skills. The platform
+    offers guided learning paths covering topics from basic Linux to advanced exploitation,
+    incident response, and SOC analysis. Users connect to disposable virtual machines via
+    OpenVPN or an in-browser attack box (AttackBox). TryHackMe rooms contain step-by-step
+    walkthroughs, challenges, and CTF-style questions across beginner to advanced difficulty
+    levels.
+  why: >-
+    TryHackMe is relevant to cybersecurity infrastructure because it serves as a primary
+    training platform for developing security practitioners. Organizations use TryHackMe for
+    security awareness training, skill assessment, and hiring evaluation. From a security
+    perspective, TryHackMe VPN connections create tunnels between user endpoints and lab
+    infrastructure that must be properly managed. The platform teaches real exploitation
+    techniques that could be applied offensively, making user activity monitoring relevant.
+    Corporate subscriptions expose employee skill levels and training focus areas.
+  how: >-
+    TryHackMe operates on cloud infrastructure (primarily AWS) deploying disposable virtual
+    machines for each user session. Users connect via OpenVPN to access lab networks or use
+    the browser-based AttackBox (Kali-based). The platform provisions target machines on demand,
+    each configured with specific vulnerabilities matching the room's learning objectives.
+    Progress tracking uses flag submission (CTF-style answers) verified against expected values.
+    Learning paths provide structured curricula covering pre-security, SOC analyst, penetration
+    tester, red teaming, and cyber defense tracks. Machines are destroyed after sessions to
+    prevent persistent compromise.
+  core_concepts:
+    - key: "Cloud-Based Security Training"
+      value: "Browser-accessible virtual lab environments eliminating the need for local lab infrastructure while providing disposable attack targets"
+    - key: "Guided Learning Paths"
+      value: "Structured curricula covering offensive security, SOC analysis, incident response, and defensive security with progressive difficulty"
+    - key: "Disposable Lab Infrastructure"
+      value: "On-demand virtual machines provisioned and destroyed per session, ensuring clean environments and preventing persistent compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-ENDPOINT-PENTLAB-001"
+    description: "TryHackMe provides cloud-based alternatives to on-premises pentest lab environments"
+  - type: "enables"
+    target: "DEF-TRAINING-SECURITY-001"
+    description: "TryHackMe enables cybersecurity skill development and security awareness training for practitioners"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "TryHackMe - Platform Documentation and Learning Paths"
+    - "NICE Cybersecurity Workforce Framework (NIST SP 800-181)"
+    - "SANS Institute - Cybersecurity Training Platform Comparison"
+  search_keywords:
+    - "TryHackMe"
+    - "THM"
+    - "cybersecurity training platform"
+    - "security lab platform"
+    - "CTF training"
+    - "penetration testing training"
+    - "security learning path"
+    - "AttackBox"
+    - "cloud security lab"
+  embedding_text: >-
+    TryHackMe is a cloud-based cybersecurity training platform providing browser-accessible
+    virtual lab environments for learning offensive and defensive security skills. Users connect
+    via OpenVPN or browser-based AttackBox to disposable virtual machines configured with
+    specific vulnerabilities. The platform offers guided learning paths covering pre-security,
+    SOC analysis, penetration testing, red teaming, and cyber defense with CTF-style flag
+    submission for progress tracking. Deployed on AWS, machines are provisioned on demand and
+    destroyed after sessions. Organizations use TryHackMe for security awareness training,
+    skill assessment, and hiring evaluation. Security considerations include VPN tunnel
+    management, monitoring of exploitation technique training, and corporate subscription
+    data exposure. TryHackMe serves as a cloud alternative to on-premises pentest lab
+    environments for security practitioner development.

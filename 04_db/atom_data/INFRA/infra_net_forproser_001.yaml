@@ -1,0 +1,73 @@
+# GR Atom: Forward Proxy Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-FORPROSER-001"
+  name: "Forward Proxy Server"
+  normalized_name: "forward_proxy_server"
+  aliases:
+    - "Outbound Proxy Server"
+    - "Internet Proxy Server"
+    - "Squid Proxy Server"
+    - "Explicit Proxy Server"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - CACHE
+    - LOG
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N2.2"
+
+definition:
+  what: "A Forward Proxy Server is a physical or virtual server system that hosts forward proxy software and services to mediate outbound internet traffic from internal network clients. It is the concrete server implementation of the forward proxy concept, running proxy software such as Squid, Apache Traffic Server, Nginx in proxy mode, Microsoft Forefront TMG, Blue Coat ProxySG, or Zscaler Private Access. The server handles connection management, user authentication, content caching, URL filtering, SSL/TLS inspection, logging, and policy enforcement. Forward proxy servers can be deployed as dedicated hardware appliances, virtual machines, containerized services, or cloud-hosted proxy services."
+  why: "Forward proxy servers are the physical implementation point where outbound internet access control policies are enforced. They centralize internet access through a managed chokepoint, enabling organizations to monitor all outbound web traffic, enforce security policies consistently across the organization, cache frequently accessed content to reduce bandwidth usage, and maintain comprehensive logs for compliance and incident response. The server infrastructure must be sized, hardened, and maintained to handle the organization's outbound traffic volume while maintaining acceptable latency and reliability."
+  how: "Forward proxy servers are deployed on hardened server hardware or virtual machines with sufficient CPU, memory, and storage to handle the expected traffic volume and caching requirements. The proxy software is configured with upstream DNS servers, authentication backends such as LDAP or Active Directory, URL filtering databases, SSL/TLS inspection certificates, caching policies, and access control lists. High-availability configurations use load balancers or proxy chaining to distribute traffic across multiple proxy servers. Client systems are configured to use the proxy through explicit settings, PAC files, WPAD, or transparent interception via network routing. Monitoring systems track proxy performance, cache hit rates, blocked requests, and authentication failures."
+  core_concepts:
+    - key: "Proxy Server Sizing"
+      value: "Capacity planning for CPU, memory, disk, and network resources based on concurrent user count, traffic volume, SSL inspection overhead, and caching storage requirements"
+    - key: "High Availability"
+      value: "Deployment of multiple proxy servers behind load balancers or in active-passive configurations to ensure continuous internet access in case of individual server failure"
+    - key: "Transparent vs Explicit Proxy"
+      value: "Deployment modes where transparent proxy intercepts traffic via network routing without client configuration, while explicit proxy requires client-side proxy settings or PAC files"
+
+relations:
+  - type: instance_of
+    target: "INFRA-NET-FORWPROX-001"
+    description: "A forward proxy server is a concrete server implementation of the forward proxy concept"
+  - type: instance_of
+    target: "INFRA-NET-PROXSERV-001"
+    description: "A forward proxy server is a specific type of proxy server dedicated to outbound traffic"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Forward proxy servers require DNS resolution to resolve destination hostnames for client requests"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Squid Proxy Documentation - https://www.squid-cache.org/Doc/"
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+    - "CIS Benchmark - Squid Proxy Server"
+  search_keywords:
+    - "forward proxy server"
+    - "outbound proxy server"
+    - "Squid proxy"
+    - "proxy server deployment"
+    - "internet proxy server"
+    - "explicit proxy server"
+    - "proxy server sizing"
+    - "proxy high availability"
+  embedding_text: "A Forward Proxy Server is the physical or virtual server implementation that hosts forward proxy software to mediate outbound internet traffic from internal clients. Running software such as Squid, Apache Traffic Server, Blue Coat ProxySG, or Zscaler, it handles connection management, authentication, content caching, URL filtering, SSL/TLS inspection, and logging. Deployed as hardware appliances, VMs, containers, or cloud services, forward proxy servers centralize outbound access control through a managed chokepoint. High-availability configurations use load balancers across multiple servers. Client connectivity is established through explicit proxy settings, PAC files, WPAD, or transparent network interception."

@@ -1,0 +1,74 @@
+# GR Atom: BugCrowd
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BUGCROWD-001"
+  name: "BugCrowd"
+  normalized_name: "bugcrowd"
+  aliases:
+    - "Bugcrowd Inc."
+    - "Bugcrowd Platform"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - RED_TEAM
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L7"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Bugcrowd is a crowdsourced cybersecurity platform founded in 2012, connecting organizations with a global community of security researchers through bug bounty programs, vulnerability disclosure programs, and penetration testing as a service. The platform enables organizations to leverage a crowd of ethical hackers to discover vulnerabilities in their applications, APIs, networks, and infrastructure before malicious actors can exploit them."
+  why: "Bugcrowd is significant because it pioneered the crowdsourced security testing model, which provides organizations with access to a diverse pool of security researchers with varied skills and perspectives that no single internal team can replicate. Bug bounty programs have become an industry standard for vulnerability discovery, and Bugcrowd's platform helps manage the entire lifecycle of vulnerability disclosure and remediation."
+  how: "Bugcrowd operates a platform that manages bug bounty programs, vulnerability disclosure programs, and pentest-as-a-service engagements. Organizations define scope and reward structures, and vetted security researchers submit vulnerability reports through the platform. Bugcrowd's triage team validates submissions, manages researcher communications, and provides analytics on vulnerability trends. The platform integrates with development workflows for remediation tracking."
+  core_concepts:
+    - key: "Bug Bounty Programs"
+      value: "Crowdsourced vulnerability discovery through incentivized security researcher community testing applications and infrastructure"
+    - key: "Vulnerability Disclosure"
+      value: "Managed programs for responsible vulnerability reporting from external researchers with coordinated disclosure"
+    - key: "Crowdsourced Security"
+      value: "Leveraging diverse global researcher community to discover vulnerabilities through varied skills and attack perspectives"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-HACKERONE-001"
+    description: "Fellow crowdsourced bug bounty platform in the vulnerability disclosure ecosystem"
+  - type: enables
+    target: "DEF-VULN-MGMT-001"
+    description: "Enables vulnerability discovery and management through crowdsourced security testing programs"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for bug bounty platform vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.bugcrowd.com"
+    - "https://www.bugcrowd.com/resources"
+  search_keywords:
+    - "bugcrowd"
+    - "bug bounty platform"
+    - "crowdsourced security"
+    - "vulnerability disclosure"
+    - "pentest as a service"
+    - "bug bounty program"
+    - "ethical hacking platform"
+    - "responsible disclosure"
+  embedding_text: "Bugcrowd is a crowdsourced cybersecurity platform founded in 2012 that connects organizations with a global community of security researchers through bug bounty programs, vulnerability disclosure programs, and penetration testing as a service. The platform enables organizations to leverage a diverse crowd of ethical hackers to discover vulnerabilities in their applications, APIs, networks, and infrastructure before malicious actors exploit them. Bugcrowd pioneered the crowdsourced security testing model, providing access to varied security skills and attack perspectives that no single internal team can replicate. The platform manages the full lifecycle of vulnerability discovery including researcher vetting, scope definition, reward management, vulnerability triage, submission validation, and remediation tracking. Bug bounty programs have become an industry standard for proactive vulnerability discovery, and Bugcrowd's platform integrates with development workflows for coordinated disclosure and remediation."

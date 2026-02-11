@@ -1,0 +1,107 @@
+# GR Atom: Liebao Browser
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-LIEBBROW-001"
+  name: "Liebao Browser"
+  normalized_name: "liebao_browser"
+  aliases:
+    - "Cheetah Browser"
+    - "Liebao"
+    - "CM Browser"
+    - "Cheetah Mobile Browser"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CRED
+    - MOBILE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Liebao Browser (Cheetah Browser) is a Chromium-based web browser developed by Cheetah
+    Mobile (formerly Kingsoft) primarily targeting the Chinese market. Available for Windows
+    and Android, it features dual rendering engines (Chromium Blink and IE Trident for
+    compatibility), built-in ad blocking, and integration with Chinese internet services.
+    The browser stores credentials, cookies, and browsing data in the standard Chromium
+    profile format.
+  why: >-
+    Liebao Browser is targeted by infostealer malware for credential harvesting alongside
+    other Chromium-based browsers. Major infostealers including RedLine, Raccoon, and Vidar
+    include Liebao in their target lists. The browser's dual-engine design (Chromium + Trident)
+    expands the attack surface. Cheetah Mobile has faced privacy controversies over data
+    collection practices and ad fraud. As a Chinese-market browser, it may have different
+    security update cadences and privacy policies than mainstream browsers.
+  how: >-
+    Liebao Browser uses Chromium for modern web rendering and falls back to Trident (IE engine)
+    for legacy website compatibility. User data is stored in the standard Chromium SQLite
+    database format with DPAPI encryption on Windows. Infostealer malware targets Liebao's
+    profile directories at known filesystem paths to extract credentials, cookies, and autofill
+    data. The dual-engine architecture means vulnerabilities in both Chromium and Trident
+    engines are potentially exploitable. The browser communicates with Cheetah Mobile servers
+    for update checks and integrated services.
+  core_concepts:
+    - key: "Dual-Engine Chinese Browser"
+      value: "Chromium and Trident dual-engine browser for the Chinese market expanding attack surface across both modern and legacy rendering engines"
+    - key: "Infostealer Credential Target"
+      value: "Targeted by major infostealer families for credential and cookie harvesting using standard Chromium profile extraction techniques"
+    - key: "Privacy Concerns"
+      value: "Cheetah Mobile has faced data collection and ad fraud controversies raising concerns about browser telemetry and user privacy"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-GOOGCHRO-001"
+    description: "Liebao is a Chromium-based browser fork using the same rendering engine and credential format as Google Chrome"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.003"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Infostealer Analysis - Chromium Browser Targeting"
+    - "MITRE ATT&CK T1555.003 - Credentials from Web Browsers"
+    - "Cheetah Mobile Privacy Analysis"
+  search_keywords:
+    - "Liebao Browser"
+    - "Cheetah Browser"
+    - "Liebao credential theft"
+    - "CM Browser"
+    - "Chinese browser security"
+    - "Liebao infostealer"
+  embedding_text: >-
+    Liebao Browser (Cheetah Browser) is a Chromium-based browser by Cheetah Mobile targeting
+    the Chinese market with dual rendering engines (Chromium Blink and IE Trident). It stores
+    credentials in standard Chromium SQLite format with DPAPI encryption. Liebao is targeted
+    by infostealer families including RedLine, Raccoon, and Vidar for credential harvesting.
+    The dual-engine design expands the attack surface across both modern and legacy rendering
+    engines. Cheetah Mobile has faced privacy controversies over data collection practices.
+    Security teams should restrict browser installations to approved options, monitor for
+    unauthorized Chromium-based browsers, and implement controls against infostealer malware
+    targeting browser profile directories.

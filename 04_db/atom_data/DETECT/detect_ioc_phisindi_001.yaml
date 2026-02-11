@@ -1,0 +1,87 @@
+# GR Atom: Phishing Indicators
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-IOC-PHISINDI-001"
+  name: "Phishing Indicators"
+  normalized_name: "phishing_indicators"
+  aliases:
+    - "Phishing IOC"
+    - "Phishing Detection Indicators"
+    - "Email Phishing Signals"
+    - "Anti-Phishing Indicators"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - INITIAL
+    - CRED
+    - THREAT_INTEL
+    - MONITOR
+    - SMTP
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Phishing indicators are a collection of observable artifacts and behavioral patterns used to identify phishing attempts across email, web, and messaging channels. These indicators include sender domain anomalies (look-alike domains, recently registered domains, SPF/DKIM/DMARC failures), suspicious URL patterns (URL shorteners, embedded credential harvesting forms, mismatched display text and actual links), message content signals (urgency language, impersonation of authority, grammar anomalies, requests for credentials or sensitive data), attachment indicators (double extensions, macro-enabled documents, password-protected archives), and infrastructure signals (hosting on bulletproof providers, newly provisioned SSL certificates, use of compromised legitimate sites). Phishing indicators form the foundational detection layer for identifying social engineering attacks delivered via electronic communication."
+  why: "Phishing remains the most prevalent initial access vector for cyberattacks, responsible for the majority of data breaches and ransomware incidents. Effective detection of phishing indicators is essential because these attacks exploit human trust rather than technical vulnerabilities, making them difficult to prevent through traditional perimeter defenses alone. Organizations that fail to detect phishing indicators face credential theft, malware delivery, business email compromise, and financial fraud. Phishing detection directly reduces attacker success rates for initial access and credential harvesting."
+  how: "Phishing indicator detection is implemented through layered technical controls. Email security gateways apply header analysis (SPF, DKIM, DMARC validation), URL reputation scanning, attachment sandboxing, and natural language processing to score incoming messages. Web proxies and DNS security solutions block access to known phishing domains using real-time threat intelligence feeds. Browser extensions and endpoint agents detect credential submission to non-corporate domains. Machine learning models analyze message metadata, sender behavior patterns, and content features to identify zero-day phishing campaigns. Reported phishing emails from users feed into automated analysis pipelines that extract indicators and update blocklists. SIEM correlation aggregates email, web, and endpoint signals to identify coordinated phishing campaigns."
+  core_concepts:
+    - key: "Sender Authentication Failure"
+      value: "Detection of SPF, DKIM, or DMARC failures indicating spoofed or unauthorized email sources"
+    - key: "Domain Similarity Analysis"
+      value: "Identification of look-alike domains using techniques like Levenshtein distance, homoglyph detection, and typosquatting pattern matching"
+    - key: "URL Reputation"
+      value: "Real-time evaluation of embedded URLs against phishing databases, newly registered domain lists, and threat intelligence feeds"
+    - key: "Content Analysis"
+      value: "NLP-based detection of social engineering language patterns including urgency, authority impersonation, and credential request language"
+
+relations:
+  - type: effective_against
+    target: "ATK-CRED-CREDACCE-001"
+    description: "Phishing indicators are effective against credential access attacks delivered via phishing"
+  - type: enables
+    target: "DETECT-BEHAVIOR-EMAIPATT-001"
+    description: "Phishing indicators enable broader email pattern detection capabilities"
+  - type: applies_to
+    target: "INFRA-SEC-EMAILGW-001"
+    description: "Phishing indicators are applied within email security gateway infrastructure"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+    sub_techniques:
+      - "T1566.001"
+      - "T1566.002"
+      - "T1566.003"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Phishing (T1566) - https://attack.mitre.org/techniques/T1566/"
+    - "APWG - Anti-Phishing Working Group Reports - https://apwg.org/"
+    - "NIST SP 800-177 Rev 1 - Trustworthy Email"
+  search_keywords:
+    - "phishing indicators"
+    - "phishing detection"
+    - "email phishing IOC"
+    - "spear phishing indicators"
+    - "phishing URL detection"
+    - "sender domain spoofing"
+    - "credential harvesting detection"
+    - "anti-phishing"
+    - "DMARC failure"
+    - "look-alike domain"
+  embedding_text: "Phishing indicators are observable artifacts and behavioral patterns used to identify phishing attempts across email, web, and messaging channels. Key indicators include sender domain anomalies such as look-alike domains and SPF/DKIM/DMARC failures, suspicious URL patterns with embedded credential harvesting forms, message content signals with urgency language and authority impersonation, attachment indicators like macro-enabled documents and double extensions, and infrastructure signals from bulletproof hosting and newly provisioned certificates. Detection is implemented through email security gateways, URL reputation scanning, attachment sandboxing, NLP content analysis, and machine learning models. Phishing remains the most prevalent initial access vector for cyberattacks."

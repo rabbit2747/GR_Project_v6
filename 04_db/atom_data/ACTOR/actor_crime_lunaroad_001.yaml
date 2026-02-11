@@ -1,0 +1,136 @@
+# GR Atom: Luna Road
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-LUNAROAD-001"
+  name: "Luna Road"
+  normalized_name: "luna_road"
+  aliases:
+    - "LunaRoad"
+    - "Luna Road Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - CRED
+    - EXFIL
+    - NETWORK
+    - WEB
+    - BLOCKCHAIN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Luna Road is a cybercriminal group specializing in cryptocurrency theft, social engineering,
+    and financial fraud operations targeting individuals and organizations in the cryptocurrency
+    and decentralized finance (DeFi) ecosystem. The group conducts elaborate social engineering
+    campaigns, phishing attacks, and credential harvesting operations designed to compromise
+    cryptocurrency wallets, exchange accounts, and DeFi protocol access keys. Luna Road operations
+    include SIM swapping attacks to bypass multi-factor authentication, impersonation of
+    cryptocurrency project founders and venture capitalists, and deployment of malicious browser
+    extensions and wallet drainers. The group operates across multiple dark web forums and
+    encrypted messaging platforms, coordinating with other cybercriminal actors in the cryptocurrency
+    fraud ecosystem.
+  why: >-
+    Luna Road represents the growing threat to the cryptocurrency ecosystem from organized
+    cybercriminal groups that specialize in blockchain-related financial crime. The explosion of
+    DeFi protocols, NFT marketplaces, and cryptocurrency exchanges has created a large and
+    lucrative attack surface that groups like Luna Road systematically exploit. Cryptocurrency
+    theft is particularly damaging because blockchain transactions are typically irreversible,
+    and the pseudonymous nature of cryptocurrency makes fund recovery extremely difficult.
+    Social engineering attacks targeting cryptocurrency holders and project teams have resulted
+    in individual losses ranging from thousands to millions of dollars. The group's operations
+    demonstrate how traditional cybercriminal techniques like phishing and SIM swapping are
+    being adapted specifically for the cryptocurrency ecosystem.
+  how: >-
+    Luna Road employs multiple attack vectors targeting the cryptocurrency ecosystem. Social
+    engineering campaigns impersonate venture capitalists, project founders, or exchange support
+    staff to trick victims into revealing seed phrases, private keys, or approving malicious
+    smart contract transactions. SIM swapping attacks target cryptocurrency holders by
+    compromising mobile carrier accounts to intercept SMS-based two-factor authentication codes
+    for exchange accounts. Phishing sites clone legitimate cryptocurrency exchange and DeFi
+    protocol interfaces to harvest credentials and wallet connections. Malicious browser extensions
+    masquerade as legitimate cryptocurrency wallet tools while intercepting and redirecting
+    transactions. The group also deploys wallet drainer scripts on compromised websites and social
+    media platforms, using approval phishing to trick victims into signing malicious transactions
+    that drain their cryptocurrency holdings. Stolen funds are laundered through mixing services,
+    cross-chain bridges, and decentralized exchanges.
+  core_concepts:
+    - key: "Cryptocurrency-Focused Social Engineering"
+      value: >-
+        Luna Road specializes in social engineering techniques adapted for the cryptocurrency
+        ecosystem, including impersonation of VCs and project founders, fake airdrop campaigns,
+        and approval phishing designed to compromise wallet permissions.
+    - key: "SIM Swap and Authentication Bypass"
+      value: >-
+        The group uses SIM swapping attacks to compromise mobile phone accounts and bypass
+        SMS-based multi-factor authentication protecting cryptocurrency exchange accounts,
+        enabling unauthorized access and fund theft.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Luna Road is a financially motivated cybercriminal group specializing in cryptocurrency theft"
+  - type: "enables"
+    target: "ATK-CRED"
+    description: "Luna Road operations enable credential theft targeting cryptocurrency accounts and wallets"
+  - type: "applies_to"
+    target: "SECTOR-CRYPTO"
+    description: "Luna Road specifically targets the cryptocurrency and DeFi ecosystem"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "derived"
+  sources:
+    - "Chainalysis - Cryptocurrency Crime Report. https://www.chainalysis.com/blog/crypto-crime-report/"
+    - "SlowMist - Cryptocurrency Threat Intelligence. https://slowmist.medium.com/"
+    - "FBI IC3 - Cryptocurrency Investment Fraud Warning. https://www.ic3.gov/Media/Y2023/PSA230622"
+    - "CertiK - Web3 Security and DeFi Fraud Analysis. https://www.certik.com/resources/blog"
+  search_keywords:
+    - "luna road crypto"
+    - "luna road cybercrime"
+    - "cryptocurrency theft group"
+    - "crypto social engineering"
+    - "SIM swap crypto"
+    - "wallet drainer attack"
+    - "DeFi fraud group"
+    - "approval phishing crypto"
+  embedding_text: >-
+    Luna Road is a cybercriminal group specializing in cryptocurrency theft, social engineering,
+    and financial fraud targeting individuals and organizations in the cryptocurrency and DeFi
+    ecosystem. The group conducts elaborate social engineering campaigns impersonating venture
+    capitalists and project founders, SIM swapping attacks to bypass multi-factor authentication,
+    phishing sites cloning exchange interfaces, malicious browser extensions, and wallet drainer
+    script deployments. Luna Road targets cryptocurrency wallets, exchange accounts, and DeFi
+    protocol access keys. Stolen funds are laundered through mixing services, cross-chain bridges,
+    and decentralized exchanges. The group represents the growing organized cybercriminal threat
+    to the cryptocurrency ecosystem, where blockchain transaction irreversibility and pseudonymous
+    nature make fund recovery extremely difficult. Operations demonstrate how traditional
+    cybercriminal techniques are being adapted for blockchain-specific attack surfaces.

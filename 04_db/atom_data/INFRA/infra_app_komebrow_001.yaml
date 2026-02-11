@@ -1,0 +1,104 @@
+# GR Atom: Kometa Browser
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-KOMEBROW-001"
+  name: "Kometa Browser"
+  normalized_name: "kometa_browser"
+  aliases:
+    - "Kometa"
+    - "Cometa Browser"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CRED
+    - WINDOWS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Kometa Browser is a Chromium-based web browser primarily targeting Russian-speaking users.
+    It is developed by Mail.ru Group (VK) and integrates with Russian internet services. Like
+    other Chromium-based browsers, it stores user credentials, cookies, and browsing data in
+    SQLite databases using the Chromium profile format. The browser has limited distribution
+    outside of Russian-speaking markets.
+  why: >-
+    Kometa Browser is specifically targeted by infostealer malware families that harvest
+    credentials from Chromium-based browsers. Infostealers like RedLine, Raccoon, and Vidar
+    include Kometa in their browser targeting lists, extracting saved passwords, cookies,
+    autofill data, and cryptocurrency wallet extensions. As a less-maintained Chromium fork,
+    Kometa may lag behind security patches for the underlying Chromium engine, exposing users
+    to known vulnerabilities. Its distribution through bundleware has raised PUP (Potentially
+    Unwanted Program) concerns.
+  how: >-
+    Kometa Browser uses the Chromium rendering engine and stores data in the standard Chromium
+    profile format. Credentials are stored in the Login Data SQLite database encrypted with
+    DPAPI on Windows. Cookies, browsing history, and autofill data reside in additional SQLite
+    databases within the user profile directory. Infostealer malware targets these profile
+    databases at known filesystem paths, decrypting credentials using the Windows DPAPI
+    encryption key. The browser's Chromium base means it shares the same credential storage
+    format as Chrome, Edge, and other Chromium browsers.
+  core_concepts:
+    - key: "Chromium-Based Browser"
+      value: "Russian-market Chromium fork using standard Chromium credential storage format making it targetable by the same infostealer techniques as Chrome"
+    - key: "Infostealer Target"
+      value: "Specifically listed as a target in major infostealer families including RedLine, Raccoon, and Vidar for credential and cookie harvesting"
+    - key: "Potentially Outdated Chromium"
+      value: "Less-maintained Chromium fork may lag behind upstream security patches exposing users to known Chromium engine vulnerabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-GOOGCHRO-001"
+    description: "Kometa is a Chromium-based browser fork using the same rendering engine and credential storage format as Google Chrome"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.003"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Infostealer Analysis - Chromium Browser Targeting"
+    - "MITRE ATT&CK T1555.003 - Credentials from Web Browsers"
+    - "RedLine Stealer Analysis - Targeted Browser List"
+  search_keywords:
+    - "Kometa Browser"
+    - "Kometa browser credential theft"
+    - "Kometa infostealer"
+    - "Russian Chromium browser"
+    - "Kometa browser security"
+    - "Mail.ru browser"
+  embedding_text: >-
+    Kometa Browser is a Chromium-based web browser targeting Russian-speaking users, developed
+    by Mail.ru Group. It uses standard Chromium credential storage format with DPAPI-encrypted
+    Login Data SQLite databases. Kometa is specifically targeted by infostealer malware families
+    including RedLine, Raccoon, and Vidar for credential, cookie, and autofill data harvesting.
+    As a less-maintained Chromium fork, it may lag behind upstream security patches. Its
+    distribution through bundleware raises PUP concerns. Security teams should identify Kometa
+    installations, ensure organizational browsers are limited to supported options, and monitor
+    for infostealer activity targeting browser profile directories.

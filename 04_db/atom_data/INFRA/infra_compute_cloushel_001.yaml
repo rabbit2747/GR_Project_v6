@@ -1,0 +1,99 @@
+# GR Atom: Cloud Shell
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOUSHEL-001"
+  name: "Cloud Shell"
+  normalized_name: "cloud_shell"
+  aliases:
+    - "AWS CloudShell"
+    - "Azure Cloud Shell"
+    - "Google Cloud Shell"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - EXEC
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "P3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Cloud Shell is a browser-based command-line environment provided by major cloud platforms
+    (AWS CloudShell, Azure Cloud Shell, Google Cloud Shell) that offers authenticated,
+    pre-configured access to cloud management tools directly from the web console. It provides
+    a Linux-based shell with pre-installed CLIs (aws, az, gcloud), SDKs, editors, and common
+    development tools, with persistent home directory storage and automatic credential
+    management based on the authenticated user's session.
+  why: >-
+    Cloud Shell provides a convenient administrative interface but presents security concerns
+    because it executes commands with the authenticated user's full permissions. Compromised
+    browser sessions or cross-site scripting attacks against cloud consoles could leverage
+    Cloud Shell for command execution. It also creates an attack surface for credential abuse
+    since the shell automatically inherits the user's IAM permissions without additional
+    authentication challenges.
+  how: >-
+    Cloud Shell launches a container or lightweight VM in the cloud provider's infrastructure
+    when activated from the web console. The environment authenticates using the current
+    console session's credentials. Commands execute with the user's IAM permissions. File
+    storage persists in a user-specific home directory (typically 5GB). Sessions timeout after
+    inactivity. Each provider implements Cloud Shell differently: AWS uses Fargate containers,
+    Azure uses a Linux container with mounted Azure Files share, and GCP provides an f1-micro
+    Compute Engine instance.
+  core_concepts:
+    - key: "Browser-Based Administration"
+      value: "Command-line access to cloud resources directly from the web console without local tool installation or SSH key management"
+    - key: "Inherited Credentials"
+      value: "Cloud Shell automatically inherits the authenticated user's IAM permissions, eliminating credential management but creating session hijacking risks"
+    - key: "Ephemeral Compute"
+      value: "Shell environment runs in provider-managed containers or VMs that are created on demand and terminated after inactivity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "Cloud Shell is a management component of cloud infrastructure platforms"
+  - type: "enables"
+    target: "INFRA-COMPUTE-CLOUDFORMA-001"
+    description: "Cloud Shell provides a pre-configured environment for running CloudFormation operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS CloudShell Documentation - docs.aws.amazon.com"
+    - "Azure Cloud Shell Documentation - docs.microsoft.com"
+    - "Google Cloud Shell Documentation - cloud.google.com"
+  search_keywords:
+    - "cloud shell"
+    - "aws cloudshell"
+    - "azure cloud shell"
+    - "google cloud shell"
+    - "browser-based cli"
+    - "cloud terminal"
+    - "cloud console shell"
+  embedding_text: >-
+    Cloud Shell is a browser-based command-line environment provided by AWS, Azure, and GCP
+    that offers authenticated, pre-configured access to cloud management tools. It provides a
+    Linux-based shell with pre-installed CLIs, SDKs, and development tools with persistent
+    storage and automatic credential management. Cloud Shell inherits the authenticated user's
+    IAM permissions without additional authentication, creating session hijacking risks. AWS
+    uses Fargate containers, Azure uses Linux containers with Azure Files, and GCP provides
+    Compute Engine instances. Security concerns include compromised browser sessions leveraging
+    Cloud Shell for command execution with full user permissions.

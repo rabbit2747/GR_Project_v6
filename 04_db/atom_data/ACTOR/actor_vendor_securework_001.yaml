@@ -1,0 +1,78 @@
+# GR Atom: Secureworks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SECUREWORK-001"
+  name: "Secureworks"
+  normalized_name: "secureworks"
+  aliases:
+    - "SecureWorks"
+    - "Secureworks Corp"
+    - "Dell SecureWorks"
+    - "Secureworks CTU"
+    - "Counter Threat Unit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - SIEM
+    - EDR
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Secureworks is a cybersecurity vendor providing managed security services, threat intelligence, and security analytics through its Taegis platform. Originally a Dell Technologies subsidiary, the company operates the Counter Threat Unit (CTU) research team that produces detailed threat intelligence on APT groups, cybercrime operations, and emerging attack techniques, while delivering managed detection and response, vulnerability management, and incident response services to enterprises worldwide."
+  why: "Secureworks is significant because its Counter Threat Unit is one of the most respected threat intelligence research teams in the industry, having produced foundational research on numerous threat actor groups and attack campaigns. The CTU's threat group naming convention and research outputs are widely referenced across the cybersecurity community, and the company's managed security services protect thousands of enterprises globally."
+  how: "Secureworks operates through its Taegis XDR platform that ingests security telemetry from endpoints, networks, and cloud environments, applying machine learning and threat intelligence to detect and respond to threats. The Counter Threat Unit conducts original threat research through malware reverse engineering, dark web monitoring, and intelligence analysis, publishing findings that inform both Secureworks' services and the broader security community."
+  core_concepts:
+    - key: "Counter Threat Unit"
+      value: "Elite threat intelligence research team producing detailed analysis of threat actors, campaigns, and attack techniques"
+    - key: "Taegis XDR Platform"
+      value: "Extended detection and response platform providing security analytics and automated threat detection across enterprise environments"
+    - key: "Managed Detection and Response"
+      value: "24/7 managed security services combining human expertise with technology for continuous threat monitoring and incident response"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-FIREEYE-001"
+    description: "Fellow managed security services and threat intelligence vendor"
+  - type: "requires"
+    target: "ACTOR-VENDOR-DELLINC-001"
+    description: "Former subsidiary of Dell Technologies, leveraging Dell's enterprise customer relationships"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.secureworks.com"
+    - "https://en.wikipedia.org/wiki/Secureworks"
+  search_keywords:
+    - "secureworks"
+    - "counter threat unit"
+    - "CTU"
+    - "taegis"
+    - "managed detection response"
+    - "dell secureworks"
+    - "threat intelligence"
+    - "managed security services"
+    - "XDR platform"
+  embedding_text: "Secureworks is a cybersecurity vendor providing managed security services, threat intelligence, and security analytics through its Taegis XDR platform. Originally a Dell Technologies subsidiary, the company operates the Counter Threat Unit (CTU) research team that produces detailed threat intelligence on APT groups, cybercrime operations, and emerging attack techniques. The CTU is one of the most respected threat intelligence research teams in the industry, having produced foundational research on numerous threat actor groups. Secureworks delivers managed detection and response, vulnerability management, and incident response services to thousands of enterprises worldwide."

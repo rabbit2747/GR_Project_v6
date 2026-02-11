@@ -1,0 +1,90 @@
+# GR Atom: ETW Trace Provider
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-ETWTRAPRO-001"
+  name: "ETW Trace Provider"
+  normalized_name: "etw_trace_provider"
+  aliases:
+    - "Event Tracing for Windows Provider"
+    - "ETW Provider"
+    - "Windows Trace Provider"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - LOG
+    - MONITOR
+    - WINDOWS
+    - EDR
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern leveraging Event Tracing for Windows (ETW) trace providers as a foundational telemetry source for endpoint monitoring. ETW is a kernel-level tracing framework built into Windows that provides high-performance event logging from both kernel and user-mode components. ETW providers instrument specific subsystems including process management, file I/O, registry operations, network activity, security auditing, and .NET runtime behavior, generating structured event streams consumed by EDR agents, SIEM collectors, and security monitoring tools."
+  why: "ETW is the primary telemetry backbone for Windows endpoint security. Most EDR solutions and security tools depend on ETW providers for real-time visibility into system behavior. Attackers increasingly target ETW infrastructure through provider tampering, trace session hijacking, and patching of ETW functions to blind security tools. Understanding and monitoring ETW provider health is essential for maintaining detection capability integrity."
+  how: "Register consumers for security-relevant ETW providers including Microsoft-Windows-Kernel-Process, Microsoft-Windows-Kernel-File, Microsoft-Windows-Security-Auditing, and Microsoft-Windows-PowerShell. Monitor for ETW provider registration changes, trace session modifications, and attempts to patch ntdll!EtwEventWrite or similar ETW functions. Validate provider GUID integrity and detect unauthorized provider unregistration. Correlate ETW gaps with other telemetry sources to identify blind spots."
+  core_concepts:
+    - key: "ETW Provider"
+      value: "A software component that generates structured events for a specific system subsystem, identified by a unique GUID and registered with the ETW infrastructure"
+    - key: "Trace Session"
+      value: "An ETW session that connects providers to consumers, buffering and delivering events from registered providers to subscribed consumers"
+    - key: "ETW Tampering"
+      value: "Attacker technique of patching ETW functions, unregistering providers, or hijacking trace sessions to prevent security tools from receiving telemetry events"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "ETW providers are the primary telemetry source for EDR solutions on Windows"
+  - type: enables
+    target: "DETECT-ENDPOINT-AUDPOLCHA-001"
+    description: "Security auditing ETW provider generates audit policy change events"
+  - type: effective_against
+    target: "ATK-EVASION-DISAUDIT-001"
+    description: "Monitoring ETW provider health detects attempts to disable security logging"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.006"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1562.006"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Event Tracing for Windows"
+    - "MITRE ATT&CK T1562.006 - Impair Defenses: Indicator Blocking"
+    - "Palantir - Tampering with Windows Event Tracing"
+  search_keywords:
+    - "ETW trace provider"
+    - "Event Tracing for Windows"
+    - "ETW provider"
+    - "kernel tracing"
+    - "ETW tampering"
+    - "trace session"
+    - "EtwEventWrite"
+    - "Windows telemetry"
+    - "security event provider"
+  embedding_text: "ETW Trace Provider is an endpoint detection pattern leveraging Event Tracing for Windows as a foundational telemetry source for security monitoring. ETW is a kernel-level tracing framework providing high-performance structured event logging from kernel and user-mode components including process management, file I/O, registry operations, network activity, and security auditing. ETW providers are the primary telemetry backbone for EDR solutions and Windows security tools. Detection includes monitoring provider registrations, trace session integrity, and attempts to tamper with ETW functions such as patching ntdll EtwEventWrite. Maintaining ETW provider health is essential for preserving endpoint detection capability integrity."

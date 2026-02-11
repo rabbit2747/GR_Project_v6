@@ -1,0 +1,94 @@
+# GR Atom: SideWinder
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SIDEWINDER-001"
+  name: "SideWinder"
+  normalized_name: "sidewinder"
+  aliases:
+    - "T-APT-04"
+    - "RattleSnake"
+    - "Razor Tiger"
+    - "APT-C-17"
+    - "Hardcore Nationalist"
+    - "Baby Elephant"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - WINDOWS
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SideWinder is an India-nexus advanced persistent threat group active since at least 2012 and considered one of the most prolific APT groups in terms of attack volume. The group primarily targets military and government entities in Pakistan, China, Nepal, Sri Lanka, Bangladesh, and Afghanistan. SideWinder has been observed conducting thousands of attacks, making it one of the highest-volume APT groups tracked by the security community."
+  why: "SideWinder is significant due to its extremely high operational tempo, launching thousands of targeted attacks across South and Central Asian nations. Despite not being the most technically sophisticated group, its sheer volume of operations, focus on regional military intelligence, and continuous evolution of attack techniques make it a persistent threat to Pakistani and Chinese military and governmental organizations."
+  how: "SideWinder primarily uses spear-phishing emails with malicious RTF and DOCX documents exploiting known vulnerabilities, particularly CVE-2017-11882 (Equation Editor). The group deploys custom .NET-based malware, JavaScript-based first-stage implants, and DLL side-loading techniques. Recent operations have included mobile malware targeting Android devices. The group uses compromised websites for C2 and frequently updates its infrastructure. It leverages server-side polymorphism to generate unique payloads for each target."
+  core_concepts:
+    - key: "High-Volume Operations"
+      value: "Extremely prolific attack campaigns launching thousands of spear-phishing attacks against military and government targets across South Asia"
+    - key: "Server-Side Polymorphism"
+      value: "Generation of unique payloads for each target through server-side polymorphism to evade signature-based detection"
+    - key: "Regional Military Intelligence"
+      value: "Focused collection of military and defense intelligence from Pakistan, China, and neighboring South Asian nations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "India-nexus APT group conducting high-volume espionage against regional military targets"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Massive spear-phishing campaigns with weaponized Office documents exploiting CVE-2017-11882"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - SideWinder APT analysis"
+    - "Group-IB - SideWinder threat profile"
+    - "Trend Micro - SideWinder campaign research"
+    - "MITRE ATT&CK - SideWinder"
+  search_keywords:
+    - "sidewinder"
+    - "rattlesnake apt"
+    - "t-apt-04"
+    - "razor tiger"
+    - "india apt"
+    - "pakistan military targeting"
+    - "equation editor exploit"
+    - "cve-2017-11882"
+    - "south asia espionage"
+    - "server-side polymorphism"
+    - "high volume apt"
+    - "baby elephant"
+  embedding_text: "SideWinder is an India-nexus advanced persistent threat group active since at least 2012, considered one of the most prolific APT groups by attack volume. The group primarily targets military and government entities in Pakistan, China, Nepal, Sri Lanka, and other South Asian nations. SideWinder conducts massive spear-phishing campaigns with weaponized documents exploiting CVE-2017-11882, deploys custom .NET-based malware and JavaScript implants, and uses server-side polymorphism to generate unique payloads per target. Despite moderate technical sophistication, the group's extremely high operational tempo and continuous attack evolution make it a persistent threat to regional military and governmental organizations."

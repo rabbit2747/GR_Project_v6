@@ -1,0 +1,128 @@
+# GR Atom: NIST SP 800-171
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISTSP800171-001"
+  name: "NIST SP 800-171"
+  normalized_name: "nist_sp_800_171"
+  aliases:
+    - "SP 800-171"
+    - "Protecting Controlled Unclassified Information"
+    - "CUI Protection Requirements"
+    - "NIST 800-171"
+    - "DFARS 252.204-7012"
+    - "CMMC Baseline"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NIST SP 800-171 (Protecting Controlled Unclassified Information in Nonfederal Systems and
+    Organizations) defines the security requirements for protecting Controlled Unclassified
+    Information (CUI) when it resides in nonfederal systems and organizations. The current
+    revision (Rev. 3, May 2024) contains 110 security requirements organized into 17 families
+    derived from NIST SP 800-53 moderate baseline controls. SP 800-171 is the foundation for
+    the Cybersecurity Maturity Model Certification (CMMC) program and is required for all
+    Department of Defense contractors handling CUI through DFARS clause 252.204-7012.
+  why: >-
+    Federal agencies share sensitive but unclassified information with contractors, state and
+    local governments, and other nonfederal entities. This Controlled Unclassified Information
+    requires consistent protection regardless of where it resides. SP 800-171 establishes the
+    minimum security requirements that nonfederal organizations must implement to protect CUI,
+    ensuring that sensitive government information maintains adequate confidentiality protections
+    throughout the supply chain. The defense industrial base alone includes over 300,000
+    contractors subject to these requirements.
+  how: >-
+    SP 800-171 Rev. 3 security requirements are organized into 17 families: Access Control,
+    Awareness and Training, Audit and Accountability, Configuration Management, Identification
+    and Authentication, Incident Response, Maintenance, Media Protection, Personnel Security,
+    Physical Protection, Risk Assessment, Security Assessment, System and Communications
+    Protection, System and Information Integrity, Planning, System and Services Acquisition,
+    and Supply Chain Risk Management. Organizations implement by: (1) Identifying CUI within
+    their systems; (2) Assessing current implementation against all 110 requirements;
+    (3) Developing a System Security Plan (SSP) documenting implementations; (4) Creating a
+    Plan of Action and Milestones (POA&M) for gaps; (5) Implementing controls and conducting
+    self-assessments or third-party assessments per CMMC requirements.
+  core_concepts:
+    - key: "Controlled Unclassified Information (CUI)"
+      value: >-
+        Government-created or government-possessed information that requires safeguarding
+        or dissemination controls consistent with applicable laws, regulations, and
+        government-wide policies, but is not classified national security information.
+    - key: "110 Security Requirements"
+      value: >-
+        The specific security controls derived from NIST SP 800-53 moderate baseline that
+        nonfederal organizations must implement to protect CUI, organized into 17 families.
+    - key: "CMMC Integration"
+      value: >-
+        SP 800-171 requirements form the foundation of the Cybersecurity Maturity Model
+        Certification program, which requires third-party assessment of defense contractor
+        compliance for handling CUI.
+    - key: "System Security Plan (SSP)"
+      value: >-
+        Documentation describing how each SP 800-171 requirement is implemented within the
+        organization's information systems, serving as the primary compliance artifact.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "SP 800-171 is a NIST Special Publication within the SP 800 series"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "SP 800-171 security requirements are derived from SP 800-53 moderate baseline controls tailored for nonfederal systems"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-RMF-001"
+    description: "SP 800-171 assessment and implementation follows the RMF methodology for risk-based security management"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-171 Rev. 3 - Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations (May 2024). https://csrc.nist.gov/publications/detail/sp/800-171/rev-3/final"
+    - "DFARS 252.204-7012 - Safeguarding Covered Defense Information and Cyber Incident Reporting"
+    - "Cybersecurity Maturity Model Certification (CMMC) Program. https://dodcio.defense.gov/CMMC/"
+  search_keywords:
+    - "NIST SP 800-171"
+    - "CUI protection"
+    - "controlled unclassified information"
+    - "DFARS 7012"
+    - "CMMC"
+    - "defense contractor cybersecurity"
+    - "SP 800-171 requirements"
+    - "nonfederal security requirements"
+    - "system security plan"
+    - "DoD cybersecurity"
+  embedding_text: >-
+    NIST SP 800-171 defines security requirements for protecting Controlled Unclassified
+    Information in nonfederal systems and organizations. The current revision contains 110
+    security requirements organized into 17 families derived from NIST SP 800-53 moderate
+    baseline controls. SP 800-171 is the foundation for the CMMC program and is required for
+    all Department of Defense contractors handling CUI through DFARS 252.204-7012. The 17
+    families cover access control, audit, configuration management, identification and
+    authentication, incident response, and other security domains. Organizations implement
+    by identifying CUI, assessing against requirements, developing System Security Plans and
+    Plans of Action and Milestones, and conducting self-assessments or third-party assessments.
+    The defense industrial base includes over 300,000 contractors subject to these requirements,
+    ensuring consistent CUI protection throughout the government supply chain regardless of
+    where sensitive information resides.

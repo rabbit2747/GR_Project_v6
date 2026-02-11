@@ -1,0 +1,86 @@
+# GR Atom: File Creation Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILECREA-003"
+  name: "File Creation Event"
+  normalized_name: "file_creation_event"
+  aliases:
+    - "OCSF File Create Event"
+    - "Normalized File Creation Record"
+    - "File Creation Telemetry Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - LOG
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A normalized file creation event record formatted for ingestion by SIEM and analytics platforms. This event represents the final processed telemetry record after raw file creation signals from multiple sources (EDR agents, Sysmon, OS audit logs) have been normalized, deduplicated, enriched with contextual metadata, and mapped to a common event schema such as OCSF or ECS. The event includes standardized fields for file metadata, actor identity, process context, and classification labels."
+  why: "Normalized file creation events enable consistent detection logic across heterogeneous endpoint fleets with different operating systems and EDR products. Standardization eliminates the need for vendor-specific parsing and allows security analysts to write detection rules that work uniformly across all data sources. This is essential for enterprise-scale security operations managing diverse endpoint environments."
+  how: "Raw file creation events from EDR agents, Sysmon, and OS audit subsystems are collected by log forwarders, parsed into common schema fields, deduplicated to remove redundant reports from multiple collection layers, enriched with threat intelligence and asset context, and indexed in the SIEM for query and alerting. Detection rules reference normalized field names regardless of the original event source."
+  core_concepts:
+    - key: "Event Schema Normalization"
+      value: "The process of mapping diverse vendor-specific event formats to a common schema such as OCSF or Elastic Common Schema for consistent analysis"
+    - key: "Event Deduplication"
+      value: "Removing redundant event records when multiple collection layers report the same file creation operation"
+    - key: "Contextual Enrichment"
+      value: "Augmenting raw events with additional metadata including threat intelligence verdicts, asset ownership, and user risk scores"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: instance_of
+    target: "DETECT-ENDPOINT-FILECREA-001"
+    description: "Normalized event instance derived from the file create detection pattern"
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File creation events are part of the broader file event category"
+  - type: requires
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Depends on EDR telemetry pipeline for raw event collection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1105"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OCSF Schema - File Activity Class"
+    - "Elastic Common Schema - File Fields"
+    - "Splunk CIM - Endpoint Data Model"
+  search_keywords:
+    - "file creation event"
+    - "normalized file event"
+    - "OCSF file activity"
+    - "file creation telemetry"
+    - "SIEM file event"
+    - "ECS file fields"
+    - "event normalization"
+    - "file creation record"
+  embedding_text: "File Creation Event is a normalized telemetry record formatted for SIEM and analytics platform ingestion. It represents the final processed file creation event after raw signals from EDR agents, Sysmon, and OS audit logs have been normalized, deduplicated, enriched with contextual metadata, and mapped to common schemas such as OCSF or Elastic Common Schema. Normalization enables consistent detection logic across heterogeneous endpoint fleets with different operating systems and EDR products, allowing analysts to write detection rules that work uniformly across all data sources. The event includes standardized fields for file metadata, actor identity, process context, and classification labels."

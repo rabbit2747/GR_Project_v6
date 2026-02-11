@@ -1,0 +1,125 @@
+# GR Atom: Time Series Database
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-TIMSERDAT-001"
+  name: "Time Series Database"
+  normalized_name: "time_series_database"
+  aliases:
+    - "TSDB"
+    - "Time-Series DB"
+    - "Temporal Database"
+    - "Metrics Database"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - MONITOR
+    - LOG
+    - ICS
+    - IOT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Time Series Database (TSDB) is a database system optimized for storing, querying, and
+    analyzing time-stamped data points (metrics, events, and measurements) collected over time
+    intervals. TSDBs are designed for high-volume write throughput and efficient time-range
+    queries with automatic data downsampling and retention policies. Key implementations include
+    InfluxDB, TimescaleDB (PostgreSQL extension), Prometheus, OpenTSDB, QuestDB, Amazon
+    Timestream, Azure Time Series Insights, and Google Cloud Bigtable (when used for time series).
+    TSDBs power monitoring, observability, IoT data collection, financial market data, and
+    industrial process monitoring.
+  why: >-
+    Time series databases are security-relevant because they frequently store security monitoring
+    data (SIEM metrics, network flow data, system performance metrics), infrastructure
+    observability data used for anomaly detection, and IoT/ICS sensor data. Compromise of a
+    TSDB can blind security monitoring, enable manipulation of metrics to conceal attacks, or
+    provide reconnaissance data about system behavior patterns. Additionally, exposed TSDB
+    instances (particularly Prometheus and InfluxDB with default configurations) can leak
+    sensitive operational metrics and internal infrastructure information.
+  how: >-
+    TSDBs organize data as time-stamped points with associated tags (metadata labels) and
+    fields (measured values). Data is ingested through line protocols, REST APIs, or agent-based
+    collection. Storage engines use time-structured merge trees (TSM), columnar compression,
+    and time-partitioned storage for efficient writes and range queries. Retention policies
+    automatically expire or downsample old data. Continuous queries and materialized views
+    pre-compute aggregations. Access control varies by implementation: InfluxDB provides
+    token-based authentication, Prometheus relies on network-level access control, and
+    cloud-managed TSDBs use IAM-based authorization. TLS encryption protects data in transit.
+  core_concepts:
+    - key: "High-Volume Write Optimization"
+      value: >-
+        TSDBs are optimized for ingesting millions of data points per second with efficient
+        compression, using append-only write patterns and time-partitioned storage structures.
+    - key: "Security Monitoring Data Store"
+      value: >-
+        TSDBs frequently store security metrics, network flow data, and system telemetry
+        used for anomaly detection and threat identification, making their integrity critical
+        for security operations.
+    - key: "Retention and Downsampling"
+      value: >-
+        Automatic data lifecycle management through retention policies and downsampling
+        balances storage costs with data availability for historical analysis.
+    - key: "Default Configuration Risks"
+      value: >-
+        Many TSDB implementations (Prometheus, InfluxDB 1.x) ship without authentication
+        enabled by default, exposing operational metrics and internal infrastructure details
+        when accessible from untrusted networks.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "A time series database is a specialized database service optimized for temporal data management"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A time series database is a type of data store specialized for time-stamped metric and event data"
+  - type: "enables"
+    target: "INFRA-DATA-DATACQUNI-001"
+    description: "Time series databases enable data acquisition units by providing the persistent storage for collected sensor data"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "InfluxDB documentation. https://docs.influxdata.com/"
+    - "Prometheus documentation. https://prometheus.io/docs/"
+    - "TimescaleDB documentation. https://docs.timescale.com/"
+  search_keywords:
+    - "time series database"
+    - "TSDB"
+    - "InfluxDB"
+    - "Prometheus"
+    - "TimescaleDB"
+    - "metrics database"
+    - "monitoring database"
+    - "time series security"
+    - "temporal data store"
+  embedding_text: >-
+    A Time Series Database (TSDB) is a database optimized for storing, querying, and analyzing
+    time-stamped data points including metrics, events, and measurements. Key implementations
+    include InfluxDB, TimescaleDB, Prometheus, QuestDB, Amazon Timestream, and Azure Time Series
+    Insights. TSDBs power monitoring, observability, IoT data collection, financial data, and
+    industrial process monitoring with high-volume write throughput and efficient time-range
+    queries. They are security-relevant because they store security monitoring data (SIEM
+    metrics, network flows), infrastructure observability data for anomaly detection, and
+    IoT/ICS sensor data. Compromise can blind security monitoring or provide reconnaissance.
+    Many TSDBs ship without authentication by default, exposing operational metrics. Access
+    control varies by implementation from token-based (InfluxDB) to network-level (Prometheus)
+    to IAM-based (cloud-managed). Retention policies and downsampling manage data lifecycle.

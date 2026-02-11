@@ -1,0 +1,100 @@
+# GR Atom: HTTP Post
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPPOST-001"
+  name: "HTTP Post"
+  normalized_name: "http_post"
+  aliases:
+    - "HTTP POST Method"
+    - "POST Request"
+    - "REST POST"
+    - "Form Submission"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP POST is a standard HTTP request method defined in RFC 9110 for submitting data to be
+    processed by the target resource. POST is the primary method for form submissions, API data
+    creation, file uploads, and any operation that modifies server state. POST is neither safe
+    nor idempotent — each request may produce different results and side effects. Request data
+    is transmitted in the message body with Content-Type headers specifying the encoding format
+    (application/x-www-form-urlencoded, multipart/form-data, application/json). In RESTful
+    design, POST maps to the Create operation in CRUD patterns.
+  why: >-
+    HTTP POST is one of the most security-critical HTTP methods as it handles authentication
+    credentials, user input, file uploads, and data modifications. POST requests are primary
+    vectors for injection attacks (SQL, command, LDAP), cross-site request forgery (CSRF), file
+    upload exploitation, and API abuse. POST body data, while not visible in URLs, is still
+    transmitted in plaintext without HTTPS. C2 frameworks use POST for data exfiltration and
+    command response submission. Rate limiting, input validation, CSRF tokens, and content type
+    validation are essential security controls for POST endpoints.
+  how: >-
+    HTTP POST operates by sending a request with the POST method, Content-Type header indicating
+    body encoding, Content-Length header specifying body size, and the request body containing
+    the data payload. Common content types include: application/x-www-form-urlencoded (HTML
+    form default), multipart/form-data (file uploads), and application/json (API payloads).
+    The server processes the body according to the content type, validates input, performs the
+    requested operation, and returns a response — typically 201 (Created) with a Location header
+    for new resources, or 200 (OK) for processing results.
+  core_concepts:
+    - key: "Non-Idempotent"
+      value: "POST is not idempotent — repeated identical requests may create duplicate resources or trigger multiple operations, requiring deduplication strategies."
+    - key: "Content-Type Encoding"
+      value: "POST body encoding specified by Content-Type: application/x-www-form-urlencoded for forms, multipart/form-data for files, application/json for APIs."
+    - key: "CSRF Protection"
+      value: "POST requests require CSRF tokens or SameSite cookies to prevent cross-site request forgery attacks that exploit automatic cookie transmission."
+    - key: "File Upload"
+      value: "POST with multipart/form-data enables file uploads, requiring server-side validation of file types, sizes, and content to prevent malicious file execution."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP POST is one of the standard HTTP methods for data submission and resource creation"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP POST is a fundamental sub-component of the HTTP protocol for state-changing operations"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9.3.3 POST"
+    - "OWASP — Testing for HTTP Methods"
+    - "OWASP — Cross-Site Request Forgery Prevention Cheat Sheet"
+    - "MDN Web Docs — HTTP POST Method"
+  search_keywords:
+    - "HTTP POST"
+    - "POST method"
+    - "POST request"
+    - "form submission"
+    - "REST POST"
+    - "file upload HTTP"
+    - "CSRF"
+    - "multipart form data"
+    - "API POST"
+  embedding_text: >-
+    HTTP POST defined in RFC 9110 is the primary HTTP method for submitting data to servers,
+    handling form submissions, file uploads, API data creation, and state-changing operations.
+    POST is neither safe nor idempotent. Request data is transmitted in the message body with
+    Content-Type encoding (form-urlencoded, multipart/form-data, JSON). POST is one of the most
+    security-critical HTTP methods — it is a primary vector for injection attacks, CSRF, file
+    upload exploitation, and API abuse. C2 frameworks use POST for data exfiltration. Essential
+    security controls include CSRF tokens, input validation, content type enforcement, and rate
+    limiting.

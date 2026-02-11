@@ -1,0 +1,112 @@
+# GR Atom: CVE-2011-0611
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20110611-001"
+  name: "CVE-2011-0611"
+  normalized_name: "cve_2011_0611"
+  aliases:
+    - "Adobe Flash Player SWF Use-After-Free"
+    - "APSB11-07"
+    - "Flash Player Object Confusion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player 10.2.153.1 and earlier"
+    - "Adobe AIR 2.6 and earlier"
+    - "Adobe Reader/Acrobat X (10.0.2)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-0611 (CVSS 9.3) is a critical use-after-free vulnerability in Adobe Flash Player
+    10.2.153.1 and earlier triggered by processing malicious SWF content. The vulnerability
+    allows arbitrary code execution when Flash Player incorrectly handles object references
+    during SWF content processing. Exploited as a zero-day in widespread targeted attacks
+    via malicious Flash content embedded in Word documents and web pages. Patched in APSB11-07
+    (April 2011).
+  why: >-
+    This zero-day was one of the most actively exploited Flash vulnerabilities, used in multiple
+    simultaneous attack campaigns by different threat actors. The RSA Security breach, which
+    compromised SecurID token seeds affecting numerous government and defense organizations,
+    reportedly used this exploit. The incident demonstrated how a single vulnerability in
+    ubiquitous software could have cascading security impacts across an entire industry.
+  how: >-
+    The vulnerability is triggered when Flash Player processes SWF content containing specific
+    ActionScript that causes an object to be freed while still referenced. The use-after-free
+    allows attacker-controlled data to be written to the freed memory location. Primary attack
+    vector used Flash content embedded in Microsoft Word documents delivered via spearphishing,
+    as well as drive-by download attacks through compromised websites. Heap spraying places
+    shellcode at predictable addresses for reliable exploitation upon triggering the freed
+    object access.
+  core_concepts:
+    - key: "Flash Use-After-Free"
+      value: "ActionScript processing causes object reference to persist after memory is freed, enabling controlled memory corruption"
+    - key: "RSA Breach Vector"
+      value: "Reportedly used in the RSA Security breach that compromised SecurID seeds, with cascading impact across government and defense"
+    - key: "Multi-Vector Delivery"
+      value: "Simultaneously exploited via Word document embedding and web-based drive-by download attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "VUL-MEMORY-CVE20110609-001"
+    description: "Immediately followed the previous Flash zero-day, representing escalating exploitation of Flash Player"
+  - type: "precedes"
+    target: "VUL-MEMORY-CVE20113544-001"
+    description: "Part of the 2011 wave of browser plugin vulnerabilities including Java exploitation"
+  - type: "applies_to"
+    target: "INFRA-OS-WINDOWS-001"
+    description: "Primarily exploited on Windows platforms through Flash Player browser plugin"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Adobe Security Bulletin APSB11-07"
+    - "CVE-2011-0611 - NIST NVD"
+    - "RSA Security Breach Analysis Reports"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2011-0611"
+    - "APSB11-07"
+    - "Flash Player use-after-free"
+    - "RSA breach exploit"
+    - "Flash zero-day 2011"
+    - "SWF object confusion"
+    - "Flash in Word exploit"
+  embedding_text: >-
+    CVE-2011-0611 is a critical use-after-free vulnerability (CVSS 9.3) in Adobe Flash Player
+    10.2 and earlier (APSB11-07). Malicious SWF ActionScript triggers incorrect object reference
+    handling causing freed memory access and arbitrary code execution. Exploited as a zero-day
+    in the RSA Security breach that compromised SecurID token seeds, impacting government and
+    defense organizations. Delivered via Flash embedded in Word documents and drive-by web
+    attacks. One of the most impactful Flash vulnerabilities in cybersecurity history.

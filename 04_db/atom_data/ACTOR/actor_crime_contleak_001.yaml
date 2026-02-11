@@ -1,0 +1,147 @@
+# GR Atom: Conti Leaks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-CONTLEAK-001"
+  name: "Conti Leaks"
+  normalized_name: "conti_leaks"
+  aliases:
+    - "Conti Ransomware"
+    - "Conti Group"
+    - "Wizard Spider"
+    - "Gold Ulrick"
+    - "DEV-0230"
+    - "TrickBot Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - LATERAL
+    - C2
+    - EXFIL
+    - CRED
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Conti Leaks refers to the massive internal data breach of the Conti ransomware operation that
+    occurred in February-March 2022 when a Ukrainian researcher, motivated by Conti's public support
+    for the Russian invasion of Ukraine, leaked tens of thousands of internal chat messages, source
+    code, operational manuals, and infrastructure details. The Conti ransomware group (also tracked
+    as Wizard Spider and Gold Ulrick) was one of the most prolific and damaging ransomware operations
+    from 2020 to 2022, responsible for attacks on over 1,000 organizations including the Irish Health
+    Service Executive (HSE), Costa Rican government, and numerous US healthcare and critical
+    infrastructure targets. The leaked data provided unprecedented insight into the organizational
+    structure, operational methods, salary structures, recruitment processes, and technical
+    infrastructure of a major ransomware-as-a-service operation.
+  why: >-
+    The Conti Leaks represent the most significant intelligence disclosure about ransomware
+    operations in cybersecurity history, fundamentally advancing the understanding of how major
+    cybercriminal organizations operate. The leaks revealed Conti operated like a corporate entity
+    with approximately 100-200 salaried employees organized into teams (developers, testers,
+    negotiators, administrators, HR). The operational manuals exposed playbooks for network
+    penetration, persistence, and ransomware deployment that continue to influence derivative groups.
+    Following the leaks, Conti formally disbanded in May 2022, but its members scattered to form or
+    join Black Basta, Royal/BlackSuit, Akira, Zeon, and other ransomware operations, making the
+    Conti lineage central to understanding the current ransomware landscape.
+  how: >-
+    The Conti operation used TrickBot and BazarLoader for initial access through phishing campaigns,
+    deploying Cobalt Strike beacons for command and control and lateral movement. Post-compromise
+    techniques included Mimikatz for credential harvesting, BloodHound for Active Directory
+    reconnaissance, PsExec and WMI for lateral movement, and Rclone for data exfiltration. The
+    Conti ransomware encrypted files using AES-256 with RSA-4096 key wrapping and targeted both
+    Windows systems and VMware ESXi hypervisors. The leaked materials revealed detailed attack
+    playbooks including step-by-step instructions for exploiting Zerologon (CVE-2020-1472),
+    PrintNightmare (CVE-2021-34527), and other vulnerabilities. The group operated a Tor-based
+    leak site for double extortion and maintained dedicated negotiation infrastructure. The leak
+    itself was published via ContiLeaks Twitter account and distributed through security research
+    communities.
+  core_concepts:
+    - key: "Ransomware Corporate Structure"
+      value: >-
+        The Conti Leaks revealed that major ransomware operations function as corporate entities
+        with salaried employees, structured teams (development, testing, HR, negotiation), formal
+        management hierarchies, and organizational processes that mirror legitimate technology
+        companies.
+    - key: "Ransomware Lineage and Fragmentation"
+      value: >-
+        Following the Conti dissolution in May 2022, its operators and affiliates dispersed to
+        create or join Black Basta, Royal/BlackSuit, Akira, Zeon, Karakurt, and other operations,
+        making the Conti ecosystem the single most important lineage in modern ransomware.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Conti was a financially motivated ransomware-as-a-service cybercriminal organization"
+  - type: "enables"
+    target: "ACTOR-CRIME-BLACBAST-001"
+    description: "Conti operators and affiliates formed the Black Basta ransomware operation after Conti disbanded"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "Conti operations enabled destructive ransomware impact across critical infrastructure globally"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Execution"
+      - "Lateral Movement"
+      - "Credential Access"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Advisory AA21-265A - Conti Ransomware. https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-265a"
+    - "Krebs on Security - Conti Leaks Analysis. https://krebsonsecurity.com/2022/03/conti-ransomware-group-diaries-part-i/"
+    - "MITRE ATT&CK - Wizard Spider Group Profile. https://attack.mitre.org/groups/G0102/"
+    - "Trellix - Conti Leaks Complete Analysis. https://www.trellix.com/en-us/about/newsroom/stories/research/conti-leaks-examining-the-panama-papers-of-ransomware.html"
+  search_keywords:
+    - "conti ransomware"
+    - "conti leaks"
+    - "wizard spider"
+    - "gold ulrick"
+    - "conti chat leaks"
+    - "conti source code"
+    - "conti trickbot"
+    - "conti playbook"
+    - "conti HSE ireland"
+    - "conti costa rica"
+  embedding_text: >-
+    Conti Leaks refers to the February-March 2022 internal data breach of the Conti ransomware
+    operation, one of the most significant intelligence disclosures in cybersecurity history. A
+    Ukrainian researcher leaked tens of thousands of internal chat messages, source code, and
+    operational manuals after Conti publicly supported Russia's invasion of Ukraine. The Conti
+    group (Wizard Spider, Gold Ulrick) was responsible for over 1,000 attacks including the Irish
+    HSE and Costa Rican government. The leaks revealed Conti operated as a corporate entity with
+    100-200 salaried employees organized into structured teams. The group used TrickBot, BazarLoader,
+    Cobalt Strike, Mimikatz, and BloodHound in their attack chain. Following dissolution in May 2022,
+    Conti members dispersed to form Black Basta, Royal/BlackSuit, Akira, and other operations,
+    making the Conti lineage central to understanding the current ransomware ecosystem. CISA issued
+    advisory AA21-265A addressing the threat.

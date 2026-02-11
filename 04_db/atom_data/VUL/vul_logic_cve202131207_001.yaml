@@ -1,0 +1,102 @@
+# GR Atom: CVE-2021-31207
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202131207-001"
+  name: "CVE-2021-31207"
+  normalized_name: "cve_2021_31207"
+  aliases:
+    - "Microsoft Exchange ProxyShell Arbitrary File Write"
+    - "Exchange Security Feature Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - WEB
+    - WINDOWS
+    - AUTHZ
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-31207 is a security feature bypass vulnerability in Microsoft Exchange Server
+    that is part of the ProxyShell attack chain. The flaw allows an authenticated attacker
+    to write arbitrary files to the Exchange server by abusing the mailbox export functionality.
+    Combined with CVE-2021-34473 (pre-auth path confusion) and CVE-2021-34523 (privilege
+    escalation), this enables unauthenticated remote code execution through webshell deployment.
+    CVSS v3 base score: 6.6 (Medium).
+  why: >-
+    Microsoft Exchange Server is the most widely deployed enterprise email platform. The
+    ProxyShell chain was massively exploited in August 2021 by ransomware groups and
+    nation-state actors. The arbitrary file write enables webshell deployment, providing
+    persistent remote access to compromised Exchange servers and the internal network.
+    This attack chain was a primary vector for enterprise breaches throughout 2021-2022.
+  how: >-
+    After achieving authentication through the ProxyShell chain, an attacker abuses the
+    Exchange mailbox export to PST functionality. The logic flaw in the export process
+    allows specifying an arbitrary file path for the export destination, enabling the attacker
+    to write a crafted PST file containing a webshell to a web-accessible directory on the
+    Exchange server.
+  core_concepts:
+    - key: "Mailbox Export Logic Abuse"
+      value: "Exchange mailbox export functionality allows arbitrary file path specification, enabling webshell deployment to web-accessible directories"
+    - key: "ProxyShell Attack Chain"
+      value: "Third component in a three-vulnerability chain (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) enabling full unauthenticated RCE"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Mailbox export logic flaw enabling arbitrary file write through intended functionality abuse"
+  - type: "requires"
+    target: "VUL-LOGIC-CVE202135464-001"
+    description: "Both are 2021-era enterprise application vulnerabilities exploited in attack chains"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic:
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2021-31207"
+    - "Microsoft Security Update Guide"
+    - "NIST NVD - CVE-2021-31207"
+    - "Orange Tsai - ProxyShell Research"
+  search_keywords:
+    - "CVE-2021-31207"
+    - "ProxyShell"
+    - "Exchange arbitrary file write"
+    - "Exchange webshell"
+    - "mailbox export vulnerability"
+    - "Exchange Server RCE"
+  embedding_text: >-
+    CVE-2021-31207 is a security feature bypass in Microsoft Exchange Server enabling arbitrary
+    file write through mailbox export logic abuse. Part of the ProxyShell attack chain with
+    CVE-2021-34473 and CVE-2021-34523 for unauthenticated RCE. Enables webshell deployment
+    to web-accessible directories. CVSS v3 6.6 Medium. Massively exploited by ransomware
+    groups and nation-state actors in 2021. Affects Exchange 2013, 2016, 2019. Mailbox export
+    logic flaw. Year 2021.

@@ -1,0 +1,109 @@
+# GR Atom: HTTP/2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTP2-001"
+  name: "HTTP/2"
+  normalized_name: "http_2"
+  aliases:
+    - "HTTP 2.0"
+    - "RFC 7540"
+    - "RFC 9113"
+    - "h2"
+    - "h2c"
+    - "SPDY successor"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP/2 is the second major version of the Hypertext Transfer Protocol, standardized in IETF
+    RFC 7540 (2015, revised as RFC 9113 in 2022). Derived from Google's SPDY protocol, HTTP/2
+    introduces binary framing, multiplexed streams over a single TCP connection, header
+    compression via HPACK (RFC 7541), server push, and stream prioritization. Unlike HTTP/1.1's
+    text-based protocol, HTTP/2 uses a binary framing layer that encapsulates HTTP semantics
+    (methods, headers, status codes) into frames transmitted over multiplexed streams. HTTP/2
+    maintains full backward compatibility with HTTP/1.1 semantics while dramatically improving
+    performance.
+  why: >-
+    HTTP/2 addresses critical performance limitations of HTTP/1.1 including head-of-line blocking,
+    connection overhead from multiple TCP connections, and inefficient header transmission.
+    However, HTTP/2 introduces new security considerations: the binary protocol format complicates
+    traditional WAF and IDS inspection, multiplexed streams enable new denial-of-service vectors
+    (rapid reset attack CVE-2023-44487), and HPACK header compression creates potential for
+    CRIME-style side-channel attacks. Protocol downgrade attacks from HTTP/2 to HTTP/1.1 can
+    bypass security controls. Security tools must understand HTTP/2 framing for effective
+    inspection.
+  how: >-
+    HTTP/2 operates through: (1) Connection establishment via TLS ALPN negotiation (h2) or
+    cleartext upgrade (h2c); (2) Binary framing where all communication is split into frames
+    (HEADERS, DATA, SETTINGS, WINDOW_UPDATE, etc.) transmitted on multiplexed streams; (3) HPACK
+    header compression using static and dynamic tables to reduce header overhead; (4) Flow control
+    at both connection and stream levels using WINDOW_UPDATE frames; (5) Server push allowing the
+    server to proactively send resources the client will need; (6) Stream prioritization enabling
+    clients to indicate resource importance. A single TCP connection carries multiple concurrent
+    streams, eliminating HTTP/1.1's need for multiple parallel connections.
+  core_concepts:
+    - key: "Binary Framing"
+      value: "HTTP/2 encapsulates all messages in binary frames with type, length, flags, and stream identifier, replacing HTTP/1.1's text-based message format."
+    - key: "Multiplexed Streams"
+      value: "Multiple concurrent request-response exchanges over a single TCP connection, eliminating head-of-line blocking at the HTTP layer."
+    - key: "HPACK Header Compression"
+      value: "RFC 7541 compression algorithm using static and dynamic header tables to significantly reduce header overhead across requests."
+    - key: "Server Push"
+      value: "Mechanism allowing servers to proactively send resources to clients before they are explicitly requested, reducing round trips."
+
+relations:
+  - type: "supersedes"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP/2 supersedes HTTP/1.1 with binary framing and multiplexing while maintaining full semantic compatibility"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "HTTP/2 is an application layer protocol for web communication"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "HTTP/2 is almost exclusively deployed over HTTPS with TLS as negotiated via ALPN"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9113 — HTTP/2 (revision of RFC 7540)"
+    - "IETF RFC 7541 — HPACK: Header Compression for HTTP/2"
+    - "CVE-2023-44487 — HTTP/2 Rapid Reset Attack"
+    - "Google — SPDY: An experimental protocol for a faster web"
+  search_keywords:
+    - "HTTP/2"
+    - "HTTP 2.0"
+    - "RFC 9113"
+    - "RFC 7540"
+    - "binary framing"
+    - "multiplexing"
+    - "HPACK"
+    - "server push"
+    - "h2 protocol"
+    - "SPDY"
+  embedding_text: >-
+    HTTP/2 (RFC 9113) is the second major version of HTTP, introducing binary framing,
+    multiplexed streams over a single TCP connection, HPACK header compression, server push, and
+    stream prioritization. Derived from Google's SPDY protocol, HTTP/2 maintains full backward
+    compatibility with HTTP/1.1 semantics while eliminating head-of-line blocking and reducing
+    connection overhead. Security considerations include binary format complicating WAF/IDS
+    inspection, new DoS vectors like the rapid reset attack (CVE-2023-44487), potential CRIME-
+    style side-channel attacks on HPACK compression, and protocol downgrade risks. HTTP/2 is
+    typically deployed over TLS using ALPN negotiation (h2 identifier).

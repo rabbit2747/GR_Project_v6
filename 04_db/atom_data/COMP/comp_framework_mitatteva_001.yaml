@@ -1,0 +1,128 @@
+# GR Atom: MITRE ATT&CK Evaluation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MITATTEVA-001"
+  name: "MITRE ATT&CK Evaluation"
+  normalized_name: "mitre_att_ck_evaluation"
+  aliases:
+    - "ATT&CK Evaluations"
+    - "MITRE Engenuity ATT&CK Evaluations"
+    - "ATT&CK Enterprise Evaluations"
+    - "MITRE Product Evaluations"
+    - "ATT&CK Evals"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - BLUE_TEAM
+    - THREAT_INTEL
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE ATT&CK Evaluations is an independent assessment program operated by MITRE Engenuity
+    that evaluates cybersecurity products against real-world adversary emulation scenarios based
+    on the MITRE ATT&CK knowledge base. The evaluations test endpoint detection and response
+    (EDR) and enterprise security products by emulating specific threat group tradecraft,
+    measuring each product's ability to detect, classify, and provide telemetry for individual
+    ATT&CK techniques. Results categorize detections as None, Telemetry, General, Tactic, or
+    Technique level, providing transparent and standardized product capability assessments
+    without rankings or scores.
+  why: >-
+    Security product marketing claims are often vague, inconsistent, and difficult to verify
+    independently. Organizations making purchase decisions need objective evidence of how
+    products perform against realistic adversary behaviors. ATT&CK Evaluations provide this
+    transparency by testing products against documented threat group procedures in controlled
+    environments, using a standardized methodology and open results. This enables informed
+    procurement decisions, reveals actual detection gaps in deployed products, and drives
+    industry-wide improvement in detection capabilities.
+  how: >-
+    MITRE Engenuity conducts evaluations by: (1) Selecting a threat group (e.g., APT29, Carbanak,
+    Turla, Wizard Spider) and documenting their TTPs using ATT&CK; (2) Developing adversary
+    emulation plans that replicate the threat group's attack chain; (3) Executing the emulation
+    against each participating vendor's product in a controlled environment; (4) Recording
+    detection results for each ATT&CK technique step, categorizing as None, Telemetry, General,
+    Tactic, or Technique detection; (5) Publishing detailed results with full transparency
+    including screenshots and detection descriptions; (6) Results are published without rankings,
+    allowing organizations to evaluate based on their own priorities and environments.
+  core_concepts:
+    - key: "Adversary Emulation"
+      value: >-
+        The practice of replicating real-world threat group tactics, techniques, and procedures
+        in a controlled environment to test security product detection capabilities against
+        documented adversary behaviors rather than synthetic tests.
+    - key: "Detection Categories"
+      value: >-
+        A standardized classification system for evaluation results: None (no detection),
+        Telemetry (raw data available), General (suspicious activity flagged), Tactic (ATT&CK
+        tactic identified), and Technique (specific ATT&CK technique identified).
+    - key: "Transparent Methodology"
+      value: >-
+        Open publication of emulation plans, test procedures, and detailed results for each
+        participating product, enabling organizations to make informed comparisons based on
+        their specific security requirements and threat profiles.
+    - key: "Threat-Informed Product Assessment"
+      value: >-
+        Evaluating security products specifically against the adversary groups most relevant
+        to an organization's threat landscape, using ATT&CK evaluation results to identify
+        detection strengths and gaps.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "ATT&CK Evaluations directly use the ATT&CK framework taxonomy and adversary knowledge base as the foundation for all assessment scenarios"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATCOHE-001"
+    description: "Evaluation results inform coverage heatmap creation by revealing which products detect which techniques at what level"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATSOMA-001"
+    description: "Evaluation results map specific security products to their ATT&CK technique detection capabilities"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE Engenuity - ATT&CK Evaluations. https://attackevals.mitre-engenuity.org/"
+    - "MITRE ATT&CK - ATT&CK Evaluations Methodology. https://attackevals.mitre-engenuity.org/methodology"
+    - "MITRE Engenuity - ATT&CK Evaluations Enterprise Results. https://attackevals.mitre-engenuity.org/enterprise"
+  search_keywords:
+    - "MITRE ATT&CK evaluations"
+    - "ATT&CK evals"
+    - "MITRE Engenuity evaluations"
+    - "EDR evaluation"
+    - "adversary emulation testing"
+    - "security product evaluation"
+    - "ATT&CK detection categories"
+    - "threat-informed product assessment"
+    - "APT emulation"
+    - "endpoint detection evaluation"
+  embedding_text: >-
+    MITRE ATT&CK Evaluations is an independent assessment program operated by MITRE Engenuity
+    that evaluates cybersecurity products against real-world adversary emulation scenarios based
+    on the ATT&CK knowledge base. The program tests EDR and enterprise security products by
+    emulating specific threat group tradecraft such as APT29, Carbanak, Turla, and Wizard Spider,
+    measuring detection capabilities for individual ATT&CK techniques. Results are categorized
+    as None, Telemetry, General, Tactic, or Technique level detection without rankings or scores.
+    The transparent methodology publishes emulation plans, test procedures, and detailed results
+    with screenshots. Organizations use evaluation results to make informed procurement decisions,
+    identify detection gaps in deployed products, build coverage heatmaps, and validate security
+    product capabilities against realistic adversary behaviors. The program drives industry-wide
+    improvement in detection engineering by establishing a standardized benchmark for security
+    product assessment against documented threat group procedures.

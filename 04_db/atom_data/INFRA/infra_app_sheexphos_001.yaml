@@ -1,0 +1,114 @@
+# GR Atom: Shell Experience Host
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SHEEXPHOS-001"
+  name: "Shell Experience Host"
+  normalized_name: "shell_experience_host"
+  aliases:
+    - "ShellExperienceHost.exe"
+    - "Windows Shell Experience Host"
+    - "Windows.UI.Shell"
+    - "Start Menu Host"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - OS
+    - EVADE
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Shell Experience Host (ShellExperienceHost.exe) is a Windows system process responsible
+    for rendering the visual shell elements of the modern Windows desktop experience. It
+    manages the Start menu, taskbar, Action Center, notification popups, Cortana integration,
+    and other UWP-based shell components. The process runs per-user session and interfaces
+    with the Desktop Window Manager (DWM) to present interactive shell elements.
+  why: >-
+    Shell Experience Host is a persistent high-visibility process that runs in every user
+    session, making it an attractive target for defense evasion through process injection or
+    masquerading. As a trusted Microsoft process, code executing within its context inherits
+    trust relationships with other shell components and security software. Vulnerabilities
+    in the process can affect all active user sessions. Memory corruption in shell rendering
+    could enable code execution through crafted notification content or Start menu data.
+    Malware can masquerade as ShellExperienceHost.exe from non-standard paths to blend with
+    legitimate system processes.
+  how: >-
+    ShellExperienceHost.exe launches at user login and runs continuously within the user
+    session. It loads UWP shell components as in-process modules, communicating with the
+    Shell Infrastructure Host and Windows Runtime for XAML rendering. The process receives
+    data from notification services, tile update mechanisms, and Cortana backends. It
+    interacts with the Security Health service for system tray status indicators. Process
+    integrity is maintained through Windows code signing and AppContainer isolation for
+    certain subcomponents.
+  core_concepts:
+    - key: "Persistent User Session Process"
+      value: "ShellExperienceHost.exe runs continuously in every user session, providing a stable and always-present target for process injection and defense evasion"
+    - key: "Shell Component Trust Chain"
+      value: "Code executing within Shell Experience Host inherits trust relationships with other Windows shell infrastructure and security status display components"
+    - key: "Process Masquerading Target"
+      value: "The ubiquitous nature of this process makes it an effective masquerading target for malware using the same filename from non-standard directories"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-SHEAPPRUN-001"
+    description: "Shell Experience Host provides the visual shell framework in which Shell App Runtime operates"
+  - type: "part_of"
+    target: "INFRA-APP-SERVHOST-001"
+    description: "Shell Experience Host is part of the broader Windows system process infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036.005"
+    tactic:
+      - "Defense Evasion"
+      - "Execution"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Windows Shell Architecture Documentation"
+    - "MITRE ATT&CK T1036.005 - Match Legitimate Name or Location"
+    - "Windows Internals - Shell Process Architecture"
+  search_keywords:
+    - "Shell Experience Host"
+    - "ShellExperienceHost.exe"
+    - "Windows shell process"
+    - "Start menu host"
+    - "Windows UI shell"
+    - "shell experience vulnerability"
+    - "ShellExperienceHost masquerading"
+    - "Windows desktop shell"
+  embedding_text: >-
+    Shell Experience Host (ShellExperienceHost.exe) is a Windows system process rendering
+    the modern desktop shell including Start menu, taskbar, Action Center, and notifications.
+    It runs persistently in every user session, loading UWP shell components and interacting
+    with DWM for visual rendering. Security concerns include process injection targeting this
+    persistent trusted process, process masquerading using the ShellExperienceHost.exe name
+    from non-standard paths, memory corruption through crafted notification or tile data, and
+    exploitation of trust relationships with other shell infrastructure. Security teams should
+    verify ShellExperienceHost.exe runs only from its legitimate path, monitor for injection
+    into this process, and watch for anomalous behavior patterns.

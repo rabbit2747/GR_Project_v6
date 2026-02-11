@@ -1,0 +1,137 @@
+# GR Atom: Noise Protocol Handshake Patterns
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-NOPRHAPA-001"
+  name: "Noise Protocol Handshake Patterns"
+  normalized_name: "noise_protocol_handshake_patterns"
+  aliases:
+    - "Noise Protocol Framework"
+    - "Noise Framework"
+    - "Noise Handshakes"
+    - "Noise_XX"
+    - "Noise_IK"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - ENCRYPT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Noise Protocol Framework, designed by Trevor Perrin and published in 2018 (revision 34),
+    is a framework for building cryptographic handshake protocols using a small set of
+    Diffie-Hellman and symmetric primitives. It defines a family of handshake patterns (named
+    combinations like XX, IK, NK, KK, XK) that specify how static and ephemeral keys are
+    exchanged between initiator and responder. Each pattern provides different combinations of
+    authentication, identity hiding, forward secrecy, and zero round-trip encryption. The
+    framework is used by WireGuard VPN (Noise_IKpsk2), WhatsApp (Noise_XX variant), and the
+    Lightning Network, providing a formally verified alternative to TLS for specialized
+    transport security.
+  why: >-
+    TLS is a complex, general-purpose protocol with a large attack surface from its extensive
+    feature set, cipher suite negotiation, and backward compatibility requirements. The Noise
+    Framework addresses this by providing a minimalist, formally analyzable approach to
+    cryptographic handshakes with no version negotiation, no cipher suite negotiation, and no
+    legacy algorithm support. Each Noise pattern has precise, provable security properties
+    documented in the specification. The framework enables protocol designers to select the
+    exact handshake pattern matching their security requirements (mutual authentication, identity
+    hiding, zero-RTT) without carrying unnecessary complexity. Its simplicity makes formal
+    verification tractable, and multiple Noise patterns have been formally verified using
+    ProVerif and Tamarin.
+  how: >-
+    Noise handshakes use three cryptographic primitives: a Diffie-Hellman function (X25519 or
+    X448), an AEAD cipher (ChaChaPoly or AES-GCM), and a hash function (SHA-256, SHA-512, or
+    BLAKE2). Handshake patterns are described using a compact notation: each message pattern
+    lists tokens (e, s, ee, es, se, ss) indicating which DH operations occur. The token 'e'
+    sends an ephemeral public key, 's' sends a static public key (encrypted if a DH has
+    already occurred), and two-letter tokens (ee, es, se, ss) perform DH operations between
+    the specified keys. For example, Noise_XX has three messages: initiator sends e; responder
+    sends e, ee, s, es; initiator sends s, se. A CipherState tracks the evolving symmetric
+    key through MixKey operations after each DH. Pre-message patterns (like IK) allow one
+    party's static key to be known in advance, enabling 0-RTT data. The framework supports
+    pre-shared symmetric keys (psk) for additional authentication.
+  core_concepts:
+    - key: "Handshake Patterns"
+      value: >-
+        Named patterns (XX, IK, NK, KK, XK, etc.) define the exact sequence of key exchanges
+        and DH operations. The first letter indicates the initiator's static key status
+        (N=none, K=known, X=transmitted, I=immediately transmitted) and the second letter
+        the responder's.
+    - key: "Token-Based Message Description"
+      value: >-
+        Each handshake message is described by tokens: 'e' for ephemeral key, 's' for static
+        key, and two-letter tokens (ee, es, se, ss) for DH computations, providing a precise
+        and compact protocol specification.
+    - key: "No Negotiation"
+      value: >-
+        Noise eliminates cipher suite and version negotiation entirely. Both parties must
+        agree on the pattern and cryptographic primitives out-of-band, removing a major
+        source of downgrade attacks and implementation complexity.
+    - key: "Formal Verification"
+      value: >-
+        The framework's simplicity enables formal verification of handshake security
+        properties using automated tools like ProVerif and Tamarin, providing mathematical
+        guarantees about authentication and confidentiality.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "Noise provides a minimalist alternative to TLS for specialized transport security without negotiation complexity"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-SIGNAL-001"
+    description: "Noise handshake patterns provide an alternative key agreement framework to the Signal Protocol for secure channel establishment"
+  - type: "enables"
+    target: "PROTO-SECURITY-IPSEC-001"
+    description: "Noise patterns are used by WireGuard which provides IPSec-equivalent VPN functionality with simpler cryptographic design"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Perrin, T. (2018). The Noise Protocol Framework, Revision 34. https://noiseprotocol.org/noise.html"
+    - "Donenfeld, J. (2017). WireGuard: Next Generation Kernel Network Tunnel. NDSS 2017. https://www.wireguard.com/papers/wireguard.pdf"
+    - "Kobeissi, N., Nicolas, G., & Bhargavan, K. (2019). Noise Explorer: Fully Automated Modeling and Verification for Arbitrary Noise Protocols. IEEE EuroS&P 2019."
+  search_keywords:
+    - "Noise Protocol Framework"
+    - "Noise handshake patterns"
+    - "Noise_XX"
+    - "Noise_IK"
+    - "WireGuard Noise"
+    - "Trevor Perrin"
+    - "Diffie-Hellman handshake"
+    - "formal verification protocol"
+    - "noise explorer"
+    - "ChaChaPoly handshake"
+  embedding_text: >-
+    The Noise Protocol Framework is a minimalist system for building cryptographic handshake
+    protocols using Diffie-Hellman key exchanges, AEAD ciphers, and hash functions. Designed
+    by Trevor Perrin, it defines handshake patterns (XX, IK, NK, KK, XK) specifying how static
+    and ephemeral keys are exchanged between initiator and responder. Each pattern provides
+    different combinations of authentication, identity hiding, forward secrecy, and zero
+    round-trip encryption. Messages are described using compact tokens: e for ephemeral keys,
+    s for static keys, and two-letter tokens for DH operations. Noise eliminates cipher suite
+    negotiation entirely, removing downgrade attack vectors. Its simplicity enables formal
+    verification using ProVerif and Tamarin. WireGuard VPN uses Noise_IKpsk2, WhatsApp uses
+    a Noise_XX variant, and the Lightning Network uses Noise for channel establishment. The
+    framework provides a formally analyzable alternative to TLS for applications requiring
+    precise control over cryptographic handshake properties without general-purpose protocol
+    complexity.

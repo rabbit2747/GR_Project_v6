@@ -1,0 +1,79 @@
+# GR Atom: CloudTrail
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-CLOUDTRAIL-001"
+  name: "CloudTrail"
+  normalized_name: "cloudtrail"
+  aliases:
+    - "AWS CloudTrail"
+    - "Amazon CloudTrail"
+    - "CT Audit Logs"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - AUDIT
+    - LOG
+    - CLOUD
+    - COMPLIANCE
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "C1.1"
+
+definition:
+  what: "AWS CloudTrail is an audit and governance service that records API calls and account activity across an AWS infrastructure. It captures management events (control plane operations), data events (resource-level operations on S3 objects and Lambda functions), and Insights events (anomalous API activity). CloudTrail delivers event records as JSON log files to S3 buckets and optionally to CloudWatch Logs for real-time alerting."
+  why: "CloudTrail is the primary audit trail for AWS environments and is essential for security investigations, compliance auditing, and incident response. It provides the evidentiary record of who did what, when, and from where across all AWS services. Attackers frequently target CloudTrail by disabling trails, deleting log files, or modifying trail configurations to cover their tracks. CloudTrail log integrity validation ensures tamper detection. Without CloudTrail, AWS security incidents cannot be properly investigated or attributed."
+  how: "CloudTrail creates a trail that records API calls to specified S3 buckets with optional CloudWatch Logs integration. Organization trails capture events across all accounts in an AWS Organization. Log file integrity validation uses SHA-256 hashing to detect tampering. CloudTrail Lake provides SQL-based querying of event data. Data events capture object-level S3 operations and Lambda invocations. CloudTrail Insights identifies unusual API call patterns using machine learning. Multi-region trails ensure comprehensive coverage regardless of where API calls originate."
+  core_concepts:
+    - key: "Management Events"
+      value: "Control plane operations recorded by default including resource creation, deletion, modification, and IAM actions"
+    - key: "Data Events"
+      value: "Resource-level operations on S3 objects and Lambda functions that require explicit enablement due to high volume"
+    - key: "Log File Integrity Validation"
+      value: "SHA-256 hash chain mechanism that detects whether CloudTrail log files have been modified or deleted after delivery"
+    - key: "CloudTrail Lake"
+      value: "Managed data lake for CloudTrail events enabling SQL-based queries, aggregation, and long-term retention across accounts"
+
+relations:
+  - type: part_of
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "CloudTrail is a core audit service within the AWS cloud platform"
+  - type: requires
+    target: "INFRA-DEVOPS-AWSCLOU-001"
+    description: "CloudTrail events can be forwarded to CloudWatch Logs for real-time monitoring and alerting"
+  - type: requires
+    target: "INFRA-DEVOPS-CLOUSTOR-001"
+    description: "CloudTrail delivers log files to S3 cloud storage for retention and analysis"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.008"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS CloudTrail Documentation - https://docs.aws.amazon.com/cloudtrail/"
+    - "AWS CloudTrail Security Best Practices - https://docs.aws.amazon.com/awscloudtrail/latest/userguide/best-practices-security.html"
+    - "MITRE ATT&CK T1562.008 - Impair Defenses: Disable Cloud Logs"
+  search_keywords:
+    - "AWS CloudTrail"
+    - "CloudTrail audit"
+    - "AWS API logging"
+    - "CloudTrail events"
+    - "AWS audit trail"
+    - "CloudTrail log integrity"
+    - "CloudTrail Lake"
+    - "AWS compliance logging"
+  embedding_text: "AWS CloudTrail is an audit and governance service recording API calls and account activity across AWS infrastructure. It captures management events (control plane), data events (S3 objects and Lambda), and Insights events (anomalous API patterns). CloudTrail delivers JSON event logs to S3 with optional CloudWatch Logs integration. Security significance includes providing the primary evidentiary record for incident response, compliance auditing, and security investigations. Attackers target CloudTrail by disabling trails or deleting logs. Log file integrity validation uses SHA-256 hashing for tamper detection. Organization trails provide cross-account coverage. CloudTrail Lake enables SQL-based event querying."

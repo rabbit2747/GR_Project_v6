@@ -1,0 +1,150 @@
+# GR Atom: Sender Policy Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-SENDER-001"
+  name: "Sender Policy Framework"
+  normalized_name: "sender_policy_framework"
+  aliases:
+    - "SPF"
+    - "SPF Record"
+    - "RFC 7208"
+    - "Sender ID"
+    - "SPF TXT Record"
+    - "Email SPF"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - SMTP
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Sender Policy Framework (SPF) is an email authentication protocol defined in RFC 7208 that
+    enables domain owners to specify which mail servers are authorized to send email on behalf
+    of their domain. SPF works by publishing DNS TXT records containing a policy that lists
+    authorized sending IP addresses, IP ranges, and included domains. When a receiving mail
+    server gets a message, it extracts the envelope sender (MAIL FROM) domain and queries DNS
+    for the SPF record. The receiver then checks whether the sending server's IP address is
+    authorized by the policy, producing a result of pass, fail, softfail, neutral, none,
+    temperror, or permerror. SPF is one of three core email authentication protocols alongside
+    DKIM (DomainKeys Identified Mail) and DMARC (Domain-based Message Authentication,
+    Reporting, and Conformance).
+  why: >-
+    Email spoofing is a fundamental enabler of phishing, business email compromise (BEC),
+    and spam campaigns. The SMTP protocol has no built-in mechanism to verify that the sender
+    address is legitimate, allowing anyone to forge the From address. SPF addresses this by
+    providing a DNS-based mechanism for domain owners to declare which servers are authorized
+    senders, enabling receivers to detect unauthorized use of the domain in the envelope sender.
+    However, SPF has important limitations: it only validates the envelope sender (MAIL FROM),
+    not the header From address displayed to users; it breaks when email is forwarded because
+    the forwarding server's IP is not in the original domain's SPF record; and it cannot prevent
+    spoofing of the visible From header alone. These limitations are why SPF is used in
+    conjunction with DKIM and DMARC, which together provide comprehensive email authentication.
+    SPF is also a reconnaissance tool for attackers, as SPF records reveal the organization's
+    mail infrastructure including IP ranges and third-party email service providers.
+  how: >-
+    SPF operates through DNS-based policy publication and IP validation: (1) the domain owner
+    publishes a TXT record in DNS for their domain containing the SPF policy (e.g.,
+    "v=spf1 ip4:192.0.2.0/24 include:_spf.google.com -all"); (2) when a receiving mail server
+    accepts a connection, it extracts the domain from the SMTP MAIL FROM command; (3) the
+    receiver queries DNS for TXT records on that domain and parses the SPF policy; (4) the
+    receiver evaluates the sending server's IP address against the policy mechanisms: ip4/ip6
+    (explicit IP ranges), a (domain A record), mx (domain MX records), include (referenced
+    domain's SPF policy), and exists (macro-expanded domain lookup); (5) the policy qualifier
+    determines the result: + (pass), - (fail), ~ (softfail), ? (neutral); (6) the "all"
+    mechanism at the end defines the default policy for non-matching IPs. SPF has a 10 DNS
+    lookup limit to prevent DNS amplification, and exceeding this limit produces a permerror.
+    The redirect modifier delegates SPF evaluation to another domain's policy. SPF results
+    feed into DMARC alignment checking, where the envelope sender domain must align with the
+    header From domain for the SPF result to contribute to DMARC evaluation.
+  core_concepts:
+    - key: "SPF DNS TXT Record"
+      value: >-
+        A DNS TXT record published at the domain's apex containing the SPF policy string
+        beginning with "v=spf1". The record lists authorized sending mechanisms (ip4, ip6,
+        a, mx, include, exists) with qualifiers (+, -, ~, ?) and terminates with an "all"
+        mechanism defining the default policy for unauthorized senders.
+    - key: "SPF Mechanisms and Qualifiers"
+      value: >-
+        Mechanisms define how to match sending IPs: ip4/ip6 match explicit ranges, a matches
+        domain A records, mx matches domain MX records, include evaluates another domain's SPF.
+        Qualifiers prefix mechanisms: + pass (default), - fail (reject), ~ softfail (accept but
+        mark), ? neutral (no policy statement).
+    - key: "SPF Limitations and Forwarding"
+      value: >-
+        SPF validates only the envelope sender (MAIL FROM), not the visible From header displayed
+        to users. Email forwarding breaks SPF because the forwarding server's IP is not authorized
+        in the original domain's SPF record. These limitations are addressed by DKIM (content
+        signing) and DMARC (alignment verification) in the comprehensive email authentication stack.
+    - key: "DMARC Alignment with SPF"
+      value: >-
+        DMARC requires SPF alignment: the domain in the envelope sender (MAIL FROM) must match
+        or be a subdomain of the header From domain for the SPF result to count toward DMARC
+        evaluation. This prevents attackers from passing SPF with their own domain while
+        spoofing a different domain in the visible From header.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "SPF is an email authentication protocol that validates sender IP addresses against published DNS policies"
+  - type: "requires"
+    target: "PROTO-NAMING-DNS-001"
+    description: "SPF requires DNS for publishing TXT records containing authorization policies and for receivers to query sender domain policies"
+  - type: "part_of"
+    target: "PROTO-AUTH-EMAUMEEX-001"
+    description: "SPF is a component of the broader email authentication framework alongside DKIM and DMARC for comprehensive sender verification"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 7208 - Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1 (April 2014). IETF. https://datatracker.ietf.org/doc/html/rfc7208"
+    - "RFC 7372 - Email Authentication Status Codes (September 2014). IETF. https://datatracker.ietf.org/doc/html/rfc7372"
+    - "RFC 7489 - Domain-based Message Authentication, Reporting, and Conformance (DMARC) (March 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7489"
+    - "M3AAWG Best Practices for Email Authentication. Messaging, Malware and Mobile Anti-Abuse Working Group."
+  search_keywords:
+    - "SPF"
+    - "Sender Policy Framework"
+    - "RFC 7208"
+    - "SPF record"
+    - "SPF TXT record"
+    - "email authentication"
+    - "email spoofing prevention"
+    - "SPF pass fail"
+    - "SPF include mechanism"
+    - "DMARC SPF alignment"
+    - "SPF DNS lookup limit"
+    - "mail server authorization"
+  embedding_text: >-
+    Sender Policy Framework (SPF) is an email authentication protocol defined in RFC 7208 that
+    enables domain owners to specify authorized sending mail servers via DNS TXT records.
+    Receiving servers query the sender domain's SPF record and validate whether the sending
+    server's IP address matches the published policy, producing pass, fail, softfail, or neutral
+    results. SPF policies use mechanisms including ip4/ip6 for explicit ranges, include for
+    referenced domain policies, and mx/a for domain record matching, with qualifiers controlling
+    the disposition of matching and non-matching IPs. SPF has important limitations: it validates
+    only the envelope sender (MAIL FROM), not the header From displayed to users, and breaks
+    during email forwarding when the forwarding server's IP is not authorized. SPF works with
+    DKIM and DMARC for comprehensive email authentication, where DMARC alignment ensures the
+    envelope sender domain matches the header From domain. SPF records also serve as
+    reconnaissance data, revealing mail infrastructure and third-party service provider
+    relationships. The protocol enforces a 10 DNS lookup limit to prevent amplification attacks.

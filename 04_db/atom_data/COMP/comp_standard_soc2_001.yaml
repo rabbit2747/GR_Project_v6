@@ -1,0 +1,75 @@
+# GR Atom: SOC 2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-SOC2-001"
+  name: "SOC 2"
+  normalized_name: "soc_2"
+  aliases:
+    - "SOC 2 Report"
+    - "Service Organization Control 2"
+    - "System and Organization Controls 2"
+    - "SSAE 18 SOC 2"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - CLOUD
+    - PRIVACY
+
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "SOC 2 (System and Organization Controls 2) is an auditing standard developed by the American Institute of Certified Public Accountants (AICPA) that evaluates service organizations' information systems based on five Trust Service Criteria: Security, Availability, Processing Integrity, Confidentiality, and Privacy. A SOC 2 report is issued by an independent CPA firm after examining the design and operating effectiveness of controls relevant to the selected trust service criteria. SOC 2 reports are restricted-use documents shared with customers and stakeholders who need assurance about the service organization's control environment."
+  why: "As organizations increasingly rely on third-party service providers for critical business functions, they need assurance that these providers adequately protect their data and maintain reliable services. SOC 2 addresses this need by providing an independent, standardized assessment of a service organization's controls. SOC 2 has become the de facto compliance requirement for SaaS companies, cloud service providers, and managed service providers, often required contractually by enterprise customers before engagement."
+  how: "Service organizations achieve SOC 2 compliance by selecting applicable trust service criteria, designing and implementing controls that address each criterion, operating those controls over the examination period, and engaging an independent CPA firm to perform the examination. The auditor evaluates control design and, for Type II reports, tests operating effectiveness over a minimum 6-month period. The resulting report includes the auditor's opinion, management assertion, system description, applicable trust service criteria, related controls, tests of controls, and results. Organizations maintain SOC 2 compliance through annual examinations."
+  core_concepts:
+    - key: "Trust Service Criteria"
+      value: "The five categories (Security, Availability, Processing Integrity, Confidentiality, Privacy) against which controls are evaluated"
+    - key: "Type I vs Type II"
+      value: "Type I evaluates control design at a point in time; Type II evaluates design and operating effectiveness over a period"
+    - key: "CPA Examination"
+      value: "Independent audit by a licensed CPA firm following AICPA standards to evaluate the control environment"
+    - key: "Management Assertion"
+      value: "Written statement by the service organization's management describing their system and asserting control effectiveness"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "SOC 2 is a specific security compliance framework for service organizations"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "SOC 2 requires formal audit compliance through CPA examination"
+  - type: requires
+    target: "COMP-STANDARD-SO2TRSECR-001"
+    description: "SOC 2 examinations evaluate controls against the Trust Service Criteria"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AICPA SOC 2 - https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2"
+    - "AICPA Trust Service Criteria (2017) - https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-trust-services-criteria"
+    - "SSAE 18 (AT-C Section 205) - Attestation Standards"
+  search_keywords:
+    - "SOC 2"
+    - "SOC 2 report"
+    - "service organization controls"
+    - "trust service criteria"
+    - "AICPA"
+    - "SSAE 18"
+    - "SOC 2 Type II"
+    - "SaaS compliance"
+    - "cloud compliance"
+    - "CPA examination"
+  embedding_text: "SOC 2 is an AICPA auditing standard evaluating service organizations based on five Trust Service Criteria: Security, Availability, Processing Integrity, Confidentiality, and Privacy. Independent CPA firms examine the design and operating effectiveness of controls relevant to selected criteria. Type I reports assess design at a point in time while Type II reports test operating effectiveness over a minimum 6-month period. SOC 2 has become the de facto compliance requirement for SaaS companies and cloud service providers, providing standardized third-party assurance about control environments. Organizations maintain compliance through annual examinations by licensed CPA firms."

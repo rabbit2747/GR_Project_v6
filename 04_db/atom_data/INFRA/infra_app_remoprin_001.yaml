@@ -1,0 +1,116 @@
+# GR Atom: Remote Printing
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-REMOPRIN-001"
+  name: "Remote Printing"
+  normalized_name: "remote_printing"
+  aliases:
+    - "RDP Printer Redirection"
+    - "Remote Desktop Printing"
+    - "EasyPrint"
+    - "TS Easy Print"
+    - "Printer Redirection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - RDP
+    - NETWORK
+    - CONFIG
+    - EXFIL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Remote Printing encompasses technologies that enable users to print from remote desktop
+    sessions to locally attached printers. In Windows Remote Desktop Services, this includes
+    RDP Printer Redirection and TS Easy Print, which map client-side printers into remote
+    sessions. The feature allows users in RDS, RemoteApp, and VDI sessions to print documents
+    to their local printers without installing drivers on the remote server. Network-based
+    remote printing also includes IPP (Internet Printing Protocol) and cloud print services.
+  why: >-
+    Remote printing creates data exfiltration channels from secured remote sessions to local
+    endpoints. Print jobs traversing RDP sessions can contain sensitive data that bypasses
+    DLP controls designed for the remote environment. Printer redirection requires RDP virtual
+    channel communication, which can be abused for covert data transfer. Malicious printer
+    drivers loaded through redirection can compromise session hosts. Misconfigured printer
+    redirection policies may expose printing capabilities to unauthorized users.
+  how: >-
+    RDP Printer Redirection works through the RDP virtual channel framework, mapping client
+    printers into the remote session namespace. TS Easy Print uses the XPS document format
+    and a universal printer driver to avoid server-side driver installation, rendering print
+    jobs on the client side. Traditional redirection installs matching drivers on the server.
+    Print data flows through the RDP channel from server to client where it is rendered and
+    sent to the local printer. Group Policy controls which redirection features are enabled
+    and which printer types can be redirected.
+  core_concepts:
+    - key: "RDP Virtual Channel Printing"
+      value: "Print data flows through RDP virtual channels from remote session to client, creating a data path that may bypass server-side security controls"
+    - key: "Data Exfiltration via Print"
+      value: "Print redirection creates a legitimate data channel from restricted remote environments to local endpoints that can be abused for data exfiltration"
+    - key: "Driver-Free Printing (Easy Print)"
+      value: "TS Easy Print uses XPS format and universal driver to eliminate server-side driver installation, reducing driver-based attack surface but maintaining channel risks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-APP-PRINSERV-001"
+    description: "Remote Printing depends on print server infrastructure for print job processing and queue management"
+  - type: "part_of"
+    target: "INFRA-APP-TERMSERV-001"
+    description: "Remote Printing is a device redirection feature within Remote Desktop Services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1048"
+    tactic:
+      - "Exfiltration"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Remote Desktop Printer Redirection Documentation"
+    - "MITRE ATT&CK T1048 - Exfiltration Over Alternative Protocol"
+    - "Microsoft TS Easy Print Technical Reference"
+  search_keywords:
+    - "remote printing"
+    - "RDP printer redirection"
+    - "TS Easy Print"
+    - "Remote Desktop printing"
+    - "printer redirection security"
+    - "RDP virtual channel printing"
+    - "print data exfiltration"
+    - "EasyPrint driver"
+  embedding_text: >-
+    Remote Printing enables users in Remote Desktop sessions to print to locally attached
+    printers through RDP Printer Redirection and TS Easy Print technologies. Print data
+    flows through RDP virtual channels from the remote server to client endpoints. TS Easy
+    Print uses XPS format with a universal driver to avoid server-side driver installation.
+    Security concerns include data exfiltration through print channels bypassing server-side
+    DLP controls, RDP virtual channel abuse for covert data transfer, malicious driver loading
+    through traditional redirection, and misconfigured policies exposing print capabilities.
+    Group Policy controls redirection settings. Security teams should restrict printer
+    redirection to necessary use cases, monitor print channel data volumes, and prefer
+    Easy Print over traditional driver-based redirection to reduce attack surface.

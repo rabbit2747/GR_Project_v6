@@ -1,0 +1,114 @@
+# GR Atom: ShadowRay
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-SHADOWRAY-001"
+  name: "ShadowRay"
+  normalized_name: "shadowray"
+  aliases:
+    - "CVE-2023-48022"
+    - "Ray AI Framework Vulnerability"
+    - "Anyscale Ray RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - EXEC
+    - AI
+    - API
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray framework"
+    - "Ray Dashboard"
+    - "Ray Jobs API"
+    - "AI/ML infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ShadowRay (CVE-2023-48022) is a critical vulnerability in the Anyscale Ray open-source AI
+    framework, widely used for distributed computing and machine learning workloads. The Ray
+    Dashboard and Jobs API lack authentication by default, allowing unauthenticated remote
+    attackers to submit arbitrary jobs for execution, access sensitive environment variables
+    and credentials, read production data, and gain remote code execution on all nodes in the
+    Ray cluster. CVSS 9.8 (Critical). Actively exploited in the wild since at least September
+    2023 for cryptocurrency mining and data theft.
+  why: >-
+    ShadowRay is particularly dangerous because Ray clusters are deployed by major organizations
+    for AI/ML workloads and often have access to training data, model weights, cloud credentials,
+    and GPU resources. The lack of default authentication means that any internet-exposed Ray
+    Dashboard is immediately exploitable. Thousands of exposed Ray instances were discovered,
+    and attackers used them to steal credentials, deploy cryptominers, and exfiltrate sensitive
+    AI training data and intellectual property.
+  how: >-
+    Attackers scan for exposed Ray Dashboard instances (default port 8265) and Jobs API endpoints.
+    Since authentication is not enabled by default, attackers directly submit malicious Ray jobs
+    through the API. These jobs execute arbitrary code on the cluster with the privileges of the
+    Ray process, typically having access to cloud provider credentials, environment variables,
+    mounted storage, and GPU resources. The Ray Jobs API allows persistent access through
+    scheduled tasks and can be used to pivot to other cloud services.
+  core_concepts:
+    - key: "Unauthenticated AI Infrastructure"
+      value: "Ray Dashboard and Jobs API lack default authentication exposing AI/ML clusters to unauthenticated remote code execution"
+    - key: "AI Supply Chain Risk"
+      value: "Compromised Ray clusters expose training data, model weights, cloud credentials, and GPU compute resources"
+    - key: "Active Exploitation"
+      value: "Widely exploited since 2023 for cryptocurrency mining, credential theft, and AI intellectual property exfiltration"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "ShadowRay is a critical information disclosure and RCE vulnerability in AI infrastructure"
+  - type: "enables"
+    target: "VUL-INFO-INSEKEAC-001"
+    description: "ShadowRay exploitation exposes cloud credentials and secret keys stored in Ray cluster environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2023-48022"
+    - "Oligo Security - ShadowRay Research"
+    - "Anyscale Ray Security Advisory"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "ShadowRay"
+    - "CVE-2023-48022"
+    - "Ray framework vulnerability"
+    - "Anyscale Ray"
+    - "AI infrastructure vulnerability"
+    - "Ray Dashboard unauthenticated"
+    - "ML cluster exploitation"
+    - "Ray Jobs API"
+  embedding_text: >-
+    ShadowRay (CVE-2023-48022) is a critical vulnerability in the Anyscale Ray AI framework.
+    CVSS 9.8. Ray Dashboard and Jobs API lack default authentication, enabling unauthenticated
+    remote code execution, credential theft, and data exfiltration from AI/ML clusters. Actively
+    exploited since 2023 for cryptomining and data theft. Thousands of exposed instances discovered.
+    Compromised clusters expose training data, model weights, cloud credentials, and GPU resources.
+    Attackers submit malicious jobs through the unauthenticated API with full cluster privileges.
+    Critical AI supply chain risk affecting major organizations using Ray for distributed ML.

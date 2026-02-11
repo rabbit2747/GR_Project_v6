@@ -1,0 +1,103 @@
+# GR Atom: ScarCruft
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SCARCRUFT-001"
+  name: "ScarCruft"
+  normalized_name: "scarcruft"
+  aliases:
+    - "APT37"
+    - "Reaper"
+    - "Group123"
+    - "RedEyes"
+    - "Ricochet Chollima"
+    - "InkySquid"
+    - "Temp.Reaper"
+    - "Ruby Sleet"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ScarCruft, also tracked as APT37 or Reaper, is a North Korea-nexus advanced persistent threat group active since at least 2012. The group primarily targets South Korean government agencies, military organizations, media companies, defectors, and human rights organizations. ScarCruft has expanded its targeting to include Japan, Vietnam, Russia, and Middle Eastern entities. The group is assessed to operate under the North Korean Ministry of State Security (MSS)."
+  why: "ScarCruft is one of North Korea's most active cyber-espionage groups, with operations supporting the regime's intelligence collection against perceived threats and dissidents. The group has demonstrated zero-day exploit capabilities and maintains an evolving malware arsenal, representing a persistent threat to South Korean national security and North Korean defector communities worldwide."
+  how: "ScarCruft employs spear-phishing emails with malicious HWP (Hangul Word Processor) documents and Office files, watering hole attacks, and zero-day exploits (including Adobe Flash and Internet Explorer vulnerabilities). The group deploys custom malware including RokRAT, Bluelight, Goldbackdoor, and Chinotto, with capabilities spanning Windows, Android, and macOS platforms. C2 communications frequently abuse legitimate cloud services including Dropbox, Google Drive, and OneDrive for data staging and exfiltration."
+  core_concepts:
+    - key: "North Korean Defector Targeting"
+      value: "Specialized operations targeting North Korean defectors, human rights organizations, and journalists covering North Korean affairs"
+    - key: "Cloud Service Abuse"
+      value: "Systematic abuse of legitimate cloud services including Dropbox, Google Drive, and OneDrive for C2 communications and data exfiltration"
+    - key: "Multi-Platform Malware"
+      value: "Diverse malware arsenal spanning Windows, Android, and macOS including RokRAT, Bluelight, Goldbackdoor, and Chinotto"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "North Korea-nexus APT group operating under Ministry of State Security for espionage operations"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses spear-phishing with malicious HWP and Office documents targeting South Korean entities"
+  - type: enables
+    target: "ATK-C2-CLOUDABUSE-001"
+    description: "Abuses legitimate cloud services for C2 communications and data exfiltration"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+      - "collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - APT37"
+    - "Kaspersky Lab - ScarCruft analysis"
+    - "FireEye/Mandiant - APT37 Reaper report"
+    - "AhnLab - ScarCruft campaign tracking"
+  search_keywords:
+    - "scarcruft"
+    - "apt37"
+    - "reaper"
+    - "group123"
+    - "redeyes"
+    - "ricochet chollima"
+    - "north korea apt"
+    - "rokrat"
+    - "goldbackdoor"
+    - "south korea targeting"
+    - "defector surveillance"
+    - "hwp exploit"
+    - "cloud c2"
+  embedding_text: "ScarCruft, also known as APT37 or Reaper, is a North Korea-nexus advanced persistent threat group active since at least 2012, assessed to operate under the Ministry of State Security. The group primarily targets South Korean government agencies, military organizations, media companies, and North Korean defectors, with expanded targeting into Japan, Vietnam, and the Middle East. ScarCruft employs spear-phishing with malicious HWP and Office documents, zero-day exploits, and watering hole attacks, deploying multi-platform malware including RokRAT, Bluelight, and Goldbackdoor. The group systematically abuses legitimate cloud services such as Dropbox and Google Drive for command-and-control communications and data exfiltration."

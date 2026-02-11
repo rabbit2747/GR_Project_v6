@@ -1,0 +1,116 @@
+# GR Atom: Enterprise Services
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-ENTESERV-001"
+  name: "Enterprise Services"
+  normalized_name: "enterprise_services"
+  aliases:
+    - "Enterprise Service Infrastructure"
+    - "Application Server Infrastructure"
+    - "Middleware Services"
+    - "Enterprise Platform Services"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - API
+    - HTTP
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Enterprise Services is a foundational infrastructure category encompassing application
+    servers, middleware platforms, and service runtime environments that host and execute
+    enterprise applications. This includes Java EE application servers (WebLogic, WebSphere,
+    GlassFish, WildFly), .NET application hosting, message brokers, transaction processors,
+    and integration middleware. These services provide the runtime platform layer between
+    operating systems and business applications.
+  why: >-
+    Enterprise service infrastructure is a critical attack surface because it runs with
+    elevated privileges, processes all application traffic, and has deep access to backend
+    systems. Vulnerabilities in application servers (deserialization flaws, admin console
+    exposures, default credentials) provide attackers with remote code execution and full
+    server compromise. Enterprise services are high-value targets due to their central role
+    in hosting multiple applications and their access to databases, message queues, and
+    identity systems. Misconfigurations in middleware are a leading cause of enterprise breaches.
+  how: >-
+    Enterprise services operate as platform-layer processes that receive network requests,
+    manage application lifecycles, handle transactions, and coordinate with backend resources.
+    Java EE servers deploy applications as WAR/EAR packages and manage servlets, EJBs, and
+    web services. They provide connection pooling, transaction management, security realms,
+    and clustering. Administration is typically through web consoles or CLI tools. Attack
+    vectors target exposed admin interfaces, Java deserialization endpoints, JNDI injection
+    points, and misconfigured security realms.
+  core_concepts:
+    - key: "Application Server Platform"
+      value: "Runtime platform hosting enterprise applications with managed transactions, connection pooling, security realms, and clustering capabilities"
+    - key: "Middleware Attack Surface"
+      value: "Deserialization vulnerabilities, exposed admin consoles, default credentials, and JNDI injection create critical exploitation paths"
+    - key: "Backend System Gateway"
+      value: "Enterprise services bridge application requests to databases, message queues, and identity systems with privileged access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Enterprise services provide the runtime platform that hosts and executes enterprise applications"
+  - type: "abstracts"
+    target: "INFRA-APP-GLASSFISH-001"
+    description: "Enterprise services is the abstract category that includes concrete implementations like GlassFish"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Application Server Security Guide"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "NIST SP 800-123 - Guide to General Server Security"
+  search_keywords:
+    - "enterprise services"
+    - "application server"
+    - "middleware security"
+    - "enterprise platform"
+    - "application server vulnerability"
+    - "Java EE server"
+    - "enterprise middleware"
+    - "application server misconfiguration"
+  embedding_text: >-
+    Enterprise Services is a foundational infrastructure category encompassing application
+    servers, middleware platforms, and service runtime environments that host enterprise
+    applications. This includes Java EE servers (WebLogic, WebSphere, GlassFish, WildFly),
+    .NET hosting, message brokers, and integration middleware. Enterprise services are critical
+    attack surfaces running with elevated privileges and providing deep access to backend
+    systems. Common vulnerabilities include deserialization flaws, exposed admin consoles,
+    default credentials, and JNDI injection. These platforms are high-value targets due to
+    their central role hosting multiple applications with privileged access to databases and
+    identity systems. Security teams should harden admin interfaces, disable unnecessary
+    features, enforce strong authentication, and maintain patch currency on all enterprise
+    service deployments.

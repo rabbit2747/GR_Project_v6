@@ -1,0 +1,105 @@
+# GR Atom: CVE-2013-3660
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20133660-001"
+  name: "CVE-2013-3660"
+  normalized_name: "cve_2013_3660"
+  aliases:
+    - "Windows win32k.sys EPATHOBJ Use-After-Free"
+    - "EPATHOBJ Local Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - PRIV
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows kernel-mode driver win32k.sys"
+    - "EPATHOBJ::pprFlattenRec function"
+    - "Windows XP through Windows 8"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-3660 is a use-after-free vulnerability (CVSS 6.9) in the Windows kernel-mode
+    driver win32k.sys, specifically in the EPATHOBJ::pprFlattenRec function used for GDI path
+    flattening operations. The vulnerability allows local attackers to gain elevated privileges
+    by triggering a race condition that leads to a use-after-free in kernel memory. It affects
+    Windows XP through Windows 8 and was patched in MS13-053 (July 2013). A public proof-of-
+    concept was available before the patch.
+  why: >-
+    The win32k.sys kernel driver has been one of the most common sources of Windows privilege
+    escalation vulnerabilities due to its large attack surface and complex GDI code. This
+    vulnerability was notable because a detailed public proof-of-concept was published before
+    the patch, demonstrating the kernel exploitation technique. It was used as a privilege
+    escalation component in multi-stage attacks following initial access through browser or
+    document exploits.
+  how: >-
+    The exploit triggers a race condition in the EPATHOBJ::pprFlattenRec function by creating
+    a watchdog thread that modifies path data while the kernel is flattening it. This causes
+    a use-after-free condition where the kernel accesses freed PATHRECORD structures. By
+    controlling the contents of the freed memory through careful heap manipulation, the attacker
+    redirects a kernel function pointer to achieve arbitrary code execution in kernel mode,
+    escalating to SYSTEM privileges.
+  core_concepts:
+    - key: "win32k.sys EPATHOBJ Race Condition"
+      value: "Race condition in GDI path flattening causes use-after-free in kernel PATHRECORD structures enabling privilege escalation"
+    - key: "Public Kernel Exploitation Technique"
+      value: "Detailed public PoC published before patch demonstrated win32k.sys kernel exploitation methodology"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free in Windows win32k.sys kernel driver EPATHOBJ path handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-3660 - CVSS 6.9"
+    - "Microsoft Security Bulletin MS13-053"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2013-3660"
+    - "win32k.sys"
+    - "EPATHOBJ"
+    - "pprFlattenRec"
+    - "privilege escalation"
+    - "use-after-free"
+    - "kernel exploit"
+    - "MS13-053"
+    - "Windows kernel"
+  embedding_text: >-
+    CVE-2013-3660 is a use-after-free vulnerability with CVSS 6.9 in the Windows kernel-mode
+    driver win32k.sys in the EPATHOBJ::pprFlattenRec function. A race condition during GDI
+    path flattening causes use-after-free of PATHRECORD structures in kernel memory, enabling
+    local privilege escalation to SYSTEM. A public proof-of-concept was available before the
+    MS13-053 patch in July 2013. Affecting Windows XP through Windows 8, this vulnerability
+    was used as a privilege escalation component in multi-stage attacks. The win32k.sys driver
+    remains one of the most common sources of Windows kernel privilege escalation due to its
+    large GDI attack surface.

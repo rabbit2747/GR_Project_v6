@@ -1,0 +1,108 @@
+# GR Atom: Fingerprint Scanner Input Device
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-FISCINDE-001"
+  name: "Fingerprint Scanner Input Device"
+  normalized_name: "fingerprint_scanner_input_device"
+  aliases:
+    - "Fingerprint Reader"
+    - "Biometric Scanner"
+    - "Fingerprint Sensor"
+    - "Biometric Fingerprint Device"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - AUTHN
+    - MFA
+    - IOT
+    - FIRMWARE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A fingerprint scanner input device is a biometric authentication peripheral that captures
+    and processes fingerprint images for identity verification. These devices range from USB-
+    connected desktop readers to integrated laptop sensors, standalone physical access terminals,
+    and enterprise-grade multi-finger scanners. Common technologies include capacitive, optical,
+    ultrasonic, and thermal sensors. In enterprise environments, fingerprint scanners integrate
+    with Windows Hello, FIDO2, Active Directory, and physical access control systems for multi-
+    factor authentication workflows.
+  why: >-
+    Fingerprint scanners are critical authentication infrastructure because they provide
+    biometric identity verification that cannot be shared, forgotten, or easily stolen like
+    passwords. However, biometric data breaches are irreversible since fingerprints cannot be
+    changed. Security concerns include spoofing attacks using artificial fingerprints (gummy
+    fingers, 3D-printed replicas), template database theft, man-in-the-middle attacks on
+    scanner communication channels, and driver vulnerabilities. The 2015 OPM breach exposed
+    5.6 million fingerprint records, demonstrating the catastrophic impact of biometric data loss.
+  how: >-
+    Fingerprint scanners capture a fingerprint image using capacitive, optical, or ultrasonic
+    sensors, then extract minutiae points (ridge endings, bifurcations) to create a mathematical
+    template. Match-on-device scanners perform comparison locally using a secure element,
+    while match-on-server scanners transmit templates to a central authentication server. The
+    scanner communicates with host systems via USB, Bluetooth, or network protocols. Enterprise
+    integration uses Windows Biometric Framework (WBF), BioAPI, or proprietary SDKs. Template
+    storage may use local secure enclaves (TPM), smart cards, or centralized biometric databases.
+  core_concepts:
+    - key: "Biometric Template Security"
+      value: "Fingerprint minutiae templates must be securely stored and transmitted since biometric data is immutable and cannot be reissued if compromised"
+    - key: "Spoofing Resistance"
+      value: "Liveness detection and anti-spoofing measures protect against artificial fingerprints, gummy fingers, and presentation attacks"
+    - key: "Match-on-Device vs Match-on-Server"
+      value: "Architectural choice between local comparison in secure elements and centralized server-side matching with different security trade-offs"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-ENDPOINT-ELECOMLOC-001"
+    description: "Fingerprint scanners provide biometric credentials for electronic locks in multi-factor physical access control"
+  - type: "implements"
+    target: "DEF-AUTHN-MFA-001"
+    description: "Fingerprint scanners implement biometric factor in multi-factor authentication systems"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-76-2 - Biometric Specifications for PIV"
+    - "ISO/IEC 19795-1 - Biometric Performance Testing"
+    - "FIDO Alliance - Biometric Certification Program"
+  search_keywords:
+    - "fingerprint scanner"
+    - "biometric reader"
+    - "fingerprint authentication"
+    - "biometric security"
+    - "fingerprint sensor"
+    - "Windows Hello fingerprint"
+    - "biometric spoofing"
+    - "FIDO2 biometric"
+    - "fingerprint template"
+  embedding_text: >-
+    Fingerprint Scanner Input Device is a biometric authentication peripheral that captures
+    and processes fingerprint images for identity verification. Technologies include capacitive,
+    optical, ultrasonic, and thermal sensors deployed as USB readers, laptop sensors, and
+    enterprise access terminals. Integration with Windows Hello, FIDO2, Active Directory, and
+    physical access control systems enables multi-factor authentication. Security concerns
+    include spoofing with artificial fingerprints, biometric template database theft, driver
+    vulnerabilities, and the irreversibility of biometric data breaches. The 2015 OPM breach
+    exposed 5.6 million fingerprint records. Scanners use minutiae extraction for template
+    creation with match-on-device or match-on-server architectures. Enterprise deployments
+    use Windows Biometric Framework, BioAPI, or proprietary SDKs with template storage in
+    TPMs, smart cards, or centralized databases.

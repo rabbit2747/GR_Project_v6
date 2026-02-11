@@ -1,0 +1,113 @@
+# GR Atom: Web Server Application
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WEBSERAPP-001"
+  name: "Web Server Application"
+  normalized_name: "web_server_application"
+  aliases:
+    - "Application Server"
+    - "Web Application Server"
+    - "HTTP Application Server"
+    - "App Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - HTTP
+    - API
+    - CONFIG
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Web Server Application is a general category encompassing software platforms that host,
+    execute, and serve web applications over HTTP/HTTPS. This includes traditional application
+    servers (Tomcat, Jetty, Nginx+app modules), Java EE containers (WebLogic, WebSphere,
+    WildFly), and modern framework-embedded servers (Spring Boot, Node.js). These platforms
+    provide the runtime environment, request routing, session management, and middleware
+    services required by web applications.
+  why: >-
+    Web server applications are the primary target for initial access attacks as they are
+    public-facing by design. Common vulnerability classes include remote code execution through
+    deserialization, SQL injection, path traversal, server-side request forgery (SSRF),
+    authentication bypass, and misconfiguration. Exposed administration interfaces, default
+    credentials, and unpatched servers are continuously targeted by automated scanning.
+    Successful exploitation provides a foothold for lateral movement into internal networks.
+    Web server misconfigurations including verbose error pages, directory listing, and debug
+    endpoints leak sensitive information.
+  how: >-
+    Web server applications listen on HTTP (80) and HTTPS (443) ports, processing incoming
+    requests through a pipeline of handlers, filters, and application code. They manage
+    session state, authenticate users, route requests to application logic, and return
+    responses. Application servers provide additional services including connection pooling,
+    transaction management, and messaging. Configuration files control virtual hosts, SSL/TLS
+    settings, access controls, and logging. Reverse proxies often front application servers
+    for load balancing, SSL termination, and additional security filtering.
+  core_concepts:
+    - key: "Public-Facing Attack Surface"
+      value: "Web servers are exposed to the internet by design, making them the primary vector for initial access through application-layer vulnerabilities"
+    - key: "Configuration Security"
+      value: "Misconfigurations including default credentials, verbose errors, directory listing, and debug endpoints are common and provide significant intelligence to attackers"
+    - key: "Application Runtime Environment"
+      value: "Provides the execution context for application code, and vulnerabilities in the server itself affect all hosted applications simultaneously"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "INFRA-APP-WEBLOGIC-001"
+    description: "Web Server Application is the general category that WebLogic implements as a Java EE application server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Web Server Security Guide"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "NIST SP 800-44 - Guidelines on Securing Public Web Servers"
+  search_keywords:
+    - "web server application"
+    - "application server"
+    - "web server security"
+    - "HTTP server vulnerability"
+    - "application server hardening"
+    - "web server misconfiguration"
+    - "app server exploitation"
+    - "web application server"
+  embedding_text: >-
+    Web Server Application is the general category of platforms hosting and serving web
+    applications over HTTP/HTTPS, including traditional servers (Tomcat, Nginx), Java EE
+    containers (WebLogic, WebSphere, WildFly), and modern embedded servers (Spring Boot,
+    Node.js). As public-facing infrastructure, these are primary targets for initial access
+    through RCE, deserialization, SQLi, SSRF, and authentication bypass. Common issues
+    include default credentials, verbose errors, directory listing, and exposed admin
+    interfaces. Security teams should harden configurations, patch regularly, implement WAF
+    protection, restrict administration access, remove default content, configure secure
+    TLS settings, and monitor for exploitation attempts against hosted applications.

@@ -1,0 +1,120 @@
+# GR Atom: CVE-2017-5638
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20175638-001"
+  name: "CVE-2017-5638"
+  normalized_name: "cve_2017_5638"
+  aliases:
+    - "Apache Struts2 OGNL Injection"
+    - "Struts2 Content-Type RCE"
+    - "Equifax Breach Vulnerability"
+    - "Apache Struts Jakarta Parser RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache Struts 2.3.x before 2.3.32"
+    - "Apache Struts 2.5.x before 2.5.10.1"
+    - "Jakarta Multipart parser"
+    - "OGNL expression evaluator"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-5638 is a critical remote code execution vulnerability in Apache Struts 2 caused
+    by OGNL (Object-Graph Navigation Language) injection through the Jakarta Multipart parser.
+    When the Content-Type header contains an invalid multipart value, the error message is
+    processed through OGNL evaluation, allowing injection of arbitrary OGNL expressions that
+    execute Java code on the server. The CVSS v3 base score is 10.0 (Critical) and it was
+    the vulnerability exploited in the 2017 Equifax data breach affecting 147 million people.
+  why: >-
+    Apache Struts 2 was widely used in enterprise Java web applications across financial
+    services, government, and healthcare. This vulnerability is trivial to exploit, requires
+    no authentication, and provides immediate remote code execution. The Equifax breach
+    demonstrated catastrophic real-world impact, making this one of the most consequential
+    CVEs in history. The vulnerability was actively exploited within days of disclosure.
+  how: >-
+    Attackers send an HTTP request with a crafted Content-Type header containing OGNL
+    expressions instead of a valid multipart content type. The Jakarta parser generates an
+    error message incorporating the malicious Content-Type value, which is then evaluated
+    as an OGNL expression by the Struts framework. The OGNL expression can invoke arbitrary
+    Java methods including Runtime.exec() for command execution. Exploitation is trivially
+    automated and widely available in penetration testing tools. Mitigation requires immediate
+    upgrade to patched Struts versions.
+  core_concepts:
+    - key: "OGNL Injection"
+      value: "Object-Graph Navigation Language expressions injected through HTTP headers are evaluated server-side, enabling arbitrary Java code execution"
+    - key: "Content-Type Vector"
+      value: "Malicious OGNL expressions embedded in the HTTP Content-Type header are processed by the Jakarta Multipart parser error handling"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "OGNL injection in Struts is a specific and critical instance of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20101871-001"
+    description: "Both are expression language injection vulnerabilities in Java web frameworks"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202144228-001"
+    description: "Struts OGNL injection preceded Log4Shell as a critical Java framework injection with massive impact"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2017-5638"
+  cvss_score: 10.0
+  affected_product: "Apache Struts 2.3.x/2.5.x"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-5638"
+    - "CWE-917 Improper Neutralization of Special Elements used in an Expression Language Statement"
+    - "Apache Struts Security Bulletin S2-045"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-5638"
+    - "Apache Struts OGNL injection"
+    - "Struts2 RCE"
+    - "Equifax breach vulnerability"
+    - "Jakarta parser exploit"
+    - "OGNL expression injection"
+    - "Struts Content-Type injection"
+    - "S2-045"
+  embedding_text: >-
+    CVE-2017-5638 is a maximum severity (CVSS 10.0) remote code execution vulnerability in
+    Apache Struts 2 caused by OGNL injection through the Jakarta Multipart parser. Malicious
+    OGNL expressions in HTTP Content-Type headers are evaluated server-side, enabling arbitrary
+    Java code execution without authentication. This was the vulnerability behind the 2017
+    Equifax data breach affecting 147 million people, making it one of the most consequential
+    CVEs in history. Affecting Struts 2.3.x and 2.5.x versions, exploitation is trivially
+    automated and was weaponized within days of disclosure. The vulnerability demonstrates
+    the catastrophic risk of expression language injection in web frameworks. Immediate
+    upgrade to patched Struts versions is the primary mitigation.

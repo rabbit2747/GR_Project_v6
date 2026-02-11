@@ -1,0 +1,125 @@
+# GR Atom: Azure Entra Workload ID
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-ID-001"
+  name: "Azure Entra Workload ID"
+  normalized_name: "azure_entra_workload_id"
+  aliases:
+    - "Workload Identity"
+    - "Azure AD Workload Identity"
+    - "Entra Workload Identity"
+    - "Azure Workload Identity Federation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - AUTHN
+    - AUTHZ
+    - OAUTH
+    - K8S
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Entra Workload ID (formerly Azure AD Workload Identity) provides identity
+    capabilities for software workloads such as applications, services, containers, and
+    scripts to authenticate to and access Azure resources and other protected services.
+    Workload Identity Federation enables external workloads (GitHub Actions, Kubernetes
+    pods, other cloud providers) to exchange external tokens for Azure AD tokens without
+    managing secrets, using OpenID Connect federation to establish trust between external
+    identity providers and Azure AD applications or managed identities.
+  why: >-
+    Workload identities are frequently over-privileged and under-monitored compared to user
+    identities. Service principals and application registrations often accumulate excessive
+    permissions over time and lack the same Conditional Access protections applied to user
+    accounts. Attackers target workload identities because they typically do not require
+    MFA, have long-lived credentials, and can be used for persistent API access. Workload
+    Identity Federation misconfigurations, such as overly broad subject claims or issuer
+    URLs, can allow unauthorized external workloads to obtain Azure AD tokens.
+  how: >-
+    Workload Identity operates through Azure AD application registrations and service
+    principals. For federation, an external IdP (GitHub, Kubernetes OIDC) is configured as
+    a federated identity credential on the application, specifying issuer, subject, and
+    audience. External workloads present tokens from their IdP, which Azure AD validates
+    against the federated credential configuration. For managed identities, Azure
+    automatically handles credential lifecycle. Workload identities access Azure resources
+    through Microsoft Graph API and Azure Resource Manager with permissions granted through
+    app role assignments or Azure RBAC role assignments.
+  core_concepts:
+    - key: "Workload Identity Federation"
+      value: "Enables external workloads to exchange their native OIDC tokens for Azure AD tokens without storing secrets through federated trust"
+    - key: "Service Principal Management"
+      value: "Workload identities operate as service principals with API permissions that require careful lifecycle management and access reviews"
+    - key: "Secretless Authentication"
+      value: "Federation eliminates the need for client secrets or certificates, reducing credential theft risk for cross-platform workloads"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "Workload IDs are managed within Azure AD as application registrations and service principals"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-AZUMANIDE-001"
+    description: "Workload Identity Federation provides an alternative to managed identities for non-Azure workloads"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Implements authentication for software workloads accessing Azure resources"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Defense Evasion"
+      - "Persistence"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Workload Identity Federation"
+    - "Microsoft Documentation - Microsoft Entra Workload ID"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+  search_keywords:
+    - "Azure Workload Identity"
+    - "Entra Workload ID"
+    - "Workload Identity Federation"
+    - "Azure AD service principal"
+    - "federated identity credential"
+    - "OIDC federation Azure"
+    - "secretless authentication Azure"
+    - "workload identity security"
+  embedding_text: >-
+    Azure Entra Workload ID provides identity capabilities for software workloads to
+    authenticate to Azure resources. Workload Identity Federation enables external
+    workloads like GitHub Actions and Kubernetes pods to exchange OIDC tokens for Azure AD
+    tokens without managing secrets. It operates through application registrations and
+    service principals in Azure AD with federated identity credentials specifying trusted
+    issuers and subjects. Workload identities are frequently over-privileged and
+    under-monitored, lacking Conditional Access protections applied to users. Attackers
+    target them for persistent API access since they typically lack MFA. Federation
+    misconfigurations with overly broad subject claims can allow unauthorized token
+    acquisition. Security teams must audit workload identity permissions, implement
+    Conditional Access for workload identities, restrict federated credential configurations,
+    monitor service principal sign-in activity, and enforce least-privilege access reviews.

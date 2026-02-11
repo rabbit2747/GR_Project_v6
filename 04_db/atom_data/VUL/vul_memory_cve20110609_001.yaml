@@ -1,0 +1,110 @@
+# GR Atom: CVE-2011-0609
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20110609-001"
+  name: "CVE-2011-0609"
+  normalized_name: "cve_2011_0609"
+  aliases:
+    - "Adobe Flash Player Memory Corruption"
+    - "APSB11-05"
+    - "Flash Player SWF Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player 10.2.152.33 and earlier"
+    - "Adobe AIR 2.5.1 and earlier"
+    - "Adobe Reader/Acrobat X (10.0.1)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-0609 (CVSS 9.3) is a critical memory corruption vulnerability in Adobe Flash
+    Player 10.2.152.33 and earlier versions. The vulnerability is triggered by processing
+    specially crafted SWF content that causes memory corruption leading to arbitrary code
+    execution. It was exploited as a zero-day in targeted attacks using Flash content embedded
+    in Microsoft Excel files delivered via spearphishing. Also affects Adobe AIR and Flash
+    Player plugin in Adobe Reader. Patched in APSB11-05 (March 2011).
+  why: >-
+    Flash Player's ubiquitous presence in web browsers and its embedding capability in Office
+    documents and PDFs made it a prime target for APT groups. This zero-day demonstrated the
+    compound attack surface where Flash exploits could be delivered through multiple vectors
+    including web pages, Office documents, and PDF files. The ability to embed Flash in Excel
+    files bypassed many security controls focused on web-delivered content.
+  how: >-
+    The vulnerability is triggered when Flash Player processes a specially crafted SWF file
+    that causes an invalid memory access during ActionScript execution. The attack vector used
+    in the wild embedded the malicious SWF inside an Excel (.xls) spreadsheet, which was
+    delivered via spearphishing email. When the victim opens the Excel file, the embedded Flash
+    content triggers the memory corruption, enabling arbitrary code execution in the context
+    of the host application. Heap spraying techniques ensure reliable exploitation.
+  core_concepts:
+    - key: "Flash Memory Corruption"
+      value: "SWF content processing causes invalid memory access during ActionScript execution enabling code execution"
+    - key: "Cross-Format Embedding"
+      value: "Flash content embedded in Excel files creates compound exploit vector bypassing format-specific security controls"
+    - key: "Zero-Day APT Weapon"
+      value: "Exploited as a zero-day in targeted spearphishing campaigns before any patch was available"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "VUL-MEMORY-CVE20094324-001"
+    description: "Continued the pattern of Adobe product zero-days used in targeted attacks, shifting from Reader to Flash"
+  - type: "precedes"
+    target: "VUL-MEMORY-CVE20110611-001"
+    description: "Followed immediately by another Flash Player zero-day used in targeted attacks"
+  - type: "applies_to"
+    target: "INFRA-OS-WINDOWS-001"
+    description: "Primarily exploited on Windows platforms via Flash Player browser plugin"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Adobe Security Bulletin APSB11-05"
+    - "CVE-2011-0609 - NIST NVD"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2011-0609"
+    - "APSB11-05"
+    - "Flash Player zero-day"
+    - "SWF memory corruption"
+    - "Flash in Excel exploit"
+    - "Adobe Flash vulnerability"
+    - "Flash targeted attack"
+  embedding_text: >-
+    CVE-2011-0609 is a critical memory corruption vulnerability (CVSS 9.3) in Adobe Flash
+    Player 10.2 and earlier (APSB11-05). Specially crafted SWF content causes invalid memory
+    access during ActionScript execution, enabling arbitrary code execution. Exploited as a
+    zero-day via malicious Flash content embedded in Excel spreadsheets delivered through
+    spearphishing. Demonstrates the compound attack surface of Flash embeddable in web pages,
+    Office documents, and PDFs. Affects Flash Player, Adobe AIR, and Reader/Acrobat.

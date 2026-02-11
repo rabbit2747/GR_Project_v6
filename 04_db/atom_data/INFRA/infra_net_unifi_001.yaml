@@ -1,0 +1,78 @@
+# GR Atom: Unifi
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-UNIFI-001"
+  name: "Unifi"
+  normalized_name: "unifi"
+  aliases:
+    - "Ubiquiti UniFi"
+    - "UniFi Network"
+    - "UniFi Controller"
+    - "UniFi Network Application"
+    - "Ubiquiti UniFi Platform"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CONFIG
+    - MONITOR
+    - FIRMWARE
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N3.1"
+
+definition:
+  what: "UniFi is a comprehensive network management platform and hardware ecosystem from Ubiquiti Inc. that provides centralized management of wireless access points, switches, security gateways, and other network devices through the UniFi Network Application (formerly UniFi Controller). The platform includes UniFi Access Points (UAP series), UniFi Switches (USW series), UniFi Security Gateway (USG) and UniFi Dream Machine (UDM) series routers, and optional hardware such as UniFi Protect cameras and UniFi Access door controllers. The UniFi Network Application provides a web-based interface for device adoption, configuration, monitoring, firmware management, and network analytics across all managed UniFi devices from a single pane of glass."
+  why: "UniFi is widely deployed in small-to-medium business, enterprise, and managed service provider environments due to its cost-effective centralized management approach and broad product ecosystem. From a security perspective, UniFi infrastructure is significant because the centralized controller represents a high-value target whose compromise would grant an attacker control over the entire network infrastructure including wireless configurations, VLAN assignments, firewall rules, and device firmware. Ubiquiti has been subject to data breaches and vulnerability disclosures affecting the UniFi platform, and the controller's web interface and inform protocol between devices and controller have been attack vectors. Default credentials and exposed management interfaces are common misconfigurations."
+  how: "The UniFi Network Application runs as a Java-based service on a server, cloud instance, or UniFi hardware device such as the Cloud Key or Dream Machine. Network devices discover the controller through Layer 2 broadcast, DNS (unifi hostname), or manual inform URL configuration. Adopted devices maintain a persistent connection to the controller, receiving configuration updates and sending monitoring data. The controller manages SSID configurations, VLAN assignments, firewall rules, QoS policies, client isolation, guest portal settings, and firmware updates across all adopted devices. HTTPS encrypts the management web interface, while the device inform protocol uses an encrypted channel for device-controller communication. Network analytics provide real-time and historical data on traffic patterns, client behavior, and device health."
+  core_concepts:
+    - key: "UniFi Controller"
+      value: "The centralized network management application that adopts, configures, monitors, and updates all UniFi network devices through a web-based interface"
+    - key: "Device Adoption"
+      value: "The process by which UniFi devices are discovered and registered with the controller, establishing the management relationship and pushing initial configuration"
+    - key: "Inform Protocol"
+      value: "The encrypted communication protocol between UniFi devices and the controller used for configuration provisioning, status reporting, and firmware management"
+
+relations:
+  - type: enables
+    target: "INFRA-NET-WIRACCPOI-001"
+    description: "UniFi platform provides centralized management for UniFi wireless access point deployments"
+  - type: enables
+    target: "INFRA-NET-WIREROUT-001"
+    description: "UniFi Security Gateway and Dream Machine products provide wireless router functionality within the UniFi ecosystem"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "UniFi device adoption and controller discovery depend on DNS resolution of the unifi hostname"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1200"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Ubiquiti - UniFi Network Application Documentation - https://help.ui.com/hc/en-us/categories/200320654-UniFi-Network"
+    - "Ubiquiti - UniFi Security Advisory Archive - https://community.ui.com/releases"
+    - "CISA - Ubiquiti Security Advisories"
+  search_keywords:
+    - "UniFi"
+    - "Ubiquiti UniFi"
+    - "UniFi controller"
+    - "UniFi Network Application"
+    - "UniFi access point"
+    - "UniFi security"
+    - "UniFi Dream Machine"
+    - "Ubiquiti network management"
+  embedding_text: "UniFi is a comprehensive network management platform from Ubiquiti providing centralized control of wireless access points, switches, security gateways, and other devices through the UniFi Network Application. The ecosystem includes UAP access points, USW switches, USG/UDM routers, and optional cameras and door controllers. The centralized controller manages device adoption, configuration, monitoring, and firmware updates via a web interface. Security considerations include the controller as a high-value target whose compromise grants control over the entire network, vulnerability history affecting the platform, exposed management interfaces, and default credential risks. The inform protocol provides encrypted device-controller communication."

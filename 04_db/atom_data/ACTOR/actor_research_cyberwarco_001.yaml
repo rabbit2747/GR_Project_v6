@@ -1,0 +1,71 @@
+# GR Atom: CyberWarCon
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-CYBERWARCO-001"
+  name: "CyberWarCon"
+  normalized_name: "cyberwarcon"
+  aliases:
+    - "Cyber War Con"
+    - "CyberWarCon Conference"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INCIDENT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyberWarCon is an annual cybersecurity conference focused on the threat of destruction and disruption posed by nation-state cyber operations, cyber conflict, and strategic cyber warfare. The conference brings together threat intelligence analysts, government officials, academic researchers, and private sector experts to discuss state-sponsored campaigns, advanced persistent threats, influence operations, and the geopolitical dimensions of cyber conflict. CyberWarCon features presentations on tracked threat actor groups, attribution methodologies, and the evolving nature of cyber warfare."
+  why: "CyberWarCon is important because it provides a dedicated forum for sharing intelligence on nation-state cyber threats, which represent the most sophisticated and consequential category of cyber attacks. The conference enables cross-sector collaboration between government agencies, threat intelligence firms, and academic researchers to improve collective understanding and response to state-sponsored operations."
+  how: "CyberWarCon operates as a single-track conference with curated presentations from leading threat intelligence researchers and government officials. Speakers present findings on specific threat actor campaigns, share attribution analysis, discuss the strategic implications of cyber operations, and propose frameworks for understanding and responding to nation-state threats."
+  core_concepts:
+    - key: "Nation-State Cyber Threats"
+      value: "Focused analysis of state-sponsored cyber campaigns and advanced persistent threat groups"
+    - key: "Cyber Conflict Research"
+      value: "Study of the strategic, geopolitical, and military dimensions of cyber warfare"
+    - key: "Threat Attribution"
+      value: "Methodologies and findings related to attributing cyber operations to specific nation-state actors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Fellow cybersecurity conference with specialized focus on nation-state threats"
+  - type: enables
+    target: "ACTOR-RESEARCH-CYBERSCOOP-001"
+    description: "Conference findings are frequently reported by cybersecurity news outlets"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for conference
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cyberwarcon.com"
+  search_keywords:
+    - "cyberwarcon"
+    - "cyber warfare"
+    - "nation-state threats"
+    - "cyber conflict"
+    - "threat intelligence conference"
+    - "APT research"
+    - "state-sponsored hacking"
+    - "attribution"
+  embedding_text: "CyberWarCon is an annual cybersecurity conference focused on the threat of destruction and disruption posed by nation-state cyber operations, cyber conflict, and strategic cyber warfare. The conference brings together threat intelligence analysts, government officials, academic researchers, and private sector experts to discuss state-sponsored campaigns, advanced persistent threats, influence operations, and geopolitical dimensions of cyber conflict. CyberWarCon features presentations on tracked threat actor groups, attribution methodologies, and the evolving nature of cyber warfare, providing a dedicated forum for cross-sector collaboration to improve collective understanding and response to the most sophisticated category of cyber attacks from nation-state adversaries."

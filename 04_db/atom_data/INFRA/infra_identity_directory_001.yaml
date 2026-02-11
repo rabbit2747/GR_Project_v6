@@ -1,0 +1,123 @@
+# GR Atom: Directory Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-DIRECTORY-001"
+  name: "Directory Service"
+  normalized_name: "directory_service"
+  aliases:
+    - "LDAP Directory"
+    - "Identity Directory"
+    - "Enterprise Directory"
+    - "Directory Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - LDAP
+    - AUTHN
+    - AUTHZ
+    - NETWORK
+    - KERBEROS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Directory Service is a centralized hierarchical database that stores, organizes, and
+    provides access to identity information including user accounts, groups, computers,
+    organizational units, and their associated attributes. Directory services implement the
+    LDAP (Lightweight Directory Access Protocol) standard for querying and modifying directory
+    data, and serve as the authoritative identity store for authentication and authorization
+    decisions across the enterprise. Examples include Active Directory, OpenLDAP, and
+    Apache Directory Server.
+  why: >-
+    Directory services are the foundation of enterprise identity management, making them
+    critical targets for attackers. LDAP injection attacks, anonymous bind enumeration,
+    unencrypted LDAP traffic interception, and privilege escalation through group membership
+    manipulation are common attack vectors. Compromise of the directory service grants
+    attackers the ability to enumerate all identities, modify group memberships for privilege
+    escalation, create backdoor accounts, and manipulate authentication processes. Active
+    Directory specifically is the most targeted identity infrastructure in enterprise
+    environments.
+  how: >-
+    Directory services store identity data in a hierarchical tree structure (Directory
+    Information Tree) with entries identified by Distinguished Names (DNs). LDAP provides
+    bind (authentication), search, add, modify, and delete operations. Directory replication
+    ensures data consistency across multiple directory servers. Access control is enforced
+    through ACLs on directory objects. Authentication protocols like Kerberos and NTLM
+    integrate with directory services for credential validation. Schema definitions control
+    the object classes and attributes available in the directory. Secure LDAP (LDAPS) and
+    SASL provide transport and authentication security.
+  core_concepts:
+    - key: "Hierarchical Identity Store"
+      value: "Tree-structured database organizing identity objects with Distinguished Name addressing and LDAP query access"
+    - key: "Central Authentication Backend"
+      value: "Serves as the authoritative identity store that authentication servers query for credential validation and attribute lookup"
+    - key: "LDAP Attack Surface"
+      value: "LDAP injection, anonymous bind enumeration, unencrypted traffic interception, and group manipulation are common directory attack vectors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Directory service provides the identity store for authentication service credential validation"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Stores group memberships and role assignments used for authorization decisions"
+  - type: "enables"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "Directory service infrastructure supports Active Directory forest and domain structures"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1087.002"
+    tactic:
+      - "Discovery"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4511 - Lightweight Directory Access Protocol (LDAP)"
+    - "MITRE ATT&CK T1087.002 - Account Discovery: Domain Account"
+    - "Microsoft Documentation - Active Directory Domain Services"
+  search_keywords:
+    - "directory service"
+    - "LDAP directory"
+    - "Active Directory"
+    - "identity directory"
+    - "LDAP injection"
+    - "directory server"
+    - "enterprise directory"
+    - "Distinguished Name"
+  embedding_text: >-
+    A Directory Service is a centralized hierarchical database storing identity information
+    including user accounts, groups, computers, and organizational units. It implements
+    LDAP for querying and modifying directory data, serving as the authoritative identity
+    store for enterprise authentication and authorization. Examples include Active Directory,
+    OpenLDAP, and Apache Directory Server. Directory services are critical attack targets
+    because compromise enables identity enumeration, group membership manipulation, backdoor
+    account creation, and authentication process subversion. Common attacks include LDAP
+    injection, anonymous bind enumeration, unencrypted LDAP interception, and privilege
+    escalation through group changes. Data is organized in hierarchical tree structures
+    with Distinguished Name addressing. Security teams must enforce LDAPS, disable anonymous
+    binds, audit directory changes, protect replication channels, and monitor for
+    unauthorized group membership modifications.

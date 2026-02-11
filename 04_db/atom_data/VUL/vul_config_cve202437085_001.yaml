@@ -1,0 +1,104 @@
+# GR Atom: CVE-2024-37085
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202437085-001"
+  name: "CVE-2024-37085"
+  normalized_name: "cve_2024_37085"
+  aliases:
+    - "VMware ESXi Active Directory Authentication Bypass"
+    - "ESXi AD Integration Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - AUTHN
+    - PRIV
+    - VMWARE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "VMware ESXi"
+    - "VMware vCenter Server"
+
+definition:
+  what: >-
+    CVE-2024-37085 is an authentication bypass vulnerability in VMware ESXi hypervisors when joined to
+    an Active Directory domain. The vulnerability allows an attacker who has sufficient Active Directory
+    permissions to gain full administrative access to the ESXi host by recreating a previously deleted
+    AD group (named 'ESX Admins' by default) and adding attacker-controlled accounts to it. ESXi
+    automatically grants full admin rights to members of this AD group without additional verification.
+    CVSS v3: 6.8 (Medium).
+  why: >-
+    This vulnerability was actively exploited by multiple ransomware groups including Storm-0506,
+    Storm-1175, Octo Tempest, and Manatee Tempest to deploy ransomware (including Black Basta and
+    Akira) across VMware ESXi environments. ESXi hypervisors host critical virtual machine workloads
+    across enterprise data centers. Full admin access to ESXi enables attackers to encrypt or destroy
+    all hosted virtual machines simultaneously, maximizing ransomware impact. Microsoft Threat
+    Intelligence reported widespread exploitation starting in mid-2024.
+  how: >-
+    The attack requires the adversary to first compromise an Active Directory account with permissions
+    to create security groups or modify group membership. The attacker creates (or re-creates if
+    previously deleted) an AD security group named 'ESX Admins'. They then add a controlled user
+    account to this group. When ESXi synchronizes with Active Directory, it automatically grants
+    full administrative privileges to all members of the 'ESX Admins' group. The attacker then
+    connects to ESXi with these elevated privileges to deploy ransomware across all hosted VMs.
+    VMware released patches in June 2024. Mitigation includes renaming the default admin group,
+    hardening AD group permissions, and monitoring for group recreation events.
+  core_concepts:
+    - key: "AD-ESXi Trust Exploitation"
+      value: "Abusing the implicit trust relationship between ESXi hypervisors and Active Directory to escalate privileges through group membership manipulation"
+    - key: "Ransomware Infrastructure Targeting"
+      value: "Exploiting hypervisor authentication bypass to deploy ransomware across all hosted virtual machines simultaneously"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2024-37085 is a vulnerability in VMware ESXi's Active Directory integration configuration"
+  - type: enables
+    target: "ATK-IMPACT-ENCRYPT-001"
+    description: "ESXi admin access enables ransomware deployment across all hosted virtual machines"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1484.001"
+    tactic: ["Privilege Escalation", "Defense Evasion"]
+  cve_mapping:
+    cve_id: "CVE-2024-37085"
+    cvss_score: 6.8
+    cwe_id: "CWE-287"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2024-37085 - NVD NIST"
+    - "VMware Security Advisory VMSA-2024-0013"
+    - "Microsoft Threat Intelligence - Ransomware operators exploit ESXi hypervisor vulnerability"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2024-37085"
+    - "VMware ESXi authentication bypass"
+    - "ESXi Active Directory vulnerability"
+    - "ESX Admins group exploitation"
+    - "ESXi ransomware"
+    - "VMware ESXi privilege escalation"
+    - "Storm-0506 ESXi"
+  embedding_text: >-
+    CVE-2024-37085 is an authentication bypass vulnerability in VMware ESXi hypervisors when joined to
+    Active Directory. Attackers with AD group creation permissions can recreate the default ESX Admins
+    group and gain full administrative access to ESXi hosts. CVSS v3 score is 6.8 Medium. Actively
+    exploited by ransomware groups including Storm-0506, Storm-1175, Octo Tempest, and Manatee Tempest
+    to deploy Black Basta and Akira ransomware across VMware ESXi environments. Full ESXi admin access
+    enables encryption of all hosted virtual machines. VMware released patches in June 2024. Mitigation
+    includes renaming the default admin group and hardening AD group permissions. Maps to MITRE ATT&CK
+    T1484.001 Domain Policy Modification: Group Policy Modification.

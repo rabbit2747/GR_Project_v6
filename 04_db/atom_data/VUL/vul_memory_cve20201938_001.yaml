@@ -1,0 +1,117 @@
+# GR Atom: CVE-2020-1938
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20201938-001"
+  name: "CVE-2020-1938"
+  normalized_name: "cve_2020_1938"
+  aliases:
+    - "Ghostcat"
+    - "Apache Tomcat AJP Connector"
+    - "AJP File Read/Inclusion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - EXEC
+    - INFO_LEAK
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Apache Tomcat 6.x, 7.x before 7.0.100"
+    - "Apache Tomcat 8.x before 8.5.51"
+    - "Apache Tomcat 9.x before 9.0.31"
+    - "AJP Connector (port 8009)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-1938, dubbed Ghostcat, is a critical vulnerability (CVSS 9.8) in Apache
+    Tomcat's AJP (Apache JServ Protocol) Connector that allows unauthenticated attackers to
+    read arbitrary files from the server and, in some configurations, achieve remote code
+    execution through server-side include injection. The AJP Connector on port 8009 is
+    enabled by default in all Tomcat versions and treats all incoming connections as trusted.
+    Disclosed in February 2020 by Chaitin Tech, the vulnerability existed for over 13 years
+    in all Tomcat versions. It affects an estimated millions of Tomcat deployments worldwide.
+  why: >-
+    Ghostcat is critically important because AJP is enabled by default on all Tomcat
+    installations and the connector was designed without authentication, trusting all
+    connections. This means any Tomcat server with port 8009 reachable is vulnerable. The
+    ability to read arbitrary files enables extraction of configuration files, credentials,
+    and source code. When file upload functionality exists, the vulnerability can be escalated
+    to remote code execution. The 13-year presence and default-enabled nature created a
+    massive attack surface across millions of web applications.
+  how: >-
+    The attacker connects to Tomcat's AJP port (default 8009) and sends crafted AJP
+    messages that manipulate request attributes. By setting specific AJP request attributes
+    (javax.servlet.include.request_uri, javax.servlet.include.path_info), the attacker can
+    cause Tomcat to read and return arbitrary files from the web application directory. If
+    the server allows file uploads (e.g., image uploads), the attacker can upload a file
+    containing JSP code, then use the AJP file inclusion to execute it as a JSP page,
+    achieving remote code execution. The attack requires only network access to port 8009.
+  core_concepts:
+    - key: "Default-Enabled Unauthenticated Protocol"
+      value: "AJP Connector enabled by default on port 8009 without authentication, trusting all connections"
+    - key: "Arbitrary File Read"
+      value: "Crafted AJP messages manipulate servlet request attributes to read arbitrary files from web application"
+    - key: "File Inclusion to RCE"
+      value: "Combined with file upload functionality, file inclusion enables JSP execution for remote code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Ghostcat exploits memory handling in AJP protocol processing for file read and code execution"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202140444-001"
+    description: "Both are server-side vulnerabilities enabling code execution through crafted protocol-level requests"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Apache Tomcat Security Advisory CVE-2020-1938"
+    - "Chaitin Tech - Ghostcat AJP Vulnerability Discovery"
+    - "NVD Entry CVE-2020-1938 - CVSS 9.8"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2020-1938"
+    - "Ghostcat"
+    - "Apache Tomcat"
+    - "AJP Connector"
+    - "port 8009"
+    - "file read"
+    - "file inclusion"
+    - "Tomcat RCE"
+  embedding_text: >-
+    CVE-2020-1938, known as Ghostcat, is a critical vulnerability in Apache Tomcat's AJP
+    Connector with CVSS 9.8 enabling unauthenticated file read and potential remote code
+    execution. The AJP protocol on port 8009 is enabled by default without authentication,
+    trusting all connections. Crafted AJP messages manipulate servlet request attributes to
+    read arbitrary files. Combined with file upload, it achieves RCE through JSP inclusion.
+    Discovered by Chaitin Tech in February 2020, the 13-year-old vulnerability affected all
+    Tomcat versions and millions of deployments. Its default-enabled nature and lack of
+    authentication created a massive attack surface for web application compromise.

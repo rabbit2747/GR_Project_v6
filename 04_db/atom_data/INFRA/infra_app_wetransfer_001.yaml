@@ -1,0 +1,115 @@
+# GR Atom: WeTransfer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WETRANSFER-001"
+  name: "WeTransfer"
+  normalized_name: "wetransfer"
+  aliases:
+    - "We Transfer"
+    - "WeTransfer Pro"
+    - "WeTransfer.com"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - WEB
+    - EXFIL
+    - HTTP
+    - ENCRYPT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    WeTransfer is a cloud-based file transfer service that allows users to send large files
+    (up to 2GB free, 200GB paid) via temporary download links. The platform provides a simple
+    web-based interface requiring no account for basic transfers, with Pro and Premium tiers
+    offering password protection, custom branding, and extended storage. WeTransfer is widely
+    used in creative industries for sharing design files, media assets, and large documents
+    between organizations and individuals.
+  why: >-
+    WeTransfer is frequently abused as a data exfiltration channel because it allows large
+    file uploads without authentication, uses HTTPS to bypass content inspection, and generates
+    legitimate-looking download links that blend with normal business traffic. Attackers use
+    WeTransfer to exfiltrate stolen data, distribute malware payloads through shared links,
+    and conduct phishing campaigns impersonating WeTransfer notification emails. The temporary
+    nature of transfers (files expire after 7 days) complicates forensic investigation.
+    Legitimate WeTransfer domains and IP ranges are typically whitelisted by security controls,
+    making it an attractive channel for data theft.
+  how: >-
+    WeTransfer operates through a web application with REST API backend. Files are uploaded
+    via HTTPS to WeTransfer's cloud infrastructure (AWS-based), encrypted at rest, and made
+    available through unique download URLs. Email notifications are sent to recipients with
+    download links. The free tier requires no authentication, while Pro accounts offer
+    password protection and transfer tracking. Files are automatically deleted after the
+    expiration period. WeTransfer also provides an API for programmatic file transfers and
+    integration with third-party applications.
+  core_concepts:
+    - key: "Legitimate Exfiltration Channel"
+      value: "WeTransfer's HTTPS-based file transfer with no-auth uploads and whitelisted domains makes it an ideal channel for data exfiltration that blends with normal business traffic"
+    - key: "Phishing Impersonation Vector"
+      value: "WeTransfer notification emails are commonly spoofed in phishing campaigns to distribute malware or harvest credentials through fake download pages"
+    - key: "Forensic Challenges"
+      value: "Temporary file storage with automatic deletion after 7 days and minimal logging for free accounts complicates incident response and forensic investigation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-TRANSFERNO-001"
+    description: "WeTransfer competes with TransferNow as a cloud-based file transfer service"
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "WeTransfer is a cloud file transfer application used in enterprise and consumer contexts"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+      - "Command and Control"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "WeTransfer Security and Privacy Documentation"
+    - "MITRE ATT&CK T1567.002 - Exfiltration to Cloud Storage"
+    - "SANS Institute - Cloud Storage Exfiltration Techniques"
+  search_keywords:
+    - "WeTransfer"
+    - "WeTransfer security"
+    - "WeTransfer exfiltration"
+    - "WeTransfer phishing"
+    - "file transfer service abuse"
+    - "WeTransfer malware distribution"
+    - "cloud file sharing security"
+    - "data exfiltration via file transfer"
+  embedding_text: >-
+    WeTransfer is a cloud-based file transfer service allowing large file sharing via temporary
+    download links without requiring authentication for basic use. It is frequently abused as
+    a data exfiltration channel because HTTPS uploads bypass content inspection and legitimate
+    WeTransfer domains are typically whitelisted. Attackers use it to exfiltrate stolen data,
+    distribute malware through shared links, and conduct phishing via spoofed notification
+    emails. The temporary nature of transfers complicates forensic investigation. Security
+    teams should monitor for unusual WeTransfer upload volumes, implement DLP controls for
+    cloud file sharing services, block or restrict WeTransfer access where not business-required,
+    and train users to recognize WeTransfer phishing impersonation campaigns.

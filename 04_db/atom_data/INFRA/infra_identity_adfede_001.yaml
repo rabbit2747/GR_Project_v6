@@ -1,0 +1,122 @@
+# GR Atom: AD Federation Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-ADFEDE-001"
+  name: "AD Federation Service"
+  normalized_name: "ad_federation_service"
+  aliases:
+    - "Active Directory Federation Services"
+    - "AD FS"
+    - "ADFS"
+    - "Microsoft Federation Services"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - SAML
+    - OAUTH
+    - AUTHN
+    - AUTHZ
+    - TLS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z1"
+  function: "S2.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Active Directory Federation Services (AD FS) is a Microsoft identity federation solution
+    that provides single sign-on (SSO) capabilities across organizational boundaries by
+    issuing security tokens based on SAML, WS-Federation, and OAuth/OpenID Connect protocols.
+    AD FS acts as a Security Token Service (STS) that authenticates users against Active
+    Directory and issues claims-based tokens to trusted relying party applications, enabling
+    federated identity across on-premises and cloud environments.
+  why: >-
+    AD FS is a high-value target for attackers because compromise of the federation service
+    enables the forging of SAML tokens (Golden SAML attack), granting unauthorized access
+    to all federated applications including cloud services like Microsoft 365 and AWS. The
+    SolarWinds/SUNBURST campaign demonstrated how AD FS token-signing certificate theft
+    enables persistent, stealthy access across federated trust boundaries. Misconfigured
+    AD FS claim rules and exposed metadata endpoints also create attack surfaces for token
+    manipulation and identity spoofing.
+  how: >-
+    AD FS operates as a Windows Server role that exposes federation endpoints for token
+    issuance and metadata exchange. Users authenticate to AD FS using Kerberos, NTLM, or
+    certificate-based authentication, and AD FS issues SAML assertions or JWT tokens
+    containing claims mapped from Active Directory attributes. The service relies on
+    token-signing and token-decrypting certificates stored in the AD FS configuration
+    database. Federation trust relationships are established through metadata exchange
+    between identity providers and relying parties. AD FS Web Application Proxy provides
+    extranet-facing access for remote authentication scenarios.
+  core_concepts:
+    - key: "Golden SAML Attack"
+      value: "Theft of AD FS token-signing certificate enables forging SAML assertions for any federated user, bypassing MFA and granting persistent access"
+    - key: "Claims-Based Identity"
+      value: "AD FS transforms Active Directory attributes into security claims embedded in tokens consumed by relying party applications"
+    - key: "Federation Trust"
+      value: "Establishes cross-organizational trust relationships through metadata exchange enabling SSO across domain boundaries"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "AD FS authenticates users against Active Directory directory service"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Provides federated single sign-on authentication for relying party applications"
+  - type: "part_of"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "AD FS operates within the Active Directory forest domain infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1606.002"
+    tactic:
+      - "Credential Access"
+      - "Persistence"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Active Directory Federation Services Overview"
+    - "MITRE ATT&CK T1606.002 - Forge Web Credentials: SAML Tokens"
+    - "Mandiant - SolarWinds Supply Chain Attack and Golden SAML"
+  search_keywords:
+    - "AD FS"
+    - "Active Directory Federation Services"
+    - "ADFS"
+    - "Golden SAML attack"
+    - "SAML token forgery"
+    - "federation services SSO"
+    - "token-signing certificate"
+    - "WS-Federation"
+  embedding_text: >-
+    Active Directory Federation Services (AD FS) is a Microsoft identity federation platform
+    that provides single sign-on across organizational boundaries using SAML, WS-Federation,
+    and OAuth protocols. AD FS acts as a Security Token Service issuing claims-based tokens
+    after authenticating users against Active Directory. It is a critical security component
+    because compromise of the token-signing certificate enables Golden SAML attacks, where
+    attackers forge authentication tokens for any federated user including cloud service
+    accounts. The SolarWinds campaign demonstrated this technique for persistent access.
+    AD FS exposes federation endpoints for metadata exchange and token issuance, with the
+    Web Application Proxy handling extranet access. Security teams must protect token-signing
+    certificates, monitor AD FS logs for anomalous token issuance, and audit federation trust
+    configurations to prevent identity-based attacks across trust boundaries.

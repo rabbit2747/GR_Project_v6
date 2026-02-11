@@ -1,0 +1,70 @@
+# GR Atom: Spacehuhn Tech
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SPACTECH-001"
+  name: "Spacehuhn Tech"
+  normalized_name: "spacehuhn_tech"
+  aliases:
+    - "Spacehuhn"
+    - "Spacehuhn Technologies"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - NETWORK
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Spacehuhn Tech is a security research and tool development organization known for creating open-source WiFi security testing tools, particularly the ESP8266 Deauther project. The project provides affordable hardware-based WiFi deauthentication testing capabilities using low-cost ESP8266 microcontrollers, enabling security researchers and network administrators to test the resilience of wireless networks against deauthentication attacks."
+  why: "Spacehuhn Tech is significant in cybersecurity because it democratized WiFi security testing by making affordable, accessible tools for wireless network assessment. The ESP8266 Deauther project highlighted the inherent vulnerability of the 802.11 deauthentication mechanism and raised awareness about the need for protected management frames (802.11w) in wireless network security."
+  how: "Spacehuhn operates through open-source hardware and firmware projects that flash custom firmware onto ESP8266 microcontrollers, enabling them to perform WiFi deauthentication testing, beacon flooding, and probe request monitoring. The tools include a web-based interface for selecting targets and launching tests, making wireless security assessment accessible to researchers without expensive commercial equipment."
+  core_concepts:
+    - key: "WiFi Deauthentication Testing"
+      value: "Tools for testing wireless network resilience against 802.11 deauthentication frame attacks"
+    - key: "ESP8266 Security Tools"
+      value: "Open-source firmware for low-cost ESP8266 microcontrollers enabling affordable wireless security testing"
+    - key: "Wireless Security Research"
+      value: "Research highlighting vulnerabilities in WiFi protocols and promoting adoption of protected management frames"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-TOMNOMNOM-001"
+    description: "Fellow open-source security tool developer creating accessible security testing capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://github.com/SpacehuhnTech"
+    - "https://spacehuhn.com"
+  search_keywords:
+    - "spacehuhn"
+    - "esp8266 deauther"
+    - "wifi deauthentication"
+    - "wireless security testing"
+    - "wifi security tools"
+    - "deauth attack"
+    - "802.11 security"
+    - "open source wifi"
+  embedding_text: "Spacehuhn Tech is a security research and tool development organization known for creating open-source WiFi security testing tools, particularly the ESP8266 Deauther project. The project provides affordable hardware-based WiFi deauthentication testing capabilities using low-cost ESP8266 microcontrollers, enabling security researchers and network administrators to test wireless network resilience. Spacehuhn democratized WiFi security testing and raised awareness about the inherent vulnerability of the 802.11 deauthentication mechanism, promoting adoption of protected management frames in wireless network security."

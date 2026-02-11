@@ -1,0 +1,79 @@
+# GR Atom: Moses Staff
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-MOSESTAF-001"
+  name: "Moses Staff"
+  normalized_name: "moses_staff"
+  aliases:
+    - "Marigold Sandstorm"
+    - "DEV-0500"
+    - "Abraham's Ax"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "IMPACT"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "web servers"
+    - "Exchange servers"
+    - "file servers"
+    - "Windows domain infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Moses Staff is an Iranian-linked hacktivist and APT group that emerged in September 2021, conducting destructive attacks primarily against Israeli organizations. The group operates with political motivations aligned with Iranian interests, publicly leaking stolen data and deploying encryption tools without providing decryption keys, effectively functioning as a destructive actor disguised as ransomware. The group has connections to the persona Abraham's Ax."
+  why: "Moses Staff operates as part of Iran's broader information warfare and destructive cyber campaign against Israel. The group aims to cause operational disruption, embarrassment, and psychological impact against Israeli organizations while publicly framing attacks as resistance operations. Their activities serve Iranian strategic objectives of pressuring Israel and demonstrating offensive cyber capabilities."
+  how: "Moses Staff exploits known vulnerabilities in public-facing infrastructure, particularly Microsoft Exchange servers (ProxyShell) and other web applications, for initial access. The group deploys custom tools including PyDCrypt and DCSrv for disk encryption that intentionally provides no decryption mechanism, making attacks destructive rather than financially motivated. They use web shells for persistence, deploy custom backdoors, conduct lateral movement through Windows domains, and exfiltrate data before encryption for public leaking on their Telegram channel and dedicated leak site."
+  core_concepts:
+    - "destructive pseudo-ransomware operations"
+    - "Iranian hacktivist APT"
+    - "anti-Israel information warfare"
+    - "Exchange server exploitation"
+    - "data leak and destroy campaigns"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-IRANTHRE-001"
+    description: "Part of the Iranian state-affiliated destructive cyber operations ecosystem"
+  - type: "enables"
+    target: "ACTOR-APT-MUDDYWATER-001"
+    description: "Shares Iranian sponsor and overlapping targeting of Israeli organizations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Check Point Research - Moses Staff: Targeting Israeli Companies (2021)"
+    - "Cybereason - StrifeWater RAT and Moses Staff"
+    - "Microsoft Threat Intelligence - Marigold Sandstorm Profile"
+  search_keywords:
+    - "moses staff"
+    - "marigold sandstorm"
+    - "DEV-0500"
+    - "abrahams ax"
+    - "PyDCrypt"
+    - "DCSrv encryption"
+    - "iranian destructive attacks"
+    - "israel cyber attacks"
+    - "iranian hacktivist"
+  embedding_text: "Moses Staff is an Iranian-linked hacktivist and APT group that emerged in September 2021 conducting destructive attacks primarily against Israeli organizations. Also tracked as Marigold Sandstorm and connected to the Abraham's Ax persona, the group exploits known vulnerabilities in public-facing infrastructure including Microsoft Exchange ProxyShell for initial access. They deploy custom destructive tools including PyDCrypt and DCSrv that encrypt systems without providing decryption capability, functioning as wipers disguised as ransomware. Moses Staff exfiltrates data before destruction for public leaking on Telegram and dedicated leak sites. The group uses web shells, custom backdoors, and lateral movement through Windows domains. Their operations serve Iranian strategic objectives of pressuring Israel through operational disruption, data exposure, and psychological impact. Moses Staff represents the intersection of hacktivist operations and state-sponsored destructive cyber campaigns within the Iranian threat ecosystem."

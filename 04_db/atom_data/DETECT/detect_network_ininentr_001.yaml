@@ -1,0 +1,94 @@
+# GR Atom: Inbound Internet Encrypted Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-ININENTR-001"
+  name: "Inbound Internet Encrypted Traffic"
+  normalized_name: "inbound_internet_encrypted_traffic"
+  aliases:
+    - "Inbound TLS Traffic"
+    - "Inbound HTTPS Detection"
+    - "Incoming Encrypted Traffic Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - TLS
+    - MONITOR
+    - IDS
+    - FIREWALL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring encrypted traffic arriving from the internet to the organization's network. This includes HTTPS, TLS-wrapped protocols, and other encrypted inbound connections. Since payload inspection is limited by encryption, detection relies on TLS handshake analysis, certificate validation, JA3S fingerprinting, connection metadata, flow characteristics, and destination service mapping to identify potentially malicious inbound encrypted traffic."
+  why: "Encrypted inbound traffic from the internet can conceal initial access attempts, exploitation payloads, and adversary communications with compromised internal services. As encryption adoption increases, adversaries leverage TLS to hide malicious payloads from network inspection. Monitoring inbound encrypted traffic is essential for detecting attacks against internet-facing services that use encrypted channels to evade content-based security controls."
+  how: "Detection analyzes inbound encrypted connections through TLS handshake metadata without requiring decryption: server certificate validation checks for expired, self-signed, or revoked certificates; SNI (Server Name Indication) analysis verifies expected service mappings; JA3S fingerprints identify server-side TLS configurations; connection profiling examines source geolocation, reputation, and connection patterns; flow analysis monitors session durations, data volumes, and request rates. Where TLS termination or inspection is deployed, decrypted content can be analyzed for malicious payloads."
+  core_concepts:
+    - key: "TLS Handshake Analysis"
+      value: "Extracting security-relevant metadata from TLS handshake exchanges without decrypting session content."
+    - key: "Certificate Validation"
+      value: "Verifying that server certificates presented during TLS negotiation are valid, trusted, and expected for the service."
+    - key: "SNI Inspection"
+      value: "Analyzing Server Name Indication values in TLS Client Hello messages to map connections to expected services."
+    - key: "Source Reputation"
+      value: "Evaluating the reputation and geolocation of external sources initiating encrypted connections."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-ININNETR-001"
+    description: "Inbound encrypted traffic is a subset of inbound internet network traffic"
+  - type: enables
+    target: "DETECT-NETWORK-ININENWETR-001"
+    description: "Inbound encrypted traffic analysis enables specific encrypted web traffic detection"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow log data for encrypted connection metadata analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1573"
+    tactic:
+      - "Command and Control"
+      - "Initial Access"
+    sub_techniques:
+      - "T1573.002"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Encrypted Channel T1573"
+    - "NIST SP 800-52 Rev 2 - TLS Implementation Guidelines"
+    - "SANS Institute - TLS Traffic Analysis"
+  search_keywords:
+    - "inbound encrypted traffic"
+    - "inbound TLS"
+    - "inbound HTTPS"
+    - "encrypted ingress"
+    - "TLS inspection"
+    - "inbound SSL"
+    - "encrypted connection monitoring"
+    - "TLS handshake analysis"
+    - "incoming encrypted"
+    - "internet encrypted inbound"
+  embedding_text: "Inbound internet encrypted traffic detection monitors TLS/HTTPS connections arriving from the internet to organizational services. Since encryption prevents payload inspection, detection relies on TLS handshake metadata analysis including certificate validation, SNI inspection, JA3S fingerprinting, source reputation evaluation, and connection flow characteristics. This pattern identifies potentially malicious encrypted inbound traffic including initial access attempts and exploitation payloads hidden within TLS sessions targeting internet-facing services."

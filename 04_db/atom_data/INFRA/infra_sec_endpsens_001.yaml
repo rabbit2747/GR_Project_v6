@@ -1,0 +1,94 @@
+# GR Atom: Endpoint Sensor
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-ENDPSENS-001"
+  name: "Endpoint Sensor"
+  normalized_name: "endpoint_sensor"
+  aliases:
+    - "EDR Sensor"
+    - "Endpoint Detection Agent"
+    - "Endpoint Monitoring Agent"
+    - "Host Sensor"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 3
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An Endpoint Sensor is a software agent deployed on workstations and servers that monitors
+    system activity for security-relevant events. It collects process creation, file operations,
+    registry changes, network connections, and authentication telemetry as the core component
+    of EDR platforms such as CrowdStrike Falcon, Microsoft Defender for Endpoint, SentinelOne,
+    and Carbon Black.
+  why: >-
+    Endpoint sensors provide deep visibility into host-level attacker behavior that network
+    sensors cannot observe, including fileless malware, in-memory attacks, living-off-the-land
+    binary usage, and privilege escalation. They are essential for detecting post-exploitation
+    activity and providing forensic evidence for incident investigation.
+  how: >-
+    Endpoint sensors operate at the kernel level using system call hooks, mini-filter drivers,
+    eBPF, or kernel extensions to intercept system events. Telemetry is transmitted to cloud
+    or on-premises analytics via encrypted channels. Detection logic may execute locally for
+    real-time prevention or in cloud for retrospective analysis. Sensors support remote response
+    including process termination, quarantine, and network isolation.
+  core_concepts:
+    - key: "Kernel-Level Monitoring"
+      value: "Sensors hook system calls using kernel drivers for comprehensive OS-level visibility"
+    - key: "EDR Telemetry"
+      value: "Rich endpoint data including process trees, file operations, and network connections for detection and investigation"
+    - key: "Remote Response"
+      value: "Remote incident response actions including isolation, quarantine, and forensic collection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "Endpoint sensors are a specialized type of cyber sensor for host-level monitoring"
+  - type: "enables"
+    target: "INFRA-SEC-AZURSENT-001"
+    description: "Endpoint sensor telemetry feeds into SIEM platforms for event correlation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - Endpoint Data Sources"
+    - "Gartner - Endpoint Detection and Response Market Guide"
+    - "NIST SP 800-83 - Guide to Malware Incident Prevention"
+  search_keywords:
+    - "endpoint sensor"
+    - "EDR agent"
+    - "endpoint detection"
+    - "host monitoring"
+    - "endpoint telemetry"
+    - "CrowdStrike sensor"
+    - "kernel monitoring"
+  embedding_text: >-
+    Endpoint Sensor is a software agent on workstations and servers monitoring system activity
+    for security events. Collects process creation, file operations, registry changes, and
+    network connections as the core EDR component. Operating at kernel level using hooks and
+    mini-filter drivers, sensors detect fileless malware, living-off-the-land attacks, and
+    privilege escalation invisible to network sensors. Supports remote response including
+    isolation and quarantine. Telemetry feeds SIEM and analytics platforms.

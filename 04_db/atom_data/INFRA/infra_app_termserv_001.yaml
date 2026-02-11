@@ -1,0 +1,121 @@
+# GR Atom: Terminal Services
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-TERMSERV-001"
+  name: "Terminal Services"
+  normalized_name: "terminal_services"
+  aliases:
+    - "Remote Desktop Services"
+    - "RDS"
+    - "Windows Terminal Server"
+    - "Remote Desktop Session Host"
+    - "RDSH"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - RDP
+    - LATERAL
+    - AUTHN
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Terminal Services (now Remote Desktop Services/RDS) is a Microsoft Windows Server role that
+    enables multiple users to access remote desktop sessions and applications over the network.
+    RDS includes Session Host (multi-user desktop/app hosting), Connection Broker (session
+    distribution), Web Access (web portal for RemoteApp), Gateway (HTTPS tunneling), and
+    Licensing Server. It supports full desktop sessions and individual application publishing
+    via RemoteApp, serving as core infrastructure for VDI and remote work deployments.
+  why: >-
+    Terminal Services/RDS is a primary target for lateral movement and initial access attacks.
+    RDP (port 3389) is one of the most commonly exposed and attacked services on the internet.
+    Brute-force attacks against RDP are continuous and automated. Critical vulnerabilities
+    like BlueKeep (CVE-2019-0708) and DejaBlue (CVE-2019-1181/1182) enable pre-authentication
+    remote code execution. Session hijacking allows administrative users to take over
+    disconnected sessions. RDS hosts concentrate multiple user sessions making them high-value
+    targets for credential harvesting using tools like Mimikatz.
+  how: >-
+    RDS operates through multiple role services on Windows Server. The Session Host manages
+    user sessions using the RDP protocol on TCP/UDP 3389. Connection Broker distributes
+    sessions across multiple hosts for load balancing. Gateway enables secure external access
+    by tunneling RDP over HTTPS (port 443). Web Access provides a browser-based portal for
+    launching RemoteApp programs. Authentication uses NLA with Kerberos/NTLM through CredSSP.
+    Group Policy controls session behavior, device redirection, and security settings. User
+    Profile Disks or FSLogix manage roaming profiles across session hosts.
+  core_concepts:
+    - key: "RDP Attack Surface"
+      value: "Port 3389 is one of the most targeted services with continuous brute-force attacks and critical pre-auth vulnerabilities like BlueKeep and DejaBlue"
+    - key: "Multi-User Credential Target"
+      value: "RDS hosts concentrating multiple user sessions provide high-value targets for credential harvesting across many accounts simultaneously"
+    - key: "Session Hijacking"
+      value: "Administrative users can take over disconnected RDP sessions using tscon.exe without requiring the session owner's credentials"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-APP-REMCONMAN-001"
+    description: "Terminal Services depends on Remote Connection Manager for RDP session management"
+  - type: "enables"
+    target: "INFRA-APP-REMOAPP-001"
+    description: "Terminal Services provides the platform infrastructure for RemoteApp application delivery"
+  - type: "enables"
+    target: "INFRA-APP-REMOPRIN-001"
+    description: "Terminal Services enables remote printing through RDP device redirection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.001"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Remote Desktop Services Documentation"
+    - "MITRE ATT&CK T1021.001 - Remote Desktop Protocol"
+    - "CVE-2019-0708 BlueKeep Analysis"
+    - "CISA RDP Security Guidance"
+  search_keywords:
+    - "Terminal Services"
+    - "Remote Desktop Services"
+    - "RDS"
+    - "RDP security"
+    - "BlueKeep"
+    - "Remote Desktop vulnerability"
+    - "RDP brute force"
+    - "session hijacking RDP"
+    - "RDSH security"
+  embedding_text: >-
+    Terminal Services (Remote Desktop Services/RDS) is a Windows Server role enabling multi-user
+    remote desktop and application access over RDP. Components include Session Host, Connection
+    Broker, Web Access, Gateway, and Licensing. RDP on port 3389 is one of the most attacked
+    services with continuous brute-force attempts. Critical vulnerabilities include BlueKeep
+    (CVE-2019-0708) and DejaBlue enabling pre-auth RCE. RDS hosts concentrate multiple user
+    sessions for credential harvesting. Session hijacking via tscon.exe allows taking over
+    disconnected sessions. Security teams should enforce NLA, use RD Gateway for HTTPS access,
+    implement MFA, restrict direct RDP exposure, monitor for brute-force attempts, patch RDP
+    stack vulnerabilities promptly, and audit session activity for hijacking indicators.

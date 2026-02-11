@@ -1,0 +1,97 @@
+# GR Atom: BitTorrent
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-BITTORRENT-001"
+  name: "BitTorrent"
+  normalized_name: "bittorrent"
+  aliases:
+    - "BitTorrent Protocol"
+    - "BT Protocol"
+    - "Peer-to-Peer File Sharing"
+    - "BTP"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    BitTorrent is a peer-to-peer (P2P) file distribution protocol designed by Bram Cohen in 2001
+    that enables efficient large-scale file sharing by distributing data across multiple peers
+    simultaneously. Unlike client-server models, BitTorrent divides files into small pieces
+    (typically 256KB-4MB) and enables each downloading peer (leecher) to also upload received
+    pieces to other peers, creating a distributed swarm. The protocol uses .torrent metadata
+    files or magnet links containing cryptographic hashes for piece verification, and relies on
+    trackers or distributed hash tables (DHT) for peer discovery.
+  why: >-
+    BitTorrent presents multiple security concerns in enterprise environments. The protocol can
+    be used for unauthorized data exfiltration, distribution of malware, pirated software, and
+    copyrighted material. Its decentralized nature makes traffic difficult to monitor and control.
+    Attackers leverage BitTorrent for distributing malicious payloads, and compromised BitTorrent
+    clients have served as initial access vectors. The protocol's use of dynamic ports, encryption
+    options, and protocol obfuscation techniques complicate deep packet inspection.
+  how: >-
+    The BitTorrent protocol operates through several phases: (1) Metadata acquisition via .torrent
+    file or magnet link containing file hashes and tracker URLs; (2) Peer discovery through
+    centralized trackers or distributed hash table (DHT/Kademlia); (3) Peer handshake establishing
+    connection using the BitTorrent peer wire protocol over TCP; (4) Piece exchange using a
+    tit-for-tat algorithm that rewards uploading peers with faster download speeds; (5) Piece
+    verification using SHA-1 hashes from the metadata to ensure data integrity. Extensions include
+    peer exchange (PEX), UDP tracker protocol, and protocol encryption (MSE/PE).
+  core_concepts:
+    - key: "Swarm"
+      value: "The collective group of all peers (seeders and leechers) sharing pieces of a specific file, enabling distributed parallel downloads."
+    - key: "Tit-for-Tat Algorithm"
+      value: "Incentive mechanism where peers preferentially upload to those who reciprocate, encouraging fair sharing and discouraging free-riding."
+    - key: "Distributed Hash Table (DHT)"
+      value: "Decentralized peer discovery mechanism using Kademlia protocol that eliminates dependency on centralized tracker servers."
+    - key: "Piece Verification"
+      value: "SHA-1 hash checking of each downloaded piece against metadata hashes to ensure data integrity and prevent poisoning attacks."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "BitTorrent is an application layer peer-to-peer protocol for distributed file sharing"
+  - type: "enables"
+    target: "PROTO-MSG-DIRECONN-001"
+    description: "BitTorrent enables direct peer-to-peer connections between participating nodes in the swarm"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Cohen, B. (2003). Incentives Build Robustness in BitTorrent. Workshop on Economics of Peer-to-Peer Systems."
+    - "BEP 3 — The BitTorrent Protocol Specification. bittorrent.org"
+    - "BEP 5 — DHT Protocol (Kademlia-based). bittorrent.org"
+  search_keywords:
+    - "bittorrent"
+    - "bittorrent protocol"
+    - "peer to peer"
+    - "P2P file sharing"
+    - "torrent protocol"
+    - "distributed hash table"
+    - "DHT"
+    - "swarm"
+    - "magnet link"
+  embedding_text: >-
+    BitTorrent is a peer-to-peer file distribution protocol designed by Bram Cohen that enables
+    efficient large-scale file sharing by dividing files into pieces distributed across a swarm
+    of peers. The protocol uses .torrent metadata files or magnet links for content identification,
+    centralized trackers or distributed hash tables for peer discovery, and a tit-for-tat
+    algorithm to incentivize fair sharing. SHA-1 hashes verify piece integrity. BitTorrent poses
+    enterprise security risks including unauthorized data exfiltration, malware distribution, and
+    evasion of network controls through dynamic ports and protocol encryption. Security controls
+    include application-aware firewalls, DPI, and network behavior analysis.

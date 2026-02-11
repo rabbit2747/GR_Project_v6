@@ -1,0 +1,78 @@
+# GR Atom: Branch Cache
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-BRANCACH-001"
+  name: "Branch Cache"
+  normalized_name: "branch_cache"
+  aliases:
+    - "BranchCache"
+    - "Windows BranchCache"
+    - "Microsoft BranchCache"
+    - "Distributed Cache Mode"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CACHE
+    - WINDOWS
+    - HTTP
+    - SMB
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "D2.2"
+
+definition:
+  what: "BranchCache is a Microsoft WAN bandwidth optimization technology integrated into Windows Server and Windows client operating systems that caches content from remote file and web servers at branch office locations. It operates in two modes: Distributed Cache Mode where client computers cache content and serve it to peers on the same subnet, and Hosted Cache Mode where a dedicated server at the branch office stores cached content. BranchCache supports HTTP, HTTPS, SMB, and BIT protocols, reducing WAN traffic by serving frequently accessed content from local caches rather than retrieving it from central data centers."
+  why: "Branch offices connected over WAN links experience significant latency and bandwidth constraints when accessing centralized content. BranchCache addresses this by reducing redundant data transfers across the WAN, improving application response times for branch office users, and reducing bandwidth costs. It is particularly important in enterprise environments where multiple users at the same branch location access the same files and web content repeatedly."
+  how: "When a client at a branch office requests content from a central server, BranchCache generates content identifiers (hashes) for the data segments. The client first checks the local cache (either peer clients in Distributed mode or a hosted cache server) for matching content identifiers. If a cache hit occurs, content is served locally without traversing the WAN. If a cache miss occurs, content is retrieved from the origin server, cached locally, and served to the client. Content integrity is verified through cryptographic hashes, and Group Policy controls manage BranchCache configuration and behavior."
+  core_concepts:
+    - key: "Distributed Cache Mode"
+      value: "BranchCache mode where client computers cache and serve content to peers on the same subnet without requiring a dedicated cache server"
+    - key: "Hosted Cache Mode"
+      value: "BranchCache mode where a dedicated Windows Server at the branch office stores cached content for all clients in that location"
+    - key: "Content Information"
+      value: "Cryptographic hash-based metadata used to identify and verify cached content segments without exposing the actual data"
+
+relations:
+  - type: part_of
+    target: "INFRA-NET-HTTPCACH-001"
+    description: "BranchCache provides HTTP content caching as part of the broader HTTP caching infrastructure"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "BranchCache requires DNS for content server name resolution and hosted cache server discovery"
+  - type: enables
+    target: "INFRA-NET-FORWPROX-001"
+    description: "BranchCache can work alongside forward proxy configurations to optimize WAN bandwidth usage"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557"
+    tactic: ["Collection", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - BranchCache Overview - https://learn.microsoft.com/en-us/windows-server/networking/branchcache/branchcache"
+    - "Microsoft - BranchCache Deployment Guide - https://learn.microsoft.com/en-us/windows-server/networking/branchcache/deploy/branchcache-deployment-guide"
+    - "NIST SP 800-123 - Guide to General Server Security"
+  search_keywords:
+    - "BranchCache"
+    - "Windows branch cache"
+    - "WAN optimization"
+    - "distributed cache mode"
+    - "hosted cache mode"
+    - "branch office caching"
+    - "SMB caching"
+    - "content information hashing"
+  embedding_text: "BranchCache is a Microsoft Windows WAN bandwidth optimization technology that caches content from remote servers at branch office locations. It supports Distributed Cache Mode where peer clients share cached content on the same subnet, and Hosted Cache Mode where a dedicated server stores the cache. BranchCache reduces WAN traffic for HTTP, HTTPS, SMB, and BITS protocols by serving repeated content locally. Content integrity is maintained through cryptographic hashing of data segments. Managed via Group Policy, BranchCache is a key infrastructure component in enterprise networks with branch offices connected over limited-bandwidth WAN links, improving application response times and reducing bandwidth consumption."

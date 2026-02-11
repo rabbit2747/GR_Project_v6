@@ -1,0 +1,107 @@
+# GR Atom: CVE-2021-3129
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20213129-001"
+  name: "CVE-2021-3129"
+  normalized_name: "cve_2021_3129"
+  aliases:
+    - "Laravel Ignition RCE"
+    - "Laravel Debug Mode RCE"
+    - "Ignition File Manipulation to RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - DESER
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Laravel Ignition before 2.5.2"
+    - "Laravel Framework with debug mode"
+    - "Ignition error page handler"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-3129 is a remote code execution vulnerability in Laravel Ignition (the debug
+    error page handler for Laravel PHP framework) before version 2.5.2. When Laravel debug
+    mode is enabled, attackers can exploit the Ignition file manipulation features to achieve
+    code execution through deserialization of crafted phar archives or log file poisoning.
+    The CVSS v3 base score is 9.8 (Critical) and it was disclosed in January 2021.
+  why: >-
+    Laravel is one of the most popular PHP frameworks, and many production applications
+    inadvertently leave debug mode enabled. The Ignition error handler provides extensive
+    debugging capabilities that become attack vectors when exposed. The vulnerability was
+    widely exploited against misconfigured Laravel deployments exposed to the internet.
+  how: >-
+    Attackers interact with the Ignition debug endpoint to manipulate log files and inject
+    serialized PHP objects (phar deserialization). By writing crafted content to log files
+    and then triggering phar deserialization through the file manipulation features, attackers
+    achieve arbitrary code execution. The attack chain combines file write with deserialization
+    gadgets to execute PHP code on the server. Mitigation requires disabling debug mode in
+    production and upgrading Ignition.
+  core_concepts:
+    - key: "Debug Mode Exploitation"
+      value: "Development debugging features become attack vectors when exposed in production, providing file manipulation and code execution capabilities"
+    - key: "Phar Deserialization"
+      value: "PHP archive format deserialization used to trigger arbitrary object instantiation and code execution through gadget chains"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Laravel Ignition file manipulation leading to deserialization RCE is a form of injection"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE201712149-001"
+    description: "Both exploit deserialization vulnerabilities in web frameworks for remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2021-3129"
+  cvss_score: 9.8
+  affected_product: "Laravel Ignition before 2.5.2"
+  year: 2021
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2021-3129"
+    - "CWE-502 Deserialization of Untrusted Data"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2021-3129"
+    - "Laravel Ignition RCE"
+    - "Laravel debug mode exploit"
+    - "Ignition deserialization"
+    - "PHP phar deserialization"
+    - "Laravel remote code execution"
+  embedding_text: >-
+    CVE-2021-3129 is a critical RCE vulnerability in Laravel Ignition before 2.5.2 with CVSS
+    score 9.8. When debug mode is enabled attackers exploit file manipulation features to
+    achieve code execution through phar deserialization. Laravel is one of the most popular
+    PHP frameworks and many production deployments leave debug mode enabled. The attack chain
+    combines log file poisoning with phar deserialization gadgets to execute arbitrary PHP
+    code. Widely exploited against misconfigured Laravel applications. Mitigation requires
+    disabling debug mode in production and upgrading Ignition to patched versions.

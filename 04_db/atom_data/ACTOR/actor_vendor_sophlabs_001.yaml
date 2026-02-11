@@ -1,0 +1,75 @@
+# GR Atom: Sophos Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SOPHLABS-001"
+  name: "Sophos Labs"
+  normalized_name: "sophos_labs"
+  aliases:
+    - "SophosLabs"
+    - "Sophos X-Ops"
+    - "Sophos Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Sophos Labs (now Sophos X-Ops) is the threat intelligence and security research division of Sophos, a major cybersecurity vendor. The research team combines SophosLabs threat researchers, Sophos SecOps incident responders, and SophosAI data scientists to produce detailed analysis of ransomware operations, malware families, exploit techniques, and attack campaigns, while developing detection capabilities for Sophos' endpoint, network, and cloud security products."
+  why: "Sophos Labs is significant because it produces some of the most detailed and accessible ransomware and malware research in the industry. Their annual threat reports, Active Adversary reports, and deep-dive investigations into ransomware groups have become essential reference materials for security teams. The team's research directly informs Sophos' protection of millions of endpoints worldwide."
+  how: "Sophos X-Ops operates through three integrated teams: SophosLabs for threat analysis and detection engineering, Sophos SecOps for managed detection and response, and SophosAI for machine learning-based threat detection. The teams use telemetry from Sophos' global customer base, honeypots, dark web monitoring, and malware analysis to track threat actors and develop protections that are deployed across Sophos' product portfolio."
+  core_concepts:
+    - key: "Ransomware Research"
+      value: "Industry-leading analysis of ransomware operations, tactics, and affiliates with detailed incident case studies"
+    - key: "Active Adversary Reports"
+      value: "Data-driven analysis of real-world attacker behavior observed during managed detection and response engagements"
+    - key: "Integrated Threat Operations"
+      value: "Combined threat research, incident response, and AI-driven detection capabilities across the Sophos X-Ops team"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow vendor threat research division producing threat intelligence and malware analysis"
+  - type: is_a
+    target: "ACTOR-VENDOR-SENTINELLA-001"
+    description: "Fellow endpoint security vendor research team contributing to the threat intelligence community"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://news.sophos.com"
+    - "https://www.sophos.com/en-us/labs"
+  search_keywords:
+    - "sophos labs"
+    - "sophoslabs"
+    - "sophos x-ops"
+    - "sophos research"
+    - "ransomware research"
+    - "active adversary"
+    - "threat intelligence"
+    - "endpoint protection"
+    - "malware analysis"
+  embedding_text: "Sophos Labs (now Sophos X-Ops) is the threat intelligence and security research division of Sophos, combining SophosLabs threat researchers, Sophos SecOps incident responders, and SophosAI data scientists. The team produces detailed analysis of ransomware operations, malware families, exploit techniques, and attack campaigns while developing detection capabilities for Sophos' endpoint, network, and cloud security products. Their annual threat reports and Active Adversary reports documenting real-world attacker behavior have become essential reference materials for the cybersecurity community."

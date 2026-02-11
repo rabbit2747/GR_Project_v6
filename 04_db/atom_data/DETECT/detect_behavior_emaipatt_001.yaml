@@ -1,0 +1,75 @@
+# GR Atom: Email Pattern Analysis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-EMAIPATT-001"
+  name: "Email Pattern Analysis"
+  normalized_name: "email_pattern_analysis"
+  aliases:
+    - "Email Behavioral Analysis"
+    - "Mail Flow Pattern Detection"
+    - "Email Anomaly Detection"
+    - "Phishing Pattern Analysis"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - SMTP
+    - MONITOR
+    - INITIAL
+    - THREAT_INTEL
+    - DLP
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Email Pattern Analysis is a behavioral detection technique that examines email metadata, content characteristics, and communication patterns to identify phishing campaigns, business email compromise, data exfiltration via email, and other email-based threats. The analysis evaluates sender reputation, header anomalies, attachment characteristics, URL patterns, language and formatting analysis, recipient targeting patterns, timing and volume anomalies, and deviations from established communication baselines for individual users and the organization. It encompasses both inbound threat detection and outbound data loss prevention."
+  why: "Email remains the primary initial access vector for cyberattacks, with over 90% of successful breaches beginning with a phishing email. Sophisticated phishing campaigns, business email compromise, and targeted spearphishing evade traditional gateway filters through techniques like zero-day URLs, legitimate cloud service abuse, and social engineering that mimics trusted senders. Behavioral email analysis provides a critical detection layer by identifying anomalous patterns that signature-based filters miss, including never-before-seen sender relationships, unusual attachment types, and communication pattern deviations that indicate account compromise or impersonation."
+  how: "Email security platforms and SIEM systems analyze email flow data including SMTP headers, envelope information, message content, and attachment metadata. Baseline models are built for each user capturing normal correspondents, typical email volume, common attachment types, and standard communication timing. Inbound analysis evaluates sender authentication results including SPF, DKIM, and DMARC, checks for header spoofing indicators, analyzes URL destinations and redirects, examines attachment file types and embedded content, and compares language patterns against the purported sender. Outbound analysis monitors for unusual recipient patterns, sensitive content keywords, abnormal attachment sizes, and deviations from normal sending behavior that may indicate account compromise or insider threats. Machine learning models score each email across multiple risk dimensions to generate composite threat scores."
+  core_concepts:
+    - key: "Sender Authentication"
+      value: "Verification of email sender identity through SPF, DKIM, and DMARC protocols that validate the sending domain and message integrity"
+    - key: "Communication Baseline"
+      value: "A model of normal email communication patterns per user including typical correspondents, volume, timing, and content characteristics"
+    - key: "Business Email Compromise"
+      value: "An attack where adversaries impersonate executives or trusted parties through email to fraudulently direct financial transactions or data transfers"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-HOMOGLYPH-001"
+    description: "Email pattern analysis includes homoglyph detection as a component for identifying domain spoofing in email addresses"
+  - type: effective_against
+    target: "ATK-INITIAL-PHISH-001"
+    description: "Email pattern analysis is a primary defense against phishing-based initial access attacks"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1566 - Phishing - https://attack.mitre.org/techniques/T1566/"
+    - "NIST SP 800-177 - Trustworthy Email"
+    - "Microsoft - Email Authentication in Exchange Online - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/"
+  search_keywords:
+    - "email pattern analysis"
+    - "phishing detection behavioral"
+    - "email anomaly detection"
+    - "business email compromise detection"
+    - "mail flow analysis"
+    - "email security behavioral"
+    - "sender reputation analysis"
+    - "email threat detection"
+  embedding_text: "Email Pattern Analysis is a behavioral detection technique examining email metadata, content characteristics, and communication patterns to identify phishing, business email compromise, and data exfiltration. It evaluates sender authentication results, header anomalies, attachment characteristics, URL patterns, recipient targeting, and timing deviations from per-user communication baselines. Inbound analysis checks SPF, DKIM, DMARC, header spoofing, URL redirects, and language patterns. Outbound analysis monitors for unusual recipients, sensitive content, and sending behavior deviations indicating account compromise. Machine learning models score emails across multiple risk dimensions, providing critical detection of sophisticated threats that evade signature-based email gateway filters."

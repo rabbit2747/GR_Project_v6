@@ -1,0 +1,110 @@
+# GR Atom: Azure Sentinel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-AZURSENT-001"
+  name: "Azure Sentinel"
+  normalized_name: "azure_sentinel"
+  aliases:
+    - "Microsoft Sentinel"
+    - "Azure Sentinel SIEM"
+    - "Microsoft Azure Sentinel"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - SIEM
+    - THREAT_INTEL
+    - MONITOR
+    - LOG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "M3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Sentinel (now Microsoft Sentinel) is a cloud-native Security Information and Event
+    Management (SIEM) and Security Orchestration, Automation, and Response (SOAR) solution
+    built on Azure. It collects security data from across the enterprise using data connectors
+    for Microsoft 365, Azure, AWS, GCP, on-premises infrastructure, and third-party security
+    products. Sentinel uses Kusto Query Language (KQL) for log analytics, built-in AI for
+    threat detection, workbooks for visualization, and playbooks (Logic Apps) for automated
+    response orchestration.
+  why: >-
+    Sentinel addresses the need for scalable, cloud-native SIEM that can handle the volume and
+    velocity of modern security data without the infrastructure management burden of traditional
+    SIEM deployments. It provides detection for advanced persistent threats, insider threats,
+    multi-stage attacks, and cloud-specific threats across hybrid and multi-cloud environments.
+    Integration with Microsoft threat intelligence, MITRE ATT&CK framework mapping, and
+    automated investigation reduces mean time to detect and respond for security operations.
+  how: >-
+    Sentinel operates on Azure Log Analytics workspaces, ingesting data through over 100 built-in
+    data connectors including Syslog, CEF, REST API, and agent-based collection. Analytics rules
+    detect threats by correlating events across data sources. Incidents are created from alerts
+    and managed through the investigation graph. SOAR capabilities use Azure Logic Apps playbooks
+    triggered by analytics rules or incidents. Threat hunting uses KQL queries and Jupyter
+    notebooks. Content hub provides community and Microsoft-authored detection rules, workbooks,
+    and playbooks. Cost is based on data ingestion volume with commitment tiers available.
+  core_concepts:
+    - key: "Cloud-Native SIEM/SOAR"
+      value: "Fully managed SIEM and SOAR platform eliminating infrastructure management while scaling to enterprise data volumes"
+    - key: "KQL Analytics"
+      value: "Kusto Query Language provides powerful log analytics for threat detection rules, hunting queries, and investigation"
+    - key: "Automated Investigation and Response"
+      value: "Logic Apps playbooks enable automated incident response, enrichment, and remediation triggered by detection rules"
+    - key: "Multi-Cloud Data Collection"
+      value: "Over 100 data connectors ingest security telemetry from Microsoft, AWS, GCP, and third-party sources"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-AWSGUAR-001"
+    description: "Sentinel can ingest GuardDuty findings through AWS data connectors for multi-cloud threat correlation"
+  - type: "alternative_to"
+    target: "INFRA-SEC-PRISCLOU-001"
+    description: "Sentinel and Prisma Cloud serve complementary but overlapping roles in cloud security monitoring"
+  - type: "implements"
+    target: "DEF-DETECT-SIEM-001"
+    description: "Sentinel implements cloud-native SIEM for centralized security event management and threat detection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Microsoft Sentinel Overview"
+    - "Microsoft Security Blog - Sentinel Detection and Response"
+    - "MITRE ATT&CK - SIEM Detection Mapping"
+  search_keywords:
+    - "Azure Sentinel"
+    - "Microsoft Sentinel"
+    - "cloud SIEM"
+    - "Azure SIEM"
+    - "KQL security"
+    - "SOAR platform"
+    - "cloud security monitoring"
+    - "Sentinel playbooks"
+    - "Azure security analytics"
+  embedding_text: >-
+    Azure Sentinel (Microsoft Sentinel) is a cloud-native SIEM and SOAR solution built on Azure
+    Log Analytics. It collects security data through over 100 data connectors from Microsoft
+    365, Azure, AWS, GCP, and third-party products. Using KQL for analytics, built-in AI for
+    detection, and Logic Apps playbooks for automated response, Sentinel provides scalable threat
+    detection and incident management. It maps to MITRE ATT&CK, supports multi-stage attack
+    detection, and provides investigation graphs. Sentinel addresses scalability challenges of
+    traditional SIEM by leveraging cloud infrastructure, reducing MTTD and MTTR through automated
+    investigation and response. Pricing is based on data ingestion volume.

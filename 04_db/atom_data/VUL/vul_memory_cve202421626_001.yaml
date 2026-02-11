@@ -1,0 +1,117 @@
+# GR Atom: CVE-2024-21626
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202421626-001"
+  name: "CVE-2024-21626"
+  normalized_name: "cve_2024_21626"
+  aliases:
+    - "Leaky Vessels"
+    - "runc Container Escape"
+    - "runc File Descriptor Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "runc container runtime before 1.1.12"
+    - "Docker Engine"
+    - "Kubernetes container runtime"
+    - "All OCI-compatible container platforms"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-21626, dubbed Leaky Vessels, is a container escape vulnerability (CVSS 8.6)
+    in the runc container runtime that allows attackers to break out of a container and
+    gain access to the host operating system. The vulnerability exists due to an internal
+    file descriptor leak where runc fails to properly close a file descriptor to the host
+    filesystem during container initialization. A malicious container image or Dockerfile
+    can exploit this leaked file descriptor to access the host filesystem and escape
+    container isolation. Discovered by Snyk and disclosed in January 2024, it affects
+    Docker, Kubernetes, and all OCI-compatible container platforms using runc.
+  why: >-
+    Container escape vulnerabilities are among the most critical threats in cloud-native
+    infrastructure because they break the fundamental isolation guarantee of containers.
+    CVE-2024-21626 is particularly dangerous because runc is the default low-level
+    container runtime for Docker, Kubernetes, and most container platforms. A successful
+    escape grants access to the host system, potentially compromising all co-hosted
+    containers and the underlying infrastructure. The vulnerability can be exploited
+    through malicious container images, making supply chain attacks a vector.
+  how: >-
+    The vulnerability arises from runc leaking an internal file descriptor to the host
+    filesystem's /sys/fs/cgroup directory during container setup. By crafting a container
+    image that sets the working directory to a special path referencing the leaked file
+    descriptor (e.g., /proc/self/fd/[leaked_fd]), the attacker can access the host
+    filesystem from within the container. The exploit uses WORKDIR in a Dockerfile or
+    the process.cwd field in an OCI runtime spec to reference the leaked descriptor.
+    Once the host filesystem is accessible, the attacker can read/write host files,
+    escalate privileges, and compromise the host system.
+  core_concepts:
+    - key: "File Descriptor Leak Escape"
+      value: "Internal file descriptor to host filesystem leaked during container initialization enables container escape"
+    - key: "Universal Container Runtime Impact"
+      value: "Affects Docker, Kubernetes, and all OCI platforms using runc as the default low-level container runtime"
+    - key: "Supply Chain Attack Vector"
+      value: "Exploitable through malicious container images, adding supply chain dimension to container escape risk"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2024-21626 is a resource management flaw involving file descriptor leak in container runtime"
+  - type: "enables"
+    target: "VUL-MEMORY-DIRTCOW-001"
+    description: "Both enable privilege escalation on Linux systems, container escape provides host-level access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1611"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Snyk - Leaky Vessels Container Escape Vulnerabilities"
+    - "NVD Entry CVE-2024-21626 - CVSS 8.6"
+    - "Docker Security Advisory"
+    - "MITRE ATT&CK T1611 - Escape to Host"
+  search_keywords:
+    - "CVE-2024-21626"
+    - "Leaky Vessels"
+    - "runc"
+    - "container escape"
+    - "Docker"
+    - "Kubernetes"
+    - "file descriptor leak"
+    - "OCI runtime"
+  embedding_text: >-
+    CVE-2024-21626, dubbed Leaky Vessels, is a container escape vulnerability in runc
+    with CVSS 8.6. A file descriptor leak during container initialization allows
+    malicious containers to access the host filesystem and break out of container
+    isolation. Affecting Docker, Kubernetes, and all OCI-compatible platforms using runc,
+    the vulnerability can be exploited through crafted container images, creating supply
+    chain attack vectors. Discovered by Snyk in January 2024, it represents a critical
+    threat to cloud-native infrastructure where container isolation is the fundamental
+    security boundary.

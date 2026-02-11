@@ -1,0 +1,77 @@
+# GR Atom: Indigo Zebra
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-INDIZEBR-001"
+  name: "Indigo Zebra"
+  normalized_name: "indigo_zebra"
+  aliases:
+    - "APT-Q-32"
+    - "Suspected Chinese APT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "C2"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "government networks"
+    - "diplomatic communications"
+    - "file servers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Indigo Zebra is a suspected Chinese-linked advanced persistent threat group that has conducted cyber espionage campaigns primarily targeting Central Asian government entities, including Afghanistan, Kyrgyzstan, and Uzbekistan. The group has been active since at least 2014 and is known for using impersonation of legitimate government agencies to deliver malware through spear-phishing emails."
+  why: "The group's operations align with Chinese strategic intelligence interests in Central Asia, particularly regarding political developments, diplomatic relationships, and governance activities in nations along the Belt and Road Initiative corridor. Intelligence collection from these targets supports Chinese foreign policy and economic strategy objectives in the region."
+  how: "Indigo Zebra employs spear-phishing emails that impersonate legitimate government ministries and officials, attaching weaponized documents or linking to malicious archives. The group deploys custom backdoors including xCaon and its successor BoxCaon, which uses Dropbox for command and control communications. The actors demonstrate patience with long dwell times and methodical data collection focused on diplomatic and governmental intelligence."
+  core_concepts:
+    - "Central Asian government targeting"
+    - "government impersonation phishing"
+    - "cloud-based C2 infrastructure"
+    - "diplomatic intelligence collection"
+    - "Belt and Road corridor espionage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Shares tooling and infrastructure patterns with Chinese APT ecosystem"
+  - type: "applies_to"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "Overlapping Central/Southeast Asian targeting with other Chinese groups"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Check Point Research - IndigoZebra APT Hacking Campaign (2021)"
+    - "Kaspersky - APT Trends Report Q2 2021"
+    - "HackerNews - IndigoZebra APT Targets Afghan Government"
+  search_keywords:
+    - "indigo zebra"
+    - "IndigoZebra"
+    - "xCaon backdoor"
+    - "BoxCaon malware"
+    - "central asia APT"
+    - "afghan government hacking"
+    - "chinese espionage central asia"
+  embedding_text: "Indigo Zebra is a suspected Chinese-linked APT group active since at least 2014 targeting Central Asian government entities including Afghanistan, Kyrgyzstan, and Uzbekistan. The group conducts cyber espionage campaigns aligned with Chinese strategic interests in the Belt and Road Initiative corridor. Their primary technique involves spear-phishing emails impersonating legitimate government ministries and officials to deliver weaponized documents. The group deploys custom backdoors including xCaon and BoxCaon, with the latter using Dropbox cloud storage for command and control communications to evade network detection. Targets include diplomatic communications, government policy documents, and administrative networks. Indigo Zebra demonstrates methodical operational security with long dwell times and focused intelligence collection. Their campaigns represent Chinese intelligence interests in monitoring political developments and diplomatic relationships across Central Asian nations."

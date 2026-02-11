@@ -1,0 +1,73 @@
+# GR Atom: Kaspersky Lab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-KASPLAB-001"
+  name: "Kaspersky Lab"
+  normalized_name: "kaspersky_lab"
+  aliases:
+    - "Kaspersky"
+    - "Kaspersky Labs"
+    - "AO Kaspersky Lab"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - FORENSICS
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Kaspersky Lab is a Russian multinational cybersecurity company founded in 1997 by Eugene Kaspersky. The company provides antivirus software, endpoint detection and response, threat intelligence services, and security research through its Global Research and Analysis Team (GReAT). Kaspersky is one of the world's largest cybersecurity vendors with products deployed across consumer, enterprise, and government sectors. The company's GReAT team has discovered numerous high-profile APT campaigns and zero-day vulnerabilities."
+  why: "Kaspersky is significant in cybersecurity both as a major defensive security vendor and as a geopolitically controversial entity. Their GReAT team has produced groundbreaking threat intelligence on campaigns like Equation Group, Duqu, Flame, and Lazarus. However, the U.S. government banned Kaspersky products from federal networks citing national security concerns about potential Russian government influence, and in 2024 expanded the ban to all U.S. sales, making Kaspersky a case study in supply chain trust and geopolitical risk in cybersecurity."
+  how: "Kaspersky operates through endpoint protection products using signature and behavioral detection, a global threat intelligence network (Kaspersky Security Network) that aggregates telemetry from hundreds of millions of endpoints, managed detection and response services, and dedicated threat research through GReAT. The company publishes detailed APT campaign reports on Securelist, provides threat intelligence feeds and APT tracking portals, and operates an industrial cybersecurity division for OT/ICS environments."
+  core_concepts:
+    - key: "GReAT threat research"
+      value: "Global Research and Analysis Team discovering APT campaigns and zero-day vulnerabilities"
+    - key: "Geopolitical supply chain risk"
+      value: "U.S. government ban highlighting nation-state trust concerns in cybersecurity products"
+    - key: "Global threat telemetry"
+      value: "Kaspersky Security Network aggregating data from hundreds of millions of endpoints"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "Kaspersky GReAT produces APT campaign reports and threat intelligence analysis"
+  - type: "enables"
+    target: "SERVICE-EDR-001"
+    description: "Kaspersky provides endpoint detection and response and antivirus products"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Official Website"
+    - "Securelist - Kaspersky GReAT Research Blog"
+    - "U.S. Department of Commerce - Kaspersky Ban Order 2024"
+  search_keywords:
+    - "kaspersky"
+    - "kaspersky lab"
+    - "kaspersky great"
+    - "kaspersky threat intelligence"
+    - "kaspersky ban"
+    - "kaspersky antivirus"
+    - "securelist"
+    - "kaspersky apt research"
+  embedding_text: "Kaspersky Lab is a Russian multinational cybersecurity company founded in 1997 by Eugene Kaspersky, providing antivirus software, endpoint detection and response, threat intelligence services, and advanced security research. The company's Global Research and Analysis Team (GReAT) is one of the most prolific APT research groups in the industry, having discovered and documented high-profile campaigns including Equation Group, Duqu, Flame, Regin, and numerous other nation-state cyber operations. Kaspersky products are deployed on hundreds of millions of endpoints worldwide through consumer antivirus, enterprise security suites, and managed detection services. The company publishes detailed threat research on Securelist, provides threat intelligence feeds, and operates industrial cybersecurity divisions for OT/ICS environments. Kaspersky is also notable as a geopolitically controversial entity, with the U.S. government banning its products from federal networks and subsequently all U.S. sales citing national security concerns about potential Russian government influence, making it a defining case study in supply chain trust and geopolitical risk in cybersecurity vendor selection."

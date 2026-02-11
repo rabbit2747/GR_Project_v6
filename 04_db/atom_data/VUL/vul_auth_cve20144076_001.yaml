@@ -1,0 +1,97 @@
+# GR Atom: CVE-2014-4076
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20144076-001"
+  name: "CVE-2014-4076"
+  normalized_name: "cve_2014_4076"
+  aliases:
+    - "Windows TCP/IP Privilege Escalation"
+    - "Windows Server 2003 IOCTL Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Windows TCP/IP stack (tcpip.sys)"
+    - "Windows Server 2003 SP2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-4076 is a local privilege escalation vulnerability in the Windows TCP/IP stack
+    (tcpip.sys) affecting Windows Server 2003 SP2. The vulnerability exists due to improper
+    handling of IOCTL (Input/Output Control) requests during TCP/IP processing. A locally
+    authenticated attacker can send a specially crafted IOCTL to the TCP/IP driver to trigger
+    a memory corruption condition that allows arbitrary code execution in kernel mode. The
+    CVSS v2 score is 7.2.
+  why: >-
+    Windows Server 2003 remained widely deployed in enterprise environments in 2014, and this
+    vulnerability provided a reliable privilege escalation path from any authenticated user to
+    SYSTEM. The TCP/IP stack is a fundamental OS component that cannot be disabled, making all
+    affected systems vulnerable. This was exploited in the wild as part of targeted attacks.
+  how: >-
+    Exploitation involves a local attacker sending specially crafted IOCTL requests to the
+    TCP/IP driver (tcpip.sys). The improper input validation in the IOCTL handler triggers a
+    memory corruption condition that can be leveraged for kernel-mode code execution. Mitigation
+    requires applying Microsoft Security Bulletin MS14-070 and upgrading from Windows Server
+    2003 which reached end of life in July 2015.
+  core_concepts:
+    - key: "IOCTL Exploitation"
+      value: "Sending malformed Input/Output Control requests to kernel-mode drivers to trigger memory corruption and privilege escalation"
+    - key: "TCP/IP Stack Vulnerability"
+      value: "Exploiting the Windows TCP/IP driver which runs in kernel mode and processes all network communications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2014-4076 is a privilege boundary bypass through Windows TCP/IP driver exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2014-4076"
+    - "NIST NVD CVE-2014-4076 (CVSS v2: 7.2)"
+    - "Microsoft Security Bulletin MS14-070"
+  search_keywords:
+    - "CVE-2014-4076"
+    - "Windows TCP/IP privilege escalation"
+    - "tcpip.sys vulnerability"
+    - "MS14-070"
+    - "Windows Server 2003 exploit"
+    - "IOCTL privilege escalation"
+  embedding_text: >-
+    CVE-2014-4076 is a local privilege escalation vulnerability in the Windows TCP/IP stack
+    (tcpip.sys) affecting Windows Server 2003 SP2 with CVSS v2 score 7.2. Improper handling
+    of IOCTL requests during TCP/IP processing enables memory corruption leading to kernel-mode
+    code execution. A locally authenticated attacker sends crafted IOCTL requests to the TCP/IP
+    driver to escalate from any user to SYSTEM privileges. This was exploited in targeted attacks
+    in the wild. Mitigation requires applying MS14-070 and upgrading from the end-of-life
+    Windows Server 2003 platform.

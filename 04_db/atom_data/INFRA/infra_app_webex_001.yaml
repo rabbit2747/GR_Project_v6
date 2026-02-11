@@ -1,0 +1,116 @@
+# GR Atom: Webex
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WEBEX-001"
+  name: "Webex"
+  normalized_name: "webex"
+  aliases:
+    - "Cisco Webex"
+    - "Webex Meetings"
+    - "Webex Teams"
+    - "Cisco WebEx"
+    - "Webex by Cisco"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - WEB
+    - ENCRYPT
+    - AUTHN
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Cisco Webex is an enterprise video conferencing, messaging, and collaboration platform
+    providing meetings, calling, messaging, events, and whiteboarding capabilities. Available
+    as desktop applications, mobile apps, and web browser access, it supports end-to-end
+    encrypted meetings, screen sharing, recording, and integration with enterprise tools.
+    Webex serves millions of enterprise users for internal and external communication with
+    features including breakout rooms, real-time translation, and meeting compliance recording.
+  why: >-
+    Webex desktop clients have had critical vulnerabilities including DLL injection, local
+    privilege escalation, and remote code execution flaws. Meeting recordings stored in cloud
+    or local storage may contain sensitive business information. Meeting links can be targeted
+    for unauthorized access (meeting bombing) if not properly secured with passwords and
+    waiting rooms. The Webex client runs with user-level permissions but vulnerabilities have
+    enabled escalation. Compromised Webex accounts provide access to meeting recordings,
+    chat histories, and shared files containing confidential business data.
+  how: >-
+    Webex operates through cloud infrastructure with data centers globally. Desktop clients
+    (Windows, macOS, Linux) connect via HTTPS and use media protocols (SRTP for audio/video)
+    with end-to-end encryption options. Authentication integrates with SAML/SSO providers
+    and supports MFA. Meetings use unique IDs with optional passwords and Personal Room
+    functionality. The platform provides REST APIs for administration, compliance, and
+    integration. Recordings are stored in Webex cloud or exported locally. The Webex client
+    uses local services for meeting join optimization and device discovery.
+  core_concepts:
+    - key: "Client-Side Vulnerabilities"
+      value: "Webex desktop client has had DLL injection, privilege escalation, and RCE vulnerabilities enabling local compromise through the collaboration tool"
+    - key: "Meeting Data Sensitivity"
+      value: "Meeting recordings, chat histories, and shared files contain sensitive business communications accessible through compromised accounts"
+    - key: "Meeting Security Controls"
+      value: "Insufficient meeting security (no passwords, no waiting rooms) enables unauthorized access to meetings containing confidential discussions"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Webex is an enterprise collaboration application for video conferencing and messaging"
+  - type: "alternative_to"
+    target: "INFRA-APP-ZOOVIDAPP-001"
+    description: "Webex competes with Zoom as an enterprise video conferencing platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204"
+    tactic:
+      - "Execution"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Cisco Webex Security Documentation"
+    - "Cisco Security Advisories for Webex"
+    - "MITRE ATT&CK T1204 - User Execution"
+  search_keywords:
+    - "Cisco Webex"
+    - "Webex Meetings"
+    - "Webex vulnerability"
+    - "Webex DLL injection"
+    - "video conferencing security"
+    - "Webex meeting bombing"
+    - "Webex recording security"
+    - "enterprise collaboration security"
+  embedding_text: >-
+    Cisco Webex is an enterprise video conferencing and collaboration platform with desktop,
+    mobile, and web clients supporting E2E encrypted meetings, messaging, and file sharing.
+    Security concerns include desktop client vulnerabilities (DLL injection, privilege
+    escalation, RCE), meeting recording exposure containing sensitive business data, meeting
+    bombing through unsecured meeting links, and account compromise providing access to
+    communication histories. The platform integrates with SAML/SSO and supports MFA. Security
+    teams should keep Webex clients updated, enforce meeting passwords and waiting rooms,
+    manage recording storage and access controls, implement SSO with MFA, and monitor for
+    anomalous meeting access patterns.

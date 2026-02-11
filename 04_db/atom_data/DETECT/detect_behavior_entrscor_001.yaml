@@ -1,0 +1,72 @@
+# GR Atom: Entropy Score
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-ENTRSCOR-001"
+  name: "Entropy Score"
+  normalized_name: "entropy_score"
+  aliases:
+    - "Shannon Entropy Analysis"
+    - "Data Randomness Score"
+    - "Information Entropy Detection"
+    - "Entropy-Based Anomaly Detection"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - MONITOR
+    - EVADE
+    - CRYPTO
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Entropy Score is a detection metric based on Shannon entropy that measures the randomness or information density of data, used to identify encrypted, compressed, packed, or obfuscated content that may indicate malicious activity. Shannon entropy produces a value between 0 (completely uniform data) and 8 (maximum randomness for byte-level analysis). The entropy score is applied across multiple security detection use cases including file content analysis, network payload inspection, command-line argument evaluation, DNS query analysis, and registry value examination. High entropy values in contexts where plaintext is expected strongly suggest encryption, encoding, or obfuscation."
+  why: "Attackers routinely use encryption, encoding, and obfuscation to evade signature-based detection and conceal malicious payloads, command-and-control communications, and exfiltrated data. Ransomware encrypts files producing high-entropy content, packed malware exhibits elevated entropy compared to normal executables, base64-encoded PowerShell commands have characteristic entropy profiles, and encrypted C2 traffic shows higher entropy than normal HTTP communications. Entropy scoring provides a payload-agnostic detection signal that identifies suspicious data characteristics without requiring specific signatures, making it valuable against zero-day and polymorphic threats."
+  how: "Entropy is calculated using Shannon's formula: H = -sum(p(x) * log2(p(x))) where p(x) is the probability of each byte value occurring in the data. The calculation is applied to file contents, network payloads, or string data. Thresholds are set based on the data type: normal English text typically has entropy around 4.0-5.0, compressed files around 7.5-8.0, encrypted files near 8.0, and normal executables around 5.0-6.5. Detection systems calculate entropy scores and flag data exceeding context-appropriate thresholds. Advanced implementations use sliding window entropy to identify encrypted sections within larger files, calculate per-section entropy for PE files to detect packed executables, and compare entropy distributions against known-good profiles. Entropy is often combined with other indicators like file type, magic bytes, and behavioral context for higher-fidelity detection."
+  core_concepts:
+    - key: "Shannon Entropy"
+      value: "A mathematical measure of information randomness based on the probability distribution of byte values, ranging from 0 to 8 for byte-level analysis"
+    - key: "Entropy Threshold"
+      value: "Context-dependent cutoff values where entropy above the threshold indicates likely encryption, compression, or obfuscation"
+    - key: "Sliding Window Entropy"
+      value: "Calculation of entropy over successive fixed-size blocks of data to identify encrypted or packed sections within larger files"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILEENTR-001"
+    description: "Entropy score is the foundational metric used by file entropy detection"
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILNAMENT-001"
+    description: "Entropy scoring applied to filenames detects randomly generated names used by malware"
+  - type: enables
+    target: "DETECT-BEHAVIOR-POWOBFSCO-001"
+    description: "Entropy analysis is a key component of PowerShell obfuscation scoring"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Shannon, C.E. - A Mathematical Theory of Communication (1948)"
+    - "SANS - Using Entropy Analysis for Malware Detection - https://www.sans.org/white-papers/"
+    - "FireEye - Entropy-Based Malware Detection Techniques"
+  search_keywords:
+    - "entropy score detection"
+    - "Shannon entropy security"
+    - "data randomness analysis"
+    - "entropy-based malware detection"
+    - "encrypted payload detection"
+    - "obfuscation entropy"
+    - "file entropy analysis"
+    - "high entropy anomaly"
+  embedding_text: "Entropy Score is a detection metric based on Shannon entropy measuring data randomness to identify encrypted, compressed, packed, or obfuscated content indicating malicious activity. Shannon entropy produces values from 0 to 8 for byte-level analysis, with normal text around 4-5, executables around 5-6.5, and encrypted content near 8. Applied to file contents, network payloads, command-line arguments, and DNS queries, entropy scoring detects ransomware encryption, packed malware, encoded PowerShell commands, and encrypted C2 traffic. Advanced implementations use sliding window entropy for section-level analysis and combine entropy with file type, magic bytes, and behavioral context for higher-fidelity detection of zero-day and polymorphic threats."

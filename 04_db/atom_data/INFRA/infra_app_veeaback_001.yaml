@@ -1,0 +1,115 @@
+# GR Atom: Veeam Backup
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-VEEABACK-001"
+  name: "Veeam Backup"
+  normalized_name: "veeam_backup"
+  aliases:
+    - "Veeam Backup & Replication"
+    - "Veeam B&R"
+    - "VBR"
+    - "Veeam Backup Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - BACKUP
+    - DR
+    - WINDOWS
+    - CLOUD
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z4"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Veeam Backup & Replication is an enterprise data protection and disaster recovery platform
+    that provides backup, replication, and recovery for virtual, physical, and cloud workloads.
+    It supports VMware vSphere, Microsoft Hyper-V, Nutanix AHV, AWS, Azure, and Google Cloud
+    environments. The platform includes a backup server, proxy components, backup repositories,
+    and management console, providing comprehensive data protection with features like instant
+    VM recovery, sandbox testing, and immutable backup repositories.
+  why: >-
+    Veeam Backup servers are critical ransomware targets because destroying or encrypting
+    backups eliminates the victim's ability to recover without paying ransom. Multiple critical
+    vulnerabilities have been exploited including CVE-2023-27532 (credential theft from
+    configuration database) and CVE-2024-40711 (unauthenticated RCE). The Veeam configuration
+    database stores credentials for all protected infrastructure including vCenter, Hyper-V,
+    cloud providers, and storage systems. Compromised Veeam servers provide attackers with
+    credentials to the entire virtualization infrastructure and access to backup data
+    containing complete system images.
+  how: >-
+    Veeam Backup Server runs on Windows Server and manages backup operations through the
+    Veeam Backup Service (TCP port 9392 for console, 9401 for REST API). Backup proxies
+    handle data transfer between source and repository. The configuration database (SQL
+    Server or PostgreSQL) stores job definitions, credentials, and infrastructure metadata.
+    Veeam Agent communicates with endpoints for physical server backup. Backup repositories
+    store backup files (.vbk, .vib, .vrb) on local storage, NAS, or cloud object storage.
+    Immutable repositories use Linux hardened repositories or object lock for ransomware
+    protection.
+  core_concepts:
+    - key: "Ransomware Backup Targeting"
+      value: "Attackers specifically target Veeam infrastructure to destroy or encrypt backups before deploying ransomware, eliminating recovery options"
+    - key: "Credential Repository"
+      value: "Veeam configuration database stores credentials for all protected infrastructure (vCenter, cloud providers, storage), making it a master credential vault"
+    - key: "Critical Vulnerability History"
+      value: "CVE-2023-27532 enables credential extraction and CVE-2024-40711 enables unauthenticated RCE, both actively exploited in ransomware campaigns"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-SVC-001"
+    description: "Veeam Backup provides the backup infrastructure that Veeam Deploy SVC operates within"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1490"
+    tactic:
+      - "Impact"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Veeam Backup & Replication Security Documentation"
+    - "MITRE ATT&CK T1490 - Inhibit System Recovery"
+    - "CVE-2023-27532 and CVE-2024-40711 Advisories"
+    - "CISA Advisory on Backup Infrastructure Targeting"
+  search_keywords:
+    - "Veeam Backup"
+    - "Veeam Backup & Replication"
+    - "Veeam vulnerability"
+    - "CVE-2023-27532"
+    - "CVE-2024-40711"
+    - "Veeam ransomware"
+    - "backup server security"
+    - "Veeam credential theft"
+  embedding_text: >-
+    Veeam Backup & Replication is an enterprise data protection platform for virtual, physical,
+    and cloud workloads supporting VMware, Hyper-V, AWS, Azure, and GCP. The backup server
+    manages operations through TCP ports 9392/9401 with a SQL Server configuration database
+    storing credentials for all protected infrastructure. Veeam is a primary ransomware target
+    for backup destruction. Critical vulnerabilities include CVE-2023-27532 (credential theft)
+    and CVE-2024-40711 (unauthenticated RCE), both actively exploited. Security teams should
+    isolate Veeam infrastructure on dedicated management networks, implement immutable backup
+    repositories, patch promptly, restrict API access, monitor for credential extraction
+    attempts, and maintain offline backup copies separate from Veeam-managed repositories.

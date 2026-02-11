@@ -1,0 +1,82 @@
+# GR Atom: CVE-2022-22965
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202222965-001"
+  name: "CVE-2022-22965"
+  normalized_name: "cve_2022_22965"
+  aliases:
+    - "Spring4Shell"
+    - "SpringShell"
+    - "Spring Framework RCE"
+    - "Spring Core RCE"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Spring Framework 5.3.0 through 5.3.17"
+    - "Spring Framework 5.2.0 through 5.2.19"
+    - "Java 9+ (JDK 9 and above)"
+    - "Apache Tomcat (as WAR deployment)"
+
+definition:
+  what: "CVE-2022-22965 (Spring4Shell) is a critical remote code execution vulnerability in the Spring Framework's data binding mechanism when running on JDK 9 or later. The vulnerability exploits the Spring MVC or WebFlux parameter binding feature where HTTP request parameters are automatically bound to Java object properties. On JDK 9+, the Class.getModule() method exposed via the class loader chain allows an attacker to manipulate Tomcat's AccessLogValve properties through crafted parameter names, enabling the writing of a JSP web shell to the web server's document root. CVSS v3: 9.8 (Critical). Disclosed March 31, 2022."
+  why: "Spring Framework is the most widely used Java application framework globally, powering millions of enterprise applications. The vulnerability was compared to Log4Shell in potential impact due to Spring's ubiquity, earning the name Spring4Shell. While exploitation requires specific conditions (JDK 9+, WAR deployment on Tomcat, Spring MVC with data binding), these conditions are extremely common in enterprise Java deployments. The vulnerability was particularly concerning because it leveraged a fundamental framework feature (data binding) and a JDK platform change (module system in JDK 9) that created a new attack surface. Initial confusion with a separate Spring Cloud Function vulnerability (CVE-2022-22963) complicated early response efforts."
+  how: "Exploitation leverages the Spring parameter binding mechanism to traverse the class loader chain through specially crafted HTTP request parameters. On JDK 9+, the Class.getModule().getClassLoader() path exposes Tomcat's internal properties. The attacker sends HTTP requests with parameter names like class.module.classLoader.resources.context.parent.pipeline.first.pattern to set Tomcat's AccessLogValve properties, configuring it to write a JSP web shell with attacker-controlled content to the webapps directory. Subsequent requests to the planted web shell provide arbitrary command execution. The attack requires: JDK 9+, Spring Framework application deployed as WAR on Tomcat, and Spring MVC or WebFlux with data binding enabled. Mitigation includes upgrading to Spring Framework 5.3.18+ or 5.2.20+, upgrading to Tomcat 10.0.20+/9.0.62+/8.5.78+, or disallowing specific field patterns in data binding."
+  core_concepts:
+    - key: "Class Loader Chain Traversal"
+      value: "JDK 9's module system exposed a new path through Class.getModule().getClassLoader() that allowed Spring's data binding to traverse into Tomcat's internal configuration properties, bypassing previous protections"
+    - key: "AccessLogValve Web Shell Injection"
+      value: "By manipulating Tomcat's AccessLogValve properties through Spring data binding, attackers configure the access log to write attacker-controlled JSP content to the webapps directory, creating a persistent web shell"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Spring4Shell is an injection vulnerability exploiting Spring Framework parameter binding to inject web shells"
+  - type: requires
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Exploitation requires the injection of crafted HTTP parameter names through Spring data binding"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2022-22965 - NVD NIST"
+    - "VMware Spring Security Advisory - CVE-2022-22965"
+    - "CISA Alert AA22-174A - Spring4Shell"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Praetorian - Spring4Shell Analysis"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2022-22965"
+    - "Spring4Shell"
+    - "SpringShell"
+    - "Spring Framework RCE"
+    - "Spring data binding vulnerability"
+    - "Spring class loader traversal"
+    - "Spring Tomcat web shell"
+    - "Spring Core RCE"
+    - "Spring MVC vulnerability"
+    - "JDK 9 Spring vulnerability"
+  embedding_text: "CVE-2022-22965 known as Spring4Shell is a critical CVSS 9.8 remote code execution vulnerability in the Spring Framework's data binding mechanism on JDK 9 and later. Disclosed March 2022, it exploits the class loader chain traversal through Class.getModule() exposed by JDK 9's module system. Attackers send crafted HTTP parameters to Spring MVC applications deployed as WAR on Tomcat to manipulate the AccessLogValve properties, writing a JSP web shell to the server. Spring Framework is the most widely used Java application framework. Exploitation requires JDK 9+ and WAR deployment on Tomcat with Spring data binding enabled. Fixed in Spring Framework 5.3.18 and 5.2.20 and Tomcat updates. CISA added it to the Known Exploited Vulnerabilities catalog. Maps to MITRE ATT&CK T1190 Initial Access."

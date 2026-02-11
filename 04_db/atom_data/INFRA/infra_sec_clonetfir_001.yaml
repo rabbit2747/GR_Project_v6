@@ -1,0 +1,99 @@
+# GR Atom: Cloud Network Firewall
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-CLONETFIR-001"
+  name: "Cloud Network Firewall"
+  normalized_name: "cloud_network_firewall"
+  aliases:
+    - "Cloud Firewall"
+    - "Virtual Network Firewall"
+    - "Cloud-Native Firewall"
+    - "FWaaS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 3
+  atom_tags:
+    - CLOUD
+    - FIREWALL
+    - NETWORK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "S1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Cloud Network Firewall is a managed or virtual firewall service that provides network
+    traffic filtering and inspection within cloud environments. Examples include AWS Network
+    Firewall, Azure Firewall, GCP Cloud Firewall, and virtual appliances from Palo Alto,
+    Fortinet, and Check Point deployed in cloud VPCs/VNets. These firewalls provide stateful
+    packet inspection, intrusion detection/prevention, URL filtering, DNS filtering, and
+    east-west traffic control for cloud workloads without requiring physical hardware.
+  why: >-
+    Cloud network firewalls are essential for enforcing network security policies in environments
+    where traditional perimeter firewalls cannot operate. They protect against lateral movement
+    between cloud workloads, unauthorized internet egress, command-and-control traffic, and
+    data exfiltration. Without cloud firewalls, the flat network architecture common in cloud
+    deployments allows any compromised workload unrestricted access to other resources.
+  how: >-
+    Cloud network firewalls operate as managed services or virtual appliances inserted into
+    network traffic paths via route tables, VPC/VNet peering, or transit gateways. They process
+    traffic through rule engines evaluating stateful packet inspection rules, domain-based
+    filtering, IDS/IPS signatures, and application-layer rules. Cloud-native implementations
+    integrate with cloud routing and scale automatically. Virtual appliance firewalls run on
+    cloud compute instances with customizable throughput. Logging integrates with cloud-native
+    SIEM services for security monitoring and compliance.
+  core_concepts:
+    - key: "East-West Traffic Control"
+      value: "Cloud firewalls provide inter-workload traffic filtering preventing lateral movement within cloud VPCs and across boundaries"
+    - key: "Managed vs Virtual Appliance"
+      value: "Choice between cloud-native managed services with auto-scaling and virtual appliance firewalls with feature parity to on-premises hardware"
+    - key: "Cloud-Native Integration"
+      value: "Tight integration with cloud routing, logging, identity, and orchestration services for automated security policy enforcement"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "Cloud network firewalls are a category of firewall products deployed for cloud environments"
+  - type: "alternative_to"
+    target: "INFRA-SEC-FORTIGATE-001"
+    description: "Cloud-native firewalls provide alternatives to FortiGate virtual appliances in cloud deployments"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "AWS Documentation - AWS Network Firewall"
+    - "Microsoft Documentation - Azure Firewall"
+    - "Google Cloud Documentation - Cloud Firewall"
+  search_keywords:
+    - "cloud firewall"
+    - "cloud network firewall"
+    - "AWS Network Firewall"
+    - "Azure Firewall"
+    - "virtual firewall"
+    - "FWaaS"
+    - "cloud network security"
+    - "VPC firewall"
+  embedding_text: >-
+    Cloud Network Firewall is a managed or virtual firewall service providing network traffic
+    filtering within cloud environments. Implementations include AWS Network Firewall, Azure
+    Firewall, GCP Cloud Firewall, and virtual appliances from Palo Alto and Fortinet. They
+    provide stateful inspection, IDS/IPS, URL filtering, and east-west traffic control. Essential
+    for enforcing security in flat cloud networks, preventing lateral movement, unauthorized
+    egress, and data exfiltration. Cloud-native implementations auto-scale; virtual appliances
+    offer feature parity with on-premises hardware. Logging integrates with cloud SIEM services.

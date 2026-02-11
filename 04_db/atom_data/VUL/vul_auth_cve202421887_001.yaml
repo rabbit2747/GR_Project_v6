@@ -1,0 +1,116 @@
+# GR Atom: CVE-2024-21887
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202421887-001"
+  name: "CVE-2024-21887"
+  normalized_name: "cve_2024_21887"
+  aliases:
+    - "Ivanti Connect Secure Command Injection"
+    - "Ivanti ICS Command Injection"
+    - "Ivanti Zero-Day Command Injection January 2024"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INJ
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Ivanti Connect Secure (ICS) VPN"
+    - "Ivanti Policy Secure"
+    - "Ivanti ICS web management API"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-21887 is a critical command injection vulnerability in the web components of Ivanti
+    Connect Secure (versions 9.x and 22.x) and Ivanti Policy Secure. The vulnerability allows an
+    authenticated administrator to send specially crafted API requests that result in arbitrary
+    command execution on the appliance as root. When chained with CVE-2023-46805 (authentication
+    bypass), it enables unauthenticated remote code execution. CVSS v3.1 score is 9.1 (Critical).
+    Exploited as a zero-day alongside CVE-2023-46805 by Chinese state-sponsored actors including
+    UNC5221.
+  why: >-
+    This command injection vulnerability, combined with the authentication bypass in
+    CVE-2023-46805, created one of the most impactful exploit chains of 2024. Ivanti Connect
+    Secure VPN appliances protect network perimeters of thousands of organizations, and the
+    pre-auth RCE chain was exploited at massive scale to compromise government agencies, defense
+    contractors, and technology companies. The vulnerability provided root-level access to the
+    appliance, enabling deployment of webshells, credential theft, and pivoting into internal
+    networks.
+  how: >-
+    An authenticated attacker (or unauthenticated when chained with CVE-2023-46805) sends
+    specially crafted requests to API endpoints in the Ivanti Connect Secure web interface that
+    fail to properly sanitize input parameters. The injected commands execute on the underlying
+    Linux operating system with root privileges. Attackers deployed GLASSTOKEN, GIFTEDVISITOR,
+    and other custom webshells, modified system files to maintain persistence, and harvested
+    credentials from VPN sessions. Mitigation includes applying Ivanti patches, performing
+    factory resets before patching, running the external integrity checking tool, and monitoring
+    for BUSHWALK, CHAINLINE, FRAMESTING, and other known webshell families.
+  core_concepts:
+    - key: "VPN Appliance Command Injection"
+      value: "Unsanitized input in API endpoints allows arbitrary OS command execution as root on the VPN appliance"
+    - key: "Pre-Auth RCE Chain Component"
+      value: "Combined with CVE-2023-46805 authentication bypass to create a pre-authentication remote code execution chain targeting network perimeter devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-21887 exploits authenticated access to VPN management API for command injection"
+  - type: "requires"
+    target: "VUL-AUTH-CVE202346805-001"
+    description: "Requires CVE-2023-46805 authentication bypass for unauthenticated exploitation in the attack chain"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.004"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-21887"
+    - "NIST NVD CVE-2024-21887 (CVSS v3.1: 9.1)"
+    - "Ivanti Security Advisory SA-2024-01-10"
+    - "CISA Emergency Directive ED-24-01"
+    - "MITRE ATT&CK T1059.004 - Command and Scripting Interpreter: Unix Shell"
+    - "Mandiant UNC5221 Threat Intelligence"
+  search_keywords:
+    - "CVE-2024-21887"
+    - "Ivanti command injection"
+    - "Ivanti Connect Secure RCE"
+    - "Ivanti VPN exploit"
+    - "Ivanti zero-day command injection"
+    - "UNC5221 Ivanti"
+    - "GLASSTOKEN webshell"
+    - "Ivanti ICS command execution"
+  embedding_text: >-
+    CVE-2024-21887 is a critical command injection vulnerability in Ivanti Connect Secure and
+    Policy Secure VPN appliances with CVSS v3.1 score 9.1. An authenticated attacker sends crafted
+    API requests to inject commands executing as root on the underlying OS. When chained with
+    CVE-2023-46805 authentication bypass, it creates a pre-authentication RCE chain. Massively
+    exploited as a zero-day by Chinese state-sponsored group UNC5221 to compromise government
+    and defense networks. Attackers deployed GLASSTOKEN and GIFTEDVISITOR webshells, harvested
+    VPN credentials, and pivoted into internal networks. Mitigation requires factory reset before
+    patching, integrity checking, and monitoring for known webshell families including BUSHWALK,
+    CHAINLINE, and FRAMESTING.

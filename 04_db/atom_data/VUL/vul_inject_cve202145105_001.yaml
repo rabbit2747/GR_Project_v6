@@ -1,0 +1,74 @@
+# GR Atom: CVE-2021-45105
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202145105-001"
+  name: "CVE-2021-45105"
+  normalized_name: "cve_2021_45105"
+  aliases:
+    - "Log4j Infinite Recursion DoS"
+    - "Log4j Lookup Recursion Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - DOS
+    - WEB
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache Log4j 2.x (2.0-beta9 through 2.16.0)"
+    - "Java Applications using Log4j with Context Lookup patterns"
+
+definition:
+  what: "CVE-2021-45105 is a high-severity denial-of-service vulnerability in Apache Log4j 2 versions 2.0-beta9 through 2.16.0, discovered during the remediation of Log4Shell (CVE-2021-44228). The vulnerability occurs because Log4j does not protect against uncontrolled recursion from self-referential lookups. When the logging configuration uses a non-default Pattern Layout with a Context Lookup such as $${ctx:loginId}, an attacker who controls Thread Context Map data can craft a malicious input containing a recursive lookup string that causes a StackOverflowError, terminating the Java process. CVSS v3: 7.5 (High). Disclosed December 18, 2021."
+  why: "While less severe than the RCE vulnerabilities CVE-2021-44228 and CVE-2021-45046, this denial-of-service vulnerability in Log4j was significant because it affected version 2.16.0 which was the recommended remediation target for those earlier critical CVEs. Organizations that had just completed emergency patching to 2.16.0 discovered they needed to patch again to 2.17.0. This created further remediation fatigue and extended the Log4Shell crisis. The vulnerability could terminate critical Java applications and services through denial of service, impacting availability of business-critical systems."
+  how: "The vulnerability is exploited by injecting a self-referential or recursive lookup string into Thread Context Map data that is used in a logging Pattern Layout context lookup. When Log4j processes the log message, it attempts to resolve the lookup which references itself, creating infinite recursion until a StackOverflowError terminates the JVM. The attacker needs to control input that reaches Thread Context Map data in an application that uses a Context Lookup pattern (e.g., $${ctx:loginId}) in its logging configuration. The fix in Log4j 2.17.0 adds protection against uncontrolled recursion in lookup evaluation by limiting the depth of nested lookups."
+  core_concepts:
+    - key: "Uncontrolled Lookup Recursion"
+      value: "Log4j fails to protect against self-referential lookups in Thread Context Map patterns, allowing crafted input to trigger infinite recursion and StackOverflowError that terminates the JVM"
+    - key: "Cascading Patch Requirements"
+      value: "Discovered in Log4j 2.16.0, the version recommended to fix CVE-2021-44228 and CVE-2021-45046, forcing a third round of emergency patching to 2.17.0 during the Log4Shell crisis"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2021-45105 is an injection-triggered denial-of-service vulnerability in Log4j lookup processing"
+  - type: supersedes
+    target: "VUL-INJECT-CVE202145046-001"
+    description: "CVE-2021-45105 was discovered in Log4j 2.16.0 which was the fix for CVE-2021-45046"
+  - type: precedes
+    target: "VUL-INJECT-CVE202144832-001"
+    description: "The final Log4j vulnerability CVE-2021-44832 was discovered after CVE-2021-45105"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1499"
+    tactic: ["Impact"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2021-45105 - NVD NIST"
+    - "Apache Log4j Security Advisory - CVE-2021-45105"
+    - "Apache Log4j 2.17.0 Release Notes"
+    - "MITRE ATT&CK T1499 - Endpoint Denial of Service"
+  search_keywords:
+    - "CVE-2021-45105"
+    - "Log4j denial of service"
+    - "Log4j recursion"
+    - "Log4j StackOverflowError"
+    - "Log4j 2.16.0 vulnerability"
+    - "Log4j infinite recursion"
+    - "Log4j context lookup DoS"
+  embedding_text: "CVE-2021-45105 is a high-severity denial-of-service vulnerability in Apache Log4j 2 versions through 2.16.0. Discovered during Log4Shell remediation, it exploits uncontrolled recursion from self-referential lookups in Thread Context Map patterns. An attacker who controls Thread Context data can craft a recursive lookup string that causes a StackOverflowError terminating the JVM. CVSS v3 score is 7.5 High. This vulnerability was significant because it affected Log4j 2.16.0 which was the recommended fix for CVE-2021-44228 and CVE-2021-45046, forcing a third round of emergency patching to version 2.17.0. The fix adds recursion depth limits to lookup evaluation. Maps to MITRE ATT&CK T1499 Endpoint Denial of Service and Impact tactic."

@@ -1,0 +1,76 @@
+# GR Atom: Project Zero
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-PROJZERO-001"
+  name: "Project Zero"
+  normalized_name: "project_zero"
+  aliases:
+    - "Google P0"
+    - "P0"
+    - "GPZ"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - OVERFLOW
+    - OS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Project Zero is a security research team at Google dedicated to finding zero-day vulnerabilities in widely used software and hardware. Founded in 2014, the team conducts proactive vulnerability research across operating systems, browsers, mobile platforms, cloud services, and hardware. Project Zero operates under a strict disclosure policy, giving vendors 90 days to patch vulnerabilities before public disclosure. The team has discovered hundreds of critical vulnerabilities in products from Apple, Microsoft, Samsung, Qualcomm, and many others, and has published influential research on exploitation techniques, mitigations, and the zero-day exploit market."
+  why: "Project Zero is one of the most important vulnerability research teams in the world, responsible for discovering and driving the remediation of critical zero-day vulnerabilities that affect billions of devices. Their disclosure policy has established industry norms for responsible vulnerability handling, and their published research has fundamentally advanced the field of software security, including work on browser exploitation, kernel security, and hardware vulnerabilities like Spectre and Meltdown."
+  how: "Project Zero researchers employ advanced techniques including fuzzing, static and dynamic analysis, reverse engineering, and manual code review to discover vulnerabilities. They develop proof-of-concept exploits to demonstrate severity, report findings to vendors with 90-day disclosure deadlines, and publish detailed technical blog posts analyzing vulnerabilities and exploitation techniques. The team also conducts research into systemic security issues and exploit mitigation effectiveness."
+  core_concepts:
+    - key: "Zero-Day Vulnerability Research"
+      value: "Proactive discovery of previously unknown vulnerabilities in widely deployed software and hardware"
+    - key: "90-Day Disclosure Policy"
+      value: "Strict timeline giving vendors 90 days to patch before public disclosure of vulnerability details"
+    - key: "Exploit Technique Research"
+      value: "Analysis and documentation of exploitation methodologies, mitigations, and their effectiveness"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-GOOPROZER-001"
+    description: "Alternate reference to the same Google Project Zero team"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Project Zero research is frequently presented at Black Hat and other major conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for research team
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://googleprojectzero.blogspot.com"
+    - "https://en.wikipedia.org/wiki/Project_Zero_(Google)"
+  search_keywords:
+    - "project zero"
+    - "google project zero"
+    - "zero-day research"
+    - "vulnerability discovery"
+    - "90-day disclosure"
+    - "exploit research"
+    - "browser security"
+    - "kernel vulnerability"
+    - "P0"
+  embedding_text: "Project Zero is a security research team at Google dedicated to finding zero-day vulnerabilities in widely used software and hardware. Founded in 2014, the team conducts proactive vulnerability research across operating systems, browsers, mobile platforms, cloud services, and hardware, operating under a strict 90-day disclosure policy. Project Zero has discovered hundreds of critical vulnerabilities in products from Apple, Microsoft, Samsung, Qualcomm, and others, and published influential research on exploitation techniques, mitigations, and the zero-day exploit market including work on Spectre and Meltdown hardware vulnerabilities. The team employs advanced techniques including fuzzing, static and dynamic analysis, reverse engineering, and manual code review, making it one of the most important vulnerability research teams responsible for improving software security across billions of devices worldwide."

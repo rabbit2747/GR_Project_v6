@@ -1,0 +1,75 @@
+# GR Atom: SpecterOps
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SPECTEROPS-001"
+  name: "SpecterOps"
+  normalized_name: "specterops"
+  aliases:
+    - "Specter Ops"
+    - "SpecterOps Inc"
+    - "BloodHound Enterprise"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RED_TEAM
+    - PENTEST
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SpecterOps is an offensive and defensive security consultancy known for developing BloodHound, the industry-standard Active Directory attack path analysis tool. The company provides adversary simulation, red team operations, and detection engineering services, with deep expertise in Active Directory security, identity attack paths, and misconfigurations that enable lateral movement and privilege escalation in enterprise environments."
+  why: "SpecterOps is critically significant in cybersecurity because BloodHound fundamentally changed how both attackers and defenders understand Active Directory security. By mapping attack paths through AD relationships, BloodHound revealed the systemic nature of identity-based attack chains, prompting the entire industry to rethink Active Directory security practices. SpecterOps researchers have also contributed numerous other tools and techniques to the offensive security community."
+  how: "SpecterOps operates through adversary simulation engagements using custom-developed tools and techniques, detection engineering consulting that helps organizations build effective monitoring, and BloodHound Enterprise which provides continuous attack path analysis for Active Directory and Azure environments. The company's researchers actively develop open-source tools, publish technical research, and present at major security conferences."
+  core_concepts:
+    - key: "BloodHound Attack Path Analysis"
+      value: "Graph-based analysis of Active Directory and Azure relationships to identify and remediate identity attack paths"
+    - key: "Adversary Simulation"
+      value: "Advanced red team operations that emulate sophisticated threat actors to test defensive capabilities"
+    - key: "Detection Engineering"
+      value: "Consulting services that help organizations build effective detection and response capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-TRUSSEC-001"
+    description: "Fellow offensive security consultancy specializing in red team operations and security research"
+  - type: enables
+    target: "ACTOR-VENDOR-MICROSOFT-001"
+    description: "BloodHound research has directly influenced Microsoft's Active Directory security improvements"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://specterops.io"
+    - "https://github.com/SpecterOps/BloodHound"
+  search_keywords:
+    - "specterops"
+    - "bloodhound"
+    - "active directory"
+    - "attack path"
+    - "red team"
+    - "adversary simulation"
+    - "detection engineering"
+    - "identity attack paths"
+    - "privilege escalation"
+  embedding_text: "SpecterOps is an offensive and defensive security consultancy known for developing BloodHound, the industry-standard Active Directory attack path analysis tool. The company provides adversary simulation, red team operations, and detection engineering services, with deep expertise in Active Directory security, identity attack paths, and enterprise environment misconfigurations. BloodHound fundamentally changed how both attackers and defenders understand Active Directory security by mapping attack paths through AD relationships, revealing the systemic nature of identity-based attack chains."

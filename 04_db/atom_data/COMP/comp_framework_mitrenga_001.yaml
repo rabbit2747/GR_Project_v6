@@ -1,0 +1,132 @@
+# GR Atom: MITRE Engage
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MITRENGA-001"
+  name: "MITRE Engage"
+  normalized_name: "mitre_engage"
+  aliases:
+    - "Engage"
+    - "MITRE Engage Framework"
+    - "MITRE Shield"
+    - "Adversary Engagement"
+    - "Active Defense Framework"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - BLUE_TEAM
+    - RED_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE Engage is a framework for planning and discussing adversary engagement operations,
+    providing a structured approach to active defense and adversary denial, deception, and
+    engagement. Evolved from the earlier MITRE Shield project, Engage organizes adversary
+    engagement activities into strategic goals (Expose, Affect, Elicit) and operational
+    approaches including Collect, Contain, Detect, Direct, Disrupt, Motivate, and Reassure.
+    The framework provides a vocabulary and methodology for organizations to plan adversary
+    engagement operations that go beyond passive defense, including honeypots, deception
+    environments, and controlled adversary interaction.
+  why: >-
+    Traditional defensive security is entirely reactive, focused on preventing and detecting
+    attacks. Organizations that limit themselves to passive defense cede the initiative to
+    adversaries who control the timing, location, and method of attack. Engage provides a
+    framework for defenders to take the initiative through controlled adversary interaction,
+    enabling intelligence collection about adversary tradecraft, increasing adversary cost
+    and uncertainty, protecting critical assets through misdirection, and validating defensive
+    assumptions through observed adversary behavior. This active defense approach shifts the
+    asymmetry of effort toward defenders.
+  how: >-
+    Implementation follows three strategic goals: (1) Expose - collect intelligence about
+    adversary behavior and capabilities through monitored engagement environments, honeypots,
+    and deception technologies; (2) Affect - negatively impact adversary operations through
+    containment, disruption, and misdirection activities that increase cost and reduce
+    effectiveness; (3) Elicit - drive adversary behavior toward specific actions through
+    environmental manipulation and directed exposure. Operational approaches include deploying
+    deception environments, implementing honeypots and honeytokens, creating breadcrumbs that
+    lead adversaries to monitored systems, operating engagement environments that simulate
+    production assets, and coordinating engagement activities with threat intelligence teams
+    for maximum intelligence value.
+  core_concepts:
+    - key: "Adversary Engagement Operations"
+      value: >-
+        Planned and deliberate interactions with adversaries designed to collect intelligence,
+        increase adversary cost, and protect critical assets through deception and controlled
+        interaction rather than simple prevention.
+    - key: "Strategic Goals: Expose, Affect, Elicit"
+      value: >-
+        Three high-level objectives that guide engagement planning: exposing adversary
+        capabilities through observation, affecting adversary operations through disruption,
+        and eliciting specific adversary behaviors through environmental manipulation.
+    - key: "Deception Operations"
+      value: >-
+        Deployment of fake assets, credentials, data, and environments designed to mislead
+        adversaries, detect unauthorized access, and gather intelligence about adversary
+        objectives and tradecraft.
+    - key: "Active Defense"
+      value: >-
+        A defensive strategy that goes beyond passive prevention and detection to include
+        deliberate engagement with adversaries, shifting from purely reactive to proactive
+        defense posture.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "COMP-FRAMEWORK-MITRATT-001"
+    description: "Engage operations are informed by ATT&CK adversary technique knowledge to design effective engagement scenarios"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITRED3FEND-001"
+    description: "Engage deception operations complement D3FEND Deceive category techniques with strategic engagement methodology"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "Engage enhances NIST CSF Detect function with active adversary engagement capabilities beyond passive detection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE Engage. https://engage.mitre.org/"
+    - "MITRE Engage - Engage Matrix. https://engage.mitre.org/matrix/"
+    - "MITRE - From Shield to Engage: An Evolution in Active Defense. https://engage.mitre.org/about/"
+  search_keywords:
+    - "MITRE Engage"
+    - "adversary engagement"
+    - "active defense framework"
+    - "MITRE Shield"
+    - "cyber deception"
+    - "adversary denial"
+    - "engagement operations"
+    - "honeypot framework"
+    - "deception technology"
+    - "expose affect elicit"
+  embedding_text: >-
+    MITRE Engage is a framework for planning and discussing adversary engagement operations
+    that provides a structured approach to active defense including adversary denial, deception,
+    and controlled engagement. Evolved from MITRE Shield, Engage organizes activities into
+    three strategic goals: Expose (collect adversary intelligence), Affect (disrupt adversary
+    operations), and Elicit (drive adversary behavior). Operational approaches include Collect,
+    Contain, Detect, Direct, Disrupt, Motivate, and Reassure. The framework enables organizations
+    to move beyond passive defense by deploying deception environments, honeypots, honeytokens,
+    and controlled engagement scenarios that collect intelligence about adversary tradecraft,
+    increase adversary cost and uncertainty, and protect critical assets through misdirection.
+    Engage shifts the defender-attacker asymmetry by providing structured methodology for
+    deliberate adversary interaction. It requires ATT&CK adversary behavior knowledge for
+    effective engagement planning and complements D3FEND defensive techniques with strategic
+    active defense operations.

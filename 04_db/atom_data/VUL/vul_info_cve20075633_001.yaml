@@ -1,0 +1,98 @@
+# GR Atom: CVE-2007-5633
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-CVE20075633-001"
+  name: "CVE-2007-5633"
+  normalized_name: "cve_2007_5633"
+  aliases:
+    - "PIODATA DVD-ROM CL-DVD/305C Driver Information Disclosure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - OS
+    - WINDOWS
+    - PRIV
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3"]
+  target_zones: ["Z2"]
+  target_components:
+    - "PIODATA DVD-ROM CL-DVD/305C device driver"
+    - "Windows kernel memory"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2007-5633 is an information disclosure vulnerability in the PIODATA DVD-ROM CL-DVD/305C
+    device driver for Windows. The driver fails to properly validate IOCTL request parameters,
+    allowing a local attacker to read arbitrary kernel memory by sending crafted IOCTL calls to
+    the device driver. This can expose sensitive kernel data including credentials and memory
+    layout information useful for further exploitation.
+  why: >-
+    Information disclosure from kernel memory is a serious local privilege escalation stepping
+    stone. Leaked kernel addresses defeat ASLR, and exposed credential material or security
+    tokens enable further privilege escalation. Device drivers running in kernel mode with
+    insufficient input validation represent a broad class of Windows local vulnerabilities
+    that attackers chain with other exploits.
+  how: >-
+    The vulnerability is triggered by sending specially crafted IOCTL requests to the PIODATA
+    DVD-ROM driver. The driver does not properly validate the input buffer size or output buffer
+    parameters, causing it to copy kernel memory contents back to the user-mode caller. An
+    attacker with local access can open a handle to the device and issue IOCTL calls to read
+    arbitrary kernel memory regions.
+  core_concepts:
+    - key: "IOCTL Validation Failure"
+      value: "The device driver fails to validate IOCTL request parameters allowing arbitrary kernel memory reads"
+    - key: "Kernel Information Leak"
+      value: "Sensitive kernel data including memory layout and credentials exposed to local unprivileged users"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "CVE-2007-5633 is an information disclosure vulnerability caused by improper driver IOCTL handling"
+  - type: "enables"
+    target: "VUL-PRIV-PRIVESC-001"
+    description: "Kernel memory disclosure provides ASLR bypass and credential data enabling privilege escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1082"
+    tactic:
+      - "Discovery"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2007-5633"
+    - "MITRE CVE Database"
+  search_keywords:
+    - "CVE-2007-5633"
+    - "PIODATA DVD-ROM driver"
+    - "kernel information disclosure"
+    - "IOCTL vulnerability"
+    - "Windows device driver vulnerability"
+    - "kernel memory leak"
+  embedding_text: >-
+    CVE-2007-5633 is an information disclosure vulnerability in the PIODATA DVD-ROM CL-DVD/305C
+    device driver for Windows. Improper IOCTL request validation allows local attackers to read
+    arbitrary kernel memory by sending crafted IOCTL calls. The leaked kernel data may include
+    memory layout information that defeats ASLR and credential material useful for privilege
+    escalation. This represents a common class of Windows kernel driver vulnerabilities where
+    insufficient input validation in device drivers exposes sensitive kernel-mode data to
+    unprivileged user-mode processes. Discovered in 2007.

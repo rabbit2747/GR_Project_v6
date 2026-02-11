@@ -1,0 +1,74 @@
+# GR Atom: Microsoft Azure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-MICRAZUR-001"
+  name: "Microsoft Azure"
+  normalized_name: "microsoft_azure"
+  aliases: ["Azure", "Azure Cloud", "MS Azure", "Windows Azure"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags: [AZURE, CLOUD, IAC, HA]
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Microsoft Azure is a comprehensive cloud computing platform offering 200+ services
+    including compute (Virtual Machines, AKS, Azure Functions, App Service), storage (Blob
+    Storage, Azure Files, Managed Disks), networking (Virtual Network, Load Balancer, Front
+    Door, ExpressRoute), identity (Azure AD/Entra ID), and security services (Microsoft
+    Defender for Cloud, Sentinel SIEM, Key Vault). Azure operates across 60+ regions with
+    deep integration into the Microsoft ecosystem (Microsoft 365, Active Directory).
+  why: >-
+    Azure's deep integration with Active Directory and Microsoft 365 makes it a prime target
+    for attackers leveraging compromised on-premises AD to pivot into cloud resources (hybrid
+    identity attacks). Attack vectors include Azure AD/Entra ID misconfiguration, managed
+    identity abuse, storage account key exposure, overly permissive RBAC, Service Principal
+    credential theft, and cross-tenant attacks. The SolarWinds and Microsoft Exchange
+    breaches demonstrated sophisticated Azure-targeting campaigns.
+  how: >-
+    Azure uses Azure Resource Manager (ARM) for resource deployment with subscription and
+    resource group organization. Identity management centers on Azure AD/Entra ID with
+    Conditional Access policies, Privileged Identity Management (PIM), and managed identities.
+    Network security uses Network Security Groups, Azure Firewall, and Private Link. Microsoft
+    Defender for Cloud provides CSPM and CWP. Microsoft Sentinel provides cloud-native SIEM
+    and SOAR. Azure Policy enforces compliance. Key Vault manages secrets, keys, and
+    certificates. Azure Lighthouse enables cross-tenant management.
+  core_concepts:
+    - key: "Hybrid Identity and AD Integration"
+      value: "Deep integration with on-premises Active Directory creates hybrid identity attack paths where on-prem compromise leads to cloud takeover"
+    - key: "Managed Identity"
+      value: "Azure-managed identities eliminate credential management for service-to-service authentication; misconfigured managed identities enable privilege escalation"
+    - key: "Microsoft Defender for Cloud"
+      value: "Unified CSPM and CWP platform providing security posture management, vulnerability assessment, and workload protection across Azure and multi-cloud"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "Microsoft Azure is a major cloud service provider"
+  - type: "enables"
+    target: "INFRA-COMPUTE-AKS-001"
+    description: "Azure provides the AKS managed Kubernetes service"
+  - type: "enables"
+    target: "INFRA-COMPUTE-AZUCONCOM-001"
+    description: "Azure provides Confidential Computing for sensitive workloads"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft Azure Security Documentation", "CIS Microsoft Azure Benchmark", "MITRE ATT&CK Cloud Matrix"]
+  search_keywords: ["Microsoft Azure", "Azure security", "Azure AD", "Entra ID", "Azure RBAC", "managed identity", "Defender for Cloud", "Azure sentinel"]
+  embedding_text: >-
+    Microsoft Azure is a comprehensive cloud platform with 200+ services across compute,
+    storage, networking, identity, and security, operating in 60+ regions with deep Microsoft
+    ecosystem integration. Hybrid identity attacks leverage compromised on-premises AD to
+    pivot into cloud. Attack vectors include Entra ID misconfiguration, managed identity abuse,
+    storage key exposure, and Service Principal theft. Defender for Cloud provides CSPM/CWP.
+    Sentinel provides cloud-native SIEM/SOAR. Conditional Access and PIM control identity.
+    Azure Policy enforces compliance. Key Vault manages secrets and encryption.

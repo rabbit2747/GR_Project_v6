@@ -1,0 +1,120 @@
+# GR Atom: Weak Password Policy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-WEAKPASS-001"
+  name: "Weak Password Policy"
+  normalized_name: "weak_password_policy"
+  aliases:
+    - "Insufficient Password Requirements"
+    - "Weak Password Complexity"
+    - "Inadequate Password Policy"
+    - "Poor Password Standards"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - CONFIG
+    - CRED
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Active Directory Group Policy"
+    - "Application password policies"
+    - "Database authentication policies"
+    - "Cloud IAM password requirements"
+    - "Network device local accounts"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Weak Password Policy is a vulnerability class where authentication systems enforce insufficient
+    password complexity, length, rotation, or history requirements, enabling users to create easily
+    guessable or crackable passwords. This includes policies allowing short passwords (under 12
+    characters), no complexity requirements, no account lockout thresholds, no password history
+    enforcement, excessive password age allowances, use of common dictionary words, and failure
+    to screen passwords against known-breached credential lists. It also encompasses absence of
+    multi-factor authentication as a compensating control.
+  why: >-
+    Weak password policies are among the most commonly exploited vulnerabilities in enterprise
+    environments. Password spraying attacks succeed because organizations allow common patterns
+    like Season+Year (Winter2024!) or Company+Number (Acme123). The Verizon DBIR consistently
+    reports that compromised credentials are involved in over 80% of breaches. Without strong
+    password policies and MFA, organizations remain vulnerable to brute-force attacks, credential
+    stuffing, dictionary attacks, and social engineering. Default or weak passwords on network
+    devices, databases, and service accounts are frequent findings in penetration testing.
+  how: >-
+    Attackers exploit weak password policies through password spraying (testing common passwords
+    against many accounts), brute-force attacks, dictionary attacks, credential stuffing with
+    leaked passwords, and offline hash cracking of compromised databases. Mitigation includes
+    enforcing minimum 14-character passwords, implementing breach detection (NIST 800-63B
+    memorized secret screening), deploying multi-factor authentication on all accounts,
+    implementing progressive account lockout, using password managers, eliminating periodic
+    rotation requirements (per NIST guidance), blocking commonly used passwords, and monitoring
+    for authentication anomalies.
+  core_concepts:
+    - key: "Password Complexity vs. Length"
+      value: "Modern guidance (NIST 800-63B) emphasizes password length over complexity rules, as complexity requirements often lead to predictable patterns"
+    - key: "Defense in Depth Authentication"
+      value: "Password policies alone are insufficient; MFA, breach detection, lockout policies, and monitoring together create resilient authentication"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Weak password policy is a foundational authentication vulnerability enabling multiple attack techniques"
+  - type: "enables"
+    target: "VUL-AUTH-PASREUPAT-001"
+    description: "Weak policies encourage password reuse as users create the minimum acceptable passwords across services"
+  - type: "enables"
+    target: "VUL-AUTH-PASNOTREQ-001"
+    description: "Insufficient policy enforcement can result in accounts with no passwords or trivially guessable credentials"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1110.003"
+    tactic:
+      - "Credential Access"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NIST SP 800-63B Digital Identity Guidelines"
+    - "MITRE ATT&CK T1110.003 - Brute Force: Password Spraying"
+    - "OWASP Authentication Cheat Sheet"
+    - "Verizon Data Breach Investigations Report"
+    - "CIS Password Policy Guide"
+  search_keywords:
+    - "weak password policy"
+    - "password complexity requirements"
+    - "password spraying vulnerability"
+    - "brute force attack weak passwords"
+    - "NIST 800-63B password guidance"
+    - "password policy best practices"
+    - "credential compromise prevention"
+  embedding_text: >-
+    Weak Password Policy is a vulnerability class where authentication systems enforce insufficient
+    password complexity, length, or screening requirements. Enables password spraying, brute-force,
+    dictionary attacks, and credential stuffing. Common patterns like Season+Year succeed because
+    policies allow short or predictable passwords. Verizon DBIR reports compromised credentials in
+    over 80% of breaches. Modern NIST 800-63B guidance emphasizes length over complexity, breach
+    detection screening, and MFA as compensating controls. Mitigation includes 14+ character
+    minimums, breached password screening, MFA deployment, progressive lockout, password manager
+    adoption, eliminating periodic rotation, and monitoring authentication anomalies. Default
+    and weak passwords on devices and service accounts are frequent penetration testing findings.

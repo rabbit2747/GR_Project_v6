@@ -1,0 +1,120 @@
+# GR Atom: GDPR General Data Protection Regulation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-GDGEDAPRRE-001"
+  name: "GDPR General Data Protection Regulation"
+  normalized_name: "gdpr_general_data_protection_regulation"
+  aliases:
+    - "GDPR Full Regulation"
+    - "EU Regulation 2016/679 Complete"
+    - "GDPR Regulatory Framework"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    The GDPR General Data Protection Regulation is the complete regulatory framework encompassing
+    all 99 articles across 11 chapters and 173 recitals of Regulation (EU) 2016/679. This atom
+    represents the full legislative text as a unified legal instrument, covering: general provisions
+    and definitions (Chapter I), principles of processing (Chapter II), rights of data subjects
+    (Chapter III), obligations of controllers and processors (Chapter IV), international data
+    transfers (Chapter V), independent supervisory authorities (Chapter VI), cooperation and
+    consistency mechanisms (Chapter VII), remedies, liability, and penalties (Chapter VIII),
+    specific processing situations (Chapter IX), delegated and implementing acts (Chapter X),
+    and final provisions (Chapter XI).
+  why: >
+    Understanding the GDPR as a complete legal framework rather than individual articles is essential
+    for building comprehensive compliance programs. The regulation's chapters are interdependent,
+    with principles in Chapter II informing the interpretation of specific articles, and enforcement
+    provisions in Chapter VIII providing the incentive structure. Organizations must address the
+    regulation holistically to avoid gaps that arise from piecemeal implementation. The GDPR has
+    served as the model for data protection laws adopted globally, making it the de facto international
+    standard for personal data protection.
+  how: >
+    Organizations operationalize the full GDPR by establishing data governance frameworks that
+    address every chapter: defining processing principles and lawful bases, implementing data subject
+    rights workflows, appointing DPOs, conducting DPIAs, maintaining ROPAs, implementing technical
+    and organizational security measures, establishing cross-border transfer mechanisms, cooperating
+    with supervisory authorities, and building breach response procedures. Compliance requires
+    cross-functional coordination between legal, IT, security, HR, and business teams, supported
+    by continuous monitoring, regular audits, and training programs.
+  core_concepts:
+    - key: "Processing Principles"
+      value: "Lawfulness, fairness, transparency, purpose limitation, data minimization, accuracy, storage limitation, integrity and confidentiality, and accountability (Article 5)"
+    - key: "Territorial Scope"
+      value: "Applies to organizations established in the EU and those outside the EU offering goods/services to or monitoring behavior of EU data subjects (Article 3)"
+    - key: "Supervisory Authorities"
+      value: "Independent public authorities responsible for monitoring GDPR application, handling complaints, and enforcing compliance in each EU member state"
+    - key: "One-Stop-Shop Mechanism"
+      value: "Organizations with cross-border processing deal primarily with the supervisory authority of their main establishment"
+    - key: "Remedies and Penalties"
+      value: "Administrative fines up to 20 million EUR or 4% of global annual turnover, plus rights to compensation and judicial remedies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "The full GDPR regulation is a specific compliance law"
+  - type: enables
+    target: "COMP-LAW-GDPR-001"
+    description: "The full regulatory framework enables focused GDPR compliance implementations"
+  - type: enables
+    target: "COMP-LAW-GDPART25-001"
+    description: "The regulation establishes the legal authority for Article 25 requirements"
+  - type: enables
+    target: "COMP-LAW-GDPART32-001"
+    description: "The regulation establishes the legal authority for Article 32 requirements"
+  - type: enables
+    target: "COMP-LAW-GDDATRME-001"
+    description: "The regulation establishes the legal authority for data transfer mechanisms"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Regulation (EU) 2016/679 — Official Journal of the European Union, L 119, 4 May 2016"
+    - "European Data Protection Board (EDPB) — Official Guidelines and Opinions"
+    - "European Commission — Data Protection Overview and Resources"
+    - "Court of Justice of the European Union (CJEU) — GDPR Case Law"
+  search_keywords:
+    - "GDPR regulation full text"
+    - "general data protection regulation"
+    - "EU 2016/679"
+    - "GDPR chapters"
+    - "GDPR articles"
+    - "European data protection law"
+    - "GDPR supervisory authority"
+    - "GDPR territorial scope"
+    - "GDPR penalties fines"
+    - "GDPR complete framework"
+  embedding_text: >
+    The GDPR General Data Protection Regulation encompasses the complete legal text of Regulation
+    (EU) 2016/679, comprising 99 articles in 11 chapters and 173 recitals. It is the comprehensive
+    EU framework for personal data protection, covering processing principles, data subject rights,
+    controller and processor obligations, international data transfers, supervisory authority
+    powers, enforcement mechanisms, and penalties. The regulation applies extraterritorially to
+    any organization processing personal data of EU residents. It mandates accountability through
+    DPO appointments, DPIAs, ROPAs, breach notification, and technical security measures. The
+    GDPR has become the global benchmark for data protection legislation, with fines reaching
+    20 million EUR or 4% of global annual turnover.

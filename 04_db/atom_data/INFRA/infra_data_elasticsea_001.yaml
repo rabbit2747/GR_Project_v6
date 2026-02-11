@@ -1,0 +1,130 @@
+# GR Atom: Elasticsearch
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-ELASTICSEA-001"
+  name: "Elasticsearch"
+  normalized_name: "elasticsearch"
+  aliases:
+    - "Elastic Search"
+    - "ES"
+    - "ELK Stack"
+    - "Elastic"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - ELASTIC
+    - DATABASE
+    - SIEM
+    - LOG
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Elasticsearch is an open-source distributed search and analytics engine built on Apache
+    Lucene, developed by Elastic NV. It provides near-real-time full-text search, structured
+    search, analytics, and logging capabilities through a RESTful JSON API. Elasticsearch is
+    the core component of the Elastic Stack (ELK: Elasticsearch, Logstash, Kibana) widely used
+    for log aggregation, security information and event management (SIEM), application
+    performance monitoring, and business analytics. It stores data as JSON documents in
+    distributed indices across cluster nodes.
+  why: >-
+    Elasticsearch is critical from a security perspective for two reasons. First, it is widely
+    deployed as the search and analytics backend for security operations, powering SIEM
+    solutions, log analysis, and threat detection. Compromise of an Elasticsearch cluster
+    used for security monitoring blinds defenders. Second, Elasticsearch instances have been
+    frequently targeted due to default configurations that historically lacked authentication,
+    exposing sensitive data. Thousands of Elasticsearch instances have been found exposed to
+    the internet, leading to massive data breaches of indexed personal, financial, and health
+    data.
+  how: >-
+    Elasticsearch operates as a distributed cluster of nodes that index, store, and search JSON
+    documents. Documents are organized into indices, which are divided into shards distributed
+    across nodes. Queries are executed across relevant shards in parallel. The REST API on port
+    9200 handles indexing, searching, and cluster management. Security features in Elastic
+    Security (formerly X-Pack) include role-based access control, TLS encryption for inter-node
+    and client communication, audit logging, field-level and document-level security, and
+    integration with LDAP, Active Directory, SAML, and OIDC for authentication.
+  core_concepts:
+    - key: "Distributed Search Architecture"
+      value: >-
+        Elasticsearch distributes data across shards on multiple nodes, enabling horizontal
+        scaling of both storage capacity and query throughput for large-scale search and
+        analytics workloads.
+    - key: "Security Monitoring Foundation"
+      value: >-
+        Elasticsearch powers many SIEM deployments and security analytics platforms, making
+        its availability and integrity critical for security operations and threat detection.
+    - key: "Default Configuration Risks"
+      value: >-
+        Elasticsearch historically shipped without authentication enabled by default, leading
+        to widespread exposure of sensitive indexed data on internet-facing instances.
+    - key: "Elastic Security (X-Pack)"
+      value: >-
+        The security module provides RBAC, TLS encryption, audit logging, field-level security,
+        and integration with enterprise identity providers for comprehensive access control.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Elasticsearch is a distributed database service specializing in full-text search and analytics"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "Elasticsearch is a data store that persists JSON documents in distributed indices"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "Elasticsearch enables database applications through its RESTful API for search, analytics, and log management"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1213"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Elasticsearch official documentation. https://www.elastic.co/guide/en/elasticsearch/reference/current/"
+    - "Elastic Security documentation. https://www.elastic.co/guide/en/elasticsearch/reference/current/security-settings.html"
+    - "MITRE ATT&CK T1213 - Data from Information Repositories."
+  search_keywords:
+    - "Elasticsearch"
+    - "Elastic Stack"
+    - "ELK Stack"
+    - "Elasticsearch security"
+    - "Elasticsearch exposure"
+    - "Elasticsearch SIEM"
+    - "distributed search engine"
+    - "Kibana"
+    - "log analytics"
+  embedding_text: >-
+    Elasticsearch is an open-source distributed search and analytics engine built on Apache
+    Lucene. It provides near-real-time full-text search, structured search, analytics, and
+    logging through a RESTful JSON API on port 9200. As the core of the Elastic Stack (ELK),
+    it powers SIEM solutions, log aggregation, and security analytics. Elasticsearch stores
+    JSON documents in distributed indices across cluster nodes with shard-based parallelism.
+    Security features include RBAC, TLS encryption, audit logging, field and document-level
+    security, and LDAP/SAML/OIDC integration. Elasticsearch is security-critical as both a
+    defensive tool powering SIEM and threat detection, and a frequent attack target due to
+    historical default configurations lacking authentication. Thousands of exposed instances
+    have led to massive data breaches. It maps to MITRE ATT&CK T1213 (Data from Information
+    Repositories) as adversaries target indexed sensitive data.

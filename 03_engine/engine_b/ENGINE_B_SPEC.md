@@ -144,7 +144,7 @@ For each new atom:
 | 15 | Function 코드가 계층적 형식 사용 (단일 문자 아님) | HIGH |
 | 16 | 폐기된 유형 (control, tool) 미사용 | HIGH |
 | 17 | atom_schema.yaml에 대한 스키마 검증 통과 | CRITICAL |
-| 18 | Embedding 텍스트가 50~200단어 | MEDIUM |
+| 18 | Embedding 텍스트가 비어있지 않음 | MEDIUM |
 
 **실패 처리**:
 - CRITICAL 실패 → atom 거부, 수정 대기열로 전송

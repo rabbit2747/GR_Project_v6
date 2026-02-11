@@ -1,0 +1,74 @@
+# GR Atom: Sigma Rule Structure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-SIGRULSTR-001"
+  name: "Sigma Rule Structure"
+  normalized_name: "sigma_rule_structure"
+  aliases:
+    - "Sigma Rule Format"
+    - "Sigma Rule Schema"
+    - "Sigma Rule Specification"
+    - "Sigma YAML Structure"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - BLUE_TEAM
+    - LOG
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "The Sigma rule structure defines the standardized YAML schema that all Sigma detection rules must follow. A Sigma rule consists of required and optional sections: title (human-readable name), id (UUID for unique identification), status (experimental, test, stable, deprecated, unsupported), description (what the rule detects and context), references (external documentation links), author, date, modified, logsource (product, category, service defining the target log source), detection (named conditions with field:value pairs combined using Boolean condition expressions), falsepositives (known benign triggers), level (informational, low, medium, high, critical), and tags (MITRE ATT&CK technique identifiers using attack.tXXXX format). The detection section is the core of the structure, containing named search identifiers with field conditions that use modifiers and a condition expression combining them with AND, OR, NOT, and parenthetical grouping."
+  why: "A standardized rule structure is essential for the Sigma ecosystem to function because it enables automated processing, compilation, validation, and sharing of detection rules across the community. The structure ensures that every Sigma rule contains sufficient metadata for analysts to understand what is being detected, why it matters, and what false positives to expect. The standardized logsource and detection sections enable automated compilation to any target SIEM platform. Without a rigorous structure, rule quality would be inconsistent, compilation would fail, and the community repository would lack the reliability needed for production deployment."
+  how: "The Sigma rule structure is enforced through the Sigma specification and validated by pySigma during rule loading and compilation. Rule authors create YAML files following the schema, starting with metadata (title, id, status, description), defining the target log source (logsource section with product/category/service), writing detection logic (detection section with named conditions and a condition expression), and adding operational metadata (falsepositives, level, tags). The detection section uses field names as keys with values that can be strings, lists (OR logic), or nested maps. Modifiers are appended to field names with pipe syntax. The condition field uses Boolean expressions referencing named detection items. Validation tools check structure compliance before rules are committed to the repository."
+  core_concepts:
+    - key: "Logsource Definition"
+      value: "The product, category, and service fields that abstractly identify the target log source without vendor-specific naming"
+    - key: "Detection Section"
+      value: "Named search identifiers with field:value conditions combined by a Boolean condition expression forming the core detection logic"
+    - key: "Condition Expression"
+      value: "Boolean logic combining named detection items using AND, OR, NOT, and parenthetical grouping to form complex detection conditions"
+    - key: "Rule Lifecycle States"
+      value: "Status field tracking rule maturity from experimental through test, stable, deprecated, and unsupported"
+
+relations:
+  - type: enables
+    target: "DETECT-SIGNATURE-SIGMRULE-001"
+    description: "The Sigma rule structure defines the format that all Sigma rules must follow"
+  - type: enables
+    target: "DETECT-SIGNATURE-SIGRULMOD-001"
+    description: "The Sigma rule structure provides the framework within which modifiers operate"
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-SNORULSTR-001"
+    description: "Sigma rule structure is the SIEM-focused counterpart to Snort rule structure for network detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Sigma Specification - https://sigmahq.io/docs/guide/getting-started.html"
+    - "SigmaHQ GitHub Repository - https://github.com/SigmaHQ/sigma/wiki/Specification"
+    - "Sigma Rule Creation Guide - https://sigmahq.io/docs/guide/rules.html"
+  search_keywords:
+    - "Sigma rule structure"
+    - "Sigma rule format"
+    - "Sigma YAML schema"
+    - "Sigma rule specification"
+    - "Sigma detection section"
+    - "Sigma logsource"
+    - "Sigma condition expression"
+    - "Sigma rule template"
+  embedding_text: "The Sigma rule structure defines the standardized YAML schema for all Sigma detection rules. Required sections include title, id (UUID), status, description, logsource (product/category/service), detection (named conditions with field:value pairs and Boolean condition expression), level, and tags. The detection section contains named search identifiers with field conditions using modifiers and a condition field combining them with AND/OR/NOT logic. The logsource section abstractly identifies target log sources without vendor-specific naming. The structure enables automated compilation to any target SIEM platform and ensures consistent metadata for rule understanding, false positive documentation, and MITRE ATT&CK mapping through standardized tags."

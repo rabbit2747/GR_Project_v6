@@ -1,0 +1,78 @@
+# GR Atom: Anomalous Process
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-ANOMPROC-001"
+  name: "Anomalous Process"
+  normalized_name: "anomalous_process"
+  aliases:
+    - "Suspicious Process Detection"
+    - "Abnormal Process Behavior"
+    - "Process Anomaly Detection"
+    - "Unusual Process Activity"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EXEC
+    - EDR
+    - MONITOR
+    - OS
+    - EVADE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Anomalous Process detection is a comprehensive behavioral analysis pattern that identifies processes exhibiting characteristics that deviate from established baselines of normal system activity. This includes processes running from unusual file paths, processes with unexpected names or hashes, processes executing at unusual times, processes consuming abnormal resource levels, processes making unexpected network connections, processes with unusual command-line arguments, and processes exhibiting suspicious memory patterns. The technique combines multiple indicators including process name, path, hash, parent process, command-line arguments, network activity, file system activity, registry modifications, user context, and temporal patterns."
+  why: "Malware, fileless attacks, and advanced persistent threats often manifest as anomalous processes that deviate from normal system behavior. While signature-based detection can identify known threats, behavioral process analysis detects novel and polymorphic malware, living-off-the-land techniques, and zero-day exploits that lack known signatures. Process-level behavioral analysis is a cornerstone of modern endpoint detection and response, providing visibility into threat actor activities across the entire kill chain from initial execution through persistence, lateral movement, and data exfiltration."
+  how: "EDR solutions and SIEM platforms collect process creation events via operating system telemetry such as Windows ETW, Sysmon, Linux auditd, or macOS Endpoint Security Framework. Machine learning models and statistical analysis establish baselines of normal process behavior per endpoint, user, and organizational unit. Real-time analysis compares each new process against these baselines across multiple dimensions. Scoring algorithms aggregate individual anomaly signals into composite risk scores. High-confidence detections trigger automated response actions while medium-confidence detections generate alerts for analyst review. Contextual enrichment from threat intelligence, asset inventory, and user behavior analytics improves detection accuracy."
+  core_concepts:
+    - key: "Process Baseline"
+      value: "A statistical model of normal process behavior derived from historical telemetry, used as the reference for anomaly detection"
+    - key: "Behavioral Indicators"
+      value: "Observable process attributes including path, arguments, network connections, and resource usage that are evaluated against baselines"
+    - key: "Composite Risk Score"
+      value: "An aggregated score combining multiple individual anomaly signals to determine the overall suspiciousness of a process"
+
+relations:
+  - type: is_a
+    target: "DETECT-BEHAVIOR-BEHCORWIN-001"
+    description: "Anomalous process detection is a specific application of behavioral correlation within a detection window"
+  - type: requires
+    target: "DETECT-BEHAVIOR-ANOMPARE-001"
+    description: "Anomalous process detection incorporates parent process analysis as a key detection dimension"
+  - type: effective_against
+    target: "ATK-EXEC-EXPLOIT-001"
+    description: "Detects malicious process execution resulting from exploitation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic: ["Execution", "Defense Evasion", "Persistence"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Execution Tactic - https://attack.mitre.org/tactics/TA0002/"
+    - "Microsoft Defender for Endpoint - Behavioral Detection - https://learn.microsoft.com/en-us/defender-endpoint/"
+    - "CrowdStrike - Process Behavioral Analysis - https://www.crowdstrike.com/cybersecurity-101/endpoint-detection-and-response/"
+  search_keywords:
+    - "anomalous process detection"
+    - "suspicious process behavior"
+    - "process anomaly EDR"
+    - "behavioral process analysis"
+    - "unusual process activity"
+    - "endpoint process monitoring"
+    - "process baseline deviation"
+    - "malicious process identification"
+  embedding_text: "Anomalous Process detection identifies processes exhibiting behavior that deviates from established baselines of normal system activity. It evaluates multiple dimensions including process path, name, hash, parent process, command-line arguments, network connections, file system operations, resource consumption, and temporal patterns. EDR platforms collect process telemetry via OS-level instrumentation and apply machine learning models and statistical analysis to establish per-endpoint baselines. Composite risk scores aggregate individual anomaly signals to determine overall process suspiciousness. This technique is fundamental to detecting novel malware, fileless attacks, living-off-the-land techniques, and zero-day exploits that evade signature-based detection across the entire attack kill chain."

@@ -1,0 +1,102 @@
+# GR Atom: CVE-2014-6517
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-CVE20146517-001"
+  name: "CVE-2014-6517"
+  normalized_name: "cve_2014_6517"
+  aliases:
+    - "Oracle Database XML Parser Information Disclosure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - DATABASE
+    - XXE
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Database Server 11.2.0.4"
+    - "Oracle Database Server 12.1.0.1"
+    - "Oracle Database Server 12.1.0.2"
+    - "Oracle XML Parser"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-6517 is an information disclosure vulnerability in the XML Parser component of
+    Oracle Database Server versions 11.2.0.4, 12.1.0.1, and 12.1.0.2. A remote authenticated
+    attacker can exploit this vulnerability via the Oracle Net protocol to read arbitrary files
+    from the database server or cause partial denial of service. The vulnerability has a CVSS v2
+    base score of 6.8 and affects the confidentiality and availability of the system.
+  why: >-
+    Oracle Database servers are critical enterprise infrastructure holding sensitive business data.
+    Information disclosure from the database server's XML parser can expose configuration files,
+    credentials, and internal network information. As a network-accessible vulnerability requiring
+    only low-privileged authentication, it presents a significant risk in enterprise environments
+    where Oracle databases are widely deployed.
+  how: >-
+    The vulnerability exists in the Oracle XML Parser component and is exploitable through the
+    Oracle Net protocol. An authenticated attacker with network access sends specially crafted
+    XML data that exploits the parser's improper handling of external entities or document
+    processing. This allows reading of server-side files and can cause partial denial of service
+    through resource consumption during XML parsing operations.
+  core_concepts:
+    - key: "XML Parser Exploitation"
+      value: "Oracle Database XML Parser improperly processes XML data allowing file read and denial of service via Oracle Net"
+    - key: "Database Server Exposure"
+      value: "Network-accessible vulnerability in critical database infrastructure exposing server files to authenticated attackers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "CVE-2014-6517 is an information disclosure vulnerability in Oracle Database XML Parser"
+  - type: "enables"
+    target: "VUL-INFO-INSEKEAC-001"
+    description: "File read capability can expose database credentials and secret keys stored on the server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2014-6517"
+    - "Oracle Critical Patch Update October 2014"
+    - "MITRE CVE Database"
+  search_keywords:
+    - "CVE-2014-6517"
+    - "Oracle Database"
+    - "XML Parser vulnerability"
+    - "Oracle Net"
+    - "information disclosure"
+    - "database file read"
+    - "Oracle CPU October 2014"
+  embedding_text: >-
+    CVE-2014-6517 is an information disclosure vulnerability in the XML Parser component of
+    Oracle Database Server versions 11.2.0.4, 12.1.0.1, and 12.1.0.2. Exploitable via Oracle
+    Net protocol by authenticated attackers, it allows reading arbitrary server files and partial
+    denial of service. CVSS v2 score 6.8. The XML Parser improperly handles crafted XML input
+    enabling file system access from the database server. Oracle databases are critical enterprise
+    infrastructure making this a significant risk for file disclosure and credential exposure.
+    Patched in Oracle Critical Patch Update October 2014.

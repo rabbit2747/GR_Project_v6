@@ -1,0 +1,71 @@
+# GR Atom: Kubernetes Ephemeral Container
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-KUBEPHCON-001"
+  name: "Kubernetes Ephemeral Container"
+  normalized_name: "kubernetes_ephemeral_container"
+  aliases: ["Ephemeral Container", "Debug Container", "kubectl debug Container"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [K8S, CONTAINER, EXEC]
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "R1.2"
+definition:
+  what: >-
+    Kubernetes Ephemeral Containers are temporary containers added to existing Pods for
+    debugging and troubleshooting purposes. Unlike regular containers, ephemeral containers
+    are not defined in the Pod spec, cannot be restarted, and have no resource guarantees.
+    They are injected into running Pods via the kubectl debug command or API, sharing the Pod's
+    namespaces (PID, network, IPC) to inspect application processes, network traffic, and
+    filesystem state without modifying the original Pod definition.
+  why: >-
+    Ephemeral containers present security risks because they can bypass normal admission
+    control policies and PodSecurity standards that apply to regular containers. An attacker
+    with kubectl debug permissions can inject debugging containers with elevated capabilities
+    into production pods, accessing sensitive data, environment variables, secrets mounted in
+    the pod, and network traffic. Monitoring ephemeral container creation is essential for
+    detecting unauthorized debugging access to production workloads.
+  how: >-
+    Ephemeral containers are created via the Pod's ephemeralcontainers subresource using
+    kubectl debug or direct API calls. They share the target Pod's Linux namespaces enabling
+    process inspection (shared PID namespace), network analysis (shared network namespace),
+    and filesystem access. RBAC controls who can create ephemeral containers via the
+    pods/ephemeralcontainers resource. Admission controllers can restrict ephemeral container
+    images and capabilities. Audit logging captures ephemeral container creation events for
+    security monitoring and forensic analysis.
+  core_concepts:
+    - key: "Admission Control Bypass"
+      value: "Ephemeral containers may bypass PodSecurity standards and OPA policies designed for regular containers, requiring separate admission rules"
+    - key: "Namespace Sharing"
+      value: "Ephemeral containers share PID, network, and IPC namespaces with the target Pod, enabling deep inspection but also potential data access"
+    - key: "RBAC for Debug Access"
+      value: "pods/ephemeralcontainers RBAC permissions control who can inject debug containers, requiring strict access control in production"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "Ephemeral containers are a Kubernetes debugging feature"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Ephemeral containers require a container runtime for execution"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Kubernetes Ephemeral Containers Documentation", "NSA/CISA Kubernetes Hardening Guide", "MITRE ATT&CK T1610 - Deploy Container"]
+  search_keywords: ["ephemeral container", "kubectl debug", "kubernetes debugging", "debug container", "ephemeral container security", "pod debugging", "container injection"]
+  embedding_text: >-
+    Kubernetes Ephemeral Containers are temporary containers injected into running Pods for
+    debugging via kubectl debug or API. They share the Pod's PID, network, and IPC namespaces
+    for process and network inspection. Security risks include bypassing admission control
+    policies and PodSecurity standards, accessing mounted secrets and environment variables,
+    and unauthorized access to production workloads. RBAC controls via pods/ephemeralcontainers
+    resource restrict creation. Admission controllers should enforce image and capability
+    restrictions. Audit logging captures creation events for security monitoring.

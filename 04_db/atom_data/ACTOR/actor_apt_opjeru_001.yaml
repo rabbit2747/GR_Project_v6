@@ -1,0 +1,76 @@
+# GR Atom: Op Jerusalem
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OPJERU-001"
+  name: "Op Jerusalem"
+  normalized_name: "op_jerusalem"
+  aliases:
+    - "Operation Parliament"
+    - "Gaza Cybergang Parliament"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "C2"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "government workstations"
+    - "parliamentary systems"
+    - "diplomatic networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Op Jerusalem (Operation Parliament) is a targeted cyber espionage campaign attributed to the Gaza Cybergang, active since at least 2018, targeting high-profile political entities including parliaments, senates, government offices, and political figures primarily in the Middle East and North Africa region. The operation was documented by Kaspersky and focuses on politically sensitive targets with connections to the Israeli-Palestinian conflict."
+  why: "The operation aims to collect political intelligence on governmental decision-making processes, parliamentary deliberations, and diplomatic positions regarding the Israeli-Palestinian conflict and broader Middle Eastern geopolitics. Targets are selected based on their political significance and potential intelligence value regarding regional power dynamics and peace process developments."
+  how: "The campaign employs spear-phishing emails with politically themed lures relevant to current events in the Middle East, delivering weaponized documents that exploit Microsoft Office vulnerabilities. Malware deployed includes custom backdoors with keylogging, screenshot capture, and document theft capabilities. The attackers use multi-stage infection chains with initial downloaders leading to more capable implants, and establish C2 through HTTP-based protocols with basic encryption. The operation demonstrates moderate sophistication with focus on intelligence value over technical complexity."
+  core_concepts:
+    - "political espionage campaign"
+    - "Gaza Cybergang operations"
+    - "parliamentary and government targeting"
+    - "Middle Eastern political intelligence"
+    - "Israeli-Palestinian conflict related"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-MOSESTAF-001"
+    description: "Both operations target politically significant entities in the Middle Eastern conflict zone"
+  - type: "applies_to"
+    target: "ACTOR-APT-MUDDYWATER-001"
+    description: "Overlapping Middle Eastern government targets with Iranian APT operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Kaspersky - Operation Parliament: Targeting High-Profile Entities (2018)"
+    - "Kaspersky - Gaza Cybergang Group Analysis"
+  search_keywords:
+    - "op jerusalem"
+    - "operation parliament"
+    - "gaza cybergang"
+    - "middle east political espionage"
+    - "parliament targeting APT"
+    - "MENA cyber espionage"
+    - "palestinian threat actor"
+  embedding_text: "Op Jerusalem, also known as Operation Parliament, is a cyber espionage campaign attributed to the Gaza Cybergang targeting high-profile political entities including parliaments, senates, government offices, and political figures in the Middle East and North Africa. Documented by Kaspersky, the campaign has been active since at least 2018 with operations focused on collecting political intelligence related to the Israeli-Palestinian conflict and broader regional geopolitics. Attack methods include spear-phishing with politically themed lures exploiting Microsoft Office vulnerabilities, multi-stage infection chains with custom backdoors featuring keylogging and document theft capabilities, and HTTP-based C2 communications. The operation targets parliamentary deliberations, diplomatic positions, and governmental decision-making processes. Op Jerusalem demonstrates the intersection of regional political conflicts and cyber espionage capabilities in the Middle Eastern threat landscape."

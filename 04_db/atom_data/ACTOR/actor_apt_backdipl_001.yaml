@@ -1,0 +1,86 @@
+# GR Atom: Backdoor Diplomacy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BACKDIPL-001"
+  name: "Backdoor Diplomacy"
+  normalized_name: "backdoor_diplomacy"
+  aliases:
+    - "CloudComputating"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - C2
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Backdoor Diplomacy is a Chinese-linked APT group active since at least 2017, targeting diplomatic missions, ministries of foreign affairs, and telecommunications companies across Africa, the Middle East, Europe, and Central Asia. The group is known for exploiting internet-facing web servers and management interfaces to gain initial access, and for deploying the Turian backdoor, an evolution of the Quarian backdoor previously associated with other Chinese APT clusters."
+  why: "This actor is significant because it targets diplomatic organizations and foreign affairs ministries, enabling state-level intelligence collection on foreign policy and intergovernmental relations. The group has also demonstrated the ability to detect and exploit removable media such as USB drives on compromised systems, broadening their data collection from air-gapped or isolated networks."
+  how: "Backdoor Diplomacy exploits vulnerabilities in internet-facing applications such as Microsoft Exchange, web servers, and network management interfaces. Post-exploitation involves deploying the Turian backdoor for persistent access and command-and-control communication. The group uses DLL search order hijacking, open-source tools like EarthWorm for network tunneling, and scripts to detect newly inserted USB drives for data collection. They also leverage legitimate cloud storage services as C2 channels."
+  core_concepts:
+    - key: "Diplomatic Targeting"
+      value: "Primary focus on foreign ministries and diplomatic entities for intelligence collection on foreign policy"
+    - key: "Internet-Facing Exploitation"
+      value: "Gains initial access by exploiting vulnerabilities in web-facing servers and management interfaces"
+    - key: "Turian Backdoor"
+      value: "Custom backdoor evolved from the Quarian implant, providing persistent access and C2 capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses exploitation of internet-facing applications for initial access"
+  - type: is_a
+    target: "ACTOR-APT-BACKDIPL-001"
+    description: "Chinese-aligned APT group targeting diplomatic entities"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Command and Control"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "ESET Research - BackdoorDiplomacy Group Analysis"
+    - "Palo Alto Unit 42 - Turian Backdoor Report"
+    - "Bitdefender - Backdoor Diplomacy Campaign"
+  search_keywords:
+    - "backdoor diplomacy"
+    - "turian backdoor"
+    - "quarian backdoor"
+    - "chinese apt diplomatic"
+    - "cloudcomputating"
+    - "foreign ministry targeting"
+    - "dll search order hijacking"
+    - "earthworm tunnel"
+    - "diplomatic espionage"
+    - "exchange exploitation apt"
+  embedding_text: "Backdoor Diplomacy is a Chinese-aligned advanced persistent threat group active since 2017 that targets diplomatic missions, ministries of foreign affairs, and telecommunications companies across Africa, the Middle East, Europe, and Central Asia. The group exploits internet-facing web servers and management interfaces for initial access, then deploys the Turian backdoor, an evolution of the Quarian implant. Key techniques include DLL search order hijacking, network tunneling with open-source tools like EarthWorm, and USB drive detection for collecting data from isolated networks. The group leverages legitimate cloud services for command-and-control communications, making detection more challenging. Their operations focus on intelligence collection relevant to foreign policy and intergovernmental diplomatic relations."

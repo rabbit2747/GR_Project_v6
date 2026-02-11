@@ -1,0 +1,121 @@
+# GR Atom: AWS Verified Access
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AWSVERACC-001"
+  name: "AWS Verified Access"
+  normalized_name: "aws_verified_access"
+  aliases:
+    - "Amazon Verified Access"
+    - "AVA"
+    - "AWS Zero Trust Access"
+    - "Verified Access Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - ZTNA
+    - AUTHZ
+    - AUTHN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z1"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS Verified Access is a zero trust network access service that provides secure access
+    to corporate applications without requiring a VPN. It evaluates each access request
+    against defined access policies using identity and device trust signals from AWS IAM
+    Identity Center, third-party identity providers, and device management solutions. Verified
+    Access acts as an application-layer gateway that enforces contextual access decisions
+    based on user identity, device posture, and organizational policies before granting
+    access to protected resources.
+  why: >-
+    Verified Access reduces the attack surface by eliminating broad network-level VPN access
+    in favor of application-specific zero trust policies. However, misconfigured access
+    policies, weak trust provider integrations, or overly permissive default rules can
+    undermine the zero trust model. Attackers may attempt to bypass Verified Access through
+    direct application access if security groups are not properly locked down, or exploit
+    trust provider weaknesses to forge device posture signals. Proper configuration is
+    essential to ensure the service actually enforces the intended zero trust posture.
+  how: >-
+    Verified Access instances are created with associated trust providers (identity providers
+    and device trust providers). Access groups define sets of applications sharing common
+    access requirements. Cedar-based access policies evaluate trust context including user
+    attributes, group memberships, and device security posture for each request. Traffic
+    flows through Verified Access endpoints that terminate TLS and enforce policy decisions
+    before proxying requests to backend applications. Access logs are sent to CloudWatch,
+    S3, or Kinesis for monitoring and compliance auditing.
+  core_concepts:
+    - key: "Zero Trust Policy Evaluation"
+      value: "Evaluates each access request against Cedar-based policies using identity and device trust signals before granting application access"
+    - key: "VPN Replacement"
+      value: "Eliminates broad network-level VPN access in favor of application-specific contextual access decisions"
+    - key: "Trust Provider Integration"
+      value: "Integrates with IAM Identity Center and third-party IdPs for user identity, plus device management solutions for device posture assessment"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-AWIAIDAC-001"
+    description: "Verified Access integrates with AWS IAM for identity trust provider configuration"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Verified Access implements contextual authorization decisions using zero trust access policies"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Provides authenticated access to applications through identity provider integration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1090"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - AWS Verified Access"
+    - "AWS Blog - Introducing AWS Verified Access"
+    - "NIST SP 800-207 - Zero Trust Architecture"
+  search_keywords:
+    - "AWS Verified Access"
+    - "Amazon Verified Access"
+    - "AWS zero trust"
+    - "ZTNA AWS"
+    - "VPN replacement AWS"
+    - "Cedar access policy"
+    - "device posture AWS"
+    - "application-level zero trust"
+  embedding_text: >-
+    AWS Verified Access is a zero trust network access service that provides secure
+    application access without VPNs by evaluating each request against Cedar-based access
+    policies using identity and device trust signals. It integrates with AWS IAM Identity
+    Center, third-party identity providers, and device management solutions to assess user
+    identity, group memberships, and device security posture. Verified Access instances
+    contain trust providers and access groups defining application sets with shared access
+    requirements. Traffic flows through Verified Access endpoints that enforce policy
+    decisions before proxying to backend applications. The service reduces attack surface
+    by eliminating broad VPN access in favor of application-specific decisions. Security
+    teams must properly configure access policies, lock down security groups to prevent
+    direct bypass, validate trust provider integrations, and monitor access logs for
+    anomalous patterns to maintain zero trust enforcement.

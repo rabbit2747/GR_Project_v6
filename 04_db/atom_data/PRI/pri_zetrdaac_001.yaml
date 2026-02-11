@@ -1,0 +1,140 @@
+# GR Atom: Zero Trust Data Access
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PRI-ZETRDAAC-001"
+  name: "Zero Trust Data Access"
+  normalized_name: "zero_trust_data_access"
+  aliases:
+    - "ZTDA"
+    - "Zero Trust Data Protection"
+    - "Data-Centric Zero Trust"
+    - "Zero Trust Data Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "principle"
+  abstraction_level: 3
+  atom_tags:
+    - ZTNA
+    - ENCRYPT
+    - PAM
+    - DLP
+    - AUDIT
+    - CLOUD
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Zero Trust Data Access is a security principle that applies Zero Trust tenets specifically to data
+    protection and access control, requiring that every data access request is explicitly verified,
+    authorized based on real-time context, and governed by least-privilege policies regardless of the
+    requester's network location or identity. It mandates continuous evaluation of data classification,
+    user context, device posture, and environmental risk signals before granting access to any data
+    resource. As defined in NIST SP 800-207 and CISA Zero Trust Maturity Model, data is treated as
+    the primary asset to protect, with access decisions enforced at the data layer rather than solely
+    at the network perimeter.
+  why: >-
+    Traditional perimeter-based access controls fail to protect data once an attacker or insider
+    breaches the network boundary. Data is the ultimate target of most cyberattacks, making
+    data-centric access controls essential. Without Zero Trust Data Access, organizations face
+    risks of unauthorized data exfiltration, lateral movement exploiting implicit trust, and
+    regulatory non-compliance with frameworks such as GDPR, HIPAA, and PCI DSS that mandate
+    granular data access controls.
+  how: >-
+    Implementation involves classifying and tagging all data assets, deploying attribute-based
+    access control (ABAC) or policy-based access control (PBAC) engines, enforcing encryption
+    for data at rest and in transit, implementing data loss prevention (DLP) controls, applying
+    micro-segmentation at the data layer, and continuously monitoring and logging all data access
+    events. Access decisions incorporate real-time signals including user identity, device health,
+    location, time of access, data sensitivity level, and behavioral analytics.
+  core_concepts:
+    - key: "Data Classification"
+      value: "Systematic categorization of data by sensitivity level (public, internal, confidential, restricted) to determine appropriate access controls and protection mechanisms."
+    - key: "Attribute-Based Access Control"
+      value: "Access decisions based on attributes of the user, resource, action, and environment rather than static role assignments, enabling fine-grained and context-aware authorization."
+    - key: "Data Encryption Everywhere"
+      value: "Mandatory encryption of data at rest, in transit, and in use, ensuring that even if access controls are bypassed, data remains protected from unauthorized disclosure."
+    - key: "Continuous Authorization"
+      value: "Ongoing evaluation of access permissions throughout a session rather than one-time authentication, revoking access when risk conditions change."
+    - key: "Data Loss Prevention"
+      value: "Technical controls that monitor, detect, and block unauthorized data transfers or exfiltration attempts based on data classification policies."
+    - key: "Micro-Segmentation at Data Layer"
+      value: "Isolating data stores and enforcing granular access policies between data segments to prevent lateral movement and limit blast radius of breaches."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PRI-ZEROTRUS-001"
+    description: "Data access control sub-principle of the overarching Zero Trust security model"
+  - type: "refines"
+    target: "PRI-ZERTRUPRI-001"
+    description: "Applies the core Never Trust Always Verify principle specifically to data access scenarios"
+  - type: "implements"
+    target: "PRI-ZERTRUPIL-001"
+    description: "Implements the Data pillar of the Zero Trust Pillars framework"
+  - type: "requires"
+    target: "PRI-ZEROTRUS-001"
+    description: "Requires the foundational Zero Trust architecture to be established before data-centric controls can be effectively applied"
+  - type: "enables"
+    target: "PRI-PRIVDESI-001"
+    description: "Enables Privacy by Design through granular data access controls and continuous authorization"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-DA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-207 — Zero Trust Architecture (2020)"
+    - "CISA Zero Trust Maturity Model v2.0 (2023)"
+    - "DoD Zero Trust Reference Architecture v2.0 (2022)"
+    - "NIST SP 800-171 Rev.3 — Protecting Controlled Unclassified Information"
+    - "Forrester Zero Trust eXtended (ZTX) Framework"
+  search_keywords:
+    - "zero trust data access"
+    - "data-centric security"
+    - "ZTDA"
+    - "attribute-based access control"
+    - "ABAC"
+    - "data classification"
+    - "data loss prevention"
+    - "DLP"
+    - "continuous authorization"
+    - "micro-segmentation data"
+    - "least privilege data access"
+    - "data encryption"
+    - "NIST 800-207 data"
+    - "data protection zero trust"
+    - "granular access control"
+  embedding_text: >-
+    Zero Trust Data Access is a security principle that applies Zero Trust concepts directly to
+    data protection and access control. It requires explicit verification of every data access
+    request based on real-time context including user identity, device posture, location, data
+    sensitivity, and behavioral signals. Rather than relying on network perimeter defenses, this
+    principle treats data as the primary asset to protect and enforces access decisions at the
+    data layer itself. Key implementation mechanisms include data classification and tagging,
+    attribute-based access control (ABAC), mandatory encryption for data at rest and in transit,
+    data loss prevention (DLP) controls, micro-segmentation at the data layer, and continuous
+    monitoring of all data access events. Defined in NIST SP 800-207 and the CISA Zero Trust
+    Maturity Model, Zero Trust Data Access addresses the fundamental limitation of perimeter-based
+    security by ensuring that no implicit trust is granted to any entity accessing data resources,
+    regardless of their network location or prior authentication status. This principle is essential
+    for regulatory compliance with GDPR, HIPAA, and PCI DSS.

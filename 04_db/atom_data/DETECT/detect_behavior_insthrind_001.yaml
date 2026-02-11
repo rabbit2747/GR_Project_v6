@@ -1,0 +1,78 @@
+# GR Atom: Insider Threat Indicators
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-INSTHRIND-001"
+  name: "Insider Threat Indicators"
+  normalized_name: "insider_threat_indicators"
+  aliases:
+    - "Insider Risk Detection"
+    - "Insider Threat Behavioral Indicators"
+    - "Employee Threat Monitoring"
+    - "UEBA Insider Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - MONITOR
+    - DLP
+    - EXFIL
+    - AUDIT
+    - COLLECT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Insider Threat Indicators is a behavioral detection framework that identifies patterns of activity suggesting malicious, negligent, or compromised insider behavior. The framework monitors multiple data channels including file access patterns, email activity, printing behavior, USB device usage, cloud storage uploads, application access, working hour patterns, and communication sentiment. It establishes baselines of normal behavior for each user and identifies deviations that may indicate data theft, intellectual property exfiltration, sabotage preparation, or unauthorized access motivated by financial gain, ideological reasons, or coercion. The detection combines technical indicators with contextual risk factors such as imminent departure, disciplinary actions, or access to sensitive systems."
+  why: "Insider threats represent one of the most damaging and difficult-to-detect categories of security incidents. Insiders have legitimate access to systems and data, making their malicious actions harder to distinguish from normal work activities. Studies consistently show that insider incidents result in higher average costs than external breaches due to the insider's knowledge of valuable data locations and security control gaps. Detection is particularly challenging because many insider activities individually appear legitimate, requiring behavioral analysis across multiple data channels over extended time periods to identify the combination of indicators that distinguish malicious intent from normal operations."
+  how: "Insider threat detection platforms aggregate data from multiple sources including DLP systems, CASB platforms, endpoint monitoring, email gateways, HR systems, physical access logs, and network monitoring. User and entity behavior analytics (UEBA) establish per-user baselines across all monitored channels. Detection models identify risk indicators including sudden increases in file downloads or email forwarding to personal accounts, access to sensitive data outside job responsibilities, large data transfers to removable media or cloud storage, unusual working hours or remote access patterns, and attempts to circumvent security controls. Contextual enrichment from HR systems adds risk modifiers for employees in notice periods, under investigation, with access to critical systems, or with recent negative performance reviews. Machine learning models produce composite insider risk scores that combine technical indicators with contextual risk factors, enabling security teams to prioritize investigations."
+  core_concepts:
+    - key: "Behavioral Baseline"
+      value: "Per-user models of normal activity across file access, email, printing, USB usage, and application access used to identify deviations"
+    - key: "Multi-Channel Monitoring"
+      value: "Correlation of activities across multiple data channels to identify insider threat patterns invisible in any single channel"
+    - key: "Contextual Risk Enrichment"
+      value: "Integration of HR data and organizational context to modify risk assessments based on factors like departure notices and disciplinary actions"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-FILACCPAT-001"
+    description: "File access pattern analysis is a primary data source for insider threat detection"
+  - type: requires
+    target: "DETECT-BEHAVIOR-EMAIPATT-001"
+    description: "Email pattern analysis provides indicators of data exfiltration via email"
+  - type: effective_against
+    target: "ATK-EXFIL-DATA-001"
+    description: "Insider threat indicators detect data exfiltration by trusted insiders"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567"
+    tactic: ["Exfiltration", "Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CISA - Insider Threat Mitigation Guide - https://www.cisa.gov/insider-threat-mitigation"
+    - "CERT - Insider Threat Center - https://www.sei.cmu.edu/research-capabilities/all-work/display.cfm?customel_datapageid_4050=21232"
+    - "NIST SP 800-53 - Security and Privacy Controls for Information Systems"
+  search_keywords:
+    - "insider threat indicators"
+    - "insider risk detection"
+    - "employee threat monitoring"
+    - "UEBA insider threat"
+    - "data theft detection"
+    - "insider behavioral analysis"
+    - "insider threat program"
+    - "insider risk scoring"
+  embedding_text: "Insider Threat Indicators is a behavioral detection framework identifying malicious, negligent, or compromised insider behavior through multi-channel monitoring. It baselines normal user behavior across file access, email, printing, USB usage, cloud storage, and working patterns, then identifies deviations indicating data theft, IP exfiltration, or sabotage. UEBA platforms aggregate data from DLP, CASB, endpoint monitoring, and HR systems. Detection models flag sudden increases in file downloads, sensitive data access outside job scope, large removable media transfers, and security control circumvention. Contextual enrichment from HR data modifies risk for departing employees and those under investigation. Composite risk scores enable prioritized investigation of highest-risk insiders."

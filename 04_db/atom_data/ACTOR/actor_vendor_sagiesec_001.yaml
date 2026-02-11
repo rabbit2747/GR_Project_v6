@@ -1,0 +1,63 @@
+# GR Atom: SagieSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SAGIESEC-001"
+  name: "SagieSec"
+  normalized_name: "sagiesec"
+  aliases:
+    - "Sagie Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SagieSec is a cybersecurity researcher and security consultancy associated with cloud security research, vulnerability discovery, and penetration testing. The entity is known for publishing security research on cloud platform vulnerabilities, container security issues, and cloud-native attack techniques. SagieSec contributes to the security community through responsible disclosure of cloud service provider vulnerabilities and publication of attack methodologies."
+  why: "SagieSec is relevant to cybersecurity as a contributor of cloud security vulnerability research that helps organizations understand attack surfaces in cloud environments. Their research on cloud platform vulnerabilities and container security issues informs defensive strategies for organizations using cloud-native infrastructure and helps cloud service providers improve the security of their platforms."
+  how: "SagieSec conducts security research by investigating cloud platform services, container orchestration systems, and cloud-native applications for vulnerabilities and security weaknesses. Research findings are published through blog posts, conference presentations, and responsible disclosure to affected cloud providers. The entity provides penetration testing and security consulting services focused on cloud and modern infrastructure environments."
+  core_concepts:
+    - key: "Cloud vulnerability research"
+      value: "Discovery and disclosure of vulnerabilities in cloud platforms and services"
+    - key: "Container security research"
+      value: "Research on security issues in container orchestration and cloud-native environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-VULNRPT-001"
+    description: "SagieSec produces cloud security vulnerability research and disclosure reports"
+  - type: enables
+    target: "TECHNIQUE-CLOUDSEC-001"
+    description: "SagieSec enables cloud security understanding through vulnerability research and disclosure"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "secondary"
+  sources:
+    - "SagieSec Research Publications"
+    - "Cloud Security Conference Presentations"
+  search_keywords:
+    - "sagiesec"
+    - "sagie security"
+    - "sagiesec cloud security"
+    - "sagiesec research"
+    - "sagiesec vulnerability"
+  embedding_text: "SagieSec is a cybersecurity researcher and security consultancy focused on cloud security research, vulnerability discovery, and penetration testing in cloud-native environments. The entity publishes security research on cloud platform vulnerabilities, container security issues, and cloud-native attack techniques, contributing to the security community through responsible disclosure of cloud service provider vulnerabilities and publication of attack methodologies. SagieSec's research helps organizations understand attack surfaces in cloud environments and informs defensive strategies for cloud-native infrastructure. The entity provides penetration testing and security consulting services focused on cloud and modern infrastructure environments, with findings shared through blog posts, conference presentations, and coordinated disclosure processes with affected cloud providers."

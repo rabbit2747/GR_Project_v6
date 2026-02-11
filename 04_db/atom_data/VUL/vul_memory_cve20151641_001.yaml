@@ -1,0 +1,105 @@
+# GR Atom: CVE-2015-1641
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20151641-001"
+  name: "CVE-2015-1641"
+  normalized_name: "cve_2015_1641"
+  aliases:
+    - "Microsoft Word Type Confusion Vulnerability"
+    - "Word Smart Tag Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Word 2007, 2010, 2013"
+    - "Microsoft Office Word Viewer"
+    - "Microsoft Office for Mac 2011"
+    - "Smart Tag custom XML parsing"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-1641 is a type confusion memory corruption vulnerability (CVSS 9.3) in Microsoft
+    Word related to handling of smart tags and custom XML elements in RTF documents. The
+    vulnerability allows remote code execution when a user opens a specially crafted Word
+    document. It was exploited in targeted attacks and became one of the most exploited Office
+    vulnerabilities alongside CVE-2012-0158. Patched in MS15-033 (April 2015), it affects
+    Word 2007 through 2013 and Office for Mac 2011.
+  why: >-
+    CVE-2015-1641 became the successor to CVE-2012-0158 as the most commonly exploited Office
+    vulnerability in targeted attacks during 2015-2017. Threat intelligence reports consistently
+    ranked it among the top exploitation vectors used by both APT groups and cybercrime actors.
+    The vulnerability's enduring popularity stemmed from reliable exploitation across multiple
+    Word versions and the continued effectiveness of document-based spear-phishing as an
+    initial access technique.
+  how: >-
+    The exploit crafts an RTF document containing malicious smart tag or custom XML elements
+    that trigger a type confusion when Word processes the document structure. The type confusion
+    causes Word to interpret an object as a different type, leading to memory corruption. The
+    attacker leverages the corruption to achieve an arbitrary write primitive, which is used
+    to redirect execution flow to shellcode embedded in the document.
+  core_concepts:
+    - key: "Smart Tag Type Confusion"
+      value: "Type confusion in Word smart tag and custom XML handling causes memory corruption through incorrect object type interpretation"
+    - key: "Successor to CVE-2012-0158"
+      value: "Became the most widely exploited Office vulnerability in targeted attacks during 2015-2017, replacing CVE-2012-0158"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Type confusion memory corruption in Microsoft Word smart tag processing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2015-1641 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS15-033"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2015-1641"
+    - "Microsoft Word"
+    - "type confusion"
+    - "smart tag"
+    - "RTF"
+    - "MS15-033"
+    - "memory corruption"
+    - "Office exploit"
+    - "targeted attack"
+  embedding_text: >-
+    CVE-2015-1641 is a type confusion memory corruption vulnerability with CVSS 9.3 in
+    Microsoft Word's smart tag and custom XML handling. Malformed smart tag elements in RTF
+    documents trigger type confusion causing Word to misinterpret object types, leading to
+    memory corruption and arbitrary code execution. Patched in MS15-033 in April 2015,
+    affecting Word 2007-2013 and Office for Mac 2011, it became the successor to CVE-2012-0158
+    as the most widely exploited Office vulnerability in targeted attacks during 2015-2017.
+    Both APT groups and cybercrime actors extensively leveraged this vulnerability for
+    document-based spear-phishing campaigns against enterprise targets.

@@ -1,0 +1,116 @@
+# GR Atom: Firebase Cloud Messaging
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-FIRCLOMES-001"
+  name: "Firebase Cloud Messaging"
+  normalized_name: "firebase_cloud_messaging"
+  aliases:
+    - "FCM"
+    - "Firebase Messaging"
+    - "Google FCM"
+    - "Firebase Push Notifications"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - API
+    - MOBILE
+    - HTTP
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "D3.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Firebase Cloud Messaging (FCM) is Google's cross-platform cloud messaging service that
+    enables sending push notifications and data messages to Android, iOS, and web applications.
+    FCM is the successor to Google Cloud Messaging (GCM) and provides a reliable, battery-
+    efficient connection between servers and client devices. The service supports topic-based
+    messaging, device group messaging, and downstream/upstream message passing with payloads
+    up to 4KB (notification) or 4MB (data messages via Firebase Admin SDK).
+  why: >-
+    FCM is security-relevant because it serves as a trusted communication channel between
+    application servers and billions of mobile devices. Attackers can abuse FCM for command-and-
+    control communications by registering malicious apps to receive FCM messages, effectively
+    using Google's infrastructure as a C2 channel. Leaked FCM server keys enable unauthorized
+    push notification sending. Misconfigured FCM implementations may expose sensitive data in
+    notification payloads. Mobile malware has used FCM for receiving commands, exfiltrating
+    data, and triggering malicious actions while evading network-level detection.
+  how: >-
+    FCM operates through a persistent connection between client devices and Google's servers
+    using the XMPP-based protocol (legacy) or HTTP/2-based connection. Application servers
+    send messages to the FCM backend via the FCM HTTP v1 API or legacy protocols, authenticating
+    with service account credentials or server keys. FCM routes messages to target devices
+    identified by registration tokens, topics, or device groups. On Android, FCM uses Google
+    Play Services for the persistent connection. On iOS, it bridges to Apple Push Notification
+    service (APNs). Messages can include notification payloads (displayed by the OS) and data
+    payloads (handled by the application).
+  core_concepts:
+    - key: "Push Notification Infrastructure"
+      value: "Global cloud infrastructure for reliable delivery of notifications and data messages to billions of mobile and web client endpoints"
+    - key: "C2 Abuse Vector"
+      value: "FCM's trusted infrastructure can be abused by malware for command-and-control communication that blends with legitimate push notification traffic"
+    - key: "Server Key Security"
+      value: "FCM server keys and service account credentials must be protected as their compromise enables unauthorized notification sending to all registered devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "INFRA-ENDPOINT-GOOCLOMES-001"
+    description: "Firebase Cloud Messaging is the direct successor to Google Cloud Messaging, which was deprecated in 2018"
+  - type: "enables"
+    target: "ATK-C2-CLOUDSERVICE-001"
+    description: "FCM infrastructure can be abused as a command-and-control channel by mobile malware"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1481"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Firebase Documentation - Firebase Cloud Messaging"
+    - "MITRE ATT&CK Mobile - T1481 Web Service C2"
+    - "Trend Micro Research - Malware Abusing FCM for C2 Communication"
+  search_keywords:
+    - "Firebase Cloud Messaging"
+    - "FCM"
+    - "push notification"
+    - "Google messaging service"
+    - "FCM server key"
+    - "mobile push notification"
+    - "FCM C2 abuse"
+    - "Firebase notification security"
+    - "cloud messaging"
+  embedding_text: >-
+    Firebase Cloud Messaging (FCM) is Google's cross-platform cloud messaging service for
+    sending push notifications and data messages to Android, iOS, and web applications. As the
+    successor to Google Cloud Messaging (GCM), FCM provides reliable battery-efficient
+    connections between servers and client devices supporting topic-based, device group, and
+    direct messaging. Security implications include abuse as a command-and-control channel by
+    mobile malware that uses Google's trusted infrastructure to evade network detection. Leaked
+    FCM server keys enable unauthorized notification sending. Application servers authenticate
+    via service account credentials and send messages through FCM HTTP v1 API. On Android,
+    FCM uses Google Play Services; on iOS, it bridges to APNs. Mobile malware has used FCM
+    for receiving commands, data exfiltration triggers, and malicious action coordination.

@@ -1,0 +1,77 @@
+# GR Atom: Anomalous Parent
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-ANOMPARE-001"
+  name: "Anomalous Parent"
+  normalized_name: "anomalous_parent"
+  aliases:
+    - "Unusual Parent Process Detection"
+    - "Suspicious Parent-Child Relationship"
+    - "Unexpected Process Lineage"
+    - "Parent Process Anomaly"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EXEC
+    - EDR
+    - MONITOR
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Anomalous Parent detection is a behavioral analysis pattern that identifies processes spawned by unexpected or unusual parent processes. Every process on an operating system has a parent process that created it, forming a process tree. Legitimate software follows predictable parent-child relationships such as explorer.exe spawning user applications on Windows or init/systemd spawning system services on Linux. This detection technique maintains a baseline of expected parent-child process relationships and flags deviations, such as cmd.exe being spawned by a web server process, PowerShell being launched from a PDF reader, or svchost.exe appearing without services.exe as its parent."
+  why: "Adversaries frequently execute malicious code through exploitation of legitimate applications, causing unexpected parent-child process relationships. For example, a spearphishing attachment opened in Microsoft Word that executes a macro will create cmd.exe or PowerShell as a child of winword.exe, which is abnormal. Detecting anomalous parent-child relationships is one of the most effective behavioral indicators of initial access, execution, and defense evasion techniques. It reveals exploitation attempts, living-off-the-land attacks, and process injection regardless of the specific payload used."
+  how: "Detection systems build and maintain a whitelist of known-good parent-child process relationships from baseline telemetry. Process creation events are evaluated against this whitelist in real-time. The analysis considers the parent process name and path, the child process name and path, command-line arguments, the user context, and environmental factors. Machine learning models may be trained on historical process creation data to identify statistically unusual parent-child pairs. Rules-based detection uses curated lists of suspicious parent-child combinations such as Office applications spawning scripting interpreters, browser processes spawning command shells, or system services spawning unexpected user-mode processes."
+  core_concepts:
+    - key: "Process Tree"
+      value: "The hierarchical structure of parent-child relationships between running processes, rooted at the system init process"
+    - key: "Expected Process Lineage"
+      value: "The set of normal parent-child process relationships established through baseline observation of legitimate system behavior"
+    - key: "Living-off-the-Land"
+      value: "Attack technique using legitimate system tools and processes, detectable through unusual parent process relationships"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "Anomalous parent detection feeds into broader anomalous process detection by identifying suspicious process lineage"
+  - type: enables
+    target: "DETECT-BEHAVIOR-CHIPROCOU-001"
+    description: "Anomalous parent relationships often correlate with unusual child process counts"
+  - type: effective_against
+    target: "ATK-EXEC-EXPLOIT-001"
+    description: "Detects exploitation attempts that cause applications to spawn unexpected child processes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic: ["Execution", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Process Creation Monitoring - https://attack.mitre.org/datasources/DS0009/"
+    - "Microsoft - Endpoint Detection and Response - https://learn.microsoft.com/en-us/defender-endpoint/"
+    - "SANS - Detecting Malicious Activity with Process Auditing - https://www.sans.org/white-papers/"
+  search_keywords:
+    - "anomalous parent process"
+    - "unusual parent child process"
+    - "suspicious process lineage"
+    - "process tree anomaly"
+    - "unexpected process spawning"
+    - "parent process detection"
+    - "process creation monitoring"
+    - "endpoint behavioral detection"
+  embedding_text: "Anomalous Parent detection identifies processes spawned by unexpected parent processes, revealing exploitation and malicious execution. It baselines normal parent-child process relationships and flags deviations such as Office applications spawning command shells, browser processes creating scripting interpreters, or system services spawning unexpected user-mode processes. This technique is highly effective for detecting initial access through document exploitation, living-off-the-land attacks using legitimate system tools, and process injection techniques. Detection uses whitelists of known-good relationships, rules for suspicious combinations, and machine learning trained on historical process creation telemetry."

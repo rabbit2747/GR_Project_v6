@@ -1,0 +1,68 @@
+# GR Atom: DeepSight
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DEEPSIGHT-001"
+  name: "DeepSight"
+  normalized_name: "deepsight"
+  aliases:
+    - "Symantec DeepSight"
+    - "Broadcom DeepSight"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - MONITOR
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DeepSight is a threat intelligence service originally developed by Symantec (now Broadcom), providing curated threat intelligence data feeds, vulnerability intelligence, and adversary analysis. DeepSight aggregates telemetry from Symantec's extensive sensor network to deliver actionable intelligence on malware, vulnerabilities, IP reputation, and threat actor campaigns to security operations teams."
+  why: "DeepSight is significant as one of the original enterprise threat intelligence services, leveraging Symantec's massive global sensor network that processes billions of security events daily. The service provides organizations with curated, actionable intelligence feeds that can be integrated into SIEM, firewall, and security orchestration platforms to enhance detection and response capabilities."
+  how: "DeepSight collects and correlates telemetry from Symantec's global sensor network including endpoint agents, email gateways, web proxies, and intrusion detection systems. Analysts curate this data into threat intelligence feeds covering malicious IPs, URLs, file hashes, vulnerability data, and threat actor profiles. These feeds are delivered via APIs and integrations for consumption by security tools."
+  core_concepts:
+    - key: "Threat Intelligence Feeds"
+      value: "Curated data feeds providing actionable intelligence on malware, vulnerabilities, IP reputation, and adversary campaigns"
+    - key: "Global Sensor Network"
+      value: "Intelligence derived from Symantec's massive telemetry network processing billions of security events daily"
+    - key: "Vulnerability Intelligence"
+      value: "Comprehensive vulnerability data with risk scoring and exploit availability tracking"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "Produces curated threat intelligence feeds from Symantec/Broadcom global sensor network"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for threat intelligence service
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.broadcom.com/products/cybersecurity/network/deepsight"
+  search_keywords:
+    - "deepsight"
+    - "symantec deepsight"
+    - "threat intelligence feed"
+    - "broadcom deepsight"
+    - "ip reputation"
+    - "vulnerability intelligence"
+    - "symantec threat intel"
+  embedding_text: "DeepSight is a threat intelligence service originally developed by Symantec (now Broadcom), providing curated threat intelligence data feeds, vulnerability intelligence, and adversary analysis. The service aggregates telemetry from Symantec's extensive global sensor network that processes billions of security events daily, delivering actionable intelligence on malware, vulnerabilities, IP reputation, and threat actor campaigns to security operations teams. DeepSight feeds cover malicious IPs, URLs, file hashes, vulnerability data, and threat actor profiles, delivered via APIs for integration into SIEM, firewall, and security orchestration platforms. As one of the original enterprise threat intelligence services, DeepSight provides organizations with curated intelligence to enhance their detection and response capabilities."

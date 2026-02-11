@@ -1,0 +1,72 @@
+# GR Atom: CVE-2017-8625
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20178625-001"
+  name: "CVE-2017-8625"
+  normalized_name: "cve_2017_8625"
+  aliases:
+    - "Windows MOTW Bypass via HTA"
+    - "Internet Explorer Mark of the Web Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EVADE
+    - EXEC
+    - WINDOWS
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Internet Explorer"
+    - "Windows Mark of the Web"
+    - "HTA (HTML Application)"
+
+definition:
+  what: "CVE-2017-8625 is a security feature bypass vulnerability in Internet Explorer and Windows where the Mark of the Web (MOTW) security mechanism can be circumvented through specially crafted HTA (HTML Application) files. When a user opens a malicious HTA file downloaded from the internet, the MOTW zone identifier is not properly applied, causing Windows to treat the file as if it originated from a trusted local zone and execute it without Protected Mode restrictions."
+  why: "Mark of the Web is a fundamental Windows security mechanism that tags files downloaded from untrusted sources (internet, email) with a zone identifier, triggering additional security prompts and restrictions. Bypassing MOTW allows malicious files to execute without user warnings, significantly increasing the success rate of social engineering attacks. HTA files are particularly dangerous as they run with full local machine permissions rather than in a browser sandbox."
+  how: "The vulnerability is exploited by crafting an HTA file that, when downloaded from the internet, does not receive the proper MOTW zone identifier or strips it during processing. The HTA file then executes via mshta.exe with local machine zone privileges rather than restricted internet zone privileges. This allows embedded VBScript or JScript to execute arbitrary commands, download additional payloads, and establish persistence without triggering Protected Mode or SmartScreen warnings. Microsoft patched this in August 2017 security updates. CVSS v3: 6.5 (Medium)."
+  core_concepts:
+    - key: "Mark of the Web (MOTW)"
+      value: "Windows security feature that tags downloaded files with an Alternate Data Stream zone identifier, bypassed in this vulnerability allowing HTA files to run without security restrictions"
+    - key: "HTA Execution Context"
+      value: "HTML Application files execute via mshta.exe with full local machine permissions, making MOTW bypass particularly dangerous as it removes the only security barrier"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2017-8625 is a configuration vulnerability in Windows security zone enforcement for HTA files"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "MOTW bypass enables execution of malicious HTA applications without security warnings"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1218.005"
+    tactic: ["Defense Evasion", "Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2017-8625 - NVD NIST"
+    - "Microsoft Security Advisory - August 2017"
+    - "MITRE ATT&CK T1218.005 - System Binary Proxy Execution: Mshta"
+  search_keywords:
+    - "CVE-2017-8625"
+    - "Mark of the Web bypass"
+    - "MOTW bypass"
+    - "HTA security bypass"
+    - "mshta.exe exploit"
+    - "Internet Explorer MOTW"
+    - "Windows zone identifier bypass"
+  embedding_text: "CVE-2017-8625 is a security feature bypass vulnerability in Internet Explorer and Windows where the Mark of the Web mechanism can be circumvented through specially crafted HTA files. Downloaded HTA files do not receive proper MOTW zone identifiers, causing Windows to execute them with local machine privileges rather than restricted internet zone permissions. HTA files run via mshta.exe with full local permissions, making this bypass particularly dangerous. The vulnerability enables social engineering attacks where malicious HTA files execute without security prompts or SmartScreen warnings. CVSS v3 score is 6.5 Medium. Patched in August 2017. Maps to MITRE ATT&CK T1218.005 System Binary Proxy Execution: Mshta."

@@ -1,0 +1,117 @@
+# GR Atom: CVE-2017-0147
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20170147-001"
+  name: "CVE-2017-0147"
+  normalized_name: "cve_2017_0147"
+  aliases:
+    - "EternalChampion"
+    - "SMBv1 Information Disclosure"
+    - "SMB Race Condition Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - WINDOWS
+    - NETWORK
+    - SMB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Windows SMBv1 (srv.sys)"
+    - "Windows Vista through Windows Server 2016"
+    - "Microsoft Server Message Block 1.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-0147 is an information disclosure vulnerability (CVSS 7.5) in Microsoft's
+    SMBv1 protocol implementation related to the handling of certain requests by the
+    SMB server. The vulnerability allows remote attackers to leak kernel memory contents
+    through specially crafted SMB packets. It was part of the MS17-010 security bulletin
+    that also patched CVE-2017-0144 (EternalBlue). Associated with the EternalChampion
+    exploit from the Shadow Brokers NSA tool leak, the vulnerability exploits a race
+    condition in SMBv1 transaction handling that can leak sensitive kernel memory
+    information useful for bypassing ASLR and other kernel protections.
+  why: >-
+    CVE-2017-0147 is significant as part of the broader MS17-010 SMBv1 vulnerability
+    cluster that included EternalBlue. While an information disclosure rather than direct
+    code execution, kernel memory leaks are critical exploit primitives that enable
+    bypassing Address Space Layout Randomization (ASLR). The EternalChampion exploit
+    leveraged this race condition alongside other SMBv1 flaws for reliable remote code
+    execution. Being part of the Shadow Brokers leak, it contributed to the same wave
+    of mass exploitation as EternalBlue.
+  how: >-
+    The vulnerability exploits a race condition in how SMBv1 handles transaction requests.
+    By sending specifically timed SMB transaction requests, an attacker can trigger a
+    race condition where the server processes a request before properly sanitizing
+    response data, leaking uninitialized kernel memory contents in the SMB response.
+    This leaked kernel information (pointers, addresses) can be used to defeat ASLR
+    and other kernel exploit mitigations, facilitating reliable exploitation of
+    accompanying code execution vulnerabilities like EternalBlue.
+  core_concepts:
+    - key: "SMBv1 Race Condition"
+      value: "Race condition in SMBv1 transaction handling leaks uninitialized kernel memory to remote attackers"
+    - key: "ASLR Bypass Primitive"
+      value: "Leaked kernel memory addresses enable bypassing ASLR for reliable exploitation of companion code execution flaws"
+    - key: "Shadow Brokers Toolkit"
+      value: "Part of the EternalChampion exploit from the NSA toolkit leaked by Shadow Brokers alongside EternalBlue"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2017-0147 is a memory information disclosure through uninitialized kernel memory leak"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170144-001"
+    description: "Information disclosure enables reliable exploitation of EternalBlue by defeating ASLR"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "Kernel memory leak provides ASLR bypass primitive for EternalBlue exploitation chain"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS17-010"
+    - "NVD Entry CVE-2017-0147 - CVSS 7.5"
+    - "Shadow Brokers - EternalChampion exploit"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+  search_keywords:
+    - "CVE-2017-0147"
+    - "EternalChampion"
+    - "SMBv1"
+    - "information disclosure"
+    - "kernel memory leak"
+    - "MS17-010"
+    - "Shadow Brokers"
+    - "race condition"
+  embedding_text: >-
+    CVE-2017-0147 is an information disclosure vulnerability in Windows SMBv1 with CVSS
+    7.5, associated with the EternalChampion exploit from the Shadow Brokers NSA tool
+    leak. A race condition in SMBv1 transaction handling leaks uninitialized kernel memory
+    to remote attackers, providing addresses to bypass ASLR. Part of the MS17-010 bulletin
+    alongside EternalBlue (CVE-2017-0144), it serves as an ASLR bypass primitive enabling
+    reliable remote code execution when combined with companion memory corruption
+    vulnerabilities in the SMBv1 attack surface.

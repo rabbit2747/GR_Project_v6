@@ -1,0 +1,100 @@
+# GR Atom: CVE-2010-3332
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20103332-001"
+  name: "CVE-2010-3332"
+  normalized_name: "cve_2010_3332"
+  aliases:
+    - "ASP.NET Padding Oracle Vulnerability"
+    - "MS10-070"
+    - "POET Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - WEB
+    - INFO_LEAK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "ASP.NET Framework"
+    - "Microsoft .NET Framework"
+    - "IIS with ASP.NET"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-3332 is a cryptographic padding oracle vulnerability in Microsoft ASP.NET that
+    allows remote attackers to decrypt and tamper with encrypted data including ViewState,
+    forms authentication tickets, and session cookies. The ASP.NET framework returns different
+    error responses for valid versus invalid padding in CBC-mode encrypted data, creating an
+    information side-channel that enables plaintext recovery. CVSS v2 base score: 5.0 (Medium).
+  why: >-
+    The padding oracle attack allows decryption of any data encrypted by ASP.NET without
+    knowledge of the encryption key. Attackers can decrypt ViewState data to extract sensitive
+    information, forge authentication tickets to impersonate users, and download arbitrary files
+    from the web server including web.config containing database connection strings and
+    machine keys. This affected virtually all ASP.NET applications worldwide.
+  how: >-
+    An attacker sends modified ciphertext blocks to the ASP.NET application and observes the
+    error responses. Different HTTP error codes or error page content reveal whether the CBC
+    padding was valid, creating an oracle. Through iterative queries (typically 128 requests
+    per byte), the attacker recovers plaintext without the key. The attack exploits the
+    fundamental logic of how ASP.NET processes and validates encrypted data.
+  core_concepts:
+    - key: "Padding Oracle Side-Channel"
+      value: "Differential error responses for valid vs. invalid CBC padding enable byte-by-byte plaintext recovery without the encryption key"
+    - key: "Cryptographic Logic Flaw"
+      value: "Application logic exposes padding validation results through error handling, violating the principle of indistinguishable error responses"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Cryptographic error handling logic that leaks information through differential responses"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2010-3332"
+    - "Microsoft Security Bulletin MS10-070"
+    - "NIST NVD - CVE-2010-3332"
+    - "Rizzo & Duong - Practical Padding Oracle Attacks"
+  search_keywords:
+    - "CVE-2010-3332"
+    - "ASP.NET padding oracle"
+    - "MS10-070"
+    - "POET attack"
+    - "ViewState decryption"
+    - "CBC padding oracle"
+    - ".NET cryptographic vulnerability"
+  embedding_text: >-
+    CVE-2010-3332 is a padding oracle vulnerability in ASP.NET allowing remote attackers to
+    decrypt ViewState, authentication tickets, and session cookies. Differential error responses
+    for valid vs. invalid CBC padding create a side-channel enabling plaintext recovery without
+    the encryption key. Attackers can forge authentication tickets, download web.config files,
+    and impersonate users. Affected virtually all ASP.NET applications. CVSS v2 5.0 Medium.
+    Patched in MS10-070. Cryptographic error handling logic flaw. Year 2010.

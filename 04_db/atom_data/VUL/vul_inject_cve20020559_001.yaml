@@ -1,0 +1,111 @@
+# GR Atom: CVE-2002-0559
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20020559-001"
+  name: "CVE-2002-0559"
+  normalized_name: "cve_2002_0559"
+  aliases:
+    - "Oracle PL/SQL Injection"
+    - "Oracle 9iAS Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - OVERFLOW
+    - DATABASE
+    - WEB
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle 9i Application Server"
+    - "Oracle PL/SQL Gateway"
+    - "Oracle mod_plsql module"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2002-0559 is a buffer overflow vulnerability in the Oracle 9i Application Server PL/SQL
+    module (mod_plsql). Multiple buffer overflow conditions exist in the mod_plsql Apache module
+    that allow remote attackers to execute arbitrary code via long parameters in HTTP requests
+    processed by the PL/SQL gateway. The vulnerability has a CVSS v2 base score of 7.5 (High)
+    and was disclosed in 2002 affecting Oracle 9i Application Server versions.
+  why: >-
+    This vulnerability is significant because Oracle 9i Application Server was widely deployed
+    in enterprise environments for hosting web-enabled database applications. The PL/SQL gateway
+    serves as the bridge between web requests and database-stored procedures, making it a
+    critical attack surface. Successful exploitation grants remote code execution on the
+    application server without requiring authentication.
+  how: >-
+    Attackers exploit this vulnerability by sending specially crafted HTTP requests with
+    excessively long parameters to the PL/SQL gateway. The mod_plsql module fails to properly
+    validate input length, causing buffer overflow conditions that overwrite adjacent memory.
+    By carefully controlling the overflow data, attackers can redirect execution flow to
+    injected shellcode, achieving remote code execution on the server. Mitigation requires
+    applying Oracle security patches and restricting access to the PL/SQL gateway.
+  core_concepts:
+    - key: "Buffer Overflow"
+      value: "Memory corruption caused by writing data beyond allocated buffer boundaries in the PL/SQL module"
+    - key: "PL/SQL Gateway"
+      value: "Oracle component that translates HTTP requests into PL/SQL procedure calls, acting as the web-to-database bridge"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Buffer overflow in PL/SQL gateway is a specific instance of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20125612-001"
+    description: "Both vulnerabilities target Oracle database components through injection techniques"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2002-0559"
+  cvss_score: 7.5
+  affected_product: "Oracle 9i Application Server"
+  year: 2002
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2002-0559"
+    - "CWE-120 Buffer Copy without Checking Size of Input"
+    - "Oracle Security Alert #47"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2002-0559"
+    - "Oracle 9i Application Server"
+    - "mod_plsql buffer overflow"
+    - "PL/SQL gateway injection"
+    - "Oracle buffer overflow"
+    - "remote code execution Oracle"
+    - "Oracle 9iAS vulnerability"
+  embedding_text: >-
+    CVE-2002-0559 is a buffer overflow vulnerability in Oracle 9i Application Server mod_plsql
+    module that allows remote code execution. The PL/SQL gateway component fails to validate
+    input length in HTTP request parameters, enabling attackers to overflow buffers and execute
+    arbitrary code. Affecting Oracle 9iAS with a CVSS score of 7.5, this vulnerability targets
+    the critical web-to-database bridge layer. Exploitation requires no authentication and can
+    be performed remotely through crafted HTTP requests with oversized parameters. The
+    vulnerability highlights risks in application server components that process untrusted
+    input for database gateway operations. Mitigation requires Oracle security patches and
+    PL/SQL gateway access restrictions.

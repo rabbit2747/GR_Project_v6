@@ -1,0 +1,116 @@
+# GR Atom: CVE-2023-38831
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202338831-001"
+  name: "CVE-2023-38831"
+  normalized_name: "cve_2023_38831"
+  aliases:
+    - "WinRAR Code Execution"
+    - "WinRAR Spoofing Vulnerability"
+    - "WinRAR ZIP Processing RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "WinRAR before 6.23"
+    - "Windows ZIP file processing"
+    - "WinRAR archive handler"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-38831 is a code execution vulnerability (CVSS 7.8) in WinRAR before version
+    6.23 that allows attackers to execute arbitrary code when a user opens a specially
+    crafted ZIP archive. The vulnerability exploits a flaw in how WinRAR processes ZIP
+    archives containing files with the same name as a directory within the archive. When
+    a user attempts to open a benign-looking file (such as a JPG or PDF), WinRAR instead
+    executes a malicious script hidden in a same-named directory within the archive.
+    Discovered by Group-IB in July 2023 as an actively exploited zero-day, it was widely
+    used by APT groups including APT28, APT29, and cybercriminal groups for targeted attacks.
+  why: >-
+    CVE-2023-38831 was massively impactful because WinRAR has over 500 million users
+    worldwide and the exploit was trivial to weaponize. Multiple APT groups (APT28,
+    APT29, Sandworm, DarkCasino) adopted the vulnerability within weeks of discovery,
+    using it in phishing campaigns targeting government, military, and financial
+    organizations. The vulnerability was particularly dangerous because the malicious
+    archives appeared to contain harmless files, and exploitation required only opening
+    the archive and clicking on the apparent file.
+  how: >-
+    The exploit creates a ZIP archive containing a benign file (e.g., image.jpg) and a
+    directory with the same name plus a space and extension (e.g., "image.jpg .cmd/").
+    Inside this directory is a malicious script. When the user double-clicks the
+    apparent JPG file in WinRAR, a filename processing flaw causes WinRAR to execute
+    the script from the spoofed directory instead of opening the intended file. The
+    script runs with the privileges of the current user, enabling malware download and
+    execution. The attack requires minimal user interaction beyond opening the archive
+    and clicking a file.
+  core_concepts:
+    - key: "ZIP Filename Spoofing"
+      value: "Directory with same name as file plus trailing space causes WinRAR to execute hidden scripts instead of opening intended files"
+    - key: "Mass APT Adoption"
+      value: "Rapidly adopted by APT28, APT29, Sandworm, and cybercriminal groups for phishing campaigns within weeks"
+    - key: "Social Engineering Amplifier"
+      value: "Archive appears to contain harmless files, requiring only a double-click for code execution with 500M potential victims"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2023-38831 exploits file processing logic flaws in WinRAR archive handling"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170199-001"
+    description: "Both are widely exploited document/archive-based code execution vulnerabilities used by APT groups for phishing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Group-IB - WinRAR Zero-Day Analysis"
+    - "NVD Entry CVE-2023-38831 - CVSS 7.8"
+    - "Google TAG - Multiple APT groups exploiting WinRAR vulnerability"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2023-38831"
+    - "WinRAR"
+    - "ZIP"
+    - "code execution"
+    - "phishing"
+    - "APT28"
+    - "archive exploit"
+    - "filename spoofing"
+  embedding_text: >-
+    CVE-2023-38831 is a code execution vulnerability in WinRAR before 6.23 with CVSS 7.8,
+    exploiting a filename processing flaw in ZIP archive handling. Crafted archives contain
+    directories spoofing benign filenames, causing WinRAR to execute hidden malicious
+    scripts when users click apparent harmless files. Discovered as a zero-day by Group-IB,
+    it was rapidly adopted by APT28, APT29, Sandworm, and cybercriminals for phishing
+    campaigns targeting over 500 million potential WinRAR users. The trivial exploitation
+    and social engineering effectiveness made it one of the most widely weaponized
+    vulnerabilities of 2023.

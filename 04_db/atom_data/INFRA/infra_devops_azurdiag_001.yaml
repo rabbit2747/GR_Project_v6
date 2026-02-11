@@ -1,0 +1,79 @@
+# GR Atom: Azure Diagnostics
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-AZURDIAG-001"
+  name: "Azure Diagnostics"
+  normalized_name: "azure_diagnostics"
+  aliases:
+    - "Azure Monitor Diagnostics"
+    - "Azure Diagnostic Settings"
+    - "Azure Platform Logs"
+
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - MONITOR
+    - LOG
+    - CLOUD
+    - AUDIT
+
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "M1.2"
+
+definition:
+  what: "Azure Diagnostics is the monitoring and logging subsystem within Microsoft Azure that collects platform logs, metrics, and activity logs from Azure resources. It encompasses Azure Monitor, Diagnostic Settings, Activity Logs, and Resource Logs that together provide telemetry for virtual machines, App Services, databases, networking, and other Azure services. Diagnostic data can be routed to Log Analytics workspaces, Storage Accounts, Event Hubs, or partner solutions."
+  why: "Azure Diagnostics is essential for security operations because it captures the audit trail of all Azure control plane operations through Activity Logs, provides resource-level telemetry for anomaly detection, and supports compliance requirements through centralized log retention. Attackers target diagnostic settings to disable logging and evade detection. Without proper diagnostic configuration, security incidents in Azure environments go undetected and uninvestigated."
+  how: "Diagnostic Settings are configured per Azure resource to specify which log categories and metrics to collect and where to route them. Activity Logs automatically capture subscription-level events including resource modifications, role assignments, and service health. Resource Logs provide detailed operational data specific to each resource type. Azure Monitor aggregates all diagnostic data and provides KQL-based queries through Log Analytics, alerting through Action Groups, and visualization through Azure Dashboards and Workbooks."
+  core_concepts:
+    - key: "Diagnostic Settings"
+      value: "Per-resource configuration that defines which log categories and metrics to collect and their destination (Log Analytics, Storage, Event Hub)"
+    - key: "Activity Log"
+      value: "Subscription-level log that records control plane operations on Azure resources including who performed what action and when"
+    - key: "Resource Logs"
+      value: "Detailed operational logs specific to each Azure resource type, providing insight into operations performed within the resource itself"
+    - key: "Log Analytics Workspace"
+      value: "Centralized repository for Azure diagnostic data that enables KQL queries, correlation, and long-term retention"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-DEVOPS-AWSCLOU-001"
+    description: "Azure Diagnostics serves a similar monitoring role to AWS CloudWatch in the AWS ecosystem"
+  - type: enables
+    target: "INFRA-DEVOPS-NSG-001"
+    description: "Azure Diagnostics collects NSG flow logs and diagnostic data for network security analysis"
+  - type: enables
+    target: "INFRA-DEVOPS-AZUKEYVAU-001"
+    description: "Diagnostic settings on Key Vault capture all access and management operations for audit purposes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.008"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Azure Monitor Documentation - https://learn.microsoft.com/en-us/azure/azure-monitor/"
+    - "Azure Diagnostic Settings - https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings"
+    - "MITRE ATT&CK T1562.008 - Impair Defenses: Disable Cloud Logs"
+  search_keywords:
+    - "Azure Diagnostics"
+    - "Azure Monitor"
+    - "Azure Diagnostic Settings"
+    - "Azure Activity Log"
+    - "Azure Resource Logs"
+    - "Azure Log Analytics"
+    - "Azure cloud monitoring"
+    - "Azure platform logs"
+  embedding_text: "Azure Diagnostics is Microsoft Azure's monitoring and logging subsystem that collects platform logs, metrics, and activity logs from Azure resources. It includes Azure Monitor, Diagnostic Settings, Activity Logs, and Resource Logs providing telemetry across VMs, App Services, databases, and networking. Data routes to Log Analytics workspaces, Storage Accounts, or Event Hubs. Security significance includes capturing control plane audit trails through Activity Logs, resource-level anomaly detection, and compliance log retention. Attackers target diagnostic settings to disable logging and evade detection. Configuration is per-resource through Diagnostic Settings specifying log categories and destinations, with centralized KQL-based analysis through Log Analytics."

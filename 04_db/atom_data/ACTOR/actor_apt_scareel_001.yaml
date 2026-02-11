@@ -1,0 +1,90 @@
+# GR Atom: Scarlet Eel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SCAREEL-001"
+  name: "Scarlet Eel"
+  normalized_name: "scarlet_eel"
+  aliases:
+    - "SCARLETEEL"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - LATERAL
+    - EXFIL
+    - CLOUD
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Scarlet Eel (SCARLETEEL) is a sophisticated threat actor discovered by Sysdig in 2023, specializing in attacks against cloud environments, particularly AWS and Kubernetes infrastructure. The group conducts both financially motivated cryptomining operations and data theft from cloud-hosted applications and services. Scarlet Eel demonstrates advanced understanding of cloud-native services and container orchestration platforms."
+  why: "Scarlet Eel represents the evolution of threat actors into cloud-native attack operations, exploiting the complexity and scale of modern cloud infrastructure. The group's ability to move laterally through cloud environments, escalate privileges via IAM manipulation, and exfiltrate data from cloud services demonstrates the unique risks associated with cloud adoption and the inadequacy of traditional security controls in cloud environments."
+  how: "Scarlet Eel exploits vulnerable public-facing applications deployed in Kubernetes containers to gain initial access. The group then discovers and steals AWS credentials, uses them to escalate privileges through IAM role chaining, disables CloudTrail logging to evade detection, and moves laterally across AWS accounts. They deploy cryptominers for immediate financial gain while simultaneously exfiltrating proprietary data and source code from cloud storage services like S3 buckets. The group leverages AWS service APIs extensively for reconnaissance and lateral movement."
+  core_concepts:
+    - key: "Cloud-Native Attack Chain"
+      value: "Full attack lifecycle executed within cloud environments exploiting Kubernetes, AWS IAM, S3, and cloud service APIs without touching traditional on-premises infrastructure"
+    - key: "Dual Motivation"
+      value: "Combined cryptomining for immediate financial return alongside targeted data theft and intellectual property exfiltration from cloud storage"
+    - key: "Cloud Defense Evasion"
+      value: "Disabling CloudTrail logging and manipulating IAM policies to avoid detection while operating within compromised cloud environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Cloud-focused threat actor conducting financially motivated attacks and data theft"
+  - type: enables
+    target: "ATK-CLOUD-PRIVESC-001"
+    description: "Escalates privileges through IAM role chaining and credential theft in AWS environments"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "initial-access"
+      - "credential-access"
+      - "privilege-escalation"
+      - "defense-evasion"
+      - "lateral-movement"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Sysdig - SCARLETEEL cloud attack operation report (2023)"
+    - "Sysdig - SCARLETEEL 2.0 updated analysis"
+    - "AWS security advisories on cloud attack patterns"
+  search_keywords:
+    - "scarlet eel"
+    - "scarleteel"
+    - "cloud attack"
+    - "aws exploitation"
+    - "kubernetes attack"
+    - "iam privilege escalation"
+    - "cloud credential theft"
+    - "cryptomining"
+    - "cloudtrail evasion"
+    - "s3 data theft"
+    - "container exploitation"
+    - "sysdig"
+  embedding_text: "Scarlet Eel (SCARLETEEL) is a sophisticated threat actor discovered by Sysdig in 2023 specializing in attacks against cloud environments, particularly AWS and Kubernetes infrastructure. The group exploits vulnerable public-facing applications in Kubernetes containers for initial access, steals AWS credentials, escalates privileges through IAM role chaining, disables CloudTrail logging, and moves laterally across cloud accounts. Scarlet Eel conducts both cryptomining operations and targeted data theft from cloud storage services. The group represents the evolution of threat actors into cloud-native attack operations, demonstrating advanced understanding of cloud services and the unique risks of modern cloud infrastructure."

@@ -1,0 +1,104 @@
+# GR Atom: CVE-2019-11510
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE201911510-001"
+  name: "CVE-2019-11510"
+  normalized_name: "cve_2019_11510"
+  aliases:
+    - "Pulse Secure VPN Arbitrary File Read"
+    - "Pulse Connect Secure Path Traversal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PATH
+    - INFO_LEAK
+    - NETWORK
+    - CRED
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Pulse Connect Secure 8.2"
+    - "Pulse Connect Secure 8.3"
+    - "Pulse Connect Secure 9.0"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-11510 is a pre-authentication arbitrary file read vulnerability in Pulse Connect
+    Secure (Pulse Secure VPN) that allows remote unauthenticated attackers to read arbitrary
+    files from the VPN server including cached plaintext credentials. The vulnerability exists
+    in the URL handling logic of the web interface, where specially crafted URIs bypass
+    authentication checks and path validation to access files outside the web root.
+    CVSS v3 base score: 10.0 (Critical).
+  why: >-
+    Pulse Secure VPN appliances are widely deployed as remote access gateways in enterprise
+    and government networks. Exploitation yields cached credentials for all VPN users,
+    enabling mass compromise of organizational accounts. This vulnerability was extensively
+    exploited by nation-state actors and ransomware groups, with CISA issuing multiple
+    emergency directives. It was a primary vector in numerous high-profile breaches.
+  how: >-
+    An attacker sends a specially crafted HTTP request with directory traversal sequences to
+    the Pulse Secure web interface. The URL handling logic fails to properly validate paths
+    before authentication, allowing unauthenticated access to arbitrary files including
+    /data/runtime/mtmp/lmdb/dataa/data.mdb which contains cached plaintext user credentials.
+    No authentication is required for exploitation.
+  core_concepts:
+    - key: "Pre-Auth Path Traversal"
+      value: "URL handling logic flaw allows unauthenticated directory traversal, bypassing both authentication and path restrictions simultaneously"
+    - key: "Credential Cache Exposure"
+      value: "VPN appliance stores cached plaintext credentials accessible through the file read vulnerability, enabling mass account compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "URL validation logic flaw enabling pre-authentication arbitrary file read"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE20234966-001"
+    description: "Both are critical VPN/gateway appliance vulnerabilities enabling credential theft and network compromise"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2019-11510"
+    - "CISA Alert AA20-010A"
+    - "NIST NVD - CVE-2019-11510"
+    - "Pulse Secure Security Advisory SA44101"
+  search_keywords:
+    - "CVE-2019-11510"
+    - "Pulse Secure VPN"
+    - "Pulse Connect Secure"
+    - "VPN arbitrary file read"
+    - "pre-authentication file read"
+    - "VPN credential theft"
+    - "Pulse Secure path traversal"
+  embedding_text: >-
+    CVE-2019-11510 is a pre-authentication arbitrary file read vulnerability in Pulse Connect
+    Secure VPN. URL handling logic fails to validate paths before authentication, allowing
+    unauthenticated access to cached plaintext credentials. CVSS v3 10.0 Critical. Extensively
+    exploited by nation-state actors and ransomware groups. CISA issued emergency directives.
+    Primary vector in numerous high-profile breaches. Affects enterprise and government VPN
+    deployments. Path traversal logic flaw. Year 2019.

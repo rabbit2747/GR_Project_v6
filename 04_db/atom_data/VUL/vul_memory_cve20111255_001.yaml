@@ -1,0 +1,101 @@
+# GR Atom: CVE-2011-1255
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20111255-001"
+  name: "CVE-2011-1255"
+  normalized_name: "cve_2011_1255"
+  aliases:
+    - "Internet Explorer Time Element Use-After-Free"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 8"
+    - "mshtml.dll CTimeElement"
+    - "Windows XP, Vista, 7"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-1255 is a use-after-free vulnerability (CVSS 9.3) in Microsoft Internet Explorer 8
+    related to the handling of time elements in the DOM. The flaw exists in mshtml.dll where a
+    CTimeElement object is freed but a dangling pointer remains accessible, allowing an attacker
+    to execute arbitrary code in the context of the current user. The vulnerability was patched
+    in MS11-050 (June 2011). It affects Internet Explorer 8 on Windows XP, Vista, and 7.
+  why: >-
+    This vulnerability is significant because Internet Explorer 8 was the dominant browser on
+    Windows systems in 2011. Use-after-free vulnerabilities in browser DOM handling became a
+    primary attack vector for drive-by download campaigns and targeted attacks during this era.
+    The vulnerability allowed complete system compromise through a simple malicious webpage visit.
+  how: >-
+    The exploit creates and manipulates time elements in the DOM to trigger a use-after-free
+    condition in the CTimeElement object. When the freed memory is reallocated with attacker-
+    controlled data and the dangling pointer is dereferenced, it allows hijacking of the
+    execution flow. Combined with heap spraying techniques, the attacker achieves arbitrary
+    code execution in the context of the IE process.
+  core_concepts:
+    - key: "DOM Time Element Use-After-Free"
+      value: "CTimeElement object in mshtml.dll is freed but dangling pointer remains, enabling code execution through heap manipulation"
+    - key: "Browser-Based Remote Code Execution"
+      value: "Visiting a malicious webpage triggers the vulnerability for full code execution as the current user"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free memory corruption vulnerability in Internet Explorer DOM handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2011-1255 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS11-050"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2011-1255"
+    - "Internet Explorer 8"
+    - "use-after-free"
+    - "CTimeElement"
+    - "mshtml.dll"
+    - "MS11-050"
+    - "browser exploit"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2011-1255 is a use-after-free vulnerability with CVSS 9.3 in Microsoft Internet
+    Explorer 8 affecting the CTimeElement object in mshtml.dll. The flaw allows remote
+    attackers to execute arbitrary code by crafting a malicious webpage that manipulates
+    DOM time elements, triggering a use-after-free condition. When the freed CTimeElement
+    memory is reallocated with attacker-controlled data, dereferencing the dangling pointer
+    enables arbitrary code execution. Patched in MS11-050 in June 2011, this vulnerability
+    affected IE8 on Windows XP, Vista, and 7 and was representative of the browser DOM
+    use-after-free attack class prevalent during this era.

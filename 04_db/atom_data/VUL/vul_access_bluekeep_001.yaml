@@ -1,0 +1,131 @@
+# GR Atom: BlueKeep
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-BLUEKEEP-001"
+  name: "BlueKeep"
+  normalized_name: "bluekeep"
+  aliases:
+    - "CVE-2019-0708"
+    - "Microsoft RDP Vulnerability"
+    - "Remote Desktop Services RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - RDP
+    - WINDOWS
+    - NETWORK
+    - OVERFLOW
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows Remote Desktop Services (RDS)"
+    - "Windows XP"
+    - "Windows Server 2003"
+    - "Windows 7"
+    - "Windows Server 2008"
+    - "Windows Server 2008 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BlueKeep (CVE-2019-0708) is a critical remote code execution vulnerability in Microsoft
+    Windows Remote Desktop Services (RDS), also known as Terminal Services. Disclosed in May
+    2019 with a CVSS score of 9.8, the vulnerability exists in the RDP protocol handling
+    before authentication, specifically in the way RDS handles bind requests to internal
+    channels. It allows an unauthenticated attacker to send specially crafted requests to
+    the target system's RDP service (port 3389) to execute arbitrary code with SYSTEM
+    privileges. Microsoft classified BlueKeep as wormable, meaning it could be exploited
+    to create self-propagating malware similar to WannaCry without any user interaction.
+  why: >-
+    BlueKeep was considered one of the most dangerous vulnerabilities since EternalBlue because
+    of its pre-authentication, wormable nature affecting millions of internet-exposed RDP
+    services. Microsoft took the extraordinary step of releasing patches for out-of-support
+    Windows XP and Server 2003 due to the severity. The vulnerability threatened critical
+    infrastructure, healthcare, and government systems running legacy Windows versions. NSA
+    issued a rare advisory urging immediate patching. Active exploitation was observed in
+    the wild starting November 2019, initially for cryptocurrency mining.
+  how: >-
+    The vulnerability is a use-after-free in the RDP protocol's internal channel handling.
+    When RDP connection is initiated, the server allocates channel structures. A specially
+    crafted connection request can trigger a use-after-free condition in the handling of
+    MS_T120 channel binds during the pre-authentication phase. By sending a malformed
+    connection request to port 3389, an attacker can corrupt kernel memory and achieve
+    arbitrary code execution with SYSTEM privileges. Exploitation requires no authentication
+    or user interaction. Mitigation includes patching (MS19-MAY), enabling Network Level
+    Authentication (NLA), blocking port 3389 at perimeter firewalls, and disabling RDP
+    where not needed. Microsoft released patches for Windows XP through Server 2008 R2.
+  core_concepts:
+    - key: "Wormable RCE"
+      value: "Pre-authentication remote code execution vulnerability exploitable without user interaction, capable of self-propagating worm behavior similar to WannaCry"
+    - key: "Use-After-Free"
+      value: "Memory corruption vulnerability in RDP MS_T120 channel handling that allows kernel-level code execution through crafted connection requests"
+    - key: "Legacy System Risk"
+      value: "Affects Windows XP through Server 2008 R2, prompting Microsoft to release rare out-of-support patches for end-of-life operating systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "BlueKeep is a critical instance of access control failure in Windows Remote Desktop Services allowing unauthenticated access"
+  - type: "supersedes"
+    target: "VUL-ACCESS-BLUEBORNE-001"
+    description: "BlueKeep extended the wormable remote access vulnerability paradigm from Bluetooth to enterprise RDP services"
+  - type: "applies_to"
+    target: "VUL-ACCESS-CVE20146321-001"
+    description: "Both are critical Windows protocol vulnerabilities enabling remote code execution through network services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+  cve_id: "CVE-2019-0708"
+  cvss_score: 9.8
+  affected_product: "Microsoft Windows Remote Desktop Services"
+  disclosure_year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2019-0708"
+    - "NSA Cybersecurity Advisory - Patch Remote Desktop Services"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+    - "NVD CVE-2019-0708 CVSS 9.8"
+  search_keywords:
+    - "BlueKeep"
+    - "CVE-2019-0708"
+    - "RDP vulnerability"
+    - "Remote Desktop Services RCE"
+    - "wormable vulnerability"
+    - "Windows RDP exploit"
+    - "port 3389 vulnerability"
+    - "pre-authentication RCE"
+  embedding_text: >-
+    BlueKeep (CVE-2019-0708) is a critical wormable remote code execution vulnerability in
+    Windows Remote Desktop Services with CVSS 9.8. Pre-authentication use-after-free in RDP
+    MS_T120 channel handling allows unauthenticated attackers to execute arbitrary code with
+    SYSTEM privileges on port 3389. Affects Windows XP through Server 2008 R2. Classified
+    as wormable by Microsoft, capable of self-propagating without user interaction like
+    WannaCry. NSA issued rare advisory urging immediate patching. Microsoft released
+    out-of-support patches for Windows XP and Server 2003. Active exploitation began
+    November 2019. Mitigation includes patching, Network Level Authentication, and
+    blocking port 3389.

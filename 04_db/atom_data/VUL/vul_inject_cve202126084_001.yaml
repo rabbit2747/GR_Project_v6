@@ -1,0 +1,108 @@
+# GR Atom: CVE-2021-26084
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE202126084-001"
+  name: "CVE-2021-26084"
+  normalized_name: "cve_2021_26084"
+  aliases:
+    - "Confluence OGNL Injection"
+    - "Atlassian Confluence Server Webwork OGNL RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Atlassian Confluence Server and Data Center"
+    - "Confluence Webwork OGNL evaluator"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-26084 is an OGNL injection vulnerability in Atlassian Confluence Server and Data
+    Center that allows unauthenticated attackers to execute arbitrary code. The vulnerability
+    exists in the Webwork framework OGNL evaluation used by Confluence, where user input is
+    processed as OGNL expressions without proper sanitization. The CVSS v3 base score is 9.8
+    (Critical) and it was disclosed in August 2021 with mass exploitation following rapidly.
+  why: >-
+    Atlassian Confluence is deployed by tens of thousands of organizations for documentation
+    and collaboration. Many instances are internet-accessible. The US government issued
+    emergency alerts about mass exploitation, and the vulnerability was adopted by
+    cryptocurrency miners, ransomware groups, and APT actors within days of PoC release.
+  how: >-
+    Attackers inject OGNL expressions through specific Confluence web forms and URL parameters
+    that are processed by the Webwork framework without sanitization. The OGNL expressions
+    invoke arbitrary Java methods enabling command execution. Some exploitation paths require
+    authentication while others are fully unauthenticated depending on the Confluence
+    configuration. Mitigation requires upgrading Confluence to patched versions.
+  core_concepts:
+    - key: "OGNL Injection"
+      value: "Object-Graph Navigation Language expressions injected through web forms are evaluated server-side enabling code execution"
+    - key: "Webwork Framework"
+      value: "Java web framework used by Confluence that evaluates user input as OGNL expressions without proper sanitization"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Confluence OGNL injection is a specific instance of expression language injection"
+  - type: "supersedes"
+    target: "VUL-INJECT-CVE20193396-001"
+    description: "Later Confluence injection vulnerability supersedes earlier SSTI in Confluence"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202226134-001"
+    description: "2021 Confluence OGNL injection precedes the more critical 2022 Confluence OGNL injection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2021-26084"
+  cvss_score: 9.8
+  affected_product: "Atlassian Confluence Server/Data Center"
+  year: 2021
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2021-26084"
+    - "CWE-917 Improper Neutralization of Special Elements used in an Expression Language Statement"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Atlassian Security Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2021-26084"
+    - "Confluence OGNL injection"
+    - "Atlassian Confluence RCE"
+    - "Webwork OGNL injection"
+    - "Confluence remote code execution"
+    - "Confluence mass exploitation"
+  embedding_text: >-
+    CVE-2021-26084 is a critical OGNL injection vulnerability in Atlassian Confluence Server
+    and Data Center with CVSS score 9.8. The Webwork framework evaluates user input as OGNL
+    expressions without sanitization enabling arbitrary code execution. Mass exploitation
+    followed disclosure rapidly with cryptocurrency miners ransomware groups and APT actors
+    targeting internet-facing Confluence instances. US government issued emergency alerts.
+    Some exploitation paths are fully unauthenticated. Part of a series of critical Confluence
+    injection vulnerabilities. Mitigation requires upgrading to patched versions.

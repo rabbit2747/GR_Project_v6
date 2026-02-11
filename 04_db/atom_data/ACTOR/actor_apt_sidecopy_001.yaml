@@ -1,0 +1,87 @@
+# GR Atom: SideCopy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SIDECOPY-001"
+  name: "SideCopy"
+  normalized_name: "sidecopy"
+  aliases:
+    - "SideCopy APT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SideCopy is a Pakistan-nexus advanced persistent threat group active since at least 2019, named for its practice of mimicking the tactics, techniques, and procedures of SideWinder (an India-linked APT group). SideCopy primarily targets Indian military and defense establishments, government agencies, and defense contractors. The group is assessed to have connections to the Transparent Tribe (APT36) threat actor and operates in support of Pakistani strategic intelligence collection."
+  why: "SideCopy represents an evolving threat to Indian defense and government entities, demonstrating the practice of TTP mimicry to complicate attribution and confuse incident responders. The group's close operational relationship with Transparent Tribe suggests coordinated Pakistani cyber-espionage operations against Indian targets, focusing on military intelligence and defense technology collection."
+  how: "SideCopy delivers malicious LNK files and archive-based payloads via spear-phishing emails themed around Indian defense topics and government communications. The group uses DLL side-loading and multi-stage infection chains to deploy custom RATs including ActionRAT, AuTo RAT, and MargulasRAT. It also deploys ReverseRAT and AllaKoreRAT for remote access. C2 infrastructure leverages compromised websites and purpose-built servers. The group has increasingly targeted Linux environments used by Indian defense organizations."
+  core_concepts:
+    - key: "TTP Mimicry"
+      value: "Deliberate imitation of SideWinder APT group's tactics, techniques, and procedures to complicate attribution and confuse defenders"
+    - key: "Indian Defense Targeting"
+      value: "Focused espionage operations against Indian military establishments, defense contractors, and government agencies for strategic intelligence"
+    - key: "Custom RAT Arsenal"
+      value: "Multiple custom remote access trojans including ActionRAT, AuTo RAT, MargulasRAT, and ReverseRAT for different operational requirements"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Pakistan-nexus APT group conducting espionage against Indian defense targets"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses defense-themed spear-phishing with malicious LNK files and archives for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Cisco Talos - SideCopy APT analysis"
+    - "Seqrite - SideCopy targeting Indian defense"
+    - "MalwareBytes - SideCopy campaign tracking"
+    - "ATT&CK - SideCopy threat intelligence"
+  search_keywords:
+    - "sidecopy"
+    - "pakistan apt"
+    - "indian defense targeting"
+    - "sidewinder mimicry"
+    - "actionrat"
+    - "reverserrat"
+    - "transparent tribe connection"
+    - "dll side-loading"
+    - "south asia espionage"
+    - "military espionage"
+    - "defense contractor targeting"
+  embedding_text: "SideCopy is a Pakistan-nexus advanced persistent threat group active since at least 2019, named for its practice of mimicking the tactics of SideWinder, an India-linked APT group. The group primarily targets Indian military establishments, defense contractors, and government agencies, with assessed connections to Transparent Tribe (APT36). SideCopy delivers malicious LNK files via defense-themed spear-phishing, uses DLL side-loading and multi-stage infection chains, and deploys custom remote access trojans including ActionRAT, AuTo RAT, and MargulasRAT. The group's TTP mimicry strategy complicates attribution while supporting Pakistani strategic intelligence collection against Indian defense targets."

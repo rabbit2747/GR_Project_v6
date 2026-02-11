@@ -1,0 +1,70 @@
+# GR Atom: Bizone
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BIZONE-001"
+  name: "Bizone"
+  normalized_name: "bizone"
+  aliases:
+    - "BI.ZONE"
+    - "BIZONE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - EDR
+    - BLUE_TEAM
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BI.ZONE is a Russian cybersecurity company and subsidiary of Sberbank, providing threat intelligence, managed detection and response (MDR), incident response, and security assessment services. The company operates a security operations center and conducts threat research focused on adversaries targeting Russian and CIS-region organizations. BI.ZONE publishes detailed threat reports and tracks APT groups active in the Eastern European and Central Asian cyber threat landscape."
+  why: "BI.ZONE is significant as one of the primary sources of threat intelligence on cyber operations targeting Russia and the CIS region, providing unique visibility into threat actors and campaigns that Western vendors may not extensively cover. Their research contributes to global understanding of the Eastern European cyber threat landscape and provides intelligence on both state-sponsored and cybercriminal operations in the region."
+  how: "BI.ZONE operates through its SOC providing 24/7 monitoring and MDR services, conducts incident response engagements, performs penetration testing and red team assessments, and publishes threat intelligence reports. Their research team tracks APT groups, analyzes malware, and shares findings through technical reports and conference presentations."
+  core_concepts:
+    - key: "CIS Threat Intelligence"
+      value: "Specialized threat intelligence on adversaries targeting Russia and CIS-region organizations"
+    - key: "Managed Detection & Response"
+      value: "SOC-based monitoring and response services for enterprise customers in the Russian market"
+    - key: "Regional Threat Landscape"
+      value: "Unique visibility into Eastern European and Central Asian cyber threat actors and campaigns"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-MDR-SERVICE-001"
+    description: "Produces managed detection and response services with focus on CIS-region threats"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://bi.zone"
+    - "https://bi.zone/research"
+  search_keywords:
+    - "bizone"
+    - "bi.zone"
+    - "sberbank cybersecurity"
+    - "russian threat intelligence"
+    - "cis region security"
+    - "managed detection response"
+    - "eastern european cyber threat"
+  embedding_text: "BI.ZONE is a Russian cybersecurity company and subsidiary of Sberbank, providing threat intelligence, managed detection and response, incident response, and security assessment services. The company operates a security operations center and conducts threat research focused on adversaries targeting Russian and CIS-region organizations. BI.ZONE publishes detailed threat reports tracking APT groups active in the Eastern European and Central Asian cyber threat landscape, providing unique visibility into threat actors and campaigns that Western vendors may not extensively cover. Their services include 24/7 SOC monitoring, incident response engagements, penetration testing, and red team assessments. BI.ZONE's research contributes to global understanding of the regional cyber threat landscape, covering both state-sponsored and cybercriminal operations in the Russia and CIS region."

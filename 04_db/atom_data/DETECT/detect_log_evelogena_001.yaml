@@ -1,0 +1,107 @@
+# GR Atom: Event Log Enable Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGENA-001"
+  name: "Event Log Enable Event"
+  normalized_name: "event_log_enable_event"
+  aliases:
+    - "Log Enable Event"
+    - "Audit Logging Enabled"
+    - "Event Log Channel Enabled"
+    - "Logging Activation Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+    - BLUE_TEAM
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Enable Event is a detection pattern for log entries generated when an event log
+    channel or logging subsystem is enabled or re-enabled after being in a disabled state. On
+    Windows, this includes enabling specific event log channels via wevtutil (wevtutil sl
+    <channel> /e:true), restoring audit policies through Group Policy, re-enabling the Windows
+    Event Log service, or enabling additional diagnostic or analytic log channels that are
+    disabled by default (such as Microsoft-Windows-Sysmon/Operational or PowerShell Script Block
+    Logging). On Linux, this includes enabling syslog/rsyslog services, configuring new auditd
+    rules, or activating systemd-journald persistent logging. Enable events serve both as
+    indicators of security posture improvement and as potential indicators of attacker activity
+    when unexpected channels are enabled.
+  why: >-
+    Monitoring log enable events is important for both defensive posture validation and
+    anomaly detection. From a defensive perspective, enable events confirm that security logging
+    enhancements have been successfully applied — for example, verifying that PowerShell Script
+    Block Logging or Sysmon have been enabled across the fleet. From an anomaly detection
+    perspective, unexpected enabling of verbose or debug log channels may indicate an attacker
+    performing reconnaissance by enabling diagnostic logging to gather system information, or
+    an insider enabling audit channels to monitor other users. Enable events also serve as the
+    recovery indicator after a log disable attack, confirming that logging has been restored.
+  how: >-
+    Event log enable detection operates through: (1) Monitoring Windows Security log for Event
+    ID 4719 (System audit policy was changed) indicating new audit categories being enabled;
+    (2) Tracking Event ID 7036 and 7040 in the System log for EventLog service state changes
+    to running/automatic; (3) Monitoring wevtutil.exe execution with sl and /e:true parameters
+    via process creation logging; (4) Detecting registry changes to event log configuration keys
+    that activate new log channels; (5) Correlating enable events with prior disable events to
+    track logging disruption duration and recovery; (6) On Linux, monitoring systemctl enable
+    commands for logging services and auditctl rule additions; (7) Validating that enabled
+    logging configuration matches the approved security baseline.
+  core_concepts:
+    - key: "Logging Posture Validation"
+      value: "Enable events confirm that required security logging capabilities are active and properly configured across the environment, supporting compliance verification."
+    - key: "Recovery from Logging Disruption"
+      value: "Enable events following disable events indicate logging service recovery, with the time gap between the two representing a detection blind spot requiring investigation."
+    - key: "Diagnostic Channel Activation"
+      value: "Enabling verbose, debug, or analytic log channels that are normally disabled may indicate legitimate troubleshooting or attacker reconnaissance activity."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Log enabling generates a security-relevant event for audit trail"
+  - type: "precedes"
+    target: "DETECT-LOG-EVELOGSTA-001"
+    description: "Enabling a log channel precedes the start of event recording in that channel"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft — Windows Event Log Channel Configuration"
+    - "Microsoft — Event ID 4719: System audit policy was changed"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log enable"
+    - "logging enabled"
+    - "audit policy enable"
+    - "Event ID 4719"
+    - "wevtutil enable"
+    - "log channel activation"
+    - "enable event logging"
+    - "syslog enable"
+    - "audit logging restore"
+    - "logging recovery"
+  embedding_text: >-
+    Event Log Enable Event is a detection pattern for log entries indicating that event logging
+    has been enabled or re-enabled. On Windows, this includes audit policy activation (Event ID
+    4719), EventLog service enablement, wevtutil channel enablement, and diagnostic channel
+    activation. On Linux, this includes enabling syslog, rsyslog, or auditd services. Enable
+    events serve dual purposes: confirming security logging posture improvements and detecting
+    anomalous channel activation that may indicate attacker reconnaissance. When correlated with
+    prior disable events, enable events reveal logging disruption duration and detection blind
+    spot windows requiring forensic investigation.

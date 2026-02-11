@@ -1,0 +1,139 @@
+# GR Atom: Modbus Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-MODBUS-001"
+  name: "Modbus Protocol"
+  normalized_name: "modbus_protocol"
+  aliases:
+    - "Modbus"
+    - "Modbus TCP"
+    - "Modbus RTU"
+    - "Modbus ASCII"
+    - "Modbus/TCP"
+    - "Modbus Plus"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Modbus is a serial communication protocol developed by Modicon (now Schneider Electric) in
+    1979 for programmable logic controllers (PLCs), and remains one of the most widely deployed
+    industrial control protocols globally. Modbus defines a simple master-slave request-response
+    structure for reading and writing device registers and coils. Three variants exist: Modbus
+    RTU (binary encoding over RS-232/RS-485 serial), Modbus ASCII (text encoding over serial),
+    and Modbus TCP (encapsulated in TCP/IP on port 502). Modbus provides function codes for
+    reading discrete inputs (02), reading holding registers (03), writing single coils (05),
+    writing single registers (06), and writing multiple registers (16), among others. Modbus is
+    used across manufacturing, energy, water treatment, building automation, and transportation.
+  why: >-
+    Modbus is one of the most insecure industrial protocols in active use, with zero built-in
+    authentication, encryption, or integrity verification. Any device with network access to
+    Modbus TCP port 502 can read all process data and write to any register or coil, potentially
+    altering physical processes controlling critical infrastructure. The Stuxnet attack
+    demonstrated that manipulating industrial control registers can cause physical destruction.
+    Shodan searches consistently find thousands of Modbus devices directly exposed to the
+    Internet. Modbus exploitation is trivial using tools like mbtget, modbus-cli, or
+    Metasploit's Modbus modules. The protocol's simplicity means there are no protocol-level
+    defenses against unauthorized commands. Modbus security depends entirely on network
+    segmentation, access control, and monitoring, making it a primary concern in ICS/SCADA
+    security assessments.
+  how: >-
+    Modbus operates through a simple request-response cycle: (1) the master (HMI, SCADA server)
+    sends a request PDU containing the function code and data address to a slave (PLC, RTU);
+    (2) Modbus RTU frames include a device address byte, function code, data, and CRC-16 error
+    check over RS-485 serial; (3) Modbus TCP encapsulates the PDU in a MBAP (Modbus Application
+    Protocol) header with transaction ID, protocol ID, length, and unit ID over TCP port 502;
+    (4) the slave processes the request and returns a response with the requested data or an
+    exception code. Security controls must be applied externally: network segmentation isolating
+    Modbus networks from IT/Internet using firewalls and DMZ architectures (Purdue Model),
+    ICS-specific intrusion detection systems (e.g., Dragos, Claroty, Nozomi) monitoring for
+    anomalous Modbus function codes and register access patterns, Modbus-aware deep packet
+    inspection firewalls that can whitelist specific function codes and address ranges per source,
+    VPN tunneling for Modbus TCP over untrusted networks, and migration to authenticated
+    alternatives (OPC UA, DNP3-SA) where feasible.
+  core_concepts:
+    - key: "Unauthenticated Command Execution"
+      value: >-
+        Modbus provides no mechanism to verify the identity or authorization of command sources,
+        meaning any device capable of sending a properly formatted Modbus frame can read all
+        process data and execute write operations on any accessible device.
+    - key: "Function Code Whitelisting"
+      value: >-
+        A compensating security control using Modbus-aware firewalls to restrict which function
+        codes (read, write single, write multiple, diagnostic) are permitted from each source
+        address, preventing unauthorized write operations while allowing monitoring reads.
+    - key: "Modbus TCP Exposure"
+      value: >-
+        The Internet-accessible exposure of Modbus TCP on port 502, with thousands of devices
+        discoverable via Shodan, representing direct access to industrial control registers
+        without any authentication barrier between the Internet and physical process control.
+    - key: "Purdue Model Segmentation"
+      value: >-
+        The network architecture model (ISA/IEC 62443) used to isolate Modbus-carrying OT
+        networks from IT networks through defined security zones and conduits with firewalls,
+        DMZs, and data diodes providing defense-in-depth for unauthenticated protocols.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "Modbus is a foundational industrial control protocol within the ICS protocol family"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "Modbus TCP operates over TCP port 502 for IP-networked industrial communications"
+  - type: "enables"
+    target: "PROTO-INDUSTRIAL-OPCUA-001"
+    description: "Modbus devices are frequently integrated with OPC UA servers that provide authenticated access to Modbus data"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Modbus Application Protocol Specification V1.1b3. Modbus Organization. https://modbus.org/specs.php"
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+    - "ICS-CERT - Modbus Protocol Security Assessment. CISA."
+    - "ISA/IEC 62443 - Industrial Automation and Control Systems Security. International Society of Automation."
+  search_keywords:
+    - "Modbus"
+    - "Modbus TCP"
+    - "Modbus security"
+    - "Modbus RTU"
+    - "industrial control protocol"
+    - "SCADA Modbus"
+    - "port 502"
+    - "PLC protocol"
+    - "Modbus exploitation"
+    - "ICS security"
+    - "Modbus unauthenticated"
+    - "Purdue model"
+  embedding_text: >-
+    Modbus is a serial/TCP industrial control protocol developed in 1979 for PLCs, remaining one
+    of the most widely deployed ICS protocols. It provides simple master-slave register/coil read
+    and write operations over serial (RTU/ASCII) or TCP port 502. Modbus has zero built-in
+    authentication, encryption, or integrity verification, making it trivially exploitable by any
+    device with network access. Thousands of Modbus TCP devices are Internet-exposed via Shodan.
+    Security depends entirely on external controls: network segmentation per Purdue Model,
+    ICS-specific intrusion detection monitoring function codes and register patterns, Modbus-aware
+    firewalls with function code whitelisting, and migration to authenticated alternatives like
+    OPC UA or DNP3-SA. Modbus is a primary concern in ICS/SCADA security assessments across
+    manufacturing, energy, water, and transportation sectors.

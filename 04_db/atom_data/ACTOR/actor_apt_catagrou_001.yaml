@@ -1,0 +1,85 @@
+# GR Atom: Catalina Group
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-CATAGROU-001"
+  name: "Catalina Group"
+  normalized_name: "catalina_group"
+  aliases:
+    - "Charming Kitten Subgroup"
+    - "Ajax Security Team"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - RECON
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Catalina Group is an Iranian APT cluster associated with the broader Charming Kitten (APT35/Phosphorus) operations. The group focuses on credential harvesting and social engineering campaigns targeting Iranian dissidents, academics, journalists, human rights activists, and Western policy researchers focused on Iran. The group is known for creating elaborate fake personas and phishing infrastructure to steal email credentials and monitor targets of interest to the Iranian government."
+  why: "Catalina Group represents the Iranian government's domestic surveillance and foreign intelligence collection targeting individuals who influence policy discussions about Iran. Their operations against journalists, academics, and human rights activists demonstrate the use of cyber operations for political repression and monitoring of diaspora communities. Understanding their social engineering tradecraft is essential for protecting at-risk communities."
+  how: "The group creates convincing fake social media profiles and impersonates journalists, conference organizers, or academics to build trust with targets over extended periods. They then direct targets to credential harvesting pages mimicking legitimate email providers including Google, Yahoo, and Microsoft. The group has used SMS-based phishing, fake conference invitations, and compromised legitimate websites as watering holes. Some campaigns have delivered lightweight surveillance malware for ongoing monitoring of compromised accounts and devices."
+  core_concepts:
+    - key: "Long-term Social Engineering"
+      value: "Invests weeks or months in building trust with targets through fake personas before credential theft"
+    - key: "Credential Harvesting"
+      value: "Primary focus on stealing email credentials through sophisticated phishing pages"
+    - key: "Dissident Targeting"
+      value: "Specifically targets Iranian dissidents, journalists, and human rights activists for surveillance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses sophisticated social engineering and phishing for credential theft"
+  - type: is_a
+    target: "ACTOR-APT-CATAGROU-001"
+    description: "Iranian APT cluster focused on credential harvesting and dissident surveillance"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1598.003"
+    tactic:
+      - "Reconnaissance"
+      - "Initial Access"
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Citizen Lab - Iranian Phishing Campaign Analysis"
+    - "ClearSky - Charming Kitten Operations Report"
+    - "Google TAG - Iranian Threat Actor Credential Phishing"
+  search_keywords:
+    - "catalina group"
+    - "charming kitten subgroup"
+    - "ajax security team"
+    - "iranian credential phishing"
+    - "dissident surveillance iran"
+    - "journalist targeting apt"
+    - "iranian social engineering"
+    - "credential harvesting iran"
+    - "phosphorus subgroup"
+    - "iran human rights targeting"
+  embedding_text: "Catalina Group is an Iranian APT cluster associated with the broader Charming Kitten (APT35/Phosphorus) operations. The group specializes in credential harvesting and social engineering campaigns targeting Iranian dissidents, academics, journalists, human rights activists, and Western policy researchers. They create elaborate fake personas impersonating journalists or conference organizers, invest weeks building trust with targets, then direct them to credential harvesting pages mimicking Google, Yahoo, and Microsoft login portals. Some campaigns include SMS-based phishing, fake conference invitations, and watering hole attacks. The group represents Iranian government domestic surveillance and foreign intelligence collection capabilities targeting individuals who influence Iran-related policy discussions."

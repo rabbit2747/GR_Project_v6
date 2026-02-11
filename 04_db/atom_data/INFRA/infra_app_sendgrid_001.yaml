@@ -1,0 +1,114 @@
+# GR Atom: SendGrid
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SENDGRID-001"
+  name: "SendGrid"
+  normalized_name: "sendgrid"
+  aliases:
+    - "Twilio SendGrid"
+    - "SendGrid Email API"
+    - "SendGrid SMTP Relay"
+    - "SendGrid Marketing Campaigns"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - API
+    - SMTP
+    - WEB
+    - AUTHN
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SendGrid (now Twilio SendGrid) is a cloud-based email delivery platform providing
+    transactional and marketing email services via REST API and SMTP relay. It handles email
+    sending, delivery optimization, bounce management, click/open tracking, and reputation
+    management for organizations sending high volumes of email. The platform processes
+    billions of emails monthly and is integrated into many SaaS applications and custom
+    software through its APIs and SMTP relay endpoints.
+  why: >-
+    Compromised SendGrid accounts and API keys are highly valuable for phishing campaigns
+    because emails sent through legitimate SendGrid infrastructure pass SPF, DKIM, and DMARC
+    checks, increasing deliverability of malicious messages. Leaked API keys in source code
+    repositories grant attackers the ability to send emails impersonating the victim organization.
+    SendGrid accounts have been compromised in supply chain attacks to distribute malware
+    through trusted email channels. The platform's webhook and event notification features
+    can be abused to exfiltrate data or receive callback notifications.
+  how: >-
+    SendGrid operates through REST API endpoints (api.sendgrid.com) and SMTP relay servers
+    (smtp.sendgrid.net). Authentication uses API keys for REST access and username/API key
+    for SMTP. Emails are submitted, processed through SendGrid's delivery infrastructure
+    with DKIM signing using the sender's domain, and delivered to recipient mail servers.
+    Webhooks notify applications of delivery events. The platform provides sender
+    authentication through domain verification, dedicated IP addresses, and reputation
+    scoring. Integration typically involves embedding API keys in application code or
+    environment configuration.
+  core_concepts:
+    - key: "Trusted Email Infrastructure Abuse"
+      value: "Compromised SendGrid accounts enable phishing that passes SPF/DKIM/DMARC authentication, bypassing email security controls"
+    - key: "API Key Exposure"
+      value: "SendGrid API keys leaked in source code repositories or configuration files grant full email sending capability under the victim organization's identity"
+    - key: "Supply Chain Email Vector"
+      value: "Attackers compromise SendGrid integrations to distribute malware through trusted email delivery channels associated with legitimate organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "SendGrid is an enterprise cloud application providing email delivery infrastructure services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1586.002"
+    tactic:
+      - "Resource Development"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Twilio SendGrid API Documentation"
+    - "MITRE ATT&CK T1586.002 - Email Accounts"
+    - "SendGrid Security Best Practices Guide"
+  search_keywords:
+    - "SendGrid"
+    - "Twilio SendGrid"
+    - "SendGrid API key"
+    - "email delivery service"
+    - "SMTP relay service"
+    - "SendGrid phishing"
+    - "email API compromise"
+    - "SendGrid account takeover"
+  embedding_text: >-
+    SendGrid (Twilio SendGrid) is a cloud-based email delivery platform providing transactional
+    and marketing email via REST API and SMTP relay. It processes billions of emails monthly
+    with DKIM signing, SPF alignment, and delivery optimization. Compromised SendGrid accounts
+    and leaked API keys enable attackers to send phishing emails that pass email authentication
+    checks (SPF, DKIM, DMARC), significantly increasing malicious email deliverability.
+    API keys commonly leak through source code repositories and configuration files. Supply
+    chain attacks target SendGrid integrations to distribute malware through trusted channels.
+    Webhook features can be abused for data exfiltration. Security teams should rotate API
+    keys regularly, use IP access management, enable two-factor authentication, monitor
+    sending patterns for anomalies, and restrict API key permissions to minimum required scope.

@@ -1,0 +1,104 @@
+# GR Atom: CVE-2013-2465
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20132465-001"
+  name: "CVE-2013-2465"
+  normalized_name: "cve_2013_2465"
+  aliases:
+    - "Java 2D Stubs Heap Buffer Overflow"
+    - "Java AWT Vulnerability June 2013"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Java SE 7 Update 21 and earlier"
+    - "Oracle Java SE 6 Update 45 and earlier"
+    - "Java 2D component (native stubs)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-2465 is a heap-based buffer overflow vulnerability (CVSS 10.0) in the Java 2D
+    component of Oracle Java SE. The vulnerability exists in the native stubs used by the 2D
+    rendering subsystem, where insufficient bounds validation allows a heap buffer overflow
+    through a crafted Java applet. It enables remote attackers to execute arbitrary code outside
+    the Java sandbox. Patched in the June 2013 Critical Patch Update, it affects Java SE 7
+    Update 21 and earlier, and Java SE 6 Update 45 and earlier.
+  why: >-
+    This vulnerability was widely exploited in the wild and became a favorite in multiple exploit
+    kits including Neutrino, Styx, and Sweet Orange. The Java 2D native code components provided
+    a direct path to memory corruption bypassing the managed code sandbox, making exploitation
+    highly reliable. It was one of the most actively exploited Java vulnerabilities of 2013 and
+    contributed to the continued erosion of trust in Java browser security.
+  how: >-
+    The exploit creates a Java applet that invokes 2D rendering operations with specially crafted
+    parameters that trigger a heap buffer overflow in the native stubs. Since the overflow occurs
+    in native (C/C++) code rather than managed Java code, the security sandbox is irrelevant.
+    The attacker corrupts adjacent heap memory to gain control of execution flow, achieving
+    arbitrary code execution with the user's privileges.
+  core_concepts:
+    - key: "Native Code Heap Overflow Bypasses Sandbox"
+      value: "Heap buffer overflow in Java 2D native stubs occurs below the Java security manager, making sandbox protections irrelevant"
+    - key: "Exploit Kit Favorite"
+      value: "Widely integrated into Neutrino, Styx, and Sweet Orange exploit kits as a reliable Java exploitation primitive"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Heap-based buffer overflow in Java 2D native rendering stubs"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-2465 - CVSS 10.0"
+    - "Oracle Critical Patch Update June 2013"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2013-2465"
+    - "Java 2D"
+    - "heap buffer overflow"
+    - "Oracle Java SE"
+    - "exploit kit"
+    - "Neutrino"
+    - "native stubs"
+    - "Java applet"
+    - "remote code execution"
+  embedding_text: >-
+    CVE-2013-2465 is a heap-based buffer overflow vulnerability with CVSS 10.0 in the Java 2D
+    native stubs component of Oracle Java SE. The flaw occurs in native C/C++ rendering code
+    below the Java security manager, making sandbox protections irrelevant. Remote attackers
+    exploit this through crafted applets that trigger a heap overflow during 2D rendering
+    operations. Widely exploited in Neutrino, Styx, and Sweet Orange exploit kits, it affected
+    Java SE 7 Update 21 and earlier and Java SE 6 Update 45 and earlier. Patched in June 2013,
+    this vulnerability demonstrated that native code components in Java provided direct paths
+    to memory corruption bypassing managed code security boundaries.

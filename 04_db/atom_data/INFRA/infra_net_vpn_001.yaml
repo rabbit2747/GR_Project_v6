@@ -1,0 +1,83 @@
+# GR Atom: VPN
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-VPN-001"
+  name: "VPN"
+  normalized_name: "vpn"
+  aliases:
+    - "Virtual Private Network"
+    - "VPN Gateway"
+    - "VPN Concentrator"
+    - "IPSec VPN"
+    - "SSL VPN"
+    - "Remote Access VPN"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - VPN
+    - ENCRYPT
+    - TLS
+    - AUTHN
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "N4.1"
+
+definition:
+  what: "A Virtual Private Network (VPN) is a network technology that creates encrypted tunnels over untrusted networks such as the internet to provide secure, private communication between network endpoints. VPN implementations include site-to-site VPNs connecting entire network segments using IPSec tunnels between gateway devices, remote access VPNs enabling individual users to securely connect to the corporate network using SSL/TLS or IPSec clients, and cloud VPN services connecting on-premises networks to cloud VPC environments. VPN platforms include Cisco AnyConnect, Palo Alto GlobalProtect, Fortinet FortiClient, OpenVPN, WireGuard, and cloud-native solutions such as AWS Site-to-Site VPN and Azure VPN Gateway. VPN concentrators handle multiple simultaneous encrypted connections at scale."
+  why: "VPNs are essential infrastructure security controls that protect data in transit over untrusted networks and provide authenticated access to internal resources for remote users and branch offices. They enforce network-level access control by requiring authentication and encryption before granting access to internal networks. From a security perspective, VPN gateways are critical perimeter devices that have been repeatedly targeted by threat actors through zero-day vulnerabilities (e.g., CVE-2021-20016 SonicWall, CVE-2021-22893 Pulse Secure, CVE-2023-27997 Fortinet). VPN credential theft, MFA bypass, and exploitation of unpatched VPN appliances are among the most common initial access vectors for sophisticated threat actors and ransomware operators."
+  how: "VPN establishment begins with client authentication through methods including username/password, certificates, multi-factor authentication tokens, or SAML/OAuth federation. After authentication, the VPN client and server negotiate encryption parameters through protocols such as IKEv2 for IPSec or TLS handshake for SSL VPN. An encrypted tunnel is established, and traffic is encapsulated within the tunnel according to the configured split-tunnel or full-tunnel policy. Site-to-site VPNs maintain persistent IPSec tunnels between gateway devices with automatic rekeying. VPN concentrators manage connection state, enforce access policies, assign IP addresses from dedicated pools, and apply group-based security policies. Health monitoring verifies endpoint compliance before granting access. VPN logs capture authentication events, session durations, and traffic volumes for security monitoring."
+  core_concepts:
+    - key: "IPSec Tunnel"
+      value: "An encrypted network-layer tunnel using IKE for key exchange and ESP/AH for data encryption and integrity, providing site-to-site and remote access VPN connectivity"
+    - key: "SSL/TLS VPN"
+      value: "Application-layer VPN technology using TLS encryption that provides remote access through web browsers or lightweight clients without requiring full IPSec client software"
+    - key: "Split Tunneling"
+      value: "VPN configuration where only traffic destined for the corporate network traverses the VPN tunnel, while internet-bound traffic goes directly, trading security visibility for performance"
+
+relations:
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "VPN concentrators and gateways are deployed in the DMZ to terminate remote access connections from untrusted networks"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "VPN clients require DNS resolution to locate VPN gateway endpoints and for internal name resolution through the tunnel"
+  - type: requires
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "VPN tunnels rely on router infrastructure for traffic routing between VPN endpoints and internal network segments"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1133"
+    tactic: ["Persistence", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-77 Rev. 1 - Guide to IPsec VPNs - https://csrc.nist.gov/publications/detail/sp/800-77/rev-1/final"
+    - "NIST SP 800-113 - Guide to SSL VPNs - https://csrc.nist.gov/publications/detail/sp/800-113/final"
+    - "CISA - VPN Vulnerability Advisories - https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+    - "MITRE ATT&CK - T1133 External Remote Services"
+  search_keywords:
+    - "VPN"
+    - "virtual private network"
+    - "VPN gateway"
+    - "IPSec VPN"
+    - "SSL VPN"
+    - "remote access VPN"
+    - "VPN concentrator"
+    - "VPN vulnerability"
+    - "split tunneling"
+    - "VPN security"
+  embedding_text: "A Virtual Private Network (VPN) creates encrypted tunnels over untrusted networks for secure private communication between endpoints. Implementations include site-to-site IPSec VPNs between gateway devices, remote access SSL/TLS VPNs for individual users, and cloud VPN services. Platforms include Cisco AnyConnect, Palo Alto GlobalProtect, Fortinet FortiClient, OpenVPN, and WireGuard. VPN gateways are critical perimeter devices repeatedly targeted through zero-day vulnerabilities such as CVE-2021-22893 and CVE-2023-27997. VPN credential theft, MFA bypass, and unpatched appliance exploitation are primary initial access vectors for threat actors and ransomware operators. VPN concentrators manage authentication, encryption negotiation, access policies, and session monitoring."

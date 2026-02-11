@@ -1,0 +1,109 @@
+# GR Atom: CVE-2015-2291
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20152291-001"
+  name: "CVE-2015-2291"
+  normalized_name: "cve_2015_2291"
+  aliases:
+    - "Intel Ethernet Diagnostics Driver Vulnerability"
+    - "iqvw64e.sys BYOVD"
+    - "Intel Network Adapter Driver Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Intel Ethernet Diagnostics Driver (iqvw64e.sys)"
+    - "Windows systems with Intel network adapters"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-2291 is a vulnerability in the Intel Ethernet diagnostics driver (iqvw64e.sys)
+    that allows local attackers to cause a denial of service or execute arbitrary code with
+    kernel privileges through crafted IOCTL calls. The driver accepts IOCTL requests from
+    user-mode processes without proper validation, enabling arbitrary memory read/write operations
+    in kernel space. This vulnerability is heavily abused in Bring Your Own Vulnerable Driver
+    (BYOVD) attacks where threat actors load the signed but vulnerable driver to bypass kernel
+    protections. CVSS v3.1 score is 7.8.
+  why: >-
+    This vulnerability is significant primarily as a BYOVD attack vector. Because the driver
+    is legitimately signed by Intel, it can be loaded on systems with driver signature
+    enforcement enabled. Threat actors including Lazarus Group, InvisiMole, and others have
+    used this driver to disable security products, bypass kernel-mode protections, and
+    establish kernel-level persistence. It remains one of the most commonly abused BYOVD drivers.
+  how: >-
+    Attackers load the legitimate signed iqvw64e.sys driver onto a compromised system, then
+    send specially crafted IOCTL calls to read or write arbitrary kernel memory. This enables
+    disabling security products by patching their kernel callbacks, bypassing process protection
+    levels, and establishing kernel-mode execution. Mitigation includes driver blocklisting via
+    Microsoft Vulnerable Driver Blocklist, HVCI (Hypervisor-Protected Code Integrity), and
+    monitoring for loading of known vulnerable drivers.
+  core_concepts:
+    - key: "BYOVD Attack"
+      value: "Bring Your Own Vulnerable Driver technique where attackers install a signed but vulnerable driver to gain kernel access"
+    - key: "Kernel Memory Manipulation"
+      value: "Using vulnerable driver IOCTL interface to read and write arbitrary kernel memory locations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2015-2291 enables privilege boundary bypass through a vulnerable kernel driver"
+  - type: "enables"
+    target: "VUL-AUTH-CVE20160099-001"
+    description: "Both are privilege escalation vulnerabilities used in multi-stage attack chains on Windows"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2015-2291"
+    - "NIST NVD CVE-2015-2291 (CVSS v3.1: 7.8)"
+    - "Intel Security Advisory INTEL-SA-00051"
+    - "MITRE ATT&CK T1068"
+  search_keywords:
+    - "CVE-2015-2291"
+    - "iqvw64e.sys"
+    - "Intel Ethernet diagnostics driver"
+    - "BYOVD"
+    - "bring your own vulnerable driver"
+    - "kernel driver exploit"
+    - "Intel network adapter vulnerability"
+  embedding_text: >-
+    CVE-2015-2291 is a vulnerability in the Intel Ethernet diagnostics driver iqvw64e.sys
+    with CVSS v3.1 score 7.8. The driver accepts IOCTL requests without proper validation,
+    enabling arbitrary kernel memory read and write operations. This is one of the most
+    commonly abused BYOVD (Bring Your Own Vulnerable Driver) attack vectors because the
+    driver is legitimately signed by Intel. Threat actors including Lazarus Group load this
+    signed driver to disable security products and bypass kernel protections. Mitigation
+    includes Microsoft Vulnerable Driver Blocklist, HVCI, and monitoring for known vulnerable
+    driver loading. Impacts include kernel-level code execution, security product bypass,
+    and persistent system compromise.

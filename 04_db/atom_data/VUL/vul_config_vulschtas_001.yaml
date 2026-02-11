@@ -1,0 +1,112 @@
+# GR Atom: Vulnerable Scheduled Task
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-VULSCHTAS-001"
+  name: "Vulnerable Scheduled Task"
+  normalized_name: "vulnerable_scheduled_task"
+  aliases:
+    - "Insecure Scheduled Task Configuration"
+    - "Cron Job Vulnerability"
+    - "Task Scheduler Exploitation"
+    - "Writable Scheduled Task"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - PERSIST
+    - EXEC
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Task Scheduler"
+    - "Linux Cron System"
+    - "Systemd Timers"
+    - "Kubernetes CronJobs"
+    - "Cloud Scheduled Functions"
+
+definition:
+  what: >-
+    Vulnerable Scheduled Task is a vulnerability class where scheduled execution mechanisms (Windows
+    Task Scheduler, Linux cron, systemd timers, Kubernetes CronJobs, cloud-scheduled functions) are
+    configured with security weaknesses that enable privilege escalation, persistence, or unauthorized
+    code execution. Common vulnerabilities include tasks running with elevated privileges that
+    reference writable scripts or binaries, insecure file permissions on cron job files, tasks
+    executing programs from user-writable directories, and scheduled tasks with wildcard injection
+    vulnerabilities.
+  why: >-
+    Scheduled tasks are a fundamental operating system feature used for maintenance, monitoring,
+    backup, and automation. They often run with elevated privileges (SYSTEM, root) to perform
+    administrative functions. When the scripts, binaries, or configurations referenced by scheduled
+    tasks are modifiable by lower-privileged users, it creates a reliable privilege escalation path.
+    Scheduled task abuse is one of the most common findings in penetration tests and is actively
+    used by malware and APT groups for persistence. The regular execution schedule makes it an
+    attractive vector because it guarantees code execution at predictable intervals.
+  how: >-
+    On Windows, attackers exploit: Task Scheduler tasks that run as SYSTEM but reference writable
+    binaries or scripts; tasks with unquoted paths containing spaces; tasks that load DLLs from
+    writable directories. On Linux, attackers exploit: world-writable cron scripts in /etc/cron.d/
+    or /etc/cron.daily/; cron jobs using wildcards in tar, rsync, or other commands (wildcard
+    injection); cron jobs sourcing files from writable locations; PATH-relative command execution
+    in cron environments. In cloud environments, attackers exploit: misconfigured Lambda/Cloud
+    Functions with excessive IAM permissions; Kubernetes CronJobs with privileged security contexts.
+    Mitigation includes restricting file permissions on all scheduled task components, using absolute
+    paths, avoiding wildcard usage, implementing least privilege for task execution contexts, and
+    auditing all scheduled tasks regularly.
+  core_concepts:
+    - key: "Privilege Escalation via Scheduled Execution"
+      value: "Modifying scripts or binaries referenced by elevated scheduled tasks to execute attacker code with SYSTEM or root privileges"
+    - key: "Wildcard Injection in Cron Jobs"
+      value: "Exploiting shell wildcard expansion in cron job commands to inject additional arguments that modify command behavior"
+    - key: "Predictable Execution Persistence"
+      value: "Scheduled tasks provide guaranteed code execution at regular intervals, making them attractive for maintaining persistent access"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Vulnerable Scheduled Task is a class of configuration vulnerability in task scheduling components"
+  - type: enables
+    target: "ATK-PERSIST-SCHTASK-001"
+    description: "Misconfigured scheduled tasks enable persistent code execution with elevated privileges"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053"
+    tactic: ["Execution", "Persistence", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK T1053 - Scheduled Task/Job"
+    - "CWE-732 - Incorrect Permission Assignment for Critical Resource"
+    - "CIS Benchmarks - Scheduled Task Security"
+    - "OWASP - Cron Job Security"
+  search_keywords:
+    - "vulnerable scheduled task"
+    - "cron job exploitation"
+    - "task scheduler vulnerability"
+    - "writable cron script"
+    - "scheduled task privilege escalation"
+    - "wildcard injection cron"
+    - "systemd timer vulnerability"
+    - "scheduled task persistence"
+  embedding_text: >-
+    Vulnerable Scheduled Task is a vulnerability class where scheduled execution mechanisms are
+    misconfigured to enable privilege escalation or persistence. Covers Windows Task Scheduler, Linux
+    cron, systemd timers, Kubernetes CronJobs, and cloud scheduled functions. Common vulnerabilities
+    include elevated tasks referencing writable scripts, insecure cron file permissions, wildcard
+    injection, and PATH-relative execution. Scheduled tasks often run as SYSTEM or root, making them
+    attractive privilege escalation targets. Common finding in penetration tests and actively used by
+    malware for persistence. Mitigation includes restricting permissions, using absolute paths, avoiding
+    wildcards, and regular auditing. Maps to MITRE ATT&CK T1053 Scheduled Task/Job.

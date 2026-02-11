@@ -1,0 +1,138 @@
+# GR Atom: BlackMatter
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BLACKMATTE-001"
+  name: "BlackMatter"
+  normalized_name: "blackmatter"
+  aliases:
+    - "Black Matter"
+    - "BlackMatter Ransomware"
+    - "DarkSide Successor"
+    - "UNC2628"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - PRIV
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BlackMatter is a ransomware-as-a-service (RaaS) operation that emerged in July 2021 as a
+    direct successor to the DarkSide ransomware group, which was responsible for the Colonial
+    Pipeline attack in May 2021. BlackMatter incorporated code and operational methods from both
+    DarkSide and REvil ransomware families. The group operated a double-extortion model targeting
+    critical infrastructure organizations including agriculture, food and beverage companies,
+    and technology firms primarily in the United States, with notable attacks on NEW Cooperative
+    and Olympus. BlackMatter announced its shutdown in November 2021 due to pressure from law
+    enforcement, though its operators and affiliates are believed to have migrated to other
+    ransomware operations including ALPHV/BlackCat.
+  why: >-
+    BlackMatter represents a critical case study in ransomware group rebranding and evolution.
+    Its direct lineage from DarkSide, which triggered the Colonial Pipeline crisis and
+    significant US government response, demonstrates how ransomware operators rebrand to evade
+    law enforcement attention while maintaining operational continuity. CISA, FBI, and NSA
+    issued joint advisory AA21-291A specifically addressing BlackMatter. The group's explicit
+    prohibition against targeting hospitals, critical infrastructure like pipelines, and defense
+    organizations was an attempt to avoid the intense government scrutiny that brought down
+    DarkSide, though they still targeted agricultural cooperatives during harvest season.
+    Emsisoft and law enforcement developed decryption capabilities that helped some victims
+    recover without paying.
+  how: >-
+    BlackMatter gained initial access through compromised credentials purchased from initial
+    access brokers, exploitation of VPN and remote access infrastructure, and phishing campaigns.
+    The ransomware was available in Windows and Linux (ESXi) variants, encrypting files using
+    a Salsa20 stream cipher with RSA-1024 key exchange. Post-compromise TTPs included credential
+    harvesting using LSASS memory dumping, Active Directory enumeration via nltest and ADFind,
+    lateral movement through SMB and PsExec, and data exfiltration using the ExMatter custom
+    tool before encryption. The group operated a Tor-based leak site and negotiation portal.
+    BlackMatter affiliates disabled security tools, deleted volume shadow copies, and targeted
+    VMware ESXi hypervisors to encrypt virtual machine disk files for maximum operational impact.
+  core_concepts:
+    - key: "DarkSide Lineage"
+      value: >-
+        BlackMatter is a direct rebranding of the DarkSide RaaS operation that conducted the
+        Colonial Pipeline attack, incorporating DarkSide code, infrastructure, and operational
+        personnel while attempting to distance itself from the intense law enforcement scrutiny.
+    - key: "RaaS Ecosystem Migration"
+      value: >-
+        When BlackMatter shut down in November 2021, its operators and affiliates migrated to
+        ALPHV/BlackCat and other RaaS operations, demonstrating the fluid nature of the
+        ransomware criminal ecosystem.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "BlackMatter is a financially motivated ransomware-as-a-service cybercriminal group"
+  - type: "supersedes"
+    target: "ACTOR-CRIME-DARKSIDE"
+    description: "BlackMatter is a direct successor and rebrand of the DarkSide ransomware operation"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "BlackMatter operations enable destructive ransomware impact on critical infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Credential Access"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Advisory AA21-291A - BlackMatter Ransomware. https://www.cisa.gov/news-events/cybersecurity-advisories/aa21-291a"
+    - "Recorded Future - BlackMatter DarkSide Connection Analysis. https://www.recordedfuture.com/blackmatter-ransomware-successor-darkside-revil"
+    - "Symantec - BlackMatter Ransomware Technical Analysis. https://symantec-enterprise-blogs.security.com/blogs/threat-intelligence/blackmatter-data-exfiltration"
+    - "MITRE ATT&CK - BlackMatter Group Profile. https://attack.mitre.org/software/S0650/"
+  search_keywords:
+    - "blackmatter ransomware"
+    - "blackmatter darkside"
+    - "CISA AA21-291A"
+    - "blackmatter RaaS"
+    - "UNC2628"
+    - "blackmatter colonial pipeline"
+    - "blackmatter alphv migration"
+    - "blackmatter ExMatter"
+    - "blackmatter NEW Cooperative"
+  embedding_text: >-
+    BlackMatter is a ransomware-as-a-service operation that emerged in July 2021 as a direct
+    successor to the DarkSide ransomware group responsible for the Colonial Pipeline attack. The
+    group incorporated code from both DarkSide and REvil families, operating a double-extortion
+    model targeting critical infrastructure including agriculture and food sectors. BlackMatter
+    used compromised credentials, VPN exploitation, and phishing for initial access, deploying
+    Windows and Linux ESXi ransomware variants using Salsa20 encryption with RSA-1024 key exchange.
+    CISA, FBI, and NSA issued joint advisory AA21-291A addressing the threat. The group utilized
+    the custom ExMatter exfiltration tool and targeted VMware ESXi hypervisors. BlackMatter shut
+    down in November 2021 under law enforcement pressure, with operators migrating to ALPHV/BlackCat
+    and other RaaS operations. The group represents a key case study in ransomware rebranding and
+    the fluid nature of the cybercriminal ecosystem.

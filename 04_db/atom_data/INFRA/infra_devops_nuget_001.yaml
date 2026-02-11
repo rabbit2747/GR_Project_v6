@@ -1,0 +1,75 @@
+# GR Atom: NuGet
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-NUGET-001"
+  name: "NuGet"
+  normalized_name: "nuget"
+  aliases:
+    - "NuGet Gallery"
+    - "NuGet.org"
+    - ".NET Package Manager"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SUPPLY_CHAIN
+    - WINDOWS
+    - CICD
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "NuGet is the package manager for the .NET ecosystem that provides a centralized repository (nuget.org) and tooling for creating, hosting, and consuming reusable .NET libraries and tools. It supports package versioning through semantic versioning, dependency resolution, package signing, and both public and private feed hosting. NuGet integrates with Visual Studio, dotnet CLI, and CI/CD pipelines for automated dependency management."
+  why: "NuGet is a critical supply chain infrastructure component because .NET applications across enterprise environments depend on NuGet packages for functionality. Malicious packages uploaded to nuget.org through typosquatting, dependency confusion, or compromised maintainer accounts can execute arbitrary code during package installation or build. Package signing helps verify authenticity but is not universally enforced. Private NuGet feeds in enterprise environments require proper access controls to prevent internal supply chain attacks."
+  how: "NuGet packages are ZIP archives containing compiled .NET assemblies, content files, and a .nuspec metadata file. The NuGet client resolves dependency graphs and downloads packages from configured feeds. Package restore during build ensures reproducible builds. Signed packages use X.509 certificates for author and repository signatures. Package vulnerability scanning identifies known CVEs in dependencies. Private feeds (Azure Artifacts, GitHub Packages, ProGet) host internal packages. NuGet.config files specify feed sources and credentials."
+  core_concepts:
+    - key: "NuGet Package"
+      value: "ZIP archive containing compiled .NET assemblies, metadata, and content files distributed through NuGet feeds"
+    - key: "Package Signing"
+      value: "X.509 certificate-based signing verifying package author identity and repository integrity to detect tampering"
+    - key: "Private Feed"
+      value: "Organization-hosted NuGet repository for internal package distribution with access control and vulnerability scanning"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-SOFTREPO-001"
+    description: "NuGet is a specific software repository implementation for the .NET ecosystem"
+  - type: is_a
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "NuGet is a software distribution mechanism for .NET packages"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-PYPI-001"
+    description: "NuGet serves a similar package management role for .NET as PyPI does for Python"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NuGet Documentation - https://learn.microsoft.com/en-us/nuget/"
+    - "NuGet Security Best Practices - https://learn.microsoft.com/en-us/nuget/concepts/security-best-practices"
+    - "MITRE ATT&CK T1195.001 - Supply Chain Compromise: Compromise Software Dependencies"
+  search_keywords:
+    - "NuGet"
+    - "NuGet Gallery"
+    - "NuGet.org"
+    - ".NET package manager"
+    - "NuGet security"
+    - "NuGet supply chain"
+    - "NuGet package signing"
+    - ".NET dependency management"
+  embedding_text: "NuGet is the package manager for the .NET ecosystem providing a centralized repository (nuget.org) and tooling for creating, hosting, and consuming .NET libraries. It supports semantic versioning, dependency resolution, package signing, and private feed hosting. Security significance centers on supply chain risks where malicious packages through typosquatting or dependency confusion execute arbitrary code during installation. Package signing uses X.509 certificates for verification. Private NuGet feeds in enterprises require access controls against internal supply chain attacks. Integrates with Visual Studio, dotnet CLI, and CI/CD pipelines for automated dependency management."

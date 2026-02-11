@@ -1,0 +1,124 @@
+# GR Atom: OWASP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-OWASP-001"
+  name: "OWASP"
+  normalized_name: "owasp"
+  aliases:
+    - "Open Worldwide Application Security Project"
+    - "Open Web Application Security Project"
+    - "OWASP Foundation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Open Worldwide Application Security Project (OWASP) is a nonprofit foundation that
+    works to improve the security of software through community-led open-source projects,
+    conferences, chapters, and educational resources. Founded in 2001, OWASP produces freely
+    available tools, standards, and documentation focused on application security including
+    the OWASP Top 10, Application Security Verification Standard (ASVS), Testing Guide,
+    Software Assurance Maturity Model (SAMM), Cheat Sheet Series, and numerous other projects.
+    OWASP operates through volunteer-driven chapters in over 250 locations worldwide and
+    maintains over 200 active open-source projects.
+  why: >-
+    Application-layer vulnerabilities remain the primary attack vector for data breaches, with
+    web applications, APIs, and mobile applications representing the majority of the external
+    attack surface for most organizations. OWASP addresses the critical need for freely
+    available, vendor-neutral, and community-validated application security guidance. By
+    providing standardized vulnerability taxonomies, verification standards, testing
+    methodologies, and maturity models, OWASP enables organizations of all sizes to build
+    and maintain secure software without requiring expensive proprietary resources.
+  how: >-
+    OWASP delivers its mission through several mechanisms: (1) Standards and guides - OWASP
+    Top 10, ASVS, Testing Guide, SAMM, Mobile Top 10, and API Security Top 10 provide
+    actionable security guidance; (2) Open-source tools - ZAP (Zed Attack Proxy), Dependency
+    Check, DefectDojo, and others provide free security testing capabilities; (3) Cheat Sheet
+    Series - concise, practical guidance on specific security topics for developers;
+    (4) Community engagement - global conferences (Global AppSec), local chapter meetings,
+    and open project collaboration; (5) Education - training materials, certification
+    programs, and educational resources for developers, testers, and security professionals.
+  core_concepts:
+    - key: "Community-Driven Standards"
+      value: >-
+        All OWASP resources are developed through open, community-driven processes with
+        contributions from security professionals, developers, and researchers worldwide,
+        ensuring broad expertise and real-world validation.
+    - key: "Vendor-Neutral Guidance"
+      value: >-
+        OWASP resources are freely available and independent of any commercial vendor,
+        providing unbiased security guidance that organizations can trust for objective
+        application security recommendations.
+    - key: "Application Security Focus"
+      value: >-
+        OWASP specifically targets the application layer of the technology stack, addressing
+        web applications, APIs, mobile applications, and software development practices
+        as the primary focus of all projects and guidance.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "OWASP is the parent organization that produces and maintains the OWASP Top 10"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "OWASP produces the Application Security Verification Standard as a flagship project"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-SAMM-001"
+    description: "OWASP develops and maintains the Software Assurance Maturity Model"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "OWASP application security resources implement NIST CSF Protect function for application-layer security"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Foundation. https://owasp.org/"
+    - "OWASP Projects. https://owasp.org/projects/"
+    - "OWASP About. https://owasp.org/about/"
+  search_keywords:
+    - "OWASP"
+    - "Open Worldwide Application Security Project"
+    - "application security"
+    - "web application security"
+    - "OWASP Foundation"
+    - "OWASP projects"
+    - "software security"
+    - "OWASP community"
+    - "application security standard"
+    - "OWASP chapters"
+  embedding_text: >-
+    The Open Worldwide Application Security Project (OWASP) is a nonprofit foundation improving
+    software security through community-led open-source projects, conferences, and educational
+    resources. Founded in 2001, OWASP produces freely available tools, standards, and
+    documentation including the OWASP Top 10, ASVS, Testing Guide, SAMM, Cheat Sheet Series,
+    and over 200 active open-source projects. OWASP operates through volunteer-driven chapters
+    in over 250 locations worldwide. Application-layer vulnerabilities remain the primary attack
+    vector for data breaches, and OWASP addresses the need for vendor-neutral, community-validated
+    application security guidance. OWASP delivers through standards and guides providing
+    actionable security guidance, open-source tools like ZAP and Dependency Check, practical
+    cheat sheets for developers, global conferences, and educational resources. All resources
+    are community-driven, freely available, and independent of commercial vendors, enabling
+    organizations of all sizes to build secure software.

@@ -1,0 +1,106 @@
+# GR Atom: CVE-2020-10189
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE202010189-001"
+  name: "CVE-2020-10189"
+  normalized_name: "cve_2020_10189"
+  aliases:
+    - "Zoho ManageEngine Deserialization RCE"
+    - "ManageEngine Desktop Central RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Zoho ManageEngine Desktop Central before 10.0.474"
+    - "ManageEngine FileStorage component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-10189 is a critical deserialization vulnerability in Zoho ManageEngine Desktop
+    Central that allows unauthenticated remote attackers to execute arbitrary code. The
+    FileStorage getReceiverServlet endpoint deserializes untrusted data without proper
+    validation, enabling attackers to inject malicious Java objects. The CVSS v3 base score
+    is 9.8 (Critical) and it was disclosed in March 2020, with active exploitation by APT
+    groups including APT41.
+  why: >-
+    ManageEngine Desktop Central is an endpoint management platform deployed in enterprise
+    environments for managing thousands of endpoints. Compromising the management server
+    provides attackers with the ability to deploy malware to all managed endpoints, making
+    it an extremely high-value target for supply chain and mass deployment attacks.
+  how: >-
+    Attackers send crafted serialized Java objects to the FileStorage getReceiverServlet
+    endpoint without authentication. The server deserializes the malicious objects, triggering
+    gadget chains that execute arbitrary code with SYSTEM privileges. APT41 exploited this
+    vulnerability to deploy custom malware across victim networks. Mitigation requires
+    upgrading ManageEngine Desktop Central to version 10.0.474 or later.
+  core_concepts:
+    - key: "Management Server Compromise"
+      value: "Compromising endpoint management infrastructure enables mass deployment of malware to all managed systems"
+    - key: "Unauthenticated Deserialization"
+      value: "Java deserialization of untrusted data on an unauthenticated endpoint enables RCE without credentials"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "ManageEngine deserialization is a specific instance of injection through unsafe object deserialization"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE201712149-001"
+    description: "Both are Java deserialization vulnerabilities in management platforms enabling unauthenticated RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2020-10189"
+  cvss_score: 9.8
+  affected_product: "Zoho ManageEngine Desktop Central"
+  year: 2020
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2020-10189"
+    - "CWE-502 Deserialization of Untrusted Data"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2020-10189"
+    - "ManageEngine Desktop Central RCE"
+    - "Zoho ManageEngine deserialization"
+    - "APT41 ManageEngine exploit"
+    - "endpoint management vulnerability"
+    - "ManageEngine FileStorage exploit"
+  embedding_text: >-
+    CVE-2020-10189 is a critical deserialization vulnerability in Zoho ManageEngine Desktop
+    Central with CVSS score 9.8. The FileStorage getReceiverServlet endpoint deserializes
+    untrusted Java objects without authentication enabling arbitrary code execution with
+    SYSTEM privileges. Exploited by APT41 for mass malware deployment through endpoint
+    management infrastructure. ManageEngine Desktop Central manages thousands of enterprise
+    endpoints making server compromise an extremely high-value target for supply chain attacks.
+    Mitigation requires upgrading to version 10.0.474 or later.

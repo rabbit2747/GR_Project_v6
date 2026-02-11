@@ -1,0 +1,75 @@
+# GR Atom: Bitdefender
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BITDEFENDE-001"
+  name: "Bitdefender"
+  normalized_name: "bitdefender"
+  aliases:
+    - "Bitdefender Labs"
+    - "Bitdefender GravityZone"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - SANDBOX
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Bitdefender is a Romanian cybersecurity company founded in 2001, providing endpoint protection, extended detection and response (XDR), network security, and cloud security solutions. The company is known for its GravityZone enterprise security platform and its consistently top-ranked malware detection engine, which is also licensed to other security vendors as an OEM technology. Bitdefender Labs conducts threat research and publishes intelligence on ransomware, APT campaigns, and emerging malware families."
+  why: "Bitdefender is significant for its market-leading malware detection technology, which is independently rated among the highest in the industry and is licensed as an OEM engine to numerous other security vendors. This means Bitdefender's detection capabilities underpin a significant portion of the global endpoint security market. Their threat research provides valuable intelligence on ransomware operations and Eastern European cybercrime."
+  how: "Bitdefender provides layered endpoint protection through its GravityZone platform, combining signature-based detection, machine learning, behavioral analysis, network attack defense, and sandbox analysis. The platform offers EDR and XDR capabilities for threat hunting and incident response. Bitdefender Labs researchers analyze malware samples, track threat actors, publish decryption tools for ransomware victims, and share threat intelligence through reports and advisories."
+  core_concepts:
+    - key: "GravityZone Platform"
+      value: "Unified enterprise security platform providing endpoint protection, EDR, XDR, and network security capabilities"
+    - key: "OEM Detection Engine"
+      value: "Industry-leading malware detection technology licensed to numerous other security vendors as embedded technology"
+    - key: "Ransomware Decryptors"
+      value: "Free decryption tools released for ransomware victims, developed through reverse engineering of ransomware families"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-EPP-ENDPOINT-001"
+    description: "Produces GravityZone endpoint protection and XDR platform for enterprise security"
+  - type: enables
+    target: "DEF-DECRYPT-RANSOM-001"
+    description: "Publishes free ransomware decryption tools to help victims recover encrypted data"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.bitdefender.com"
+    - "https://www.bitdefender.com/blog/labs"
+  search_keywords:
+    - "bitdefender"
+    - "bitdefender gravityzone"
+    - "bitdefender labs"
+    - "endpoint protection"
+    - "xdr platform"
+    - "malware detection engine"
+    - "ransomware decryptor"
+    - "romanian cybersecurity"
+    - "oem antivirus engine"
+  embedding_text: "Bitdefender is a Romanian cybersecurity company founded in 2001, providing endpoint protection, extended detection and response (XDR), network security, and cloud security solutions through its GravityZone enterprise platform. The company is known for its consistently top-ranked malware detection engine, which is also licensed as OEM technology to numerous other security vendors, meaning Bitdefender's detection capabilities underpin a significant portion of the global endpoint security market. Bitdefender Labs conducts threat research on ransomware operations, APT campaigns, and emerging malware families, and notably releases free decryption tools for ransomware victims. The GravityZone platform combines signature-based detection, machine learning, behavioral analysis, network attack defense, and sandbox analysis with EDR and XDR capabilities for threat hunting and incident response. Bitdefender's research provides particularly valuable intelligence on Eastern European cybercrime and ransomware operations."

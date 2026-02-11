@@ -1,0 +1,122 @@
+# GR Atom: WebLogic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WEBLOGIC-001"
+  name: "WebLogic"
+  normalized_name: "weblogic"
+  aliases:
+    - "Oracle WebLogic Server"
+    - "Oracle WebLogic"
+    - "WebLogic Application Server"
+    - "WLS"
+    - "BEA WebLogic"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - API
+    - DESER
+    - HTTP
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Oracle WebLogic Server is a Java EE (Jakarta EE) application server used for developing
+    and deploying enterprise Java applications, web services, and distributed computing
+    workloads. It provides a runtime environment for Java-based applications with features
+    including clustering, load balancing, JMS messaging, transaction management, and web
+    service support. WebLogic is widely deployed in large enterprises and government
+    organizations for mission-critical business applications.
+  why: >-
+    WebLogic Server has an extensive history of critical deserialization vulnerabilities that
+    enable unauthenticated remote code execution, including CVE-2017-10271, CVE-2019-2725,
+    CVE-2020-14882, and CVE-2023-21839. These vulnerabilities have been widely exploited by
+    cryptomining malware, ransomware, and nation-state actors. The T3 and IIOP protocols used
+    by WebLogic are particularly vulnerable to deserialization attacks. WebLogic's administration
+    console (port 7001) is frequently exposed to the internet. The platform's role hosting
+    critical business applications means successful exploitation provides access to sensitive
+    enterprise data and backend systems.
+  how: >-
+    WebLogic Server runs as a Java process hosting application domains with managed server
+    instances. The administration server provides a web console (typically port 7001/7002)
+    for configuration management. T3 protocol (proprietary) and IIOP handle inter-process
+    communication and remote method invocation. Applications are deployed as WAR/EAR archives.
+    WebLogic uses JDBC for database connectivity, JMS for messaging, and supports SOAP/REST
+    web services. Clustering enables high availability across multiple server instances.
+    Node Manager handles remote server lifecycle management.
+  core_concepts:
+    - key: "Deserialization Vulnerability History"
+      value: "Extensive history of critical Java deserialization RCE vulnerabilities in T3/IIOP protocols that are actively exploited by attackers worldwide"
+    - key: "Administration Console Exposure"
+      value: "WebLogic administration console on port 7001 is frequently internet-exposed and targeted with authentication bypass and exploitation attempts"
+    - key: "Critical Infrastructure Role"
+      value: "Hosts mission-critical enterprise applications making successful exploitation equivalent to access to core business systems and data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "WebLogic is a Java EE application server that serves as web server application infrastructure"
+  - type: "alternative_to"
+    target: "INFRA-APP-WEBSPHERE-001"
+    description: "WebLogic competes with IBM WebSphere as an enterprise Java application server"
+  - type: "alternative_to"
+    target: "INFRA-APP-WILDFLY-001"
+    description: "WebLogic is a commercial alternative to the open-source WildFly Java EE application server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Oracle WebLogic Server Security Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Oracle Critical Patch Update Advisories"
+    - "CISA Known Exploited Vulnerabilities - WebLogic Entries"
+  search_keywords:
+    - "Oracle WebLogic"
+    - "WebLogic Server"
+    - "WebLogic deserialization"
+    - "WebLogic vulnerability"
+    - "CVE-2020-14882"
+    - "T3 protocol exploit"
+    - "WebLogic RCE"
+    - "Java application server security"
+  embedding_text: >-
+    Oracle WebLogic Server is a Java EE application server for enterprise applications with
+    clustering, JMS, and web service support. It has an extensive history of critical
+    deserialization vulnerabilities (CVE-2017-10271, CVE-2019-2725, CVE-2020-14882,
+    CVE-2023-21839) in T3 and IIOP protocols enabling unauthenticated RCE. The administration
+    console on port 7001 is frequently internet-exposed. WebLogic is targeted by cryptominers,
+    ransomware, and nation-state actors. Its role hosting mission-critical applications means
+    exploitation provides access to sensitive enterprise data. Security teams should restrict
+    T3/IIOP protocol access, avoid exposing the admin console, apply Oracle Critical Patch
+    Updates promptly, implement network segmentation, and monitor for deserialization exploit
+    attempts.

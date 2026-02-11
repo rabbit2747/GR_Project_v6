@@ -1,0 +1,109 @@
+# GR Atom: CVE-2023-48022
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202348022-001"
+  name: "CVE-2023-48022"
+  normalized_name: "cve_2023_48022"
+  aliases:
+    - "ShadowRay"
+    - "Ray Dashboard SSRF"
+    - "Anyscale Ray Server-Side Request Forgery"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - SSRF
+    - CLOUD
+    - AI
+    - INITIAL
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray"
+    - "Ray Dashboard"
+    - "Ray AI/ML Framework"
+
+definition:
+  what: >-
+    CVE-2023-48022 is a critical server-side request forgery (SSRF) vulnerability in the Anyscale Ray
+    open-source AI/ML framework. The Ray Dashboard API does not enforce authentication by default and
+    allows unauthenticated users to submit arbitrary jobs for execution on the Ray cluster. This
+    effectively provides full remote code execution to any network-accessible attacker. The vulnerability
+    is disputed by Anyscale who considers the lack of authentication a design decision rather than a
+    vulnerability. CVSS v3: 9.8 (Critical).
+  why: >-
+    Ray is one of the most widely adopted open-source AI/ML computing frameworks, used by organizations
+    including OpenAI, Uber, Amazon, and Netflix for distributed computing workloads. The ShadowRay
+    campaign demonstrated mass exploitation of exposed Ray clusters, compromising AI production
+    workloads, stealing environment variables containing API keys and credentials, accessing training
+    data and ML models, and using GPU resources for cryptomining. The vulnerability is particularly
+    dangerous because Anyscale disputes it as a CVE, meaning many organizations may not treat it as
+    a security issue requiring remediation.
+  how: >-
+    Exploitation is trivial - attackers send HTTP requests to the Ray Dashboard API (default port 8265)
+    to submit arbitrary Python jobs for execution on the Ray cluster. No authentication or authorization
+    is required. The Jobs API allows full code execution in the context of the Ray worker processes,
+    which typically have access to sensitive data, environment variables, cloud credentials, and GPU
+    resources. Attackers in the ShadowRay campaign used automated scanning to find exposed Ray
+    Dashboard instances and deployed cryptominers, reverse shells, and credential stealers.
+    Mitigation requires placing Ray clusters behind authentication proxies and restricting network
+    access to the Dashboard API.
+  core_concepts:
+    - key: "AI Infrastructure Exposure"
+      value: "Unauthenticated access to AI/ML computing framework enabling arbitrary code execution on GPU clusters containing sensitive training data and credentials"
+    - key: "Disputed Vulnerability"
+      value: "Vendor disputes the CVE classification, treating lack of authentication as an intentional design decision, leaving many deployments unpatched"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "CVE-2023-48022 is a vulnerable application instance where Ray Dashboard exposes unauthenticated job submission"
+  - type: enables
+    target: "ATK-EXEC-EXEC-001"
+    description: "The unauthenticated Ray Dashboard API enables arbitrary code execution on AI/ML compute clusters"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access", "Execution"]
+  cve_mapping:
+    cve_id: "CVE-2023-48022"
+    cvss_score: 9.8
+    cwe_id: "CWE-918"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2023-48022 - NVD NIST"
+    - "Oligo Security - ShadowRay: AI Workloads Under Attack"
+    - "Anyscale Ray Security Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2023-48022"
+    - "ShadowRay"
+    - "Ray Dashboard vulnerability"
+    - "Anyscale Ray SSRF"
+    - "Ray unauthenticated access"
+    - "AI infrastructure exploit"
+    - "Ray cluster compromise"
+  embedding_text: >-
+    CVE-2023-48022 is a critical vulnerability in the Anyscale Ray open-source AI/ML framework known
+    as ShadowRay. The Ray Dashboard API lacks authentication by default, allowing unauthenticated
+    attackers to submit arbitrary Python jobs for execution on Ray clusters. CVSS v3 score is 9.8
+    Critical. The vulnerability is disputed by Anyscale as a design decision. The ShadowRay campaign
+    demonstrated mass exploitation of exposed Ray clusters, compromising AI workloads, stealing API
+    keys and credentials from environment variables, accessing training data and ML models, and using
+    GPU resources for cryptomining. Ray is used by major organizations including OpenAI, Uber, and
+    Amazon. Mitigation requires authentication proxies and network access controls. Maps to MITRE
+    ATT&CK T1190 Exploit Public-Facing Application.

@@ -1,0 +1,120 @@
+# GR Atom: CVE-2023-38606
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202338606-001"
+  name: "CVE-2023-38606"
+  normalized_name: "cve_2023_38606"
+  aliases:
+    - "Apple Hardware MMIO Bypass"
+    - "Operation Triangulation Hardware Exploit"
+    - "Apple SoC Undocumented Register Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OVERFLOW
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Apple A-series and M-series SoC hardware"
+    - "Apple iOS kernel hardware abstraction"
+    - "Undocumented MMIO hardware registers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-38606 is a hardware-level vulnerability (CVSS 7.8) in Apple SoC (System on
+    Chip) devices that allows bypassing kernel-level hardware memory protection mechanisms
+    through undocumented memory-mapped I/O (MMIO) registers. The vulnerability was
+    exploited in the Operation Triangulation spyware campaign to bypass Apple's Page
+    Protection Layer (PPL) and other kernel hardening mechanisms. The exploit used
+    undocumented hardware registers in the Apple GPU coprocessor that were unknown even
+    to Apple's own security team. Apple patched the issue in iOS 16.6 and macOS 13.5
+    in July 2023 by adding the undocumented MMIO ranges to the kernel's Device Tree.
+  why: >-
+    CVE-2023-38606 is one of the most technically remarkable vulnerabilities ever
+    publicly documented. The exploitation of undocumented hardware registers that were
+    unknown to Apple's own security engineers raised fundamental questions about hardware
+    supply chain security and silicon-level attack surfaces. It demonstrated that even
+    Apple's advanced kernel hardening (PAC, PPL, KTRR) could be bypassed through
+    hardware-level knowledge that apparently predated these mitigations. Kaspersky's
+    analysis described it as using functionality that was seemingly intended for hardware
+    debugging or testing but was never documented or disabled in production silicon.
+  how: >-
+    After achieving kernel code execution via CVE-2023-32434, the exploit writes to
+    specific undocumented MMIO registers in the Apple GPU coprocessor to manipulate
+    hardware-level memory protections. These registers allow the attacker to modify
+    kernel memory protections that are normally enforced by hardware, bypassing PPL
+    (Page Protection Layer) and other kernel integrity mechanisms. With hardware-level
+    protections disabled, the exploit gains unrestricted kernel memory access, enabling
+    persistent spyware installation. The specific MMIO addresses used were not documented
+    in any public Apple specification.
+  core_concepts:
+    - key: "Undocumented Hardware MMIO"
+      value: "Exploitation of undocumented MMIO registers in Apple SoC GPU coprocessor unknown even to Apple's security team"
+    - key: "Hardware Protection Bypass"
+      value: "Bypasses Apple kernel hardening including PPL, PAC, and KTRR through hardware-level memory manipulation"
+    - key: "Silicon-Level Attack Surface"
+      value: "Demonstrates that undocumented hardware features in production chips create exploitable attack surfaces"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2023-38606 enables memory protection bypass through hardware-level memory manipulation"
+  - type: "requires"
+    target: "VUL-MEMORY-CVE202332434-001"
+    description: "Requires kernel code execution from CVE-2023-32434 before hardware register manipulation"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332435-001"
+    description: "Part of the same Operation Triangulation exploit chain targeting iOS devices"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Apple Security Update - iOS 16.6"
+    - "NVD Entry CVE-2023-38606 - CVSS 7.8"
+    - "Kaspersky - Operation Triangulation Hardware-Level Analysis"
+    - "37C3 - Operation Triangulation: What You Get When Attack iPhones of Researchers"
+  search_keywords:
+    - "CVE-2023-38606"
+    - "Apple hardware"
+    - "MMIO"
+    - "Operation Triangulation"
+    - "hardware bypass"
+    - "PPL bypass"
+    - "Apple SoC"
+    - "GPU coprocessor"
+  embedding_text: >-
+    CVE-2023-38606 is a hardware-level vulnerability in Apple SoC devices with CVSS 7.8,
+    exploiting undocumented MMIO registers in the GPU coprocessor to bypass kernel memory
+    protections including PPL and PAC. Used in Operation Triangulation, the exploit
+    manipulates hardware registers unknown even to Apple's security team to disable
+    kernel hardening mechanisms. One of the most technically sophisticated vulnerabilities
+    ever documented, it raised fundamental questions about silicon-level attack surfaces
+    and hardware supply chain security. Patched in iOS 16.6 by mapping the undocumented
+    MMIO ranges in the kernel Device Tree.

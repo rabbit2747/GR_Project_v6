@@ -1,0 +1,64 @@
+# GR Atom: NibbleSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-NIBBLESEC-001"
+  name: "NibbleSec"
+  normalized_name: "nibblesec"
+  aliases:
+    - "NibbleSecurity"
+    - "Nibble Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "NibbleSec is a cybersecurity research group known for developing security testing tools and publishing web application security research. The group is notably associated with the development of the OWASP Zed Attack Proxy (ZAP) scanner and related web security testing methodologies. NibbleSec contributes to the security community through open-source tooling and vulnerability research focused on web application security."
+  why: "NibbleSec is relevant to cybersecurity as a contributor to web application security testing tools and methodologies. Their involvement in developing and advancing web vulnerability scanning tools supports both offensive security testing and defensive security assessment, helping organizations identify and remediate web application vulnerabilities before they can be exploited by threat actors."
+  how: "NibbleSec develops and maintains web application security testing tools, conducts research on web vulnerability classes, and publishes findings through security conferences and publications. Their tools perform automated and manual security assessments of web applications, identifying common vulnerabilities such as injection flaws, cross-site scripting, authentication weaknesses, and configuration errors."
+  core_concepts:
+    - key: "Web application security testing"
+      value: "Tools and research focused on identifying vulnerabilities in web applications"
+    - key: "Open-source security tools"
+      value: "Contributing to community-driven web security testing capabilities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-SCANNER-WEBSEC-001"
+    description: "NibbleSec produces web application security testing tools and scanners"
+  - type: enables
+    target: "TECHNIQUE-WEBAPPSEC-001"
+    description: "NibbleSec enables web application security testing through tools and research"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "NibbleSec Security Research Publications"
+    - "OWASP ZAP Project Contributors"
+  search_keywords:
+    - "nibblesec"
+    - "nibble security"
+    - "nibblesec web security"
+    - "nibblesec tools"
+    - "nibblesec research"
+  embedding_text: "NibbleSec is a cybersecurity research group focused on web application security testing tools and vulnerability research. The group is associated with the development and advancement of web security scanning tools, including contributions to the OWASP Zed Attack Proxy project. NibbleSec produces open-source security testing tools that perform automated and manual security assessments of web applications, identifying common vulnerability classes such as injection flaws, cross-site scripting, authentication weaknesses, and security configuration errors. Their work supports both offensive security testing by penetration testers and defensive security assessment by organizations seeking to identify and remediate web application vulnerabilities. NibbleSec contributes to the broader web application security community through tool development, vulnerability research, and knowledge sharing at security conferences."

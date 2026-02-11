@@ -1,0 +1,103 @@
+# GR Atom: CVE-2025-49706
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202549706-001"
+  name: "CVE-2025-49706"
+  normalized_name: "cve_2025_49706"
+  aliases:
+    - "Fortinet FortiManager API Vulnerability"
+    - "FortiManager Remote Code Execution 2025"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - NETWORK
+    - INITIAL
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Fortinet FortiManager"
+    - "FortiManager Cloud"
+
+definition:
+  what: >-
+    CVE-2025-49706 is a critical remote code execution vulnerability in Fortinet FortiManager, the
+    centralized management platform for FortiGate firewalls and other Fortinet security devices. The
+    vulnerability exists in the FortiManager FGFM (FortiGate-to-FortiManager) protocol handler,
+    allowing unauthenticated attackers to execute arbitrary code or commands on the FortiManager
+    server through specially crafted requests. CVSS v3: 9.8 (Critical).
+  why: >-
+    FortiManager is the central management console that controls the configuration and monitoring of
+    all FortiGate firewalls in an organization's deployment. Compromising FortiManager provides
+    attackers with the ability to push malicious configurations to all managed FortiGate devices,
+    extract stored credentials and certificates, access network topology information, and disable
+    security controls across the entire Fortinet deployment. This is a force-multiplier vulnerability
+    where a single compromise cascades to all managed security devices. This follows the pattern of
+    CVE-2024-47575 (FortiJump), another critical FortiManager vulnerability exploited in the wild.
+  how: >-
+    The attacker sends specially crafted requests to the FortiManager FGFM protocol service, which
+    listens for connections from managed FortiGate devices. The crafted requests exploit insufficient
+    validation in the FGFM protocol handler, allowing injection of arbitrary commands that execute in
+    the context of the FortiManager process. No valid FortiGate serial number or authentication is
+    required. Post-exploitation enables configuration extraction from all managed FortiGate devices,
+    credential harvesting, and pushing malicious firewall policies. Fortinet released emergency
+    patches and recommended restricting FGFM service access to known FortiGate IP addresses.
+  core_concepts:
+    - key: "Centralized Management Compromise"
+      value: "Exploiting the centralized management platform to cascade compromise across all managed security devices in the organization"
+    - key: "FGFM Protocol Exploitation"
+      value: "Unauthenticated code execution through the FortiGate-to-FortiManager communication protocol handler"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-49706 is a vulnerability in a critical network security management component"
+  - type: enables
+    target: "ATK-LATERAL-NETWORK-001"
+    description: "FortiManager compromise enables lateral movement through configuration push to all managed firewalls"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access", "Execution"]
+  cve_mapping:
+    cve_id: "CVE-2025-49706"
+    cvss_score: 9.8
+    cwe_id: "CWE-94"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-49706 - NVD NIST"
+    - "Fortinet PSIRT Advisory"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "CWE-94 - Improper Control of Generation of Code"
+  search_keywords:
+    - "CVE-2025-49706"
+    - "FortiManager vulnerability"
+    - "FortiManager RCE"
+    - "FGFM protocol exploit"
+    - "Fortinet management compromise"
+    - "FortiManager unauthenticated"
+    - "Fortinet critical vulnerability 2025"
+  embedding_text: >-
+    CVE-2025-49706 is a critical remote code execution vulnerability in Fortinet FortiManager's FGFM
+    protocol handler allowing unauthenticated attackers to execute arbitrary code on the management
+    server. CVSS v3 score is 9.8 Critical. FortiManager is the centralized management platform for
+    all FortiGate firewalls in an organization. Compromising FortiManager enables pushing malicious
+    configurations to all managed security devices, extracting stored credentials, and disabling
+    security controls across the entire deployment. Follows the pattern of CVE-2024-47575 FortiJump.
+    Exploitation requires no authentication. Mitigation includes restricting FGFM service access and
+    applying emergency patches. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application.

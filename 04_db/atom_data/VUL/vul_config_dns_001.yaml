@@ -1,0 +1,104 @@
+# GR Atom: Dangling DNS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-DNS-001"
+  name: "Dangling DNS"
+  normalized_name: "dangling_dns"
+  aliases:
+    - "DNS Dangling Records"
+    - "Subdomain Takeover via DNS"
+    - "Orphaned DNS Records"
+    - "DNS Misconfiguration Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - DNS
+    - NETWORK
+    - INITIAL
+
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "DNS Zones and Records"
+    - "Cloud Service Endpoints"
+    - "CDN Configurations"
+    - "Web Hosting Platforms"
+
+definition:
+  what: >-
+    Dangling DNS is a vulnerability class where DNS records (CNAME, A, AAAA, MX, NS) point to
+    resources that no longer exist or have been deprovisioned. When a DNS record references a
+    cloud service endpoint, hosting platform, or IP address that has been released, an attacker
+    can claim the orphaned resource and serve malicious content under the legitimate domain name.
+    This includes subdomain takeover, email interception, and phishing attacks using trusted domains.
+  why: >-
+    Dangling DNS records are prevalent in organizations with dynamic cloud infrastructure where
+    services are frequently provisioned and deprovisioned. The vulnerability enables attackers to
+    impersonate legitimate organizational domains, bypassing email security controls (SPF, DKIM,
+    DMARC), hosting phishing pages on trusted domains, stealing cookies set on parent domains,
+    and undermining certificate transparency. Large organizations may have thousands of DNS records
+    accumulated over years, making orphaned record detection challenging without automated tooling.
+  how: >-
+    The attacker scans an organization's DNS records for entries pointing to deprovisioned resources.
+    Common targets include CNAME records pointing to deleted cloud services (Azure, AWS, GitHub Pages,
+    Heroku), A records pointing to released IP addresses, and NS records delegating to decommissioned
+    nameservers. The attacker then registers or claims the target resource (e.g., creating an Azure
+    resource matching the CNAME target) and serves controlled content under the victim's domain.
+    Mitigation includes regular DNS record auditing, automated monitoring for dangling records,
+    removing DNS records before deprovisioning services, and using DNS record lifecycle management.
+  core_concepts:
+    - key: "Subdomain Takeover"
+      value: "Claiming orphaned cloud resources referenced by DNS records to serve attacker-controlled content under legitimate domain names"
+    - key: "DNS Record Lifecycle Management"
+      value: "The operational challenge of maintaining accurate DNS records as cloud infrastructure is dynamically provisioned and deprovisioned"
+    - key: "Trust Inheritance"
+      value: "Dangling DNS exploits the trust associated with the parent domain, bypassing security controls that rely on domain reputation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Dangling DNS is a class of configuration vulnerability in DNS infrastructure management"
+  - type: enables
+    target: "ATK-INITIAL-PHISH-001"
+    description: "Dangling DNS enables phishing attacks using legitimate organizational domains and subdomains"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1584.001"
+    tactic: ["Resource Development"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "OWASP - Subdomain Takeover"
+    - "CWE-672 - Operation on a Resource after Expiration or Release"
+    - "Microsoft Security - Prevent Dangling DNS Entries"
+    - "MITRE ATT&CK T1584.001 - Compromise Infrastructure: Domains"
+  search_keywords:
+    - "dangling DNS"
+    - "subdomain takeover"
+    - "orphaned DNS records"
+    - "DNS misconfiguration"
+    - "CNAME takeover"
+    - "cloud subdomain hijack"
+    - "DNS record lifecycle"
+  embedding_text: >-
+    Dangling DNS is a vulnerability class where DNS records point to deprovisioned or non-existent
+    resources, enabling subdomain takeover attacks. Attackers can claim orphaned cloud service
+    endpoints, hosting platforms, or IP addresses referenced by DNS records to serve malicious
+    content under legitimate domain names. Common targets include CNAME records pointing to deleted
+    cloud services on Azure, AWS, GitHub Pages, and Heroku. Enables phishing on trusted domains,
+    email interception, cookie theft, and certificate abuse. Prevalent in organizations with dynamic
+    cloud infrastructure. Mitigation requires regular DNS auditing, automated monitoring, and DNS
+    record lifecycle management. Maps to MITRE ATT&CK T1584.001 Compromise Infrastructure: Domains.

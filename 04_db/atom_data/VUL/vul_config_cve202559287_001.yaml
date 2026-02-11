@@ -1,0 +1,104 @@
+# GR Atom: CVE-2025-59287
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202559287-001"
+  name: "CVE-2025-59287"
+  normalized_name: "cve_2025_59287"
+  aliases:
+    - "Cloud Service Provider Metadata API Exposure"
+    - "IMDS Privilege Escalation Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - SSRF
+    - CLOUD
+    - CRED
+    - PRIV
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Cloud Instance Metadata Service"
+    - "Cloud IAM Roles"
+
+definition:
+  what: >-
+    CVE-2025-59287 is a vulnerability in cloud instance metadata service (IMDS) configurations that
+    allows attackers to exploit server-side request forgery or misconfigured applications to access
+    cloud provider metadata endpoints. The vulnerability enables extraction of temporary IAM
+    credentials, instance identity documents, and configuration data from the cloud provider's
+    metadata service. This is particularly impactful when IMDSv1 (non-authenticated metadata access)
+    is still enabled. CVSS v3: 8.6 (High).
+  why: >-
+    Cloud instance metadata services provide temporary credentials and configuration data to cloud
+    workloads. When accessible through SSRF or application vulnerabilities, attackers can extract IAM
+    role credentials that provide access to cloud APIs and resources beyond the compromised instance.
+    This vulnerability class has been involved in major cloud breaches including the Capital One
+    breach. The continued prevalence of IMDSv1 configurations and SSRF-vulnerable applications makes
+    this a persistent risk across cloud deployments.
+  how: >-
+    The attacker exploits an SSRF vulnerability or misconfigured application to make HTTP requests to
+    the cloud metadata endpoint (e.g., 169.254.169.254). The metadata service responds with instance
+    identity information, IAM role credentials, user data scripts, and other configuration data. The
+    temporary IAM credentials can then be used from outside the cloud environment to access cloud
+    services. Mitigation includes enforcing IMDSv2 (which requires session tokens), implementing
+    network firewalls blocking metadata access from application containers, and applying principle
+    of least privilege to IAM roles.
+  core_concepts:
+    - key: "Metadata Service Credential Theft"
+      value: "Extracting cloud IAM credentials from instance metadata services through SSRF or application misconfiguration"
+    - key: "Cloud Privilege Escalation Path"
+      value: "Using stolen metadata service credentials to escalate from instance-level access to broader cloud API access"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-59287 is a vulnerability in cloud infrastructure metadata service configuration"
+  - type: enables
+    target: "ATK-CRED-CLOUD-001"
+    description: "Metadata service access enables extraction of cloud IAM credentials for privilege escalation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.005"
+    tactic: ["Credential Access"]
+  cve_mapping:
+    cve_id: "CVE-2025-59287"
+    cvss_score: 8.6
+    cwe_id: "CWE-918"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-59287 - NVD NIST"
+    - "CWE-918 - Server-Side Request Forgery"
+    - "MITRE ATT&CK T1552.005 - Cloud Instance Metadata API"
+    - "AWS Security Best Practices - Instance Metadata Service"
+  search_keywords:
+    - "CVE-2025-59287"
+    - "cloud metadata vulnerability"
+    - "IMDS exploitation"
+    - "cloud credential theft"
+    - "metadata service SSRF"
+    - "IMDSv1 vulnerability"
+    - "cloud instance metadata"
+  embedding_text: >-
+    CVE-2025-59287 is a vulnerability in cloud instance metadata service configurations enabling
+    credential theft through SSRF or application misconfiguration. Attackers can access cloud
+    provider metadata endpoints to extract temporary IAM credentials, instance identity documents,
+    and configuration data. CVSS v3 score is 8.6 High. Particularly impactful when IMDSv1
+    non-authenticated metadata access is enabled. This vulnerability class has been involved in
+    major cloud breaches. Mitigation includes enforcing IMDSv2 with session tokens, network
+    firewalling metadata endpoints, and least privilege IAM roles. Maps to MITRE ATT&CK T1552.005
+    Unsecured Credentials: Cloud Instance Metadata API.

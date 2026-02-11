@@ -1,0 +1,74 @@
+# GR Atom: File Path Indicators
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILPATIND-001"
+  name: "File Path Indicators"
+  normalized_name: "file_path_indicators"
+  aliases:
+    - "Suspicious File Path Detection"
+    - "Directory Path Indicators of Compromise"
+    - "Malware File Location Detection"
+    - "Path-Based Threat Indicators"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - PERSIST
+    - EDR
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File Path Indicators detection identifies files located in directories commonly used by malware for staging, execution, or persistence. Certain file system paths are strongly associated with malicious activity, including user-writable system directories, temporary folders, hidden directories, alternate data streams, and paths that mimic legitimate application directories. This detection maintains a comprehensive catalog of suspicious path patterns across operating systems, including Windows paths like C:\\Users\\Public, C:\\ProgramData, recycler directories, and deep nested temp folders, as well as Linux and macOS paths like /tmp, /dev/shm, and hidden dot-directories in home folders."
+  why: "Malware must reside somewhere in the file system, and attackers consistently favor specific directory locations that offer writable access, persistence opportunities, reduced monitoring visibility, and user deception potential. Understanding and monitoring these path patterns enables detection of malware staging, tool deployment, and persistence mechanism installation. Path-based detection is particularly valuable because it operates independently of file content analysis, catching threats even when content is encrypted or obfuscated. It also identifies compromised systems where legitimate tools are being used from unusual locations, a hallmark of living-off-the-land attacks."
+  how: "Detection systems maintain categorized databases of suspicious file path patterns organized by threat level and operating system. File creation and execution events are matched against these patterns in real-time. High-severity paths include Windows system directories where user processes should not write, ADS (Alternate Data Streams) locations, and known malware staging directories. Medium-severity paths include temporary directories, public folders, and recycler directories. Context evaluation considers the creating process, the file type, and the user's normal activity patterns. Path analysis is enhanced by checking for path obfuscation techniques including excessive path depth to avoid monitoring, use of Unicode characters to create lookalike directory names, path traversal sequences, and junction points or symbolic links redirecting to sensitive locations. Integration with process monitoring correlates file path indicators with execution context."
+  core_concepts:
+    - key: "Malware Staging Directory"
+      value: "File system locations commonly used by attackers to temporarily store tools and payloads before execution or lateral movement"
+    - key: "Path Obfuscation"
+      value: "Techniques to disguise file locations including deep nesting, Unicode directory names, and symbolic links"
+    - key: "Alternate Data Streams"
+      value: "NTFS feature allowing data to be hidden within file metadata streams, commonly abused for malware concealment"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILRISSCO-001"
+    description: "File path indicators are a component factor in comprehensive file risk scoring"
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILECREA-001"
+    description: "Path indicators enrich file creation analysis with location-based risk assessment"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036.005"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1036.005 - Match Legitimate Name or Location - https://attack.mitre.org/techniques/T1036/005/"
+    - "SANS - File System Indicators of Compromise - https://www.sans.org/white-papers/"
+    - "Microsoft - Common Malware File Paths - https://learn.microsoft.com/en-us/defender-endpoint/"
+  search_keywords:
+    - "file path indicators"
+    - "suspicious file location"
+    - "malware staging directory"
+    - "file path IOC"
+    - "suspicious directory detection"
+    - "alternate data streams"
+    - "malware file path"
+    - "path-based threat detection"
+  embedding_text: "File Path Indicators detection identifies files in directories commonly used by malware for staging, execution, or persistence. It maintains catalogs of suspicious path patterns across operating systems including user-writable system directories, temporary folders, hidden directories, alternate data streams, and paths mimicking legitimate applications. Detection matches file creation and execution events against these patterns in real-time, with severity based on path risk level. Analysis includes path obfuscation detection through deep nesting, Unicode directory names, and symbolic link abuse. This technique operates independently of file content analysis, catching threats even when encrypted or obfuscated, and identifies living-off-the-land attacks using legitimate tools from unusual locations."

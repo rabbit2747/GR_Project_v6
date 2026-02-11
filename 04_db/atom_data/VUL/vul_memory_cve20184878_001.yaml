@@ -1,0 +1,121 @@
+# GR Atom: CVE-2018-4878
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20184878-001"
+  name: "CVE-2018-4878"
+  normalized_name: "cve_2018_4878"
+  aliases:
+    - "Adobe Flash Player Use-After-Free"
+    - "Flash Player Zero-Day 2018"
+    - "APT37 Flash Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Adobe Flash Player before 28.0.0.161"
+    - "Internet Explorer"
+    - "Microsoft Office with embedded Flash"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-4878 is a critical use-after-free vulnerability (CVSS 9.8) in Adobe Flash
+    Player that allows remote code execution through crafted Flash content embedded in web
+    pages or Office documents. Discovered as a zero-day being actively exploited by APT37
+    (Group123/Reaper), a North Korean threat actor, in targeted attacks against South Korean
+    entities in January 2018. The vulnerability exists in the DRMManager functionality and
+    can be triggered when a user visits a malicious webpage or opens a document containing
+    embedded Flash content. Adobe released an emergency patch in February 2018.
+  why: >-
+    CVE-2018-4878 was one of the last major Flash zero-days before Adobe's end-of-life for
+    Flash Player in December 2020. Flash vulnerabilities were historically among the most
+    exploited vectors for drive-by downloads and watering hole attacks due to Flash's
+    ubiquitous browser installation. This specific vulnerability demonstrated continued
+    nation-state interest in Flash exploitation for targeted espionage even as Flash usage
+    was declining. Its exploitation by APT37 highlighted the DPRK cyber capability.
+  how: >-
+    The exploit triggers a use-after-free condition in the DRMManager object within Flash
+    Player. Attackers embed malicious Flash (SWF) content in either a web page for drive-by
+    download attacks or within Microsoft Office documents (typically Excel spreadsheets with
+    embedded ActiveX Flash objects). When the victim opens the content, the crafted SWF
+    manipulates DRMManager to create a dangling pointer, then reallocates the freed memory
+    with attacker-controlled data. This allows arbitrary code execution in the context of the
+    browser or Office process. Exploitation typically chains with additional techniques for
+    sandbox escape and privilege escalation.
+  core_concepts:
+    - key: "Flash DRMManager Use-After-Free"
+      value: "Use-after-free in Flash Player DRMManager object creating dangling pointer for arbitrary code execution"
+    - key: "APT37 Zero-Day Exploitation"
+      value: "Exploited as zero-day by North Korean threat actor APT37 targeting South Korean organizations"
+    - key: "Multi-Vector Delivery"
+      value: "Deliverable via web browser drive-by downloads or embedded Flash objects in Office documents"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2018-4878 is a use-after-free memory corruption vulnerability in Adobe Flash Player"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20188174-001"
+    description: "Both are use-after-free browser-based vulnerabilities exploited for initial access through web content"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20200674-001"
+    description: "Both are scripting engine use-after-free vulnerabilities exploited through web browser or embedded content"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Adobe Security Bulletin APSB18-03"
+    - "KR-CERT Advisory on CVE-2018-4878 Zero-Day"
+    - "FireEye - APT37 (Reaper) Flash Exploitation"
+    - "NVD Entry CVE-2018-4878 - CVSS 9.8"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2018-4878"
+    - "Adobe Flash"
+    - "Flash Player zero-day"
+    - "APT37"
+    - "Reaper"
+    - "use-after-free"
+    - "DRMManager"
+    - "Flash exploit"
+    - "North Korea"
+  embedding_text: >-
+    CVE-2018-4878 is a critical use-after-free vulnerability in Adobe Flash Player with
+    CVSS 9.8 enabling remote code execution through crafted Flash content. The flaw exists
+    in the DRMManager functionality and was exploited as a zero-day by APT37 (Reaper), a
+    North Korean threat actor, targeting South Korean organizations in January 2018.
+    Exploitation occurs through malicious SWF content embedded in web pages for drive-by
+    downloads or in Office documents. The use-after-free creates a dangling pointer allowing
+    memory reallocation with attacker-controlled data for arbitrary code execution. It was
+    one of the last major Flash zero-days before Adobe ended Flash Player support in 2020.

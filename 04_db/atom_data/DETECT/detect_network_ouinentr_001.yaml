@@ -1,0 +1,100 @@
+# GR Atom: Outbound Internet Encrypted Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINENTR-001"
+  name: "Outbound Internet Encrypted Traffic"
+  normalized_name: "outbound_internet_encrypted_traffic"
+  aliases:
+    - "Outbound TLS Traffic"
+    - "Outbound HTTPS Detection"
+    - "Encrypted Egress Traffic Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - TLS
+    - MONITOR
+    - DLP
+    - C2
+    - EXFIL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring encrypted traffic leaving the organization's network to internet destinations. This covers HTTPS, TLS-wrapped protocols, VPN tunnels, and other encrypted outbound connections. The pattern analyzes TLS metadata, destination reputation, connection behavior, and flow characteristics to identify C2 communications, data exfiltration, and unauthorized encrypted channels without requiring decryption."
+  why: "Encrypted outbound traffic is the primary channel for modern C2 communications and data exfiltration. Adversaries use HTTPS and other encrypted protocols to hide malicious activity within the large volume of legitimate encrypted traffic. Monitoring outbound encrypted traffic is essential for detecting post-compromise activity including C2 beaconing, encrypted data exfiltration, and connections to adversary infrastructure that leverage encryption to evade content inspection."
+  how: "Detection analyzes outbound TLS connections using metadata-based techniques: JA3 fingerprints identify client-side TLS parameters that distinguish malware from legitimate applications; certificate analysis of destination servers examines issuer chains, validity, and domain properties; destination reputation scoring flags connections to uncategorized, newly registered, or threat-intelligence-flagged domains; flow analysis detects unusual volume patterns, timing characteristics, and session behaviors; SNI analysis identifies connections to unexpected or suspicious domains. TLS interception proxies enable full content inspection where deployed."
+  core_concepts:
+    - key: "Encrypted Channel Monitoring"
+      value: "Analyzing outbound encrypted connections using metadata and behavioral analysis without requiring decryption."
+    - key: "JA3 Client Fingerprinting"
+      value: "Identifying malware families through unique TLS client hello parameters that differ from legitimate browsers."
+    - key: "Destination Analysis"
+      value: "Evaluating the reputation, categorization, and registration history of external destinations receiving encrypted traffic."
+    - key: "TLS Inspection"
+      value: "Where deployed, terminating and inspecting outbound TLS sessions for content-based threat detection."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINNETR-001"
+    description: "Outbound encrypted traffic is a subset of outbound internet network traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-OUTNETTRA-001"
+    description: "Internet-bound encrypted traffic is a type of outbound network traffic"
+  - type: enables
+    target: "DETECT-NETWORK-OUINENWETR-001"
+    description: "Encrypted traffic analysis enables specific encrypted web traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-DEENBOTR-001"
+    description: "Outbound encrypted traffic analysis supports encrypted botnet detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1573"
+    tactic:
+      - "Command and Control"
+      - "Exfiltration"
+    sub_techniques:
+      - "T1573.001"
+      - "T1573.002"
+  defense_context:
+    effectiveness: "medium"
+    d3fend_mapping: "D3-NTCD"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Encrypted Channel T1573"
+    - "Salesforce - JA3 SSL/TLS Client Fingerprinting"
+    - "SANS Institute - Monitoring Outbound Encrypted Traffic"
+  search_keywords:
+    - "outbound encrypted traffic"
+    - "outbound TLS"
+    - "outbound HTTPS"
+    - "encrypted egress"
+    - "TLS egress monitoring"
+    - "outbound SSL"
+    - "encrypted C2"
+    - "TLS exfiltration"
+    - "outbound encrypted monitoring"
+    - "JA3 detection"
+  embedding_text: "Outbound internet encrypted traffic detection monitors TLS, HTTPS, and other encrypted connections leaving the organization to internet destinations. It uses metadata-based analysis including JA3 fingerprinting, destination certificate inspection, reputation scoring, flow behavior analysis, and SNI inspection to identify C2 communications, data exfiltration, and unauthorized encrypted channels without requiring decryption. This pattern is essential for detecting post-compromise activity where adversaries hide malicious traffic within the volume of legitimate encrypted outbound communications."

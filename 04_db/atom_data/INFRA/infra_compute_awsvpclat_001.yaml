@@ -1,0 +1,102 @@
+# GR Atom: AWS VPC Lattice
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AWSVPCLAT-001"
+  name: "AWS VPC Lattice"
+  normalized_name: "aws_vpc_lattice"
+  aliases:
+    - "VPC Lattice"
+    - "Amazon VPC Lattice"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - NETWORK
+    - MICROSERVICE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "N1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS VPC Lattice is an application networking service that connects, secures, and monitors
+    communication between services across multiple VPCs and AWS accounts. It provides
+    application-layer (Layer 7) service-to-service connectivity with built-in authentication,
+    authorization, and observability without requiring complex networking infrastructure like
+    service meshes, load balancers, or VPC peering. VPC Lattice operates as a managed service
+    network that simplifies microservices communication patterns.
+  why: >-
+    As organizations adopt microservices architectures spanning multiple VPCs and accounts,
+    managing service-to-service connectivity becomes increasingly complex. VPC Lattice
+    eliminates the need for custom networking solutions by providing a managed application
+    networking layer with built-in security policies. From a security perspective, it enforces
+    authentication and authorization at the service network level, reducing the attack surface
+    for lateral movement between microservices.
+  how: >-
+    VPC Lattice defines service networks that group related services together. Services register
+    with target groups behind listeners that define routing rules. Auth policies using IAM
+    control which services can communicate. Traffic is routed through the AWS-managed VPC Lattice
+    data plane without requiring VPC peering or transit gateways. Access logs capture request
+    metadata for auditing and monitoring. Integration with AWS Resource Access Manager enables
+    cross-account service sharing.
+  core_concepts:
+    - key: "Service Network"
+      value: "A logical grouping of services and VPCs that defines the communication boundary and shared access policies for service-to-service traffic"
+    - key: "Application-Layer Networking"
+      value: "Layer 7 routing and load balancing for services without requiring complex network infrastructure like service meshes or VPC peering"
+    - key: "IAM-Based Auth Policies"
+      value: "Fine-grained authentication and authorization policies controlling which services can communicate within the service network"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-COMPUTE-AWSVPC-001"
+    description: "VPC Lattice connects services across VPCs, requiring VPC infrastructure as the underlying network"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "VPC Lattice is an AWS-native application networking service"
+  - type: "enables"
+    target: "INFRA-COMPUTE-LAMBDA-001"
+    description: "VPC Lattice can route traffic to Lambda functions as service targets"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS VPC Lattice Documentation - docs.aws.amazon.com"
+    - "AWS re:Invent 2022 - VPC Lattice Launch Announcement"
+    - "AWS Networking and Content Delivery Best Practices"
+  search_keywords:
+    - "aws vpc lattice"
+    - "vpc lattice"
+    - "aws service mesh"
+    - "service-to-service networking"
+    - "application networking aws"
+    - "microservices connectivity"
+    - "aws service network"
+  embedding_text: >-
+    AWS VPC Lattice is an application networking service that connects, secures, and monitors
+    service-to-service communication across multiple VPCs and AWS accounts. It provides Layer 7
+    connectivity with built-in authentication, authorization via IAM policies, and observability
+    without requiring service meshes, load balancers, or VPC peering. VPC Lattice defines service
+    networks that group related services together with shared access policies, enabling
+    microservices communication patterns. Traffic routes through the AWS-managed data plane with
+    access logging for audit. From a security perspective, VPC Lattice enforces service-level
+    authentication and authorization, reducing the attack surface for lateral movement between
+    microservices in distributed architectures.

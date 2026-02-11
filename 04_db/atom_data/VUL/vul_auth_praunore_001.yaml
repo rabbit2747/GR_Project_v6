@@ -1,0 +1,120 @@
+# GR Atom: Pre-Auth Not Required
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PRAUNORE-001"
+  name: "Pre-Auth Not Required"
+  normalized_name: "pre_auth_not_required"
+  aliases:
+    - "Pre-Authentication Bypass"
+    - "Unauthenticated Access Vulnerability"
+    - "No Authentication Required"
+    - "Pre-Auth Remote Exploitation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - INITIAL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web application authentication"
+    - "API authentication endpoints"
+    - "Network service authentication"
+    - "VPN and gateway authentication"
+    - "Management interface access control"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Pre-Auth Not Required is a vulnerability class where systems, services, or endpoints can be
+    accessed and exploited without providing any authentication credentials. This encompasses
+    authentication bypass vulnerabilities, exposed administrative interfaces without login
+    requirements, API endpoints lacking authentication checks, services with default or missing
+    authentication configurations, and design flaws that allow unauthenticated access to
+    privileged functionality. Pre-authentication vulnerabilities are the most dangerous class
+    of access control failures because they require no prior knowledge or access.
+  why: >-
+    Pre-authentication vulnerabilities represent the highest-risk class of access control failures
+    because they allow any attacker with network connectivity to exploit the target without
+    needing stolen credentials or prior access. These vulnerabilities are the most sought-after
+    by both advanced persistent threat groups and commodity attackers, as they provide the simplest
+    path from internet exposure to initial access. Many of the most impactful CVEs in recent years
+    (ProxyLogon, Ivanti auth bypass, ScreenConnect) are pre-authentication vulnerabilities in
+    network perimeter devices.
+  how: >-
+    Attackers exploit pre-authentication vulnerabilities by sending crafted requests to exposed
+    services that bypass or circumvent authentication checks. Common techniques include path
+    traversal to bypass authentication middleware, exploiting race conditions in authentication
+    logic, accessing administrative setup wizards, exploiting SSRF to reach internal endpoints,
+    and targeting default configurations that expose functionality without authentication.
+    Mitigation includes implementing defense in depth with multiple authentication layers,
+    enforcing authentication on all endpoints by default (deny-by-default), regular security
+    auditing of access controls, deploying web application firewalls, limiting exposure of
+    management interfaces, and implementing zero-trust network architecture.
+  core_concepts:
+    - key: "Authentication Bypass"
+      value: "Circumventing authentication controls to access protected resources without valid credentials, often through path traversal, SSRF, or logic flaws"
+    - key: "Zero-Credential Attack Surface"
+      value: "Functionality accessible without any authentication represents the highest-risk attack surface as it requires only network connectivity to exploit"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Pre-Auth Not Required is the most critical class of authentication failure - complete absence of authentication"
+  - type: "abstracts"
+    target: "VUL-AUTH-CVE202346805-001"
+    description: "Ivanti CVE-2023-46805 is a specific instance of pre-authentication bypass vulnerability"
+  - type: "abstracts"
+    target: "VUL-AUTH-CVE20241709-001"
+    description: "ScreenConnect CVE-2024-1709 is a specific instance of pre-authentication bypass vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Broken Access Control"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "CWE-306: Missing Authentication for Critical Function"
+    - "NIST SP 800-53 AC-3 Access Enforcement"
+  search_keywords:
+    - "pre-authentication bypass"
+    - "unauthenticated access vulnerability"
+    - "authentication bypass"
+    - "no authentication required"
+    - "pre-auth exploit"
+    - "missing authentication"
+    - "CWE-306"
+  embedding_text: >-
+    Pre-Auth Not Required is a vulnerability class where systems can be accessed and exploited
+    without any authentication credentials. Encompasses authentication bypass vulnerabilities,
+    exposed admin interfaces without login, API endpoints lacking auth checks, and design flaws
+    allowing unauthenticated privileged access. The highest-risk class of access control failures
+    because attackers need only network connectivity. Many of the most impactful recent CVEs
+    (ProxyLogon, Ivanti auth bypass, ScreenConnect) are pre-authentication vulnerabilities in
+    perimeter devices. Exploitation involves crafted requests that bypass auth via path traversal,
+    SSRF, race conditions, or logic flaws. Mitigation includes defense in depth, deny-by-default
+    access control, security auditing, WAF deployment, limited management exposure, and zero-trust
+    architecture.

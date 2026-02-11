@@ -1,0 +1,79 @@
+# GR Atom: CVE-2021-36942
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202136942-001"
+  name: "CVE-2021-36942"
+  normalized_name: "cve_2021_36942"
+  aliases:
+    - "PetitPotam"
+    - "Windows LSA Spoofing Vulnerability"
+    - "NTLM Relay via LSARPC"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - CRED
+    - LATERAL
+    - WINDOWS
+    - NETWORK
+    - SMB
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Windows Server 2008 through 2022"
+    - "Windows Local Security Authority (LSA)"
+    - "Encrypting File System Remote Protocol (MS-EFSRPC)"
+    - "Active Directory Certificate Services (AD CS)"
+
+definition:
+  what: "CVE-2021-36942 (PetitPotam) is an NTLM relay vulnerability that allows an unauthenticated attacker to coerce a Windows domain controller to authenticate to an attacker-controlled server using the MS-EFSRPC (Encrypting File System Remote Protocol) interface. The coerced authentication can be relayed to Active Directory Certificate Services to obtain a domain controller certificate, enabling full domain compromise. CVSS v3: 7.5 (High). Disclosed in July 2021."
+  why: "PetitPotam is devastating because it enables unauthenticated domain compromise through NTLM relay attacks. By coercing a domain controller to authenticate to an attacker-controlled host, the attacker can relay those credentials to AD CS web enrollment endpoints and obtain certificates that allow impersonation of the domain controller. This effectively provides domain admin privileges without any initial credentials. The attack was widely adopted by ransomware operators including LockFile. Microsoft's initial patch was incomplete, and the technique has variants using other coercion protocols."
+  how: "The attacker sends EfsRpcOpenFileRaw or other MS-EFSRPC calls to a domain controller, specifying a UNC path pointing to the attacker's server. The domain controller attempts to authenticate to the attacker's server using its machine account NTLM credentials. The attacker relays these credentials to the AD CS web enrollment endpoint (certsrv) to request a certificate for the domain controller. With this certificate, the attacker can authenticate as the domain controller to any service. Combined with tools like ntlmrelayx and Rubeus, this provides a complete path from unauthenticated network access to domain admin. Microsoft patched MS-EFSRPC but other coercion methods remain."
+  core_concepts:
+    - key: "NTLM Authentication Coercion"
+      value: "MS-EFSRPC allows unauthenticated callers to coerce domain controllers into authenticating to attacker-controlled servers, providing machine account NTLM credentials for relay attacks"
+    - key: "AD CS Certificate Relay"
+      value: "Relaying coerced domain controller NTLM authentication to AD CS web enrollment enables obtaining domain controller certificates for full Active Directory domain compromise"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "PetitPotam is an authentication coercion vulnerability enabling NTLM relay attacks"
+  - type: enables
+    target: "VUL-AUTH-CVE20201472-001"
+    description: "PetitPotam relay to AD CS achieves similar domain compromise outcomes as Zerologon through certificate-based authentication"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557.001"
+    tactic: ["Credential Access", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-36942 - NVD NIST"
+    - "Microsoft Security Advisory - Windows LSA Spoofing"
+    - "Topotam - PetitPotam Original Research"
+    - "SpecterOps - Certified Pre-Owned AD CS Abuse"
+    - "MITRE ATT&CK T1557.001 - LLMNR/NBT-NS Poisoning and SMB Relay"
+  search_keywords:
+    - "CVE-2021-36942"
+    - "PetitPotam"
+    - "NTLM relay attack"
+    - "MS-EFSRPC coercion"
+    - "AD CS relay"
+    - "Windows LSA spoofing"
+    - "domain controller NTLM relay"
+    - "certificate services relay"
+  embedding_text: "CVE-2021-36942 known as PetitPotam is an NTLM relay vulnerability allowing unauthenticated attackers to coerce Windows domain controllers into authenticating to attacker-controlled servers via the MS-EFSRPC protocol. The coerced NTLM credentials are relayed to Active Directory Certificate Services web enrollment to obtain domain controller certificates enabling full domain compromise. CVSS v3 score is 7.5 High. Widely exploited by ransomware operators including LockFile. Affects all Windows Server versions. Enables unauthenticated domain takeover when AD CS is deployed. Maps to MITRE ATT&CK T1557.001. Microsoft patched MS-EFSRPC but other authentication coercion methods exist. Combined with ntlmrelayx and Rubeus for complete attack chain."

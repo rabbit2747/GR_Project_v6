@@ -1,0 +1,105 @@
+# GR Atom: CVE-2012-1889
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20121889-001"
+  name: "CVE-2012-1889"
+  normalized_name: "cve_2012_1889"
+  aliases:
+    - "Microsoft XML Core Services Uninitialized Memory Corruption"
+    - "MSXML Use-After-Free"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft XML Core Services 3.0, 4.0, 5.0, 6.0"
+    - "Internet Explorer 6 through 9"
+    - "Microsoft Office 2003, 2007, 2010"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-1889 is an uninitialized memory corruption vulnerability (CVSS 9.3) in Microsoft
+    XML Core Services (MSXML) that allows remote code execution. The flaw exists in how MSXML
+    accesses an object in memory that has not been properly initialized, enabling an attacker
+    to corrupt memory and execute arbitrary code. It was exploited as a zero-day in targeted
+    attacks and was patched in MS12-043 (July 2012). The vulnerability affects MSXML versions
+    3.0 through 6.0 used by Internet Explorer and Microsoft Office.
+  why: >-
+    This vulnerability was actively exploited as a zero-day before the patch was available,
+    used in both targeted attacks and mass exploitation campaigns. MSXML is a core Windows
+    component used by Internet Explorer and Office, providing an exceptionally large attack
+    surface. The vulnerability was integrated into exploit kits and was also used by APT
+    groups for targeted spear-phishing and watering hole attacks.
+  how: >-
+    The exploit creates a web page or document that uses JavaScript to invoke MSXML functionality
+    in a way that accesses an uninitialized memory object. By manipulating the heap layout through
+    spray techniques, the attacker ensures that the uninitialized memory contains attacker-
+    controlled data. When MSXML accesses this memory, it treats the attacker data as a valid
+    object pointer, allowing redirection of execution flow to shellcode.
+  core_concepts:
+    - key: "Uninitialized Memory Access in MSXML"
+      value: "MSXML accesses an object that was not properly initialized, allowing attacker-controlled data in uninitialized memory to redirect execution"
+    - key: "Zero-Day Exploitation Across Vectors"
+      value: "Exploited as zero-day through both web-based (IE) and document-based (Office) attack vectors before patch availability"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Uninitialized memory corruption in Microsoft XML Core Services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-1889 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS12-043"
+    - "Microsoft Security Advisory 2719615"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2012-1889"
+    - "MSXML"
+    - "Microsoft XML Core Services"
+    - "uninitialized memory"
+    - "memory corruption"
+    - "MS12-043"
+    - "Internet Explorer"
+    - "zero-day"
+  embedding_text: >-
+    CVE-2012-1889 is an uninitialized memory corruption vulnerability with CVSS 9.3 in
+    Microsoft XML Core Services (MSXML) versions 3.0 through 6.0. The flaw allows remote
+    code execution when MSXML accesses an improperly initialized memory object, which an
+    attacker fills with controlled data via heap spraying. Exploited as a zero-day in both
+    targeted APT attacks and mass exploitation campaigns, it affected Internet Explorer and
+    Microsoft Office. Patched in MS12-043 in July 2012, this vulnerability demonstrated the
+    risk of core Windows components like MSXML providing a wide attack surface exploitable
+    through multiple vectors including web browsing and document opening.

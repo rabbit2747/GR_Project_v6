@@ -1,0 +1,120 @@
+# GR Atom: Password Security Vulnerabilities
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PASSSECU-001"
+  name: "Password Security Vulnerabilities"
+  normalized_name: "password_security_vulnerabilities"
+  aliases:
+    - "Password Storage Vulnerabilities"
+    - "Credential Security Weaknesses"
+    - "Password Management Flaws"
+    - "Insecure Password Handling"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - CRYPTO
+    - CONFIG
+    - CRED
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Password hashing implementations"
+    - "Credential storage systems"
+    - "Authentication databases"
+    - "Application authentication modules"
+    - "Identity management platforms"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Password Security Vulnerabilities is a class of authentication weaknesses encompassing
+    insecure password storage, weak hashing algorithms, plaintext credential storage, insufficient
+    salting, reversible encryption of passwords, insecure password transmission, and inadequate
+    credential lifecycle management. This includes use of deprecated hashing algorithms (MD5,
+    SHA-1, unsalted hashes), storing passwords in plaintext or reversible formats, transmitting
+    credentials over unencrypted channels, and failing to implement proper key stretching
+    (bcrypt, scrypt, Argon2).
+  why: >-
+    Insecure password storage and handling represent foundational security failures that amplify
+    the impact of any data breach. When password databases are compromised, weak hashing allows
+    rapid offline cracking of credentials, potentially exposing millions of user accounts. Major
+    breaches at Adobe (plaintext hints), LinkedIn (unsalted SHA-1), and others demonstrated the
+    catastrophic consequences of insecure password storage. These vulnerabilities also enable
+    insider threats, as poorly stored credentials can be accessed by database administrators or
+    through SQL injection attacks.
+  how: >-
+    Attackers exploit password security vulnerabilities through database compromise followed by
+    offline hash cracking (using tools like Hashcat and John the Ripper), interception of
+    plaintext credentials in transit, extraction of passwords from insecure storage (config files,
+    logs, memory dumps), and rainbow table attacks against unsalted hashes. Mitigation includes
+    implementing modern adaptive hashing (Argon2id preferred, bcrypt minimum), enforcing unique
+    per-password salts, transmitting credentials only over TLS, implementing secure credential
+    lifecycle management, avoiding password storage where possible (using OAuth/OIDC delegation),
+    and regularly auditing password storage implementations.
+  core_concepts:
+    - key: "Insecure Password Hashing"
+      value: "Use of weak, fast, or unsalted hashing algorithms that enable rapid offline cracking of compromised password databases"
+    - key: "Credential Lifecycle Management"
+      value: "End-to-end security of password handling from creation through storage, transmission, validation, rotation, and secure deletion"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "Password security vulnerabilities encompass the broader infrastructure weaknesses that make weak passwords exploitable"
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Password security vulnerabilities are a class of authentication infrastructure weaknesses"
+  - type: "enables"
+    target: "VUL-AUTH-PASREUPAT-001"
+    description: "Weak password storage enables mass credential cracking that feeds password reuse exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Password Storage Cheat Sheet"
+    - "NIST SP 800-63B Digital Identity Guidelines"
+    - "MITRE ATT&CK T1552.001 - Unsecured Credentials: Credentials In Files"
+    - "CWE-916: Use of Password Hash With Insufficient Computational Effort"
+  search_keywords:
+    - "password security vulnerability"
+    - "insecure password storage"
+    - "weak password hashing"
+    - "plaintext password storage"
+    - "credential storage security"
+    - "password hashing best practices"
+    - "unsalted hash vulnerability"
+    - "Argon2 bcrypt password security"
+  embedding_text: >-
+    Password Security Vulnerabilities is a class of authentication weaknesses encompassing
+    insecure password storage, weak hashing algorithms, plaintext credential storage, insufficient
+    salting, and inadequate credential lifecycle management. Includes use of deprecated hashing
+    (MD5, SHA-1, unsalted hashes), plaintext storage, unencrypted transmission, and failure to
+    implement key stretching. Major breaches at Adobe and LinkedIn demonstrated catastrophic
+    consequences of insecure password storage. Attackers exploit these through offline hash
+    cracking, credential interception, and rainbow table attacks. Mitigation includes modern
+    adaptive hashing (Argon2id preferred), unique salts, TLS-only transmission, secure credential
+    lifecycle management, OAuth/OIDC delegation, and regular storage implementation audits.

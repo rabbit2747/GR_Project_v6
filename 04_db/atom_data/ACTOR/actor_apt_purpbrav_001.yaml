@@ -1,0 +1,79 @@
+# GR Atom: Purple Bravo
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-PURPBRAV-001"
+  name: "Purple Bravo"
+  normalized_name: "purple_bravo"
+  aliases:
+    - "TAG-110"
+    - "Insekt Group"
+    - "UAC-0063"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "C2"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "government networks"
+    - "diplomatic communications"
+    - "educational institution networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Purple Bravo (also tracked as TAG-110, Insekt Group, and UAC-0063) is a Russia-aligned cyber espionage group that has been active since at least 2021, targeting government entities, diplomatic missions, research institutions, and educational organizations primarily in Central Asia, East Asia, and Europe. The group has strong infrastructure and tooling overlaps with APT28/Fancy Bear operations, suggesting it operates within or alongside Russian military intelligence."
+  why: "The group conducts espionage operations aligned with Russian intelligence interests in Central Asian nations, monitoring political developments, diplomatic relationships, and educational/research activities in former Soviet states and nations of strategic importance. Targeting patterns suggest focus on understanding regional geopolitics, NATO expansion dynamics, and maintaining influence in Russia's traditional sphere of influence."
+  how: "Purple Bravo deploys custom malware families including HatVibe and CherrySpy through spear-phishing campaigns with document lures relevant to government and diplomatic topics. HatVibe is an HTML Application-based loader that establishes persistence through scheduled tasks, while CherrySpy is a Python-based backdoor for data collection and exfiltration. The group uses legitimate web services for C2 and employs multi-stage infection chains. Operations have been observed using compromised government email accounts for lateral phishing to increase credibility."
+  core_concepts:
+    - "Central Asian government espionage"
+    - "HatVibe and CherrySpy tooling"
+    - "Russia-aligned intelligence collection"
+    - "diplomatic mission targeting"
+    - "lateral phishing from compromised accounts"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-GRUELARC-001"
+    description: "Strong infrastructure overlaps with APT28/Fancy Bear operations"
+  - type: "applies_to"
+    target: "ACTOR-APT-INDIZEBR-001"
+    description: "Both groups target Central Asian government entities from different national interests"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Recorded Future - TAG-110 Threat Assessment"
+    - "CERT-UA - UAC-0063 Activity Reports"
+    - "Insikt Group - Purple Bravo Analysis"
+  search_keywords:
+    - "purple bravo"
+    - "TAG-110"
+    - "insekt group"
+    - "UAC-0063"
+    - "HatVibe malware"
+    - "CherrySpy backdoor"
+    - "central asia russian espionage"
+    - "russia aligned APT"
+  embedding_text: "Purple Bravo is a Russia-aligned cyber espionage group also tracked as TAG-110, Insekt Group, and UAC-0063, active since at least 2021. The group targets government entities, diplomatic missions, research institutions, and educational organizations primarily in Central Asia, East Asia, and Europe. Strong infrastructure and tooling overlaps connect Purple Bravo to APT28/Fancy Bear operations within Russian military intelligence. Custom malware includes HatVibe, an HTML Application-based loader establishing persistence through scheduled tasks, and CherrySpy, a Python-based backdoor for data collection and exfiltration. Attack techniques include spear-phishing with government-themed document lures and lateral phishing from compromised government email accounts. Operations align with Russian intelligence interests in monitoring Central Asian political developments, diplomatic relationships, and maintaining influence in Russia's traditional sphere of influence."

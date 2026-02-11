@@ -1,0 +1,120 @@
+# GR Atom: OXID Resolver
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-OXIDRESO-001"
+  name: "OXID Resolver"
+  normalized_name: "oxid_resolver"
+  aliases:
+    - "Object Exporter ID Resolver"
+    - "IObjectExporter"
+    - "DCOM OXID Resolver"
+    - "RPC OXID Resolver"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - OS
+    - NETWORK
+    - RECON
+    - LATERAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OXID Resolver is a Windows service component of the Distributed Component Object Model
+    (DCOM) infrastructure that resolves Object Exporter IDs (OXIDs) to RPC string bindings. It
+    runs as part of the RPC Endpoint Mapper service on TCP port 135 and is responsible for
+    managing DCOM object activation and connection establishment between COM clients and servers
+    across network boundaries. The OXID Resolver maintains a mapping table of exported COM
+    objects and their network endpoints.
+  why: >-
+    The OXID Resolver is exploited for network reconnaissance and lateral movement in Active
+    Directory environments. The IOXIDResolver interface can be queried remotely without
+    authentication to enumerate network interfaces on the target system, revealing hidden network
+    adapters, VPN interfaces, and dual-homed configurations. This technique is used during
+    Active Directory reconnaissance to map internal network topology. DCOM-based lateral movement
+    techniques (e.g., MMC20.Application, ShellWindows, ShellBrowserWindow) rely on the OXID
+    Resolver for remote object activation. The service's exposure on port 135 makes it accessible
+    for initial network enumeration during penetration testing and attacks.
+  how: >-
+    The OXID Resolver operates on TCP port 135 as part of the RPC Endpoint Mapper. Remote clients
+    call the ServerAlive2() method on the IOXIDResolver interface to resolve OXIDs and obtain RPC
+    binding information. The response includes network interface bindings that reveal all network
+    adapters on the target system. Attackers use tools like IOXIDResolver.py (Impacket) to
+    enumerate network interfaces without authentication. For lateral movement, DCOM object
+    activation through the OXID Resolver enables remote code execution via COM objects such as
+    MMC20.Application, ShellWindows, and Excel.Application. The OXID Resolver facilitates the
+    initial connection establishment for these DCOM-based attacks.
+  core_concepts:
+    - key: "DCOM Infrastructure Service"
+      value: "Windows service resolving Object Exporter IDs to RPC bindings for DCOM object activation and cross-network COM communication on port 135"
+    - key: "Network Interface Enumeration"
+      value: "Unauthenticated remote queries to IOXIDResolver reveal all network interfaces including hidden adapters and VPN connections for reconnaissance"
+    - key: "DCOM Lateral Movement Enabler"
+      value: "Facilitates DCOM-based lateral movement techniques through remote COM object activation used by attackers for code execution across systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-COMSYSAPP-001"
+    description: "The OXID Resolver is a component of the DCOM/COM+ system infrastructure managed by COMSysApp"
+  - type: "enables"
+    target: "INFRA-APP-DLLHOST-001"
+    description: "The OXID Resolver enables remote DCOM object activation that results in DLL Host (dllhost.exe) process creation for COM surrogate execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.003"
+    tactic:
+      - "Lateral Movement"
+      - "Discovery"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1021.003 - Remote Services: Distributed Component Object Model"
+    - "Impacket IOXIDResolver Network Interface Enumeration"
+    - "DCOM Lateral Movement Techniques Analysis"
+  search_keywords:
+    - "OXID Resolver"
+    - "IOXIDResolver"
+    - "DCOM lateral movement"
+    - "port 135 enumeration"
+    - "OXID network interface"
+    - "DCOM exploitation"
+    - "ServerAlive2"
+    - "RPC endpoint mapper"
+    - "DCOM reconnaissance"
+  embedding_text: >-
+    The OXID Resolver is a Windows DCOM infrastructure service that resolves Object Exporter IDs
+    (OXIDs) to RPC string bindings on TCP port 135. It manages DCOM object activation and
+    connection establishment across network boundaries. The IOXIDResolver interface can be queried
+    remotely without authentication to enumerate all network interfaces on target systems,
+    revealing hidden adapters and VPN connections for Active Directory reconnaissance. Tools like
+    Impacket's IOXIDResolver.py exploit this for network topology mapping. DCOM-based lateral
+    movement techniques (MMC20.Application, ShellWindows, ShellBrowserWindow) rely on the OXID
+    Resolver for remote object activation and code execution. Security teams should restrict port
+    135 access through network segmentation, monitor for DCOM-based lateral movement patterns,
+    disable unnecessary DCOM services, and implement Windows Firewall rules to limit RPC
+    endpoint access.

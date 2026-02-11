@@ -1,0 +1,78 @@
+# GR Atom: Software Repository
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-SOFTREPO-001"
+  name: "Software Repository"
+  normalized_name: "software_repository"
+  aliases:
+    - "Package Repository"
+    - "Software Registry"
+    - "Package Registry"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - SUPPLY_CHAIN
+    - CICD
+    - DEVSECOPS
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "P1.1"
+
+definition:
+  what: "Software Repository is the general infrastructure category for centralized hosting services that store, index, and distribute software packages for specific programming language ecosystems or platform communities. This includes PyPI (Python), npm (Node.js), NuGet (.NET), RubyGems (Ruby), CocoaPods (iOS/macOS), Maven Central (Java), and crates.io (Rust). Repositories provide package discovery, versioning, dependency metadata, download distribution, and author management."
+  why: "Software repositories are prime targets for supply chain attacks because they serve as trusted sources of code that developers incorporate into applications. Package repositories have been exploited through typosquatting (similar package names), dependency confusion (internal vs. public name conflicts), account hijacking, and direct repository infrastructure compromise. Malicious packages in public repositories can propagate to thousands of downstream applications. Repository security directly impacts the integrity of the entire software supply chain."
+  how: "Software repositories operate as centralized indexing and hosting services. Package authors authenticate and upload packages containing code, metadata, and dependency declarations. Package managers on developer machines query the repository API, resolve dependency trees, download packages, and verify integrity. Repositories maintain version indexes, download statistics, and author ownership records. Security features include package signing, two-factor authentication for publishers, vulnerability advisories, and automated malware scanning. Mirror and proxy configurations enable private repository hosting."
+  core_concepts:
+    - key: "Package Index"
+      value: "Searchable catalog of available packages with metadata including versions, dependencies, authors, and download statistics"
+    - key: "Dependency Resolution"
+      value: "Algorithm that computes a compatible set of package versions satisfying all declared dependency constraints"
+    - key: "Package Publishing"
+      value: "Authenticated process of uploading new package versions with metadata to the repository for public or private consumption"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-PYPI-001"
+    description: "Software Repository is the general concept that PyPI implements for the Python ecosystem"
+  - type: abstracts
+    target: "INFRA-DEVOPS-NUGET-001"
+    description: "Software Repository is the general concept that NuGet implements for the .NET ecosystem"
+  - type: abstracts
+    target: "INFRA-DEVOPS-RUBYGEMS-001"
+    description: "Software Repository is the general concept that RubyGems implements for the Ruby ecosystem"
+  - type: abstracts
+    target: "INFRA-DEVOPS-COCOAPODS-001"
+    description: "Software Repository is the general concept that CocoaPods implements for the Apple ecosystem"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "SLSA Supply Chain Security Framework - https://slsa.dev/"
+    - "OpenSSF Package Repository Security"
+    - "MITRE ATT&CK T1195.001 - Supply Chain Compromise: Compromise Software Dependencies"
+  search_keywords:
+    - "software repository"
+    - "package repository"
+    - "package registry"
+    - "software repository security"
+    - "dependency confusion"
+    - "package typosquatting"
+    - "supply chain repository"
+    - "package manager security"
+  embedding_text: "Software Repository is the general infrastructure category for centralized hosting services storing, indexing, and distributing software packages for specific ecosystems. Includes PyPI, npm, NuGet, RubyGems, CocoaPods, and Maven Central. Provides package discovery, versioning, dependency metadata, and author management. Security significance centers on supply chain attacks through typosquatting, dependency confusion, account hijacking, and infrastructure compromise. Malicious packages propagate to thousands of downstream applications. Repository security impacts the entire software supply chain. Security features include package signing, MFA for publishers, vulnerability advisories, and automated malware scanning."

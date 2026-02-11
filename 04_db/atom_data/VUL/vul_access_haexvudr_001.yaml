@@ -1,0 +1,122 @@
+# GR Atom: HackSys Extreme Vulnerable Driver
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-HAEXVUDR-001"
+  name: "HackSys Extreme Vulnerable Driver"
+  normalized_name: "hacksys_extreme_vulnerable_driver"
+  aliases:
+    - "HEVD"
+    - "HackSys EVD"
+    - "Extreme Vulnerable Driver"
+    - "HEVD Training Driver"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - PRIV
+    - EXEC
+    - WINDOWS
+    - OS
+    - OVERFLOW
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Windows kernel drivers"
+    - "Windows IOCTL interfaces"
+    - "Ring 0 / kernel mode code"
+    - "Windows Driver Model (WDM)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    HackSys Extreme Vulnerable Driver (HEVD) is an intentionally vulnerable Windows kernel
+    driver created by Ashfaq Ansari of HackSys Inc as an educational platform for learning
+    Windows kernel exploitation techniques. The driver contains deliberate security
+    vulnerabilities including stack buffer overflow, heap overflow, use-after-free, type
+    confusion, integer overflow, null pointer dereference, uninitialized stack variable,
+    uninitialized heap variable, double fetch, insecure kernel resource access, pool overflow,
+    and arbitrary overwrite. Each vulnerability represents a real-world kernel exploitation
+    primitive that security researchers and red team operators encounter in production
+    Windows kernel drivers.
+  why: >-
+    HEVD is significant in the cybersecurity ontology because it catalogs the most common and
+    critical kernel driver vulnerability classes found in real-world Windows systems. The
+    driver serves as a training ground for developing exploitation skills used against
+    production kernel vulnerabilities such as those found in antivirus drivers, GPU drivers,
+    and system utilities. Understanding HEVD vulnerability classes is essential for both
+    offensive security researchers developing kernel exploits and defensive teams building
+    kernel exploit detection and prevention capabilities. The techniques demonstrated apply
+    directly to real CVEs in production drivers.
+  how: >-
+    Each vulnerability in HEVD is accessible through IOCTL (Input/Output Control) codes sent
+    from user-mode to the kernel driver. For example, the stack buffer overflow vulnerability
+    accepts oversized input through DeviceIoControl, allowing the attacker to overwrite the
+    kernel stack and redirect execution to shellcode. The use-after-free vulnerability allows
+    allocation, freeing, and reuse of a kernel object to achieve controlled code execution.
+    Exploitation typically involves crafting a user-mode exploit that sends malicious IOCTL
+    payloads, corrupts kernel memory structures, and achieves SYSTEM-level code execution
+    through token stealing shellcode. HEVD supports multiple Windows versions (7 through 11)
+    and both x86 and x64 architectures. The project is open source on GitHub.
+  core_concepts:
+    - key: "Kernel Exploitation Training"
+      value: "Intentionally vulnerable driver providing hands-on training for Windows kernel exploitation across multiple vulnerability classes"
+    - key: "IOCTL Attack Surface"
+      value: "Windows kernel drivers expose IOCTL interfaces from user mode to kernel mode, creating a critical privilege boundary attack surface"
+    - key: "Real-World Vulnerability Catalog"
+      value: "HEVD vulnerability classes (stack overflow, UAF, type confusion) directly mirror those found in production kernel drivers and real CVEs"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "HEVD demonstrates access control failures at the kernel boundary where user-mode processes access kernel-mode resources"
+  - type: "applies_to"
+    target: "VUL-ACCESS-EXYNABUS-001"
+    description: "Both HEVD and Exynos Abuse exploit kernel driver access control weaknesses to achieve privilege escalation from user to kernel mode"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "HackSys Inc - HEVD GitHub Repository"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Windows Internals - Kernel Driver Security"
+    - "Offensive Security - Windows Kernel Exploitation"
+  search_keywords:
+    - "HEVD"
+    - "HackSys Extreme Vulnerable Driver"
+    - "Windows kernel exploitation"
+    - "kernel driver vulnerability"
+    - "IOCTL exploitation"
+    - "Windows privilege escalation"
+    - "kernel exploit training"
+    - "token stealing shellcode"
+  embedding_text: >-
+    HackSys Extreme Vulnerable Driver (HEVD) is an intentionally vulnerable Windows kernel
+    driver for security research and exploitation training. Contains deliberate vulnerabilities
+    including stack buffer overflow, heap overflow, use-after-free, type confusion, integer
+    overflow, null pointer dereference, double fetch, and arbitrary overwrite. Each accessible
+    through IOCTL codes from user mode. Represents real-world kernel exploitation primitives
+    found in production drivers. Exploitation achieves SYSTEM-level code execution through
+    token stealing shellcode. Supports Windows 7 through 11, x86 and x64. Essential training
+    platform for kernel exploit development and defense. Open source on GitHub by HackSys Inc.

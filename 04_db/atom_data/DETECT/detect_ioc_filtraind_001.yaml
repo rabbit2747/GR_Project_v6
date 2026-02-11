@@ -1,0 +1,81 @@
+# GR Atom: File Transfer Indicator
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-IOC-FILTRAIND-001"
+  name: "File Transfer Indicator"
+  normalized_name: "file_transfer_indicator"
+  aliases:
+    - "File Exfiltration IOC"
+    - "Data Transfer Indicator"
+    - "Suspicious File Movement"
+    - "File Upload/Download IOC"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EXFIL
+    - COLLECT
+    - MONITOR
+    - NETWORK
+    - THREAT_INTEL
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "File Transfer Indicators are observable patterns and artifacts that signal potentially unauthorized or suspicious file transfer activity across network boundaries. These indicators include anomalous upload/download volumes, transfers to known-bad IP addresses or domains, use of uncommon file transfer protocols (e.g., FTP, SCP, WebDAV) from hosts that typically do not use them, unusual file types being transferred, transfers occurring outside normal business hours, and large compressed or encrypted archives being sent to external destinations. These IOCs serve as detection signals for data exfiltration, lateral movement, and command-and-control file staging activities."
+  why: "File transfer indicators are critical for detecting data exfiltration attempts before sensitive information leaves the organization. Attackers commonly stage and transfer stolen data using legitimate file transfer mechanisms to blend in with normal traffic. Early detection of anomalous file transfer patterns enables security teams to interrupt exfiltration campaigns, contain breaches, and preserve evidence. Without monitoring these indicators, organizations risk undetected data loss, regulatory violations, and prolonged attacker dwell time."
+  how: "Detection of file transfer indicators is implemented through a combination of network traffic analysis, endpoint monitoring, and log correlation. Network sensors inspect traffic for file transfer protocol usage (FTP, SFTP, HTTP PUT/POST, SMB, WebDAV), monitor data volume thresholds, and flag transfers to suspicious destinations using threat intelligence feeds. Endpoint agents track file access patterns, clipboard operations, and removable media usage. SIEM rules correlate these signals with user behavior baselines, time-of-day patterns, and data classification labels to generate high-fidelity alerts. DLP systems inspect file content during transfer for sensitive data patterns."
+  core_concepts:
+    - key: "Volume Anomaly"
+      value: "Detection of file transfer volumes that significantly exceed the baseline for a given user, host, or time window"
+    - key: "Destination Reputation"
+      value: "Correlation of transfer destinations against threat intelligence feeds, known-bad IPs, and newly registered domains"
+    - key: "Protocol Anomaly"
+      value: "Identification of file transfer protocols used by hosts or users that do not typically employ those protocols"
+    - key: "Temporal Anomaly"
+      value: "Detection of file transfers occurring outside normal business hours or during unusual time windows"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILACCPAT-001"
+    description: "File transfer indicators enable detection of suspicious file access patterns"
+  - type: effective_against
+    target: "ATK-EXFIL-EXFILDATA-001"
+    description: "File transfer indicators are effective against data exfiltration techniques"
+  - type: applies_to
+    target: "INFRA-SEC-DLP-001"
+    description: "File transfer indicators are applied within DLP systems for content-aware detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1041"
+    tactic:
+      - "Exfiltration"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over C2 Channel (T1041) - https://attack.mitre.org/techniques/T1041/"
+    - "SANS Institute - Detecting Data Exfiltration - https://www.sans.org/white-papers/"
+    - "NIST SP 800-53 Rev 5 - SI-4 System Monitoring"
+  search_keywords:
+    - "file transfer indicator"
+    - "data exfiltration detection"
+    - "file upload monitoring"
+    - "suspicious file movement"
+    - "DLP indicator"
+    - "network file transfer anomaly"
+    - "exfiltration IOC"
+    - "file transfer protocol detection"
+  embedding_text: "File transfer indicators are observable patterns signaling potentially unauthorized file transfer activity across network boundaries. These IOCs include anomalous upload and download volumes, transfers to known-bad destinations, uncommon protocol usage, unusual file types, off-hours transfers, and large encrypted archives sent externally. Detection combines network traffic analysis, endpoint monitoring, DLP content inspection, and SIEM correlation against user behavior baselines and threat intelligence feeds. File transfer indicators are critical for detecting data exfiltration attempts, lateral movement file staging, and command-and-control data transfers before sensitive information leaves the organization."

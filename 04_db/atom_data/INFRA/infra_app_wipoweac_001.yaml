@@ -1,0 +1,119 @@
+# GR Atom: Windows PowerShell Web Access
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WIPOWEAC-001"
+  name: "Windows PowerShell Web Access"
+  normalized_name: "windows_powershell_web_access"
+  aliases:
+    - "PSWA"
+    - "PowerShell Web Access"
+    - "PS Web Access"
+    - "PowerShell Web Console"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - WEB
+    - EXEC
+    - AUTHN
+    - LATERAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Windows PowerShell Web Access (PSWA) is a Windows Server feature that provides a
+    web-based PowerShell console, allowing administrators to run PowerShell commands and
+    scripts on remote computers through a web browser without requiring client-side software
+    installation. PSWA operates as an IIS-hosted web application that acts as a gateway,
+    authenticating users and proxying PowerShell sessions to target computers. It was
+    introduced in Windows Server 2012 and enables remote management from any device with
+    a supported web browser.
+  why: >-
+    PowerShell Web Access provides authenticated remote command execution through a web
+    interface, making it a high-value target for attackers. If exposed to the internet or
+    compromised through credential theft, PSWA provides full PowerShell access to target
+    systems through a legitimate management channel. Brute-force attacks against the web
+    login portal can yield administrative credentials. The web-based nature means traditional
+    PowerShell logging and constrained language mode protections may be bypassed depending
+    on configuration. Compromised PSWA gateways enable lateral movement to any computer
+    configured as a target endpoint in the authorization rules.
+  how: >-
+    PSWA runs as a web application within IIS on Windows Server. Users authenticate through
+    a web-based login form providing credentials and specifying the target computer. The
+    gateway validates credentials against Active Directory and checks authorization rules
+    that define which users can access which target computers. Upon successful authentication,
+    a PowerShell remoting session (WinRM/WSMan) is established from the gateway to the target
+    computer. The web interface provides an interactive PowerShell console rendered in the
+    browser. Authorization rules are configured through the PSWA management interface or
+    PowerShell cmdlets, controlling user-to-computer access mappings.
+  core_concepts:
+    - key: "Web-Based Command Execution Gateway"
+      value: "PSWA provides full PowerShell execution capability through a web browser, creating a remote command execution channel that requires only HTTP/HTTPS access"
+    - key: "Lateral Movement Enabler"
+      value: "A compromised PSWA gateway provides authenticated access to any computer configured in its authorization rules, enabling lateral movement across the environment"
+    - key: "Authentication and Authorization Controls"
+      value: "PSWA security depends entirely on the strength of its authentication (typically AD) and granularity of authorization rules mapping users to permitted target computers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "PowerShell Web Access is a web server application providing remote management through a browser-based interface"
+  - type: "enables"
+    target: "INFRA-APP-REMOTE-001"
+    description: "PSWA enables remote service access to target computers through web-proxied PowerShell sessions"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.001"
+    tactic:
+      - "Execution"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Windows PowerShell Web Access Documentation"
+    - "MITRE ATT&CK T1059.001 - PowerShell"
+    - "Microsoft Security Guidance for PowerShell Web Access"
+  search_keywords:
+    - "PowerShell Web Access"
+    - "PSWA"
+    - "PowerShell web console"
+    - "PSWA security"
+    - "PowerShell Web Access vulnerability"
+    - "remote PowerShell web"
+    - "Windows Server web management"
+    - "PSWA lateral movement"
+  embedding_text: >-
+    Windows PowerShell Web Access (PSWA) is a Windows Server feature providing a web-based
+    PowerShell console for remote management through any browser. Running as an IIS web
+    application, it authenticates users against Active Directory and proxies PowerShell
+    sessions to target computers via WinRM. PSWA is a high-value target because it provides
+    full command execution through HTTP/HTTPS. Compromised credentials grant PowerShell
+    access to any authorized target computer, enabling lateral movement. Security teams
+    should restrict PSWA access to trusted networks, enforce MFA, configure granular
+    authorization rules limiting user-to-computer mappings, enable comprehensive PowerShell
+    logging on target systems, monitor for brute-force login attempts, and avoid exposing
+    PSWA to the internet.

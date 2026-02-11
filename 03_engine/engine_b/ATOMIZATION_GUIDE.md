@@ -59,6 +59,63 @@
 - SUBDOMAIN은 `GR_CLASSIFICATION_RULES.md` Section 6 카탈로그에 정의된 값만 사용
 - NAME은 간결하되 식별 가능하게 (SQL, LOCKBIT, WIRESHARK)
 - PRI prefix만 서브도메인 없이 `PRI-{NAME}-{###}` 형식
+- NAME은 반드시 `[A-Z0-9]+` 패턴 (공백, 하이픈, 밑줄 불가)
+
+#### NAME 축약 규칙 (Atom ID NAME Field)
+
+NAME 필드는 atom을 간결하게 식별하는 대문자 약어다. 다음 우선순위로 결정한다:
+
+**1단계 — 기존 약어 감지**:
+항목 이름이 "Full Name ABBREV" 형태로 끝나면 해당 약어를 사용한다.
+
+| 원본 이름 | NAME | 설명 |
+|-----------|------|------|
+| Cross Site Scripting XSS | `XSS` | 이름 끝의 대문자 약어 |
+| Web Application Firewall WAF | `WAF` | 이름 끝의 대문자 약어 |
+| Cross Site Request Forgery CSRF | `CSRF` | 이름 끝의 대문자 약어 |
+| XML External Entity Injection XXE | `XXE` | 이름 끝의 대문자 약어 |
+
+**2단계 — MITRE T-number**:
+T번호 항목은 점(.)을 제거하고 그대로 사용한다.
+
+| 원본 이름 | NAME | 설명 |
+|-----------|------|------|
+| T1001 | `T1001` | T-number 그대로 |
+| T1001.001 | `T1001001` | 점 제거 |
+| T1059.003 | `T1059003` | 점 제거 |
+
+**3단계 — 전체 대문자 이름**:
+이름이 이미 전체 대문자/숫자면 그대로 사용한다.
+
+| 원본 이름 | NAME | 설명 |
+|-----------|------|------|
+| ABAC | `ABAC` | 이미 약어 |
+| SHA256 | `SHA256` | 이미 약어+숫자 |
+| NTP | `NTP` | 이미 약어 |
+
+**4단계 — 일반 축약 생성**:
+위 규칙에 해당하지 않으면 다음 절차로 축약한다.
+
+1. **일반 접미사 제거**: Attack, Vulnerability, Technique, Protocol, Tool, Framework, Injection, Detection, Exploit, Module, Method, Mechanism, System, Service, Event, Monitoring, Management, Assessment, Analysis, Operation, Controller, Control, Policy
+2. **불용어 제거**: a, an, the, of, in, on, at, to, for, by, with, from, and, or, via, vs, over
+3. **단어 수에 따른 축약**:
+
+| 단어 수 | 축약 방법 | 예시 |
+|---------|----------|------|
+| 1단어 | 전체 사용 (최대 10자) | Mimikatz → `MIMIKATZ` |
+| 2단어 | 각 단어 앞 4~5자 | Buffer Overflow → `BUFFOVER` |
+| 3단어 | 각 단어 앞 3자 | Remote Code Execution → `REMCODEXE` |
+| 4단어+ | 각 단어 앞 2자 (최대 12자) | Advanced Persistent Threat → `ADPETH` |
+
+4. **최종 정제**: `[A-Z0-9]` 외 문자 제거, 최대 12자 제한
+
+**5단계 — 순번(###) 할당**:
+동일 `PREFIX-SUBDOMAIN-NAME` 조합 내에서 001부터 순차 부여한다.
+
+```
+ATK-INJECT-SQL-001  (SQL Injection)
+ATK-INJECT-SQL-002  (만약 동일 NAME이 또 있다면)
+```
 
 ### 3.3단계: YAML 작성
 
@@ -302,7 +359,7 @@ metadata:
 **규칙**:
 - `sources`: 최소 1개. 가능한 공식 출처(MITRE, OWASP, NIST, CWE, RFC 등)를 우선. 있는 만큼 모두.
 - `search_keywords`: 최소 5개. 사용자가 검색할 수 있는 모든 관련 키워드. 약어, 한국어, 영어 포함. 있는 만큼 모두.
-- `embedding_text`: 영문 작성. 시맨틱 검색에 최적화. 해당 atom의 핵심 정보를 빠짐없이 요약. 가능한 200단어에 가깝게.
+- `embedding_text`: 영문 작성. 시맨틱 검색에 최적화. 해당 atom의 핵심 정보를 빠짐없이 요약.
 
 ---
 
@@ -384,12 +441,12 @@ atom YAML 작성 후 다음을 **모두** 확인한다:
 - [ ] INFRA atom에 `gr_coordinates`가 있는가? (scope 없어야 함)
 - [ ] 비INFRA atom에 `scope`가 있는가? (gr_coordinates 없어야 함)
 - [ ] `scope`에서 target_layers 또는 target_zones 중 하나 이상 채워졌는가?
-- [ ] `definition.what`이 100자 이상인가?
+- [ ] `definition.what`이 비어있지 않고 충분히 상세한가?
 - [ ] `relations`가 최소 1개 있는가?
 - [ ] `relations`에 `related_to`가 없는가?
 - [ ] `metadata.sources`가 최소 1개 있는가?
 - [ ] `metadata.search_keywords`가 최소 5개 있는가?
-- [ ] `metadata.embedding_text`가 50단어 이상인가?
+- [ ] `metadata.embedding_text`가 비어있지 않고 핵심 개념을 충분히 담고 있는가?
 
 ### 품질 검증 (가능한 모두 통과해야 함)
 
@@ -401,7 +458,7 @@ atom YAML 작성 후 다음을 **모두** 확인한다:
 - [ ] `sources`에 공식 출처(MITRE, OWASP, NIST, RFC, CWE)가 포함되었는가?
 - [ ] `what`, `why`, `how` 모두 작성되었는가?
 - [ ] 주관적 표현("best", "should", "might")이 없는가?
-- [ ] `embedding_text`가 200단어에 가까운가?
+- [ ] `embedding_text`가 검색에 충분한 의미적 신호를 담고 있는가?
 
 ---
 
@@ -787,7 +844,7 @@ metadata:
 > - **INFRA atom**은 `gr_coordinates`를 사용하고 `scope`를 사용하지 않는다.
 > - **지식 atom**은 `scope`를 사용하고 `gr_coordinates`를 사용하지 않는다.
 > - `core_concepts`, `relations`, `target_components` 등은 알려진 내용을 **모두** 나열한다. 임의로 3개로 제한하지 않는다.
-> - `embedding_text`는 200단어에 가깝게 작성하여 벡터 검색 품질을 높인다.
+> - `embedding_text`는 핵심 개념을 충분히 담아 벡터 검색 품질을 높인다.
 > - `aliases`는 영어, 한국어, 약어 등 가능한 모든 변형을 포함한다.
 
 ---

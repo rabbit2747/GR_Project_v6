@@ -1,0 +1,74 @@
+# GR Atom: ElevenLabs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-ELEVENLABS-001"
+  name: "ElevenLabs"
+  normalized_name: "elevenlabs"
+  aliases:
+    - "ElevenLabs Inc."
+    - "Eleven Labs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - AI
+    - CLOUD
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L7"]
+  target_zones: ["Z0B", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ElevenLabs is an AI company specializing in artificial voice synthesis, text-to-speech, voice cloning, and audio AI technology. The company provides API services and applications for generating highly realistic synthetic speech from text input, including the ability to clone voices from short audio samples. ElevenLabs offers multilingual voice generation, voice design, and speech-to-speech translation capabilities."
+  why: "ElevenLabs is significant in cybersecurity because advanced AI voice synthesis and cloning technology presents substantial risks for social engineering, vishing (voice phishing), deepfake audio attacks, and identity fraud. Realistic voice cloning enables threat actors to impersonate executives, family members, or authority figures in Business Email Compromise (BEC)-style voice attacks. The technology also raises concerns about authentication bypass for voice-based biometric systems and the generation of disinformation through synthetic media."
+  how: "ElevenLabs provides voice synthesis through cloud-based APIs that use deep learning models to generate human-like speech from text input. Voice cloning capabilities allow creation of synthetic voice models from short audio samples. The technology is accessible via web interfaces and APIs, making it available for both legitimate applications and potential misuse. ElevenLabs implements safety measures including AI speech classifiers, voice verification for cloning, and usage policies, but the technology remains a concern for voice-based social engineering attacks."
+  core_concepts:
+    - key: "AI Voice Synthesis"
+      value: "Advanced text-to-speech and voice cloning technology generating highly realistic synthetic speech"
+    - key: "Deepfake Audio Threat"
+      value: "Voice cloning technology enabling vishing, executive impersonation, and voice-based identity fraud"
+    - key: "Synthetic Media Security"
+      value: "AI-generated audio raising concerns for authentication bypass, disinformation, and social engineering"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TECH-AI-VOICE-001"
+    description: "Produces AI voice synthesis and cloning technology with implications for social engineering and deepfake attacks"
+  - type: enables
+    target: "ATK-SOCIALENG-VISHING-001"
+    description: "Technology enables advanced vishing and voice-based social engineering through realistic voice cloning"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for AI voice technology vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://elevenlabs.io"
+    - "https://elevenlabs.io/safety"
+  search_keywords:
+    - "elevenlabs"
+    - "ai voice synthesis"
+    - "voice cloning"
+    - "deepfake audio"
+    - "text to speech ai"
+    - "vishing ai"
+    - "synthetic voice"
+    - "voice impersonation"
+    - "ai social engineering"
+  embedding_text: "ElevenLabs is an AI company specializing in artificial voice synthesis, text-to-speech, voice cloning, and audio AI technology. The company provides API services for generating highly realistic synthetic speech from text input, including the ability to clone voices from short audio samples. In cybersecurity, ElevenLabs is significant because advanced AI voice synthesis and cloning technology presents substantial risks for social engineering, vishing (voice phishing), deepfake audio attacks, and identity fraud. Realistic voice cloning enables threat actors to impersonate executives and authority figures in BEC-style voice attacks. The technology raises concerns about authentication bypass for voice-based biometric systems and generation of disinformation through synthetic media. ElevenLabs implements safety measures including AI speech classifiers and voice verification, but the technology remains a concern for voice-based social engineering attacks."

@@ -1,0 +1,105 @@
+# GR Atom: SMTP Simple Mail Transfer Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SMSIMATR-001"
+  name: "SMTP Simple Mail Transfer Protocol"
+  normalized_name: "smtp_simple_mail_transfer_protocol"
+  aliases:
+    - "SMTP"
+    - "Simple Mail Transfer Protocol"
+    - "RFC 5321"
+    - "ESMTP"
+    - "Extended SMTP"
+    - "Mail Transfer Protocol"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMTP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Simple Mail Transfer Protocol (SMTP) is the standard application layer protocol for
+    electronic mail transmission across IP networks, defined in RFC 5321. SMTP operates over
+    TCP port 25 (server-to-server relay), port 587 (message submission with authentication),
+    and port 465 (implicit TLS submission). ESMTP (Extended SMTP, RFC 1869) adds capabilities
+    including STARTTLS for transport encryption, AUTH for sender authentication, 8BITMIME for
+    international content, and PIPELINING for performance. SMTP handles only message transmission;
+    retrieval uses POP3 or IMAP. SMTP is the backbone of all internet email communication.
+  why: >-
+    SMTP is a primary attack vector for phishing, malware delivery, business email compromise
+    (BEC), and spam campaigns. Open SMTP relays enable anonymous email sending for spam and
+    social engineering. SMTP header injection attacks can spoof sender addresses without
+    proper SPF, DKIM, and DMARC authentication. SMTP is used for data exfiltration via email
+    (MITRE T1048.002) and command-and-control communication. SMTP credential harvesting through
+    brute-force on port 587/465 provides authenticated relay access. STARTTLS stripping attacks
+    downgrade encryption to intercept email content. Email remains the most common initial
+    access vector, with SMTP serving as the delivery mechanism for phishing payloads.
+  how: >-
+    SMTP operates through a text-based command-response protocol: (1) TCP connection establishment
+    to port 25/587/465; (2) Server greeting with banner and EHLO capability advertisement; (3)
+    Optional STARTTLS upgrade to encrypted transport; (4) Optional AUTH command for sender
+    authentication (PLAIN, LOGIN, CRAM-MD5, XOAUTH2); (5) MAIL FROM specifying sender envelope
+    address; (6) RCPT TO specifying recipient(s); (7) DATA command followed by message headers
+    and body terminated by CRLF.CRLF; (8) Server queues message for delivery or relay. MX DNS
+    records direct inter-server delivery. SPF, DKIM, and DMARC provide sender authentication
+    and anti-spoofing controls.
+  core_concepts:
+    - key: "SMTP Authentication (AUTH)"
+      value: "Extension enabling sender identity verification before message submission, preventing unauthorized relay and enabling accountability for sent messages."
+    - key: "STARTTLS"
+      value: "Opportunistic TLS encryption upgrade for SMTP connections, protecting message content in transit but vulnerable to downgrade attacks without MTA-STS."
+    - key: "SPF/DKIM/DMARC"
+      value: "Email authentication framework — SPF validates sender IP, DKIM provides cryptographic message integrity, DMARC aligns both with policy enforcement."
+    - key: "Open Relay"
+      value: "Misconfigured SMTP server accepting and forwarding mail from any sender to any recipient, exploitable for spam distribution and phishing campaigns."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "SMTP is an application layer protocol for electronic mail transmission across IP networks"
+  - type: "requires"
+    target: "PROTO-MSG-HTTHTTSEC-001"
+    description: "SMTP uses TLS encryption via STARTTLS or implicit TLS to protect email content in transit"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 5321 — Simple Mail Transfer Protocol"
+    - "IETF RFC 7489 — Domain-based Message Authentication, Reporting, and Conformance (DMARC)"
+    - "MITRE ATT&CK — T1048.002: Exfiltration Over Alternative Protocol: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol"
+    - "MITRE ATT&CK — T1566: Phishing"
+  search_keywords:
+    - "SMTP"
+    - "simple mail transfer protocol"
+    - "email protocol"
+    - "port 25"
+    - "port 587"
+    - "STARTTLS"
+    - "open relay"
+    - "SPF"
+    - "DKIM"
+    - "DMARC"
+    - "phishing"
+  embedding_text: >-
+    SMTP (Simple Mail Transfer Protocol, RFC 5321) is the standard protocol for email
+    transmission operating on TCP ports 25, 587, and 465. ESMTP adds STARTTLS encryption, AUTH
+    authentication, and PIPELINING. SMTP is the primary delivery mechanism for phishing, malware,
+    and business email compromise (BEC). Open relays enable anonymous email for spam and social
+    engineering. SMTP header injection spoofs senders without SPF/DKIM/DMARC. MITRE ATT&CK
+    documents email for data exfiltration (T1048.002) and phishing (T1566). STARTTLS stripping
+    attacks downgrade encryption. Security requires authenticated submission, TLS enforcement,
+    MTA-STS, and SPF/DKIM/DMARC deployment.

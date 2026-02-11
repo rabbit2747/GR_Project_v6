@@ -1,0 +1,76 @@
+# GR Atom: Peripheral Device Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-PERIDEVI-001"
+  name: "Peripheral Device Event"
+  normalized_name: "peripheral_device_event"
+  aliases:
+    - "Peripheral Hardware Monitoring"
+    - "External Device Activity"
+    - "Peripheral Attachment Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L0", "L1", "L2"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Peripheral Device Event is an endpoint detection pattern that monitors activity related to peripheral devices connected to endpoints, including keyboards, mice, printers, scanners, webcams, microphones, external displays, and other input/output devices. This pattern captures device enumeration, capability negotiation, data transfer activity, and configuration changes for peripheral devices specifically, providing focused monitoring distinct from storage or network device events. The telemetry includes device class, HID usage tables for input devices, data throughput, and operational mode changes."
+  why: "Peripheral device monitoring is essential for detecting hardware-based attacks that exploit trusted peripheral device classes. Malicious devices disguised as keyboards can inject keystrokes at high speed (HID attacks), rogue microphones or webcams can enable unauthorized surveillance, and compromised printers can serve as network pivot points or data exfiltration channels. Additionally, monitoring peripheral activity helps detect insider threats using unauthorized recording devices and ensures compliance with policies restricting peripheral device usage in sensitive environments."
+  how: "Detection systems monitor peripheral events through HID subsystem events on Windows, Linux, and macOS, capturing device enumeration, descriptor parsing, and data transfer activity. Input device monitoring tracks keystroke injection rates, detecting HID attacks that type at superhuman speeds. Camera and microphone access monitoring captures application requests for audio/video device access. Print job monitoring records document printing activity. Detection rules flag HID devices with unusual descriptor configurations, input devices typing faster than human capability, camera/microphone access by unauthorized applications, and peripheral devices presenting capabilities inconsistent with their device class."
+  core_concepts:
+    - key: "HID Attack Detection"
+      value: "Identifying malicious Human Interface Devices that inject keystrokes or mouse movements at rates inconsistent with human input, indicating automated attack tools"
+    - key: "Peripheral Access Control"
+      value: "Policy enforcement that restricts which peripheral device types and specific devices are permitted to operate on endpoints"
+    - key: "Audio/Video Device Monitoring"
+      value: "Tracking application access to cameras and microphones to detect unauthorized surveillance or recording activities"
+
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Peripheral device events are a specialized subset of hardware device events focused on I/O peripherals"
+  - type: effective_against
+    target: "ATK-INITIAL-HARDWARE-001"
+    description: "Detects hardware-based attacks using malicious peripheral devices such as HID attack tools"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDEVCON-001"
+    description: "Peripheral device monitoring extends hardware device connection detection with peripheral-specific analysis"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1200"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1200 - Hardware Additions"
+    - "USB HID Usage Tables - https://usb.org/document-library/hid-usage-tables"
+    - "NIST SP 800-53 - SC-41 Port and I/O Device Access"
+  search_keywords:
+    - "peripheral device event"
+    - "HID attack detection"
+    - "peripheral monitoring"
+    - "keyboard injection detection"
+    - "webcam access monitoring"
+    - "microphone surveillance detection"
+    - "peripheral device control"
+    - "external device security"
+  embedding_text: "Peripheral Device Event detection monitors activity related to peripheral devices including keyboards, mice, printers, webcams, microphones, and external displays connected to endpoints. Capturing device enumeration, HID descriptor parsing, data transfer activity, and configuration changes through OS HID subsystem events, this pattern detects hardware-based attacks such as HID keystroke injection at superhuman speeds, unauthorized camera and microphone access for surveillance, compromised printers for network pivoting, and devices with capabilities inconsistent with their device class. Supports detection of BadUSB-style peripheral attacks and peripheral policy enforcement."

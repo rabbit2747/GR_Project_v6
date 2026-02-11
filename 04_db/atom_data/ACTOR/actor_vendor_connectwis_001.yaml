@@ -1,0 +1,71 @@
+# GR Atom: ConnectWise
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CONNECTWIS-001"
+  name: "ConnectWise"
+  normalized_name: "connectwise"
+  aliases:
+    - "ConnectWise Inc."
+    - "ScreenConnect"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - VPN
+    - MONITOR
+    - CLOUD
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ConnectWise is a software company providing IT management and remote access solutions primarily for managed service providers (MSPs). Their products include ConnectWise ScreenConnect (remote access/support), ConnectWise Automate (remote monitoring and management), and ConnectWise SIEM for security monitoring. ConnectWise tools are widely deployed across the MSP ecosystem to manage and support client IT environments remotely."
+  why: "ConnectWise is significant in the cybersecurity context because its remote access tools, particularly ScreenConnect, have become frequent targets and vectors for cyberattacks. Threat actors exploit vulnerabilities in ConnectWise products or abuse legitimate ScreenConnect instances for unauthorized remote access during ransomware campaigns. The MSP supply chain is a high-value target, and ConnectWise's position as a dominant MSP platform makes it a critical infrastructure component."
+  how: "ConnectWise provides remote access through ScreenConnect agents deployed on managed endpoints, remote monitoring through Automate agents, and security monitoring through their SIEM product. MSPs use these tools for client system administration, patch management, and support. Security vulnerabilities in these tools can provide attackers with access to thousands of downstream client environments through a single compromised MSP."
+  core_concepts:
+    - key: "MSP Remote Management"
+      value: "IT management platform enabling managed service providers to remotely administer client networks and endpoints"
+    - key: "ScreenConnect Remote Access"
+      value: "Remote access and support tool widely deployed across MSP client environments for IT administration"
+    - key: "MSP Supply Chain Risk"
+      value: "Critical attack vector where compromise of MSP tools provides cascading access to thousands of downstream clients"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-REMOTE-ACCESS-001"
+    description: "Produces ScreenConnect remote access tool widely used by MSPs and targeted by threat actors"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for IT management vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.connectwise.com"
+    - "https://www.connectwise.com/cybersecurity"
+  search_keywords:
+    - "connectwise"
+    - "screenconnect"
+    - "connectwise automate"
+    - "msp remote access"
+    - "remote monitoring management"
+    - "msp supply chain"
+    - "connectwise vulnerability"
+    - "rmm tool"
+  embedding_text: "ConnectWise is a software company providing IT management and remote access solutions primarily for managed service providers (MSPs). Their products include ConnectWise ScreenConnect for remote access and support, ConnectWise Automate for remote monitoring and management, and ConnectWise SIEM for security monitoring. ConnectWise tools are widely deployed across the MSP ecosystem to manage client IT environments remotely. The company is significant in cybersecurity because its remote access tools, particularly ScreenConnect, have become frequent targets and vectors for cyberattacks, with threat actors exploiting vulnerabilities or abusing legitimate instances for unauthorized access during ransomware campaigns. ConnectWise's position as a dominant MSP platform makes it a critical infrastructure component where compromise can provide cascading access to thousands of downstream client environments through the MSP supply chain."

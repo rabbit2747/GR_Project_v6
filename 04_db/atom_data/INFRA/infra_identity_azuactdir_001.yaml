@@ -1,0 +1,126 @@
+# GR Atom: Azure Active Directory
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-AZUACTDIR-001"
+  name: "Azure Active Directory"
+  normalized_name: "azure_active_directory"
+  aliases:
+    - "Azure AD"
+    - "AAD"
+    - "Microsoft Entra ID"
+    - "Entra ID"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - AUTHN
+    - AUTHZ
+    - OAUTH
+    - SAML
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Active Directory (now Microsoft Entra ID) is Microsoft's cloud-based identity and
+    access management service that provides authentication, authorization, and directory
+    services for Microsoft 365, Azure resources, and thousands of third-party SaaS
+    applications. It supports OAuth 2.0, OpenID Connect, SAML, and WS-Federation protocols
+    for single sign-on, and includes features such as Conditional Access, multi-factor
+    authentication, identity protection, and privileged identity management for comprehensive
+    identity governance.
+  why: >-
+    Azure AD is the identity backbone for most Microsoft cloud environments, making it a
+    prime target for identity-based attacks. Compromise of Azure AD enables access to all
+    connected applications, Azure subscriptions, and Microsoft 365 data. Common attack
+    vectors include consent phishing for application permissions, OAuth token theft, illicit
+    consent grants, password spray attacks against cloud-only accounts, and abuse of
+    application registrations with excessive API permissions. The Azure AD attack surface
+    extends to service principals, managed identities, and conditional access bypass
+    techniques.
+  how: >-
+    Azure AD operates as a multi-tenant cloud directory service where each organization
+    (tenant) manages its identities. Authentication flows use OAuth 2.0/OIDC for modern
+    applications and SAML for legacy integrations. Conditional Access policies evaluate
+    sign-in risk, device compliance, location, and application sensitivity to enforce
+    access controls. The Microsoft Graph API provides programmatic access to directory
+    data. Azure AD Connect synchronizes on-premises Active Directory identities to the
+    cloud through password hash sync, pass-through authentication, or federation with
+    AD FS. Application registrations define OAuth permissions and API access scopes.
+  core_concepts:
+    - key: "Multi-Tenant Cloud Directory"
+      value: "Cloud-native directory service supporting millions of tenants with identity isolation, federation, and cross-tenant collaboration"
+    - key: "Conditional Access Policies"
+      value: "Risk-adaptive access control evaluating device, location, user risk, and application sensitivity to enforce contextual authentication requirements"
+    - key: "Application Consent and Permissions"
+      value: "OAuth consent framework controls application access to user and organizational data through delegated and application permissions via Microsoft Graph"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Azure AD is a cloud-native directory service providing identity and access management"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Provides cloud-based authentication services via OAuth, OIDC, and SAML protocols"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AZUMANIDE-001"
+    description: "Azure AD manages and issues managed identity credentials for Azure resources"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Defense Evasion"
+      - "Initial Access"
+      - "Persistence"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Microsoft Entra ID (Azure AD) Overview"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+    - "Microsoft Security - Azure AD Security Operations Guide"
+  search_keywords:
+    - "Azure Active Directory"
+    - "Azure AD"
+    - "Microsoft Entra ID"
+    - "AAD security"
+    - "Azure AD Conditional Access"
+    - "OAuth consent phishing"
+    - "Azure AD application permissions"
+    - "cloud identity management"
+  embedding_text: >-
+    Azure Active Directory (Microsoft Entra ID) is Microsoft's cloud-based identity and
+    access management service providing authentication, authorization, and directory services
+    for Microsoft 365, Azure resources, and third-party SaaS applications. It supports
+    OAuth 2.0, OpenID Connect, SAML, and WS-Federation for single sign-on. Azure AD
+    includes Conditional Access for risk-adaptive access control, MFA, identity protection,
+    and privileged identity management. It is a prime target for identity attacks including
+    consent phishing, OAuth token theft, illicit consent grants, password spray, and abuse
+    of application registrations with excessive API permissions. Azure AD Connect enables
+    hybrid identity by synchronizing on-premises AD. Security teams must enforce Conditional
+    Access policies, audit application permissions, monitor sign-in logs for anomalous
+    activity, restrict consent workflows, and implement privileged access management.

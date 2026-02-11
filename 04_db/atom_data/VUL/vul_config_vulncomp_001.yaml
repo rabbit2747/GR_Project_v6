@@ -1,0 +1,109 @@
+# GR Atom: Vulnerable Components
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-VULNCOMP-001"
+  name: "Vulnerable Components"
+  normalized_name: "vulnerable_components"
+  aliases:
+    - "Vulnerable Software Components"
+    - "Using Components with Known Vulnerabilities"
+    - "Outdated Software Vulnerability"
+    - "Unpatched System Components"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - SUPPLY_CHAIN
+    - PATCH
+
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components:
+    - "Operating Systems"
+    - "Application Frameworks"
+    - "Third-Party Libraries"
+    - "Network Devices"
+    - "Firmware"
+
+definition:
+  what: >-
+    Vulnerable Components is a root vulnerability class describing the use of software, firmware, or
+    hardware components that contain known security vulnerabilities. This encompasses unpatched
+    operating systems, outdated application frameworks and libraries, end-of-life software without
+    security updates, firmware with known exploits, and third-party dependencies with published CVEs.
+    OWASP ranks "Vulnerable and Outdated Components" (A06:2021) as a top web application security risk.
+  why: >-
+    Organizations typically depend on hundreds to thousands of software components, each of which may
+    contain vulnerabilities. The challenge of tracking and patching all components creates persistent
+    exposure windows. Attackers actively scan for known vulnerable versions and exploit published
+    CVEs, often within hours of disclosure. Supply chain attacks targeting widely-used components
+    (Log4Shell, SolarWinds) have demonstrated catastrophic impact. The cost of a breach from an
+    unpatched vulnerability far exceeds the cost of patch management, yet many organizations struggle
+    with timely patching due to operational complexity and legacy systems.
+  how: >-
+    Attackers identify vulnerable components through version fingerprinting (HTTP headers, error
+    messages, JavaScript libraries), automated vulnerability scanning, and monitoring public CVE
+    databases. Exploitation typically uses publicly available proof-of-concept code or exploit
+    frameworks (Metasploit). Common targets include: unpatched web servers (Apache, Nginx, IIS),
+    vulnerable application frameworks (Spring, Struts, Django), outdated JavaScript libraries (jQuery,
+    Angular), unpatched network devices (firewalls, switches, VPN appliances), and end-of-life
+    operating systems. Mitigation requires comprehensive asset inventory, continuous vulnerability
+    scanning, automated patch management, software bill of materials (SBOM), dependency monitoring,
+    and end-of-life planning.
+  core_concepts:
+    - key: "Component Inventory and Visibility"
+      value: "Maintaining accurate inventory of all software components and their versions is the foundation of vulnerability management"
+    - key: "Patch Window Exposure"
+      value: "The time between vulnerability disclosure and patch application creates a window of exposure actively exploited by attackers"
+    - key: "Supply Chain Dependency Risk"
+      value: "Dependencies on third-party components inherit their security vulnerabilities, requiring continuous monitoring of the entire dependency tree"
+
+relations:
+  - type: abstracts
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Vulnerable Components abstracts Vulnerable Application as a broader class covering all component types"
+  - type: enables
+    target: "ATK-INITIAL-EXPLOIT-001"
+    description: "Known vulnerabilities in components enable exploitation using publicly available exploit code"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OWASP Top 10 A06:2021 - Vulnerable and Outdated Components"
+    - "CWE-1035 - OWASP Top Ten 2017 Category A9"
+    - "NIST SP 800-40 - Guide to Enterprise Patch Management"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "vulnerable components"
+    - "known vulnerabilities"
+    - "unpatched software"
+    - "outdated components"
+    - "software composition analysis"
+    - "SBOM security"
+    - "patch management"
+    - "CVE exploitation"
+  embedding_text: >-
+    Vulnerable Components is a root vulnerability class describing the use of software, firmware, or
+    hardware with known security vulnerabilities. Encompasses unpatched operating systems, outdated
+    frameworks and libraries, end-of-life software, firmware with known exploits, and dependencies
+    with published CVEs. OWASP ranks Vulnerable and Outdated Components as A06:2021. Organizations
+    depend on hundreds of components, creating persistent exposure windows. Attackers actively scan
+    for vulnerable versions and exploit published CVEs within hours. Supply chain attacks like
+    Log4Shell demonstrate catastrophic impact. Mitigation requires asset inventory, continuous
+    scanning, automated patching, SBOM, and dependency monitoring. Maps to MITRE ATT&CK T1190
+    Exploit Public-Facing Application.

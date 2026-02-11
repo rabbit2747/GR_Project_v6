@@ -1,0 +1,137 @@
+# GR Atom: INC Cyber
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-INCCYBE-001"
+  name: "INC Cyber"
+  normalized_name: "inc_cyber"
+  aliases:
+    - "INC Ransom"
+    - "INC Ransomware"
+    - "INC Ransom Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - LATERAL
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    INC Ransom (INC Cyber) is a ransomware operation that emerged in August 2023, operating a
+    double-extortion model where victims' data is both encrypted and exfiltrated, with stolen data
+    published on a Tor-based leak site if ransom demands are not met. The group has targeted a wide
+    range of organizations across healthcare, education, government, and technology sectors,
+    primarily in the United States, United Kingdom, and Europe. INC Ransom is notable for its
+    methodical approach to network compromise, spending significant time on reconnaissance and
+    lateral movement before deploying ransomware. The group has been linked to attacks on major
+    healthcare systems, including the NHS Scotland (Dumfries and Galloway Health Board) breach in
+    2024, and has displayed technical sophistication in targeting both Windows and VMware ESXi
+    environments.
+  why: >-
+    INC Ransom represents a significant and growing threat particularly to the healthcare sector,
+    where ransomware attacks directly endanger patient safety and disrupt critical medical services.
+    The group's methodical approach to network penetration, often spending days to weeks inside
+    victim networks before encryption, makes detection challenging and maximizes the scope of data
+    exfiltration. Their targeting of NHS Scotland in 2024 highlighted the vulnerability of national
+    healthcare systems to ransomware attacks. INC Ransom has also been observed selling or sharing
+    their ransomware source code on underground forums, potentially spawning derivative operations
+    and expanding the threat beyond the original group. Microsoft tracks affiliates using INC
+    ransomware as Vanilla Tempest.
+  how: >-
+    INC Ransom gains initial access through exploitation of internet-facing vulnerabilities,
+    particularly Citrix NetScaler (CVE-2023-3519) and vulnerable VPN appliances, as well as
+    phishing campaigns delivering malware loaders. Post-compromise, the group conducts extensive
+    reconnaissance using tools including Advanced IP Scanner, AdFind for Active Directory
+    enumeration, and various credential harvesting tools including Mimikatz and LSASS dumping.
+    Lateral movement is achieved through RDP, PsExec, and SMB. Data exfiltration uses MegaSync
+    and Rclone to cloud storage before ransomware deployment. The ransomware encrypts files using
+    AES and RSA encryption algorithms and targets both Windows endpoints and VMware ESXi
+    hypervisors. The group operates a Tor-based leak site called "INC BLOG" where stolen data
+    is progressively published to pressure victims into paying.
+  core_concepts:
+    - key: "Methodical Network Penetration"
+      value: >-
+        INC Ransom is characterized by extended dwell times within victim networks, conducting
+        thorough reconnaissance and lateral movement over days to weeks before deploying
+        ransomware, maximizing the scope of compromise and data exfiltration.
+    - key: "Healthcare Sector Targeting"
+      value: >-
+        The group has demonstrated a pattern of targeting healthcare organizations, including
+        national health services, where ransomware attacks pose direct threats to patient safety
+        and medical service continuity.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "INC Ransom is a financially motivated cybercriminal ransomware group"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "INC Ransom operations enable destructive ransomware impact on victim organizations"
+  - type: "applies_to"
+    target: "SECTOR-HEALTHCARE"
+    description: "INC Ransom has demonstrated pattern of targeting healthcare sector organizations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Lateral Movement"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Huntress - INC Ransom Ransomware Analysis. https://www.huntress.com/blog/investigating-new-inc-ransom-group-activity"
+    - "SentinelOne - INC Ransom Threat Profile. https://www.sentinelone.com/labs/inc-ransom/"
+    - "BleepingComputer - INC Ransom NHS Scotland Attack. https://www.bleepingcomputer.com/news/security/nhs-dumfries-galloway-inc-ransom/"
+    - "Microsoft - Vanilla Tempest INC Ransomware Tracking. https://www.microsoft.com/en-us/security/blog/threat-intelligence/"
+  search_keywords:
+    - "INC ransom"
+    - "INC ransomware"
+    - "INC cyber"
+    - "INC ransom healthcare"
+    - "INC ransom NHS Scotland"
+    - "INC blog leak site"
+    - "vanilla tempest"
+    - "INC ransom citrix"
+    - "INC ransom ESXi"
+  embedding_text: >-
+    INC Ransom (INC Cyber) is a ransomware operation that emerged in August 2023 operating a
+    double-extortion model targeting healthcare, education, government, and technology sectors
+    primarily in the United States, United Kingdom, and Europe. The group is notable for methodical
+    network penetration with extended dwell times, spending days to weeks on reconnaissance and
+    lateral movement before deploying ransomware. INC Ransom gained attention for attacking NHS
+    Scotland (Dumfries and Galloway Health Board) in 2024. Initial access exploits Citrix NetScaler
+    (CVE-2023-3519), VPN vulnerabilities, and phishing. Post-compromise tools include Advanced IP
+    Scanner, AdFind, Mimikatz, RDP, PsExec, and data exfiltration via MegaSync and Rclone. The
+    ransomware targets Windows and VMware ESXi systems. Microsoft tracks affiliates as Vanilla
+    Tempest. The group operates a Tor-based "INC BLOG" leak site and has been observed selling
+    ransomware source code on underground forums, potentially spawning derivative operations.

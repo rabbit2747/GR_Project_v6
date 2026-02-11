@@ -1,0 +1,70 @@
+# GR Atom: HackerOne
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-HACKERONE-001"
+  name: "HackerOne"
+  normalized_name: "hackerone"
+  aliases:
+    - "HackerOne Inc."
+    - "H1"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "HackerOne is a leading bug bounty and vulnerability disclosure platform that connects organizations with a global community of ethical hackers and security researchers. Founded in 2012, the platform facilitates coordinated vulnerability disclosure, manages bug bounty programs, and provides penetration testing as a service. HackerOne serves major enterprises, government agencies including the U.S. Department of Defense, and technology companies seeking to identify security vulnerabilities before malicious actors exploit them."
+  why: "HackerOne is a critical entity in the cybersecurity ecosystem because it institutionalizes vulnerability discovery through crowdsourced security testing. The platform's disclosed vulnerabilities directly inform threat intelligence, patch management priorities, and defensive strategies. Understanding HackerOne's role helps security teams leverage external researcher communities and assess the vulnerability landscape across industries."
+  how: "HackerOne operates a managed platform where organizations define scope, set bounty amounts, and receive vulnerability reports from registered security researchers. Reports go through triage and validation processes before being disclosed to the affected organization. The platform provides reputation scoring for researchers, handles payment disbursement, supports coordinated disclosure timelines, and offers compliance reporting. HackerOne also runs Hack the Pentagon and similar government programs."
+  core_concepts:
+    - key: "Bug bounty platform"
+      value: "Managed marketplace connecting organizations with ethical hackers for vulnerability discovery"
+    - key: "Vulnerability disclosure"
+      value: "Coordinated process for reporting and remediating security vulnerabilities"
+    - key: "Crowdsourced security"
+      value: "Leveraging global researcher community for continuous security testing at scale"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "TECHNIQUE-VULNDISC-001"
+    description: "HackerOne enables vulnerability discovery through coordinated bug bounty programs"
+  - type: "enables"
+    target: "ARTIFACT-VULNRPT-001"
+    description: "HackerOne produces vulnerability reports and disclosure advisories"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "HackerOne Official Website"
+    - "HackerOne Annual Hacker-Powered Security Report"
+    - "U.S. Department of Defense - Hack the Pentagon Program"
+  search_keywords:
+    - "hackerone"
+    - "hackerone bug bounty"
+    - "hackerone vulnerability disclosure"
+    - "hackerone platform"
+    - "hackerone pentest"
+    - "hack the pentagon"
+    - "bug bounty program"
+  embedding_text: "HackerOne is the leading bug bounty and vulnerability disclosure platform connecting organizations worldwide with a global community of ethical hackers and security researchers. Founded in 2012, HackerOne manages coordinated vulnerability disclosure programs for major enterprises, technology companies, and government agencies including the U.S. Department of Defense through programs like Hack the Pentagon. The platform enables organizations to define testing scope, set bounty rewards, receive triaged vulnerability reports, and manage remediation workflows. HackerOne provides reputation scoring for researchers, payment processing, compliance reporting, and supports both public and private bounty programs. The platform has facilitated the discovery and remediation of hundreds of thousands of security vulnerabilities across web applications, APIs, mobile applications, and infrastructure, making it a cornerstone of crowdsourced security testing and proactive vulnerability management in the cybersecurity industry."

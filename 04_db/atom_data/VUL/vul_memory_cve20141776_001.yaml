@@ -1,0 +1,107 @@
+# GR Atom: CVE-2014-1776
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20141776-001"
+  name: "CVE-2014-1776"
+  normalized_name: "cve_2014_1776"
+  aliases:
+    - "Internet Explorer VGX.DLL Use-After-Free"
+    - "IE Zero-Day April 2014"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 6 through 11"
+    - "vgx.dll (VML rendering)"
+    - "Windows XP through Windows 8.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-1776 is a use-after-free vulnerability (CVSS 10.0) in Microsoft Internet Explorer
+    6 through 11 related to the VML (Vector Markup Language) rendering component vgx.dll. The
+    vulnerability allows remote code execution when a user visits a crafted website. It was
+    exploited as a zero-day in April 2014 in targeted attacks and received widespread attention
+    because it affected all supported IE versions and was discovered while Windows XP was no
+    longer receiving security updates. Patched in MS14-021 (May 2014) as an emergency out-of-band
+    update that exceptionally included Windows XP.
+  why: >-
+    This vulnerability generated significant public attention because it was the first major
+    zero-day discovered after Windows XP end-of-life (April 8, 2014), initially leaving millions
+    of XP users permanently vulnerable. The public pressure was so significant that Microsoft made
+    the exceptional decision to include XP in the emergency patch. It affected all IE versions
+    (6-11), maximizing its impact and demonstrating that even IE 11 on Windows 8.1 was vulnerable.
+  how: >-
+    The exploit uses JavaScript to manipulate VML content in a way that triggers a use-after-free
+    condition in the VML rendering component (vgx.dll). After triggering the use-after-free, the
+    exploit uses Flash to perform heap spraying and precisely control the memory layout. The freed
+    memory is replaced with attacker-controlled data, and when the dangling pointer is accessed
+    during VML rendering, execution is redirected to shellcode.
+  core_concepts:
+    - key: "VML Rendering Use-After-Free"
+      value: "VML content manipulation in vgx.dll triggers use-after-free with Flash-assisted heap spray for reliable exploitation"
+    - key: "Post-XP End-of-Life Zero-Day"
+      value: "First major IE zero-day after Windows XP end-of-life forced exceptional out-of-band XP patch from Microsoft"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free memory corruption in Internet Explorer VML rendering component"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2014-1776 - CVSS 10.0"
+    - "Microsoft Security Bulletin MS14-021"
+    - "FireEye - IE Zero-Day Analysis April 2014"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2014-1776"
+    - "Internet Explorer"
+    - "use-after-free"
+    - "VML"
+    - "vgx.dll"
+    - "MS14-021"
+    - "zero-day"
+    - "Windows XP"
+    - "all IE versions"
+  embedding_text: >-
+    CVE-2014-1776 is a use-after-free vulnerability with CVSS 10.0 in Internet Explorer 6
+    through 11 in the VML rendering component vgx.dll. The flaw enables remote code execution
+    through crafted web pages that manipulate VML content, combined with Flash heap spraying.
+    Exploited as a zero-day in April 2014, it gained major public attention as the first
+    critical IE zero-day after Windows XP end-of-life, forcing Microsoft to issue an
+    exceptional out-of-band patch including XP. Affecting all IE versions on all Windows
+    systems, it was patched in the emergency MS14-021 bulletin in May 2014 and demonstrated
+    the enduring vulnerability of Internet Explorer's rendering engine to use-after-free attacks.

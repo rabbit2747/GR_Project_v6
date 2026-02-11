@@ -1,0 +1,98 @@
+# GR Atom: Cluster Role
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLUSROLE-001"
+  name: "Cluster Role"
+  normalized_name: "cluster_role"
+  aliases:
+    - "ClusterRole"
+    - "Kubernetes ClusterRole"
+    - "K8s Cluster Role"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - AUTHZ
+    - CONTAINER
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Kubernetes ClusterRole is a cluster-scoped RBAC (Role-Based Access Control) resource that
+    defines a set of permissions (verbs) on Kubernetes API resources across all namespaces in a
+    cluster. Unlike namespace-scoped Roles, ClusterRoles grant permissions cluster-wide and can
+    control access to cluster-scoped resources (nodes, persistent volumes, namespaces) and
+    non-resource endpoints. ClusterRoles are bound to subjects (users, groups, service accounts)
+    via ClusterRoleBindings.
+  why: >-
+    ClusterRoles are a critical security control in Kubernetes because they define what actions
+    subjects can perform across the entire cluster. Overly permissive ClusterRoles (especially
+    cluster-admin) are a primary privilege escalation vector. Attackers who compromise a service
+    account with broad ClusterRole permissions can read secrets, create privileged pods, or
+    modify RBAC policies across all namespaces. Proper ClusterRole design follows least-privilege
+    principles.
+  how: >-
+    ClusterRoles are defined as YAML manifests specifying apiGroups, resources, and verbs
+    (get, list, watch, create, update, delete, patch). They are applied via kubectl or
+    Infrastructure-as-Code tools. Aggregation rules allow composing ClusterRoles from smaller
+    components. Built-in ClusterRoles include cluster-admin (full access), edit, view, and
+    system-level roles. Custom ClusterRoles should be audited regularly using tools like
+    kubectl-who-can, rbac-audit, or OPA/Gatekeeper policies.
+  core_concepts:
+    - key: "Cluster-Scoped Permissions"
+      value: "ClusterRoles grant permissions across all namespaces and to cluster-scoped resources like nodes and persistent volumes"
+    - key: "RBAC Least Privilege"
+      value: "ClusterRoles should follow least-privilege principles, granting only the minimum permissions required for each subject"
+    - key: "Aggregation Rules"
+      value: "ClusterRoles can be composed from smaller component roles using label-based aggregation for modular permission management"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "ClusterRole is a core RBAC resource in Kubernetes for cluster-wide access control"
+  - type: "enables"
+    target: "INFRA-COMPUTE-CLUROLBIN-001"
+    description: "ClusterRoles define permissions that are assigned to subjects through ClusterRoleBindings"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Kubernetes RBAC Documentation - kubernetes.io"
+    - "CIS Kubernetes Benchmark - RBAC Controls"
+    - "MITRE ATT&CK Containers Matrix - Privilege Escalation"
+  search_keywords:
+    - "kubernetes clusterrole"
+    - "cluster role"
+    - "k8s RBAC"
+    - "kubernetes permissions"
+    - "cluster-admin"
+    - "kubernetes access control"
+    - "clusterrole binding"
+  embedding_text: >-
+    A Kubernetes ClusterRole is a cluster-scoped RBAC resource defining permissions on API
+    resources across all namespaces. ClusterRoles control access to cluster-scoped resources
+    like nodes and persistent volumes, and are bound to subjects via ClusterRoleBindings.
+    They are a critical security control because overly permissive ClusterRoles (especially
+    cluster-admin) enable privilege escalation, secret access, and RBAC modification across
+    all namespaces. ClusterRoles specify apiGroups, resources, and verbs, support aggregation
+    rules for modular composition, and should follow least-privilege principles with regular
+    auditing using tools like rbac-audit or OPA/Gatekeeper policies.

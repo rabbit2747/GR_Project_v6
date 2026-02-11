@@ -1,0 +1,80 @@
+# GR Atom: Pegasus Citizen Lab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-PEGCITLAB-001"
+  name: "Pegasus Citizen Lab"
+  normalized_name: "pegasus_citizen_lab"
+  aliases:
+    - "Pegasus Project"
+    - "Citizen Lab Pegasus Investigation"
+    - "NSO Pegasus Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Pegasus Citizen Lab refers to the series of groundbreaking investigations conducted by the Citizen Lab at the University of Toronto into the Pegasus spyware developed by NSO Group. These investigations, spanning from 2016 onwards, revealed the widespread deployment of Pegasus against journalists, human rights activists, lawyers, politicians, and political dissidents by governments worldwide. The research exposed zero-click exploitation techniques targeting iOS and Android devices, command-and-control infrastructure across dozens of countries, and the systematic abuse of commercial surveillance technology against civil society."
+  why: "The Pegasus Citizen Lab investigations represent one of the most significant cybersecurity research efforts in history, fundamentally changing public understanding of commercial spyware and its abuse by governments. The research triggered diplomatic incidents, US sanctions against NSO Group, lawsuits by Apple and WhatsApp, European Parliament investigations, and global policy debates about regulating the surveillance industry."
+  how: "The Citizen Lab researchers used network scanning to identify Pegasus command-and-control infrastructure, performed forensic analysis of targeted devices using tools like MVT (Mobile Verification Toolkit), reverse-engineered exploit chains and spyware payloads, and correlated technical indicators with geopolitical context. The investigations involved collaboration with media organizations, technology companies, and human rights organizations to verify and publicize findings."
+  core_concepts:
+    - key: "Pegasus Spyware Analysis"
+      value: "Technical investigation of NSO Group's Pegasus zero-click mobile spyware and its exploitation techniques"
+    - key: "Government Surveillance Exposure"
+      value: "Documentation of government clients deploying Pegasus against journalists, activists, and political targets"
+    - key: "Mobile Forensics"
+      value: "Development and application of forensic methodologies for detecting spyware on iOS and Android devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-RESEARCH-CITILAB-001"
+    description: "Major research program conducted by the Citizen Lab"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Pegasus research findings presented at major security conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1437"
+    tactic:
+      - "Initial Access"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://citizenlab.ca/tag/pegasus/"
+    - "https://en.wikipedia.org/wiki/Pegasus_(spyware)"
+  search_keywords:
+    - "pegasus spyware"
+    - "NSO group"
+    - "citizen lab pegasus"
+    - "zero-click exploit"
+    - "mobile surveillance"
+    - "commercial spyware"
+    - "iPhone exploit"
+    - "government spyware"
+    - "targeted surveillance"
+  embedding_text: "Pegasus Citizen Lab refers to the series of groundbreaking investigations conducted by the Citizen Lab at the University of Toronto into the Pegasus spyware developed by NSO Group. These investigations revealed the widespread deployment of Pegasus against journalists, human rights activists, lawyers, politicians, and political dissidents by governments worldwide, exposing zero-click exploitation techniques targeting iOS and Android devices and command-and-control infrastructure across dozens of countries. The research used network scanning, forensic device analysis with MVT, exploit chain reverse engineering, and geopolitical correlation to document the systematic abuse of commercial surveillance technology against civil society. The findings triggered US sanctions against NSO Group, lawsuits by Apple and WhatsApp, European Parliament investigations, and global policy debates about regulating the surveillance industry."

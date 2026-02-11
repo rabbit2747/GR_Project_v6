@@ -1,0 +1,113 @@
+# GR Atom: CVE-2018-0802
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20180802-001"
+  name: "CVE-2018-0802"
+  normalized_name: "cve_2018_0802"
+  aliases:
+    - "Equation Editor Patch Bypass"
+    - "EQNEDT32 Second Stack Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Office Equation Editor (EQNEDT32.EXE)"
+    - "Microsoft Office 2007-2016"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-0802 is a stack buffer overflow vulnerability (CVSS 8.8) in the Microsoft Office
+    Equation Editor component (EQNEDT32.EXE) that allows remote code execution. It is
+    effectively a patch bypass for CVE-2017-11882, exploiting a different code path in the
+    same vulnerable font name handling logic that was incompletely fixed in the November 2017
+    patch. Discovered by multiple security researchers and patched in January 2018, this
+    vulnerability was actively exploited in the wild before the patch was available. Microsoft
+    subsequently removed Equation Editor entirely from Office to eliminate the attack surface.
+  why: >-
+    CVE-2018-0802 demonstrates the risk of incomplete patching of critical vulnerabilities.
+    The original fix for CVE-2017-11882 addressed only one code path while leaving a parallel
+    path exploitable. This pattern of patch bypasses in security-critical components highlights
+    the importance of thorough root cause analysis during vulnerability remediation. The
+    discovery of three critical vulnerabilities in EQNEDT32.EXE led to the unprecedented
+    decision to remove the component entirely.
+  how: >-
+    The exploit uses the same general technique as CVE-2017-11882 but targets a different
+    code path in the font name processing that was not addressed by the original patch.
+    A crafted Office document containing a malicious Equation Editor OLE object triggers
+    the stack overflow when the font name exceeds the buffer size through the unpatched
+    code path. The lack of ASLR and DEP in EQNEDT32.EXE allows direct stack-based code
+    execution. Delivery is via spear-phishing with malicious document attachments.
+  core_concepts:
+    - key: "Patch Bypass"
+      value: "Exploits an alternate code path in the same font name handling that was incompletely patched for CVE-2017-11882"
+    - key: "Incomplete Remediation"
+      value: "Demonstrates risk when vulnerability patches address symptoms rather than root causes in legacy code"
+    - key: "Component Removal"
+      value: "Led to Microsoft removing Equation Editor entirely from Office to eliminate the persistent attack surface"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "VUL-MEMORY-CVE201711882-001"
+    description: "CVE-2018-0802 is a patch bypass that exploits the same Equation Editor component through an alternate code path"
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2018-0802 is a stack buffer overflow memory corruption vulnerability"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20180798-001"
+    description: "Both exploit different memory corruption vectors in the same EQNEDT32.EXE binary"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2018-0802"
+    - "Check Point Research - CVE-2018-0802 Patch Bypass Analysis"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "NVD Entry CVE-2018-0802 - CVSS 8.8"
+  search_keywords:
+    - "CVE-2018-0802"
+    - "Equation Editor"
+    - "EQNEDT32"
+    - "patch bypass"
+    - "stack buffer overflow"
+    - "Office RCE"
+    - "CVE-2017-11882 bypass"
+  embedding_text: >-
+    CVE-2018-0802 is a stack buffer overflow in Microsoft Office Equation Editor EQNEDT32.EXE
+    with CVSS 8.8 that serves as a patch bypass for CVE-2017-11882. It exploits an alternate
+    code path in the same font name handling logic that was incompletely fixed in the
+    November 2017 patch. The same absence of ASLR and DEP makes exploitation reliable through
+    crafted Office documents. Actively exploited in the wild before patching in January 2018,
+    it was the third critical vulnerability found in the Equation Editor component, leading
+    Microsoft to remove the component entirely from Office to eliminate the persistent
+    attack surface.

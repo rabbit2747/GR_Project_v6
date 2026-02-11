@@ -1,0 +1,75 @@
+# GR Atom: Snort Rule Structure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-SNORULSTR-001"
+  name: "Snort Rule Structure"
+  normalized_name: "snort_rule_structure"
+  aliases:
+    - "Snort Rule Format"
+    - "Snort Rule Syntax"
+    - "Snort Signature Format"
+    - "Snort IDS Rule Schema"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - IDS
+    - IPS
+    - NETWORK
+    - MONITOR
+
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "The Snort rule structure defines the syntax and format for writing network intrusion detection and prevention rules used by the Snort IDS/IPS engine. A Snort rule consists of two main parts: the rule header and the rule options. The rule header specifies the action (alert, log, pass, drop, reject, sdrop), protocol (tcp, udp, icmp, ip), source and destination IP addresses with CIDR notation, source and destination ports, and the direction operator (-> for unidirectional, <> for bidirectional). The rule options section, enclosed in parentheses, contains keyword:value pairs separated by semicolons that define content matching, metadata, and detection logic. Key rule options include: msg (alert message), content (byte pattern matching), pcre (Perl-compatible regular expressions), flow (connection state matching), sid (signature ID), rev (revision number), classtype (attack classification), reference (external references), and metadata (additional information including MITRE ATT&CK mappings). Snort 3 introduced additional syntax features including service-based matching, HTTP inspection keywords, and enhanced detection plugin architecture."
+  why: "Snort rule structure is the foundational network detection rule format used by the most widely deployed open-source IDS/IPS engine. Understanding and writing Snort rules is essential for network security monitoring because Snort rules form the primary detection mechanism for network-based threats including exploit attempts, malware command-and-control communications, policy violations, and reconnaissance activity. The Snort rule community maintains tens of thousands of rules through Snort Subscriber and Community rulesets and the Emerging Threats (ET) rules. The Snort rule format has also influenced the development of Suricata rules and other network detection formats."
+  how: "Snort rules are written as single-line text entries following the header-options structure. The header defines the 5-tuple matching criteria (protocol, source IP, source port, direction, destination IP, destination port). The options section implements deep packet inspection using the content keyword for byte-level matching with modifiers like offset, depth, distance, within, nocase, and fast_pattern. Multiple content matches can be chained to detect specific byte sequences at specific positions within packets. The flow keyword constrains rules to specific connection states (established, to_server, to_client). Rules are organized by protocol and attack type, with SID ranges assigned to different rule sources. Performance optimization uses the fast_pattern keyword to select the most efficient content match for initial packet filtering. Rules are loaded by the Snort engine from configuration files and applied to network traffic in real-time."
+  core_concepts:
+    - key: "Rule Header"
+      value: "The action, protocol, source/destination addresses and ports, and direction operator defining the network traffic the rule inspects"
+    - key: "Content Matching"
+      value: "The content keyword with positional modifiers (offset, depth, distance, within) for precise byte-level pattern matching within packet payloads"
+    - key: "Flow Control"
+      value: "The flow keyword constraining rule evaluation to specific connection states such as established sessions or specific traffic directions"
+    - key: "Fast Pattern"
+      value: "Selection of the most efficient content match for initial packet filtering, critical for high-speed network processing"
+
+relations:
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-SIGRULSTR-001"
+    description: "Snort rule structure is the network detection counterpart to Sigma rule structure for SIEM detection"
+  - type: enables
+    target: "DETECT-SIGNATURE-SURRULKEY-001"
+    description: "Snort rule structure provides the foundation that Suricata extends with additional keywords"
+  - type: applies_to
+    target: "INFRA-SEC-IDS-001"
+    description: "Snort rules are deployed within IDS/IPS network infrastructure"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Snort Users Manual - https://www.snort.org/documents"
+    - "Snort 3 Rule Writing Guide - https://docs.snort.org/"
+    - "Snort Community Rules - https://www.snort.org/downloads#rules"
+  search_keywords:
+    - "Snort rule structure"
+    - "Snort rule syntax"
+    - "Snort rule format"
+    - "Snort IDS rules"
+    - "Snort content keyword"
+    - "Snort rule options"
+    - "Snort rule header"
+    - "network detection rule"
+    - "Snort signature"
+  embedding_text: "The Snort rule structure defines the syntax for network intrusion detection rules consisting of a rule header and rule options. The header specifies action, protocol, source/destination addresses and ports, and direction. Rule options in parentheses contain keyword:value pairs for content matching, flow control, metadata, and classification. Key options include content for byte-level pattern matching with positional modifiers, pcre for regular expressions, flow for connection state, sid for identification, and classtype for attack classification. Snort rules are the foundational network detection format used by the most widely deployed open-source IDS/IPS, with community rulesets containing tens of thousands of signatures for exploit detection, C2 communication, and policy violations."

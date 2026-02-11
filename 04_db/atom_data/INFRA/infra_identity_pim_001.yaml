@@ -1,0 +1,123 @@
+# GR Atom: Azure PIM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-PIM-001"
+  name: "Azure PIM"
+  normalized_name: "azure_pim"
+  aliases:
+    - "Privileged Identity Management"
+    - "Azure AD PIM"
+    - "Entra PIM"
+    - "Microsoft Entra Privileged Identity Management"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - PAM
+    - AUTHZ
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Privileged Identity Management (PIM) is an Azure AD service that provides
+    just-in-time (JIT) privileged access, time-bound role activation, approval workflows,
+    and access reviews for Azure AD roles, Azure resource roles, and group memberships.
+    PIM enables organizations to minimize standing privileged access by requiring users to
+    explicitly activate eligible role assignments for a limited duration with justification,
+    MFA verification, and optional approval before gaining elevated permissions.
+  why: >-
+    PIM is a critical control for reducing the attack surface of privileged accounts.
+    Without PIM, standing privileged role assignments provide persistent elevated access
+    that attackers can exploit after compromising any privileged account. PIM
+    misconfigurations such as permanent active assignments, disabled approval requirements,
+    excessive activation durations, and broad eligibility assignments undermine its
+    protective value. Attackers may target PIM by compromising eligible users and self-
+    activating roles, or by manipulating PIM settings through Global Administrator access
+    to weaken just-in-time controls.
+  how: >-
+    PIM operates through eligible and active role assignments. Eligible assignments require
+    users to perform an activation action specifying justification and duration. Activation
+    can require MFA, approval from designated approvers, and ticket system integration.
+    Once activated, the role assignment is time-bound and automatically expires. PIM
+    generates audit logs for all activation events and provides access review campaigns
+    for periodic attestation of role assignments. PIM settings are configured per-role,
+    allowing different activation requirements for different privilege levels. Alerts
+    notify administrators of suspicious activation patterns.
+  core_concepts:
+    - key: "Just-In-Time Access"
+      value: "Eliminates standing privileged access by requiring explicit time-bound activation with justification, MFA, and optional approval"
+    - key: "Access Reviews"
+      value: "Periodic attestation campaigns where role owners review and certify the continued need for eligible and active role assignments"
+    - key: "Activation Audit Trail"
+      value: "Comprehensive logging of all privilege activation events including who, when, why, and duration for security monitoring and compliance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "PIM is an Azure AD service managing privileged role assignments within the directory"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "PIM implements just-in-time authorization for privileged role activations"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "PIM enforces additional authentication requirements during privilege activation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Privilege Escalation"
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Azure AD Privileged Identity Management"
+    - "Microsoft Security - PIM Security Best Practices"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+  search_keywords:
+    - "Azure PIM"
+    - "Privileged Identity Management"
+    - "just-in-time access Azure"
+    - "PIM role activation"
+    - "Azure AD privileged access"
+    - "JIT privileged access"
+    - "PIM access review"
+    - "Entra PIM"
+  embedding_text: >-
+    Azure Privileged Identity Management (PIM) provides just-in-time privileged access
+    management for Azure AD roles, Azure resource roles, and group memberships. PIM
+    eliminates standing privileged access by requiring explicit time-bound role activation
+    with justification, MFA verification, and optional approval workflows. Eligible role
+    assignments require activation before gaining elevated permissions, and activated roles
+    automatically expire after the configured duration. PIM generates audit trails for all
+    activation events and supports access review campaigns for periodic attestation.
+    Misconfigurations such as permanent active assignments, disabled approval requirements,
+    and excessive activation durations undermine its protective value. Attackers may target
+    PIM by compromising eligible users for self-activation. Security teams must enforce
+    approval for sensitive roles, minimize activation durations, require MFA for all
+    activations, and monitor PIM audit logs for suspicious patterns.

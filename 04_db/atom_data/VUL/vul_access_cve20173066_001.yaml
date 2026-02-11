@@ -1,0 +1,125 @@
+# GR Atom: CVE-2017-3066
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20173066-001"
+  name: "CVE-2017-3066"
+  normalized_name: "cve_2017_3066"
+  aliases:
+    - "Adobe ColdFusion Deserialization RCE"
+    - "ColdFusion AMF Deserialization"
+    - "APSB17-14"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - DESER
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Adobe ColdFusion 2016 Update 3 and earlier"
+    - "Adobe ColdFusion 11 Update 11 and earlier"
+    - "Adobe ColdFusion 10 Update 22 and earlier"
+    - "BlazeDS AMF deserialization"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-3066 is a critical remote code execution vulnerability in Adobe ColdFusion
+    caused by an insecure Java deserialization flaw in the BlazeDS library's Action Message
+    Format (AMF) handling. Disclosed in April 2017 with a CVSS score of 9.8, the vulnerability
+    allows unauthenticated remote attackers to execute arbitrary code on the ColdFusion server
+    by sending specially crafted serialized Java objects via AMF requests to the
+    /flex2gateway/amf endpoint. BlazeDS deserializes the malicious object without proper
+    validation, leading to arbitrary command execution with the privileges of the ColdFusion
+    service account, typically running as SYSTEM on Windows or root on Linux.
+  why: >-
+    ColdFusion is widely deployed in enterprise and government environments, particularly in
+    legacy applications. The vulnerability is trivially exploitable with publicly available
+    tools such as ysoserial for generating serialized payloads. CISA added CVE-2017-3066 to
+    its Known Exploited Vulnerabilities catalog due to confirmed active exploitation. Many
+    ColdFusion installations are internet-facing and process external requests, making them
+    high-value targets for both opportunistic and targeted attacks. The vulnerability has been
+    actively exploited by APT groups and ransomware operators.
+  how: >-
+    An attacker sends a crafted HTTP POST request to the /flex2gateway/amf or
+    /flex2gateway/amfpolling endpoint containing a malicious serialized Java object. BlazeDS
+    deserializes the AMF payload without validating the class being instantiated. Using
+    gadget chains (such as Apache Commons Collections or Spring Framework classes), the
+    deserialization triggers arbitrary command execution. The attacker achieves remote code
+    execution with the ColdFusion service privileges. Exploitation tools like ysoserial
+    and ColdFusionPwn automate payload generation. Mitigation includes updating to
+    ColdFusion 2016 Update 4, ColdFusion 11 Update 12, or ColdFusion 10 Update 23,
+    restricting access to /flex2gateway endpoints, and implementing web application
+    firewall rules.
+  core_concepts:
+    - key: "AMF Deserialization"
+      value: "BlazeDS Action Message Format deserialization processes untrusted serialized Java objects enabling arbitrary class instantiation and code execution"
+    - key: "Java Gadget Chains"
+      value: "Exploitation leverages existing Java library classes as gadget chains to transform deserialization into arbitrary command execution"
+    - key: "Legacy Enterprise Risk"
+      value: "ColdFusion deployments in government and enterprise environments are high-value targets often running outdated versions with internet-facing endpoints"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2017-3066 bypasses access controls through unauthenticated deserialization at a public-facing endpoint"
+  - type: "enables"
+    target: "VUL-ACCESS-CVE201813379-001"
+    description: "Both represent enterprise appliance/server RCE vulnerabilities actively exploited for initial network access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  cve_id: "CVE-2017-3066"
+  cvss_score: 9.8
+  affected_product: "Adobe ColdFusion (BlazeDS)"
+  disclosure_year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Adobe Security Bulletin APSB17-14"
+    - "NVD CVE-2017-3066 CVSS 9.8"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-3066"
+    - "ColdFusion deserialization"
+    - "BlazeDS AMF"
+    - "ColdFusion RCE"
+    - "flex2gateway exploit"
+    - "Adobe ColdFusion vulnerability"
+    - "Java deserialization attack"
+    - "APSB17-14"
+  embedding_text: >-
+    CVE-2017-3066 is a critical Adobe ColdFusion remote code execution vulnerability (CVSS 9.8)
+    caused by insecure Java deserialization in BlazeDS AMF handling. Unauthenticated attackers
+    send crafted serialized Java objects to /flex2gateway/amf endpoint achieving arbitrary
+    command execution with ColdFusion service privileges. Affects ColdFusion 10, 11, and 2016.
+    Exploitable via ysoserial gadget chains against Apache Commons Collections and Spring
+    Framework classes. Listed in CISA Known Exploited Vulnerabilities catalog. Actively
+    exploited by APT groups and ransomware operators against government and enterprise
+    ColdFusion deployments. Mitigation requires patching and restricting flex2gateway access.

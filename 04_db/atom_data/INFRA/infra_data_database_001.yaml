@@ -1,0 +1,119 @@
+# GR Atom: Database Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATABASE-001"
+  name: "Database Service"
+  normalized_name: "database_service"
+  aliases:
+    - "DB Service"
+    - "Database Management Service"
+    - "DBMS Service"
+    - "Managed Database"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - NETWORK
+    - AUTHN
+    - AUTHZ
+    - HA
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Database Service is a logical service abstraction that provides structured data storage,
+    querying, and management capabilities to client applications through network-accessible
+    interfaces. This encompasses both self-managed database instances running on dedicated
+    servers and fully managed cloud database services such as Amazon RDS, Azure SQL Database,
+    Google Cloud SQL, and similar platforms. A database service encapsulates the DBMS engine,
+    storage subsystem, networking, authentication, and management interfaces into a consumable
+    service endpoint.
+  why: >-
+    Database services are foundational infrastructure that virtually all applications depend upon
+    for persistent data storage. They represent critical points of failure and high-value
+    targets because service disruption affects all dependent applications and data compromise
+    exposes organizational assets. The shift toward managed database services introduces shared
+    responsibility security models where the provider manages infrastructure security while
+    customers manage data access, encryption keys, and application-level security controls.
+  how: >-
+    Database services expose network endpoints (IP:port or DNS-based) that accept connections
+    from authorized clients using database wire protocols. Authentication verifies client
+    identity through credentials, certificates, or token-based mechanisms. Authorization
+    enforces access controls through database-level roles, schema permissions, and object
+    grants. The service manages data persistence through the storage engine, provides query
+    processing through the optimizer and execution engine, and maintains data consistency
+    through transaction management. High availability is achieved through replication, failover
+    clustering, or multi-zone deployment. Managed services additionally handle patching,
+    backups, scaling, and monitoring.
+  core_concepts:
+    - key: "Service Abstraction"
+      value: >-
+        A database service abstracts the underlying infrastructure complexity, presenting a
+        network-accessible endpoint with defined SLAs for availability, performance, and
+        durability regardless of the implementation details.
+    - key: "Shared Responsibility Model"
+      value: >-
+        In managed database services, the cloud provider secures the infrastructure while
+        customers are responsible for data classification, access controls, encryption
+        configuration, and application-level security.
+    - key: "High Availability"
+      value: >-
+        Database services implement redundancy through replication, automatic failover, and
+        multi-zone deployment to maintain data availability despite hardware or software failures.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "Database services require database servers to provide the underlying compute and storage infrastructure"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "Database services enable database applications by providing network-accessible data storage endpoints"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A database service is a type of data store providing structured data management through service interfaces"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-144 - Guidelines on Security and Privacy in Public Cloud Computing."
+    - "AWS RDS Security Best Practices. https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_BestPractices.Security.html"
+    - "CIS Controls v8 - Control 3: Data Protection."
+  search_keywords:
+    - "database service"
+    - "managed database"
+    - "DBMS service"
+    - "Amazon RDS"
+    - "Azure SQL Database"
+    - "cloud database service"
+    - "database as a service"
+    - "DBaaS"
+  embedding_text: >-
+    A Database Service is a logical service abstraction providing structured data storage,
+    querying, and management capabilities through network-accessible interfaces. This encompasses
+    self-managed database instances and fully managed cloud services like Amazon RDS, Azure SQL
+    Database, and Google Cloud SQL. Database services expose network endpoints accepting
+    authenticated client connections using database wire protocols. They enforce authorization
+    through roles and grants, manage persistence through storage engines, process queries, and
+    maintain consistency through transaction management. High availability is achieved via
+    replication and failover. Managed services introduce shared responsibility models where
+    providers handle infrastructure security while customers manage data access and encryption.
+    Database services are foundational infrastructure and high-value targets whose compromise
+    affects all dependent applications and can expose organizational data assets.

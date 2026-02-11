@@ -1,0 +1,70 @@
+# GR Atom: CyCraft
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CYCRAFT-001"
+  name: "CyCraft"
+  normalized_name: "cycraft"
+  aliases:
+    - "CyCraft Technology"
+    - "CyCraft AI"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - AI
+    - THREAT_INTEL
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyCraft is a Taiwanese AI-driven cybersecurity company providing automated threat detection, investigation, and response solutions. The company specializes in using artificial intelligence to automate SOC operations, conducting rapid forensic analysis and incident response. CyCraft has extensive experience responding to APT campaigns targeting Taiwan and the broader Asia-Pacific region, particularly those attributed to Chinese state-sponsored threat groups."
+  why: "CyCraft is significant for its AI-driven approach to automating security operations and its unique expertise in defending against Chinese state-sponsored cyber operations targeting Taiwanese organizations. Their research and incident response experience provides critical intelligence on APT campaigns in the Asia-Pacific region that other vendors may not extensively cover."
+  how: "CyCraft operates through its AI-powered platform that automates threat detection, triage, investigation, and response. The platform uses machine learning to analyze endpoint telemetry, correlate alerts, reconstruct attack timelines, and provide automated forensic analysis. CyCraft's team conducts incident response engagements and publishes threat intelligence on APT campaigns targeting the region."
+  core_concepts:
+    - key: "AI-Driven SOC Automation"
+      value: "Machine learning platform automating threat detection, investigation, and response to reduce SOC analyst workload"
+    - key: "Automated Forensics"
+      value: "AI-powered forensic analysis that rapidly reconstructs attack timelines and correlates threat activity"
+    - key: "Asia-Pacific APT Defense"
+      value: "Specialized expertise defending against Chinese state-sponsored APT campaigns targeting Taiwan and APAC organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-EDR-PLATFORM-001"
+    description: "Produces AI-driven endpoint detection, investigation, and automated response platform"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cycraft.com"
+    - "https://medium.com/cycraft"
+  search_keywords:
+    - "cycraft"
+    - "cycraft ai"
+    - "taiwan cybersecurity"
+    - "ai soc automation"
+    - "automated incident response"
+    - "asia pacific apt"
+    - "taiwanese security vendor"
+  embedding_text: "CyCraft is a Taiwanese AI-driven cybersecurity company providing automated threat detection, investigation, and response solutions. The company specializes in using artificial intelligence to automate SOC operations, conducting rapid forensic analysis and incident response. CyCraft has extensive experience responding to APT campaigns targeting Taiwan and the Asia-Pacific region, particularly those attributed to Chinese state-sponsored threat groups. Their AI-powered platform automates threat detection, triage, investigation, and response using machine learning to analyze endpoint telemetry, correlate alerts, and reconstruct attack timelines. CyCraft provides critical intelligence on APT campaigns in the Asia-Pacific region and offers unique expertise in defending against Chinese state-sponsored cyber operations targeting Taiwanese organizations."

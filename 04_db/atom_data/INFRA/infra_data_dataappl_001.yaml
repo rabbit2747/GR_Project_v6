@@ -1,0 +1,123 @@
+# GR Atom: Database Application
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATAAPPL-001"
+  name: "Database Application"
+  normalized_name: "database_application"
+  aliases:
+    - "DB Application"
+    - "Database App"
+    - "Database Client Application"
+    - "DB Management Application"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - API
+    - AUTHN
+    - AUTHZ
+    - INJ
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Database Application is a software application that interacts with one or more database
+    management systems to store, retrieve, manipulate, and present data. This includes both
+    database administration tools (such as phpMyAdmin, pgAdmin, MySQL Workbench, SQL Server
+    Management Studio, and DBeaver) and business applications with embedded database connectivity.
+    Database applications serve as the interface layer between users or automated processes and
+    the underlying database engines.
+  why: >-
+    Database applications are critical from a security perspective because they represent the
+    primary access path to stored data. They implement application-level authentication, query
+    construction, and data presentation logic. Vulnerabilities in database applications,
+    particularly SQL injection flaws, are among the most exploited attack vectors in web
+    security. Database administration tools present additional risk as they provide direct,
+    often privileged access to database engines and may be exposed to unauthorized users
+    through misconfiguration.
+  how: >-
+    Database applications connect to database servers using database drivers or connectors
+    (JDBC, ODBC, native drivers) with connection strings specifying host, port, credentials,
+    and database name. They construct and execute SQL or NoSQL queries, process result sets,
+    and present data to users or downstream systems. Security controls include parameterized
+    queries to prevent SQL injection, connection pooling with least-privilege credentials,
+    input validation, output encoding, and audit logging of data access operations.
+    Authentication may be delegated to the database engine or managed at the application layer.
+  core_concepts:
+    - key: "SQL Injection Risk"
+      value: >-
+        Database applications that construct queries using string concatenation with user input
+        are vulnerable to SQL injection attacks, which remain one of the most critical and
+        prevalent web application vulnerabilities.
+    - key: "Database Driver Layer"
+      value: >-
+        Applications connect through database-specific drivers (JDBC, ODBC, ADO.NET) that
+        handle protocol negotiation, authentication, query transmission, and result set parsing.
+    - key: "Least-Privilege Database Access"
+      value: >-
+        Database applications should use dedicated service accounts with minimal required
+        permissions rather than administrative credentials, limiting blast radius if compromised.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "Database applications require database servers to provide the data storage and query execution backend"
+  - type: "requires"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Database applications require database services to be running and accessible for data operations"
+  - type: "enables"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "Database applications enable access to data stores by providing user interfaces and programmatic access paths"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "OWASP SQL Injection Prevention Cheat Sheet. https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html"
+    - "CWE-89: Improper Neutralization of Special Elements used in an SQL Command. https://cwe.mitre.org/data/definitions/89.html"
+    - "NIST SP 800-123 - Guide to General Server Security."
+  search_keywords:
+    - "database application"
+    - "DB application"
+    - "database management tool"
+    - "SQL injection"
+    - "database client"
+    - "phpMyAdmin"
+    - "database admin tool"
+    - "database connectivity"
+  embedding_text: >-
+    A Database Application is software that interacts with database management systems to store,
+    retrieve, manipulate, and present data. This includes database administration tools like
+    phpMyAdmin, pgAdmin, MySQL Workbench, and SQL Server Management Studio, as well as business
+    applications with embedded database connectivity. Database applications are critical security
+    targets because they represent the primary access path to stored data. SQL injection
+    vulnerabilities in database applications remain among the most exploited attack vectors.
+    They connect through database drivers (JDBC, ODBC, native) using connection strings with
+    credentials. Security controls include parameterized queries, least-privilege service
+    accounts, connection pooling, input validation, and audit logging. Database administration
+    tools present elevated risk due to their direct privileged access to database engines and
+    potential exposure through misconfiguration.

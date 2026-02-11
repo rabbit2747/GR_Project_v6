@@ -1,0 +1,98 @@
+# GR Atom: Cloud Run
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOURUN-001"
+  name: "Cloud Run"
+  normalized_name: "cloud_run"
+  aliases:
+    - "Google Cloud Run"
+    - "GCP Cloud Run"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - GCP
+    - CLOUD
+    - SERVERLESS
+    - CONTAINER
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Google Cloud Run is a fully managed serverless platform that runs stateless containers
+    invoked via HTTP requests or events. It automatically scales container instances from zero
+    to thousands based on traffic demand and charges only for resources consumed during request
+    processing. Cloud Run supports any container image that listens for HTTP requests, providing
+    the flexibility of containers with the operational simplicity of serverless computing.
+  why: >-
+    Cloud Run bridges the gap between serverless simplicity and container flexibility, allowing
+    teams to deploy containerized applications without managing infrastructure. From a security
+    perspective, Cloud Run provides automatic TLS, IAM-based access control, VPC connectivity
+    for private networking, and binary authorization for supply chain security. Its ephemeral
+    nature limits persistence vectors but requires securing container images and IAM policies.
+  how: >-
+    Cloud Run deploys container images from Container Registry or Artifact Registry. Each
+    service revision consists of container instances that scale automatically. Requests are
+    load-balanced across instances. IAM policies control who can invoke services. Services
+    can connect to VPC networks via VPC connectors for private resource access. Binary
+    authorization validates container images before deployment. Cloud Run integrates with
+    Cloud Build for CI/CD and supports custom domains with managed TLS certificates.
+  core_concepts:
+    - key: "Serverless Containers"
+      value: "Container execution with automatic scaling from zero, no cluster management, and pay-per-use pricing based on request processing time"
+    - key: "Binary Authorization"
+      value: "Supply chain security control that validates container images are signed and approved before Cloud Run deploys them"
+    - key: "VPC Connectivity"
+      value: "Private networking integration allowing Cloud Run services to access internal resources through VPC connectors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "Cloud Run is a GCP-native serverless container platform"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Cloud Run executes container images that require a container runtime"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-LAMBDA-001"
+    description: "Cloud Run competes with AWS Lambda as a serverless compute platform"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Google Cloud Run Documentation - cloud.google.com"
+    - "CIS Google Cloud Platform Benchmark"
+    - "Google Cloud Security Best Practices"
+  search_keywords:
+    - "cloud run"
+    - "google cloud run"
+    - "serverless containers"
+    - "gcp serverless"
+    - "managed container platform"
+    - "cloud run security"
+    - "binary authorization"
+  embedding_text: >-
+    Google Cloud Run is a fully managed serverless platform that runs stateless containers
+    invoked via HTTP requests, automatically scaling from zero to thousands of instances based
+    on demand. It supports any container image listening for HTTP, providing container flexibility
+    with serverless simplicity. Security features include automatic TLS, IAM-based access control,
+    VPC connectors for private networking, and binary authorization for supply chain security.
+    Cloud Run deploys images from Container Registry or Artifact Registry, integrates with Cloud
+    Build for CI/CD, and charges only for resources consumed during request processing.

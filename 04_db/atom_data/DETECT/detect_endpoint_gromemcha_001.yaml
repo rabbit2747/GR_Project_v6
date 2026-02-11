@@ -1,0 +1,77 @@
+# GR Atom: Group Membership Changes
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-GROMEMCHA-001"
+  name: "Group Membership Changes"
+  normalized_name: "group_membership_changes"
+  aliases:
+    - "Security Group Modification Detection"
+    - "Group Membership Audit"
+    - "User Group Change Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - AUDIT
+    - MONITOR
+    - LOG
+    - WINDOWS
+    - PRIV
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Group Membership Changes is an endpoint detection pattern that monitors additions, removals, and modifications to security group memberships on local systems and within directory services such as Active Directory. This includes changes to local administrator groups, Domain Admins, Enterprise Admins, backup operators, remote desktop users, and custom security groups that control access to resources. The pattern captures the account being added or removed, the target group, the account performing the change, and the timestamp, through security event logs such as Windows Event IDs 4728, 4732, 4756 for additions and 4729, 4733, 4757 for removals."
+  why: "Group membership changes are a primary mechanism for privilege escalation and persistence. Adversaries who gain initial access with limited privileges frequently add their compromised accounts to administrative groups to escalate privileges, or create new accounts and add them to privileged groups for persistent access. Monitoring group membership changes is critical for detecting unauthorized privilege escalation, insider threats granting themselves elevated access, and compromised service accounts being leveraged to modify security group structures."
+  how: "Detection systems monitor Windows Security Event Log for group membership change events including Event IDs 4728/4729 for security-enabled global groups, 4732/4733 for security-enabled local groups, and 4756/4757 for security-enabled universal groups. On Linux systems, monitoring covers changes to /etc/group and /etc/gshadow files through auditd or inotify. Detection rules flag additions to high-privilege groups such as Domain Admins or local Administrators by non-administrative processes, group changes during off-hours, bulk group modifications suggesting automated attacks, group changes performed by recently created or compromised accounts, and modifications to groups that grant remote access or backup operator privileges."
+  core_concepts:
+    - key: "Privileged Group Monitoring"
+      value: "Focused monitoring of changes to high-value security groups such as Domain Admins, Enterprise Admins, and local Administrators that grant significant system access"
+    - key: "Change Attribution"
+      value: "Identifying which account performed the group membership change and whether that account had legitimate authorization to make such modifications"
+    - key: "Temporal Analysis"
+      value: "Evaluating when group changes occur relative to normal administrative patterns to identify suspicious off-hours or rapid-succession modifications"
+
+relations:
+  - type: effective_against
+    target: "ATK-PRIV-DOMADMIN-001"
+    description: "Detects privilege escalation through addition of compromised accounts to domain administrator groups"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDENING-001"
+    description: "Group membership monitoring contributes to system hardening by ensuring security group integrity"
+  - type: part_of
+    target: "DETECT-ENDPOINT-AUDPOLCHA-001"
+    description: "Group membership changes are monitored as part of comprehensive audit policy event detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1098"
+    tactic: ["Persistence", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1098 - Account Manipulation"
+    - "Microsoft - Audit Security Group Management - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-security-group-management"
+    - "NIST SP 800-53 - AC-2 Account Management"
+  search_keywords:
+    - "group membership change"
+    - "security group modification"
+    - "privilege escalation detection"
+    - "Domain Admins monitoring"
+    - "local administrator group"
+    - "group membership audit"
+    - "account manipulation detection"
+    - "Windows event 4728 4732"
+  embedding_text: "Group Membership Changes detection monitors additions, removals, and modifications to security group memberships on local systems and Active Directory including Domain Admins, Enterprise Admins, and local administrator groups. Tracked through Windows Security Event IDs 4728/4729/4732/4733/4756/4757 and Linux group file monitoring via auditd, this pattern captures account changes, target groups, performing accounts, and timestamps. Detection rules flag additions to privileged groups by non-administrative processes, off-hours modifications, bulk changes suggesting automated attacks, and modifications by recently created accounts, enabling detection of privilege escalation and persistence activities."

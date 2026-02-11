@@ -1,0 +1,70 @@
+# GR Atom: CyCognito
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CYCOGNITO-001"
+  name: "CyCognito"
+  normalized_name: "cycognito"
+  aliases:
+    - "CyCognito Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - CLOUD
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L7"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CyCognito is a cybersecurity vendor specializing in external attack surface management (EASM), providing automated discovery and testing of an organization's internet-facing assets. The platform continuously maps an organization's external attack surface from an attacker's perspective, identifying unknown assets, shadow IT, subsidiaries, and third-party exposures without requiring any internal access or agent deployment."
+  why: "CyCognito is significant because organizations typically have limited visibility into their full external attack surface, including forgotten assets, shadow IT, and subsidiary infrastructure. By discovering and testing these assets from an attacker's perspective without requiring internal access, CyCognito helps organizations identify and remediate exposures before threat actors can exploit them."
+  how: "CyCognito operates a platform that uses reconnaissance techniques similar to those used by attackers to discover an organization's external-facing assets through domain enumeration, certificate analysis, web crawling, and infrastructure fingerprinting. Once assets are discovered, the platform automatically tests them for vulnerabilities, misconfigurations, and exposures, prioritizing findings by business risk and exploitability."
+  core_concepts:
+    - key: "External Attack Surface Management"
+      value: "Continuous discovery and monitoring of internet-facing assets from an attacker's external perspective"
+    - key: "Shadow IT Discovery"
+      value: "Identification of unknown, unmanaged, and forgotten external assets including subsidiary and third-party infrastructure"
+    - key: "Attacker Perspective Testing"
+      value: "Automated vulnerability and misconfiguration testing from outside the network without requiring internal access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-ASM-PLATFORM-001"
+    description: "Produces external attack surface management platform for discovering and testing internet-facing assets"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for EASM vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cycognito.com"
+    - "https://www.cycognito.com/resources"
+  search_keywords:
+    - "cycognito"
+    - "attack surface management"
+    - "external attack surface"
+    - "easm"
+    - "shadow it discovery"
+    - "asset discovery"
+    - "internet-facing assets"
+    - "attack surface monitoring"
+  embedding_text: "CyCognito is a cybersecurity vendor specializing in external attack surface management (EASM), providing automated discovery and testing of an organization's internet-facing assets. The platform continuously maps external attack surfaces from an attacker's perspective, identifying unknown assets, shadow IT, subsidiaries, and third-party exposures without requiring internal access or agent deployment. CyCognito uses reconnaissance techniques similar to those used by attackers including domain enumeration, certificate analysis, web crawling, and infrastructure fingerprinting. Once assets are discovered, the platform automatically tests them for vulnerabilities, misconfigurations, and exposures, prioritizing findings by business risk and exploitability. CyCognito addresses the critical visibility gap where organizations lack awareness of their full external attack surface including forgotten assets and subsidiary infrastructure."

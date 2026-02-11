@@ -1,0 +1,71 @@
+# GR Atom: CyberBit
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CYBERBIT-001"
+  name: "CyberBit"
+  normalized_name: "cyberbit"
+  aliases:
+    - "Cyberbit Ltd."
+    - "Cyberbit Range"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - BLUE_TEAM
+    - EDR
+    - NETWORK
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Cyberbit is an Israeli cybersecurity company, a subsidiary of Elbit Systems, providing cybersecurity training platforms, endpoint detection and response, and network security solutions. Cyberbit is best known for its Cyberbit Range, an enterprise-grade cyber range platform that simulates realistic attack scenarios for security team training and skills development. The company also provides SOC automation and IT/OT network security monitoring solutions."
+  why: "Cyberbit is significant for addressing the critical cybersecurity skills gap through its realistic training platform that enables security teams to practice detection, investigation, and response in simulated environments. Cybersecurity workforce development is essential for organizational defense, and Cyberbit Range is one of the leading enterprise cyber range platforms used by organizations and academic institutions worldwide."
+  how: "Cyberbit Range provides a virtual environment that replicates enterprise networks with realistic traffic, simulated users, and injected attack scenarios. Trainees practice using real security tools to detect and respond to simulated attacks. The platform supports team exercises, individual skill development, and assessment. Cyberbit also provides EDR and network monitoring products that detect threats through behavioral analysis and network traffic analysis."
+  core_concepts:
+    - key: "Cyber Range Training"
+      value: "Enterprise-grade simulation platform for cybersecurity team training with realistic attack scenarios and environments"
+    - key: "SOC Skills Development"
+      value: "Hands-on training for security operations center analysts in detection, investigation, and incident response"
+    - key: "IT/OT Security"
+      value: "Network monitoring solutions covering both information technology and operational technology environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-TRAINING-RANGE-001"
+    description: "Produces Cyberbit Range enterprise cyber range platform for security team training and exercises"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security training vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cyberbit.com"
+    - "https://www.cyberbit.com/cyber-range"
+  search_keywords:
+    - "cyberbit"
+    - "cyberbit range"
+    - "cyber range"
+    - "cybersecurity training"
+    - "soc training"
+    - "security simulation"
+    - "elbit systems cyber"
+    - "cyber skills development"
+  embedding_text: "Cyberbit is an Israeli cybersecurity company and subsidiary of Elbit Systems, providing cybersecurity training platforms, endpoint detection and response, and network security solutions. The company is best known for its Cyberbit Range, an enterprise-grade cyber range platform that simulates realistic attack scenarios for security team training and skills development. The platform replicates enterprise networks with realistic traffic, simulated users, and injected attack scenarios where trainees practice using real security tools to detect and respond to simulated attacks. Cyberbit addresses the critical cybersecurity skills gap by enabling security teams to practice detection, investigation, and response in simulated environments. The company also provides SOC automation, EDR, and IT/OT network security monitoring solutions through behavioral analysis and network traffic analysis."

@@ -1,0 +1,124 @@
+# GR Atom: Memory Corruption
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-MEMORY-001"
+  name: "Memory Corruption"
+  normalized_name: "memory_corruption"
+  aliases:
+    - "Memory Safety Vulnerability"
+    - "Memory Management Vulnerability"
+    - "CWE-119"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "All software written in memory-unsafe languages (C, C++, Assembly)"
+    - "Operating system kernels"
+    - "System services and daemons"
+    - "Application software with native code"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Memory corruption is the broadest class of software vulnerability (CWE-119) where a
+    program inadvertently modifies memory outside of intended boundaries or in unintended
+    ways, leading to crashes, data corruption, or arbitrary code execution. This
+    vulnerability class encompasses buffer overflows (heap and stack), use-after-free,
+    double-free, type confusion, out-of-bounds read/write, uninitialized memory use, race
+    conditions in memory management, and integer overflows that lead to memory errors.
+    Memory corruption vulnerabilities are the dominant class of critical security
+    vulnerabilities in systems software, responsible for approximately 70% of all
+    security vulnerabilities in products like Windows, Chrome, and Android according to
+    Microsoft and Google research.
+  why: >-
+    Memory corruption is the most consequential vulnerability class in cybersecurity
+    history. It enables the full spectrum of attacks from privilege escalation to remote
+    code execution and has powered nearly every major cyber weapon and exploit chain
+    including EternalBlue, Stuxnet, Operation Triangulation, and browser exploitation
+    chains. The dominance of C and C++ in systems programming means memory corruption
+    will remain the primary vulnerability class for decades. Industry responses include
+    memory-safe language adoption (Rust), hardware mitigations (PAC, MTE), and
+    compiler-based protections (ASLR, CFI, stack canaries). Despite decades of
+    mitigation research, novel memory corruption techniques continue to emerge.
+  how: >-
+    Memory corruption exploitation follows a general pattern: trigger a memory safety
+    violation, leverage the corruption to gain arbitrary read/write primitives, then use
+    those primitives for code execution. Buffer overflows write beyond allocated boundaries
+    to corrupt adjacent data. Use-after-free accesses memory after deallocation, where
+    an attacker may have placed controlled data. Type confusion misinterprets an object's
+    type, accessing fields at wrong offsets. Each subclass requires different triggering
+    mechanisms but converges on the goal of achieving arbitrary memory read/write,
+    which is then leveraged through techniques like ROP chains, JIT spraying, or object
+    manipulation to hijack program control flow and execute attacker-supplied code.
+  core_concepts:
+    - key: "Dominant Vulnerability Class"
+      value: "Responsible for ~70% of security vulnerabilities in major software products including Windows, Chrome, and Android"
+    - key: "Subclass Taxonomy"
+      value: "Encompasses buffer overflow, use-after-free, type confusion, integer overflow, race conditions, and uninitialized memory"
+    - key: "Exploitation Convergence"
+      value: "All memory corruption subclasses converge on achieving arbitrary read/write primitives for code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "VUL-MEMORY-INTEOVER-001"
+    description: "Memory corruption class abstracts integer overflow as a subclass that enables buffer overflows"
+  - type: "abstracts"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "Memory corruption class abstracts heap buffer overflow vulnerabilities like EternalBlue"
+  - type: "abstracts"
+    target: "VUL-MEMORY-DIRTCOW-001"
+    description: "Memory corruption class abstracts race condition vulnerabilities like Dirty COW"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer"
+    - "Microsoft Security Response Center - Memory Safety Statistics"
+    - "Google Project Zero - Memory Safety Research"
+    - "MITRE CWE Top 25 Most Dangerous Software Weaknesses"
+  search_keywords:
+    - "memory corruption"
+    - "buffer overflow"
+    - "use-after-free"
+    - "type confusion"
+    - "CWE-119"
+    - "memory safety"
+    - "heap overflow"
+    - "stack overflow"
+    - "code execution"
+  embedding_text: >-
+    Memory corruption (CWE-119) is the broadest and most consequential vulnerability
+    class in cybersecurity, encompassing buffer overflows, use-after-free, type confusion,
+    integer overflow, race conditions, and uninitialized memory use. Responsible for
+    approximately 70% of security vulnerabilities in major software products, it has
+    powered every major exploit chain from EternalBlue to Operation Triangulation. All
+    subclasses converge on achieving arbitrary memory read/write primitives for code
+    execution. Dominant in C/C++ systems code, memory corruption drives industry adoption
+    of memory-safe languages, hardware mitigations, and compiler protections.

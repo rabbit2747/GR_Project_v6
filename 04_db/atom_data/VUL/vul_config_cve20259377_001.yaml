@@ -1,0 +1,106 @@
+# GR Atom: CVE-2025-9377
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20259377-001"
+  name: "CVE-2025-9377"
+  normalized_name: "cve_2025_9377"
+  aliases:
+    - "DNS Rebinding Configuration Bypass"
+    - "Internal Service DNS Rebinding Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - DNS
+    - NETWORK
+    - SSRF
+
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "DNS Resolver Configuration"
+    - "Web Application Server"
+    - "Internal API Services"
+
+definition:
+  what: >-
+    CVE-2025-9377 is a DNS rebinding vulnerability that allows an attacker to bypass network access
+    controls and access internal services by exploiting DNS resolution behavior. The vulnerability
+    exists in applications and services that rely on DNS-based host validation without implementing
+    DNS rebinding protections. An attacker can manipulate DNS responses to first resolve to an
+    external IP (passing validation) and then rebind to an internal IP (bypassing network controls).
+    CVSS v3: 7.5 (High).
+  why: >-
+    DNS rebinding attacks undermine the same-origin policy and network segmentation controls that
+    protect internal services. Many organizations assume internal services are safe from external
+    access, but DNS rebinding allows external web pages to make requests to internal IP addresses
+    through the victim's browser. This enables access to internal dashboards, APIs, IoT devices,
+    cloud metadata services, and other services that lack authentication because they assume
+    network-level protection. The attack surface is broad because it affects any browser-accessible
+    internal service.
+  how: >-
+    The attacker registers a domain with a DNS server they control. The DNS server initially
+    responds with the attacker's external IP (passing any validation checks). The attacker's
+    web page loads in the victim's browser. After the initial DNS TTL expires, subsequent DNS
+    requests for the same domain are answered with an internal IP address (e.g., 127.0.0.1,
+    192.168.x.x, or 169.254.169.254). The browser, which has already accepted the domain, now
+    makes requests to the internal service. Mitigation includes implementing Host header validation,
+    DNS pinning, network-level DNS rebinding protection at resolvers, and requiring authentication
+    on all internal services.
+  core_concepts:
+    - key: "DNS Resolution Exploitation"
+      value: "Manipulating DNS TTL and response behavior to rebind hostnames from external to internal IP addresses after initial validation"
+    - key: "Network Access Control Bypass"
+      value: "Circumventing network segmentation and firewall rules through DNS-level manipulation that redirects traffic to internal services"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-DNS-001"
+    description: "CVE-2025-9377 is a specific instance of DNS misconfiguration vulnerability exploiting rebinding behavior"
+  - type: enables
+    target: "ATK-DISC-INTERNAL-001"
+    description: "DNS rebinding enables discovery and access to internal services that are not intended to be externally accessible"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.004"
+    tactic: ["Command and Control", "Initial Access"]
+  cve_mapping:
+    cve_id: "CVE-2025-9377"
+    cvss_score: 7.5
+    cwe_id: "CWE-350"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-9377 - NVD NIST"
+    - "CWE-350 - Reliance on Reverse DNS Resolution for a Security-Critical Action"
+    - "MITRE ATT&CK T1071.004 - Application Layer Protocol: DNS"
+    - "DNS Rebinding Attack Research - Stanford Security Lab"
+  search_keywords:
+    - "CVE-2025-9377"
+    - "DNS rebinding vulnerability"
+    - "DNS rebinding attack"
+    - "internal service access bypass"
+    - "DNS configuration vulnerability"
+    - "network access control bypass"
+    - "DNS security"
+  embedding_text: >-
+    CVE-2025-9377 is a DNS rebinding vulnerability that allows attackers to bypass network access
+    controls and access internal services by exploiting DNS resolution behavior. CVSS v3 score is
+    7.5 High. Applications relying on DNS-based host validation without rebinding protections are
+    vulnerable. Attackers manipulate DNS responses to first resolve externally then rebind to
+    internal IPs, bypassing firewalls and same-origin policy. Enables access to internal dashboards,
+    APIs, IoT devices, and cloud metadata services. Mitigation includes Host header validation, DNS
+    pinning, resolver-level rebinding protection, and authentication on all internal services. Maps
+    to MITRE ATT&CK T1071.004 Application Layer Protocol: DNS.

@@ -1,0 +1,90 @@
+# GR Atom: Diamond Sleet
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DIAMSLEE-001"
+  name: "Diamond Sleet"
+  normalized_name: "diamond_sleet"
+  aliases:
+    - "ZINC"
+    - "Labyrinth Chollima"
+    - "Lazarus Group Subset"
+    - "Black Artemis"
+    - "Temp.Hermit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - SUPPLY_CHAIN
+    - EXEC
+    - PERSIST
+    - WINDOWS
+    - LINUX
+    - MACOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Diamond Sleet (formerly ZINC) is a North Korean state-sponsored APT group tracked by Microsoft, operating within the broader Lazarus Group ecosystem. The group targets media, defense, IT, and technology sectors worldwide for both espionage and financial theft. Diamond Sleet is notable for conducting software supply chain attacks, including the compromise of CyberLink (2023) and 3CX (2023), and for targeting security researchers through fake social media personas and trojanized security tools."
+  why: "Diamond Sleet is significant for their sophisticated supply chain compromise capabilities, having successfully trojanized widely-used software products to distribute malware to downstream users. Their targeting of security researchers is particularly noteworthy as it attempts to compromise the very defenders tasked with detecting North Korean operations. The group combines espionage objectives with financial theft, supporting dual North Korean state objectives."
+  how: "The group conducts software supply chain attacks by compromising software vendors' build processes to distribute trojanized updates. They create fake social media profiles impersonating security researchers to build trust and deliver exploits or malware to real researchers. Diamond Sleet uses trojanized open-source tools and develops weaponized PuTTY, KiTTY, and other utilities. Custom malware includes BLINDINGCAN, ZetaNile, and FoggyBrass. The group also weaponizes legitimate VPN clients and PDF readers with embedded backdoors."
+  core_concepts:
+    - key: "Software Supply Chain Attacks"
+      value: "Compromises software vendors like CyberLink and 3CX to distribute trojanized updates"
+    - key: "Security Researcher Targeting"
+      value: "Creates fake personas to target security researchers with exploits and malware"
+    - key: "Trojanized Development Tools"
+      value: "Weaponizes legitimate utilities like PuTTY and open-source projects"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-FAMOCHOL-001"
+    description: "Diamond Sleet operates within the broader Lazarus Group ecosystem"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Conducts supply chain compromise and social engineering for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Diamond Sleet Supply Chain Attack Reports"
+    - "Microsoft - ZINC Security Researcher Targeting"
+    - "Mandiant - 3CX Supply Chain Compromise Analysis"
+  search_keywords:
+    - "diamond sleet"
+    - "zinc apt"
+    - "labyrinth chollima"
+    - "3cx supply chain"
+    - "cyberlink compromise"
+    - "security researcher targeting"
+    - "blindingcan malware"
+    - "north korean supply chain"
+    - "trojanized putty"
+    - "lazarus supply chain"
+  embedding_text: "Diamond Sleet (formerly ZINC) is a North Korean state-sponsored APT group within the Lazarus Group ecosystem, tracked by Microsoft. The group targets media, defense, IT, and technology sectors for espionage and financial theft. Diamond Sleet is notable for conducting software supply chain attacks including the CyberLink compromise (2023) and involvement in the 3CX supply chain attack (2023). They target security researchers through fake social media personas and deliver exploits through trojanized security tools. Custom malware includes BLINDINGCAN, ZetaNile, and FoggyBrass. The group weaponizes legitimate utilities like PuTTY and open-source projects. Their dual focus on espionage and financial theft supports both North Korean intelligence collection and regime revenue generation."

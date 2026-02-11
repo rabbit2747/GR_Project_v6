@@ -1,0 +1,102 @@
+# GR Atom: CVE-2011-4369
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20114369-001"
+  name: "CVE-2011-4369"
+  normalized_name: "cve_2011_4369"
+  aliases:
+    - "Adobe Reader PRC Component Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Reader 9.x through 9.4.6"
+    - "Adobe Acrobat 9.x through 9.4.6"
+    - "Adobe Reader X 10.x through 10.1.1"
+    - "PRC (Product Representation Compact) component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-4369 is a memory corruption vulnerability (CVSS 10.0) in the PRC (Product
+    Representation Compact) component of Adobe Reader and Acrobat. The vulnerability allows
+    remote attackers to execute arbitrary code through a crafted PDF document that embeds
+    malicious PRC 3D content. It was exploited as a zero-day alongside CVE-2011-2462 in
+    targeted attacks and was patched in APSB12-01 (January 2012). The vulnerability affects
+    Adobe Reader and Acrobat versions 9.x through 9.4.6 and 10.x through 10.1.1.
+  why: >-
+    Scoring CVSS 10.0, this vulnerability was part of a series of zero-day Adobe Reader
+    exploits used in sophisticated targeted attacks. The PRC component, used for 3D content
+    rendering in PDF documents, provided a complex attack surface. Its exploitation alongside
+    CVE-2011-2462 demonstrated coordinated APT campaigns using multiple Adobe Reader zero-days
+    to maintain persistent access to target organizations.
+  how: >-
+    The exploit creates a PDF document containing specially crafted PRC 3D data that triggers
+    a memory corruption condition when Adobe Reader parses the embedded content. The corruption
+    allows the attacker to manipulate execution flow and achieve arbitrary code execution in
+    the context of the Reader process. The malicious PDF is delivered via email or web-based
+    vectors targeting specific organizations.
+  core_concepts:
+    - key: "PRC 3D Content Memory Corruption"
+      value: "Malformed PRC data embedded in PDF documents triggers memory corruption in Adobe Reader's 3D content parser"
+    - key: "Coordinated Zero-Day Campaign"
+      value: "Exploited alongside CVE-2011-2462 in coordinated APT campaigns targeting government and defense organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory corruption in Adobe Reader PRC component during 3D content parsing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2011-4369 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB12-01"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2011-4369"
+    - "Adobe Reader"
+    - "Adobe Acrobat"
+    - "PRC component"
+    - "3D content"
+    - "memory corruption"
+    - "PDF exploit"
+    - "zero-day"
+  embedding_text: >-
+    CVE-2011-4369 is a critical memory corruption vulnerability with CVSS 10.0 in the PRC
+    (Product Representation Compact) 3D component of Adobe Reader and Acrobat. The flaw
+    enables remote code execution through crafted PDF documents containing malicious PRC
+    data. Exploited as a zero-day alongside CVE-2011-2462 in coordinated APT campaigns
+    targeting defense and government organizations, it affected Reader and Acrobat 9.x
+    through 9.4.6 and 10.x through 10.1.1. Patched in APSB12-01 in January 2012, this
+    vulnerability was part of a broader pattern of Adobe Reader 3D component exploitation
+    used in advanced persistent threat operations.

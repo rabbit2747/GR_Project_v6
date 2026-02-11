@@ -1,0 +1,76 @@
+# GR Atom: Hardware Device Disabled Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVDIS-001"
+  name: "Hardware Device Disabled Event"
+  normalized_name: "hardware_device_disabled_event"
+  aliases:
+    - "Device Disable Detection"
+    - "Hardware Component Disabled"
+    - "Device Manager Disable Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Disabled Event is an endpoint detection pattern that captures when a hardware device is administratively disabled through the operating system device manager without being physically disconnected. This occurs when a device is disabled via Device Manager on Windows, through sysfs device control on Linux, or via system preferences on macOS. The event records the device identifier, device type, the user or process that initiated the disable operation, and the timestamp. The device remains physically connected but its driver is unloaded and the device ceases to function until re-enabled."
+  why: "Monitoring device disable events is important for detecting adversary attempts to disable security-relevant hardware components such as network interface cards to prevent security telemetry transmission, TPM modules to undermine measured boot integrity, or webcam indicators to facilitate covert surveillance. Unauthorized device disabling may also indicate insider threats disabling monitoring hardware, anti-forensics activities to prevent evidence collection, or preparation for other attack stages where certain hardware must be disabled to avoid detection."
+  how: "Detection systems capture device disable events through Windows SetupAPI and Device Installation logs, WMI event subscriptions for device state changes, Linux kernel uevent notifications with ACTION=remove for software unbinding, and macOS IOKit notifications for device deactivation. Detection rules flag disabling of security-critical devices such as TPM, network adapters on systems with security agents, and hardware security modules. Additional rules detect device disabling by non-administrative users, disable operations through command-line tools rather than GUI, bulk device disabling suggesting automated attacks, and disabling of devices that coincides with other suspicious activity."
+  core_concepts:
+    - key: "Administrative Device Control"
+      value: "The operating system capability to disable hardware devices through software without physical removal, stopping the driver and ceasing device operation"
+    - key: "Security Device Protection"
+      value: "Monitoring and alerting on attempts to disable hardware devices critical to security operations such as TPM, network interfaces, and security tokens"
+    - key: "Anti-Forensics Indicator"
+      value: "Device disabling as a potential indicator of anti-forensics activity where adversaries disable monitoring or evidence collection hardware"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device disabled events are a specific state change within the broader hardware device event category"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-HARDEVENA-001"
+    description: "Device disabled events are the inverse of device enabled events, tracking the opposite state transition"
+  - type: effective_against
+    target: "ATK-EVASION-DISDEF-001"
+    description: "Detects defense evasion through disabling of security-relevant hardware components"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1562 - Impair Defenses"
+    - "Microsoft - Device Manager Operations - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/device-manager"
+    - "Linux Kernel Documentation - Sysfs Device Control"
+  search_keywords:
+    - "hardware device disabled"
+    - "device disable event"
+    - "device manager disable"
+    - "hardware component disabled"
+    - "security device tampering"
+    - "TPM disable detection"
+    - "network adapter disable"
+    - "device state change"
+  embedding_text: "Hardware Device Disabled Event detection captures when hardware devices are administratively disabled through the OS device manager without physical disconnection. Monitored through Windows SetupAPI logs, WMI device state subscriptions, Linux kernel uevent notifications, and macOS IOKit deactivation events, this telemetry records device identifiers, initiating users/processes, and timestamps. Detection flags disabling of security-critical devices like TPM and network adapters, non-administrative disable operations, command-line device disabling, and bulk disable patterns, identifying defense evasion through security hardware tampering and anti-forensics activities."

@@ -1,0 +1,69 @@
+# GR Atom: TrueSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TRUESEC-001"
+  name: "TrueSec"
+  normalized_name: "truesec"
+  aliases:
+    - "Truesec Inc"
+    - "Truesec AB"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - BLUE_TEAM
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "TrueSec is a Swedish cybersecurity consultancy providing incident response, digital forensics, managed detection and response, and security consulting services. The company specializes in responding to ransomware incidents and advanced cyber attacks targeting enterprise environments, with particular expertise in Microsoft environments, cloud security, and identity protection across Nordic and global markets."
+  why: "TrueSec is significant in cybersecurity because of its extensive experience responding to high-profile ransomware incidents and advanced attacks in the Nordic region and beyond. The company's incident responders have handled hundreds of major breach investigations, and their published research on ransomware tactics and recovery strategies provides valuable guidance for the security community."
+  how: "TrueSec operates through dedicated incident response teams available 24/7 for emergency breach response, complemented by ongoing managed detection and response services, security assessments, and advisory consulting. The company leverages deep expertise in Microsoft technologies to provide specialized guidance on Active Directory recovery, cloud security posture assessment, and identity protection strategies."
+  core_concepts:
+    - key: "Incident Response"
+      value: "24/7 emergency response to ransomware attacks and advanced cyber incidents with rapid containment and recovery"
+    - key: "Ransomware Recovery"
+      value: "Specialized expertise in ransomware investigation, containment, and environment restoration"
+    - key: "Microsoft Security Consulting"
+      value: "Deep expertise in securing Microsoft environments including Active Directory, Azure, and Microsoft 365"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECUJOES-001"
+    description: "Fellow incident response and digital forensics vendor specializing in breach investigation"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.truesec.com"
+  search_keywords:
+    - "truesec"
+    - "incident response"
+    - "ransomware recovery"
+    - "digital forensics"
+    - "swedish cybersecurity"
+    - "managed detection response"
+    - "microsoft security"
+    - "breach investigation"
+  embedding_text: "TrueSec is a Swedish cybersecurity consultancy providing incident response, digital forensics, managed detection and response, and security consulting services. The company specializes in responding to ransomware incidents and advanced cyber attacks with particular expertise in Microsoft environments, cloud security, and identity protection. TrueSec's incident responders have handled hundreds of major breach investigations, and their published research on ransomware tactics and recovery strategies provides valuable guidance for the security community."

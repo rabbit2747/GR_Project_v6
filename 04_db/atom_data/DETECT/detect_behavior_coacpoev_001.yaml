@@ -1,0 +1,75 @@
+# GR Atom: Conditional Access Policy Evaluated
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-COACPOEV-001"
+  name: "Conditional Access Policy Evaluated"
+  normalized_name: "conditional_access_policy_evaluated"
+  aliases:
+    - "CA Policy Evaluation Detection"
+    - "Conditional Access Monitoring"
+    - "Zero Trust Policy Evaluation"
+    - "Access Policy Decision Logging"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - AUTHZ
+    - CLOUD
+    - MONITOR
+    - AUDIT
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Conditional Access Policy Evaluated is a detection pattern that monitors the evaluation outcomes of conditional access policies during authentication and authorization events in identity platforms such as Azure AD Conditional Access, Google BeyondCorp, or Okta policy engine. Each time a user authenticates or accesses a resource, conditional access policies are evaluated against signal inputs including user identity, device compliance, location, application sensitivity, and risk level. This detection tracks policy evaluation results including grant, block, and require-MFA outcomes, identifying patterns such as repeated policy blocks from a single user, policies being bypassed through legacy authentication protocols, and successful access from conditions that should have triggered a block."
+  why: "Conditional access policies are the enforcement layer of zero trust architecture, making their correct evaluation critical to organizational security. Adversaries actively attempt to bypass conditional access through techniques such as using legacy authentication protocols that do not support modern policy evaluation, exploiting misconfigured policies, leveraging compliant device tokens from compromised endpoints, and targeting gaps between intended and implemented policy coverage. Monitoring policy evaluation outcomes provides visibility into both attack attempts and policy configuration weaknesses before they lead to breaches."
+  how: "Detection systems ingest conditional access policy evaluation logs from identity providers, capturing each policy decision along with the input signals and resulting action. Analysis identifies anomalous patterns including repeated denials suggesting brute force or credential stuffing against protected resources, successful authentications that bypassed expected policy controls, policy evaluations with unusual signal combinations such as compliant device claims from unknown devices, and changes in policy evaluation patterns after policy modifications. Dashboards track policy coverage metrics including which resources lack conditional access protection and which legacy protocols bypass policy evaluation. Correlation with sign-in logs and audit logs provides full context for security investigations."
+  core_concepts:
+    - key: "Conditional Access Policy"
+      value: "If-then rules that evaluate signals about users, devices, locations, and applications to make real-time access control decisions"
+    - key: "Policy Evaluation Signals"
+      value: "Input data including user identity, device state, location, client application, and risk score used by the policy engine to make access decisions"
+    - key: "Legacy Authentication Bypass"
+      value: "Older authentication protocols like POP3, IMAP, and SMTP that do not support conditional access policy evaluation, creating security gaps"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOANOM-001"
+    description: "Conditional access policy evaluation includes location signals that feed geolocation anomaly detection"
+  - type: enables
+    target: "DETECT-BEHAVIOR-PRIACCPAT-001"
+    description: "Policy evaluation monitoring reveals privileged account access patterns and policy bypass attempts"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic: ["Defense Evasion", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Conditional Access Overview - https://learn.microsoft.com/en-us/entra/identity/conditional-access/overview"
+    - "MITRE ATT&CK T1078 - Valid Accounts - https://attack.mitre.org/techniques/T1078/"
+    - "NIST SP 800-207 - Zero Trust Architecture"
+  search_keywords:
+    - "conditional access policy monitoring"
+    - "CA policy evaluation detection"
+    - "zero trust policy logging"
+    - "Azure AD conditional access"
+    - "access policy bypass detection"
+    - "legacy authentication bypass"
+    - "conditional access audit"
+    - "policy enforcement monitoring"
+  embedding_text: "Conditional Access Policy Evaluated detection monitors the outcomes of conditional access policy evaluations during authentication and authorization events in identity platforms like Azure AD. It tracks policy decisions including grant, block, and require-MFA outcomes, identifying patterns such as repeated blocks suggesting credential attacks, policies bypassed through legacy authentication protocols, and successful access from conditions that should trigger blocks. This pattern provides visibility into zero trust policy enforcement effectiveness, adversary bypass attempts, and policy configuration weaknesses. Analysis correlates policy evaluation logs with sign-in and audit logs to detect both active attacks and security coverage gaps."

@@ -1,0 +1,100 @@
+# GR Atom: Container Runtime
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CONTRUNT-001"
+  name: "Container Runtime"
+  normalized_name: "container_runtime"
+  aliases:
+    - "OCI Runtime"
+    - "Container Engine"
+    - "Container Execution Environment"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CONTAINER
+    - DOCKER
+    - OS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Container Runtime is the software component responsible for executing and managing
+    containers on a host operating system. It creates the isolated execution environment using
+    OS kernel features (namespaces, cgroups, capabilities) and manages the container lifecycle
+    from image unpacking through execution to termination. Container runtimes are categorized
+    as high-level (containerd, CRI-O) managing images and lifecycles, and low-level (runc,
+    crun, kata-containers) performing actual container creation.
+  why: >-
+    The container runtime is the last line of defense between containerized workloads and the
+    host system. Runtime vulnerabilities enable container escapes, the most severe class of
+    container security issues. Historical vulnerabilities like CVE-2019-5736 (runc) allowed
+    container escape to root on the host. Runtime security is enhanced through seccomp profiles,
+    AppArmor/SELinux policies, read-only rootfs, capability dropping, and user namespace
+    remapping.
+  how: >-
+    High-level runtimes (containerd, CRI-O) handle image pulling, storage management, and
+    lifecycle coordination. They delegate to low-level OCI runtimes (runc) which use Linux
+    kernel primitives: namespaces for isolation (PID, NET, MNT, UTS, IPC, USER), cgroups for
+    resource limits, seccomp for syscall filtering, and Linux capabilities for privilege
+    management. The OCI Runtime Specification defines the standard interface. Kubernetes
+    communicates with high-level runtimes through the Container Runtime Interface (CRI).
+  core_concepts:
+    - key: "Runtime Security Boundary"
+      value: "The container runtime enforces isolation between containers and the host using kernel namespaces, cgroups, seccomp, and capabilities"
+    - key: "OCI Runtime Specification"
+      value: "Standard interface defining how container runtimes create, start, and manage containers, enabling interoperability"
+    - key: "High-Level vs Low-Level"
+      value: "High-level runtimes manage images and lifecycles while low-level runtimes perform actual container creation using kernel primitives"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-COMPUTE-APPLCONT-001"
+    description: "Container runtimes execute and manage application containers"
+  - type: "enables"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "Container runtimes provide the execution layer that Kubernetes orchestrates through CRI"
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-CONTAINERD-001"
+    description: "Container runtime is the abstract category that containerd implements"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OCI Runtime Specification - opencontainers.org"
+    - "NIST SP 800-190 - Application Container Security Guide"
+    - "Kubernetes Container Runtime Interface Documentation"
+  search_keywords:
+    - "container runtime"
+    - "OCI runtime"
+    - "runc"
+    - "container engine"
+    - "container execution"
+    - "container escape"
+    - "CRI runtime"
+  embedding_text: >-
+    A Container Runtime executes and manages containers on a host OS using kernel features like
+    namespaces and cgroups. High-level runtimes (containerd, CRI-O) manage images and lifecycles
+    while low-level runtimes (runc) create containers using kernel primitives. The OCI Runtime
+    Specification defines the standard interface. Container runtimes are the last defense between
+    workloads and the host; vulnerabilities like CVE-2019-5736 enable container escapes. Security
+    involves seccomp profiles, AppArmor/SELinux policies, capability dropping, and user namespace
+    remapping. Kubernetes communicates with runtimes through the Container Runtime Interface (CRI).

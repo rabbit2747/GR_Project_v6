@@ -1,0 +1,102 @@
+# GR Atom: Security Compliance Center
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SECCOMCEN-001"
+  name: "Security Compliance Center"
+  normalized_name: "security_compliance_center"
+  aliases:
+    - "Microsoft Compliance Center"
+    - "Microsoft Purview Compliance Portal"
+    - "Compliance Manager"
+    - "Security & Compliance Center"
+    - "SCC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - CLOUD
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z4"
+  function: "A1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Security Compliance Center (now Microsoft Purview Compliance Portal) is Microsoft's
+    centralized compliance management platform for Microsoft 365 and Azure environments. It
+    provides Compliance Manager for assessment scoring, Data Loss Prevention (DLP) policies,
+    information protection and labeling, data retention and records management, eDiscovery,
+    insider risk management, communication compliance, and audit log search. Manages
+    compliance across Exchange Online, SharePoint, OneDrive, Teams, and Azure services.
+  why: >-
+    Organizations using Microsoft 365 must comply with regulations including GDPR, HIPAA,
+    SOX, PCI DSS, and industry-specific frameworks. The Compliance Center provides a unified
+    interface for managing compliance obligations across Microsoft cloud services. Compliance
+    Manager automates assessment scoring and provides improvement actions. DLP policies
+    prevent sensitive data exfiltration. Audit logs enable investigation of security incidents
+    and compliance violations.
+  how: >-
+    Compliance Manager uses pre-built assessment templates mapping to regulatory frameworks
+    (GDPR, HIPAA, NIST 800-53, ISO 27001) and calculates compliance scores based on completed
+    improvement actions. DLP policies use content inspection, sensitive information types
+    (regex, keyword, ML classifiers), and context rules to detect and block sensitive data
+    sharing. Information protection applies sensitivity labels with encryption and access
+    controls. Retention policies enforce data lifecycle management. eDiscovery provides legal
+    hold, search, and export capabilities across Microsoft 365 content stores.
+  core_concepts:
+    - key: "Compliance Score"
+      value: "Automated compliance assessment scoring based on completed improvement actions mapped to regulatory framework requirements"
+    - key: "Data Loss Prevention"
+      value: "Content inspection policies detect and block sensitive data sharing across email, SharePoint, Teams, and endpoint activities"
+    - key: "Unified Compliance Management"
+      value: "Single platform managing compliance obligations across all Microsoft 365 services and Azure environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-SEC-AZURSENT-001"
+    description: "Security Compliance Center integrates with Microsoft Sentinel for security and compliance event correlation"
+  - type: "is_a"
+    target: "INFRA-SEC-CYBESENS-001"
+    description: "Compliance Center functions as a compliance monitoring sensor across Microsoft cloud services"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft - Purview Compliance Portal Documentation"
+    - "Microsoft - Compliance Manager Overview"
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls"
+  search_keywords:
+    - "Security Compliance Center"
+    - "Microsoft Purview"
+    - "Compliance Manager"
+    - "Microsoft 365 compliance"
+    - "DLP policy"
+    - "eDiscovery"
+    - "compliance score"
+    - "information protection"
+  embedding_text: >-
+    Security Compliance Center (Microsoft Purview Compliance Portal) provides centralized
+    compliance management for Microsoft 365 and Azure. Features Compliance Manager with
+    automated assessment scoring, DLP policies for sensitive data protection, information
+    labeling with encryption, retention management, eDiscovery, insider risk management,
+    and audit log search. Pre-built templates map to GDPR, HIPAA, SOX, PCI DSS, NIST, and
+    ISO 27001. DLP uses content inspection with regex, keywords, and ML classifiers. Manages
+    compliance across Exchange, SharePoint, OneDrive, Teams, and Azure services.

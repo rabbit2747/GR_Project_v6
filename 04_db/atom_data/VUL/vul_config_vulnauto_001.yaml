@@ -1,0 +1,109 @@
+# GR Atom: Vulnerable AutoRun
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-VULNAUTO-001"
+  name: "Vulnerable AutoRun"
+  normalized_name: "vulnerable_autorun"
+  aliases:
+    - "AutoRun Misconfiguration"
+    - "Insecure AutoStart Configuration"
+    - "Autorun Exploitation Vector"
+    - "Startup Script Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - PERSIST
+    - EXEC
+    - WINDOWS
+    - LINUX
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows AutoRun/AutoPlay"
+    - "Windows Registry Run Keys"
+    - "Linux Init Scripts"
+    - "Cron Jobs and Systemd Services"
+    - "macOS Launch Agents/Daemons"
+
+definition:
+  what: >-
+    Vulnerable AutoRun is a vulnerability class where automatic execution mechanisms (autorun, startup
+    scripts, scheduled tasks, init systems) are misconfigured in ways that allow attackers to achieve
+    code execution or persistence. This includes writable autorun locations, insecure permissions on
+    startup scripts, Windows AutoRun/AutoPlay enabled for removable media, misconfigured registry run
+    keys, writable cron jobs or systemd unit files, and launch agents/daemons with insufficient
+    access controls.
+  why: >-
+    Automatic execution mechanisms are fundamental to system operation, running critical services and
+    processes at boot time or on specific triggers. When these mechanisms have insecure configurations
+    or permissions, they provide reliable persistence and privilege escalation vectors for attackers.
+    Malware has historically exploited Windows AutoRun on USB drives for propagation (Conficker, Stuxnet).
+    Misconfigured startup scripts and cron jobs continue to be common privilege escalation and
+    persistence vectors found during penetration tests and incident response investigations.
+  how: >-
+    On Windows, attackers exploit: AutoRun/AutoPlay for removable media to auto-execute malware;
+    writable Registry Run key locations to add persistent executables; writable startup folder entries
+    for user or system-level persistence. On Linux, attackers exploit: writable cron job files or
+    crontab directories for scheduled execution; misconfigured systemd unit files that load attacker-
+    controlled binaries; writable init.d scripts for boot-level persistence; writable profile scripts
+    (.bashrc, /etc/profile.d/) for user login execution. Mitigation includes disabling AutoRun for
+    removable media, restricting write permissions on startup locations, auditing scheduled tasks and
+    services, implementing application whitelisting, and monitoring autostart locations for changes.
+  core_concepts:
+    - key: "Automatic Execution Abuse"
+      value: "Exploiting operating system mechanisms designed for legitimate automatic program execution to achieve malicious code execution and persistence"
+    - key: "Boot and Login Persistence"
+      value: "Placing malicious code in autostart locations ensures execution on every system boot or user login without user interaction"
+    - key: "Permission-Based Exploitation"
+      value: "Insecure file system permissions on autostart locations enable unprivileged users to modify what executes with elevated privileges"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Vulnerable AutoRun is a class of configuration vulnerability in system automatic execution mechanisms"
+  - type: enables
+    target: "ATK-PERSIST-AUTOSTART-001"
+    description: "Misconfigured autorun mechanisms enable persistent malware execution across system reboots and user logins"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547"
+    tactic: ["Persistence", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK T1547 - Boot or Logon Autostart Execution"
+    - "CWE-428 - Unquoted Search Path or Element"
+    - "Microsoft Security - Disable AutoRun"
+    - "CIS Benchmarks - Autostart Security Hardening"
+  search_keywords:
+    - "vulnerable autorun"
+    - "autorun misconfiguration"
+    - "startup script vulnerability"
+    - "autostart persistence"
+    - "registry run keys"
+    - "cron job exploitation"
+    - "systemd unit vulnerability"
+    - "Windows AutoPlay exploit"
+  embedding_text: >-
+    Vulnerable AutoRun is a vulnerability class where automatic execution mechanisms are misconfigured,
+    enabling code execution and persistence. Includes writable autorun locations, insecure startup
+    script permissions, Windows AutoRun/AutoPlay enabled for removable media, misconfigured registry
+    run keys, writable cron jobs and systemd unit files, and launch agents with insufficient access
+    controls. Historically exploited by malware (Conficker, Stuxnet) for USB propagation. Common
+    privilege escalation and persistence vector in penetration tests. Mitigation includes disabling
+    removable media AutoRun, restricting permissions on startup locations, auditing scheduled tasks,
+    and implementing application whitelisting. Maps to MITRE ATT&CK T1547 Boot or Logon Autostart Execution.

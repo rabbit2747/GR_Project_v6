@@ -1,0 +1,78 @@
+# GR Atom: Captive Portal Domains
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-CAPPORDOM-001"
+  name: "Captive Portal Domains"
+  normalized_name: "captive_portal_domains"
+  aliases:
+    - "Captive Portal"
+    - "Walled Garden Domains"
+    - "Hotspot Login Portal"
+    - "Network Access Portal"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - AUTHN
+    - DNS
+    - CONFIG
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "N3.2"
+
+definition:
+  what: "Captive Portal Domains are DNS domain names and associated web endpoints used by captive portal systems to intercept and redirect network traffic from unauthenticated users to a login or terms-of-service acceptance page before granting full network access. These domains are pre-authorized in the network firewall and DNS configuration (the walled garden) so that clients can reach the authentication portal even before they have been granted network access. Operating systems and browsers use specific captive portal detection domains such as connectivitycheck.gstatic.com for Android, captive.apple.com for Apple devices, and msftconnecttest.com for Windows to automatically detect when a captive portal is present."
+  why: "Captive portal domains are critical for controlling network access in environments such as hotels, airports, corporate guest networks, and public Wi-Fi hotspots. They provide a mechanism to enforce authentication, display acceptable use policies, collect payment information, or limit bandwidth before allowing full internet access. From a security perspective, captive portal domain configurations define the attack surface for network access control bypass and are relevant for understanding how threat actors may exploit or impersonate these endpoints to conduct phishing or man-in-the-middle attacks."
+  how: "When a client device connects to a network with a captive portal, the network infrastructure intercepts DNS queries and HTTP requests, redirecting them to the portal domain. The device operating system performs captive portal detection by attempting to reach known detection URLs. If the response does not match the expected result, the OS presents the captive portal login page. The walled garden configuration allows only traffic to approved captive portal domains and essential services like DHCP and DNS while blocking all other traffic. After successful authentication, the firewall rules are updated to grant the client full or policy-restricted network access."
+  core_concepts:
+    - key: "Walled Garden"
+      value: "The set of pre-authorized domains and IP addresses accessible to unauthenticated clients, containing only the captive portal itself and essential network services"
+    - key: "Captive Portal Detection"
+      value: "Automated mechanism used by operating systems to detect captive portals by sending HTTP requests to known test URLs and checking for expected responses"
+    - key: "Network Access Control"
+      value: "The enforcement mechanism that restricts unauthenticated client traffic to walled garden resources until authentication or policy acceptance completes"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Captive portal systems depend on DNS interception and resolution to redirect unauthenticated clients to the portal domain"
+  - type: enables
+    target: "INFRA-NET-WIRACCPOI-001"
+    description: "Captive portal domains enable guest access control on wireless access points in public and enterprise networks"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "Captive portal infrastructure is typically deployed within the DMZ to handle untrusted guest traffic"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557.002"
+    tactic: ["Credential Access", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "RFC 7710 - Captive-Portal Identification Using DHCP or Router Advertisements - https://datatracker.ietf.org/doc/html/rfc7710"
+    - "Apple - Captive Portal Detection - https://developer.apple.com/news/?id=q78sq5rv"
+    - "NIST SP 800-153 - Guidelines for Securing Wireless Local Area Networks"
+  search_keywords:
+    - "captive portal"
+    - "captive portal domains"
+    - "walled garden"
+    - "hotspot login"
+    - "network access portal"
+    - "captive portal detection"
+    - "guest network authentication"
+    - "portal redirect"
+  embedding_text: "Captive Portal Domains are DNS domain names and web endpoints used by captive portal systems to intercept and redirect unauthenticated network traffic to a login or acceptance page before granting full network access. They define the walled garden of pre-authorized destinations accessible to clients before authentication. Operating systems use specific detection domains like captive.apple.com and msftconnecttest.com to automatically identify captive portals. These systems are widely deployed in hotels, airports, corporate guest networks, and public Wi-Fi to enforce authentication, display usage policies, and control access. Security considerations include the potential for portal impersonation, DNS spoofing, and man-in-the-middle attacks targeting the authentication flow."

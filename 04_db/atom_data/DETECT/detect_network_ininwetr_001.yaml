@@ -1,0 +1,93 @@
+# GR Atom: Inbound Internet Web Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-ININWETR-001"
+  name: "Inbound Internet Web Traffic"
+  normalized_name: "inbound_internet_web_traffic"
+  aliases:
+    - "Inbound HTTP/HTTPS Traffic"
+    - "Incoming Web Request Detection"
+    - "Web Server Traffic Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - WAF
+    - MONITOR
+    - IDS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern for monitoring all web traffic (HTTP and HTTPS) arriving from the internet to organization-hosted web services. This encompasses requests to web applications, APIs, content delivery endpoints, and web-based services. The pattern provides visibility into the web attack surface and detects web application attacks, bot activity, credential abuse, and reconnaissance targeting public-facing web infrastructure."
+  why: "Web applications and APIs are the primary internet-facing attack surface for most organizations. Inbound web traffic carries the full spectrum of web-based threats including OWASP Top 10 attacks, automated scanning, credential stuffing, API abuse, and web-based C2 communications. Comprehensive monitoring of inbound web traffic is essential for protecting web applications and detecting exploitation attempts before they succeed."
+  how: "Detection captures HTTP/HTTPS traffic at web application firewalls, reverse proxies, load balancers, and network sensors. Analysis examines request characteristics including methods, URIs, headers, parameters, and payloads for attack signatures. Behavioral analysis identifies anomalous request rates, unusual geographic origins, suspicious user-agent patterns, and automated tool fingerprints. Rate limiting and throttling detect brute force and credential stuffing. URL categorization and path analysis identify reconnaissance and directory enumeration attempts."
+  core_concepts:
+    - key: "Web Attack Surface Visibility"
+      value: "Comprehensive monitoring of all HTTP/HTTPS traffic reaching public-facing web services."
+    - key: "Request Analysis"
+      value: "Deep inspection of web requests including methods, URIs, headers, and parameters for attack indicators."
+    - key: "Bot and Automation Detection"
+      value: "Identifying automated web traffic including scanners, scrapers, and credential stuffing tools."
+    - key: "Web Application Protection"
+      value: "Detecting OWASP Top 10 threats and application-specific attack patterns in inbound web traffic."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-ININNETR-001"
+    description: "Inbound web traffic is a specific type of inbound internet network traffic"
+  - type: requires
+    target: "DETECT-NETWORK-HTTP-001"
+    description: "Requires HTTP event analysis for web traffic inspection"
+  - type: enables
+    target: "DETECT-NETWORK-ININENWETR-001"
+    description: "Web traffic monitoring enables specific encrypted web traffic detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exploit Public-Facing Application T1190"
+    - "OWASP - Web Application Security Testing Guide"
+    - "SANS Institute - Web Traffic Analysis"
+  search_keywords:
+    - "inbound web traffic"
+    - "HTTP traffic monitoring"
+    - "web request detection"
+    - "web server traffic"
+    - "incoming web traffic"
+    - "web application monitoring"
+    - "HTTP ingress"
+    - "web attack surface"
+    - "inbound HTTP"
+    - "web traffic analysis"
+  embedding_text: "Inbound internet web traffic detection monitors all HTTP and HTTPS traffic arriving from the internet to organization-hosted web applications, APIs, and services. It analyzes request characteristics including methods, URIs, headers, and parameters for attack signatures, identifies automated bot traffic and credential stuffing, and detects OWASP Top 10 threats. This pattern provides comprehensive visibility into the web attack surface and serves as the foundation for protecting public-facing web infrastructure from exploitation, reconnaissance, and application-layer attacks."

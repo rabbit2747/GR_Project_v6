@@ -1,0 +1,114 @@
+# GR Atom: CVE-2017-12617
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE201712617-001"
+  name: "CVE-2017-12617"
+  normalized_name: "cve_2017_12617"
+  aliases:
+    - "Apache Tomcat PUT JSP Upload RCE"
+    - "Tomcat Readonly Init Parameter Bypass"
+    - "Tomcat JSP Upload Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - UPLOAD
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache Tomcat 7.0.x before 7.0.82"
+    - "Apache Tomcat 8.0.x before 8.0.47"
+    - "Apache Tomcat 8.5.x before 8.5.23"
+    - "Apache Tomcat 9.0.x before 9.0.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-12617 is a remote code execution vulnerability in Apache Tomcat that allows
+    attackers to upload and execute JSP files when the HTTP PUT method is enabled and the
+    readonly initialization parameter of the default servlet is set to false. Attackers can
+    upload a JSP file containing arbitrary code using a specially crafted PUT request. The
+    CVSS v3 base score is 8.1 and it was disclosed in October 2017 affecting all major
+    Tomcat branches.
+  why: >-
+    Apache Tomcat is the most widely deployed Java servlet container, running millions of web
+    applications globally. While the vulnerability requires a non-default configuration
+    (readonly=false), this setting is commonly enabled for WebDAV functionality or file
+    management features. The ability to upload executable JSP files provides a direct path
+    to remote code execution on the server.
+  how: >-
+    Attackers send HTTP PUT requests to upload a JSP file to the Tomcat web application
+    directory. The request uses a crafted filename (typically with a trailing slash or special
+    characters to bypass filename checks) that the server processes and stores as a valid JSP
+    file. Once uploaded, the attacker accesses the JSP file through a standard HTTP GET
+    request, causing Tomcat to compile and execute the JSP code. This enables arbitrary
+    command execution on the server. Mitigation requires setting readonly=true on the default
+    servlet and upgrading to patched Tomcat versions.
+  core_concepts:
+    - key: "PUT Method Upload"
+      value: "HTTP PUT method used to write files to the server when the default servlet readonly parameter is disabled"
+    - key: "JSP Execution"
+      value: "Uploaded JSP files are compiled and executed by the Tomcat container when accessed via HTTP, enabling server-side code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "JSP file upload to Tomcat is a specific instance of injection through file upload"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20163088-001"
+    description: "Both involve HTTP PUT file upload leading to web shell execution on Java application servers"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2017-12617"
+  cvss_score: 8.1
+  affected_product: "Apache Tomcat 7.0.x/8.0.x/8.5.x/9.0.x"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-12617"
+    - "CWE-434 Unrestricted Upload of File with Dangerous Type"
+    - "Apache Tomcat Security Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-12617"
+    - "Apache Tomcat PUT upload"
+    - "Tomcat JSP upload RCE"
+    - "Tomcat readonly bypass"
+    - "Tomcat remote code execution"
+    - "Java servlet container vulnerability"
+    - "Tomcat web shell upload"
+  embedding_text: >-
+    CVE-2017-12617 is a remote code execution vulnerability in Apache Tomcat with CVSS score
+    8.1 that allows JSP file upload via HTTP PUT when the readonly parameter is false. Affecting
+    Tomcat versions 7.0.x through 9.0.x, attackers upload crafted JSP web shells using PUT
+    requests with special filename characters to bypass validation. The uploaded JSP executes
+    when accessed via HTTP GET, enabling arbitrary command execution. Apache Tomcat is the
+    most widely deployed Java servlet container globally. While requiring non-default
+    configuration, the readonly=false setting is commonly enabled for WebDAV support.
+    Mitigation requires setting readonly=true and upgrading to patched Tomcat versions.

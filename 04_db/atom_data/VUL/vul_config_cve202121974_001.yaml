@@ -1,0 +1,75 @@
+# GR Atom: CVE-2021-21974
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202121974-001"
+  name: "CVE-2021-21974"
+  normalized_name: "cve_2021_21974"
+  aliases:
+    - "VMware ESXi OpenSLP Heap Overflow"
+    - "ESXiArgs Ransomware Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - VMWARE
+    - OVERFLOW
+
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "VMware ESXi 7.0 before ESXi70U1c-17325551"
+    - "VMware ESXi 6.7 before ESXi670-202102401-SG"
+    - "VMware ESXi 6.5 before ESXi650-202102101-SG"
+
+definition:
+  what: "CVE-2021-21974 is a remote code execution vulnerability in VMware ESXi caused by a heap-overflow in the OpenSLP (Service Location Protocol) service. An attacker with network access to port 427 on an ESXi host can exploit this vulnerability to achieve remote code execution. The OpenSLP service is enabled by default on ESXi installations."
+  why: "This vulnerability gained widespread notoriety when it was massively exploited in the February 2023 ESXiArgs ransomware campaign that affected thousands of ESXi servers worldwide. VMware ESXi is the dominant enterprise hypervisor platform, and compromising it provides access to all virtual machines running on the host. The vulnerability was particularly impactful because OpenSLP was enabled by default and many ESXi hosts had port 427 exposed to the network. CISA added it to the Known Exploited Vulnerabilities catalog."
+  how: "The vulnerability exists in the OpenSLP service (slpd) running on ESXi port 427/tcp. A specially crafted SLP packet triggers a heap buffer overflow in the SLP message parsing code, allowing the attacker to overwrite heap metadata and achieve arbitrary code execution as the SLP service user. The ESXiArgs ransomware campaign automated exploitation at scale, encrypting .vmx, .vmdk, and .vmxf files on vulnerable ESXi hosts. Mitigation involves disabling OpenSLP or applying VMware patches. CVSS v3: 8.8 (High)."
+  core_concepts:
+    - key: "OpenSLP Heap Overflow"
+      value: "Buffer overflow in ESXi's Service Location Protocol service that allows remote code execution through malformed SLP packets on port 427"
+    - key: "ESXiArgs Ransomware Campaign"
+      value: "Mass exploitation campaign in February 2023 that used CVE-2021-21974 to encrypt virtual machine files on thousands of internet-exposed ESXi servers worldwide"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2021-21974 is exploitable due to OpenSLP being enabled by default in ESXi configuration"
+  - type: applies_to
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "The vulnerability applies to ESXi as a vulnerable application with default-enabled services"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic: ["Lateral Movement", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2021-21974 - NVD NIST"
+    - "VMware Security Advisory VMSA-2021-0002"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+    - "ESXiArgs Ransomware Analysis Reports"
+  search_keywords:
+    - "CVE-2021-21974"
+    - "ESXi OpenSLP"
+    - "ESXiArgs ransomware"
+    - "VMware ESXi vulnerability"
+    - "ESXi heap overflow"
+    - "ESXi remote code execution"
+    - "VMware SLP vulnerability"
+    - "ESXi ransomware"
+  embedding_text: "CVE-2021-21974 is a remote code execution vulnerability in VMware ESXi caused by a heap-overflow in the OpenSLP service on port 427. OpenSLP is enabled by default on ESXi installations. This vulnerability was massively exploited in the February 2023 ESXiArgs ransomware campaign affecting thousands of ESXi servers worldwide. Compromising ESXi provides access to all virtual machines on the host. CVSS v3 score is 8.8 High. CISA added it to the Known Exploited Vulnerabilities catalog. Mitigation involves disabling OpenSLP or applying VMware patches. Maps to MITRE ATT&CK T1210 Exploitation of Remote Services."

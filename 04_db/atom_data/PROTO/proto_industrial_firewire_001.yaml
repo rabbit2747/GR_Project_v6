@@ -1,0 +1,136 @@
+# GR Atom: FireWire
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-FIREWIRE-001"
+  name: "FireWire"
+  normalized_name: "firewire"
+  aliases:
+    - "IEEE 1394"
+    - "i.LINK"
+    - "FireWire 400"
+    - "FireWire 800"
+    - "IEEE 1394b"
+    - "DV Interface"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - ICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z0A", "Z0B", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FireWire (IEEE 1394) is a high-speed serial bus interface standard providing isochronous
+    real-time data transfer, originally developed by Apple and standardized by IEEE. FireWire 400
+    (IEEE 1394a) supports 400 Mbps and FireWire 800 (IEEE 1394b) supports 800 Mbps. The protocol
+    features peer-to-peer connectivity without a host controller, hot-plugging, and Direct Memory
+    Access (DMA) that allows connected devices to read and write host system memory directly
+    without CPU involvement. FireWire was widely used for video capture, audio production,
+    external storage, and industrial data acquisition systems. While largely superseded by USB 3.x
+    and Thunderbolt for consumer use, FireWire persists in legacy industrial, audio/video
+    production, and embedded systems.
+  why: >-
+    FireWire's Direct Memory Access (DMA) capability represents a critical physical access
+    security vulnerability. Any device connected to a FireWire port can read and write the
+    host's physical memory directly, bypassing the operating system, CPU, and all software-based
+    security controls. This DMA attack enables: complete memory dumping for credential extraction
+    (encryption keys, passwords, authentication tokens), code injection directly into kernel
+    memory for privilege escalation, bypassing full-disk encryption by extracting keys from
+    memory, and defeating screen locks and authentication mechanisms. Forensic tools (Inception,
+    PCILeech) exploit FireWire DMA for both legitimate forensic acquisition and malicious
+    attacks. The attack requires only physical access to an exposed FireWire port. FireWire
+    DMA attacks were the precursor to modern Thunderbolt/PCIe DMA attacks and remain relevant
+    in environments with legacy hardware.
+  how: >-
+    FireWire DMA operates through the OHCI (Open Host Controller Interface) specification:
+    (1) FireWire's peer-to-peer architecture grants any connected device bus mastering capability;
+    (2) the OHCI controller provides direct physical memory access mapped through the FireWire
+    address space (48-bit addressing); (3) a malicious device sends read/write requests to
+    arbitrary physical memory addresses without OS mediation; (4) the OHCI controller translates
+    FireWire addresses to host physical addresses and performs the DMA transfer. Attack tools
+    include: Inception (automated memory attack over FireWire/Thunderbolt), PCILeech (DMA attack
+    framework), and forensics tools using firewire_ohci drivers. Mitigations include: disabling
+    FireWire ports in BIOS/UEFI on systems not requiring them, implementing IOMMU (Intel VT-d,
+    AMD-Vi) to restrict DMA to authorized memory regions, removing or physically blocking
+    FireWire ports on publicly accessible workstations, using DMA protection features in modern
+    operating systems (Windows Kernel DMA Protection, macOS DMA restrictions), and monitoring
+    for unauthorized FireWire device connections.
+  core_concepts:
+    - key: "DMA Attack"
+      value: >-
+        An attack exploiting FireWire's Direct Memory Access capability to read or write host
+        physical memory directly from a connected device, bypassing all software security
+        controls including OS access controls, encryption, and authentication mechanisms.
+    - key: "Physical Memory Extraction"
+      value: >-
+        The forensic or attack technique of dumping the host system's entire physical memory
+        through FireWire DMA, enabling extraction of encryption keys, credentials, and
+        sensitive data that exists in memory but may not be accessible through software APIs.
+    - key: "IOMMU Protection"
+      value: >-
+        Hardware-based memory access control (Intel VT-d, AMD-Vi) that restricts DMA
+        operations to authorized memory regions, preventing FireWire and other DMA-capable
+        interfaces from accessing arbitrary physical memory addresses.
+    - key: "Bus Mastering"
+      value: >-
+        The capability of FireWire devices to initiate data transfers on the bus without CPU
+        involvement, a fundamental architectural feature that enables both the protocol's
+        performance advantages and its DMA security vulnerabilities.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "FireWire is a legacy interface protocol within the industrial and legacy protocol family with DMA security implications"
+  - type: "enables"
+    target: "PROTO-INDUSTRIAL-ETHERCAT-001"
+    description: "FireWire interfaces are used in some legacy industrial data acquisition configurations that may interface with modern fieldbus systems"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IEEE 1394-2008 - IEEE Standard for a High-Performance Serial Bus. IEEE."
+    - "Dornseif, M. (2004). Owned by an iPod: Firewire/1394 Issues. PacSec 2004."
+    - "Inception - FireWire/Thunderbolt Physical Memory Manipulation. https://github.com/carmaa/inception"
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls. SC-41 Sensor Capability and Data."
+  search_keywords:
+    - "FireWire"
+    - "IEEE 1394"
+    - "FireWire DMA attack"
+    - "DMA attack"
+    - "physical memory access"
+    - "FireWire security"
+    - "DMA exploitation"
+    - "Inception tool"
+    - "PCILeech"
+    - "IOMMU"
+    - "bus mastering attack"
+    - "memory forensics FireWire"
+  embedding_text: >-
+    FireWire (IEEE 1394) is a high-speed serial bus providing Direct Memory Access (DMA) that
+    allows connected devices to read and write host physical memory without CPU involvement or
+    OS mediation. This DMA capability is a critical physical access vulnerability enabling
+    complete memory dumping for credential extraction, code injection into kernel memory, bypass
+    of full-disk encryption, and defeat of authentication mechanisms. Forensic and attack tools
+    (Inception, PCILeech) exploit FireWire DMA for memory acquisition and manipulation.
+    Mitigations include disabling FireWire ports, implementing IOMMU hardware memory protection,
+    physical port blocking, and OS-level DMA restrictions. While largely superseded by USB and
+    Thunderbolt for consumer use, FireWire persists in legacy industrial and audio/video systems.
+    FireWire DMA attacks were precursors to modern Thunderbolt/PCIe DMA vulnerabilities.

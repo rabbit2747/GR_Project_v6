@@ -1,0 +1,92 @@
+# GR Atom: Romeo Delta
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-ROMEDELT-001"
+  name: "Romeo Delta"
+  normalized_name: "romeo_delta"
+  aliases:
+    - "Dropping Elephant"
+    - "Patchwork"
+    - "Chinastrats"
+    - "Monsoon"
+    - "APT-C-09"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Romeo Delta, also known as Patchwork or Dropping Elephant, is an India-nexus advanced persistent threat group active since at least 2015. The group primarily targets government agencies, military organizations, diplomatic entities, and think tanks in Pakistan, China, Bangladesh, Sri Lanka, and other South Asian nations. Romeo Delta is notable for its practice of copying and combining code from various publicly available sources and other threat groups' tools, earning it the name Patchwork."
+  why: "Romeo Delta is significant as one of the most active South Asian threat groups, demonstrating that APT operations do not require entirely bespoke tooling. The group's targeting patterns align with Indian strategic intelligence interests, particularly regarding neighboring nations' military capabilities, diplomatic positions, and defense activities. Despite using borrowed code, the group has demonstrated effective operational capabilities."
+  how: "Romeo Delta delivers weaponized documents via spear-phishing using themes related to Pakistani military affairs, diplomatic communications, and regional politics. The group exploits known vulnerabilities in Microsoft Office (particularly CVE-2017-0261 and CVE-2017-8570) and deploys a patchwork of tools including BADNEWS backdoor, QuasarRAT, and modified versions of publicly available malware. C2 communications often leverage compromised legitimate websites and legitimate cloud file hosting services."
+  core_concepts:
+    - key: "Code Reuse Strategy"
+      value: "Systematic copying and combining of code from public repositories, exploit frameworks, and other threat groups' tools to build operational capabilities"
+    - key: "South Asian Espionage"
+      value: "Focused intelligence collection on Pakistan, China, and other South Asian nations' military and diplomatic activities aligned with Indian strategic interests"
+    - key: "BADNEWS Backdoor"
+      value: "Primary custom backdoor deployed by the group for persistent remote access, data collection, and exfiltration from compromised systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "India-nexus APT group conducting regional espionage operations"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses spear-phishing with military and diplomatic themed documents for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - Dropping Elephant / Patchwork analysis"
+    - "Cymmetria - Patchwork group research"
+    - "MITRE ATT&CK - Patchwork"
+    - "Volexity - Patchwork APT analysis"
+  search_keywords:
+    - "romeo delta"
+    - "patchwork apt"
+    - "dropping elephant"
+    - "chinastrats"
+    - "monsoon"
+    - "apt-c-09"
+    - "india apt"
+    - "badnews backdoor"
+    - "south asia espionage"
+    - "code reuse apt"
+    - "pakistan targeting"
+  embedding_text: "Romeo Delta, also known as Patchwork or Dropping Elephant, is an India-nexus advanced persistent threat group active since at least 2015, targeting government agencies, military organizations, and diplomatic entities in Pakistan, China, and other South Asian nations. The group is notable for its practice of copying and combining code from public repositories and other threat groups' tools, deploying a mix including the BADNEWS backdoor and QuasarRAT. Romeo Delta delivers weaponized documents via spear-phishing with themes related to military affairs and regional politics, exploiting known Microsoft Office vulnerabilities. Its targeting patterns align with Indian strategic intelligence interests regarding neighboring nations' military and diplomatic activities."

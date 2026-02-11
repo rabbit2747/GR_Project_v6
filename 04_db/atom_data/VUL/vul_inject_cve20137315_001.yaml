@@ -1,0 +1,112 @@
+# GR Atom: CVE-2013-7315
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20137315-001"
+  name: "CVE-2013-7315"
+  normalized_name: "cve_2013_7315"
+  aliases:
+    - "Spring Framework XXE Bypass"
+    - "Spring OXM XXE Incomplete Fix"
+    - "Spring SourceHttpMessageConverter XXE Regression"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - XXE
+    - WEB
+    - INFO_LEAK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Spring Framework 3.2.x before 3.2.4"
+    - "Spring Framework 4.0.0.M1"
+    - "Spring OXM module"
+    - "Spring MVC SourceHttpMessageConverter"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-7315 is an XML External Entity (XXE) injection vulnerability in Spring Framework
+    that represents an incomplete fix for CVE-2013-4152. The SourceHttpMessageConverter in
+    Spring Framework versions before 3.2.4 and 4.0.0.M1-4.0.0.M2 still does not properly
+    disable external entity resolution, allowing the same class of XXE attacks. The CVSS v2
+    base score is 6.8 and it was assigned in 2014 as a follow-up to the earlier CVE.
+  why: >-
+    Incomplete security patches are a common pattern that leaves organizations vulnerable
+    even after applying updates. This CVE demonstrates how the initial fix for CVE-2013-4152
+    was insufficient, meaning organizations that promptly patched were still exposed to XXE
+    attacks. Spring Framework's massive adoption means even brief windows of vulnerability
+    expose millions of applications to data exfiltration risks.
+  how: >-
+    The exploitation technique is identical to CVE-2013-4152. Attackers send XML payloads with
+    external entity declarations to Spring endpoints using the SourceHttpMessageConverter. The
+    initial patch failed to cover all code paths for entity resolution, allowing attackers to
+    bypass the fix using alternative XML constructs or entity types. The server resolves
+    external entities, enabling file reading and SSRF. Complete mitigation requires upgrading
+    to Spring Framework 3.2.4 or later where the fix was fully implemented.
+  core_concepts:
+    - key: "Incomplete Patch"
+      value: "Security fix that fails to address all exploitation vectors, leaving residual vulnerability requiring additional remediation"
+    - key: "XXE Bypass"
+      value: "Technique to circumvent XXE mitigations by using alternative XML constructs that were not covered by the initial fix"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "VUL-INJECT-CVE20134152-001"
+    description: "CVE-2013-7315 supersedes the incomplete fix for CVE-2013-4152 in Spring Framework"
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "XXE injection bypass is a specific instance of injection vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2013-7315"
+  cvss_score: 6.8
+  affected_product: "Spring Framework 3.2.x/4.0.0.M1-M2"
+  year: 2014
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2013-7315"
+    - "CWE-611 Improper Restriction of XML External Entity Reference"
+    - "Spring Framework Security Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2013-7315"
+    - "Spring Framework XXE bypass"
+    - "Spring OXM incomplete fix"
+    - "Spring XXE regression"
+    - "SourceHttpMessageConverter vulnerability"
+    - "Spring XML entity injection"
+    - "incomplete security patch"
+  embedding_text: >-
+    CVE-2013-7315 is an XML External Entity injection vulnerability in Spring Framework
+    representing an incomplete fix for CVE-2013-4152. The SourceHttpMessageConverter still
+    allows external entity resolution through code paths not covered by the initial patch.
+    With CVSS score 6.8, this flaw demonstrates the incomplete patch pattern where
+    organizations that applied the first fix remained vulnerable. Exploitation is identical
+    to CVE-2013-4152 using crafted XML payloads to read server files or perform SSRF.
+    Spring Framework's massive deployment base means millions of applications were affected.
+    Complete remediation requires Spring Framework 3.2.4 or later. This vulnerability
+    underscores the importance of thorough security patch validation and regression testing.

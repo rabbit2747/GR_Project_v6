@@ -1,0 +1,79 @@
+# GR Atom: Red Curl
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDCURL-001"
+  name: "Red Curl"
+  normalized_name: "red_curl"
+  aliases:
+    - "RedCurl"
+    - "Earth Kapre"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "CRED"
+    - "EXFIL"
+    - "WINDOWS"
+    - "CLOUD"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "HR systems"
+    - "cloud email platforms"
+    - "Windows workstations"
+    - "file shares"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Curl (also known as RedCurl and Earth Kapre) is a Russian-speaking corporate espionage group identified by Group-IB in 2020 that has been active since at least 2018. Unlike typical state-sponsored APT groups, Red Curl specializes in targeted corporate espionage, stealing confidential business documents, employee records, legal documents, and financial information from private companies across construction, finance, consulting, retail, insurance, and legal sectors in multiple countries."
+  why: "Red Curl conducts corporate espionage for competitive intelligence purposes, targeting internal business documents that could provide commercial advantage. Stolen data includes staff records, court documents, financial records, internal communications, and proprietary business strategies. The group's targeting of diverse industries across multiple countries suggests a mercenary or commercially motivated operation rather than traditional nation-state intelligence priorities."
+  how: "Red Curl relies exclusively on custom tools and living-off-the-land techniques, avoiding the use of widely known malware families. Initial access is gained through carefully crafted spear-phishing emails with HR-themed lures (job offers, employee benefits, document reviews). The group deploys custom PowerShell scripts, uses cloud services for C2, and specializes in targeted file exfiltration. Red Curl demonstrates remarkable patience with operations spanning 2-6 months from initial compromise to data theft. They use custom DLL loaders, abuse Windows scheduled tasks for persistence, and exfiltrate data through cloud storage services."
+  core_concepts:
+    - "corporate espionage specialist"
+    - "HR-themed social engineering"
+    - "custom tooling only approach"
+    - "patient long-dwell operations"
+    - "commercial intelligence theft"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-MENUPASS-001"
+    description: "Both target corporate and private sector organizations, though with different national objectives"
+  - type: "enables"
+    target: "ACTOR-APT-MUDDYWATER-001"
+    description: "Shares PowerShell-heavy operational patterns though targeting different sectors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Group-IB - RedCurl: The Pentest You Didn't Know About (2020)"
+    - "Group-IB - RedCurl: The Awakening (2021)"
+    - "Trend Micro - Earth Kapre APT Analysis"
+  search_keywords:
+    - "red curl"
+    - "RedCurl"
+    - "earth kapre"
+    - "corporate espionage APT"
+    - "HR phishing campaign"
+    - "business document theft"
+    - "russian corporate espionage"
+    - "commercial intelligence"
+  embedding_text: "Red Curl is a Russian-speaking corporate espionage group also known as RedCurl and Earth Kapre, identified by Group-IB in 2020 and active since at least 2018. Unlike typical state-sponsored APT groups, Red Curl specializes in stealing confidential business documents, employee records, legal files, and financial information from private companies across construction, finance, consulting, retail, insurance, and legal sectors. The group relies exclusively on custom tools and living-off-the-land techniques, gaining initial access through HR-themed spear-phishing with job offer and employee benefit lures. Operations demonstrate patience spanning 2-6 months from initial compromise to data theft. Custom PowerShell scripts, cloud-based C2, Windows scheduled task persistence, and targeted file exfiltration through cloud storage characterize their tradecraft. Red Curl represents a distinct category of APT focused on commercial intelligence rather than traditional state espionage objectives."

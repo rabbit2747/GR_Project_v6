@@ -1,0 +1,119 @@
+# GR Atom: OpenOffice
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-OPENOFFICE-001"
+  name: "OpenOffice"
+  normalized_name: "openoffice"
+  aliases:
+    - "Apache OpenOffice"
+    - "OpenOffice.org"
+    - "OOo"
+    - "AOO"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - INJ
+    - WINDOWS
+    - LINUX
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Apache OpenOffice is a free, open-source office productivity suite maintained by the Apache
+    Software Foundation. It includes Writer (word processing), Calc (spreadsheets), Impress
+    (presentations), Draw (vector graphics), Base (databases), and Math (formula editor).
+    OpenOffice supports ODF and Microsoft Office formats and includes a macro system based on
+    StarBasic. Originally developed as StarOffice by Sun Microsystems, it was the predecessor
+    to LibreOffice, which forked in 2010. OpenOffice has significantly slower development
+    activity compared to LibreOffice.
+  why: >-
+    OpenOffice presents security risks as an office suite with declining maintenance and slower
+    security patch cadence compared to its LibreOffice fork. Like other office suites, OpenOffice
+    processes complex document formats that can contain embedded macros, OLE objects, and external
+    links creating exploitation vectors. The StarBasic macro engine can execute system commands
+    and access the filesystem. OpenOffice's slower development cycle means vulnerabilities may
+    remain unpatched longer than in LibreOffice. Crafted documents exploiting format parser
+    vulnerabilities or macro execution bypasses can achieve code execution on systems running
+    OpenOffice. Legacy installations may lack modern security mitigations.
+  how: >-
+    OpenOffice processes documents through format-specific parsers handling ODF, OOXML, RTF, and
+    legacy formats. The StarBasic macro engine executes scripts embedded in documents with
+    configurable security levels (disabled, medium with prompt, low). OLE objects and external
+    links can reference system resources. Document processing vulnerabilities target format
+    parsers for memory corruption and macro security bypasses for code execution without user
+    consent. Phishing campaigns deliver crafted documents with malicious macros targeting
+    OpenOffice users. The application's large C++ codebase and complex format parsing create
+    opportunities for buffer overflows and use-after-free vulnerabilities.
+  core_concepts:
+    - key: "Legacy Office Suite"
+      value: "Open-source office suite with declining development activity and slower security patch cadence compared to its LibreOffice fork"
+    - key: "Document-Based Exploitation"
+      value: "Processes complex document formats with embedded macros, OLE objects, and external links creating code execution vectors through crafted documents"
+    - key: "Macro Security Risks"
+      value: "StarBasic macro engine can execute system commands with configurable security levels that may be bypassed through vulnerability exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "precedes"
+    target: "INFRA-APP-LIBREOFFIC-001"
+    description: "OpenOffice was the predecessor to LibreOffice, which forked from OpenOffice.org in 2010 with more active development"
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "OpenOffice is an office productivity application deployed in enterprise and personal computing environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204.002"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Apache OpenOffice Security Advisories"
+    - "MITRE ATT&CK T1204.002 - Malicious File"
+    - "OpenOffice vs LibreOffice Security Comparison Analysis"
+  search_keywords:
+    - "OpenOffice"
+    - "Apache OpenOffice"
+    - "OpenOffice vulnerability"
+    - "OpenOffice macro"
+    - "OpenOffice exploit"
+    - "OpenOffice security"
+    - "StarBasic macro"
+    - "ODF security"
+  embedding_text: >-
+    Apache OpenOffice is a free open-source office productivity suite maintained by the Apache
+    Software Foundation, the predecessor to LibreOffice. It includes Writer, Calc, Impress, and
+    supports ODF and Microsoft Office formats with a StarBasic macro engine. OpenOffice presents
+    security risks due to declining development activity and slower security patch cadence compared
+    to LibreOffice. It processes complex document formats with embedded macros, OLE objects, and
+    external links creating exploitation vectors. The StarBasic engine can execute system commands
+    with configurable security levels vulnerable to bypass. Format parser vulnerabilities enable
+    memory corruption through crafted documents. Security teams should migrate to actively
+    maintained alternatives like LibreOffice, disable macros by default, restrict document
+    processing to trusted sources, and monitor for exploitation of known OpenOffice vulnerabilities.

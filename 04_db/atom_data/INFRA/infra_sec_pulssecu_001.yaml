@@ -1,0 +1,111 @@
+# GR Atom: Pulse Secure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-PULSSECU-001"
+  name: "Pulse Secure"
+  normalized_name: "pulse_secure"
+  aliases:
+    - "Pulse Connect Secure"
+    - "Ivanti Connect Secure"
+    - "Juniper SSL VPN"
+    - "Pulse Secure VPN"
+    - "ICS VPN"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - VPN
+    - NETWORK
+    - AUTHN
+    - WEB
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L3"
+  zone: "Z1"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Pulse Secure (now Ivanti Connect Secure) is an SSL VPN appliance providing remote access
+    to enterprise networks. Originally developed by Juniper Networks as SA Series SSL VPN,
+    acquired by Pulse Secure in 2014, then by Ivanti in 2020. Provides clientless browser-based
+    access and Pulse Secure client VPN tunnels. Deployed as hardware appliances, virtual
+    appliances, or cloud instances.
+  why: >-
+    Pulse Secure VPN appliances have been among the most heavily exploited network devices,
+    with critical vulnerabilities including CVE-2021-22893 (authentication bypass, zero-day
+    exploited by Chinese APT UNC2630/UNC2631), CVE-2019-11510 (arbitrary file read exposing
+    credentials), and CVE-2021-22937 (unrestricted file upload). These vulnerabilities enabled
+    mass exploitation campaigns affecting government agencies, defense contractors, and critical
+    infrastructure worldwide. CISA issued multiple emergency directives mandating immediate
+    patching.
+  how: >-
+    Pulse Secure operates as a reverse proxy for web applications and an SSL/TLS VPN gateway.
+    Users authenticate via SAML, RADIUS, LDAP, or certificate-based methods. The appliance
+    creates encrypted tunnels using SSL/TLS or ESP protocols. Role-based access control maps
+    users to resource policies. Host Checker validates endpoint compliance. The web interface
+    runs on a hardened Linux-based appliance OS. Integrity Checker Tool (ICT) was developed
+    post-breach to detect compromise indicators on appliances.
+  core_concepts:
+    - key: "Mass Exploitation Target"
+      value: "Pulse Secure VPN has been exploited in large-scale campaigns by Chinese APT groups targeting government and defense organizations"
+    - key: "Authentication Bypass"
+      value: "CVE-2021-22893 zero-day enabled unauthenticated remote code execution exploited by multiple Chinese threat actors"
+    - key: "Credential Exposure"
+      value: "CVE-2019-11510 allowed arbitrary file read enabling mass harvesting of cached plaintext credentials and session cookies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-SEC-GLOBPROT-001"
+    description: "Pulse Secure VPN is an alternative enterprise SSL VPN solution to Palo Alto GlobalProtect"
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "Pulse Secure VPN functions as a network security gateway controlling remote access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1133"
+    tactic:
+      - "Persistence"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Emergency Directive 21-03 - Pulse Connect Secure"
+    - "Mandiant - Exploitation of Pulse Connect Secure by UNC2630 and UNC2631"
+    - "Ivanti - Connect Secure Security Advisories"
+  search_keywords:
+    - "Pulse Secure"
+    - "Pulse Connect Secure"
+    - "Ivanti Connect Secure"
+    - "CVE-2021-22893"
+    - "CVE-2019-11510"
+    - "Pulse VPN vulnerability"
+    - "SSL VPN exploit"
+    - "Ivanti VPN"
+  embedding_text: >-
+    Pulse Secure (now Ivanti Connect Secure) is an SSL VPN appliance for enterprise remote
+    access. Originally Juniper SA Series, acquired by Pulse Secure then Ivanti. Among the most
+    heavily exploited network devices with CVE-2021-22893 zero-day exploited by Chinese APT
+    groups UNC2630/UNC2631, CVE-2019-11510 enabling mass credential harvesting, and
+    CVE-2021-22937 file upload vulnerability. CISA issued emergency directives. Affected
+    government agencies, defense contractors, and critical infrastructure globally. Provides
+    SSL VPN tunnels with SAML/RADIUS/LDAP authentication and host compliance checking.

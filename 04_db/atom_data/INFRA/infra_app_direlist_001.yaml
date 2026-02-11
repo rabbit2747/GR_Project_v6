@@ -1,0 +1,120 @@
+# GR Atom: Directory Listing Module
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-DIRELIST-001"
+  name: "Directory Listing Module"
+  normalized_name: "directory_listing_module"
+  aliases:
+    - "Directory Browsing"
+    - "Index of Directory"
+    - "Autoindex Module"
+    - "mod_autoindex"
+    - "IIS Directory Browsing"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CONFIG
+    - INFO_LEAK
+    - RECON
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Directory Listing Module is a web server component that automatically generates and serves
+    an HTML page displaying the contents of a directory when no default index file is present.
+    Implementations include Apache mod_autoindex, Nginx autoindex, and IIS Directory Browsing.
+    When enabled, the module enumerates files and subdirectories within the requested path and
+    presents them as a navigable listing to the client, often including file names, sizes,
+    modification dates, and MIME types.
+  why: >-
+    Enabled directory listing is a well-known information disclosure vulnerability that
+    exposes server file structure to attackers during reconnaissance. It can reveal backup
+    files, configuration files, source code, database dumps, and other sensitive artifacts
+    that should not be publicly accessible. Directory listing is consistently identified in
+    security assessments and is listed in OWASP security misconfigurations. Attackers use
+    exposed directory listings to discover hidden endpoints, identify technology stacks,
+    and locate sensitive files for further exploitation.
+  how: >-
+    The directory listing module intercepts HTTP requests for directories that lack a default
+    index file (index.html, default.htm, etc.). The module reads the filesystem directory
+    contents and generates an HTML response listing all accessible files and subdirectories.
+    In Apache, mod_autoindex handles this with configurable display options. In Nginx, the
+    autoindex directive controls this behavior. In IIS, Directory Browsing is a feature that
+    can be enabled per-site or per-directory. The module typically respects filesystem
+    permissions but may expose files that are readable by the web server process even if
+    not intended for public access.
+  core_concepts:
+    - key: "Automatic Directory Enumeration"
+      value: "Web server module that generates navigable HTML listings of directory contents when no default index document exists"
+    - key: "Information Disclosure Vector"
+      value: "Exposes server file structure, backup files, configuration data, and sensitive artifacts to attackers during reconnaissance"
+    - key: "Security Misconfiguration"
+      value: "OWASP-listed misconfiguration where directory browsing is enabled by default or left enabled in production deployments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "Directory listing is a module within web server applications like Apache, Nginx, and IIS"
+  - type: "enables"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "Directory listing can expose enterprise service files and configuration when misconfigured"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1083"
+    tactic:
+      - "Discovery"
+      - "Reconnaissance"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Security Misconfiguration - Directory Listing"
+    - "Apache mod_autoindex Documentation"
+    - "MITRE ATT&CK T1083 - File and Directory Discovery"
+    - "CWE-548 - Exposure of Information Through Directory Listing"
+  search_keywords:
+    - "directory listing"
+    - "directory browsing"
+    - "mod_autoindex"
+    - "autoindex vulnerability"
+    - "information disclosure"
+    - "directory enumeration"
+    - "index of directory"
+    - "web server misconfiguration"
+  embedding_text: >-
+    Directory Listing Module is a web server component that generates HTML pages displaying
+    directory contents when no default index file exists. Implementations include Apache
+    mod_autoindex, Nginx autoindex, and IIS Directory Browsing. Enabled directory listing
+    is a well-known security misconfiguration and information disclosure vulnerability
+    listed in OWASP guidelines. It exposes server file structure to attackers during
+    reconnaissance, revealing backup files, configuration data, source code, and database
+    dumps that should not be publicly accessible. Attackers leverage exposed listings to
+    discover hidden endpoints, identify technology stacks, and locate exploitable files.
+    The module should be disabled in production environments. Security teams should audit
+    web server configurations to ensure directory browsing is disabled and verify that
+    default index documents are present in all served directories.

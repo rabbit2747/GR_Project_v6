@@ -1,0 +1,73 @@
+# GR Atom: Bishop Fox
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-BISHFOX-001"
+  name: "Bishop Fox"
+  normalized_name: "bishop_fox"
+  aliases:
+    - "BishopFox"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Bishop Fox is a leading offensive security consulting firm founded in 2005, specializing in penetration testing, red team operations, application security assessments, and attack surface management. The firm conducts research into emerging vulnerabilities, develops open-source security tools, and publishes technical advisories on discovered weaknesses in widely deployed software and hardware. Bishop Fox is known for its continuous attack surface management platform and its contributions to offensive security research presented at major conferences."
+  why: "Bishop Fox is significant in the cybersecurity landscape because its offensive security research identifies critical vulnerabilities in enterprise software, cloud platforms, and network infrastructure before malicious actors can exploit them. Their published advisories and tools improve the overall security posture of organizations by enabling proactive defense and informed risk management."
+  how: "Bishop Fox operates through a team of offensive security specialists who perform manual and automated penetration testing, red team engagements, and vulnerability assessments. They develop custom tools and methodologies for attack surface discovery, publish responsible disclosure advisories, and share research findings at security conferences such as Black Hat and DEF CON."
+  core_concepts:
+    - key: "Penetration Testing"
+      value: "Authorized offensive security assessments to identify exploitable vulnerabilities in systems and applications"
+    - key: "Attack Surface Management"
+      value: "Continuous discovery and monitoring of external-facing assets for security exposures"
+    - key: "Offensive Security Research"
+      value: "Proactive vulnerability research and responsible disclosure of security flaws in widely used technologies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BLAHILINF-001"
+    description: "Fellow offensive security research and consulting organization"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Regularly presents vulnerability research findings at Black Hat conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security consulting firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://bishopfox.com"
+    - "https://bishopfox.com/blog"
+  search_keywords:
+    - "bishop fox"
+    - "penetration testing"
+    - "red team"
+    - "offensive security"
+    - "attack surface management"
+    - "vulnerability research"
+    - "security consulting"
+    - "application security"
+  embedding_text: "Bishop Fox is a leading offensive security consulting firm founded in 2005 that specializes in penetration testing, red team operations, application security assessments, and attack surface management. The firm conducts proactive vulnerability research, develops open-source security tools, and publishes technical advisories on discovered weaknesses in widely deployed enterprise software, cloud platforms, and network infrastructure. Bishop Fox operates through a team of offensive security specialists who perform manual and automated penetration testing and red team engagements, sharing their research findings at major conferences including Black Hat and DEF CON. Their continuous attack surface management platform and responsible disclosure practices make them a significant contributor to improving the overall security posture of organizations worldwide."

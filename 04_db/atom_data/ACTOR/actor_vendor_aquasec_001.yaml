@@ -1,0 +1,76 @@
+# GR Atom: Aqua Sec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-AQUASEC-001"
+  name: "Aqua Sec"
+  normalized_name: "aqua_sec"
+  aliases:
+    - "Aqua Security"
+    - "Aqua"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - CONTAINER
+    - CLOUD
+    - K8S
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Aqua Security is a cloud-native security vendor founded in 2015, specializing in securing containerized and serverless workloads across the full application lifecycle. The company provides container image scanning, runtime protection, Kubernetes security, serverless function security, and cloud security posture management. Aqua also maintains the open-source Trivy vulnerability scanner and the Tracee runtime security tool, and operates Team Nautilus, a threat research team focused on cloud-native attack vectors."
+  why: "Aqua Security is significant as a pioneer in cloud-native security, addressing the unique security challenges of containerized and serverless architectures that traditional security tools cannot effectively protect. Their open-source contributions, particularly Trivy, have become industry-standard tools for container vulnerability scanning, and their Team Nautilus research provides critical intelligence on threats targeting cloud-native infrastructure."
+  how: "Aqua operates through its cloud-native application protection platform that integrates with CI/CD pipelines for shift-left security, scans container images for vulnerabilities and misconfigurations, provides runtime protection using eBPF-based monitoring, enforces Kubernetes security policies, and manages cloud security posture. Their open-source tools Trivy and Tracee provide free vulnerability scanning and runtime security capabilities."
+  core_concepts:
+    - key: "Cloud-Native Security"
+      value: "Purpose-built security platform for containers, Kubernetes, serverless, and cloud-native applications"
+    - key: "Trivy Scanner"
+      value: "Industry-leading open-source vulnerability scanner for container images, filesystems, and infrastructure as code"
+    - key: "Runtime Protection"
+      value: "eBPF-based runtime monitoring and threat detection for containerized workloads in production"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-CONTAINER-SECURITY-001"
+    description: "Produces cloud-native security platform for container and Kubernetes workload protection"
+  - type: enables
+    target: "TOOL-SCAN-TRIVY-001"
+    description: "Develops and maintains the open-source Trivy vulnerability scanner"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.aquasec.com"
+    - "https://blog.aquasec.com"
+    - "https://github.com/aquasecurity/trivy"
+  search_keywords:
+    - "aqua security"
+    - "aqua sec"
+    - "container security"
+    - "trivy scanner"
+    - "kubernetes security"
+    - "cloud native security"
+    - "team nautilus"
+    - "tracee"
+    - "cspm"
+  embedding_text: "Aqua Security is a cloud-native security vendor founded in 2015, specializing in securing containerized and serverless workloads across the full application lifecycle. The company provides container image scanning, runtime protection, Kubernetes security, serverless function security, and cloud security posture management. Aqua maintains the widely-adopted open-source Trivy vulnerability scanner and the Tracee runtime security tool based on eBPF technology. Their Team Nautilus threat research team focuses on discovering and analyzing attacks targeting cloud-native infrastructure including container escape techniques, Kubernetes misconfigurations, and supply chain attacks. Aqua integrates with CI/CD pipelines for shift-left security, scans container images for vulnerabilities and misconfigurations, provides real-time runtime protection, and enforces Kubernetes security policies. As a pioneer in cloud-native security, Aqua addresses the unique challenges of containerized architectures that traditional security tools cannot effectively protect."

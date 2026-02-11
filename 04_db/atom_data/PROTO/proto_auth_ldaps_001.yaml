@@ -1,0 +1,143 @@
+# GR Atom: LDAPS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-LDAPS-001"
+  name: "LDAPS"
+  normalized_name: "ldaps"
+  aliases:
+    - "LDAP over SSL"
+    - "LDAP over TLS"
+    - "Secure LDAP"
+    - "LDAP SSL"
+    - "LDAP Port 636"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - LDAP
+    - TLS
+    - ENCRYPT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    LDAPS (LDAP over SSL/TLS) is the TLS-encrypted variant of the Lightweight Directory Access
+    Protocol that provides confidentiality and integrity for LDAP communications. LDAPS operates
+    on TCP port 636, establishing a TLS session before any LDAP operations are performed
+    (implicit TLS), in contrast to StartTLS which upgrades an existing cleartext LDAP connection
+    on port 389. LDAPS wraps the entire LDAP session within a TLS tunnel, protecting bind
+    credentials, search queries, directory responses, and modify operations from network
+    eavesdropping and tampering. Microsoft Active Directory supports both LDAPS (port 636) and
+    LDAP with StartTLS (port 389), with LDAPS requiring a valid server certificate issued to
+    the domain controller.
+  why: >-
+    Standard LDAP on port 389 transmits all data in cleartext, including bind credentials
+    (usernames and passwords), search queries, and directory responses containing sensitive
+    organizational and identity information. This creates severe security risks including
+    credential theft via network sniffing, man-in-the-middle attacks that modify directory
+    responses, and exposure of organizational structure and account details to passive
+    observers. LDAPS addresses these risks by encrypting the entire communication channel.
+    Microsoft deprecated unsigned and unencrypted LDAP binds, recommending LDAPS or LDAP
+    channel binding with signing. Regulatory frameworks including PCI DSS and HIPAA require
+    encryption of authentication credentials in transit, making LDAPS a compliance requirement
+    for directory services handling sensitive data.
+  how: >-
+    LDAPS establishes security through implicit TLS: (1) the client initiates a TCP connection
+    to port 636 on the LDAP server; (2) a TLS handshake occurs immediately, with the server
+    presenting its X.509 certificate; (3) the client validates the server certificate against
+    its trusted certificate authority chain, verifying the subject name matches the server
+    hostname; (4) upon successful TLS negotiation, all subsequent LDAP operations (bind,
+    search, modify) are encrypted within the TLS tunnel. Certificate requirements for Active
+    Directory LDAPS include a server authentication certificate (OID 1.3.6.1.5.5.7.3.1) with
+    the domain controller's FQDN in the subject or Subject Alternative Name. Organizations may
+    alternatively use StartTLS on port 389, which upgrades an existing cleartext connection to
+    TLS through an extended operation, allowing the same port to serve both encrypted and
+    unencrypted clients. LDAP channel binding (EPA) and LDAP signing provide additional
+    protection against relay attacks when used with LDAPS.
+  core_concepts:
+    - key: "Implicit TLS on Port 636"
+      value: >-
+        LDAPS uses implicit TLS, meaning the TLS handshake occurs immediately upon TCP
+        connection before any LDAP protocol data is exchanged. This contrasts with StartTLS on
+        port 389 where the LDAP session begins unencrypted and is upgraded to TLS through an
+        explicit protocol negotiation.
+    - key: "Certificate Validation"
+      value: >-
+        LDAPS clients must validate the server's X.509 certificate, verifying the certificate
+        chain to a trusted CA, checking that the subject name matches the server's FQDN, and
+        confirming the certificate has not expired or been revoked. Misconfigured certificate
+        validation is a common source of LDAPS implementation failures.
+    - key: "LDAP Channel Binding"
+      value: >-
+        An extension that binds the LDAP authentication to the underlying TLS channel, preventing
+        man-in-the-middle relay attacks where an attacker proxies LDAP authentication through
+        their own TLS session. Channel binding ensures the LDAP credential is only valid on the
+        specific TLS connection where it was presented.
+    - key: "StartTLS vs LDAPS"
+      value: >-
+        Two approaches to securing LDAP: LDAPS (port 636) uses implicit TLS from connection
+        start, while StartTLS (port 389) upgrades an existing cleartext connection. StartTLS
+        allows the same port for both encrypted and unencrypted access but is vulnerable to
+        downgrade attacks if not enforced. LDAPS provides simpler security guarantees since
+        the connection is always encrypted.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-LDLIDIAC-001"
+    description: "LDAPS is the TLS-encrypted variant of the LDAP protocol, adding transport security to all directory operations"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "LDAPS requires TLS to establish the encrypted tunnel that protects LDAP communications on port 636"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-LDLIDIAC-001"
+    description: "LDAPS on port 636 is the secure alternative to cleartext LDAP on port 389 for directory access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4513 - LDAP Authentication Methods and Security Mechanisms (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4513"
+    - "RFC 4511 - Lightweight Directory Access Protocol (LDAP): The Protocol (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4511"
+    - "Microsoft LDAP Channel Binding and LDAP Signing Requirements. Microsoft. https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/enable-ldap-signing-in-windows-server"
+    - "Microsoft Active Directory LDAPS Configuration Guide. Microsoft. https://learn.microsoft.com/en-us/troubleshoot/windows-server/active-directory/enable-ldap-over-ssl-3rd-certification-authority"
+  search_keywords:
+    - "LDAPS"
+    - "LDAP over SSL"
+    - "LDAP over TLS"
+    - "secure LDAP"
+    - "LDAP port 636"
+    - "LDAP encryption"
+    - "LDAP StartTLS"
+    - "LDAP channel binding"
+    - "LDAP signing"
+    - "Active Directory LDAPS"
+    - "LDAPS certificate"
+  embedding_text: >-
+    LDAPS (LDAP over SSL/TLS) is the TLS-encrypted variant of LDAP that operates on TCP port 636,
+    providing confidentiality and integrity for directory access communications. Unlike StartTLS
+    on port 389 which upgrades an existing cleartext connection, LDAPS uses implicit TLS where the
+    encryption handshake occurs immediately upon connection. LDAPS protects bind credentials,
+    search queries, and directory responses from network eavesdropping and tampering. The server
+    must present a valid X.509 certificate matching its FQDN, and clients must validate the
+    certificate chain against trusted authorities. LDAP channel binding extends protection by
+    tying authentication to the specific TLS channel, preventing relay attacks. Microsoft Active
+    Directory supports both LDAPS and StartTLS, with LDAPS recommended for environments requiring
+    guaranteed encryption. Cleartext LDAP exposes sensitive credentials and organizational data,
+    making LDAPS a compliance requirement under frameworks like PCI DSS and HIPAA that mandate
+    encryption of authentication credentials in transit.

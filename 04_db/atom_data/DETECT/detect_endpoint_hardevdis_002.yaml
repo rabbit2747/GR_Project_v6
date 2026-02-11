@@ -1,0 +1,76 @@
+# GR Atom: Hardware Device Disconnection Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVDIS-002"
+  name: "Hardware Device Disconnection Event"
+  normalized_name: "hardware_device_disconnection_event"
+  aliases:
+    - "Device Unplug Event"
+    - "Hardware Removal Detection"
+    - "USB Device Disconnection Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L0", "L1"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Disconnection Event is an endpoint detection pattern that captures when a physical hardware device is removed or disconnected from an endpoint system. This includes USB device removals, Thunderbolt disconnections, Bluetooth device unpairing, PCI Express hot-unplug events, and loss of connection to virtual devices. The event records the device that was disconnected, its previous connection details including vendor ID, product ID, serial number, the duration of the connection session, the amount of data transferred during the session where available, and the timestamp of disconnection."
+  why: "Device disconnection monitoring is essential for completing the forensic timeline of removable media usage and detecting data exfiltration patterns. The disconnection event, combined with connection event data, provides a complete session record showing how long a device was connected and correlating with data transfer activity. Short connection durations with large data transfers may indicate automated exfiltration. Unexpected disconnection of security devices such as hardware tokens or network adapters may indicate tampering. Disconnection of evidence-bearing devices during investigations may indicate anti-forensics activity."
+  how: "Detection systems capture device disconnection events through operating system device management notifications including Windows Plug and Play device removal events, Linux udev remove actions, and macOS IOKit device departure notifications. Endpoint agents correlate disconnection events with the corresponding connection events to calculate session duration and associate data transfer volumes. Detection rules flag short-duration connections with high data transfer volumes, disconnection of security-relevant devices, device removal during active security investigations, disconnection patterns that match known exfiltration tools, and removal of devices that triggered earlier security alerts during their connection session."
+  core_concepts:
+    - key: "Connection Session Analysis"
+      value: "Correlating device connection and disconnection events to determine session duration, data transfer volumes, and user activities during the device presence window"
+    - key: "Exfiltration Timeline"
+      value: "Using disconnection events to reconstruct the timeline of removable media-based data exfiltration including when data was staged and when the device was removed"
+    - key: "Safe Removal Tracking"
+      value: "Distinguishing between proper safe-removal procedures and abrupt disconnections that may indicate hasty device removal during suspicious activity"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device disconnection is the terminal event in the hardware device lifecycle within the broader device event category"
+  - type: requires
+    target: "DETECT-ENDPOINT-HARDEVCON-001"
+    description: "Disconnection events require correlation with connection events to provide meaningful session analysis"
+  - type: effective_against
+    target: "ATK-EXFIL-REMOVABLE-001"
+    description: "Helps detect data exfiltration via removable media by tracking device sessions and data transfer patterns"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1052.001"
+    tactic: ["Exfiltration"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1052.001 - Exfiltration Over Physical Medium: Exfiltration over USB"
+    - "Microsoft - Device Removal Events - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/"
+    - "NIST SP 800-53 - MP-7 Media Use"
+  search_keywords:
+    - "hardware device disconnection"
+    - "USB device removal"
+    - "device unplug event"
+    - "hardware removal detection"
+    - "removable media tracking"
+    - "device session analysis"
+    - "data exfiltration detection"
+    - "device departure event"
+  embedding_text: "Hardware Device Disconnection Event detection captures physical hardware device removal from endpoints including USB removals, Thunderbolt disconnections, and Bluetooth unpairing. Monitored through Windows Plug and Play removal events, Linux udev remove actions, and macOS IOKit departure notifications, this telemetry records device details, connection session duration, and data transfer volumes. Detection correlates with connection events to flag short-duration high-transfer sessions indicating automated exfiltration, disconnection of security devices suggesting tampering, device removal during investigations, and patterns matching known exfiltration tools."

@@ -1,0 +1,116 @@
+# GR Atom: Business Logic Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-BUSILOGI-001"
+  name: "Business Logic Vulnerability"
+  normalized_name: "business_logic_vulnerability"
+  aliases:
+    - "Business Logic Flaw"
+    - "Application Logic Error"
+    - "Workflow Bypass"
+    - "Logic Abuse"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - API
+    - AUTHZ
+    - EXEC
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "web applications"
+    - "API endpoints"
+    - "e-commerce platforms"
+    - "workflow engines"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Business logic vulnerabilities are flaws in the design and implementation of an application's
+    workflow, rules, or processes that allow an attacker to manipulate legitimate functionality
+    for unintended purposes. Unlike technical vulnerabilities such as injection or buffer overflows,
+    these flaws arise from incorrect assumptions about how users will interact with application
+    features, enabling abuse of pricing logic, authentication workflows, privilege escalation
+    through state manipulation, or circumvention of intended business rules.
+  why: >-
+    Business logic flaws are particularly dangerous because they cannot be detected by automated
+    scanners or WAFs that focus on syntactic attack patterns. They exploit the semantic gap between
+    what developers intended and what the application actually enforces. Attackers can manipulate
+    prices, bypass payment workflows, abuse referral systems, escalate privileges through
+    multi-step process manipulation, or exfiltrate data through legitimate-appearing requests.
+  how: >-
+    Attackers identify business logic flaws by mapping application workflows and testing boundary
+    conditions. Common techniques include manipulating request parameters to alter prices or
+    quantities, replaying or reordering multi-step transactions, abusing race conditions in
+    concurrent operations, bypassing client-side validation that lacks server-side enforcement,
+    and exploiting trust relationships between application components. Testing requires manual
+    analysis of application behavior rather than automated scanning.
+  core_concepts:
+    - key: "Workflow Manipulation"
+      value: "Exploiting gaps in multi-step business processes by skipping steps, reordering operations, or injecting unexpected states"
+    - key: "Semantic Vulnerability"
+      value: "Flaws rooted in incorrect business assumptions rather than technical implementation errors, making them invisible to traditional scanners"
+    - key: "State Abuse"
+      value: "Manipulating application state through legitimate API calls to achieve unauthorized outcomes such as price modification or privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-RACECOND-001"
+    description: "Race conditions are a specific subclass of business logic vulnerability exploiting timing assumptions"
+  - type: "enables"
+    target: "VUL-LOGIC-SMARCONT-001"
+    description: "Business logic flaws in smart contracts enable exploitation of decentralized financial workflows"
+  - type: "applies_to"
+    target: "VUL-LOGIC-CVE202132648-001"
+    description: "October CMS password reset logic bypass is an instance of business logic vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP - Business Logic Vulnerabilities"
+    - "CWE-840: Business Logic Errors"
+    - "PortSwigger Web Security Academy - Business Logic Vulnerabilities"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "business logic vulnerability"
+    - "application logic flaw"
+    - "workflow bypass"
+    - "logic abuse"
+    - "CWE-840"
+    - "price manipulation"
+    - "state manipulation"
+    - "business rule bypass"
+  embedding_text: >-
+    Business logic vulnerabilities are flaws in application workflow design and implementation
+    that allow attackers to manipulate legitimate functionality for unintended purposes. Unlike
+    technical vulnerabilities like injection, these arise from incorrect assumptions about user
+    interaction with application features. Attackers exploit pricing logic, authentication
+    workflows, privilege escalation through state manipulation, and business rule circumvention.
+    These flaws evade automated scanners and WAFs because they use semantically valid requests.
+    Testing requires manual workflow analysis. Common in e-commerce, financial applications,
+    and multi-step transaction systems. Mapped to CWE-840 and MITRE ATT&CK T1190.

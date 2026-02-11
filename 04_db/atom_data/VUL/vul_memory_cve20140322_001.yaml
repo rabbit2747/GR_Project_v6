@@ -1,0 +1,105 @@
+# GR Atom: CVE-2014-0322
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20140322-001"
+  name: "CVE-2014-0322"
+  normalized_name: "cve_2014_0322"
+  aliases:
+    - "Internet Explorer CMarkup Use-After-Free"
+    - "Operation SnowMan IE Zero-Day"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 10"
+    - "mshtml.dll CMarkup"
+    - "Windows 7, 8"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-0322 is a use-after-free vulnerability (CVSS 9.3) in Microsoft Internet Explorer 10
+    involving the CMarkup object in mshtml.dll. The vulnerability allows remote code execution
+    when a user visits a specially crafted web page. It was exploited as a zero-day in February
+    2014 in Operation SnowMan, a watering hole attack targeting the US Veterans of Foreign Wars
+    (VFW) website. Microsoft patched it in MS14-012 (March 2014).
+  why: >-
+    This vulnerability is significant for its use in Operation SnowMan, a sophisticated watering
+    hole attack targeting the VFW website to compromise US military veterans and defense personnel.
+    The attack was attributed to a Chinese APT group and demonstrated continued use of IE zero-days
+    for strategic intelligence collection. The targeting of military-adjacent organizations through
+    watering hole attacks became a well-documented pattern during this period.
+  how: >-
+    The exploit uses JavaScript to manipulate the IE DOM and trigger a use-after-free in the
+    CMarkup object. The exploit was loaded via an embedded iframe on the compromised VFW website.
+    After triggering the use-after-free, the exploit uses a Flash SWF file for heap spraying to
+    place shellcode at a predictable memory address. The dangling CMarkup pointer is dereferenced,
+    redirecting execution to the attacker's payload which downloads and executes a backdoor.
+  core_concepts:
+    - key: "CMarkup Use-After-Free with Flash Heap Spray"
+      value: "IE DOM manipulation frees CMarkup object, then Flash SWF heap spray fills freed memory for reliable code execution"
+    - key: "Operation SnowMan Strategic Targeting"
+      value: "Watering hole attack on Veterans of Foreign Wars website to target US military veterans and defense personnel"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free memory corruption in Internet Explorer CMarkup DOM object"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2014-0322 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS14-012"
+    - "FireEye - Operation SnowMan Analysis"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2014-0322"
+    - "Internet Explorer 10"
+    - "use-after-free"
+    - "CMarkup"
+    - "Operation SnowMan"
+    - "watering hole"
+    - "VFW"
+    - "MS14-012"
+    - "zero-day"
+  embedding_text: >-
+    CVE-2014-0322 is a use-after-free vulnerability with CVSS 9.3 in Microsoft Internet
+    Explorer 10 involving the CMarkup object in mshtml.dll. The flaw enables remote code
+    execution through crafted web pages that trigger DOM manipulation followed by Flash-based
+    heap spraying. Exploited as a zero-day in February 2014 during Operation SnowMan, a
+    watering hole attack on the Veterans of Foreign Wars website targeting US military and
+    defense personnel, it was attributed to a Chinese APT group. Patched in MS14-012 in
+    March 2014, this vulnerability exemplified the pattern of strategic watering hole attacks
+    using IE zero-days to target military and intelligence community organizations.

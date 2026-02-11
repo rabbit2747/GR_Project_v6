@@ -1,0 +1,85 @@
+# GR Atom: Drifting Cloud
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DRIFCLOU-001"
+  name: "Drifting Cloud"
+  normalized_name: "drifting_cloud"
+  aliases:
+    - "UNC3886 Associated"
+    - "Volt Typhoon Overlap"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - EVADE
+    - NETWORK
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Drifting Cloud is a Chinese APT activity cluster identified by Volexity, known for exploiting zero-day vulnerabilities in internet-facing network appliances, particularly Sophos firewalls and other perimeter devices. The group targets government, telecommunications, and technology organizations. In 2022, Volexity attributed the exploitation of a Sophos Firewall zero-day (CVE-2022-1040) to this group, demonstrating their capability to discover and exploit vulnerabilities in network security appliances before patches are available."
+  why: "Drifting Cloud is significant because they specialize in exploiting the very security devices organizations rely on for perimeter protection. By compromising firewalls and other network appliances, the group gains a privileged position within the network, enabling traffic interception, credential harvesting, and persistent access that is extremely difficult to detect through standard endpoint monitoring. Their focus on edge device zero-days represents a growing trend among Chinese APT groups."
+  how: "The group discovers and exploits zero-day vulnerabilities in internet-facing appliances such as Sophos firewalls. After exploiting CVE-2022-1040 (authentication bypass in Sophos Firewall User Portal and Webadmin), they installed web shells and backdoors on the compromised appliance. From this position, they harvested credentials, performed man-in-the-middle attacks on traffic passing through the firewall, and used the compromised device as a pivot point for lateral movement into internal networks. The group deploys custom web shells and lightweight backdoors designed for embedded Linux systems."
+  core_concepts:
+    - key: "Edge Device Zero-Days"
+      value: "Discovers and exploits zero-day vulnerabilities in firewalls and network security appliances"
+    - key: "Appliance-Level Persistence"
+      value: "Establishes persistent access on network appliances that are rarely monitored by endpoint security"
+    - key: "Traffic Interception"
+      value: "Uses compromised firewalls to intercept and manipulate network traffic for credential harvesting"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Exploits zero-day vulnerabilities in internet-facing appliances for initial access"
+  - type: is_a
+    target: "ACTOR-APT-DRIFCLOU-001"
+    description: "Chinese APT cluster specializing in edge device zero-day exploitation"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Defense Evasion"
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Volexity - Drifting Cloud Sophos Firewall Exploitation"
+    - "Sophos - CVE-2022-1040 Exploitation Analysis"
+  search_keywords:
+    - "drifting cloud"
+    - "sophos firewall exploit"
+    - "cve-2022-1040"
+    - "edge device zero-day"
+    - "firewall compromise apt"
+    - "chinese apt network appliance"
+    - "perimeter device exploitation"
+    - "appliance backdoor"
+    - "network appliance zero-day"
+    - "firewall web shell"
+  embedding_text: "Drifting Cloud is a Chinese APT activity cluster identified by Volexity, known for exploiting zero-day vulnerabilities in internet-facing network appliances, particularly Sophos firewalls. In 2022, the group exploited CVE-2022-1040 (authentication bypass in Sophos Firewall) to install web shells and backdoors on compromised appliances. From this privileged position, they harvested credentials, performed man-in-the-middle attacks on network traffic, and pivoted into internal networks. The group targets government, telecommunications, and technology organizations. Their specialization in edge device zero-days represents a growing trend among Chinese APT groups, compromising the very security devices organizations rely on for perimeter protection and establishing persistent access that evades standard endpoint monitoring."

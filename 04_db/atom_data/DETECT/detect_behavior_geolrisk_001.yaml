@@ -1,0 +1,72 @@
+# GR Atom: Geolocation Risk
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-GEOLRISK-001"
+  name: "Geolocation Risk"
+  normalized_name: "geolocation_risk"
+  aliases:
+    - "Geographic Risk Assessment"
+    - "Location-Based Risk Evaluation"
+    - "Country Risk Classification"
+    - "IP Geolocation Risk Rating"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - MONITOR
+    - THREAT_INTEL
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Geolocation Risk is a security assessment framework that evaluates the inherent risk associated with the geographic origin of network connections, authentication events, and data transfers. It assigns risk levels to geographic locations based on multiple factors including national cybercrime indexes, known threat actor operating regions, regulatory restrictions, historical attack data, hosting infrastructure abuse rates, and presence of sanctioned entities. The framework provides static country and region risk ratings that are combined with dynamic per-user anomaly assessments to produce contextual risk evaluations for each access event."
+  why: "Geographic origin is a meaningful risk indicator because cybercriminal activity is not uniformly distributed globally. Certain countries have disproportionately high rates of credential theft, phishing infrastructure, botnet operations, and state-sponsored cyber operations. Regulatory frameworks like OFAC sanctions and GDPR data transfer restrictions add compliance dimensions to geographic risk. Organizations serving specific geographic markets can use location risk to identify access from regions where they have no business presence, providing a strong signal of unauthorized access. Geolocation risk assessment enables risk-based access policies that adapt security requirements based on the risk level of the connection origin."
+  how: "The geolocation risk framework operates at multiple levels. Static risk ratings assign baseline risk scores to countries and regions based on cybercrime statistics from sources like the Global Cybersecurity Index, known APT group operating locations, OFAC sanctions lists, and organizational policy. Dynamic risk augmentation adjusts ratings based on current threat intelligence including active campaigns originating from specific regions, newly identified command-and-control infrastructure locations, and emerging threat actor activity. Per-event risk assessment combines the static location risk rating with contextual factors including user identity, resource sensitivity, access timing, and behavioral indicators. Risk scores drive policy decisions including requiring additional authentication factors for high-risk locations, blocking access from sanctioned regions, and escalating monitoring for moderate-risk connections."
+  core_concepts:
+    - key: "Country Risk Rating"
+      value: "A static baseline risk score assigned to each country based on cybercrime statistics, threat actor presence, and regulatory status"
+    - key: "Risk-Based Access Control"
+      value: "Adaptive security policies that adjust authentication requirements and access permissions based on the geographic risk level"
+    - key: "Sanctions Compliance"
+      value: "Regulatory requirements to restrict or block access from countries under economic sanctions, enforced through geolocation risk assessment"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOSCO-001"
+    description: "Geolocation risk assessment incorporates anomaly scores for dynamic risk evaluation"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOLALER-001"
+    description: "Geographic risk levels determine alert thresholds and severity for geolocation alerts"
+  - type: enables
+    target: "DETECT-BEHAVIOR-COACPOEV-001"
+    description: "Geolocation risk feeds into conditional access policy evaluation as a location signal"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "ITU - Global Cybersecurity Index - https://www.itu.int/en/ITU-D/Cybersecurity/Pages/global-cybersecurity-index.aspx"
+    - "OFAC - Sanctions Programs - https://ofac.treasury.gov/sanctions-programs-and-country-information"
+    - "Microsoft - Named Locations and Risk - https://learn.microsoft.com/en-us/entra/identity-protection/"
+  search_keywords:
+    - "geolocation risk assessment"
+    - "country risk rating"
+    - "geographic risk classification"
+    - "IP location risk"
+    - "location-based access risk"
+    - "sanctions compliance geolocation"
+    - "geographic threat assessment"
+    - "country cybercrime index"
+  embedding_text: "Geolocation Risk evaluates the inherent security risk associated with geographic origins of network connections and authentication events. It assigns risk levels based on national cybercrime indexes, threat actor operating regions, regulatory restrictions, historical attack data, and hosting abuse rates. Static country risk ratings are combined with dynamic threat intelligence and per-user anomaly assessments for contextual risk evaluation. Risk scores drive adaptive access policies including additional authentication requirements for high-risk locations, access blocking for sanctioned regions, and escalated monitoring for moderate-risk connections. This framework enables risk-based access control that balances security requirements with user experience across geographic origins."

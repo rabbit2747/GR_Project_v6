@@ -1,0 +1,73 @@
+# GR Atom: DigiCert
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DIGICERT-001"
+  name: "DigiCert"
+  normalized_name: "digicert"
+  aliases:
+    - "DigiCert Inc."
+    - "DigiCert CertCentral"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - CLOUD
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L2", "L7"]
+  target_zones: ["Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DigiCert is a major certificate authority (CA) and digital trust provider, issuing TLS/SSL certificates, code signing certificates, and document signing certificates. DigiCert is one of the world's largest CAs, managing PKI infrastructure for millions of websites and organizations. The company also provides certificate lifecycle management through CertCentral, IoT device identity solutions, and post-quantum cryptography research."
+  why: "DigiCert is critical to cybersecurity because digital certificates form the foundation of internet trust, enabling encrypted communications (HTTPS), code integrity verification, and digital identity. As a major CA, DigiCert's trustworthiness directly impacts the security of the internet. Compromise of a certificate authority represents one of the most severe infrastructure attacks, as demonstrated by historical CA compromises."
+  how: "DigiCert operates as a certificate authority by validating domain ownership and organization identity before issuing TLS/SSL certificates. The company provides CertCentral for certificate lifecycle management including discovery, issuance, renewal, and revocation. DigiCert participates in the CA/Browser Forum governance, implements certificate transparency, and provides OCSP/CRL for certificate revocation checking."
+  core_concepts:
+    - key: "Certificate Authority"
+      value: "Trusted third-party issuing digital certificates that enable encrypted communications and identity verification"
+    - key: "Certificate Lifecycle Management"
+      value: "CertCentral platform for automated discovery, issuance, renewal, and revocation of digital certificates"
+    - key: "Digital Trust Infrastructure"
+      value: "PKI infrastructure forming the foundation of internet trust for HTTPS, code signing, and digital identity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-PKI-CERT-001"
+    description: "Produces TLS/SSL certificates, code signing certificates, and PKI infrastructure services"
+  - type: is_a
+    target: "ACTOR-VENDOR-VERISIGN-001"
+    description: "Fellow certificate authority in the digital trust ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for certificate authority vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.digicert.com"
+    - "https://www.digicert.com/blog"
+  search_keywords:
+    - "digicert"
+    - "certificate authority"
+    - "ssl certificate"
+    - "tls certificate"
+    - "code signing certificate"
+    - "pki infrastructure"
+    - "certcentral"
+    - "digital trust"
+  embedding_text: "DigiCert is a major certificate authority and digital trust provider, issuing TLS/SSL certificates, code signing certificates, and document signing certificates. As one of the world's largest CAs, DigiCert manages PKI infrastructure for millions of websites and organizations. The company provides certificate lifecycle management through CertCentral, IoT device identity solutions, and conducts post-quantum cryptography research. DigiCert is critical to cybersecurity because digital certificates form the foundation of internet trust enabling encrypted communications, code integrity verification, and digital identity. The company validates domain ownership and organization identity before issuing certificates, participates in CA/Browser Forum governance, implements certificate transparency, and provides OCSP/CRL for certificate revocation. Compromise of a certificate authority represents one of the most severe infrastructure attacks possible."

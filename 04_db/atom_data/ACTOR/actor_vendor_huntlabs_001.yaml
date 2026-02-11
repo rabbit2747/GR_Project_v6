@@ -1,0 +1,71 @@
+# GR Atom: Huntress Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-HUNTLABS-001"
+  name: "Huntress Labs"
+  normalized_name: "huntress_labs"
+  aliases:
+    - "Huntress"
+    - "Huntress Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - THREAT_INTEL
+    - BLUE_TEAM
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Huntress is a managed security platform focused on protecting small and mid-sized businesses (SMBs) and managed service providers (MSPs). The company provides managed endpoint detection and response (EDR), managed SIEM, security awareness training, and a 24/7 Security Operations Center. Huntress is known for its threat research team that actively tracks and reports on emerging threats targeting the MSP ecosystem, ransomware campaigns, and supply chain attacks."
+  why: "Huntress is significant in cybersecurity because it fills a critical gap in providing enterprise-grade detection and response capabilities to the SMB and MSP market, which is disproportionately targeted by ransomware and commodity malware. Their threat research team regularly publishes timely analysis of active campaigns, making them a valuable source of operational threat intelligence for the broader security community."
+  how: "Huntress deploys lightweight agents on endpoints that monitor for indicators of compromise, persistence mechanisms, and malicious activity. Their platform combines automated detection with human-driven threat hunting by a 24/7 SOC team. When threats are identified, Huntress provides actionable remediation guidance and can initiate automated response actions. The company publishes regular threat advisories and blog posts documenting emerging attack campaigns targeting their customer base."
+  core_concepts:
+    - key: "Managed EDR for SMB"
+      value: "Enterprise-grade endpoint detection and response tailored for small and mid-sized businesses"
+    - key: "MSP security"
+      value: "Specialized protection for managed service providers and their client environments"
+    - key: "Threat research"
+      value: "Active threat hunting and campaign analysis with public reporting on emerging threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "Huntress produces threat intelligence reports and campaign analysis for the SMB/MSP ecosystem"
+  - type: "enables"
+    target: "SERVICE-MDR-001"
+    description: "Huntress provides managed detection and response services for endpoint security"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Huntress Official Website"
+    - "Huntress Blog - Threat Research Publications"
+    - "MSSP Alert - Top Managed Security Providers"
+  search_keywords:
+    - "huntress"
+    - "huntress labs"
+    - "huntress edr"
+    - "huntress managed security"
+    - "huntress threat research"
+    - "huntress msp security"
+    - "huntress smb"
+  embedding_text: "Huntress is a managed security platform specializing in endpoint detection and response, managed SIEM, and security awareness training for small and mid-sized businesses and managed service providers. The company operates a 24/7 Security Operations Center staffed by threat hunters who actively monitor customer environments for indicators of compromise, persistence mechanisms, and malicious activity. Huntress is widely recognized for its threat research team that regularly publishes detailed analysis of ransomware campaigns, supply chain attacks, and emerging threats targeting the MSP ecosystem. The platform deploys lightweight endpoint agents combined with human-driven threat hunting to provide enterprise-grade detection and response capabilities to organizations that typically lack dedicated security teams. Huntress fills a critical market gap by bringing advanced security operations to the SMB segment, which is disproportionately targeted by commodity malware and ransomware operators."

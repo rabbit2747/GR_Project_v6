@@ -1,0 +1,79 @@
+# GR Atom: GCP Cloud IAM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-IAM-001"
+  name: "GCP Cloud IAM"
+  normalized_name: "gcp_cloud_iam"
+  aliases:
+    - "Google Cloud IAM"
+    - "GCP IAM"
+    - "Cloud Identity and Access Management"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - GCP
+    - AUTHZ
+    - AUTHN
+    - CLOUD
+    - COMPLIANCE
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "P3.1"
+
+definition:
+  what: "GCP Cloud IAM (Identity and Access Management) is Google Cloud Platform's access control service that manages who (identity) can do what (roles) on which resources (resource hierarchy). It provides fine-grained access control through predefined and custom roles bound to members at the organization, folder, project, or resource level. IAM supports Google accounts, service accounts, Google Groups, and Workload Identity Federation for external identity providers."
+  why: "Cloud IAM is the foundational security control for GCP environments because it governs all access to cloud resources. Misconfigured IAM policies are the leading cause of cloud security incidents, enabling privilege escalation, unauthorized data access, and lateral movement. Overly permissive service account keys are frequently exploited by attackers. IAM policy evaluation follows the resource hierarchy, making organization-level misconfigurations particularly dangerous. Proper least-privilege IAM configuration is required for all major compliance frameworks."
+  how: "IAM policies bind members to roles at specific levels in the resource hierarchy (organization > folder > project > resource). Policies are inherited downward and evaluated at each level. Predefined roles provide curated permission sets for specific services. Custom roles enable precise permission combinations. Service accounts provide identity for applications and workloads. Workload Identity Federation enables external identities to access GCP without service account keys. IAM Conditions add attribute-based access control. Policy Analyzer and Recommender tools help identify overprivileged access."
+  core_concepts:
+    - key: "Resource Hierarchy"
+      value: "Organizational structure (organization > folder > project > resource) through which IAM policies are inherited and evaluated"
+    - key: "Service Account"
+      value: "Non-human identity used by applications and workloads to authenticate to GCP services, often a key target for credential theft"
+    - key: "IAM Role Binding"
+      value: "Association of a member (user, group, service account) with a role at a specific level in the resource hierarchy"
+    - key: "Workload Identity Federation"
+      value: "Mechanism enabling external identities from AWS, Azure, or OIDC providers to access GCP without long-lived service account keys"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-DEVOPS-AWSORGA-001"
+    description: "GCP Cloud IAM serves a similar access governance role to AWS Organizations and IAM"
+  - type: enables
+    target: "INFRA-DEVOPS-KEYVAUL-001"
+    description: "GCP IAM controls access to secret and key management services"
+  - type: requires
+    target: "INFRA-DEVOPS-CLOUDTRAIL-001"
+    description: "IAM activity is logged through Cloud Audit Logs, analogous to CloudTrail for AWS"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic: ["Defense Evasion", "Persistence", "Privilege Escalation", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "GCP Cloud IAM Documentation - https://cloud.google.com/iam/docs"
+    - "GCP IAM Best Practices - https://cloud.google.com/iam/docs/using-iam-securely"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+  search_keywords:
+    - "GCP Cloud IAM"
+    - "Google Cloud IAM"
+    - "GCP access control"
+    - "GCP service account"
+    - "GCP role binding"
+    - "Workload Identity Federation"
+    - "GCP resource hierarchy"
+    - "Google Cloud permissions"
+  embedding_text: "GCP Cloud IAM is Google Cloud Platform's access control service managing identity, roles, and resource access through a hierarchical policy model. It provides predefined and custom roles bound at organization, folder, project, or resource levels. Security significance centers on IAM as the foundational access control where misconfigurations lead to privilege escalation, unauthorized data access, and lateral movement. Service account keys are frequently exploited. Workload Identity Federation enables external identity access without long-lived keys. Policy inheritance through the resource hierarchy makes organization-level misconfigurations particularly dangerous. Required for all major compliance frameworks."

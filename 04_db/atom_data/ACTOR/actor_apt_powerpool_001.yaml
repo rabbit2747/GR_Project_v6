@@ -1,0 +1,72 @@
+# GR Atom: PowerPool
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-POWERPOOL-001"
+  name: "PowerPool"
+  normalized_name: "powerpool"
+  aliases:
+    - "Power Pool"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PRIV"
+    - "C2"
+    - "WINDOWS"
+    - "OS"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Windows Task Scheduler"
+    - "Windows workstations"
+    - "email systems"
+    - "Windows ALPC interface"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "PowerPool is a threat group identified by ESET in 2018 that rapidly weaponized a Windows zero-day vulnerability (CVE-2018-8440) in the Windows Task Scheduler ALPC interface for privilege escalation. The group targeted organizations in multiple countries including Chile, Germany, India, Philippines, Poland, Russia, United Kingdom, United States, and Ukraine, demonstrating both opportunistic and targeted operational patterns."
+  why: "PowerPool's rapid exploitation of a publicly disclosed zero-day before an official patch was available demonstrates the threat of vulnerability disclosure without coordinated remediation. The group's multi-country targeting suggests espionage motivations, though definitive attribution to a specific nation-state has not been established. The speed of weaponization highlights the risk window between vulnerability disclosure and patch deployment."
+  how: "PowerPool exploited CVE-2018-8440, a local privilege escalation vulnerability in the Windows Task Scheduler Advanced Local Procedure Call (ALPC) interface, which was publicly disclosed on Twitter before Microsoft released a patch. The group delivered first-stage backdoors via spear-phishing emails with malicious attachments. After achieving initial access, PowerPool used the ALPC exploit to escalate privileges, then deployed a second-stage PowerShell-based backdoor for persistent access. The group used custom C2 infrastructure with HTTP-based communications and conducted lateral movement using standard Windows administration tools."
+  core_concepts:
+    - "rapid zero-day weaponization"
+    - "Windows ALPC privilege escalation"
+    - "CVE-2018-8440 exploitation"
+    - "multi-country targeting"
+    - "PowerShell-based backdoors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ATK-EXPLOIT-001"
+    description: "PowerPool exploits zero-day vulnerabilities for initial access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "ESET - PowerPool Malware Exploits ALPC LPE Zero-Day Vulnerability (2018)"
+    - "ESET WeLiveSecurity - PowerPool Group Analysis"
+  search_keywords:
+    - "powerpool"
+    - "power pool APT"
+    - "CVE-2018-8440"
+    - "ALPC zero-day"
+    - "task scheduler exploit"
+    - "windows privilege escalation"
+    - "ALPC LPE vulnerability"
+  embedding_text: "PowerPool is a threat group identified by ESET in 2018 that rapidly weaponized CVE-2018-8440, a Windows zero-day vulnerability in the Task Scheduler Advanced Local Procedure Call interface for local privilege escalation. The vulnerability was publicly disclosed on Twitter before Microsoft issued a patch, and PowerPool quickly developed and deployed an exploit targeting organizations across Chile, Germany, India, Philippines, Poland, Russia, United Kingdom, United States, and Ukraine. The attack chain begins with spear-phishing emails delivering first-stage backdoors, followed by ALPC privilege escalation and deployment of PowerShell-based second-stage backdoors for persistent access. PowerPool uses custom HTTP-based C2 infrastructure and standard Windows tools for lateral movement. The group demonstrates the critical threat window between public vulnerability disclosure and official patch deployment, highlighting the importance of rapid patching and the risks of uncoordinated vulnerability disclosure."

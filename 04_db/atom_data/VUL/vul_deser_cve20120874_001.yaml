@@ -1,0 +1,111 @@
+# GR Atom: CVE-2012-0874
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE20120874-001"
+  name: "CVE-2012-0874"
+  normalized_name: "cve_2012_0874"
+  aliases:
+    - "JBoss EJBInvokerServlet Deserialization"
+    - "JBoss JMXInvokerServlet RCE"
+    - "JBoss Application Server Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "JBoss Application Server"
+    - "EJBInvokerServlet"
+    - "JMXInvokerServlet"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-0874 is a remote code execution vulnerability in JBoss Application Server where the
+    EJBInvokerServlet and JMXInvokerServlet endpoints deserialize untrusted Java objects from HTTP
+    requests without authentication or input validation. An attacker can send crafted serialized
+    Java objects to these endpoints to achieve arbitrary code execution on the server. CVSS score
+    is 7.5. The vulnerability affects JBoss AS 4.x and 5.x and was one of the earliest widely
+    exploited Java deserialization vulnerabilities.
+  why: >-
+    This vulnerability is historically significant as one of the first major Java deserialization
+    RCE vulnerabilities to be widely exploited in the wild. It demonstrated that exposing Java
+    serialization endpoints without authentication creates a trivial path to remote code execution.
+    JBoss AS was widely deployed in enterprise environments, making this a high-impact vulnerability
+    that foreshadowed the broader Java deserialization vulnerability epidemic.
+  how: >-
+    The attacker sends an HTTP POST request containing a crafted serialized Java object to the
+    EJBInvokerServlet or JMXInvokerServlet endpoint. These servlets deserialize the request body
+    without authentication, allowing the attacker to trigger arbitrary method calls through gadget
+    chains present in the server's classpath. Common exploitation uses the Apache Commons Collections
+    gadget chain to execute operating system commands during deserialization.
+  core_concepts:
+    - name: "Unauthenticated Deserialization Endpoint"
+      value: "JBoss invoker servlets accept and deserialize arbitrary Java objects from any HTTP client without authentication"
+    - name: "Gadget Chain Exploitation"
+      value: "Crafted serialized objects leverage classes in the server's classpath to chain method calls leading to code execution"
+    - name: "Enterprise Application Server Risk"
+      value: "Default JBoss configurations exposed dangerous deserialization endpoints to the network"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "JBoss deserialization RCE is an instance of insecure deserialization vulnerability"
+  - type: "precedes"
+    target: "VUL-DESER-CVE20202551-001"
+    description: "JBoss deserialization preceded WebLogic deserialization vulnerabilities as early Java app server RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2012-0874"
+    - "Red Hat Security Advisory RHSA-2012:1025"
+    - "MITRE CWE-502: Deserialization of Untrusted Data"
+  search_keywords:
+    - "CVE-2012-0874"
+    - "JBoss deserialization"
+    - "EJBInvokerServlet"
+    - "JMXInvokerServlet"
+    - "JBoss RCE"
+    - "Java deserialization attack"
+    - "JBoss application server vulnerability"
+  embedding_text: >-
+    CVE-2012-0874 is a remote code execution vulnerability in JBoss Application Server caused by
+    insecure deserialization in the EJBInvokerServlet and JMXInvokerServlet endpoints. These
+    servlets accept and deserialize Java objects from HTTP requests without authentication or
+    validation, allowing attackers to send crafted serialized objects that trigger arbitrary code
+    execution through gadget chains. The vulnerability affects JBoss AS 4.x and 5.x and was one
+    of the earliest widely exploited Java deserialization vulnerabilities. Common exploitation
+    leverages Apache Commons Collections gadget chains to execute operating system commands. The
+    vulnerability demonstrated the danger of exposing Java serialization endpoints and
+    foreshadowed the broader epidemic of deserialization vulnerabilities in Java enterprise
+    application servers. CVSS score is 7.5. Mitigation involves removing or restricting access
+    to invoker servlets and implementing serialization filtering.

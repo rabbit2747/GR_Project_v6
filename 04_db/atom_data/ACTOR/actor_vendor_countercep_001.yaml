@@ -1,0 +1,71 @@
+# GR Atom: Countercept
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-COUNTERCEP-001"
+  name: "Countercept"
+  normalized_name: "countercept"
+  aliases:
+    - "MWR InfoSecurity Countercept"
+    - "F-Secure Countercept"
+    - "WithSecure Countercept"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - BLUE_TEAM
+    - THREAT_INTEL
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Countercept is a managed detection and response (MDR) service originally developed by MWR InfoSecurity, later acquired by F-Secure and now part of WithSecure. The service combines advanced threat detection technology with human-led threat hunting by experienced security analysts. Countercept provides continuous monitoring, proactive threat hunting, incident response, and adversary simulation services to enterprise clients."
+  why: "Countercept is significant for pioneering the human-led managed threat hunting model that combines automated detection with expert human analysis. The service was influential in demonstrating that effective threat detection requires skilled analysts working alongside technology, not just automated tools. Their research contributions, particularly in offensive security and red teaming, have advanced the cybersecurity field."
+  how: "Countercept operates through a team of threat hunters who use proprietary detection technology combined with manual analysis to identify advanced threats that evade automated detection. The service includes continuous endpoint and network monitoring, proactive hunting for indicators of compromise, rapid incident response, and integration of offensive security expertise from red team practitioners."
+  core_concepts:
+    - key: "Human-Led Threat Hunting"
+      value: "Expert security analysts actively hunting for threats that evade automated detection through manual investigation"
+    - key: "Managed Detection & Response"
+      value: "24/7 security monitoring combining automated detection technology with human threat hunting expertise"
+    - key: "Offensive-Informed Defense"
+      value: "Defensive security enhanced by deep offensive security expertise from red team practitioners"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-VENDOR-WITHSECURE-001"
+    description: "Countercept is now part of WithSecure (formerly F-Secure Business) MDR offerings"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for MDR vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.withsecure.com"
+    - "https://labs.withsecure.com"
+  search_keywords:
+    - "countercept"
+    - "mwr infosecurity"
+    - "managed threat hunting"
+    - "mdr service"
+    - "withsecure countercept"
+    - "f-secure countercept"
+    - "human-led detection"
+  embedding_text: "Countercept is a managed detection and response service originally developed by MWR InfoSecurity, later acquired by F-Secure and now part of WithSecure. The service combines advanced threat detection technology with human-led threat hunting by experienced security analysts. Countercept provides continuous monitoring, proactive threat hunting, incident response, and adversary simulation services to enterprise clients. The service pioneered the human-led managed threat hunting model that demonstrates effective threat detection requires skilled analysts working alongside technology. Countercept operates through threat hunters using proprietary detection technology combined with manual analysis to identify advanced threats that evade automated detection, with integration of offensive security expertise from red team practitioners providing offensive-informed defensive capabilities."

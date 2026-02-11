@@ -1,0 +1,75 @@
+# GR Atom: Luminous Moth
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-LUMIMOTH-001"
+  name: "Luminous Moth"
+  normalized_name: "luminous_moth"
+  aliases:
+    - "LuminousMoth"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "LATERAL"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "USB storage devices"
+    - "government workstations"
+    - "local network shares"
+    - "web browsers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Luminous Moth is a Chinese-linked APT group identified by Kaspersky in 2021 that conducted a large-scale cyber espionage campaign targeting government entities in Southeast Asia, particularly in Myanmar and the Philippines. The group is notable for an unusually high volume of infections, with approximately 100 victims in Myanmar and 1,400 in the Philippines, suggesting a broad-sweep approach rather than targeted precision."
+  why: "The campaign aligns with Chinese intelligence collection interests in Southeast Asian political affairs, particularly regarding Myanmar's political situation and Philippine government activities related to South China Sea disputes. The unusually large number of infections suggests the group prioritized breadth of collection over operational security, potentially indicating time-sensitive intelligence requirements."
+  how: "Luminous Moth uses spear-phishing emails with malicious DLL side-loading payloads as the initial infection vector. A distinctive technique involves USB propagation where the malware spreads to removable drives by creating hidden copies of files and replacing them with malicious executables disguised with the original file icons. The group deploys a Cobalt Strike beacon for post-exploitation, uses Chrome cookie stealers, and has been observed deploying a fake Zoom application that exfiltrates files. Connections to the HoneyMyte/Mustang Panda group have been identified through shared infrastructure."
+  core_concepts:
+    - "large-scale government espionage"
+    - "USB propagation mechanism"
+    - "Southeast Asian political intelligence"
+    - "DLL side-loading attacks"
+    - "Cobalt Strike deployment"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "Shares Chinese-sponsored Southeast Asian targeting pattern with Lotus Blossom"
+  - type: "enables"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Connected to broader Chinese APT ecosystem with shared infrastructure patterns"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Kaspersky - LuminousMoth APT: Sweeping attacks for the chosen few (2021)"
+    - "Kaspersky GReAT - APT Trends Q2 2021"
+  search_keywords:
+    - "luminous moth"
+    - "LuminousMoth"
+    - "myanmar APT"
+    - "philippines government hacking"
+    - "USB propagation malware"
+    - "southeast asia espionage"
+    - "chinese APT USB spread"
+  embedding_text: "Luminous Moth is a Chinese-linked APT group identified by Kaspersky in 2021 conducting large-scale cyber espionage against government entities in Southeast Asia, particularly Myanmar and the Philippines. The campaign infected approximately 100 victims in Myanmar and 1,400 in the Philippines, an unusually high volume suggesting broad-sweep intelligence collection. The group uses spear-phishing with malicious DLL side-loading payloads and a distinctive USB propagation mechanism that spreads malware through removable drives by replacing files with disguised executables. Post-exploitation tools include Cobalt Strike beacons, Chrome cookie stealers, and fake Zoom applications for file exfiltration. Infrastructure connections link Luminous Moth to the HoneyMyte/Mustang Panda group within the broader Chinese APT ecosystem. Their operations reflect Chinese intelligence interests in Southeast Asian political developments, particularly regarding Myanmar's political situation and South China Sea-related Philippine government activities."

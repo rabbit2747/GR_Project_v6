@@ -1,0 +1,75 @@
+# GR Atom: Near Memory In-Memory Detection of Fileless Malware
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-NEMEMEDEFI-001"
+  name: "Near Memory In-Memory Detection of Fileless Malware"
+  normalized_name: "near_memory_in_memory_detection_of_fileless_malware"
+  aliases:
+    - "Fileless Malware Detection"
+    - "In-Memory Threat Detection"
+    - "Memory-Based Malware Analysis"
+    - "Process Memory Scanning"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EXEC
+    - EVADE
+    - EDR
+    - MONITOR
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Near Memory In-Memory Detection of Fileless Malware is an advanced detection technique that identifies malicious code executing entirely within process memory without persistent file system artifacts. Fileless malware operates by injecting shellcode into legitimate process memory spaces, leveraging scripting engines like PowerShell or WMI, abusing legitimate system tools through reflective DLL loading, and executing payloads from registry entries or environment variables. This detection approach monitors process memory regions for indicators of malicious activity including executable code in non-executable memory regions, suspicious memory allocation patterns, reflective loading signatures, unhooked API call sequences, and shellcode characteristics within process address spaces."
+  why: "Fileless malware has become the dominant evasion technique for advanced threat actors because it evades traditional file-based antivirus scanning, leaves minimal forensic artifacts on disk, and operates within trusted process contexts that bypass application whitelisting. Reports indicate that over 70% of successful breaches involve fileless techniques. Since traditional detection relies on scanning files before execution, malware that never touches the file system remains invisible to these controls. In-memory detection is the only effective approach for identifying threats that exist solely in volatile memory, including memory-resident backdoors, reflectively loaded tools, and script-based attacks executing in scripting engine memory."
+  how: "Detection operates at multiple levels of the memory hierarchy. Kernel-level monitoring tracks memory allocation patterns using NtAllocateVirtualMemory and VirtualAlloc calls, identifying allocations with RWX (read-write-execute) permissions that are characteristic of shellcode staging. User-mode hooking monitors API calls associated with process injection including WriteProcessMemory, NtMapViewOfSection, and QueueUserAPC. Periodic memory scanning of running processes identifies known shellcode patterns, reflective PE loading structures, and beacon configurations from frameworks like Cobalt Strike. Memory page permission analysis detects code execution from regions originally allocated as data. Thread stack analysis identifies return-oriented programming chains and stack pivoting. ETW-based monitoring captures .NET assembly loading events that indicate reflective loading of malicious assemblies. Integration with AMSI provides visibility into script content deobfuscation in PowerShell and JavaScript engines before execution."
+  core_concepts:
+    - key: "Fileless Execution"
+      value: "Malware execution that occurs entirely within process memory without writing malicious files to disk, evading file-based detection"
+    - key: "Reflective Loading"
+      value: "A technique where code maps itself into process memory without using standard OS loader functions, avoiding file system and module tracking"
+    - key: "Memory Permission Analysis"
+      value: "Detection of anomalous memory page permissions where executable code exists in regions not originally allocated for execution"
+
+relations:
+  - type: effective_against
+    target: "ATK-EVADE-FILELESS-001"
+    description: "Directly targets fileless malware execution techniques operating entirely in memory"
+  - type: requires
+    target: "DETECT-BEHAVIOR-ANOMPROC-001"
+    description: "In-memory detection leverages anomalous process detection for identifying suspicious host processes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1055"
+    tactic: ["Defense Evasion", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1055 - Process Injection - https://attack.mitre.org/techniques/T1055/"
+    - "Microsoft - AMSI Overview - https://learn.microsoft.com/en-us/windows/win32/amsi/antimalware-scan-interface-portal"
+    - "Elastic Security - Memory Threat Detection - https://www.elastic.co/guide/en/security/"
+  search_keywords:
+    - "fileless malware detection"
+    - "in-memory threat detection"
+    - "process memory scanning"
+    - "reflective loading detection"
+    - "memory-based malware analysis"
+    - "shellcode detection memory"
+    - "fileless attack detection"
+    - "process injection detection"
+  embedding_text: "Near Memory In-Memory Detection identifies fileless malware executing entirely within process memory without file system artifacts. It monitors memory regions for shellcode characteristics, suspicious RWX allocations, reflective PE loading structures, and unhooked API call sequences. Detection operates at kernel level tracking memory allocations, user-mode hooking of injection APIs like WriteProcessMemory, periodic scanning for known shellcode patterns and C2 beacon configurations, memory permission anomaly analysis, and thread stack inspection for ROP chains. ETW-based monitoring captures reflective .NET assembly loading, while AMSI integration provides script deobfuscation visibility. This technique addresses the dominant evasion strategy used in over 70% of successful breaches."

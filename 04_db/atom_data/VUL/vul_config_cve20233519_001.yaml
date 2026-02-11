@@ -1,0 +1,107 @@
+# GR Atom: CVE-2023-3519
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20233519-001"
+  name: "CVE-2023-3519"
+  normalized_name: "cve_2023_3519"
+  aliases:
+    - "CitrixBleed"
+    - "Citrix ADC Remote Code Execution"
+    - "Citrix NetScaler RCE"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - OVERFLOW
+
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Citrix NetScaler ADC"
+    - "Citrix Gateway"
+
+definition:
+  what: >-
+    CVE-2023-3519 is a critical unauthenticated remote code execution vulnerability in Citrix NetScaler
+    ADC (Application Delivery Controller) and Citrix Gateway. The vulnerability exists in the Gateway
+    service when configured as a VPN virtual server, ICA Proxy, CVPN, or RDP Proxy. A stack buffer
+    overflow in the NSPPE process allows an unauthenticated remote attacker to execute arbitrary code
+    on the appliance. CVSS v3: 9.8 (Critical). Disclosed in July 2023 and actively exploited as a
+    zero-day before patch availability.
+  why: >-
+    Citrix NetScaler ADC and Gateway appliances are deployed at the network perimeter of thousands of
+    organizations worldwide, serving as VPN gateways and application delivery controllers. Exploitation
+    provides immediate access to internal networks. The vulnerability was actively exploited in the wild
+    by multiple threat actors including ransomware groups and nation-state actors. CISA issued an
+    emergency advisory and added it to the Known Exploited Vulnerabilities catalog. Over 15,000
+    vulnerable appliances were estimated to be internet-facing at the time of disclosure.
+  how: >-
+    The vulnerability is exploited by sending specially crafted requests to the Citrix Gateway service
+    that trigger a stack buffer overflow in the NSPPE (NetScaler Packet Processing Engine) process.
+    The overflow allows the attacker to overwrite the return address on the stack and redirect execution
+    to attacker-controlled shellcode. No authentication is required. Post-exploitation, attackers
+    typically deploy web shells for persistent access and pivot to internal networks. Citrix released
+    patches in July 2023. Organizations were advised to apply patches immediately and check for
+    indicators of compromise including web shells in known directories.
+  core_concepts:
+    - key: "Perimeter Device RCE"
+      value: "Unauthenticated remote code execution on a network perimeter appliance providing immediate internal network access without credential requirements"
+    - key: "Pre-Authentication Stack Overflow"
+      value: "Stack buffer overflow in the NetScaler Packet Processing Engine exploitable before any authentication check, enabling zero-click exploitation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2023-3519 is a specific instance of a vulnerable network component in Citrix ADC/Gateway appliances"
+  - type: enables
+    target: "ATK-PERSIST-WEBSHELL-001"
+    description: "Exploitation of CVE-2023-3519 enables deployment of web shells for persistent access to compromised Citrix appliances"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+  cve_mapping:
+    cve_id: "CVE-2023-3519"
+    cvss_score: 9.8
+    cwe_id: "CWE-121"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2023-3519 - NVD NIST"
+    - "Citrix Security Advisory CTX561482"
+    - "CISA Advisory AA23-201A - Threat Actors Exploiting Citrix CVE-2023-3519"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Mandiant - Exploitation of Citrix NetScaler CVE-2023-3519"
+  search_keywords:
+    - "CVE-2023-3519"
+    - "CitrixBleed"
+    - "Citrix NetScaler RCE"
+    - "Citrix ADC vulnerability"
+    - "Citrix Gateway exploit"
+    - "NetScaler stack overflow"
+    - "Citrix unauthenticated RCE"
+  embedding_text: >-
+    CVE-2023-3519 is a critical unauthenticated remote code execution vulnerability in Citrix
+    NetScaler ADC and Citrix Gateway appliances, commonly referred to as CitrixBleed. A stack buffer
+    overflow in the NSPPE process allows remote attackers to execute arbitrary code without
+    authentication when the appliance is configured as a VPN virtual server or proxy. CVSS v3 score
+    is 9.8 Critical. Actively exploited as a zero-day by multiple threat actors including ransomware
+    groups and nation-state actors. Over 15,000 vulnerable internet-facing appliances were identified
+    at disclosure. CISA issued an emergency advisory. Post-exploitation typically involves web shell
+    deployment for persistent access and lateral movement into internal networks. Patched by Citrix
+    in July 2023. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application.

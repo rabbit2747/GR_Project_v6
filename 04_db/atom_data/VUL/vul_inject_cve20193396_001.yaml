@@ -1,0 +1,115 @@
+# GR Atom: CVE-2019-3396
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20193396-001"
+  name: "CVE-2019-3396"
+  normalized_name: "cve_2019_3396"
+  aliases:
+    - "Confluence Server-Side Template Injection"
+    - "Atlassian Confluence Widget Connector RCE"
+    - "Confluence SSTI"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+    - INITIAL
+    - PATH
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Atlassian Confluence Server before 6.6.12"
+    - "Atlassian Confluence Server before 6.12.3"
+    - "Atlassian Confluence Server before 6.13.3"
+    - "Confluence Widget Connector macro"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-3396 is a server-side template injection and path traversal vulnerability in
+    Atlassian Confluence Server Widget Connector macro that allows remote attackers to achieve
+    path traversal and remote code execution. The Widget Connector macro does not properly
+    validate user input, enabling attackers to inject template directives and traverse the
+    file system. The CVSS v3 base score is 9.8 (Critical) and it was disclosed in March 2019.
+  why: >-
+    Atlassian Confluence is one of the most widely used enterprise collaboration platforms.
+    Many organizations expose Confluence to the internet for remote team collaboration, making
+    it a high-value target. The vulnerability allows unauthenticated access to server files
+    and code execution, enabling attackers to steal intellectual property and access credentials.
+  how: >-
+    Attackers exploit the Widget Connector macro by sending crafted requests that include
+    path traversal sequences and server-side template injection payloads. The Velocity
+    template engine processes the malicious templates, enabling file reading through path
+    traversal and arbitrary code execution through template directives. Attackers can read
+    sensitive files like database credentials, then leverage code execution for full system
+    compromise. Mitigation requires upgrading Confluence to patched versions.
+  core_concepts:
+    - key: "Server-Side Template Injection"
+      value: "Injection of Velocity template directives that are processed server-side, enabling file access and code execution"
+    - key: "Widget Connector Abuse"
+      value: "Confluence macro that processes external content without proper input validation, serving as the injection entry point"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Confluence SSTI is a specific instance of injection through template engine manipulation"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202126084-001"
+    description: "Earlier Confluence injection vulnerability precedes the later OGNL injection in Confluence"
+  - type: "precedes"
+    target: "VUL-INJECT-CVE202226134-001"
+    description: "Earlier Confluence vulnerability precedes the critical 2022 Confluence OGNL injection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2019-3396"
+  cvss_score: 9.8
+  affected_product: "Atlassian Confluence Server"
+  year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2019-3396"
+    - "CWE-94 Improper Control of Generation of Code"
+    - "Atlassian Security Advisory"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2019-3396"
+    - "Confluence template injection"
+    - "Atlassian Confluence RCE"
+    - "Widget Connector vulnerability"
+    - "Confluence SSTI"
+    - "Confluence path traversal"
+    - "Velocity template injection"
+  embedding_text: >-
+    CVE-2019-3396 is a critical server-side template injection and path traversal vulnerability
+    in Atlassian Confluence Server Widget Connector macro with CVSS score 9.8. The macro fails
+    to validate user input enabling Velocity template injection and file system traversal for
+    remote code execution. Confluence is widely deployed for enterprise collaboration and often
+    internet-accessible. Attackers exploit the Widget Connector to read sensitive files and
+    execute arbitrary code without authentication. This vulnerability preceded later critical
+    Confluence injection flaws including CVE-2021-26084 and CVE-2022-26134. Mitigation
+    requires upgrading to patched Confluence versions.

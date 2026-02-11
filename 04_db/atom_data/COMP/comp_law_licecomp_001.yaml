@@ -1,0 +1,111 @@
+# GR Atom: License Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-LICECOMP-001"
+  name: "License Compliance"
+  normalized_name: "license_compliance"
+  aliases:
+    - "Software License Compliance"
+    - "Open Source License Compliance"
+    - "Licensing Compliance Management"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    License Compliance is the practice of ensuring that an organization's use of software,
+    intellectual property, and digital assets conforms to the terms and conditions of applicable
+    licenses. This encompasses commercial software licensing (per-seat, per-core, subscription,
+    enterprise agreements), open source software (OSS) license obligations (GPL, LGPL, MIT,
+    Apache, BSD), and SaaS subscription terms. Key concerns include license compatibility when
+    combining software under different licenses, copyleft obligations requiring source code
+    disclosure, attribution requirements, patent grant provisions, and restrictions on use,
+    modification, and redistribution.
+  why: >
+    License non-compliance carries substantial legal and financial risks. Commercial software
+    audit settlements can reach millions of dollars. Open source license violations can trigger
+    copyright infringement claims, forced source code disclosure of proprietary software, and
+    injunctive relief. The Software Alliance (BSA) actively pursues commercial license violations.
+    In the open source domain, organizations like the Software Freedom Conservancy enforce GPL
+    compliance. Beyond legal risk, license compliance is increasingly scrutinized in due diligence
+    processes for mergers, acquisitions, and IPOs.
+  how: >
+    Organizations implement license compliance through Software Composition Analysis (SCA) tools
+    that inventory all software components and their licenses, maintaining a Software Bill of
+    Materials (SBOM), establishing license approval policies that classify licenses as approved,
+    restricted, or prohibited, training developers on license obligations, conducting regular
+    license audits, implementing automated license checking in CI/CD pipelines, managing
+    commercial software asset inventories, and establishing processes for responding to license
+    compliance inquiries and audits from vendors and the open source community.
+  core_concepts:
+    - key: "Open Source Licenses"
+      value: "Legal frameworks governing the use, modification, and distribution of open source software, ranging from permissive (MIT, BSD) to copyleft (GPL, AGPL)"
+    - key: "Copyleft Obligations"
+      value: "License requirements that derivative works must be distributed under the same license terms, potentially requiring source code disclosure"
+    - key: "Software Composition Analysis (SCA)"
+      value: "Automated tools that identify open source components, their licenses, and known vulnerabilities in codebases"
+    - key: "Software Bill of Materials (SBOM)"
+      value: "Comprehensive inventory of all software components, versions, and licenses used in a product or system"
+    - key: "License Compatibility"
+      value: "Analysis of whether multiple software licenses can be combined in a single product without violating any license terms"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "License compliance is a specific domain within the broader compliance discipline"
+  - type: applies_to
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "License compliance applies across all industries that use software"
+  - type: enables
+    target: "COMP-LAW-VULNDISC-001"
+    description: "License compliance processes (SCA, SBOM) enable vulnerability disclosure by identifying component inventories"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Open Source Initiative (OSI) — Open Source License Definitions and Approved Licenses"
+    - "Linux Foundation — OpenChain Specification ISO/IEC 5230:2020"
+    - "NTIA — Software Bill of Materials (SBOM) Minimum Elements"
+    - "BSA | The Software Alliance — Software Asset Management Guidelines"
+  search_keywords:
+    - "license compliance"
+    - "software license"
+    - "open source compliance"
+    - "GPL compliance"
+    - "copyleft license"
+    - "software composition analysis SCA"
+    - "software bill of materials SBOM"
+    - "license compatibility"
+    - "commercial software audit"
+  embedding_text: >
+    License Compliance ensures organizational adherence to software license terms and conditions,
+    covering commercial software agreements, open source license obligations, and SaaS subscription
+    terms. Key areas include open source licenses (GPL, MIT, Apache, BSD), copyleft obligations
+    requiring source code disclosure, license compatibility analysis, and commercial audit
+    preparedness. Implementation involves Software Composition Analysis (SCA) tools, Software
+    Bill of Materials (SBOM) management, license approval policies, developer training, automated
+    license checking in CI/CD pipelines, and regular audits. Non-compliance risks include
+    copyright infringement claims, forced source code disclosure, financial penalties, and
+    negative impact on M&A due diligence outcomes.

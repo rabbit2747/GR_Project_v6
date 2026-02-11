@@ -1,0 +1,117 @@
+# GR Atom: Google Play Services
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-GOOPLASER-001"
+  name: "Google Play Services"
+  normalized_name: "google_play_services"
+  aliases:
+    - "Google Mobile Services"
+    - "GMS"
+    - "Play Services Framework"
+    - "com.google.android.gms"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - ANDROID
+    - MOBILE
+    - GCP
+    - API
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Google Play Services is a proprietary background service and API framework running on
+    Android devices that provides core Google functionality including authentication, push
+    notifications (FCM), location services, Google Maps, Google Sign-In, and Play Store
+    app verification. It operates as a privileged system-level process that is automatically
+    updated independently of the Android OS version, serving as the bridge between third-party
+    apps and Google's cloud services.
+  why: >-
+    Google Play Services has elevated system privileges on Android devices, making it a
+    high-value target. Vulnerabilities in Play Services can affect billions of devices
+    simultaneously. The service handles authentication tokens, location data, and push
+    notifications, all of which are targets for surveillance and data collection. Malware
+    may impersonate or abuse Play Services APIs for permission abuse. The Play Protect
+    component scans apps but can be circumvented. Absence of Google Play Services (on
+    custom ROMs or Chinese Android devices) eliminates security features like Play Protect
+    and SafetyNet/Play Integrity attestation.
+  how: >-
+    Google Play Services runs as a persistent background service with system-level permissions.
+    It provides client libraries that apps use to access Google APIs (Maps, Auth, FCM, Ads).
+    The service maintains OAuth 2.0 tokens for Google account access and manages device
+    registration for push notifications. Play Protect performs app scanning using cloud-based
+    malware detection. SafetyNet/Play Integrity API provides device attestation for detecting
+    rooted or tampered devices. The service communicates with Google servers over HTTPS for
+    API calls, telemetry, and security updates.
+  core_concepts:
+    - key: "Android Platform Framework"
+      value: "Privileged system service providing Google API access, authentication, push notifications, and security features to all Android applications"
+    - key: "Device Security Attestation"
+      value: "Play Protect and Play Integrity API provide app scanning and device attestation that are bypassed on rooted or modified devices"
+    - key: "Authentication Token Management"
+      value: "Manages Google OAuth tokens and account credentials making it a high-value target for authentication-related attacks on Android"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Google Play Services is a foundational enterprise mobile application component on Android-managed devices"
+  - type: "enables"
+    target: "INFRA-APP-GOOGDRIV-001"
+    description: "Google Play Services provides the authentication and API framework that Google Drive and other Google apps depend on"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1421"
+    tactic:
+      - "Discovery"
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Play Services Documentation"
+    - "Android Security Documentation - Play Protect"
+    - "MITRE ATT&CK Mobile - Android Platform Techniques"
+  search_keywords:
+    - "Google Play Services"
+    - "Google Mobile Services"
+    - "Play Protect"
+    - "SafetyNet"
+    - "Play Integrity API"
+    - "Android Google services"
+    - "GMS security"
+    - "Play Services vulnerability"
+  embedding_text: >-
+    Google Play Services is a privileged Android background service providing core Google
+    functionality including authentication, push notifications (FCM), location services,
+    Play Protect app scanning, and Play Integrity device attestation. Running with system-level
+    permissions, it manages OAuth tokens and bridges third-party apps to Google cloud services.
+    Security significance includes its elevated privileges making it a high-value target,
+    authentication token management creating credential theft opportunities, and Play Protect
+    providing malware scanning that can be circumvented. Absence of Play Services on custom
+    ROMs eliminates security features. Vulnerabilities affect billions of devices simultaneously.
+    Security teams should ensure Play Services is current, enforce Play Protect, monitor for
+    Play Services impersonation, and use Play Integrity for device health attestation in
+    enterprise mobile deployments.

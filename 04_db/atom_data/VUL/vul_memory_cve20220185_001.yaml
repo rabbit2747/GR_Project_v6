@@ -1,0 +1,117 @@
+# GR Atom: CVE-2022-0185
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20220185-001"
+  name: "CVE-2022-0185"
+  normalized_name: "cve_2022_0185"
+  aliases:
+    - "Linux Filesystem Context Heap Overflow"
+    - "Legacy Parse Param Overflow"
+    - "Linux Kernel Container Escape"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - CONTAINER
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Linux kernel 5.1+ filesystem context"
+    - "legacy_parse_param function"
+    - "Container runtimes (Docker, Kubernetes)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-0185 is a heap-based buffer overflow vulnerability (CVSS 8.4) in the Linux
+    kernel's filesystem context handling (legacy_parse_param function) that allows local
+    privilege escalation to root and container escape. Discovered in January 2022, the
+    vulnerability affects Linux kernel versions 5.1 and later. The overflow occurs when
+    processing filesystem mount parameters that exceed the allowed page size. Exploitation
+    enables root access from unprivileged users and, critically, escape from unprivileged
+    containers when the CAP_SYS_ADMIN capability is available within the container namespace.
+  why: >-
+    CVE-2022-0185 is particularly significant for container security because it enables
+    container escape from unprivileged containers. In default Kubernetes configurations,
+    containers can obtain CAP_SYS_ADMIN within their user namespace, making this a practical
+    container escape vulnerability. The ability to break out of container isolation to
+    compromise the host kernel represents one of the most critical threat scenarios for
+    containerized infrastructure. It highlighted the importance of kernel hardening and
+    namespace restrictions in container environments.
+  how: >-
+    The exploit creates a user namespace to obtain CAP_SYS_ADMIN capability, then triggers
+    the heap overflow by calling the fsconfig syscall with an excessively long parameter
+    value that overflows the allocated buffer in legacy_parse_param. The heap corruption
+    is leveraged to overwrite adjacent kernel objects, typically modifying a msg_msg
+    structure to achieve arbitrary read/write primitives. These primitives are used to
+    overwrite kernel credentials (modprobe_path or cred structures) for root access.
+    In container contexts, the same technique escapes the container to root on the host.
+  core_concepts:
+    - key: "Filesystem Context Heap Overflow"
+      value: "Heap buffer overflow in legacy_parse_param when processing oversized filesystem mount parameters"
+    - key: "Container Escape"
+      value: "Enables escape from unprivileged containers using CAP_SYS_ADMIN within user namespaces"
+    - key: "Kernel Credential Overwrite"
+      value: "Heap corruption exploited to overwrite kernel credential structures for root privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2022-0185 is a heap-based buffer overflow in Linux kernel filesystem handling"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202421626-001"
+    description: "Both are Linux kernel vulnerabilities enabling container escape to host root"
+  - type: "enables"
+    target: "VUL-MEMORY-DIRTPIPE-001"
+    description: "Both are Linux kernel vulnerabilities providing reliable local privilege escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1611"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Crusaders of Rust - CVE-2022-0185 Linux Kernel Exploit"
+    - "NVD Entry CVE-2022-0185 - CVSS 8.4"
+    - "MITRE ATT&CK T1611 - Escape to Host"
+  search_keywords:
+    - "CVE-2022-0185"
+    - "Linux kernel"
+    - "heap overflow"
+    - "container escape"
+    - "legacy_parse_param"
+    - "filesystem context"
+    - "Kubernetes"
+    - "privilege escalation"
+  embedding_text: >-
+    CVE-2022-0185 is a heap-based buffer overflow in the Linux kernel filesystem context
+    handling with CVSS 8.4 enabling local privilege escalation and container escape. The
+    overflow in legacy_parse_param occurs when processing oversized filesystem mount
+    parameters. Exploitation enables root access from unprivileged users and escape from
+    containers with user namespace CAP_SYS_ADMIN. Discovered in January 2022 affecting
+    kernels 5.1+, it highlighted critical container security concerns as default Kubernetes
+    configurations allow obtaining the required capability. Heap corruption overwrites
+    kernel credential structures for privilege escalation.

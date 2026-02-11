@@ -1,0 +1,118 @@
+# GR Atom: Firefox
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-FIREFOX-001"
+  name: "Firefox"
+  normalized_name: "firefox"
+  aliases:
+    - "Mozilla Firefox"
+    - "Firefox ESR"
+    - "Firefox Browser"
+    - "Firefox Quantum"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - TLS
+    - EXEC
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Mozilla Firefox is an open-source web browser developed by the Mozilla Foundation using the
+    Gecko rendering engine and SpiderMonkey JavaScript engine. It is available for Windows, macOS,
+    Linux, Android, and iOS. Firefox ESR (Extended Support Release) provides a long-term stable
+    version for enterprise deployments. The browser supports WebExtensions for add-ons, built-in
+    developer tools, and privacy features including Enhanced Tracking Protection, DNS-over-HTTPS,
+    and container tabs.
+  why: >-
+    Firefox is a significant attack surface as a web browser that processes untrusted content from
+    the internet. Vulnerabilities in its JavaScript engine (SpiderMonkey), rendering engine (Gecko),
+    and media decoders have been exploited for remote code execution. Firefox stores saved passwords,
+    cookies, session tokens, and browsing history in profile directories that are targets for
+    credential theft. The browser's extension system has been abused for malicious add-ons that
+    steal data, inject content, or provide persistent access. Firefox ESR installations in
+    enterprises may lag behind security patches.
+  how: >-
+    Firefox processes web content through its multi-process architecture (Electrolysis/Fission)
+    with content processes sandboxed from the main browser process. The browser renders HTML/CSS
+    through Gecko, executes JavaScript through SpiderMonkey, and handles media through integrated
+    codecs. User credentials are stored in logins.json encrypted with a master password (if set)
+    or system keystore. Cookies, history, and session data reside in SQLite databases within the
+    profile directory. Exploitation targets JavaScript JIT compilation, WebAssembly, CSS parsing,
+    image/video decoders, or WebGL. Post-exploitation focuses on extracting saved credentials,
+    session cookies, and browser history from profile data.
+  core_concepts:
+    - key: "Web Content Processing Engine"
+      value: "Open-source browser using Gecko rendering and SpiderMonkey JavaScript engines processing untrusted web content with multi-process sandboxing"
+    - key: "Credential Storage Target"
+      value: "Saved passwords in logins.json, session cookies, and browsing history in SQLite databases are high-value targets for credential theft malware"
+    - key: "Extension Ecosystem"
+      value: "WebExtensions API enables browser add-ons that can be abused for malicious data theft, content injection, and persistent browser access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-GOOGCHRO-001"
+    description: "Firefox and Google Chrome are alternative web browsers competing for market share"
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "Firefox ESR is a commonly deployed enterprise application for organizational web browsing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Mozilla Firefox Security Advisories"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+    - "Mozilla Security Documentation - Firefox Architecture"
+  search_keywords:
+    - "Mozilla Firefox"
+    - "Firefox vulnerability"
+    - "Firefox ESR"
+    - "Firefox exploit"
+    - "Firefox credential theft"
+    - "SpiderMonkey vulnerability"
+    - "Gecko rendering engine"
+    - "Firefox browser security"
+  embedding_text: >-
+    Mozilla Firefox is an open-source web browser using the Gecko rendering engine and
+    SpiderMonkey JavaScript engine, available across all major platforms. Firefox ESR provides
+    long-term stable releases for enterprise deployment. The browser is a significant attack
+    surface processing untrusted web content, with vulnerabilities in JavaScript JIT compilation,
+    rendering engine, and media decoders exploited for remote code execution. Firefox stores
+    saved passwords in logins.json, session cookies, and browsing history in SQLite databases
+    within profile directories, all of which are targets for credential theft malware. The
+    WebExtensions system has been abused for malicious add-ons providing persistent data theft.
+    Multi-process architecture (Fission) provides sandboxing. Security teams should maintain
+    current Firefox versions, enforce enterprise policies for extension management, and monitor
+    for unauthorized profile data access.

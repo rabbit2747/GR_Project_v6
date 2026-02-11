@@ -1,0 +1,98 @@
+# GR Atom: CVE-2021-32648
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202132648-001"
+  name: "CVE-2021-32648"
+  normalized_name: "cve_2021_32648"
+  aliases:
+    - "October CMS Password Reset Logic Bypass"
+    - "October CMS Account Takeover"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - WEB
+    - CRED
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "October CMS v1.0"
+    - "October CMS v1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-32648 is an authentication bypass vulnerability in October CMS that allows
+    attackers to reset any user's password including administrator accounts. The password
+    reset logic fails to properly validate the reset token, enabling an attacker to send a
+    specially crafted password reset request that bypasses token verification and sets a new
+    password for any account. CVSS v3 base score: 9.1 (Critical). Exploited in the wild
+    against Ukrainian government websites.
+  why: >-
+    This vulnerability enables complete account takeover of any October CMS user including
+    administrators. It was notably exploited in January 2022 against Ukrainian government
+    websites as part of cyber operations during the Russia-Ukraine conflict. The flaw allows
+    full website compromise through administrator account takeover, enabling defacement,
+    data exfiltration, and malware deployment.
+  how: >-
+    An attacker initiates a password reset request for a target account and then sends a
+    modified reset completion request with a crafted token value. The password reset logic
+    contains a flaw in token validation that accepts certain specially constructed values,
+    allowing the attacker to complete the password reset without possessing the legitimate
+    reset token. This sets a new password controlled by the attacker.
+  core_concepts:
+    - key: "Password Reset Logic Flaw"
+      value: "Token validation in the password reset flow accepts crafted values, enabling unauthorized password changes for any account"
+    - key: "Account Takeover Vector"
+      value: "Complete administrator account compromise through password reset manipulation without requiring the legitimate reset token"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Password reset token validation logic flaw enabling unauthorized account takeover"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2021-32648"
+    - "October CMS Security Advisory"
+    - "NIST NVD - CVE-2021-32648"
+    - "CERT-UA Advisory on Ukrainian Government Website Attacks"
+  search_keywords:
+    - "CVE-2021-32648"
+    - "October CMS vulnerability"
+    - "password reset bypass"
+    - "account takeover"
+    - "Ukraine cyber attack"
+    - "CMS authentication bypass"
+  embedding_text: >-
+    CVE-2021-32648 is an authentication bypass in October CMS enabling password reset for any
+    account including administrators. Token validation logic accepts crafted values, bypassing
+    reset verification. CVSS v3 9.1 Critical. Exploited against Ukrainian government websites
+    in January 2022. Enables complete account takeover, website defacement, and data exfiltration.
+    Password reset logic flaw. Affects October CMS v1.0 and v1.1. Year 2021.

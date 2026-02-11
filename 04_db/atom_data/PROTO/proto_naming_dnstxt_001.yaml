@@ -1,0 +1,138 @@
+# GR Atom: DNS TXT
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-NAMING-DNSTXT-001"
+  name: "DNS TXT"
+  normalized_name: "dns_txt"
+  aliases:
+    - "DNS TXT Record"
+    - "DNS Text Record"
+    - "TXT Resource Record"
+    - "SPF Record"
+    - "DKIM Record"
+    - "DMARC Record"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - DNS
+    - SMTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DNS TXT records are a DNS resource record type (type 16) defined in RFC 1035 that store
+    arbitrary text strings associated with a domain name. Originally designed for human-readable
+    notes, TXT records have become the primary mechanism for domain verification and email
+    authentication protocols. Key uses include SPF (Sender Policy Framework, RFC 7208) declaring
+    authorized mail senders, DKIM (DomainKeys Identified Mail, RFC 6376) publishing email
+    signing public keys, DMARC (RFC 7489) setting email authentication policies, domain
+    ownership verification for cloud services, and ACME (RFC 8555) DNS challenges for TLS
+    certificate issuance. TXT records can contain up to 255 bytes per string with multiple
+    strings per record.
+  why: >-
+    DNS TXT records are security-critical because they underpin email authentication infrastructure
+    that protects against phishing, spoofing, and business email compromise (BEC). Misconfigured
+    SPF records allow attackers to send spoofed emails from a domain. Missing or weak DMARC
+    policies prevent enforcement of email authentication failures. Compromised DKIM keys enable
+    forged authenticated emails. Beyond email, TXT records are used for domain verification in
+    cloud services - a hijacked TXT record can enable domain takeover for Google Workspace, Azure,
+    AWS, and other services. TXT records are also abused for data exfiltration via DNS tunneling
+    (encoding data in TXT query responses), and overly large TXT records contribute to DNS
+    amplification attacks. The growing reliance on TXT records for security-critical functions
+    makes DNS integrity and access control essential.
+  how: >-
+    DNS TXT records are configured in authoritative DNS zone files with specific formats for each
+    use case: (1) SPF - a TXT record at the domain apex containing "v=spf1" followed by
+    mechanisms (ip4, ip6, include, a, mx) and qualifiers (+, -, ~, ?) declaring authorized mail
+    sources, ending with -all (hard fail) or ~all (soft fail); (2) DKIM - a TXT record at
+    selector._domainkey.domain containing "v=DKIM1" with the p= parameter holding the Base64-
+    encoded RSA or Ed25519 public key for email signature verification; (3) DMARC - a TXT record
+    at _dmarc.domain containing "v=DMARC1" with policy (p=none|quarantine|reject), reporting
+    addresses (rua, ruf), and alignment settings; (4) Domain verification - TXT records with
+    provider-specific tokens (e.g., google-site-verification=, MS=, ); (5) ACME challenges -
+    temporary TXT records at _acme-challenge.domain proving domain control for certificate
+    issuance. Security best practices include implementing strict SPF (-all), enabling DMARC
+    with p=reject, rotating DKIM keys regularly, and monitoring TXT records for unauthorized
+    modifications.
+  core_concepts:
+    - key: "SPF (Sender Policy Framework)"
+      value: >-
+        A TXT record-based email authentication mechanism (RFC 7208) that declares which IP
+        addresses and mail servers are authorized to send email for a domain, enabling receiving
+        servers to detect and reject spoofed emails from unauthorized sources.
+    - key: "DKIM (DomainKeys Identified Mail)"
+      value: >-
+        An email authentication standard (RFC 6376) that publishes cryptographic public keys
+        in DNS TXT records, enabling receiving servers to verify digital signatures on email
+        headers and body, proving the message was authorized by the domain owner.
+    - key: "DMARC (Domain-based Message Authentication)"
+      value: >-
+        A policy framework (RFC 7489) published as a DNS TXT record that instructs receiving
+        mail servers how to handle emails failing SPF and DKIM authentication, with reporting
+        mechanisms providing visibility into domain email authentication status.
+    - key: "Domain Verification"
+      value: >-
+        The practice of proving domain ownership to cloud services by publishing a provider-
+        specified token as a DNS TXT record, used by Google, Microsoft, AWS, and other
+        platforms to authorize service binding to the domain.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "DNS TXT records are a resource record type within the DNS protocol serving authentication and verification functions"
+  - type: "applies_to"
+    target: "PROTO-NAMING-DNSCOOK-001"
+    description: "TXT records complement DNS Cookies as part of the broader DNS security ecosystem"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "DNS TXT record queries are primarily transported over UDP, with TCP fallback for large responses"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 1035 - Domain Names: Implementation and Specification (November 1987). IETF. https://datatracker.ietf.org/doc/html/rfc1035"
+    - "RFC 7208 - Sender Policy Framework (SPF) (April 2014). IETF. https://datatracker.ietf.org/doc/html/rfc7208"
+    - "RFC 6376 - DomainKeys Identified Mail (DKIM) Signatures (September 2011). IETF. https://datatracker.ietf.org/doc/html/rfc6376"
+    - "RFC 7489 - Domain-based Message Authentication, Reporting, and Conformance (DMARC) (March 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7489"
+  search_keywords:
+    - "DNS TXT record"
+    - "SPF record"
+    - "DKIM record"
+    - "DMARC record"
+    - "email authentication DNS"
+    - "domain verification"
+    - "sender policy framework"
+    - "DomainKeys Identified Mail"
+    - "email spoofing prevention"
+    - "DNS email security"
+    - "ACME DNS challenge"
+    - "TXT record security"
+  embedding_text: >-
+    DNS TXT records (type 16) store arbitrary text strings used primarily for email authentication
+    and domain verification. Key applications include SPF (RFC 7208) declaring authorized mail
+    senders, DKIM (RFC 6376) publishing email signing public keys, DMARC (RFC 7489) setting
+    authentication enforcement policies, domain ownership verification for cloud services, and
+    ACME DNS challenges for TLS certificates. TXT records are security-critical because they
+    underpin defenses against phishing, email spoofing, and business email compromise.
+    Misconfigured SPF, missing DMARC, or compromised DKIM keys enable email-based attacks.
+    TXT records are also abused for DNS tunneling data exfiltration and amplification attacks.
+    Best practices include strict SPF with -all, DMARC with p=reject, regular DKIM key rotation,
+    and monitoring for unauthorized TXT record modifications.

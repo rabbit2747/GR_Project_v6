@@ -1,0 +1,98 @@
+# GR Atom: CoAP Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-COAP-001"
+  name: "CoAP Protocol"
+  normalized_name: "coap_protocol"
+  aliases:
+    - "Constrained Application Protocol"
+    - "CoAP"
+    - "RFC 7252"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - IOT
+    - NETWORK
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    The Constrained Application Protocol (CoAP) is a specialized RESTful application layer
+    protocol designed for resource-constrained IoT devices and low-power, lossy networks. Defined
+    in IETF RFC 7252, CoAP provides a request-response interaction model similar to HTTP but with
+    significantly lower overhead, using compact binary headers (4-byte minimum), UDP transport,
+    and asynchronous message exchange. CoAP supports GET, POST, PUT, and DELETE methods with
+    content negotiation, resource discovery via /.well-known/core, and an observe extension
+    (RFC 7641) for server push notifications. DTLS provides transport security.
+  why: >-
+    CoAP is a foundational protocol for IoT ecosystems where constrained devices lack the
+    resources to run full HTTP stacks. From a security perspective, CoAP deployments face risks
+    including UDP amplification attacks exploiting multicast capabilities, unauthorized device
+    access due to weak or absent authentication, and man-in-the-middle attacks when DTLS is not
+    implemented. Many IoT deployments expose CoAP endpoints without adequate security controls,
+    creating entry points for network infiltration.
+  how: >-
+    CoAP operates over UDP (default port 5683, DTLS on 5684) using a compact binary message
+    format with four message types: Confirmable (CON) requiring acknowledgment, Non-confirmable
+    (NON) for fire-and-forget, Acknowledgment (ACK), and Reset (RST). Reliability is implemented
+    through stop-and-wait retransmission for CON messages. Resource discovery uses the CoRE Link
+    Format (RFC 6690) at /.well-known/core. The Observe extension enables clients to register for
+    resource state change notifications. Block-wise transfer (RFC 7959) handles large payloads.
+    Security is provided by DTLS 1.2 with pre-shared keys, raw public keys, or certificates.
+  core_concepts:
+    - key: "Confirmable/Non-confirmable Messages"
+      value: "CoAP message types providing optional reliability — CON messages require ACK response with retransmission, while NON messages are best-effort delivery."
+    - key: "Observe Extension"
+      value: "RFC 7641 mechanism enabling clients to register interest in a resource and receive push notifications when state changes, analogous to WebSocket subscriptions."
+    - key: "CoRE Link Format"
+      value: "Resource discovery mechanism defined in RFC 6690 where devices expose available resources at /.well-known/core for automated discovery."
+    - key: "CoAP-HTTP Proxying"
+      value: "Cross-protocol translation mapping CoAP requests to HTTP and vice versa, enabling constrained devices to communicate with standard web infrastructure."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "CoAP is an application layer protocol designed as a lightweight alternative to HTTP for constrained IoT environments"
+  - type: "applies_to"
+    target: "PROTO-MSG-MQTT-001"
+    description: "CoAP and MQTT are complementary IoT protocols — CoAP for RESTful device management and MQTT for event-driven telemetry"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 7252 — The Constrained Application Protocol (CoAP)"
+    - "IETF RFC 7641 — Observing Resources in the Constrained Application Protocol"
+    - "IETF RFC 7959 — Block-Wise Transfers in CoAP"
+    - "IETF RFC 6690 — Constrained RESTful Environments (CoRE) Link Format"
+  search_keywords:
+    - "CoAP"
+    - "constrained application protocol"
+    - "RFC 7252"
+    - "IoT protocol"
+    - "constrained devices"
+    - "6LoWPAN"
+    - "DTLS"
+    - "CoRE link format"
+    - "lightweight HTTP"
+  embedding_text: >-
+    CoAP (Constrained Application Protocol) defined in RFC 7252 is a lightweight RESTful
+    application layer protocol designed for resource-constrained IoT devices and low-power lossy
+    networks. Operating over UDP on port 5683, CoAP uses compact 4-byte binary headers and
+    supports GET, POST, PUT, DELETE methods. The protocol provides confirmable and non-confirmable
+    message types for optional reliability, an Observe extension for server push notifications,
+    and block-wise transfer for large payloads. Security uses DTLS with pre-shared keys or
+    certificates. CoAP maps directly to HTTP semantics enabling cross-protocol proxying. Security
+    risks include UDP amplification attacks, weak IoT authentication, and exposed endpoints.

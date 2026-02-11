@@ -1,0 +1,70 @@
+# GR Atom: Embedded Computer
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-EMBECOMP-001"
+  name: "Embedded Computer"
+  normalized_name: "embedded_computer"
+  aliases: ["Embedded System", "Embedded Device", "Embedded Controller"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [IOT, FIRMWARE, ICS]
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    An Embedded Computer is a specialized computing system designed to perform dedicated functions
+    within a larger mechanical or electrical system. Embedded computers use microcontrollers or
+    system-on-chip (SoC) processors running real-time operating systems (RTOS) or bare-metal
+    firmware. They are found in industrial control systems, medical devices, automotive systems,
+    network equipment, consumer electronics, and IoT devices, typically with constrained resources
+    (limited memory, processing power, and storage).
+  why: >-
+    Embedded computers represent a massive and often poorly secured attack surface. Many run
+    outdated firmware without security updates, use default credentials, lack encryption, and
+    have no monitoring capabilities. Compromised embedded systems in critical infrastructure
+    (ICS/SCADA, medical devices, automotive) can have physical safety implications. The
+    Mirai botnet demonstrated how compromised embedded devices can be weaponized at scale.
+  how: >-
+    Embedded computers execute firmware stored in flash memory, running RTOS (FreeRTOS, VxWorks,
+    QNX) or embedded Linux. They communicate via serial (UART, SPI, I2C), network (Ethernet,
+    Wi-Fi, Bluetooth, Zigbee), or industrial protocols (Modbus, BACnet, CAN bus). Firmware
+    updates are delivered via OTA, USB, or serial interfaces. Security measures include secure
+    boot, firmware signing, hardware security modules, and network segmentation to isolate
+    embedded devices from IT networks.
+  core_concepts:
+    - key: "Resource-Constrained Computing"
+      value: "Limited memory, processing, and storage that constrain security capabilities including encryption, authentication, and monitoring"
+    - key: "Firmware Attack Surface"
+      value: "Firmware stored in flash memory can be extracted, reverse-engineered, modified, and reflashed for persistent compromise"
+    - key: "Physical Safety Impact"
+      value: "Compromised embedded systems in critical infrastructure can have physical consequences including equipment damage and safety risks"
+relations:
+  - type: "enables"
+    target: "INFRA-COMPUTE-CUBESATS-001"
+    description: "Embedded computers provide the compute platform within CubeSats"
+  - type: "enables"
+    target: "INFRA-COMPUTE-KIOSCOMP-001"
+    description: "Embedded computers can serve as the compute platform for kiosk systems"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["NIST SP 800-183 - IoT Cybersecurity", "ICS-CERT Advisories", "OWASP IoT Security"]
+  search_keywords: ["embedded computer", "embedded system", "IoT device", "embedded security", "firmware vulnerability", "RTOS", "embedded controller"]
+  embedding_text: >-
+    An Embedded Computer is a specialized system performing dedicated functions using
+    microcontrollers or SoCs running RTOS or bare-metal firmware. Found in ICS, medical
+    devices, automotive systems, and IoT devices with constrained resources. Embedded systems
+    represent a massive poorly-secured attack surface with outdated firmware, default
+    credentials, and lack of encryption or monitoring. Compromised devices in critical
+    infrastructure have physical safety implications. The Mirai botnet demonstrated
+    weaponization at scale. Security involves secure boot, firmware signing, and network
+    segmentation.

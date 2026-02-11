@@ -1,0 +1,108 @@
+# GR Atom: CVE-2013-3893
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20133893-001"
+  name: "CVE-2013-3893"
+  normalized_name: "cve_2013_3893"
+  aliases:
+    - "Internet Explorer SetMouseCapture Use-After-Free"
+    - "IE Zero-Day September 2013"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 6 through 11"
+    - "mshtml.dll CDisplayPointer"
+    - "Windows XP through Windows 8.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2013-3893 is a use-after-free vulnerability (CVSS 9.3) in Microsoft Internet Explorer
+    related to the CDisplayPointer object handling and the SetMouseCapture function in mshtml.dll.
+    The vulnerability allows remote code execution when a user visits a specially crafted web page.
+    It was exploited as a zero-day in September 2013 in targeted attacks attributed to the
+    DeputyDog APT campaign. Microsoft issued a Fix-it workaround and patched it in MS13-080
+    (October 2013). It affects IE 6 through 11.
+  why: >-
+    This vulnerability is significant for its use in the DeputyDog APT campaign, which targeted
+    organizations in Japan and other Asian countries. It demonstrated that even newer versions
+    of Internet Explorer (including IE 11) could be compromised through use-after-free
+    vulnerabilities. The wide version range affected (IE 6-11) meant virtually all IE installations
+    were vulnerable, maximizing the impact of the zero-day exploitation.
+  how: >-
+    The exploit uses JavaScript to manipulate DOM elements and mouse capture events to trigger
+    a use-after-free condition in the CDisplayPointer object. When a mouse capture is set on an
+    element that is subsequently freed, the dangling pointer remains. Through heap spraying,
+    the freed memory is filled with attacker-controlled data. When the dangling pointer is
+    accessed during mouse event processing, execution is redirected to shellcode.
+  core_concepts:
+    - key: "CDisplayPointer Use-After-Free"
+      value: "Mouse capture on a freed DOM element leaves a dangling CDisplayPointer enabling code execution through heap spray"
+    - key: "DeputyDog APT Campaign"
+      value: "Exploited as zero-day in the DeputyDog targeted attack campaign against Japanese and Asian organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free in Internet Explorer CDisplayPointer mouse capture handling"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2013-3893 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS13-080"
+    - "Microsoft Security Advisory 2887505"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+    - "FireEye - DeputyDog Campaign Analysis"
+  search_keywords:
+    - "CVE-2013-3893"
+    - "Internet Explorer"
+    - "use-after-free"
+    - "CDisplayPointer"
+    - "DeputyDog"
+    - "MS13-080"
+    - "zero-day"
+    - "SetMouseCapture"
+    - "targeted attack"
+  embedding_text: >-
+    CVE-2013-3893 is a use-after-free vulnerability with CVSS 9.3 in Microsoft Internet
+    Explorer 6 through 11 involving the CDisplayPointer object and SetMouseCapture function
+    in mshtml.dll. The flaw enables remote code execution through crafted web pages that
+    trigger use-after-free during mouse event processing. Exploited as a zero-day in the
+    DeputyDog APT campaign targeting Japanese and Asian organizations in September 2013,
+    it affected virtually all IE installations. Patched in MS13-080 in October 2013, this
+    vulnerability demonstrated that even newer IE versions remained susceptible to DOM
+    use-after-free attacks and highlighted the continued use of browser zero-days in
+    nation-state espionage operations.

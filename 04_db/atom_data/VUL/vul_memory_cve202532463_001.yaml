@@ -1,0 +1,113 @@
+# GR Atom: CVE-2025-32463
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202532463-001"
+  name: "CVE-2025-32463"
+  normalized_name: "cve_2025_32463"
+  aliases:
+    - "sudo Privilege Escalation via TLS"
+    - "sudo Policy Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "sudo before 1.9.17p1"
+    - "Linux/Unix privilege management"
+    - "sudo TLS verification subsystem"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2025-32463 is a privilege escalation vulnerability (CVSS 7.8) in the sudo
+    utility that allows a local attacker to gain root privileges by exploiting a flaw in
+    sudo's handling of TLS certificate verification when configured with sudo_logsrvd.
+    When sudo is compiled with TLS support and configured to send logs to a remote log
+    server, a local user can manipulate the TLS verification process to bypass sudo
+    policy restrictions and execute commands as root. The vulnerability was disclosed
+    and patched in sudo version 1.9.17p1 in 2025. Since sudo is installed on virtually
+    every Unix-like system, the vulnerability has broad potential impact.
+  why: >-
+    sudo is one of the most security-critical utilities on Unix systems, mediating all
+    privileged operations. Any vulnerability that bypasses sudo's policy enforcement
+    effectively breaks the fundamental privilege boundary on Unix-like systems.
+    CVE-2025-32463 is notable because it targets the TLS integration feature used for
+    centralized logging, a security-enhancing configuration that paradoxically introduced
+    a privilege escalation vector. The vulnerability highlights how security features
+    themselves can expand the attack surface.
+  how: >-
+    The vulnerability exploits a flaw in how sudo handles TLS certificate verification
+    when communicating with sudo_logsrvd. By manipulating the TLS handshake or
+    certificate chain validation, a local attacker can cause sudo to process commands
+    in a context that bypasses normal policy checks. The TLS verification code path
+    contains a logic error where failure to properly validate certificates can lead to
+    sudo executing the requested command with elevated privileges regardless of the
+    configured sudoers policy. This effectively allows any local user to execute
+    arbitrary commands as root.
+  core_concepts:
+    - key: "sudo TLS Policy Bypass"
+      value: "TLS certificate verification flaw in sudo_logsrvd communication bypasses sudoers policy enforcement"
+    - key: "Security Feature Attack Surface"
+      value: "TLS integration for centralized logging paradoxically introduced a privilege escalation vector"
+    - key: "Universal Unix Impact"
+      value: "sudo installed on virtually every Unix system makes any sudo vulnerability broadly impactful"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2025-32463 exploits logic and memory handling flaws in sudo's TLS processing"
+  - type: "enables"
+    target: "VUL-MEMORY-PWNKIT-001"
+    description: "Both are privilege escalation vulnerabilities in ubiquitous Unix system utilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "sudo Security Advisory - CVE-2025-32463"
+    - "NVD Entry CVE-2025-32463 - CVSS 7.8"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2025-32463"
+    - "sudo"
+    - "privilege escalation"
+    - "TLS"
+    - "sudo_logsrvd"
+    - "Linux"
+    - "root access"
+    - "policy bypass"
+  embedding_text: >-
+    CVE-2025-32463 is a privilege escalation vulnerability in sudo with CVSS 7.8,
+    exploiting a TLS certificate verification flaw when sudo communicates with
+    sudo_logsrvd for centralized logging. The logic error in TLS handling allows local
+    attackers to bypass sudoers policy enforcement and execute commands as root. Since
+    sudo is installed on virtually every Unix system, the vulnerability has broad impact.
+    The flaw highlights how security-enhancing features like TLS logging can paradoxically
+    introduce new attack surfaces. Patched in sudo 1.9.17p1 in 2025.

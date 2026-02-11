@@ -1,0 +1,76 @@
+# GR Atom: Hardware Device Bind Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVBIN-001"
+  name: "Hardware Device Bind Event"
+  normalized_name: "hardware_device_bind_event"
+  aliases:
+    - "Device Driver Bind Event"
+    - "Hardware Driver Association"
+    - "Device-Driver Binding Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Bind Event is an endpoint detection pattern that captures when a hardware device is associated with a specific driver in the operating system kernel. The bind operation occurs when the device manager matches a newly detected hardware device to an appropriate driver and establishes the connection, enabling the driver to manage the device. The event records the device identifier, vendor and product IDs, driver name, driver version, driver signing status, and the bus type. On Linux this corresponds to driver probe and bind operations in sysfs, on Windows to device driver installation and binding through the Plug and Play subsystem."
+  why: "Monitoring device bind events is critical for detecting the introduction of unauthorized or malicious drivers into the system. Adversaries may use rogue USB devices that trigger loading of vulnerable or malicious drivers, deploy rootkits through driver bind operations, or exploit legitimate driver vulnerabilities through carefully crafted device descriptors. Detection of unexpected bind events enables identification of BadUSB-style attacks, rogue hardware implants, and unauthorized driver loading that could lead to kernel-level compromise."
+  how: "Detection systems capture bind events through kernel event tracing mechanisms such as Windows ETW providers for Plug and Play, Linux udev rules and kernel tracepoints for driver binding, and macOS IOKit matching notifications. Endpoint agents maintain inventories of approved device-driver combinations and flag bind events involving unsigned drivers, drivers from untrusted publishers, drivers associated with known vulnerable versions, bind operations on unexpected bus types, and device descriptors that do not match known hardware models. Alerts are correlated with physical device connection events to establish the full device introduction chain."
+  core_concepts:
+    - key: "Driver Binding"
+      value: "The kernel operation that associates a hardware device with its corresponding driver, enabling the driver to communicate with and control the device"
+    - key: "Device-Driver Allowlist"
+      value: "An approved inventory of device-driver combinations that restricts which drivers can bind to which device types, preventing unauthorized driver loading"
+    - key: "Driver Signing Verification"
+      value: "Validation that the driver being bound to a device has been cryptographically signed by a trusted authority, preventing unsigned or tampered drivers from loading"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device bind events are a specific lifecycle event within the broader hardware device event category"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDEVENA-001"
+    description: "Successful driver binding enables the hardware device to become operational, triggering device enabled events"
+  - type: effective_against
+    target: "ATK-EXEC-DRIVER-001"
+    description: "Detects unauthorized driver loading through monitoring of device-driver binding operations"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547.006"
+    tactic: ["Persistence", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1547.006 - Boot or Logon Autostart Execution: Kernel Modules and Extensions"
+    - "Microsoft - Plug and Play Architecture - https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/introduction-to-plug-and-play"
+    - "Linux Kernel Documentation - Driver Binding - https://www.kernel.org/doc/Documentation/driver-api/"
+  search_keywords:
+    - "device bind event"
+    - "driver binding detection"
+    - "hardware driver association"
+    - "device driver loading"
+    - "unsigned driver detection"
+    - "plug and play monitoring"
+    - "device manager event"
+    - "kernel driver bind"
+  embedding_text: "Hardware Device Bind Event detection captures when hardware devices are associated with drivers in the operating system kernel through the bind operation. Monitored through Windows ETW Plug and Play providers, Linux udev rules and kernel tracepoints, and macOS IOKit matching notifications, this telemetry records device identifiers, vendor/product IDs, driver details, and signing status. Detection logic flags unsigned drivers, untrusted publishers, known vulnerable driver versions, unexpected bus types, and unrecognized device descriptors, enabling identification of BadUSB attacks, rogue hardware implants, and rootkit deployment through unauthorized driver binding."

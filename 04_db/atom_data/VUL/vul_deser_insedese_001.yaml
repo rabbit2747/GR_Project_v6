@@ -1,0 +1,122 @@
+# GR Atom: Insecure Deserialization
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-INSEDESE-001"
+  name: "Insecure Deserialization"
+  normalized_name: "insecure_deserialization"
+  aliases:
+    - "OWASP A08 Insecure Deserialization"
+    - "CWE-502 Deserialization of Untrusted Data"
+    - "Unsafe Object Deserialization"
+    - "Deserialization of Untrusted Data"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Java Application Servers (WebLogic, JBoss, WebSphere)"
+    - ".NET Web Applications"
+    - "REST/SOAP API Endpoints"
+    - "Message Queue Consumers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Insecure deserialization is a vulnerability pattern where applications accept and process
+    serialized objects from untrusted sources without adequate validation, type filtering, or
+    integrity checking. This pattern enables attackers to manipulate serialized data to trigger
+    remote code execution, privilege escalation, injection attacks, denial of service, or
+    authentication bypass. Listed as OWASP Top 10 2017 A08 and mapped to CWE-502, it represents
+    one of the most dangerous and commonly exploited vulnerability patterns in enterprise software.
+  why: >-
+    Insecure deserialization is consistently ranked among the most dangerous vulnerability patterns
+    because exploitation typically results in immediate remote code execution at the privilege level
+    of the application. The attack surface is vast since serialization is used in session management,
+    caching, database operations, API communications, and inter-service messaging. Enterprise Java
+    application servers have been particularly affected, with hundreds of critical CVEs in WebLogic,
+    JBoss, and WebSphere attributed to this pattern.
+  how: >-
+    The attacker identifies an endpoint that accepts serialized data (HTTP parameters, cookies,
+    API bodies, message queues, file uploads). They then construct a malicious serialized payload
+    using gadget chains available in the target application's runtime classpath. Tools like
+    ysoserial (Java), ysoserial.net (.NET), and PHPGGC (PHP) automate gadget chain generation.
+    The payload is submitted to the vulnerable endpoint, and during deserialization the gadget
+    chain executes, typically achieving arbitrary command execution on the target system.
+  core_concepts:
+    - name: "Untrusted Data Processing"
+      value: "Applications blindly deserialize data from untrusted sources without validation, type filtering, or integrity verification"
+    - name: "Gadget Chain Tools"
+      value: "Automated tools (ysoserial, ysoserial.net, PHPGGC) generate exploitation payloads for common library gadget chains"
+    - name: "Defense-in-Depth Failure"
+      value: "Deserialization attacks bypass application-level authentication and authorization, executing at the runtime level"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-DESERIALIZ-001"
+    description: "Insecure deserialization is a specific attack pattern within the broader deserialization vulnerability class"
+  - type: "abstracts"
+    target: "VUL-DESER-CVE20120874-001"
+    description: "Insecure deserialization abstracts specific instances like JBoss invoker servlet RCE"
+  - type: "abstracts"
+    target: "VUL-DESER-CVE202014882-001"
+    description: "Insecure deserialization abstracts specific instances like WebLogic console RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Top 10 2017 A08 - Insecure Deserialization"
+    - "MITRE CWE-502: Deserialization of Untrusted Data"
+    - "PortSwigger Web Security Academy - Insecure Deserialization"
+    - "Chris Frohoff - Marshalling Pickles (AppSecCali 2015)"
+  search_keywords:
+    - "insecure deserialization"
+    - "OWASP A08"
+    - "CWE-502"
+    - "deserialization of untrusted data"
+    - "Java deserialization exploitation"
+    - "ysoserial"
+    - "gadget chain attack"
+    - "serialization RCE"
+    - "unsafe object deserialization"
+  embedding_text: >-
+    Insecure deserialization is a vulnerability pattern where applications accept and process
+    serialized objects from untrusted sources without adequate validation or type filtering. This
+    enables attackers to trigger remote code execution by constructing malicious serialized
+    payloads using gadget chains from the target application's classpath. Listed as OWASP Top 10
+    2017 A08 and CWE-502, it represents one of the most dangerous vulnerability patterns in
+    enterprise software. Exploitation typically achieves immediate RCE at the application's
+    privilege level. Enterprise Java application servers (WebLogic, JBoss, WebSphere) have been
+    particularly affected, with hundreds of critical CVEs. Tools like ysoserial, ysoserial.net,
+    and PHPGGC automate gadget chain generation. Defenses include avoiding native deserialization
+    of untrusted data, implementing type allowlists (JEP 290 for Java), using safe serialization
+    formats like JSON with strict typing, deploying runtime application self-protection (RASP),
+    and implementing integrity checks on serialized data.

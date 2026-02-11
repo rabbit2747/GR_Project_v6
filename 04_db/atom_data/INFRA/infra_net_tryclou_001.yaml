@@ -1,0 +1,79 @@
+# GR Atom: Try Cloudflare
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-TRYCLOU-001"
+  name: "Try Cloudflare"
+  normalized_name: "try_cloudflare"
+  aliases:
+    - "Cloudflare Quick Tunnels"
+    - "trycloudflare.com"
+    - "Cloudflare Argo Tunnel Free"
+    - "Cloudflare Temporary Tunnel"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CLOUD
+    - PROXY
+    - HTTP
+    - TLS
+    - C2
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "N2.1"
+
+definition:
+  what: "Try Cloudflare (trycloudflare.com) is a free service from Cloudflare that creates temporary, unauthenticated reverse tunnels to expose local services to the internet without requiring a Cloudflare account, domain ownership, or DNS configuration. By running the cloudflared tunnel command with no arguments, users receive a randomly generated trycloudflare.com subdomain that proxies HTTPS traffic from the internet to the local service. The tunnel operates through Cloudflare's global edge network, providing TLS encryption, DDoS protection, and Cloudflare's CDN infrastructure for the temporary endpoint. These tunnels are ephemeral, lasting only as long as the cloudflared process runs, and use randomized subdomains that cannot be predicted in advance."
+  why: "Try Cloudflare is security-relevant for two reasons. Legitimately, it enables developers to quickly expose local development servers for testing, webhooks, and demonstrations without complex firewall or DNS configuration. However, it has become a significant concern in cybersecurity because threat actors abuse it to create disposable command-and-control channels, host phishing pages, deliver malware payloads, and exfiltrate data through Cloudflare's trusted infrastructure. Because the traffic originates from Cloudflare IP ranges that are widely trusted and allowlisted, malicious tunnels can bypass network security controls, domain reputation filters, and TLS inspection. The temporary and anonymous nature of these tunnels makes attribution and takedown difficult."
+  how: "A user downloads the cloudflared binary and runs a single command to establish a tunnel. The cloudflared process creates an outbound connection from the local machine to Cloudflare's edge network, avoiding the need for inbound firewall rules. Cloudflare assigns a random trycloudflare.com subdomain and configures its edge to proxy all HTTPS requests for that subdomain through the tunnel to the local service. The local service receives the proxied requests as if they were local connections. No authentication or account creation is required. Threat actors leverage this by running cloudflared on compromised hosts to establish outbound-only tunnels for C2, hosting phishing content behind trusted Cloudflare TLS certificates, or creating temporary file hosting for malware distribution. Detection requires monitoring for cloudflared process execution and connections to trycloudflare.com domains."
+  core_concepts:
+    - key: "Quick Tunnel"
+      value: "An ephemeral, unauthenticated Cloudflare tunnel created without an account that provides a temporary trycloudflare.com subdomain for accessing local services from the internet"
+    - key: "Outbound-Only Tunnel"
+      value: "The tunnel architecture where all connections are initiated outbound from the local machine to Cloudflare, bypassing inbound firewall restrictions and NAT"
+    - key: "Trusted Infrastructure Abuse"
+      value: "The exploitation of Cloudflare's globally trusted IP ranges and TLS certificates to bypass domain reputation filters, network security controls, and allowlist-based defenses"
+
+relations:
+  - type: is_a
+    target: "INFRA-NET-REVPROSER-001"
+    description: "Try Cloudflare functions as a temporary reverse proxy service tunneling traffic from the internet to local services"
+  - type: requires
+    target: "INFRA-NET-DNS-001"
+    description: "Try Cloudflare requires DNS resolution for the trycloudflare.com subdomain and Cloudflare edge connectivity"
+  - type: enables
+    target: "INFRA-NET-CLOUDFRONT-001"
+    description: "Cloudflare tunnels leverage similar CDN and edge proxy infrastructure concepts as other content delivery networks"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1572"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Cloudflare - Quick Tunnels Documentation - https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/"
+    - "MITRE ATT&CK - T1572 Protocol Tunneling"
+    - "GuidePoint Security - Threat Actors Abusing Cloudflare Tunnels - https://www.guidepointsecurity.com/"
+  search_keywords:
+    - "Try Cloudflare"
+    - "trycloudflare.com"
+    - "Cloudflare quick tunnel"
+    - "cloudflared tunnel"
+    - "Cloudflare tunnel abuse"
+    - "Cloudflare C2"
+    - "temporary tunnel"
+    - "Cloudflare phishing tunnel"
+  embedding_text: "Try Cloudflare (trycloudflare.com) is a free Cloudflare service creating temporary, unauthenticated reverse tunnels to expose local services to the internet without requiring an account or DNS configuration. A single cloudflared command generates a random subdomain proxying HTTPS traffic through Cloudflare's edge network. While legitimate for developer testing, it has become a significant security concern as threat actors abuse it for disposable C2 channels, phishing pages, and malware delivery through Cloudflare's trusted infrastructure. Traffic from Cloudflare IP ranges bypasses domain reputation filters and network security controls. Detection requires monitoring cloudflared process execution and trycloudflare.com domain connections."

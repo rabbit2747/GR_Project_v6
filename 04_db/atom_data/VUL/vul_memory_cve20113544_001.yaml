@@ -1,0 +1,102 @@
+# GR Atom: CVE-2011-3544
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20113544-001"
+  name: "CVE-2011-3544"
+  normalized_name: "cve_2011_3544"
+  aliases:
+    - "Java Rhino Script Engine Sandbox Bypass"
+    - "Oracle Java SE Rhino Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Java SE JDK/JRE 7 and 6 Update 27 and earlier"
+    - "Java Rhino Script Engine"
+    - "Java browser plugin"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2011-3544 is a vulnerability (CVSS 10.0) in the Java Runtime Environment Rhino script
+    engine component that allows remote attackers to bypass the Java sandbox and execute
+    arbitrary code. The flaw exists in how the Rhino scripting engine handles certain objects,
+    allowing untrusted Java applets to escape the security sandbox. It affects Oracle Java SE
+    JDK and JRE 7 and 6 Update 27 and earlier, and was patched in the October 2011 Critical
+    Patch Update.
+  why: >-
+    This vulnerability was one of the most exploited Java vulnerabilities, integrated into
+    multiple exploit kits including Blackhole and Cool. With a CVSS score of 10.0 and wide
+    Java deployment in browsers, it enabled mass drive-by download campaigns. Java browser
+    plugin vulnerabilities were the dominant web-based attack vector during 2011-2013,
+    affecting all major operating systems where Java was installed.
+  how: >-
+    The exploit leverages the Rhino script engine to create specially crafted JavaScript code
+    that runs within a Java applet context. By manipulating the scripting engine's object
+    handling, the attacker bypasses the Java sandbox security restrictions. Once the sandbox
+    is escaped, the applet can execute arbitrary system commands with the privileges of the
+    user running the browser, achieving full system access.
+  core_concepts:
+    - key: "Java Sandbox Escape via Rhino Engine"
+      value: "Rhino scripting engine object handling flaw allows untrusted applets to bypass Java security manager sandbox restrictions"
+    - key: "Mass Exploitation via Exploit Kits"
+      value: "Widely integrated into Blackhole and other exploit kits for drive-by download campaigns targeting Java browser plugins"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Memory safety vulnerability in Java Rhino script engine enabling sandbox escape"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2011-3544 - CVSS 10.0"
+    - "Oracle Critical Patch Update October 2011"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2011-3544"
+    - "Java Rhino"
+    - "sandbox bypass"
+    - "Java applet"
+    - "exploit kit"
+    - "Blackhole"
+    - "drive-by download"
+    - "Oracle Java SE"
+  embedding_text: >-
+    CVE-2011-3544 is a critical Java sandbox bypass vulnerability with CVSS 10.0 in the
+    Rhino script engine component of Oracle Java SE. The flaw allows remote attackers to
+    escape the Java sandbox through specially crafted applets that exploit the Rhino scripting
+    engine's object handling. Once the sandbox is bypassed, arbitrary code execution is
+    achieved with user privileges. Affecting JDK/JRE 7 and 6 Update 27 and earlier, this
+    vulnerability was heavily exploited through the Blackhole and Cool exploit kits in mass
+    drive-by download campaigns. It exemplified the era when Java browser plugins were the
+    dominant web attack vector across all operating systems.

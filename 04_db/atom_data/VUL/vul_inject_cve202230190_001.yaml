@@ -1,0 +1,81 @@
+# GR Atom: CVE-2022-30190
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202230190-001"
+  name: "CVE-2022-30190"
+  normalized_name: "cve_2022_30190"
+  aliases:
+    - "Follina"
+    - "MSDT Remote Code Execution"
+    - "Microsoft Support Diagnostic Tool Vulnerability"
+    - "ms-msdt Protocol Handler Exploit"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Windows Support Diagnostic Tool (MSDT)"
+    - "Microsoft Office (Word, Excel, PowerPoint)"
+    - "Windows 7 through Windows 11"
+    - "Windows Server 2008 R2 through Windows Server 2022"
+
+definition:
+  what: "CVE-2022-30190 (Follina) is a critical remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool (MSDT) that can be triggered through specially crafted Microsoft Office documents. The vulnerability exploits the ms-msdt protocol handler, which can be invoked from Office documents via the URL protocol scheme. An attacker crafts an Office document containing an external OLE object reference that uses the ms-msdt: URI scheme with a crafted payload, causing MSDT to execute arbitrary PowerShell code when the document is opened or even previewed. CVSS v3: 7.8 (High). Disclosed May 30, 2022, as an actively exploited zero-day."
+  why: "Follina was particularly dangerous because it bypassed multiple security boundaries simultaneously. It did not require macros to be enabled, circumventing Microsoft Office macro security policies that organizations rely on to prevent document-based attacks. The vulnerability could be triggered through the Windows Preview Pane without fully opening the document. It affected all supported Windows versions and could be delivered via any Office document format. The vulnerability was exploited in the wild by nation-state actors (TA413 targeting Tibetan community, Chinese APTs) and cybercriminal groups before a patch was available. The attack chain leveraged legitimate Windows functionality (MSDT) making detection through traditional security tools difficult."
+  how: "The attack chain begins with a crafted Office document containing an OLE object that references an external HTML file hosted on an attacker-controlled server. The HTML file contains JavaScript that constructs an ms-msdt: URI with encoded PowerShell commands as diagnostic parameters. When the document is opened (or previewed), Office fetches the external HTML resource, which triggers the ms-msdt protocol handler. MSDT processes the crafted parameters and executes the embedded PowerShell payload with the privileges of the current user. The payload can download and execute additional malware, establish persistence, or perform data exfiltration. Mitigation includes disabling the MSDT URL protocol handler by deleting the HKEY_CLASSES_ROOT\\ms-msdt registry key, applying Microsoft's patch from June 2022, or using Attack Surface Reduction rules in Microsoft Defender."
+  core_concepts:
+    - key: "Protocol Handler Abuse"
+      value: "Follina exploits the ms-msdt: URL protocol handler registered in Windows to execute arbitrary code through MSDT when invoked from Office documents, bypassing macro security controls entirely"
+    - key: "Macro-Free Document Exploitation"
+      value: "Unlike traditional Office-based attacks, Follina does not require macros to be enabled, can trigger from the Preview Pane, and leverages legitimate Windows diagnostic tools making detection and prevention through traditional controls ineffective"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Follina is a command injection vulnerability through the MSDT protocol handler invoked from Office documents"
+  - type: causes
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Follina causes arbitrary command injection via PowerShell through the MSDT diagnostic tool"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2022-30190 - NVD NIST"
+    - "Microsoft Security Response Center - CVE-2022-30190"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Huntress - Follina Analysis"
+    - "nao_sec - Original Follina Discovery Tweet"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2022-30190"
+    - "Follina"
+    - "MSDT vulnerability"
+    - "ms-msdt protocol"
+    - "Microsoft Office RCE"
+    - "MSDT remote code execution"
+    - "Follina exploit"
+    - "Office zero-day"
+    - "Windows diagnostic tool exploit"
+    - "macro-free Office exploit"
+  embedding_text: "CVE-2022-30190 known as Follina is a critical remote code execution vulnerability in the Microsoft Windows Support Diagnostic Tool (MSDT). Disclosed May 2022 as an actively exploited zero-day with CVSS 7.8, it allows attackers to craft Office documents that invoke the ms-msdt protocol handler to execute arbitrary PowerShell code. The vulnerability bypasses macro security entirely and can trigger from the Preview Pane without opening the document. It affected all supported Windows versions from Windows 7 through Windows 11 and Server 2008 R2 through 2022. Nation-state actors and cybercriminal groups exploited Follina before a patch was available. Mitigation includes disabling the ms-msdt protocol handler or applying Microsoft's June 2022 patch. Maps to MITRE ATT&CK T1203 Exploitation for Client Execution."

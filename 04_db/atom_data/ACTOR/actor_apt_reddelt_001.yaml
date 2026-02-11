@@ -1,0 +1,102 @@
+# GR Atom: Red Delta
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDDELT-001"
+  name: "Red Delta"
+  normalized_name: "red_delta"
+  aliases:
+    - "Mustang Panda"
+    - "TA416"
+    - "Bronze President"
+    - "HoneyMyte"
+    - "TEMP.Hex"
+    - "Camaro Dragon"
+    - "Earth Preta"
+    - "Stately Taurus"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXFIL
+    - PERSIST
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Delta, widely tracked as Mustang Panda, is a China-nexus advanced persistent threat group active since at least 2012. The group primarily conducts cyber-espionage campaigns targeting government agencies, non-governmental organizations, religious institutions, and think tanks across Southeast Asia, Europe, and Africa. Red Delta is known for its extensive use of USB-propagating malware and spear-phishing lures tied to geopolitical events to gain initial access."
+  why: "Red Delta represents a significant espionage threat due to its prolific targeting of diplomatic and governmental entities across multiple continents. The group's operations align with Chinese strategic intelligence collection priorities, particularly regarding Belt and Road Initiative partner nations, territorial disputes, and foreign policy matters."
+  how: "Red Delta typically delivers weaponized documents via spear-phishing emails containing themes relevant to the target's interests. The group heavily relies on DLL side-loading techniques to execute its custom PlugX (Korplug) implant variants. It also deploys TONEINS, TONESHELL, and custom stagers. USB-based propagation mechanisms allow lateral movement across air-gapped environments. C2 infrastructure frequently leverages legitimate cloud services and compromised web servers."
+  core_concepts:
+    - key: "PlugX Variants"
+      value: "Custom variants of the PlugX/Korplug RAT deployed through DLL side-loading, providing persistent remote access and data collection capabilities"
+    - key: "USB Propagation"
+      value: "Malware designed to spread via removable USB drives, enabling infiltration of air-gapped and isolated network environments"
+    - key: "Geopolitical Lures"
+      value: "Spear-phishing documents themed around current geopolitical events, diplomatic communiques, and policy documents to entice targets"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group conducting espionage operations"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Relies on spear-phishing with geopolitical lure documents for initial access"
+  - type: enables
+    target: "ATK-EXEC-DLLSIDE-001"
+    description: "Uses DLL side-loading extensively to execute PlugX and other implants"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Mustang Panda"
+    - "Recorded Future - Red Delta threat profile"
+    - "Proofpoint - TA416 campaign analysis"
+    - "Check Point - Camaro Dragon USB malware report"
+  search_keywords:
+    - "red delta"
+    - "mustang panda"
+    - "ta416"
+    - "bronze president"
+    - "honeymyte"
+    - "plugx"
+    - "korplug"
+    - "china apt"
+    - "dll side-loading"
+    - "earth preta"
+    - "camaro dragon"
+    - "stately taurus"
+    - "usb propagation"
+    - "southeast asia espionage"
+  embedding_text: "Red Delta, also known as Mustang Panda, TA416, and Bronze President, is a China-linked advanced persistent threat group conducting cyber-espionage operations since at least 2012. The group targets government agencies, NGOs, religious organizations, and think tanks across Southeast Asia, Europe, and Africa. Red Delta is characterized by its use of spear-phishing with geopolitical lure documents, DLL side-loading to deploy custom PlugX (Korplug) remote access trojan variants, and USB-propagating malware for lateral movement across air-gapped networks. Its operations align with Chinese intelligence collection priorities including Belt and Road Initiative interests and diplomatic relations."

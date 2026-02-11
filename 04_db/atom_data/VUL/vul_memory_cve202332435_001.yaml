@@ -1,0 +1,118 @@
+# GR Atom: CVE-2023-32435
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE202332435-001"
+  name: "CVE-2023-32435"
+  normalized_name: "cve_2023_32435"
+  aliases:
+    - "WebKit Memory Corruption"
+    - "Operation Triangulation WebKit Exploit"
+    - "Safari WebKit RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - OVERFLOW
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Apple WebKit browser engine"
+    - "Safari"
+    - "iOS before 16.5.1"
+    - "All WebKit-based browsers on iOS"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-32435 is a memory corruption vulnerability (CVSS 8.8) in Apple's WebKit
+    browser engine that allows arbitrary code execution when processing malicious web
+    content. The vulnerability exists in WebKit's JavaScript engine and enables remote
+    code execution within the browser rendering process. It was exploited as a zero-day
+    in the Operation Triangulation spyware campaign discovered by Kaspersky in 2023.
+    The exploit was delivered via zero-click iMessage attachments containing invisible
+    web content that triggered the WebKit vulnerability without user interaction.
+    Apple patched it in iOS 16.5.1 in June 2023.
+  why: >-
+    CVE-2023-32435 served as the critical initial remote code execution component in
+    the Operation Triangulation zero-click attack chain. WebKit vulnerabilities are
+    particularly dangerous on iOS because Apple requires all browsers to use the WebKit
+    engine, meaning every browser on iOS is affected. The zero-click delivery via
+    iMessage made the exploit chain especially dangerous as no user interaction was
+    required. This vulnerability demonstrated how browser engine flaws remain the
+    primary vector for sophisticated mobile device compromise.
+  how: >-
+    The exploit delivers malicious web content via an iMessage attachment that is
+    automatically processed by the WebKit rendering engine. The crafted content triggers
+    a memory corruption condition in WebKit's JavaScript processing, enabling arbitrary
+    code execution within the browser sandbox. In the Operation Triangulation chain,
+    this initial code execution was then escalated using CVE-2023-32434 (kernel integer
+    overflow) and CVE-2023-38606 (hardware register bypass) to achieve full kernel-level
+    device compromise and persistent spyware installation.
+  core_concepts:
+    - key: "WebKit Memory Corruption"
+      value: "Memory corruption in WebKit JavaScript engine enables remote code execution through malicious web content"
+    - key: "Zero-Click iMessage Vector"
+      value: "Delivered via invisible iMessage attachments processed automatically by WebKit without user interaction"
+    - key: "iOS Browser Monoculture Risk"
+      value: "Apple's WebKit requirement for all iOS browsers means a single WebKit flaw affects every browser on the platform"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2023-32435 is a memory corruption vulnerability in the WebKit browser engine"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202332434-001"
+    description: "WebKit RCE provides initial code execution enabling kernel exploitation via CVE-2023-32434"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202338606-001"
+    description: "Part of the same Operation Triangulation exploit chain targeting iOS devices"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Apple Security Update - iOS 16.5.1"
+    - "NVD Entry CVE-2023-32435 - CVSS 8.8"
+    - "Kaspersky - Operation Triangulation WebKit Analysis"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2023-32435"
+    - "WebKit"
+    - "Safari"
+    - "iOS"
+    - "Operation Triangulation"
+    - "memory corruption"
+    - "zero-click"
+    - "iMessage"
+  embedding_text: >-
+    CVE-2023-32435 is a memory corruption vulnerability in Apple WebKit with CVSS 8.8,
+    enabling remote code execution through malicious web content. Exploited as a zero-day
+    in Operation Triangulation, it was delivered via zero-click iMessage attachments that
+    triggered the WebKit flaw without user interaction. As the initial remote code execution
+    stage in the attack chain, it enabled subsequent kernel exploitation through
+    CVE-2023-32434 and CVE-2023-38606. The vulnerability highlights how WebKit flaws
+    affect all iOS browsers due to Apple's engine mandate. Patched in iOS 16.5.1.

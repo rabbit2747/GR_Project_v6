@@ -1,0 +1,126 @@
+# GR Atom: CVE-2014-6321
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20146321-001"
+  name: "CVE-2014-6321"
+  normalized_name: "cve_2014_6321"
+  aliases:
+    - "MS14-066"
+    - "WinShock"
+    - "SChannel RCE"
+    - "Microsoft Schannel Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - TLS
+    - CRYPTO
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Secure Channel (SChannel)"
+    - "Windows TLS/SSL implementation"
+    - "IIS web servers"
+    - "Windows HTTPS services"
+    - "Windows Server 2003 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-6321, known as WinShock, is a critical remote code execution vulnerability in
+    the Microsoft Secure Channel (SChannel) security package, which implements SSL and TLS
+    protocols on Windows. Disclosed in November 2014 as MS14-066 with an implied CVSS of
+    approximately 10.0, the vulnerability allows remote attackers to execute arbitrary code
+    by sending specially crafted packets to a Windows server during the TLS handshake. The
+    flaw exists in how SChannel processes crafted TLS packets, specifically in certificate
+    handling during the handshake negotiation. It affects all supported versions of Windows
+    from Windows Server 2003 through Windows 8.1 and Server 2012 R2.
+  why: >-
+    WinShock was considered exceptionally critical because SChannel is the fundamental TLS/SSL
+    provider for all Windows systems. Any Windows service using HTTPS, including IIS, Exchange,
+    RDP with TLS, and LDAPS, was potentially vulnerable. The pre-authentication nature meant
+    attackers could compromise servers simply by initiating a TLS connection. The vulnerability
+    affected the entire Windows ecosystem and exposed millions of internet-facing servers.
+    It was comparable in severity to Heartbleed but targeted Windows rather than OpenSSL.
+  how: >-
+    The vulnerability is triggered by sending a specially crafted TLS handshake to a Windows
+    server running SChannel. The malformed certificate data in the ClientKeyExchange or other
+    handshake messages causes a heap-based buffer overflow in the SChannel library (schannel.dll).
+    This heap corruption can be leveraged for arbitrary code execution in the context of the
+    process using SChannel, typically SYSTEM for services like IIS. Exploitation requires no
+    authentication as it occurs during the TLS handshake before any application-layer
+    interaction. Microsoft patched the vulnerability in MS14-066 and later released an
+    additional update MS14-066 revision to address regressions and add TLS 1.1/1.2 cipher
+    suites to the default configuration.
+  core_concepts:
+    - key: "SChannel TLS Flaw"
+      value: "Heap-based buffer overflow in Windows Secure Channel during TLS handshake processing enabling pre-authentication remote code execution"
+    - key: "Universal Windows Impact"
+      value: "Affects all Windows versions using SChannel for TLS including IIS, Exchange, RDP, LDAPS, and any HTTPS-enabled service"
+    - key: "Pre-Authentication RCE"
+      value: "Exploitation occurs during TLS handshake before any authentication, allowing attackers to compromise servers by simply connecting"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "WinShock enables unauthorized access through pre-authentication exploitation of the TLS handshake"
+  - type: "precedes"
+    target: "VUL-ACCESS-BLUEKEEP-001"
+    description: "WinShock (2014) was an early critical wormable Windows RCE that foreshadowed BlueKeep's RDP exploitation pattern"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  cve_id: "CVE-2014-6321"
+  cvss_score: 10.0
+  affected_product: "Microsoft Windows SChannel (Secure Channel)"
+  disclosure_year: 2014
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Bulletin MS14-066"
+    - "NVD CVE-2014-6321"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "US-CERT Alert TA14-318A"
+  search_keywords:
+    - "CVE-2014-6321"
+    - "WinShock"
+    - "MS14-066"
+    - "SChannel vulnerability"
+    - "Windows TLS RCE"
+    - "Secure Channel exploit"
+    - "schannel.dll"
+    - "TLS handshake vulnerability"
+  embedding_text: >-
+    CVE-2014-6321 (WinShock/MS14-066) is a critical remote code execution vulnerability in
+    Microsoft Secure Channel (SChannel) TLS/SSL implementation with CVSS 10.0. Heap-based
+    buffer overflow during TLS handshake processing enables pre-authentication RCE against
+    any Windows service using HTTPS including IIS, Exchange, RDP, and LDAPS. Affects Windows
+    Server 2003 through 2012 R2 and client versions. Exploitation requires only initiating
+    a TLS connection with malformed certificate data in handshake messages. Comparable in
+    severity to Heartbleed for the Windows ecosystem. Patched in MS14-066 November 2014
+    security update affecting millions of internet-facing Windows servers.

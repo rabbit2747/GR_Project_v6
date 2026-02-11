@@ -1,0 +1,147 @@
+# GR Atom: SAML
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-SAML-001"
+  name: "SAML"
+  normalized_name: "saml"
+  aliases:
+    - "Security Assertion Markup Language"
+    - "SAML Protocol"
+    - "SAML 1.0"
+    - "SAML 1.1"
+    - "SAML Assertions"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SAML
+    - AUTHN
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SAML (Security Assertion Markup Language) is an XML-based open standard for exchanging
+    authentication and authorization data between an identity provider (IdP) and a service
+    provider (SP). Developed by the OASIS Security Services Technical Committee, SAML defines
+    three core components: Assertions (XML documents containing authentication, attribute, and
+    authorization statements), Protocols (request-response message formats for obtaining
+    assertions), and Bindings (mappings of SAML messages to transport protocols such as HTTP
+    POST, HTTP Redirect, and SOAP). SAML enables cross-domain single sign-on (SSO) by allowing
+    a user to authenticate once at an identity provider and access multiple service providers
+    without re-authentication. SAML 1.0 was released in 2002, followed by SAML 1.1 in 2003,
+    establishing the foundational framework that SAML 2.0 later expanded and standardized.
+  why: >-
+    Enterprise environments require federated identity management to enable single sign-on
+    across organizational boundaries and multiple applications. Before SAML, each application
+    maintained its own authentication system, forcing users to manage separate credentials and
+    preventing centralized access control. SAML standardizes the assertion format and exchange
+    protocols, enabling interoperable SSO between different vendors' identity and service
+    provider implementations. From a security perspective, SAML is a high-value attack target.
+    XML Signature Wrapping (XSW) attacks manipulate the XML structure to inject unauthorized
+    assertions while preserving valid signatures. Assertion replay attacks reuse captured SAML
+    responses to gain unauthorized access. Certificate mismanagement in SAML trust relationships
+    can enable assertion forgery. SAML's XML-based complexity creates a broad attack surface
+    for XML parsing vulnerabilities, XXE attacks, and signature validation bypasses.
+  how: >-
+    SAML operates through assertion exchange between identity and service providers: (1) the
+    user attempts to access a resource at the service provider; (2) the SP generates a SAML
+    AuthnRequest and redirects the user to the identity provider; (3) the IdP authenticates
+    the user (if not already authenticated) and generates a SAML Response containing a signed
+    Assertion with authentication statements (confirming identity), attribute statements
+    (conveying user attributes like roles and groups), and optionally authorization decision
+    statements; (4) the Response is delivered to the SP's Assertion Consumer Service (ACS)
+    endpoint via HTTP POST binding or artifact resolution; (5) the SP validates the Response
+    signature, assertion conditions (audience, time validity, recipient), and extracts the
+    authenticated identity. SAML assertions are signed using XML Digital Signatures (XMLDSig)
+    with the IdP's private key, and optionally encrypted using XML Encryption. Trust is
+    established through pre-configured metadata exchange containing entity IDs, endpoints,
+    and X.509 certificates.
+  core_concepts:
+    - key: "SAML Assertion"
+      value: >-
+        An XML document issued by an identity provider containing statements about a subject
+        (authenticated user). Assertions include authentication statements (how and when the
+        user authenticated), attribute statements (user properties), and authorization decision
+        statements (access permissions). Assertions are digitally signed by the IdP.
+    - key: "Identity Provider (IdP) and Service Provider (SP)"
+      value: >-
+        The two primary roles in SAML: the IdP authenticates users and issues assertions,
+        while the SP relies on assertions to grant access to resources. Trust between IdP
+        and SP is established through metadata exchange and certificate-based signature
+        verification.
+    - key: "XML Signature Wrapping (XSW)"
+      value: >-
+        A class of attacks against SAML implementations that exploit the separation between
+        the signed XML element and the element the application processes. Attackers restructure
+        the XML document to inject malicious assertions while keeping the original signature
+        valid, bypassing signature verification.
+    - key: "SAML Bindings"
+      value: >-
+        Mappings that define how SAML messages are transported over standard protocols. HTTP
+        POST binding embeds base64-encoded SAML messages in form fields. HTTP Redirect binding
+        encodes messages in URL query parameters. SOAP binding wraps messages in SOAP envelopes
+        for back-channel communication.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "SAML is an XML-based federated authentication and authorization protocol"
+  - type: "enables"
+    target: "PROTO-AUTH-SAML20-001"
+    description: "SAML established the foundational assertion framework that SAML 2.0 expanded with enhanced profiles, bindings, and metadata standards"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-OAU20-001"
+    description: "SAML is the enterprise XML-based alternative to OAuth 2.0 for federated SSO, predominant in legacy enterprise environments"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OASIS Security Assertion Markup Language (SAML) V1.1 Technical Overview. OASIS. https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=security"
+    - "OASIS SAML V2.0 Technical Overview. OASIS. http://docs.oasis-open.org/security/saml/Post2.0/sstc-saml-tech-overview-2.0.html"
+    - "Somorovsky, J. et al. (2012). On Breaking SAML: Be Whoever You Want to Be. USENIX Security Symposium."
+    - "MITRE ATT&CK T1606.002 - Forge Web Credentials: SAML Tokens. https://attack.mitre.org/techniques/T1606/002/"
+  search_keywords:
+    - "SAML"
+    - "Security Assertion Markup Language"
+    - "SAML assertion"
+    - "SAML SSO"
+    - "identity provider"
+    - "service provider"
+    - "XML signature wrapping"
+    - "SAML binding"
+    - "federated authentication"
+    - "SAML 1.1"
+    - "assertion consumer service"
+    - "SAML metadata"
+  embedding_text: >-
+    SAML (Security Assertion Markup Language) is an XML-based open standard developed by OASIS
+    for exchanging authentication and authorization data between identity providers and service
+    providers. SAML defines Assertions (XML documents with authentication, attribute, and
+    authorization statements), Protocols (request-response formats), and Bindings (transport
+    mappings for HTTP POST, HTTP Redirect, and SOAP). The protocol enables cross-domain single
+    sign-on by allowing users to authenticate once at an identity provider and access multiple
+    service providers. SAML assertions are digitally signed using XML Digital Signatures and
+    optionally encrypted. Security concerns include XML Signature Wrapping attacks that
+    manipulate XML structure to inject unauthorized assertions, assertion replay, certificate
+    mismanagement enabling forgery, and XML parsing vulnerabilities including XXE. Trust between
+    IdP and SP is established through metadata exchange containing entity IDs, endpoints, and
+    X.509 certificates. SAML remains the dominant enterprise SSO protocol alongside the modern
+    alternative OpenID Connect.

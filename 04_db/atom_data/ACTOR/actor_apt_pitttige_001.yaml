@@ -1,0 +1,77 @@
+# GR Atom: Pitty Tiger
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-PITTTIGE-001"
+  name: "Pitty Tiger"
+  normalized_name: "pitty_tiger"
+  aliases:
+    - "PittyTiger"
+    - "Pitty Panda"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "PERSIST"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "Windows workstations"
+    - "file servers"
+    - "defense contractor networks"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Pitty Tiger is a suspected Chinese APT group that has been active since at least 2011, targeting defense, telecommunications, and government organizations primarily in Western Europe and the United States. The group was documented by Airbus Defence and Space (formerly Cassidian CyberSecurity) in 2014 and is characterized by its use of a mix of custom and publicly available tools for espionage operations."
+  why: "Pitty Tiger conducts cyber espionage operations likely aligned with Chinese intelligence collection priorities, targeting defense industry trade secrets, military technology, telecommunications infrastructure information, and government policy intelligence from Western nations. The targeting pattern suggests interest in defense technology acquisition and strategic political intelligence."
+  how: "The group uses spear-phishing emails with weaponized documents exploiting common Office vulnerabilities and targeted social engineering. Pitty Tiger deploys a combination of custom backdoors (CT RAT, PittyTiger RAT) alongside widely available tools like Gh0st RAT and PCShare. The group employs DLL side-loading for persistence, uses HTTP-based C2 with basic obfuscation, and conducts systematic file collection and exfiltration. Their operations demonstrate moderate technical sophistication with heavy reliance on known effective techniques."
+  core_concepts:
+    - "European defense sector targeting"
+    - "custom and commodity RAT deployment"
+    - "DLL side-loading persistence"
+    - "defense technology espionage"
+    - "Western Europe focused operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ACTOR-APT-MENUPASS-001"
+    description: "Both Chinese groups target defense and technology sectors in Western nations"
+  - type: "requires"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Shares Chinese APT ecosystem tools including Gh0st RAT variants"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Airbus CyberSecurity - Pitty Tiger: Targeted Attacks Against French Organizations (2014)"
+    - "Cassidian CyberSecurity - Pitty Tiger Threat Report"
+  search_keywords:
+    - "pitty tiger"
+    - "PittyTiger"
+    - "pitty panda"
+    - "CT RAT"
+    - "french defense hacking"
+    - "european defense APT"
+    - "chinese espionage europe"
+    - "airbus cybersecurity APT"
+  embedding_text: "Pitty Tiger is a suspected Chinese APT group active since at least 2011, targeting defense, telecommunications, and government organizations primarily in Western Europe and the United States. Documented by Airbus Defence and Space in 2014, the group conducts espionage operations using a mix of custom and publicly available tools. Attack techniques include spear-phishing with weaponized documents, deployment of custom backdoors such as CT RAT and PittyTiger RAT alongside commodity tools like Gh0st RAT and PCShare, DLL side-loading for persistence, and HTTP-based C2 communications. The group targets defense industry trade secrets, military technology, and government policy intelligence from Western nations. Pitty Tiger demonstrates moderate technical sophistication with effective operational tradecraft focused on European defense sector organizations, representing Chinese intelligence collection interests in Western military technology and strategic political developments."

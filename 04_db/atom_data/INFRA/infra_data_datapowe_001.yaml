@@ -1,0 +1,114 @@
+# GR Atom: Data Power
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATAPOWE-001"
+  name: "Data Power"
+  normalized_name: "data_power"
+  aliases:
+    - "IBM DataPower"
+    - "IBM DataPower Gateway"
+    - "DataPower Appliance"
+    - "WebSphere DataPower"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - API
+    - NETWORK
+    - WAF
+    - ENCRYPT
+    - TLS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "D3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    IBM DataPower Gateway is a purpose-built hardware or virtual appliance that provides API
+    gateway, integration middleware, and security enforcement functions. Originally introduced as
+    a hardware XML/SOA appliance, DataPower has evolved into a multi-protocol gateway supporting
+    REST APIs, SOAP web services, JSON, XML processing, and message queue integration. It
+    provides TLS termination, authentication, authorization, rate limiting, threat protection,
+    and protocol mediation at the network edge or within the DMZ. DataPower is deployed as
+    physical appliances, virtual appliances, or containerized instances on platforms including
+    IBM Cloud Pak for Integration.
+  why: >-
+    DataPower addresses the need for high-performance, security-hardened API and integration
+    gateways at the enterprise edge. It enforces security policies before traffic reaches
+    backend services, providing defense-in-depth for API and web service architectures. Its
+    purpose-built nature offers higher throughput and stronger security isolation than
+    software-only solutions. DataPower is security-relevant as both a protective control
+    (WAF, authentication, encryption) and as a target (compromise bypasses all downstream
+    security enforcement).
+  how: >-
+    DataPower processes incoming requests through a configurable processing pipeline. Incoming
+    connections are TLS-terminated and authenticated using certificates, OAuth tokens, SAML
+    assertions, or API keys. Request content is validated against schemas, scanned for injection
+    attacks, and transformed between protocols. Routing rules direct processed requests to
+    backend services. Rate limiting and throttling prevent abuse. Logging and analytics capture
+    traffic patterns and security events. Configuration is managed through a web GUI, CLI, or
+    REST management interface. High availability is achieved through active-active clustering.
+  core_concepts:
+    - key: "API Gateway Security"
+      value: >-
+        DataPower enforces API security policies including authentication, authorization, rate
+        limiting, and threat protection at the network edge before traffic reaches backend services.
+    - key: "Protocol Mediation"
+      value: >-
+        Translates between protocols (REST, SOAP, MQ, JMS) enabling integration of heterogeneous
+        backend services while presenting a unified API interface to consumers.
+    - key: "Purpose-Built Security Appliance"
+      value: >-
+        DataPower runs a hardened, non-general-purpose operating system designed specifically
+        for security-sensitive gateway functions, reducing the attack surface compared to
+        software-only gateways on general-purpose OS platforms.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "DataPower enables secure access to database services by providing API gateway and security enforcement"
+  - type: "enables"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "DataPower enables data stores by mediating and securing client access to backend data services"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IBM DataPower Gateway documentation. https://www.ibm.com/docs/en/datapower-gateway"
+    - "IBM Cloud Pak for Integration - DataPower. https://www.ibm.com/cloud/cloud-pak-for-integration"
+    - "IBM DataPower Security Hardening Guide."
+  search_keywords:
+    - "IBM DataPower"
+    - "DataPower Gateway"
+    - "DataPower appliance"
+    - "API gateway appliance"
+    - "WebSphere DataPower"
+    - "DataPower security"
+    - "enterprise API gateway"
+    - "IBM integration gateway"
+  embedding_text: >-
+    IBM DataPower Gateway is a purpose-built hardware or virtual appliance providing API gateway,
+    integration middleware, and security enforcement functions. It supports REST APIs, SOAP web
+    services, JSON and XML processing, and message queue integration. DataPower provides TLS
+    termination, authentication (certificates, OAuth, SAML, API keys), authorization, rate
+    limiting, threat protection, and protocol mediation. Deployed as physical appliances, virtual
+    appliances, or containers on IBM Cloud Pak for Integration, DataPower enforces security
+    policies at the network edge before traffic reaches backend services. Its hardened,
+    purpose-built operating system reduces attack surface compared to software-only gateways.
+    DataPower is security-relevant as both a protective control and a high-value target whose
+    compromise would bypass all downstream security enforcement for API and web service traffic.

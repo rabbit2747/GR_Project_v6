@@ -1,0 +1,75 @@
+# GR Atom: Auth0
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-AUTH0-001"
+  name: "Auth0"
+  normalized_name: "auth0"
+  aliases:
+    - "Auth0 by Okta"
+    - "Okta Auth0"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - MFA
+    - WEB
+    - CLOUD
+    - ZTNA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L7", "Cross"]
+  target_zones: ["Z0B", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Auth0 is an identity and access management platform founded in 2013, acquired by Okta in 2021. Auth0 provides authentication and authorization as a service, offering universal login, multi-factor authentication, single sign-on, social login integration, and adaptive access control. The platform is developer-focused, providing SDKs and APIs for embedding identity management into web, mobile, and IoT applications without building authentication systems from scratch."
+  why: "Auth0 is significant because authentication and authorization are foundational security controls, and misconfiguration of these systems is a leading cause of data breaches. Auth0 reduces the risk of authentication vulnerabilities by providing a well-tested, standards-compliant identity platform that developers can integrate with minimal security expertise. As an Okta subsidiary, Auth0 serves as critical identity infrastructure for thousands of applications."
+  how: "Auth0 provides identity services through a cloud-hosted platform that supports OAuth 2.0, OpenID Connect, SAML, and WS-Federation protocols. Developers integrate Auth0 using SDKs for various languages and frameworks. The platform handles user registration, credential storage, MFA enrollment, social login federation, and adaptive risk-based authentication. Auth0 Actions allow custom logic to be executed during authentication flows."
+  core_concepts:
+    - key: "Identity as a Service"
+      value: "Cloud-hosted authentication and authorization platform eliminating the need to build custom identity systems"
+    - key: "Universal Login"
+      value: "Centralized, customizable login experience supporting multiple authentication methods and federation protocols"
+    - key: "Adaptive MFA"
+      value: "Risk-based multi-factor authentication that adjusts security requirements based on context and threat signals"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-VENDOR-OKTA-001"
+    description: "Auth0 was acquired by Okta in 2021 and operates as the developer-focused identity platform"
+  - type: "enables"
+    target: "DEF-IAM-PLATFORM-001"
+    description: "Produces cloud-based identity and access management platform for application authentication"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for identity vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://auth0.com"
+    - "https://auth0.com/docs"
+  search_keywords:
+    - "auth0"
+    - "auth0 okta"
+    - "identity as a service"
+    - "authentication platform"
+    - "oauth provider"
+    - "multi-factor authentication"
+    - "universal login"
+    - "identity management"
+    - "sso provider"
+  embedding_text: "Auth0 is an identity and access management platform founded in 2013, acquired by Okta in 2021, providing authentication and authorization as a service for web, mobile, and IoT applications. The developer-focused platform offers universal login, multi-factor authentication, single sign-on, social login integration, and adaptive risk-based access control through standards-compliant protocols including OAuth 2.0, OpenID Connect, and SAML. Auth0 reduces the risk of authentication vulnerabilities by providing a well-tested identity platform that developers can integrate using SDKs and APIs without building custom authentication systems. The platform handles user registration, credential storage, MFA enrollment, social login federation, and supports custom authentication logic through Auth0 Actions. As critical identity infrastructure serving thousands of applications, Auth0 plays a foundational role in application security."

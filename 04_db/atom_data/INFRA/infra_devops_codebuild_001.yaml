@@ -1,0 +1,77 @@
+# GR Atom: CodeBuild
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-CODEBUILD-001"
+  name: "CodeBuild"
+  normalized_name: "codebuild"
+  aliases:
+    - "AWS CodeBuild"
+    - "Amazon CodeBuild"
+    - "AWS Build Service"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CICD
+    - CLOUD
+    - CONTAINER
+    - DEVSECOPS
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.1"
+
+definition:
+  what: "AWS CodeBuild is a fully managed continuous integration service that compiles source code, runs tests, and produces deployable software artifacts. It supports multiple programming languages and build tools, executes builds in isolated Docker containers, and scales automatically without requiring build server management. CodeBuild integrates with AWS CodePipeline, CodeCommit, S3, and third-party source providers including GitHub and Bitbucket."
+  why: "CodeBuild is security-critical because it executes arbitrary code during the build process with access to IAM roles, environment variables containing secrets, and network connectivity to internal resources. Compromised buildspec files can exfiltrate secrets, inject malicious code into artifacts, or pivot to other AWS services. Build environments have access to sensitive deployment credentials and can modify production artifacts. Supply chain attacks through poisoned build configurations represent a significant threat vector."
+  how: "CodeBuild executes builds defined in buildspec.yml files that specify build commands, environment variables, and artifact configurations. Builds run in fresh Docker containers from curated or custom images. IAM service roles grant CodeBuild permissions to access AWS resources. Secrets are injected through Systems Manager Parameter Store or Secrets Manager references. Build logs are sent to CloudWatch Logs. VPC configurations enable builds to access private resources. Build caching reduces build times through S3-based or local caching of dependencies."
+  core_concepts:
+    - key: "Buildspec File"
+      value: "YAML configuration defining build phases (install, pre_build, build, post_build), environment variables, and artifact locations"
+    - key: "Build Environment"
+      value: "Isolated Docker container with configurable compute resources, runtime versions, and network access for executing build commands"
+    - key: "IAM Service Role"
+      value: "AWS IAM role assumed by CodeBuild that defines permissions for accessing S3, ECR, Secrets Manager, and other AWS resources during builds"
+
+relations:
+  - type: part_of
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "CodeBuild is a core CI/CD service within the AWS cloud platform"
+  - type: requires
+    target: "INFRA-DEVOPS-CODEREPO-001"
+    description: "CodeBuild retrieves source code from code repositories for build execution"
+  - type: enables
+    target: "INFRA-DEVOPS-CONTREGI-001"
+    description: "CodeBuild produces container images that are pushed to container registries"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS CodeBuild Documentation - https://docs.aws.amazon.com/codebuild/"
+    - "AWS CodeBuild Security Best Practices - https://docs.aws.amazon.com/codebuild/latest/userguide/security.html"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "AWS CodeBuild"
+    - "CodeBuild CI/CD"
+    - "AWS build service"
+    - "buildspec.yml"
+    - "CodeBuild security"
+    - "AWS continuous integration"
+    - "CodeBuild IAM role"
+    - "AWS build pipeline"
+  embedding_text: "AWS CodeBuild is a fully managed continuous integration service compiling source code, running tests, and producing deployable artifacts in isolated Docker containers. It scales automatically and integrates with CodePipeline, CodeCommit, S3, GitHub, and Bitbucket. Security significance includes execution of arbitrary build code with IAM role access, environment variable secrets, and network connectivity to internal resources. Compromised buildspec files can exfiltrate secrets or inject malicious code into production artifacts. Build configurations define phases, environment variables, and artifact locations. IAM service roles control AWS resource access during builds."

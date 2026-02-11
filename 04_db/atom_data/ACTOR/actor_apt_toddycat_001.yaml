@@ -1,0 +1,89 @@
+# GR Atom: ToddyCat
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-TODDYCAT-001"
+  name: "ToddyCat"
+  normalized_name: "toddycat"
+  aliases:
+    - "ToddyCat APT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ToddyCat is a sophisticated advanced persistent threat group discovered by Kaspersky Lab, active since at least December 2020. The group conducts cyber-espionage campaigns targeting government organizations and military entities primarily in the Asia-Pacific region, including countries such as Taiwan, Vietnam, Malaysia, Indonesia, Thailand, Pakistan, and Uzbekistan. ToddyCat initially exploited the Microsoft Exchange ProxyLogon vulnerability chain for initial access and demonstrated advanced persistent access capabilities."
+  why: "ToddyCat is significant for its targeting of high-value government and military organizations across multiple Asia-Pacific nations, suggesting a broad intelligence collection mandate. The group's early adoption of the ProxyLogon vulnerability before widespread awareness and its sophisticated custom tooling demonstrate high technical capability. The group's persistent operations indicate sustained interest in strategic intelligence from the region."
+  how: "ToddyCat initially exploited ProxyLogon (CVE-2021-26855) vulnerabilities in Microsoft Exchange servers for initial access. The group deploys a custom passive backdoor called Samurai and a modular trojan called Ninja for persistent access and lateral movement. These tools support extensive post-exploitation capabilities including file collection, process manipulation, network tunneling, and data exfiltration. The group also uses commodity tools like loaders for Cobalt Strike and custom data collection utilities targeting specific file types and email databases."
+  core_concepts:
+    - key: "Samurai Backdoor"
+      value: "Custom passive backdoor deployed on compromised Exchange servers providing stealthy persistent access to targeted networks"
+    - key: "Ninja Trojan"
+      value: "Sophisticated modular trojan supporting extensive post-exploitation capabilities including lateral movement, file collection, and network tunneling"
+    - key: "Exchange Server Exploitation"
+      value: "Early adoption of ProxyLogon vulnerability chain for initial access to government and military Exchange servers across Asia-Pacific"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Sophisticated APT group targeting government and military entities across Asia-Pacific"
+  - type: enables
+    target: "ATK-EXPLOIT-EXCHANGE-001"
+    description: "Exploited ProxyLogon vulnerability chain in Microsoft Exchange for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "lateral-movement"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - ToddyCat APT discovery and analysis"
+    - "Kaspersky Lab - ToddyCat toolset deep dive"
+    - "Microsoft - ProxyLogon exploitation tracking"
+  search_keywords:
+    - "toddycat"
+    - "samurai backdoor"
+    - "ninja trojan"
+    - "proxylogon exploitation"
+    - "exchange server attack"
+    - "asia pacific espionage"
+    - "government targeting"
+    - "kaspersky"
+    - "cve-2021-26855"
+    - "military espionage"
+    - "passive backdoor"
+  embedding_text: "ToddyCat is a sophisticated advanced persistent threat group discovered by Kaspersky Lab, active since at least December 2020, conducting cyber-espionage against government organizations and military entities across the Asia-Pacific region including Taiwan, Vietnam, Malaysia, Indonesia, and Pakistan. The group initially exploited ProxyLogon vulnerabilities in Microsoft Exchange servers for access, deploying custom tools including the Samurai passive backdoor and the Ninja modular trojan for persistent access, lateral movement, and data exfiltration. ToddyCat's early adoption of ProxyLogon before widespread awareness and its sophisticated custom toolset demonstrate high technical capability and sustained interest in strategic intelligence collection from Asia-Pacific nations."

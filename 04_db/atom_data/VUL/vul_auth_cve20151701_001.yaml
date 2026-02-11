@@ -1,0 +1,105 @@
+# GR Atom: CVE-2015-1701
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20151701-001"
+  name: "CVE-2015-1701"
+  normalized_name: "cve_2015_1701"
+  aliases:
+    - "Windows Win32k Privilege Escalation"
+    - "Win32k.sys EoP"
+    - "APT28 Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Windows Win32k.sys kernel driver"
+    - "Windows Vista through Windows 8.1"
+    - "Windows Server 2008 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-1701 is a local privilege escalation vulnerability in the Windows kernel-mode
+    driver Win32k.sys. The vulnerability exists due to improper handling of objects in memory
+    by the Win32k component, allowing a locally authenticated attacker to run arbitrary code
+    in kernel mode. This vulnerability was used in the wild by APT28 (Fancy Bear) as part of
+    a multi-stage attack chain, paired with a Flash Player zero-day (CVE-2015-3043) for
+    initial code execution. CVSS v2 score is 7.2.
+  why: >-
+    Win32k.sys is one of the most attacked Windows kernel components due to its large attack
+    surface and historical vulnerability density. This vulnerability was actively exploited by
+    state-sponsored threat actors (APT28) in targeted operations, demonstrating its value for
+    advanced persistent threat campaigns. The combination with browser or plugin exploits made
+    it a powerful escalation primitive.
+  how: >-
+    Exploitation involves a locally running process triggering a use-after-free or memory
+    corruption condition in Win32k.sys through specific window management API calls. The
+    kernel driver improperly handles objects in memory, enabling the attacker to overwrite
+    kernel memory and execute arbitrary code with SYSTEM privileges. Mitigation requires
+    applying Microsoft security updates and monitoring for Win32k exploitation indicators.
+  core_concepts:
+    - key: "Win32k Kernel Exploitation"
+      value: "Exploiting the Windows kernel-mode graphics driver which has a large attack surface due to complex window management operations"
+    - key: "APT Attack Chain"
+      value: "Used by APT28 as the privilege escalation component in a multi-stage attack combining browser exploit with kernel escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2015-1701 is a privilege boundary bypass in the Windows kernel"
+  - type: "precedes"
+    target: "VUL-AUTH-CVE20152387-001"
+    description: "Both are 2015-era Windows kernel privilege escalation vulnerabilities exploited by APT groups"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2015-1701"
+    - "NIST NVD CVE-2015-1701 (CVSS v2: 7.2)"
+    - "Microsoft Security Advisory"
+    - "FireEye APT28 Analysis"
+  search_keywords:
+    - "CVE-2015-1701"
+    - "Win32k privilege escalation"
+    - "Win32k.sys vulnerability"
+    - "APT28 exploit"
+    - "Windows kernel escalation"
+    - "Fancy Bear privilege escalation"
+  embedding_text: >-
+    CVE-2015-1701 is a local privilege escalation vulnerability in the Windows Win32k.sys
+    kernel-mode driver with CVSS v2 score 7.2. Improper handling of objects in memory allows
+    a local attacker to execute arbitrary code in kernel mode. This vulnerability was actively
+    exploited by APT28 (Fancy Bear) as part of a multi-stage attack chain paired with Flash
+    Player zero-day CVE-2015-3043. The Win32k component has a large attack surface due to
+    complex window management operations. Mitigation requires applying Microsoft security
+    updates. Affects Windows Vista through 8.1 and Server 2008 through 2012 R2. Demonstrates
+    the value of kernel privilege escalation vulnerabilities to state-sponsored threat actors.

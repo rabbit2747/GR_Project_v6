@@ -1,0 +1,94 @@
+# GR Atom: Tropic Trooper
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-TROPTROO-001"
+  name: "Tropic Trooper"
+  normalized_name: "tropic_trooper"
+  aliases:
+    - "KeyBoy"
+    - "Pirate Panda"
+    - "APT23"
+    - "Earth Centaur"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Tropic Trooper, also known as KeyBoy or Pirate Panda, is a China-nexus advanced persistent threat group active since at least 2011. The group conducts cyber-espionage operations targeting government agencies, military organizations, healthcare institutions, transportation entities, and high-technology companies in Taiwan, the Philippines, and Hong Kong. Tropic Trooper has demonstrated persistence and adaptability across more than a decade of operations."
+  why: "Tropic Trooper represents a persistent and evolving China-linked espionage threat to entities in the South China Sea region, particularly Taiwanese government and military organizations. The group's long operational history and continuous tooling evolution demonstrate sustained investment in intelligence collection from entities relevant to Chinese territorial claims and military interests in the Asia-Pacific."
+  how: "Tropic Trooper employs spear-phishing emails with malicious attachments exploiting vulnerabilities in Microsoft Office and Adobe Reader. The group deploys custom backdoors including Yahoyah, TClient, and USBferry (for targeting air-gapped networks via USB drives). It has expanded to Linux environments and compromised web servers for C2 and staging. Recent operations have targeted transportation and healthcare verticals, demonstrating expanded intelligence collection interests. The group uses multi-stage infection chains with encrypted payloads and shellcode loaders."
+  core_concepts:
+    - key: "South China Sea Region Focus"
+      value: "Sustained targeting of Taiwanese and Philippine government and military entities aligned with Chinese strategic interests in the South China Sea region"
+    - key: "Air-Gap Bridging"
+      value: "USBferry malware designed to bridge air-gapped networks through USB drive propagation for collecting classified information"
+    - key: "Tooling Evolution"
+      value: "Continuous development and refinement of custom backdoors over more than a decade, adapting to new defensive technologies and expanding to Linux environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group conducting long-term espionage in the Asia-Pacific region"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses spear-phishing with weaponized documents for initial compromise of government and military targets"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Trend Micro - Tropic Trooper / Earth Centaur analysis"
+    - "Citizen Lab - KeyBoy research"
+    - "MITRE ATT&CK - Tropic Trooper"
+    - "Kaspersky Lab - Tropic Trooper campaign tracking"
+  search_keywords:
+    - "tropic trooper"
+    - "keyboy"
+    - "pirate panda"
+    - "apt23"
+    - "earth centaur"
+    - "china apt"
+    - "taiwan targeting"
+    - "yahoyah"
+    - "usbferry"
+    - "south china sea"
+    - "asia pacific espionage"
+    - "air gap bridging"
+  embedding_text: "Tropic Trooper, also known as KeyBoy and Pirate Panda, is a China-nexus advanced persistent threat group active since at least 2011, targeting government agencies, military organizations, and healthcare institutions in Taiwan, the Philippines, and Hong Kong. The group conducts cyber-espionage aligned with Chinese strategic interests in the South China Sea region. Tropic Trooper employs spear-phishing with weaponized documents, deploys custom backdoors including Yahoyah, TClient, and USBferry for bridging air-gapped networks, and has expanded to Linux environments. Its continuous tooling evolution over more than a decade demonstrates sustained investment in intelligence collection from the Asia-Pacific region."

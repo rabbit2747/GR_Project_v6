@@ -1,0 +1,81 @@
+# GR Atom: Google Project Zero
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-GOOPROZER-001"
+  name: "Google Project Zero"
+  normalized_name: "google_project_zero"
+  aliases:
+    - "GPZ"
+    - "Google P0"
+    - "Project Zero"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - OVERFLOW
+    - OS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Google Project Zero is a team of security researchers at Google tasked with finding zero-day vulnerabilities in hardware and software products used by consumers and enterprises worldwide. Founded in July 2014 following high-profile attacks exploiting software vulnerabilities, the team focuses on discovering and responsibly disclosing security flaws in operating systems, web browsers, mobile platforms, cloud infrastructure, and hardware. Google Project Zero enforces a 90-day disclosure deadline, after which vulnerability details are made public regardless of patch status. The team has discovered critical vulnerabilities including Spectre, Meltdown, and numerous iOS, Android, Windows, and browser exploits."
+  why: "Google Project Zero has fundamentally shaped modern vulnerability disclosure practices and raised the bar for software security across the entire technology industry. Their 90-day disclosure policy has become an industry standard, forcing vendors to prioritize patching timelines. The team's research into hardware vulnerabilities, browser exploitation, and mobile security has resulted in the remediation of hundreds of critical flaws affecting billions of devices, while their published research advances the collective understanding of exploitation techniques and defense mechanisms."
+  how: "Google Project Zero researchers use a combination of manual source code review, fuzzing (including tools like OSS-Fuzz and ClusterFuzz), static analysis, dynamic analysis, and reverse engineering to discover vulnerabilities. Upon finding a flaw, they report it to the vendor with a 90-day deadline, develop proof-of-concept exploits to demonstrate impact, and publish detailed technical blog posts after the deadline expires. The team also conducts systemic research into exploit mitigation effectiveness, publishes metrics on vendor patching performance, and contributes to the development of defensive technologies."
+  core_concepts:
+    - key: "Zero-Day Vulnerability Research"
+      value: "Proactive identification of previously unknown security flaws in widely deployed software and hardware"
+    - key: "90-Day Disclosure Policy"
+      value: "Industry-shaping policy requiring vendors to patch within 90 days before public disclosure"
+    - key: "Systemic Security Research"
+      value: "Analysis of exploitation techniques, mitigation effectiveness, and vendor patching practices at scale"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-PROJZERO-001"
+    description: "Alternate entry for the same Google Project Zero vulnerability research team"
+  - type: enables
+    target: "ACTOR-RESEARCH-POAUPRZE-001"
+    description: "Parent research team that conducted the Pointer Authentication security research"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Research findings regularly presented at Black Hat and top-tier security conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for research team
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://googleprojectzero.blogspot.com"
+    - "https://en.wikipedia.org/wiki/Project_Zero_(Google)"
+    - "https://bugs.chromium.org/p/project-zero/issues/list"
+  search_keywords:
+    - "google project zero"
+    - "project zero"
+    - "zero-day vulnerability"
+    - "90-day disclosure"
+    - "spectre meltdown"
+    - "browser exploitation"
+    - "vulnerability research"
+    - "google security"
+    - "exploit development"
+    - "responsible disclosure"
+  embedding_text: "Google Project Zero is a team of security researchers at Google tasked with finding zero-day vulnerabilities in hardware and software products used worldwide. Founded in July 2014, the team discovers and responsibly discloses security flaws in operating systems, web browsers, mobile platforms, cloud infrastructure, and hardware, enforcing a 90-day disclosure deadline that has become an industry standard. Google Project Zero has discovered critical vulnerabilities including Spectre, Meltdown, and numerous iOS, Android, Windows, and browser exploits using manual code review, fuzzing, static and dynamic analysis, and reverse engineering. The team publishes detailed technical blog posts, contributes to defensive technology development, and tracks vendor patching performance, fundamentally shaping modern vulnerability disclosure practices and raising the bar for software security across the entire technology industry."

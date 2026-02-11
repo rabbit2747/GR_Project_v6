@@ -1,0 +1,121 @@
+# GR Atom: AWS EKS IRSA
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-IRSA-001"
+  name: "AWS EKS IRSA"
+  normalized_name: "aws_eks_irsa"
+  aliases:
+    - "IAM Roles for Service Accounts"
+    - "EKS IRSA"
+    - "EKS Pod Identity"
+    - "OIDC-Based IAM for Kubernetes"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - K8S
+    - AUTHZ
+    - AUTHN
+    - CLOUD
+    - OAUTH
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS EKS IAM Roles for Service Accounts (IRSA) is an identity federation mechanism that
+    allows Kubernetes pods running on Amazon EKS to assume AWS IAM roles without requiring
+    long-lived access keys. IRSA uses an OpenID Connect (OIDC) identity provider associated
+    with the EKS cluster to project service account tokens that AWS Security Token Service
+    (STS) validates for temporary credential issuance, enabling fine-grained AWS API access
+    at the pod level.
+  why: >-
+    IRSA eliminates the need for distributing AWS access keys to pods, reducing the risk of
+    credential theft and lateral movement. However, misconfigurations such as overly permissive
+    IAM trust policies, wildcard service account bindings, or failure to scope OIDC conditions
+    can allow unauthorized pods to assume privileged IAM roles. Attackers who compromise a
+    pod with an IRSA-bound service account inherit the associated IAM permissions, making
+    proper least-privilege scoping critical. IRSA trust policy misconfigurations are a common
+    finding in EKS security assessments.
+  how: >-
+    IRSA operates by registering the EKS cluster's OIDC provider with AWS IAM. Kubernetes
+    service accounts are annotated with an IAM role ARN, and the EKS pod identity webhook
+    mutates pod specifications to mount a projected service account token. When the pod
+    calls AWS APIs, the SDK exchanges the OIDC token with AWS STS AssumeRoleWithWebIdentity,
+    receiving temporary credentials scoped to the annotated IAM role. Trust policies on the
+    IAM role specify conditions restricting which OIDC provider, namespace, and service
+    account can assume the role.
+  core_concepts:
+    - key: "OIDC Federation"
+      value: "Uses OpenID Connect identity provider registered with AWS IAM to bridge Kubernetes service account identity to IAM role assumption"
+    - key: "Pod-Level IAM Scoping"
+      value: "Enables fine-grained AWS permission assignment at the individual pod level rather than node-level instance profiles"
+    - key: "Trust Policy Conditions"
+      value: "IAM role trust policies must include OIDC subject conditions specifying namespace and service account to prevent cross-namespace role assumption"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-AWIAIDAC-001"
+    description: "IRSA relies on AWS IAM for role definitions and trust policy management"
+  - type: "part_of"
+    target: "INFRA-IDENTITY-KUBSERACC-001"
+    description: "IRSA extends Kubernetes service accounts with AWS IAM role bindings"
+  - type: "implements"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "IRSA implements authentication between Kubernetes workloads and AWS services via OIDC federation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1550.001"
+    tactic:
+      - "Defense Evasion"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - IAM Roles for Service Accounts"
+    - "AWS Documentation - EKS Pod Identity"
+    - "MITRE ATT&CK T1550.001 - Use Alternate Authentication Material: Application Access Token"
+  search_keywords:
+    - "IRSA"
+    - "IAM Roles for Service Accounts"
+    - "EKS OIDC provider"
+    - "AssumeRoleWithWebIdentity"
+    - "EKS pod identity"
+    - "Kubernetes AWS IAM"
+    - "IRSA trust policy"
+    - "EKS service account IAM"
+  embedding_text: >-
+    AWS EKS IAM Roles for Service Accounts (IRSA) enables Kubernetes pods to assume AWS
+    IAM roles without long-lived access keys through OIDC federation. The EKS cluster
+    registers an OIDC identity provider with AWS IAM, and service accounts are annotated
+    with IAM role ARNs. Pods receive projected tokens that are exchanged via STS
+    AssumeRoleWithWebIdentity for temporary credentials. IRSA provides pod-level IAM
+    scoping rather than node-level instance profiles. Security risks include overly
+    permissive trust policies, wildcard service account bindings, and failure to scope
+    OIDC conditions by namespace and service account name. Compromised pods inherit the
+    associated IAM role permissions. Security teams must enforce strict trust policy
+    conditions, audit IRSA role bindings, implement least-privilege IAM policies, and
+    monitor STS AssumeRole events for unauthorized role assumptions in EKS environments.

@@ -1,0 +1,106 @@
+# GR Atom: CVE-2015-3113
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20153113-001"
+  name: "CVE-2015-3113"
+  normalized_name: "cve_2015_3113"
+  aliases:
+    - "Adobe Flash Player Heap Buffer Overflow"
+    - "Operation Clandestine Wolf Flash Zero-Day"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player before 18.0.0.194"
+    - "Adobe Flash Player 13.x before 13.0.0.296"
+    - "Flash browser plugin (Chrome, IE, Firefox)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-3113 is a heap-based buffer overflow vulnerability (CVSS 10.0) in Adobe Flash
+    Player that allows remote attackers to execute arbitrary code via crafted Flash content.
+    The vulnerability exists in the processing of certain FLV (Flash Video) data. It was
+    exploited as a zero-day in June 2015 in Operation Clandestine Wolf, a targeted attack
+    campaign attributed to APT3 (Gothic Panda). Adobe released an emergency update to address
+    the vulnerability, affecting Flash Player versions before 18.0.0.194.
+  why: >-
+    This vulnerability is significant for its use in Operation Clandestine Wolf by APT3, a
+    Chinese state-sponsored threat group. The attack targeted organizations in the aerospace
+    and defense industries through spear-phishing emails containing links to compromised web
+    servers hosting the Flash exploit. Flash Player's browser integration meant that visiting
+    a malicious URL was sufficient for exploitation, making it an ideal vector for targeted
+    attacks.
+  how: >-
+    The exploit delivers crafted FLV video content through a web page that triggers a heap-based
+    buffer overflow in Flash Player's video processing code. The overflow corrupts adjacent heap
+    memory, allowing the attacker to manipulate object vtable pointers. Through heap grooming
+    techniques, the attacker positions controlled data adjacent to the overflow, enabling
+    reliable redirection of execution flow to shellcode that downloads and installs a backdoor.
+  core_concepts:
+    - key: "FLV Video Processing Heap Overflow"
+      value: "Malformed FLV video data triggers heap buffer overflow in Flash Player's video processing, corrupting adjacent memory objects"
+    - key: "Operation Clandestine Wolf"
+      value: "APT3 (Gothic Panda) used this zero-day to target aerospace and defense organizations via spear-phishing with Flash exploit links"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Heap buffer overflow in Adobe Flash Player FLV video processing"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2015-3113 - CVSS 10.0"
+    - "Adobe Security Bulletin APSB15-14"
+    - "FireEye - Operation Clandestine Wolf Analysis"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2015-3113"
+    - "Adobe Flash Player"
+    - "heap buffer overflow"
+    - "FLV"
+    - "Operation Clandestine Wolf"
+    - "APT3"
+    - "Gothic Panda"
+    - "zero-day"
+    - "APSB15-14"
+  embedding_text: >-
+    CVE-2015-3113 is a heap-based buffer overflow vulnerability with CVSS 10.0 in Adobe Flash
+    Player's FLV video processing code. Malformed FLV data triggers a heap overflow that
+    corrupts adjacent memory objects, enabling remote code execution through web-based Flash
+    content. Exploited as a zero-day in June 2015 during Operation Clandestine Wolf by APT3
+    (Gothic Panda), a Chinese state-sponsored group targeting aerospace and defense organizations
+    through spear-phishing with exploit links. Adobe issued an emergency update for Flash
+    Player versions before 18.0.0.194. This vulnerability was part of the wave of Flash
+    zero-days that accelerated industry efforts to deprecate Flash Player entirely.

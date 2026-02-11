@@ -1,0 +1,68 @@
+# GR Atom: ExaTrack
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-EXATRACK-001"
+  name: "ExaTrack"
+  normalized_name: "exatrack"
+  aliases:
+    - "Exatrack SAS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ExaTrack is a French cybersecurity company specializing in cyber threat intelligence (CTI), incident response, and advanced threat analysis. The company focuses on tracking sophisticated threat actors, particularly state-sponsored APT groups, and provides detailed technical analysis of malware, intrusion campaigns, and adversary tactics, techniques, and procedures (TTPs). ExaTrack publishes threat intelligence research and offers consulting services for incident response and threat hunting."
+  why: "ExaTrack is significant in cybersecurity as a specialized French threat intelligence firm that contributes to the understanding of advanced persistent threats, particularly those targeting European and French-speaking organizations. Their research on APT campaigns, malware families, and adversary infrastructure provides actionable intelligence for defenders. ExaTrack's work supports the broader European cybersecurity ecosystem with French-language threat intelligence and incident response expertise."
+  how: "ExaTrack conducts deep technical analysis of cyber intrusions, malware samples, and adversary infrastructure to produce detailed threat intelligence reports. The company performs incident response engagements, reverse engineering of malware, and campaign tracking to identify threat actor TTPs and attribution. Intelligence findings are shared through published research, conference presentations, and customer-specific threat briefings."
+  core_concepts:
+    - key: "APT Tracking"
+      value: "Specialized tracking and analysis of state-sponsored and advanced persistent threat groups targeting European organizations"
+    - key: "Malware Analysis"
+      value: "Deep technical reverse engineering and analysis of malware families used in sophisticated intrusion campaigns"
+    - key: "French Cyber Threat Intelligence"
+      value: "European-focused threat intelligence with expertise in threats targeting French and European organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-THREATINTEL-REPORT-001"
+    description: "Produces detailed threat intelligence reports on APT campaigns, malware analysis, and adversary TTPs"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for threat intelligence vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://www.exatrack.com"
+  search_keywords:
+    - "exatrack"
+    - "french threat intelligence"
+    - "exatrack apt"
+    - "french cybersecurity"
+    - "european threat intelligence"
+    - "malware analysis france"
+    - "incident response france"
+    - "french cti"
+  embedding_text: "ExaTrack is a French cybersecurity company specializing in cyber threat intelligence, incident response, and advanced threat analysis. The company focuses on tracking sophisticated threat actors, particularly state-sponsored APT groups, and provides detailed technical analysis of malware, intrusion campaigns, and adversary TTPs. ExaTrack is significant as a specialized French threat intelligence firm contributing to understanding of advanced persistent threats targeting European and French-speaking organizations. Their research on APT campaigns, malware families, and adversary infrastructure provides actionable intelligence for defenders. ExaTrack conducts deep technical analysis of cyber intrusions, malware reverse engineering, and campaign tracking to identify threat actor attribution. Intelligence findings are shared through published research, conference presentations, and customer-specific threat briefings."

@@ -1,0 +1,70 @@
+# GR Atom: Reversing Lab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-REVELAB-001"
+  name: "Reversing Lab"
+  normalized_name: "reversing_lab"
+  aliases:
+    - "ReversingLabs"
+    - "ReversingLabs Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - SANDBOX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ReversingLabs is a cybersecurity company specializing in file and software supply chain security through advanced static binary analysis and threat intelligence. The platform analyzes billions of files using proprietary decomposition technology to identify malware, software tampering, supply chain threats, and hidden threats in complex file formats without execution. ReversingLabs maintains one of the world's largest malware repositories and goodware databases for classification and threat intelligence."
+  why: "ReversingLabs is significant in cybersecurity because their static analysis approach can detect threats that evade sandbox-based dynamic analysis, including dormant malware, supply chain tampering, and obfuscated threats embedded in complex file formats. Their technology is increasingly critical as software supply chain attacks grow in frequency and sophistication, providing visibility into the integrity of software packages, containers, and release artifacts."
+  how: "ReversingLabs performs deep static analysis through proprietary file decomposition that extracts and analyzes embedded objects, scripts, macros, and binary components within complex file formats without executing them. The platform classifies files against a massive database of known malware signatures, goodware fingerprints, and behavioral indicators. Their supply chain security products integrate into CI/CD pipelines to scan software releases, container images, and third-party packages for tampering, malware, and policy violations."
+  core_concepts:
+    - key: "Static binary analysis"
+      value: "Deep file decomposition and analysis without execution for threat detection"
+    - key: "Software supply chain security"
+      value: "Scanning software packages, containers, and releases for tampering and hidden threats"
+    - key: "Massive file intelligence"
+      value: "Billions of classified files providing comprehensive malware and goodware databases"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-FILEANALYSIS-001"
+    description: "ReversingLabs provides static binary analysis and file intelligence for threat detection"
+  - type: enables
+    target: "TECHNIQUE-SUPPLYCHAINSEC-001"
+    description: "ReversingLabs enables software supply chain security through package and release scanning"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "ReversingLabs Official Website"
+    - "ReversingLabs Threat Intelligence Blog"
+    - "Gartner - Software Supply Chain Security"
+  search_keywords:
+    - "reversinglabs"
+    - "reversing labs"
+    - "reversinglabs file analysis"
+    - "reversinglabs supply chain"
+    - "static binary analysis"
+    - "reversinglabs threat intelligence"
+    - "file decomposition"
+  embedding_text: "ReversingLabs is a cybersecurity company specializing in file and software supply chain security through advanced static binary analysis and threat intelligence. The platform uses proprietary decomposition technology to analyze billions of files, extracting and examining embedded objects, scripts, macros, and binary components within complex file formats without execution. This static analysis approach detects threats that evade sandbox-based dynamic analysis, including dormant malware, software tampering, supply chain threats, and obfuscated threats. ReversingLabs maintains one of the world's largest malware repositories and goodware databases for file classification and threat intelligence. Their supply chain security products integrate into CI/CD pipelines to scan software releases, container images, and third-party packages for tampering, malware, and policy violations, addressing the growing threat of software supply chain attacks. The technology provides critical visibility into the integrity of software packages and release artifacts."

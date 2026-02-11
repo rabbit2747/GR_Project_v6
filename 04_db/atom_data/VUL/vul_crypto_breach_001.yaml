@@ -1,0 +1,117 @@
+# GR Atom: BREACH Attack
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-BREACH-001"
+  name: "BREACH Attack"
+  normalized_name: "breach"
+  aliases:
+    - "Browser Reconnaissance and Exfiltration via Adaptive Compression of Hypertext"
+    - "BREACH HTTP Compression Attack"
+    - "HTTP Compression Side-Channel Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - HTTP
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "HTTP Compression (gzip/deflate)"
+    - "TLS/SSL Protected Web Applications"
+    - "Web Servers with HTTP-level compression"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BREACH (Browser Reconnaissance and Exfiltration via Adaptive Compression of Hypertext) is a
+    side-channel attack against HTTP compression that allows an attacker to extract secrets such
+    as CSRF tokens, session identifiers, and other sensitive data from HTTPS-encrypted traffic.
+    The attack exploits the interaction between HTTP-level compression algorithms (gzip, deflate)
+    and the encrypted transport layer, using differences in compressed response sizes to infer
+    plaintext content byte-by-byte.
+  why: >-
+    BREACH is significant because it bypasses TLS encryption entirely by targeting the application
+    layer compression. Unlike CRIME which targeted TLS-level compression, BREACH exploits
+    HTTP-level compression which is far more widely deployed and difficult to disable without
+    significant performance penalties. Any HTTPS application reflecting user input in compressed
+    responses containing secrets is potentially vulnerable.
+  how: >-
+    The attacker positions themselves as a man-in-the-middle and injects chosen plaintext into
+    HTTP requests to the target application. Because the response includes both the injected
+    content and the secret, HTTP compression will produce smaller output when the injected guess
+    matches part of the secret. By observing the encrypted response sizes and iteratively refining
+    guesses, the attacker can recover the secret one character at a time. The attack requires the
+    application to use HTTP compression, reflect user input in responses, and include static
+    secrets in those responses.
+  core_concepts:
+    - name: "Compression Oracle"
+      value: "Exploiting the relationship between data redundancy and compressed size to infer plaintext content from encrypted streams"
+    - name: "Adaptive Chosen Plaintext"
+      value: "Iteratively refining injected content based on observed compression ratio changes to recover secret values byte-by-byte"
+    - name: "Side-Channel Leakage"
+      value: "Extracting information through observable metadata (response size) rather than breaking the cryptographic primitive directly"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "BREACH is an instance of cryptographic side-channel vulnerability exploiting compression oracles"
+  - type: "enables"
+    target: "VUL-CRYPTO-CVE20113389-001"
+    description: "BREACH extends the BEAST/CRIME family of compression-based side-channel attacks against TLS"
+  - type: "effective_against"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "BREACH undermines TLS confidentiality guarantees when HTTP compression is active"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Collection", "Credential Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "BREACH: Reviving the CRIME Attack - Gluck, Harris, Prado (Black Hat USA 2013)"
+    - "MITRE CWE-310: Cryptographic Issues"
+    - "OWASP Testing Guide - Testing for HTTP Compression"
+  search_keywords:
+    - "BREACH attack"
+    - "HTTP compression side channel"
+    - "compression oracle"
+    - "TLS compression attack"
+    - "HTTPS secret extraction"
+    - "gzip compression vulnerability"
+    - "adaptive chosen plaintext"
+    - "CRIME BREACH TIME"
+  embedding_text: >-
+    BREACH is a side-channel attack against HTTP compression in HTTPS connections. It allows
+    attackers to extract secrets like CSRF tokens and session identifiers from encrypted web
+    traffic by exploiting the interaction between HTTP-level compression algorithms such as gzip
+    and deflate and the TLS encrypted transport. The attacker performs adaptive chosen plaintext
+    injection, observing compressed response size differences to infer secret values one byte at
+    a time. Unlike the CRIME attack which targeted TLS compression, BREACH targets the more
+    widely deployed HTTP compression layer, making it harder to mitigate without performance
+    impact. Defenses include disabling HTTP compression for sensitive responses, randomizing
+    secrets per request, adding random padding to responses, and separating secrets from
+    user-controlled content. The attack was presented at Black Hat USA 2013 and remains relevant
+    for web applications that combine compression with secret reflection.

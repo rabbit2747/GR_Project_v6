@@ -1,0 +1,71 @@
+# GR Atom: CVE-2019-9489
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20199489-001"
+  name: "CVE-2019-9489"
+  normalized_name: "cve_2019_9489"
+  aliases:
+    - "Trend Micro OfficeScan Directory Traversal"
+    - "OfficeScan Arbitrary File Upload"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PATH
+    - UPLOAD
+    - WINDOWS
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Trend Micro OfficeScan"
+    - "Trend Micro Apex One"
+
+definition:
+  what: "CVE-2019-9489 is a directory traversal vulnerability in Trend Micro OfficeScan and Apex One that allows a remote attacker to upload arbitrary files to the server by exploiting insufficient path validation in the product's web console. An attacker can manipulate file path parameters to write files to arbitrary locations on the server, potentially achieving remote code execution."
+  why: "Trend Micro OfficeScan/Apex One is a widely deployed enterprise endpoint protection platform. The ability to upload arbitrary files to the security management server can lead to complete server compromise, allowing attackers to disable endpoint protection across the organization, distribute malware through the management console, or exfiltrate sensitive security telemetry data. This vulnerability was actively exploited in the wild."
+  how: "The vulnerability is exploited by sending specially crafted HTTP requests to the OfficeScan/Apex One web console with directory traversal sequences in file upload parameters. The server fails to properly validate the destination path, allowing the attacker to write files outside the intended upload directory. By uploading a web shell or executable to a web-accessible directory, the attacker achieves remote code execution on the management server. Trend Micro released patches and hot fixes. CVSS v3: 9.8 (Critical)."
+  core_concepts:
+    - key: "Arbitrary File Upload via Path Traversal"
+      value: "Combination of path traversal and file upload vulnerabilities that allows writing attacker-controlled content to arbitrary server filesystem locations"
+    - key: "Endpoint Protection Server Compromise"
+      value: "Exploitation of the centralized security management server to undermine endpoint protection across the entire organization"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2019-9489 is a configuration vulnerability in OfficeScan's file upload path validation"
+  - type: is_a
+    target: "VUL-CONFIG-HIJAPATH-001"
+    description: "CVE-2019-9489 exploits directory traversal to hijack file upload destinations"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.003"
+    tactic: ["Persistence", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2019-9489 - NVD NIST"
+    - "Trend Micro Security Bulletin"
+    - "MITRE ATT&CK T1505.003 - Server Software Component: Web Shell"
+  search_keywords:
+    - "CVE-2019-9489"
+    - "Trend Micro OfficeScan vulnerability"
+    - "OfficeScan directory traversal"
+    - "Apex One file upload"
+    - "OfficeScan arbitrary file upload"
+    - "endpoint protection vulnerability"
+    - "Trend Micro path traversal"
+  embedding_text: "CVE-2019-9489 is a critical directory traversal vulnerability in Trend Micro OfficeScan and Apex One that allows remote attackers to upload arbitrary files to the server through insufficient path validation in the web console. Attackers can write web shells or executables to web-accessible directories, achieving remote code execution on the security management server. CVSS v3 score is 9.8 Critical. The vulnerability was actively exploited in the wild. Compromising the endpoint protection server allows attackers to disable protection across the enterprise, distribute malware, or exfiltrate security telemetry. Maps to MITRE ATT&CK T1505.003 Web Shell."

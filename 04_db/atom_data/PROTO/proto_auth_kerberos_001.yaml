@@ -1,0 +1,155 @@
+# GR Atom: Kerberos
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-KERBEROS-001"
+  name: "Kerberos"
+  normalized_name: "kerberos"
+  aliases:
+    - "Kerberos V5"
+    - "Kerberos Protocol"
+    - "MIT Kerberos"
+    - "RFC 4120"
+    - "Kerberos Authentication"
+    - "Krb5"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - KERBEROS
+    - AUTHN
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Kerberos is a network authentication protocol that uses symmetric-key cryptography and a
+    trusted third party (the Key Distribution Center, or KDC) to authenticate users and services
+    on an insecure network without transmitting passwords. Defined in RFC 4120 (Kerberos V5),
+    the protocol was originally developed at MIT as part of Project Athena. Kerberos is the
+    default authentication protocol for Microsoft Active Directory domains and is widely deployed
+    in enterprise environments. The protocol issues time-limited tickets that prove identity,
+    enabling single sign-on (SSO) across services within a Kerberos realm without requiring
+    users to re-enter credentials for each service.
+  why: >-
+    Password-based authentication over networks is inherently vulnerable to eavesdropping,
+    replay attacks, and credential theft. Kerberos addresses these risks by never transmitting
+    passwords over the network, instead using encrypted tickets as proof of identity. The
+    protocol's mutual authentication capability ensures both client and server verify each
+    other's identity, preventing impersonation attacks. In enterprise environments, Kerberos
+    provides centralized authentication management through Active Directory, enabling SSO across
+    thousands of services. However, Kerberos is a significant attack surface: Kerberoasting
+    extracts service ticket hashes for offline cracking, Golden Ticket attacks forge
+    Ticket-Granting Tickets using the krbtgt account hash, Silver Ticket attacks forge service
+    tickets, and Pass-the-Ticket attacks reuse stolen tickets for lateral movement. Understanding
+    Kerberos is essential for both securing and assessing Windows domain environments.
+  how: >-
+    Kerberos authentication operates through a three-phase ticket exchange: (1) Authentication
+    Service (AS) Exchange - the client sends an AS-REQ to the KDC containing the user principal
+    name; the KDC returns an AS-REP containing a Ticket-Granting Ticket (TGT) encrypted with
+    the krbtgt account key and a session key encrypted with the user's long-term key derived from
+    their password; (2) Ticket-Granting Service (TGS) Exchange - the client presents its TGT to
+    the KDC's Ticket-Granting Service with a TGS-REQ requesting access to a specific service; the
+    KDC returns a TGS-REP containing a service ticket encrypted with the target service's key and
+    a service session key; (3) Client/Server (AP) Exchange - the client presents the service ticket
+    to the target service in an AP-REQ; the service decrypts the ticket with its own key, validates
+    the authenticator, and optionally returns an AP-REP for mutual authentication. All tickets
+    contain timestamps and are time-limited (default TGT lifetime is 10 hours), requiring
+    synchronized clocks across the realm (typically within 5 minutes). The KDC consists of the
+    Authentication Server (AS) and Ticket-Granting Server (TGS), with the krbtgt account serving
+    as the root of trust for the entire domain.
+  core_concepts:
+    - key: "Key Distribution Center (KDC)"
+      value: >-
+        The trusted third party comprising the Authentication Server and Ticket-Granting Server.
+        The KDC holds the long-term keys for all principals in the realm and issues encrypted
+        tickets that enable mutual authentication without transmitting passwords.
+    - key: "Ticket-Granting Ticket (TGT)"
+      value: >-
+        An encrypted credential issued by the AS after initial authentication, enabling the
+        client to request service tickets from the TGS without re-entering credentials. The
+        TGT is encrypted with the krbtgt account key and contains the user's session key,
+        principal name, and validity period.
+    - key: "Kerberoasting"
+      value: >-
+        An attack technique where an authenticated domain user requests service tickets for
+        accounts with Service Principal Names (SPNs), then extracts the ticket's encrypted
+        portion for offline password cracking against the service account's password hash.
+    - key: "Golden Ticket Attack"
+      value: >-
+        A persistence technique where an attacker who has compromised the krbtgt account hash
+        forges arbitrary TGTs with any identity and privileges, enabling unrestricted access
+        to all services in the domain until the krbtgt password is reset twice.
+    - key: "Mutual Authentication"
+      value: >-
+        Kerberos optionally supports mutual authentication through the AP-REP message, where
+        the service proves its identity to the client by demonstrating it can decrypt the
+        service ticket. This prevents man-in-the-middle attacks through service impersonation.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "Kerberos is a network authentication protocol within the authentication protocol family"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-NTLM-001"
+    description: "Kerberos is the preferred alternative to NTLM authentication in Windows domain environments, providing stronger security guarantees"
+  - type: "requires"
+    target: "PROTO-NAMING-DNS-001"
+    description: "Kerberos requires DNS for service discovery and SPN resolution, as clients locate the KDC through DNS SRV records"
+  - type: "enables"
+    target: "PROTO-AUTH-LDLIDIAC-001"
+    description: "Kerberos enables authenticated LDAP access in Active Directory environments through GSSAPI SASL binding"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4120 - The Kerberos Network Authentication Service (V5) (July 2005). IETF. https://datatracker.ietf.org/doc/html/rfc4120"
+    - "RFC 4121 - The Kerberos Version 5 GSSAPI Mechanism (July 2005). IETF. https://datatracker.ietf.org/doc/html/rfc4121"
+    - "MITRE ATT&CK T1558 - Steal or Forge Kerberos Tickets. https://attack.mitre.org/techniques/T1558/"
+    - "MITRE ATT&CK T1558.003 - Kerberoasting. https://attack.mitre.org/techniques/T1558/003/"
+    - "Microsoft Kerberos Authentication Technical Reference. Microsoft. https://learn.microsoft.com/en-us/windows-server/security/kerberos/kerberos-authentication-overview"
+  search_keywords:
+    - "Kerberos"
+    - "Kerberos V5"
+    - "RFC 4120"
+    - "KDC"
+    - "key distribution center"
+    - "ticket-granting ticket"
+    - "TGT"
+    - "Kerberoasting"
+    - "golden ticket attack"
+    - "silver ticket attack"
+    - "pass-the-ticket"
+    - "krbtgt"
+    - "Active Directory authentication"
+    - "Kerberos realm"
+  embedding_text: >-
+    Kerberos is a network authentication protocol defined in RFC 4120 that uses symmetric-key
+    cryptography and a trusted third party called the Key Distribution Center (KDC) to authenticate
+    users and services without transmitting passwords. The protocol operates through a three-phase
+    ticket exchange: the client obtains a Ticket-Granting Ticket from the Authentication Server,
+    uses the TGT to request service tickets from the Ticket-Granting Server, and presents service
+    tickets to target services for access. Kerberos is the default authentication protocol for
+    Microsoft Active Directory and enables single sign-on across domain services. The protocol
+    supports mutual authentication and uses time-limited tickets with synchronized clocks.
+    Key attack vectors include Kerberoasting for offline service account password cracking,
+    Golden Ticket attacks using compromised krbtgt hashes for domain-wide persistence, Silver
+    Ticket attacks for forging individual service tickets, and Pass-the-Ticket for lateral
+    movement. The krbtgt account is the root of trust for the entire domain, making its
+    protection critical to Kerberos security.

@@ -1,0 +1,104 @@
+# GR Atom: CVE-2015-8651
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20158651-001"
+  name: "CVE-2015-8651"
+  normalized_name: "cve_2015_8651"
+  aliases:
+    - "Flash Player Integer Overflow CVE-2015-8651"
+    - "Adobe Flash Player AtomicBitManipulation Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe Flash Player before 20.0.0.267"
+    - "Adobe Flash Player 18.x before 18.0.0.324"
+    - "Flash browser plugin (Chrome, IE, Firefox)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-8651 is an integer overflow vulnerability (CVSS 9.3) in Adobe Flash Player that
+    allows remote attackers to execute arbitrary code via crafted Flash content. The vulnerability
+    exists in the processing of certain ActionScript operations where an integer overflow leads
+    to a buffer allocation smaller than expected, resulting in a heap buffer overflow during
+    subsequent data processing. It was exploited as a zero-day in targeted attacks in December
+    2015 and was patched in APSB16-01 (January 2016).
+  why: >-
+    This was one of the last major Flash Player zero-days of 2015, exploited in targeted attacks
+    against high-value targets. The vulnerability demonstrated that even as Adobe improved Flash
+    security through mitigations like heap isolation, attackers continued to find exploitable
+    flaws. It was part of the final wave of Flash zero-days that led to the industry consensus
+    to deprecate Flash Player, with major browsers beginning to block Flash by default.
+  how: >-
+    The exploit triggers an integer overflow during an ActionScript operation that calculates
+    the size for a memory allocation. The overflow causes a smaller-than-expected buffer to be
+    allocated on the heap. When subsequent data is written to this undersized buffer, a heap
+    buffer overflow occurs. The attacker uses heap grooming to position sensitive objects
+    adjacent to the overflowed buffer, gaining control over object vtable pointers to redirect
+    execution to shellcode.
+  core_concepts:
+    - key: "Integer Overflow to Heap Buffer Overflow"
+      value: "Integer overflow in size calculation causes undersized heap allocation, leading to heap buffer overflow during subsequent data operations"
+    - key: "Late-Stage Flash Zero-Day"
+      value: "One of the final major Flash zero-days contributing to industry consensus to deprecate Flash Player"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Integer overflow leading to heap buffer overflow in Adobe Flash Player"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2015-8651 - CVSS 9.3"
+    - "Adobe Security Bulletin APSB16-01"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2015-8651"
+    - "Adobe Flash Player"
+    - "integer overflow"
+    - "heap buffer overflow"
+    - "zero-day"
+    - "APSB16-01"
+    - "remote code execution"
+    - "Flash exploit"
+  embedding_text: >-
+    CVE-2015-8651 is an integer overflow vulnerability with CVSS 9.3 in Adobe Flash Player
+    that leads to heap buffer overflow and arbitrary code execution. An integer overflow during
+    size calculation causes undersized heap allocation, and subsequent data writes overflow
+    the buffer. Exploited as a zero-day in targeted attacks in December 2015, it was patched
+    in APSB16-01 in January 2016. Affecting Flash Player before 20.0.0.267 and 18.x before
+    18.0.0.324, this vulnerability was among the final wave of major Flash zero-days that
+    contributed to the industry consensus to deprecate Flash Player, with browsers beginning
+    to block Flash content by default.

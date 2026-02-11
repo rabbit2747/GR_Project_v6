@@ -1,0 +1,73 @@
+# GR Atom: SOC 2 Compliance Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-SOC2COM-001"
+  name: "SOC 2 Compliance Framework"
+  normalized_name: "soc_2_compliance_framework"
+  aliases:
+    - "SOC 2 Compliance Program"
+    - "SOC 2 Readiness Program"
+    - "SOC 2 Compliance Management"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - CLOUD
+
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "The SOC 2 Compliance Framework is the operational program that service organizations establish to achieve, maintain, and continuously improve their SOC 2 compliance posture. It encompasses the governance structure, control design and implementation methodology, evidence collection and management processes, audit preparation procedures, gap remediation workflows, and continuous monitoring capabilities needed to sustain SOC 2 certification. The framework addresses trust service criteria selection, control mapping to criteria points, evidence automation, audit liaison processes, and the annual examination cycle."
+  why: "Achieving an initial SOC 2 report requires significant investment in control design and implementation, but the ongoing challenge is maintaining compliance between annual examinations while adapting to business changes. A structured compliance framework ensures controls remain effective as systems evolve, new services are deployed, and personnel change. It reduces the annual audit preparation burden, minimizes the risk of qualified opinions or exceptions, and enables the organization to leverage SOC 2 as a competitive advantage with enterprise customers."
+  how: "Organizations implement the SOC 2 compliance framework by establishing a compliance team with defined responsibilities, selecting applicable trust service criteria and mapping controls, implementing automated evidence collection through integration with cloud platforms and security tools, establishing continuous monitoring for control effectiveness, maintaining a control matrix documenting each control, its owner, evidence sources, and testing procedures, conducting readiness assessments before the formal examination, coordinating with the CPA firm during the audit period, remediating any identified control gaps, and iterating annually to improve the control environment."
+  core_concepts:
+    - key: "Control Matrix"
+      value: "Documentation mapping each SOC 2 control to trust service criteria points, control owners, evidence sources, and testing procedures"
+    - key: "Evidence Automation"
+      value: "Integration with cloud platforms and security tools to automatically collect and organize compliance evidence"
+    - key: "Readiness Assessment"
+      value: "Internal pre-audit evaluation to identify and remediate control gaps before the formal CPA examination"
+    - key: "Continuous Monitoring"
+      value: "Ongoing validation of control effectiveness between annual examinations through automated checks and periodic reviews"
+
+relations:
+  - type: implements
+    target: "COMP-STANDARD-SOC2-001"
+    description: "The compliance framework implements the operational program for achieving and maintaining SOC 2"
+  - type: is_a
+    target: "COMP-STANDARD-SECFRACOM-001"
+    description: "SOC 2 compliance framework is a specific instance of security framework compliance"
+  - type: requires
+    target: "COMP-STANDARD-SO2TRSECR-001"
+    description: "The framework requires mapping controls to Trust Service Criteria"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AICPA SOC 2 Guidance - https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2"
+    - "AICPA Trust Service Criteria (2017)"
+    - "SOC 2 Compliance Automation Best Practices"
+  search_keywords:
+    - "SOC 2 compliance framework"
+    - "SOC 2 readiness"
+    - "SOC 2 compliance program"
+    - "SOC 2 automation"
+    - "compliance evidence"
+    - "control matrix"
+    - "SOC 2 audit preparation"
+    - "continuous compliance"
+    - "SOC 2 monitoring"
+    - "SOC 2 evidence collection"
+  embedding_text: "The SOC 2 Compliance Framework is the operational program service organizations establish to achieve and maintain SOC 2 compliance. It encompasses governance structure, control design methodology, evidence collection automation, audit preparation, gap remediation, and continuous monitoring. Implementation involves establishing compliance teams, mapping controls to trust service criteria, automating evidence collection through cloud and security tool integration, conducting readiness assessments, coordinating CPA examinations, and remediating gaps. The framework reduces annual audit burden, minimizes qualified opinion risk, and enables SOC 2 as a competitive advantage with enterprise customers."

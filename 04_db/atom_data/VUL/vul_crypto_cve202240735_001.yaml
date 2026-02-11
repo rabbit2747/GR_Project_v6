@@ -1,0 +1,110 @@
+# GR Atom: CVE-2022-40735
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE202240735-001"
+  name: "CVE-2022-40735"
+  normalized_name: "cve_2022_40735"
+  aliases:
+    - "Diffie-Hellman Large Parameter DoS"
+    - "DH Parameter Exhaustion"
+    - "OpenSSL DH Key Exchange Resource Consumption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - DOS
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Diffie-Hellman Key Exchange Implementations"
+    - "TLS Servers Supporting DHE"
+    - "OpenSSL DH Parameter Processing"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-40735 is a denial-of-service vulnerability in Diffie-Hellman key exchange
+    implementations where an attacker can send excessively large DH parameters during the TLS
+    handshake to force computationally expensive operations on the server. The vulnerability is
+    similar to CVE-2002-20001 but applies to specific implementations that lack proper parameter
+    size validation. CVSS score is 7.5. The vulnerability affects implementations that do not
+    enforce maximum DH parameter sizes during key exchange negotiation.
+  why: >-
+    This vulnerability demonstrates that DH resource exhaustion attacks remain a persistent threat
+    even decades after the initial DH protocol design. Modern servers that support DHE cipher suites
+    without parameter size limits remain vulnerable to asymmetric denial-of-service attacks where
+    the cost to the attacker is minimal compared to the computational burden on the server.
+  how: >-
+    The attacker initiates TLS handshakes with the target server and sends Diffie-Hellman public
+    values with excessively large parameters. The server must perform modular exponentiation with
+    these large values, consuming significant CPU resources. By initiating many concurrent
+    handshakes with oversized parameters, the attacker can exhaust server CPU capacity and cause
+    denial of service for legitimate clients. The attack is effective because DH exponentiation
+    cost grows with parameter size and the server processes parameters before authentication.
+  core_concepts:
+    - name: "Parameter Size Abuse"
+      value: "Sending oversized DH parameters exploits the lack of maximum size validation to force expensive server-side computations"
+    - name: "Asymmetric DoS"
+      value: "Minimal attacker cost to generate large DH values versus significant server CPU cost to process them"
+    - name: "Pre-Authentication Exhaustion"
+      value: "The attack occurs during the TLS handshake before any client authentication, enabling unauthenticated resource exhaustion"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CVE200220001-001"
+    description: "CVE-2022-40735 is a modern manifestation of the DH resource exhaustion attack class first identified as CVE-2002-20001"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Applies to TLS implementations supporting DHE cipher suites without parameter size validation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1499"
+      tactic: ["Impact"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2022-40735"
+    - "OpenSSL Security Advisory"
+    - "IETF RFC 7919 - Negotiated Finite Field Diffie-Hellman Ephemeral Parameters for TLS"
+  search_keywords:
+    - "CVE-2022-40735"
+    - "Diffie-Hellman DoS"
+    - "DH parameter exhaustion"
+    - "TLS DHE denial of service"
+    - "DH large parameter attack"
+    - "asymmetric DoS cryptographic"
+    - "DH resource consumption"
+  embedding_text: >-
+    CVE-2022-40735 is a denial-of-service vulnerability in Diffie-Hellman key exchange
+    implementations where an attacker sends excessively large DH parameters during TLS handshakes
+    to force computationally expensive modular exponentiation on the server. The vulnerability
+    exploits the lack of maximum parameter size validation in affected implementations. By
+    initiating many concurrent handshakes with oversized parameters, an attacker can exhaust
+    server CPU resources at minimal cost to themselves. This is a persistent class of DH
+    resource exhaustion vulnerability similar to CVE-2002-20001 that continues to affect
+    implementations without proper parameter bounds checking. CVSS score is 7.5. Mitigations
+    include enforcing maximum DH parameter sizes, preferring ECDHE over DHE, implementing rate
+    limiting on handshakes, and using predefined DH groups per RFC 7919 rather than accepting
+    arbitrary parameters from peers.

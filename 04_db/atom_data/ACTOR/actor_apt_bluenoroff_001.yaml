@@ -1,0 +1,94 @@
+# GR Atom: BlueNoroff
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-BLUENOROFF-001"
+  name: "BlueNoroff"
+  normalized_name: "bluenoroff"
+  aliases:
+    - "APT38"
+    - "Stardust Chollima"
+    - "Sapphire Sleet"
+    - "NICKEL GLADSTONE"
+    - "TA444"
+    - "COPERNICIUM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXFIL
+    - C2
+    - IMPACT
+    - WINDOWS
+    - MACOS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BlueNoroff is a North Korean state-sponsored APT subgroup within the Lazarus Group umbrella, focused primarily on financially motivated cyber operations targeting banks, cryptocurrency exchanges, venture capital firms, and decentralized finance (DeFi) platforms. Active since at least 2014, the group was responsible for the 2016 Bangladesh Bank heist via SWIFT network compromise and has since evolved to heavily target the cryptocurrency ecosystem, stealing billions of dollars to fund the DPRK regime."
+  why: "BlueNoroff represents one of the most financially damaging APT operations globally, having stolen over three billion dollars in cryptocurrency and traditional financial assets. The group is a primary revenue generator for the North Korean regime and its weapons programs. Their evolution from traditional banking attacks to cryptocurrency and DeFi targeting demonstrates sophisticated adaptation to new financial technologies and their security gaps."
+  how: "The group uses highly targeted social engineering, often impersonating venture capitalists, recruiters, or cryptocurrency investors to lure targets. They deploy macOS malware (RustBucket, ObjCShellz) and Windows backdoors through trojanized cryptocurrency applications and malicious documents. For cryptocurrency theft, they compromise hot wallets, exploit smart contract vulnerabilities, and conduct supply chain attacks against cryptocurrency software. The group uses extensive infrastructure for money laundering through mixers, chain-hopping, and peer-to-peer exchanges."
+  core_concepts:
+    - key: "Cryptocurrency Theft"
+      value: "Primary focus on stealing cryptocurrency through wallet compromise, DeFi exploitation, and supply chain attacks"
+    - key: "Social Engineering"
+      value: "Sophisticated impersonation of VCs, recruiters, and investors to target cryptocurrency industry personnel"
+    - key: "Cross-Platform Malware"
+      value: "Deploys malware on both Windows and macOS including RustBucket and ObjCShellz"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-APT-FAMOCHOL-001"
+    description: "BlueNoroff is a subgroup of the broader Lazarus Group / HIDDEN COBRA umbrella"
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses sophisticated social engineering and spearphishing for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Impact"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - BlueNoroff Cryptocurrency Campaigns"
+    - "MITRE ATT&CK - APT38 Group Profile"
+    - "FBI/CISA - TraderTraitor Advisory"
+    - "Jamf Threat Labs - RustBucket macOS Malware"
+  search_keywords:
+    - "bluenoroff"
+    - "apt38"
+    - "stardust chollima"
+    - "sapphire sleet"
+    - "north korean cryptocurrency"
+    - "rustbucket macos"
+    - "bangladesh bank heist"
+    - "swift attack dprk"
+    - "defi theft north korea"
+    - "tradertraitor"
+    - "cryptocurrency apt"
+  embedding_text: "BlueNoroff is a North Korean state-sponsored APT subgroup within the Lazarus Group umbrella, known as APT38, Stardust Chollima, and Sapphire Sleet. Focused on financially motivated cyber operations since at least 2014, the group targets banks, cryptocurrency exchanges, venture capital firms, and DeFi platforms. BlueNoroff was responsible for the 2016 Bangladesh Bank SWIFT heist and has since evolved to target the cryptocurrency ecosystem, stealing billions of dollars. The group uses sophisticated social engineering impersonating VCs and recruiters, deploys cross-platform malware including RustBucket and ObjCShellz for macOS, and compromises cryptocurrency wallets and DeFi protocols. Stolen funds undergo laundering through cryptocurrency mixers, chain-hopping, and peer-to-peer exchanges, ultimately funding North Korean weapons programs."

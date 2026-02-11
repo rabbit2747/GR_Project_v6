@@ -1,0 +1,74 @@
+# GR Atom: File Name Entropy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-FILNAMENT-001"
+  name: "File Name Entropy"
+  normalized_name: "file_name_entropy"
+  aliases:
+    - "Filename Randomness Score"
+    - "Filename Entropy Analysis"
+    - "Random Filename Detection"
+    - "Auto-Generated Name Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EVADE
+    - EDR
+    - MONITOR
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File Name Entropy is a detection pattern that calculates the Shannon entropy of filenames to identify files with randomly generated names characteristic of malware, ransomware-encrypted files, and automated attack tools. Legitimate files typically have meaningful, structured names with lower entropy values, while malware-generated filenames consisting of random alphanumeric characters or GUIDs exhibit significantly higher entropy. The technique measures the randomness of character distribution in filenames excluding the file extension, producing a score that indicates the likelihood of automated name generation."
+  why: "Many malware families generate random filenames to avoid pattern-based detection and to ensure unique filenames across infected systems. Ransomware commonly renames encrypted files with random alphanumeric strings or appends random extensions. Post-exploitation tools and lateral movement frameworks create temporary files with GUID-based or random hex names. By quantifying filename randomness through entropy analysis, security teams can identify these automatically generated names even when specific patterns are unknown, providing detection capability against novel malware families and variants without requiring signature updates."
+  how: "The detection system extracts the filename stem excluding the extension and calculates Shannon entropy over the character set. Legitimate filenames in English typically show entropy between 2.5 and 4.0 due to the structured use of natural language words, while randomly generated names exhibit entropy above 4.5 approaching the theoretical maximum for the character set. Thresholds are calibrated based on the organizational environment, accounting for legitimate naming conventions that may use codes or identifiers. Additional heuristics include the ratio of consonants to vowels, the presence of pronounceable syllables, character n-gram analysis against known language models, and the proportion of digits to letters. Detection integrates with file creation monitoring to evaluate new files in real-time and with periodic scans to identify previously missed suspicious files."
+  core_concepts:
+    - key: "Filename Entropy Threshold"
+      value: "The calibrated entropy value above which a filename is considered likely auto-generated, typically between 4.0 and 4.5 for alphanumeric filenames"
+    - key: "Character Distribution"
+      value: "The frequency distribution of characters in a filename, where uniform distribution across the alphabet indicates randomness"
+    - key: "Language Model Comparison"
+      value: "Comparison of character n-gram patterns against natural language models to distinguish meaningful names from random strings"
+
+relations:
+  - type: instance_of
+    target: "DETECT-BEHAVIOR-ENTRSCOR-001"
+    description: "Filename entropy is a specific application of entropy scoring to filename analysis"
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILNAMANO-001"
+    description: "Filename entropy is a key metric within broader file name anomaly detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1036 - Masquerading - https://attack.mitre.org/techniques/T1036/"
+    - "SANS - Statistical Analysis for Malware Detection - https://www.sans.org/white-papers/"
+    - "Academic Research - Entropy-Based Malware Filename Detection"
+  search_keywords:
+    - "filename entropy analysis"
+    - "random filename detection"
+    - "filename randomness score"
+    - "malware filename entropy"
+    - "auto-generated filename"
+    - "GUID filename detection"
+    - "ransomware filename"
+    - "filename Shannon entropy"
+  embedding_text: "File Name Entropy calculates Shannon entropy of filenames to identify randomly generated names characteristic of malware, ransomware-encrypted files, and automated attack tools. Legitimate files have structured names with lower entropy around 2.5-4.0, while malware-generated random names exhibit entropy above 4.5. The technique evaluates character distribution, consonant-vowel ratios, pronounceable syllable presence, and character n-gram patterns against language models. Detection integrates with file creation monitoring for real-time analysis. This pattern identifies novel malware families using random filename generation without requiring signature updates, detecting ransomware file renaming, post-exploitation tool staging, and lateral movement framework artifacts."

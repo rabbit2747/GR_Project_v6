@@ -1,0 +1,72 @@
+# GR Atom: Audit Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-AUDICOMP-001"
+  name: "Audit Compliance"
+  normalized_name: "audit_compliance"
+  aliases:
+    - "IT Audit Compliance"
+    - "Security Audit Compliance"
+    - "Compliance Auditing"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Audit compliance is the broad discipline of ensuring that an organization's information systems, processes, and controls meet the requirements defined by internal policies, industry standards, and regulatory mandates. It encompasses the systematic examination and evaluation of security controls, operational procedures, and governance structures to verify conformity with applicable compliance frameworks such as SOC 2, PCI DSS, ISO 27001, and HIPAA. Audit compliance programs establish evidence collection, control testing, gap analysis, and remediation tracking processes."
+  why: "Organizations face increasing regulatory pressure and cyber threats that demand verifiable evidence of security control effectiveness. Without structured audit compliance, security gaps remain undetected, regulatory penalties accumulate, and stakeholder trust erodes. Audit compliance provides the governance backbone that links security operations to business risk management and legal obligations."
+  how: "Audit compliance is achieved through a cyclical process: defining the applicable compliance scope and control objectives, mapping controls to regulatory requirements, collecting evidence of control operation through automated and manual means, testing control effectiveness via sampling and continuous monitoring, documenting findings in audit reports, tracking remediation of identified gaps, and maintaining an audit trail for external assessors. Tools such as GRC platforms, SIEM systems, and automated compliance scanners support the process."
+  core_concepts:
+    - key: "Control Testing"
+      value: "Systematic verification that security controls operate as designed and meet compliance requirements"
+    - key: "Evidence Collection"
+      value: "Gathering artifacts such as logs, configurations, and policies that demonstrate control effectiveness"
+    - key: "Gap Analysis"
+      value: "Identifying discrepancies between current security posture and compliance requirements"
+    - key: "Remediation Tracking"
+      value: "Monitoring and managing the resolution of audit findings and control deficiencies"
+
+relations:
+  - type: enables
+    target: "COMP-STANDARD-SOC2-001"
+    description: "Audit compliance processes enable SOC 2 certification readiness"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "Audit compliance processes enable PCI DSS assessment readiness"
+  - type: requires
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "Audit compliance requires a security compliance framework to define control objectives"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ISACA COBIT 2019 Framework - https://www.isaca.org/resources/cobit"
+    - "IIA International Standards for the Professional Practice of Internal Auditing - https://www.theiia.org/en/standards/"
+    - "ISO 19011:2018 Guidelines for Auditing Management Systems"
+  search_keywords:
+    - "audit compliance"
+    - "IT audit"
+    - "compliance auditing"
+    - "control testing"
+    - "security audit"
+    - "regulatory compliance"
+    - "evidence collection"
+    - "gap analysis"
+    - "audit findings"
+    - "GRC"
+  embedding_text: "Audit compliance is the discipline of verifying that organizational information systems and security controls conform to regulatory mandates, industry standards, and internal policies. It involves systematic control testing, evidence collection, gap analysis, and remediation tracking across frameworks such as SOC 2, PCI DSS, ISO 27001, and HIPAA. The audit compliance lifecycle includes scoping applicable requirements, mapping controls, gathering artifacts like logs and configurations, testing control effectiveness, documenting findings, and tracking remediation. GRC platforms and SIEM systems support automated evidence collection and continuous compliance monitoring."

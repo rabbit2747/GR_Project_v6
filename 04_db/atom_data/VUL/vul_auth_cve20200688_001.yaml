@@ -1,0 +1,76 @@
+# GR Atom: CVE-2020-0688
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE20200688-001"
+  name: "CVE-2020-0688"
+  normalized_name: "cve_2020_0688"
+  aliases:
+    - "Exchange Server Validation Key RCE"
+    - "Exchange Static ViewState Key Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - WINDOWS
+    - WEB
+    - CRYPTO
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2010 SP3"
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+
+definition:
+  what: "CVE-2020-0688 is a remote code execution vulnerability in Microsoft Exchange Server caused by the use of a static cryptographic validation key for ViewState across all Exchange installations. An authenticated attacker with any mailbox credential can exploit this to execute arbitrary code as SYSTEM on the Exchange server. CVSS v3: 8.8 (High). Disclosed in February 2020."
+  why: "Microsoft Exchange Server is a critical enterprise email and communication platform deployed in most corporate environments. The vulnerability is particularly dangerous because it allows any user with valid mailbox credentials to escalate to SYSTEM-level code execution on the Exchange server. Since Exchange servers typically hold the highest privileges in Active Directory, compromising one often leads to full domain compromise. Multiple APT groups and ransomware operators actively exploited this vulnerability."
+  how: "All Exchange Server installations use the same static validationKey and decryptionKey in the web.config file for ViewState MAC validation in the Exchange Control Panel. An attacker with valid Exchange credentials accesses the ECP, extracts the ViewState and ViewStateGenerator values, then crafts a malicious serialized ViewState payload signed with the known static key. When submitted to the server, the malicious ViewState deserializes and executes arbitrary commands as SYSTEM. The fix involves generating unique machine keys per installation."
+  core_concepts:
+    - key: "Static Cryptographic Keys"
+      value: "All Exchange Server installations shared identical cryptographic validation keys, allowing any authenticated user to forge ViewState payloads for remote code execution"
+    - key: "Authenticated to SYSTEM Escalation"
+      value: "Any valid mailbox credential enables code execution as SYSTEM on the Exchange server, making credential theft a direct path to server compromise"
+
+relations:
+  - type: is_a
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "CVE-2020-0688 is a cryptographic vulnerability using static keys across all installations"
+  - type: enables
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Exchange server compromise enables access to all mailbox credentials and Active Directory"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-0688 - NVD NIST"
+    - "Microsoft Security Advisory - Exchange Server RCE"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Volexity - Exchange Server Exploitation Analysis"
+  search_keywords:
+    - "CVE-2020-0688"
+    - "Exchange Server static key"
+    - "Exchange ViewState RCE"
+    - "Exchange validation key vulnerability"
+    - "Exchange Server remote code execution"
+    - "Exchange ECP deserialization"
+    - "Exchange static cryptographic key"
+  embedding_text: "CVE-2020-0688 is a remote code execution vulnerability in Microsoft Exchange Server caused by the use of identical static cryptographic validation keys across all installations. Any authenticated user with valid mailbox credentials can craft malicious ViewState payloads signed with the known static key and execute arbitrary code as SYSTEM on the Exchange server. CVSS v3 score is 8.8 High. Affects Exchange Server 2010 SP3 through 2019. Actively exploited by multiple APT groups and ransomware operators. Exchange servers hold high Active Directory privileges making this a path to full domain compromise. Maps to MITRE ATT&CK T1190. Patched in February 2020 by generating unique machine keys per installation."

@@ -1,0 +1,106 @@
+# GR Atom: Vulnerable Application
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-VULNAPPL-001"
+  name: "Vulnerable Application"
+  normalized_name: "vulnerable_application"
+  aliases:
+    - "Application Security Vulnerability"
+    - "Insecure Application Configuration"
+    - "Application-Level Weakness"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - WEB
+    - INITIAL
+    - EXEC
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web Applications"
+    - "API Services"
+    - "Application Servers"
+    - "Microservices"
+
+definition:
+  what: >-
+    Vulnerable Application is a vulnerability class encompassing applications deployed with security
+    weaknesses that expose them to exploitation. This includes applications with known CVEs in their
+    frameworks or libraries, insecure default configurations, missing security headers, exposed debug
+    endpoints, hardcoded credentials, excessive permissions, and insufficient input validation. The
+    class covers both custom-developed applications and third-party software deployed without proper
+    security hardening.
+  why: >-
+    Applications are the primary attack surface for most organizations, processing user input and
+    managing sensitive data. Vulnerable applications provide direct entry points for attackers to
+    access internal systems, exfiltrate data, and establish persistence. The OWASP Top 10 documents
+    the most critical application security risks, with misconfiguration consistently ranked among the
+    top threats. The proliferation of microservices, APIs, and cloud-native applications has expanded
+    the application attack surface significantly. Many breaches originate from exploiting known
+    vulnerabilities in applications that have not been patched or properly configured.
+  how: >-
+    Attackers identify vulnerable applications through automated scanning, version fingerprinting,
+    and reconnaissance. Common exploitation vectors include: exploiting known CVEs in application
+    frameworks (Spring, Django, Express, Rails); accessing exposed administrative interfaces and
+    debug endpoints; leveraging default credentials that were not changed during deployment;
+    exploiting missing authentication on API endpoints; abusing insecure deserialization and
+    injection flaws; and chaining multiple lower-severity vulnerabilities for higher impact.
+    Mitigation requires regular vulnerability scanning, patch management, secure configuration
+    baselines, application security testing (SAST/DAST), and continuous monitoring.
+  core_concepts:
+    - key: "Application Attack Surface"
+      value: "Applications are the primary external attack surface, processing untrusted input and managing access to sensitive data and internal systems"
+    - key: "Configuration Security Debt"
+      value: "Applications deployed with default or insecure configurations accumulate security debt that increases exploitation risk over time"
+    - key: "Patch Management Gap"
+      value: "The time between vulnerability disclosure and patch application creates a window of exposure that attackers actively exploit"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Vulnerable Application is a subclass of vulnerable components, specific to application-layer software"
+  - type: enables
+    target: "ATK-INITIAL-EXPLOIT-001"
+    description: "Vulnerable applications enable initial access through exploitation of application-layer weaknesses"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "OWASP Top 10 - Web Application Security Risks"
+    - "CWE-16 - Configuration"
+    - "NIST SP 800-53 - Security and Privacy Controls"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "vulnerable application"
+    - "application security vulnerability"
+    - "insecure application configuration"
+    - "application exploit"
+    - "web application weakness"
+    - "OWASP Top 10"
+    - "application attack surface"
+  embedding_text: >-
+    Vulnerable Application is a vulnerability class encompassing applications deployed with security
+    weaknesses including known CVEs, insecure defaults, missing security headers, exposed debug
+    endpoints, hardcoded credentials, and insufficient input validation. Applications are the primary
+    attack surface for most organizations. The OWASP Top 10 consistently ranks misconfiguration among
+    top threats. Covers custom-developed and third-party applications. Exploitation vectors include
+    framework CVEs, default credentials, exposed admin interfaces, and injection flaws. Mitigation
+    requires vulnerability scanning, patch management, secure baselines, SAST/DAST testing, and
+    continuous monitoring. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application.

@@ -1,0 +1,117 @@
+# GR Atom: Spring Boot
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SPRIBOOT-001"
+  name: "Spring Boot"
+  normalized_name: "spring_boot"
+  aliases:
+    - "SpringBoot"
+    - "Spring Boot Framework"
+    - "Spring Boot Application Server"
+    - "Spring Framework Boot"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - API
+    - HTTP
+    - DESER
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Spring Boot is an open-source Java-based framework by Pivotal/VMware that simplifies the
+    creation of production-ready Spring applications with embedded web servers (Tomcat, Jetty,
+    Undertow). It provides auto-configuration, starter dependencies, and an opinionated
+    approach to building microservices and web applications. Spring Boot applications are
+    self-contained JARs that include an embedded application server, eliminating the need
+    for separate application server deployment.
+  why: >-
+    Spring Boot applications are frequently targeted through exposed Actuator endpoints that
+    reveal environment variables, configuration properties (potentially including credentials),
+    heap dumps containing sensitive data, and application health information. Spring Expression
+    Language (SpEL) injection vulnerabilities enable remote code execution. The Spring4Shell
+    vulnerability (CVE-2022-22965) demonstrated critical RCE risk in Spring Framework class
+    loading. Java deserialization vulnerabilities in Spring components can lead to remote code
+    execution. Misconfigured auto-configuration can expose debug endpoints and development
+    features in production.
+  how: >-
+    Spring Boot applications start as Java processes with an embedded web server listening on
+    configurable ports (default 8080). Auto-configuration detects classpath dependencies and
+    configures beans accordingly. Spring Boot Actuator provides management endpoints at
+    /actuator/* for health checks, metrics, environment, and configuration. Application
+    properties are loaded from application.yml/properties files and environment variables.
+    Security is configured through Spring Security with filter chains, authentication
+    providers, and authorization rules. RESTful APIs typically use Spring MVC or WebFlux.
+  core_concepts:
+    - key: "Actuator Endpoint Exposure"
+      value: "Spring Boot Actuator endpoints can expose environment variables, credentials, heap dumps, and configuration if not properly secured"
+    - key: "SpEL Injection"
+      value: "Spring Expression Language injection enables remote code execution through user-controlled input evaluated as SpEL expressions"
+    - key: "Auto-Configuration Risks"
+      value: "Spring Boot auto-configuration may enable development/debug features in production if profiles and dependencies are not properly managed"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "Spring Boot is a web server application framework with embedded server capabilities"
+  - type: "alternative_to"
+    target: "INFRA-APP-WILDFLY-001"
+    description: "Spring Boot with embedded server is an alternative to traditional Java EE application servers like WildFly"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Spring Boot Official Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "CVE-2022-22965 Spring4Shell Advisory"
+    - "Spring Boot Actuator Security Guide"
+  search_keywords:
+    - "Spring Boot"
+    - "Spring Boot Actuator"
+    - "Spring4Shell"
+    - "CVE-2022-22965"
+    - "SpEL injection"
+    - "Spring Boot vulnerability"
+    - "Spring Boot security"
+    - "Java application server"
+  embedding_text: >-
+    Spring Boot is a Java-based framework for building production-ready applications with
+    embedded web servers (Tomcat, Jetty, Undertow). It provides auto-configuration and
+    starter dependencies for rapid microservice development. Security concerns include
+    exposed Actuator endpoints revealing credentials and environment variables, Spring
+    Expression Language (SpEL) injection enabling RCE, Spring4Shell (CVE-2022-22965) class
+    loading vulnerability, Java deserialization attacks, and misconfigured auto-configuration
+    exposing debug features in production. Security teams should secure Actuator endpoints,
+    validate SpEL input, manage Spring profiles properly, update dependencies regularly, and
+    review auto-configuration for unintended feature exposure in production deployments.

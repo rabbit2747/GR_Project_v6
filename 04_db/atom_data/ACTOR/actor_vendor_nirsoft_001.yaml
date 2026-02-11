@@ -1,0 +1,70 @@
+# GR Atom: NirSoft
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-NIRSOFT-001"
+  name: "NirSoft"
+  normalized_name: "nirsoft"
+  aliases:
+    - "Nir Sofer"
+    - "NirSoft.net"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "NirSoft is a website and collection of free Windows system utilities created by Israeli developer Nir Sofer. The tools include password recovery utilities (WebBrowserPassView, WirelessKeyView), network monitoring tools (CurrPorts, SmartSniff), and system information utilities. While designed as legitimate system administration tools, many NirSoft utilities are frequently used by threat actors as dual-use tools for credential harvesting, reconnaissance, and data extraction during post-exploitation activities."
+  why: "NirSoft is significant in cybersecurity because its utilities are among the most commonly observed dual-use tools in malware campaigns and post-exploitation toolkits. Threat actors frequently deploy NirSoft password recovery tools to extract stored credentials from browsers, email clients, and wireless networks on compromised systems. Understanding NirSoft tools is essential for threat hunting, incident response, and developing detection rules for credential theft activities."
+  how: "NirSoft tools operate as standalone portable executables that do not require installation, making them easy to deploy and execute on compromised systems. Password recovery tools read stored credentials from browser databases, Windows Credential Manager, and application-specific storage. Network tools capture and display network traffic and connection information. Threat actors typically download or embed NirSoft tools within malware payloads, execute them via command line to extract credentials, and exfiltrate the results."
+  core_concepts:
+    - key: "Dual-use utilities"
+      value: "Legitimate system tools frequently abused by threat actors for credential theft and reconnaissance"
+    - key: "Password recovery tools"
+      value: "Utilities that extract stored credentials from browsers, email clients, and Windows"
+    - key: "Living off the land"
+      value: "Portable executables enabling post-exploitation without custom malware development"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-DUALUSE-NIRSOFT-001"
+    description: "NirSoft produces system utilities commonly used as dual-use tools in cyber attacks"
+  - type: enables
+    target: "ATK-CRED-CREDENTIAL-001"
+    description: "NirSoft password recovery tools enable credential harvesting during post-exploitation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NirSoft Official Website"
+    - "MITRE ATT&CK - NirSoft Tools Usage"
+    - "Red Canary Threat Detection Report - NirSoft Tool Observations"
+  search_keywords:
+    - "nirsoft"
+    - "nirsoft tools"
+    - "webbrowserpassview"
+    - "wirelesskeyview"
+    - "nirsoft password recovery"
+    - "nirsoft credential harvesting"
+    - "nirsoft dual use"
+    - "nir sofer"
+  embedding_text: "NirSoft is a collection of free Windows system utilities created by Israeli developer Nir Sofer, widely known in cybersecurity as one of the most commonly observed dual-use tool sets in malware campaigns and post-exploitation activities. The utilities include password recovery tools such as WebBrowserPassView, WirelessKeyView, and Mail PassView that extract stored credentials from browsers, email clients, and wireless networks, as well as network monitoring tools like CurrPorts and SmartSniff. While designed as legitimate system administration utilities, NirSoft tools are frequently deployed by threat actors during post-exploitation for credential harvesting, reconnaissance, and data extraction because they are portable standalone executables that require no installation. Many advanced persistent threat groups and commodity malware operators include NirSoft utilities in their toolkits, making detection of these tools a critical indicator for threat hunting and incident response teams investigating credential theft and lateral movement activities on Windows systems."

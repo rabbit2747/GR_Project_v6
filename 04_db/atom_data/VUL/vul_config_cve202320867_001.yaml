@@ -1,0 +1,74 @@
+# GR Atom: CVE-2023-20867
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202320867-001"
+  name: "CVE-2023-20867"
+  normalized_name: "cve_2023_20867"
+  aliases:
+    - "VMware Tools Authentication Bypass"
+    - "VMware Guest Operations Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - AUTHN
+    - EVADE
+    - VMWARE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "VMware Tools"
+    - "VMware ESXi"
+    - "VMware vCenter"
+
+definition:
+  what: "CVE-2023-20867 is an authentication bypass vulnerability in VMware Tools that allows a fully compromised ESXi host to force VMware Tools to fail to authenticate host-to-guest operations. This enables an attacker who has compromised the ESXi hypervisor to execute privileged commands within guest VMs without proper authentication, bypassing the guest VM's security controls."
+  why: "This vulnerability was actively exploited by UNC3886, a Chinese state-sponsored espionage group, as part of a sophisticated attack chain targeting VMware infrastructure in defense, government, and technology organizations. The vulnerability is critical because it breaks the security boundary between hypervisor and guest VMs, allowing hypervisor-level access to translate directly into guest VM compromise. This undermines the fundamental security assumption that guest VMs are isolated from each other and from the hypervisor."
+  how: "After compromising an ESXi host (using other vulnerabilities like CVE-2022-22948 or CVE-2023-34048), the attacker uses CVE-2023-20867 to execute guest operations through VMware Tools without authentication. The attacker can transfer files to/from guest VMs, execute commands within VMs, and access guest VM data without any authentication prompts or logs within the guest OS. UNC3886 used this to deploy VIRTUALPITA and VIRTUALPIE malware families in guest VMs. VMware addressed this in VMware Tools 12.2.5. CVSS v3: 3.9 (Low, but contextually critical)."
+  core_concepts:
+    - key: "Host-to-Guest Authentication Bypass"
+      value: "Vulnerability allowing a compromised ESXi host to execute operations within guest VMs through VMware Tools without proper authentication"
+    - key: "UNC3886 Espionage Campaign"
+      value: "Chinese state-sponsored group that chained VMware vulnerabilities including CVE-2023-20867 to maintain persistent espionage access in defense and technology organizations"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2023-20867 is a configuration vulnerability in VMware Tools authentication mechanism"
+  - type: requires
+    target: "VUL-CONFIG-CVE202222948-001"
+    description: "CVE-2023-20867 was chained with CVE-2022-22948 in UNC3886 attacks to first gain vCenter access"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic: ["Execution", "Lateral Movement"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2023-20867 - NVD NIST"
+    - "VMware Security Advisory VMSA-2023-0013"
+    - "Mandiant - UNC3886 VMware Zero-Day Exploitation"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1059 - Command and Scripting Interpreter"
+  search_keywords:
+    - "CVE-2023-20867"
+    - "VMware Tools authentication bypass"
+    - "VMware guest operations"
+    - "UNC3886"
+    - "VMware hypervisor escape"
+    - "VIRTUALPITA malware"
+    - "VMware host to guest"
+  embedding_text: "CVE-2023-20867 is an authentication bypass vulnerability in VMware Tools that allows a compromised ESXi host to execute privileged commands within guest VMs without authentication, breaking the hypervisor-to-guest security boundary. Actively exploited by UNC3886, a Chinese state-sponsored espionage group, as part of a multi-vulnerability attack chain against VMware infrastructure in defense and technology organizations. The group deployed VIRTUALPITA and VIRTUALPIE malware families through this vulnerability. CVSS v3 score is 3.9 but contextually critical. Fixed in VMware Tools 12.2.5. Maps to MITRE ATT&CK T1059 Command and Scripting Interpreter."

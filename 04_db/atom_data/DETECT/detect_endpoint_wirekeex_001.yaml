@@ -1,0 +1,93 @@
+# GR Atom: Windows Registry Key Export Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKEEX-001"
+  name: "Windows Registry Key Export Event"
+  normalized_name: "windows_registry_key_export_event"
+  aliases:
+    - "Registry Export Detection"
+    - "Reg Export Event"
+    - "Registry Hive Save"
+    - "RegSaveKey Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - FORENSICS
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when Windows registry keys or entire hives are exported to files on an endpoint. This covers reg.exe export commands, RegSaveKey/RegSaveKeyEx API calls, and regedit.exe file export operations. The event captures the source registry path, destination file path, the exporting process, and user context. Export of sensitive hives such as SAM, SECURITY, and SYSTEM is particularly critical as these contain credential material and security configuration data."
+  why: "Registry export operations are used by adversaries for credential dumping by saving the SAM and SYSTEM hives to extract password hashes, for reconnaissance by exporting configuration data, and for data staging before exfiltration. The SAM hive contains local account password hashes, the SECURITY hive contains cached domain credentials, and the SYSTEM hive contains the boot key needed to decrypt SAM data. Monitoring registry exports is essential for detecting credential access techniques and data collection activities."
+  how: "Detection monitors command-line auditing for reg.exe save and reg.exe export commands. Process creation events (Sysmon Event ID 1) capture reg.exe and regedit.exe executions with export-related arguments. File creation events detect the output files from export operations. API monitoring captures RegSaveKey and RegSaveKeyEx calls targeting sensitive hives. EDR agents provide real-time detection of registry export operations with process context. SIEM rules specifically alert on exports of SAM, SECURITY, and SYSTEM hives as high-severity credential access indicators."
+  core_concepts:
+    - key: "credential_hive_export"
+      value: "Exporting SAM, SECURITY, or SYSTEM hives to extract password hashes and cached credentials for offline cracking"
+    - key: "reg_save_command"
+      value: "Using reg.exe save or reg.exe export commands to dump registry data to files for later analysis or exfiltration"
+    - key: "shadow_copy_bypass"
+      value: "Adversaries may use volume shadow copies to access locked registry hives, bypassing normal file locking protections"
+    - key: "export_file_analysis"
+      value: "Analyzing the destination path and file characteristics of exported registry data to determine adversary intent"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key export is a specific type of registry key operation"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-WIREKEIM-001"
+    description: "Exported registry data can be imported on other systems"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003.002"
+    tactic:
+      - "credential-access"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Reg Save Command"
+    - "MITRE ATT&CK T1003.002 - OS Credential Dumping: Security Account Manager"
+    - "Sysmon Documentation - Process Creation Events"
+    - "Windows Registry API Reference - RegSaveKey"
+  search_keywords:
+    - "registry export"
+    - "reg save"
+    - "reg export"
+    - "SAM hive dump"
+    - "registry hive save"
+    - "RegSaveKey"
+    - "credential dumping registry"
+    - "SYSTEM hive export"
+    - "SECURITY hive export"
+    - "registry data extraction"
+  embedding_text: "Windows registry key export event detection pattern identifies when registry keys or hives are exported to files via reg.exe export/save commands, RegSaveKey API calls, or regedit export operations. Export of SAM, SECURITY, and SYSTEM hives is critical for detecting credential dumping where adversaries extract password hashes and cached credentials for offline cracking. Maps to MITRE ATT&CK T1003.002 OS Credential Dumping. Detection monitors command-line auditing, process creation events, and file creation for export output files. Particularly important for identifying credential access techniques and pre-exfiltration data staging activities."

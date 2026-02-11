@@ -1,0 +1,78 @@
+# GR Atom: RPC Proxy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-RPCPROX-001"
+  name: "RPC Proxy"
+  normalized_name: "rpc_proxy"
+  aliases:
+    - "RPC over HTTP Proxy"
+    - "RPC/HTTP Proxy"
+    - "Outlook Anywhere Proxy"
+    - "MAPI over HTTP"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - PROXY
+    - HTTP
+    - WINDOWS
+    - CONFIG
+
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "N2.1"
+
+definition:
+  what: "RPC Proxy is a Windows server component that enables Microsoft RPC communication to be tunneled over HTTP or HTTPS, allowing RPC-dependent applications to function across firewalls and the internet without opening the native RPC port range. Originally introduced as RPC over HTTP for Outlook Anywhere connectivity to Exchange Server, the RPC Proxy accepts incoming HTTPS connections from clients, extracts the encapsulated RPC traffic, and forwards it to the appropriate internal RPC server. The component runs as part of IIS (Internet Information Services) and is configured through the Windows RPC Proxy feature. This technology has largely been superseded by MAPI over HTTP and Exchange Web Services for Exchange connectivity but remains relevant in legacy environments."
+  why: "RPC Proxy addresses the fundamental challenge of enabling RPC-based client-server communication across network boundaries where opening the wide dynamic RPC port range would be a security risk. By encapsulating RPC traffic within HTTPS, it allows firewall-friendly connectivity on ports 80/443 while maintaining the functionality of RPC-dependent applications. From a security perspective, RPC Proxy is significant because it exposes internal RPC services through a web-accessible endpoint, creating a potential attack vector if the proxy or its authentication mechanisms are compromised. It also enables legitimate remote access patterns that attackers may attempt to abuse for persistence or lateral movement."
+  how: "RPC Proxy is installed as a Windows Server role service under the Web Server (IIS) role. The proxy component listens for incoming HTTPS connections on the IIS web server. Clients send RPC traffic encapsulated in HTTP CONNECT requests or HTTP POST requests to the proxy URL endpoint. The proxy authenticates the client using Windows authentication (NTLM or Kerberos), extracts the RPC payload from the HTTP wrapper, performs the Endpoint Mapper lookup to locate the target RPC service, and establishes an internal RPC connection to forward the request. SSL/TLS certificates secure the external HTTPS connection, and the proxy validates that the requested RPC interface and server are in the allowed list. IIS logging captures all proxy transactions for audit purposes."
+  core_concepts:
+    - key: "RPC over HTTP"
+      value: "The protocol technique of encapsulating MS-RPC traffic within HTTP/HTTPS to traverse firewalls that block native RPC ports, using IIS as the proxy endpoint"
+    - key: "Outlook Anywhere"
+      value: "The Exchange Server feature that uses RPC Proxy to enable Outlook clients to connect to Exchange mailboxes over the internet without VPN connectivity"
+    - key: "RPC Proxy Authentication"
+      value: "Windows integrated authentication at the proxy layer that validates client identity before allowing RPC traffic forwarding to internal servers"
+
+relations:
+  - type: requires
+    target: "INFRA-NET-RPCENDMAP-001"
+    description: "RPC Proxy relies on the RPC Endpoint Mapper to locate internal RPC services for forwarding client connections"
+  - type: instance_of
+    target: "INFRA-NET-REVPROSER-001"
+    description: "RPC Proxy functions as a specialized reverse proxy for RPC-over-HTTP traffic"
+  - type: part_of
+    target: "INFRA-NET-DMZ-001"
+    description: "RPC Proxy servers are deployed in the DMZ to mediate between external clients and internal RPC services"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1090"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - RPC over HTTP Deployment - https://learn.microsoft.com/en-us/windows/win32/rpc/rpc-over-http-deployment-recommendations"
+    - "Microsoft - Outlook Anywhere - https://learn.microsoft.com/en-us/exchange/clients/outlook-anywhere"
+    - "NIST SP 800-123 - Guide to General Server Security"
+  search_keywords:
+    - "RPC Proxy"
+    - "RPC over HTTP"
+    - "Outlook Anywhere"
+    - "RPC HTTP proxy"
+    - "MAPI over HTTP"
+    - "Exchange RPC proxy"
+    - "RPC tunneling"
+    - "RPC firewall traversal"
+  embedding_text: "RPC Proxy is a Windows server component that tunnels Microsoft RPC communication over HTTP/HTTPS, enabling RPC-dependent applications to function across firewalls without opening native RPC port ranges. Running as part of IIS, it accepts incoming HTTPS connections, authenticates clients using Windows authentication, extracts encapsulated RPC traffic, and forwards it to internal RPC servers. Originally designed for Outlook Anywhere connectivity to Exchange Server, it has been largely superseded by MAPI over HTTP but remains in legacy environments. Security considerations include exposure of internal RPC services through web-accessible endpoints and potential abuse of the authenticated proxy channel for persistence or lateral movement."

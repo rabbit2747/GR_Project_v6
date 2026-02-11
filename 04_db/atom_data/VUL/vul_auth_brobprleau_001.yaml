@@ -1,0 +1,116 @@
+# GR Atom: Broken Object Property Level Authorization
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-BROBPRLEAU-001"
+  name: "Broken Object Property Level Authorization"
+  normalized_name: "broken_object_property_level_authorization"
+  aliases:
+    - "OWASP API3"
+    - "Excessive Data Exposure"
+    - "Mass Assignment"
+    - "Property-Level Access Control Failure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - API
+    - WEB
+    - INFO_LEAK
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "API endpoints"
+    - "Object serialization layers"
+    - "Data transfer objects"
+    - "REST API response handlers"
+    - "GraphQL field resolvers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Broken Object Property Level Authorization is an API security vulnerability ranked OWASP
+    API Security Top 10 API3:2023 that combines the previously separate categories of Excessive
+    Data Exposure and Mass Assignment. It occurs when API endpoints allow users to read or
+    modify object properties they should not have access to. This includes APIs returning
+    more data than needed in responses, exposing sensitive properties, and allowing users to
+    set or modify object properties that should be restricted, such as privilege levels, account
+    balances, or administrative flags.
+  why: >-
+    This vulnerability leads to data exposure when APIs return sensitive object properties
+    that clients should not access, and privilege escalation when APIs accept modifications
+    to restricted properties. The combination is particularly dangerous because excessive data
+    exposure reveals the data model to attackers, who can then craft mass assignment attacks
+    targeting sensitive properties. The impact ranges from information disclosure to complete
+    account compromise through property manipulation.
+  how: >-
+    Exploitation involves inspecting API responses for excessive data exposure to identify
+    sensitive properties, then crafting requests that include those properties in update
+    operations (mass assignment). Attackers may add properties like is_admin, role, or balance
+    to API requests to escalate privileges or modify protected data. Mitigation requires
+    implementing property-level access control, never relying on client-side filtering,
+    returning only necessary properties in API responses, using explicit allowlists for
+    writable properties, and implementing schema-based input validation.
+  core_concepts:
+    - key: "Excessive Data Exposure"
+      value: "API responses including more object properties than necessary, revealing sensitive data the client should not access"
+    - key: "Mass Assignment"
+      value: "Attack where users modify object properties they should not have access to by including extra fields in API requests"
+    - key: "Property-Level ACL"
+      value: "Fine-grained access control that validates read and write permissions for individual object properties"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-BROBLEAU-001"
+    description: "Broken object property level authorization is a more granular form of broken object level authorization"
+  - type: "enables"
+    target: "VUL-AUTH-BRFULEAU-001"
+    description: "Property-level authorization failures can enable function-level authorization bypass through privilege property manipulation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP API Security Top 10 2023 - API3 Broken Object Property Level Authorization"
+    - "CWE-213 Exposure of Sensitive Information Due to Incompatible Policies"
+    - "CWE-915 Improperly Controlled Modification of Dynamically-Determined Object Attributes"
+  search_keywords:
+    - "broken object property level authorization"
+    - "excessive data exposure"
+    - "mass assignment"
+    - "API property access control"
+    - "OWASP API3"
+    - "data exposure vulnerability"
+    - "property manipulation"
+  embedding_text: >-
+    Broken Object Property Level Authorization is an API vulnerability ranked OWASP API
+    Security API3:2023 combining Excessive Data Exposure and Mass Assignment. It occurs when
+    APIs allow reading or modifying object properties without proper authorization. APIs
+    return sensitive properties in responses and accept modifications to restricted fields
+    like admin flags or privilege levels. Attackers inspect API responses to discover data
+    models then craft mass assignment attacks targeting sensitive properties. Mitigation
+    requires property-level access control, server-side response filtering, explicit allowlists
+    for writable properties, and schema-based input validation. Impacts include data exposure,
+    privilege escalation, and unauthorized data modification.

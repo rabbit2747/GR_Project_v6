@@ -1,0 +1,79 @@
+# GR Atom: TeamCity
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-TEAMCITY-001"
+  name: "TeamCity"
+  normalized_name: "teamcity"
+  aliases:
+    - "JetBrains TeamCity"
+    - "TC Server"
+    - "TeamCity CI/CD"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CICD
+    - DEVSECOPS
+    - SUPPLY_CHAIN
+    - CONFIG
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.2"
+
+definition:
+  what: "TeamCity is a JetBrains CI/CD server that provides build management, continuous integration, and deployment automation for software development teams. It supports build configurations for multiple languages and frameworks, build chains for complex pipelines, build agents for distributed execution, personal builds for pre-commit testing, and extensive VCS integration. TeamCity offers both on-premises and cloud-hosted deployment options."
+  why: "TeamCity is a high-value target because it has access to source code, build secrets, deployment credentials, and production deployment capabilities. Critical authentication bypass vulnerabilities (CVE-2023-42793, CVE-2024-23917) have been actively exploited by state-sponsored threat actors including APT29 (Cozy Bear) to gain initial access to networks. TeamCity server compromise enables complete supply chain attacks through malicious build injection. The server stores sensitive configuration data including VCS credentials, deployment keys, and API tokens."
+  how: "TeamCity operates through a server that manages build configurations and distributes work to build agents. Build configurations define VCS roots (source repositories), build steps, triggers, and artifact paths. Build agents execute build steps in isolated environments. Kotlin DSL enables pipeline-as-code for build configuration. Build features include code coverage, test reporting, and artifact publishing. Authentication supports internal database, LDAP, and SAML. Authorization uses role-based access at project and global levels. Audit logging captures administrative and build actions."
+  core_concepts:
+    - key: "Build Configuration"
+      value: "Definition of a build process including VCS roots, build steps, triggers, parameters, and artifact rules managed in the TeamCity server"
+    - key: "Build Agent"
+      value: "Worker process executing build steps, which can be pooled, dedicated, or cloud-based with configurable capabilities and requirements"
+    - key: "Build Chain"
+      value: "Linked sequence of build configurations where output artifacts from upstream builds serve as inputs to downstream builds"
+    - key: "Kotlin DSL"
+      value: "Programmatic build configuration using Kotlin that enables version-controlled pipeline-as-code in TeamCity projects"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-ORCHSERV-001"
+    description: "TeamCity is a specific implementation of a CI/CD orchestration server"
+  - type: requires
+    target: "INFRA-DEVOPS-CODEREPO-001"
+    description: "TeamCity retrieves source code from code repositories through VCS root configurations"
+  - type: enables
+    target: "INFRA-DEVOPS-CONTREGI-001"
+    description: "TeamCity build configurations produce and push container images to registries"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "TeamCity Documentation - https://www.jetbrains.com/help/teamcity/"
+    - "CVE-2023-42793 - TeamCity Authentication Bypass"
+    - "CISA Alert - APT29 Exploiting TeamCity CVE-2023-42793"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "TeamCity"
+    - "JetBrains TeamCity"
+    - "TeamCity CI/CD"
+    - "TeamCity vulnerability"
+    - "TeamCity security"
+    - "CVE-2023-42793"
+    - "TeamCity build server"
+    - "TeamCity authentication bypass"
+  embedding_text: "TeamCity is JetBrains' CI/CD server providing build management, continuous integration, and deployment automation. It supports build chains, distributed agents, personal builds, and Kotlin DSL for pipeline-as-code. Security significance is critical due to authentication bypass vulnerabilities (CVE-2023-42793, CVE-2024-23917) actively exploited by state-sponsored actors including APT29. Compromised TeamCity servers enable complete supply chain attacks through malicious build injection. The server stores VCS credentials, deployment keys, and API tokens. Build agents execute in distributed environments with network access. Role-based authorization and audit logging provide security controls."

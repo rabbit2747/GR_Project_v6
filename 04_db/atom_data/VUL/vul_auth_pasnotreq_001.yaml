@@ -1,0 +1,118 @@
+# GR Atom: Password Not Required
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-PASNOTREQ-001"
+  name: "Password Not Required"
+  normalized_name: "password_not_required"
+  aliases:
+    - "No Password Authentication"
+    - "Blank Password Vulnerability"
+    - "Empty Password Configuration"
+    - "Password Not Set"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - CONFIG
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "User account management systems"
+    - "Active Directory accounts"
+    - "Database authentication"
+    - "Application login systems"
+    - "Service accounts"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Password Not Required is a vulnerability class where user accounts, service accounts, or system
+    accounts are configured to allow authentication without providing a password. This includes
+    accounts with the PASSWD_NOTREQD flag set in Active Directory, database accounts with empty
+    passwords, application accounts configured without password requirements, and systems that
+    accept blank password submissions. This misconfiguration effectively removes the primary
+    authentication barrier, allowing anyone who knows the username to access the account.
+  why: >-
+    Accounts without password requirements represent one of the most fundamental authentication
+    failures. They are frequently discovered during penetration testing and security audits of
+    enterprise environments, particularly in Active Directory where the PASSWD_NOTREQD flag can
+    persist on legacy accounts. Service accounts, shared accounts, and accounts created for
+    automated processes are commonly affected. Attackers actively search for passwordless accounts
+    during network enumeration as they provide the easiest path to initial access or privilege
+    escalation.
+  how: >-
+    Attackers discover password-not-required accounts through Active Directory enumeration (using
+    tools like PowerView or ldapsearch to query UserAccountControl flags), database enumeration
+    of accounts with empty passwords, or brute-force testing with empty password fields.
+    Mitigation includes auditing all accounts for the PASSWD_NOTREQD flag in Active Directory,
+    enforcing password requirements through Group Policy, implementing password policies that
+    reject empty passwords at the application level, regularly scanning for accounts without
+    passwords, and using privileged access management (PAM) solutions for service accounts.
+  core_concepts:
+    - key: "PASSWD_NOTREQD Flag"
+      value: "Active Directory User Account Control flag that allows an account to have an empty password, bypassing domain password policy requirements"
+    - key: "Authentication Barrier Removal"
+      value: "Eliminating the password requirement removes the primary knowledge-based authentication factor, reducing security to username knowledge alone"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Password Not Required is a class of authentication vulnerability where the password factor is absent"
+  - type: "enables"
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "No-password accounts represent the extreme case of weak password policy enforcement"
+  - type: "causes"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "Accounts without passwords enable pre-authentication access without any credential requirement"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.002"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE ATT&CK T1078.002 - Valid Accounts: Domain Accounts"
+    - "CIS Benchmarks - Active Directory Password Policy"
+    - "NIST SP 800-63B Digital Identity Guidelines"
+    - "Microsoft Active Directory Security Best Practices"
+  search_keywords:
+    - "password not required"
+    - "PASSWD_NOTREQD"
+    - "blank password vulnerability"
+    - "empty password authentication"
+    - "Active Directory no password"
+    - "passwordless account vulnerability"
+    - "service account no password"
+  embedding_text: >-
+    Password Not Required is a vulnerability class where accounts are configured to allow
+    authentication without a password. This includes Active Directory accounts with the
+    PASSWD_NOTREQD UserAccountControl flag, database accounts with empty passwords, and
+    application accounts without password requirements. Attackers discover these through AD
+    enumeration, database scanning, or brute-force testing with empty credentials. Commonly
+    found on legacy accounts, service accounts, and automated process accounts. Represents a
+    fundamental authentication failure that reduces security to username knowledge alone.
+    Mitigation includes auditing for PASSWD_NOTREQD flags, enforcing password policies via
+    Group Policy, application-level password requirements, regular scanning, and privileged
+    access management for service accounts.

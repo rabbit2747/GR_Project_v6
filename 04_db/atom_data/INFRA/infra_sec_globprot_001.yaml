@@ -1,0 +1,110 @@
+# GR Atom: Global Protect
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-GLOBPROT-001"
+  name: "Global Protect"
+  normalized_name: "global_protect"
+  aliases:
+    - "GlobalProtect"
+    - "Palo Alto GlobalProtect"
+    - "GlobalProtect VPN"
+    - "GP Client"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - VPN
+    - NETWORK
+    - AUTHN
+    - EDR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L3"
+  zone: "Z1"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    GlobalProtect is Palo Alto Networks' VPN and remote access solution providing secure
+    connectivity to enterprise networks. It consists of a gateway (integrated into PAN-OS
+    firewalls), a portal for configuration distribution, and endpoint agents for Windows, macOS,
+    Linux, iOS, and Android. GlobalProtect extends next-generation firewall security policies
+    to remote users regardless of location.
+  why: >-
+    GlobalProtect is a primary remote access mechanism for enterprises using Palo Alto Networks
+    infrastructure. It has been targeted by threat actors exploiting PAN-OS vulnerabilities
+    including CVE-2024-3400 (command injection in GlobalProtect gateway), CVE-2021-3064
+    (buffer overflow in GlobalProtect portal), and CVE-2020-2034 (OS command injection).
+    Compromising GlobalProtect provides direct authenticated access to internal networks.
+  how: >-
+    GlobalProtect establishes IPsec or SSL VPN tunnels between endpoint agents and PAN-OS
+    gateways. The portal distributes gateway configurations and agent settings. Host Information
+    Profile (HIP) checks enforce endpoint compliance before granting access, verifying
+    antivirus status, disk encryption, OS patches, and domain membership. Split tunneling
+    policies route traffic through the tunnel or directly to the internet. Integration with
+    Prisma Access extends GlobalProtect to cloud-delivered SASE architecture.
+  core_concepts:
+    - key: "Always-On VPN"
+      value: "GlobalProtect maintains persistent VPN connections ensuring all endpoint traffic is inspected by PAN-OS security policies"
+    - key: "Host Information Profile"
+      value: "HIP checks enforce endpoint compliance requirements including antivirus, encryption, and patch status before granting network access"
+    - key: "SASE Integration"
+      value: "GlobalProtect agent connects to Prisma Access cloud gateways for secure access service edge architecture"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-FORTIGATE-001"
+    description: "GlobalProtect gateways run on PAN-OS firewalls, comparable to FortiGate SSL VPN functionality"
+  - type: "enables"
+    target: "INFRA-SEC-PRISCLOU-001"
+    description: "GlobalProtect agent integrates with Prisma Access for cloud-delivered SASE security"
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "GlobalProtect is a VPN component of the Palo Alto Networks firewall ecosystem"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1133"
+    tactic:
+      - "Persistence"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Palo Alto Networks - GlobalProtect Administration Guide"
+    - "CISA - PAN-OS GlobalProtect Vulnerability Advisories"
+    - "Volexity - CVE-2024-3400 Exploitation Analysis"
+  search_keywords:
+    - "GlobalProtect"
+    - "Palo Alto VPN"
+    - "GlobalProtect gateway"
+    - "PAN-OS VPN"
+    - "GlobalProtect vulnerability"
+    - "CVE-2024-3400"
+    - "enterprise VPN"
+    - "HIP check"
+  embedding_text: >-
+    GlobalProtect is Palo Alto Networks' VPN solution providing secure remote access via IPsec
+    and SSL tunnels to PAN-OS gateways. Endpoint agents for all major platforms enforce
+    security policies on remote users. Host Information Profile checks verify endpoint
+    compliance. Integrates with Prisma Access for SASE. Has been targeted via critical PAN-OS
+    vulnerabilities including CVE-2024-3400 command injection and CVE-2021-3064 buffer overflow.
+    Compromising GlobalProtect provides direct internal network access to threat actors.

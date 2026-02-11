@@ -1,0 +1,105 @@
+# GR Atom: CVE-2025-8217
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20258217-001"
+  name: "CVE-2025-8217"
+  normalized_name: "cve_2025_8217"
+  aliases:
+    - "CI/CD Pipeline Injection Vulnerability"
+    - "GitHub Actions Workflow Injection"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - INJ
+    - EXEC
+    - SUPPLY_CHAIN
+    - CICD
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "GitHub Actions"
+    - "CI/CD Pipeline Systems"
+
+definition:
+  what: >-
+    CVE-2025-8217 is a code injection vulnerability in CI/CD pipeline configurations that allows
+    attackers to inject malicious commands into automated build and deployment workflows. The
+    vulnerability specifically affects GitHub Actions workflows that use untrusted input (such as
+    pull request titles, branch names, or issue content) directly in run steps without proper
+    sanitization. This enables arbitrary code execution in the CI/CD environment with access to
+    repository secrets and deployment credentials. CVSS v3: 8.3 (High).
+  why: >-
+    CI/CD pipelines are the central mechanism for building, testing, and deploying software. They
+    typically have access to sensitive secrets including deployment keys, cloud credentials, package
+    registry tokens, and code signing certificates. Pipeline injection enables supply chain attacks
+    where an attacker can modify build outputs, inject backdoors into deployments, exfiltrate secrets,
+    and compromise downstream systems. The widespread adoption of GitHub Actions and similar systems
+    makes this vulnerability class highly impactful across the software industry.
+  how: >-
+    The attacker crafts a pull request, issue, or other GitHub event containing malicious shell
+    commands in metadata fields (title, body, branch name). When a vulnerable GitHub Actions
+    workflow processes this event and interpolates the untrusted data directly into a run step,
+    the injected commands execute in the runner environment. This provides access to all repository
+    secrets, GITHUB_TOKEN, and any configured deployment credentials. The attacker can then modify
+    source code, inject backdoors into build artifacts, publish malicious packages, or pivot to
+    connected cloud infrastructure. Mitigation includes using intermediate environment variables
+    instead of direct interpolation, validating inputs, and restricting secret access.
+  core_concepts:
+    - key: "Pipeline Code Injection"
+      value: "Injecting malicious commands into CI/CD workflows through unsanitized event metadata for arbitrary code execution in build environments"
+    - key: "Supply Chain Compromise Vector"
+      value: "Using CI/CD pipeline access to modify build outputs, inject backdoors, and compromise software distribution channels"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "CVE-2025-8217 is a vulnerable application configuration in CI/CD pipeline workflow definitions"
+  - type: enables
+    target: "ATK-SUPPLY-CICD-001"
+    description: "Pipeline injection enables supply chain attacks through compromised build and deployment processes"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.002"
+    tactic: ["Initial Access", "Execution"]
+  cve_mapping:
+    cve_id: "CVE-2025-8217"
+    cvss_score: 8.3
+    cwe_id: "CWE-94"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-8217 - NVD NIST"
+    - "GitHub Actions Security Hardening Guide"
+    - "CWE-94 - Improper Control of Generation of Code"
+    - "MITRE ATT&CK T1195.002 - Supply Chain Compromise: Compromise Software Supply Chain"
+  search_keywords:
+    - "CVE-2025-8217"
+    - "CI/CD pipeline injection"
+    - "GitHub Actions vulnerability"
+    - "workflow injection attack"
+    - "pipeline code injection"
+    - "CI/CD secret theft"
+    - "supply chain CI/CD"
+  embedding_text: >-
+    CVE-2025-8217 is a code injection vulnerability in CI/CD pipeline configurations, specifically
+    GitHub Actions workflows that use untrusted input in run steps without sanitization. CVSS v3
+    score is 8.3 High. Attackers can inject malicious commands through pull request metadata, branch
+    names, or issue content to execute arbitrary code in CI/CD environments with access to repository
+    secrets and deployment credentials. Enables supply chain attacks including backdoor injection into
+    build artifacts, secret exfiltration, and malicious package publishing. Mitigation includes using
+    intermediate environment variables and input validation. Maps to MITRE ATT&CK T1195.002 Supply
+    Chain Compromise: Compromise Software Supply Chain.

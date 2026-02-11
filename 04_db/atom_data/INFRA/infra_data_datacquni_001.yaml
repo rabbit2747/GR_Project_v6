@@ -1,0 +1,121 @@
+# GR Atom: Data Acquisition Unit
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATACQUNI-001"
+  name: "Data Acquisition Unit"
+  normalized_name: "data_acquisition_unit"
+  aliases:
+    - "DAU"
+    - "Data Acquisition System"
+    - "DAS"
+    - "Data Logger"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - IOT
+    - NETWORK
+    - COLLECT
+    - FIRMWARE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "D3.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Data Acquisition Unit (DAU) is a hardware device or system that collects, digitizes, and
+    transmits analog and digital signals from sensors, transducers, and other measurement
+    instruments to computing systems for processing, analysis, and storage. DAUs are fundamental
+    components in industrial control systems (ICS), SCADA environments, scientific instrumentation,
+    manufacturing, and operational technology (OT) networks. They convert physical measurements
+    such as temperature, pressure, voltage, and flow rates into digital data streams.
+  why: >-
+    DAUs bridge the physical and digital worlds in industrial and scientific environments,
+    enabling real-time monitoring, process control, and data-driven decision making. From a
+    security perspective, DAUs are critical because they operate at the intersection of IT and
+    OT networks, often running embedded firmware with limited security capabilities. Compromised
+    DAUs can provide false sensor readings leading to unsafe industrial conditions, serve as
+    pivot points for lateral movement between IT and OT networks, or enable data collection
+    about physical processes for reconnaissance purposes.
+  how: >-
+    DAUs interface with sensors through analog-to-digital converters (ADCs), digital I/O ports,
+    and specialized signal conditioning circuits. They sample sensor signals at configurable
+    rates, apply calibration and filtering, and transmit digitized data over industrial protocols
+    such as Modbus, OPC UA, MQTT, or proprietary protocols. Modern DAUs may include onboard
+    processing, local storage, and network connectivity via Ethernet or wireless. Configuration
+    is typically managed through vendor-specific software or web interfaces. Security controls
+    are often limited to basic authentication and network segmentation.
+  core_concepts:
+    - key: "Analog-to-Digital Conversion"
+      value: >-
+        DAUs convert continuous analog signals from physical sensors into discrete digital
+        values that computing systems can process, with resolution and sampling rate determining
+        measurement fidelity.
+    - key: "IT/OT Network Boundary"
+      value: >-
+        DAUs often operate at the boundary between information technology and operational
+        technology networks, making them potential pivot points for attackers moving between
+        network segments.
+    - key: "Industrial Protocol Communication"
+      value: >-
+        DAUs communicate using industrial protocols including Modbus RTU/TCP, OPC UA, MQTT,
+        and proprietary vendor protocols, many of which lack built-in authentication or encryption.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A data acquisition unit functions as a specialized data collection and temporary storage component in industrial environments"
+  - type: "enables"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "Data acquisition units enable database servers by providing real-time sensor data streams for persistent storage and analysis"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0802"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-82 Rev 3 - Guide to Operational Technology (OT) Security."
+    - "IEC 62443 - Industrial Communication Networks - Security."
+    - "MITRE ATT&CK for ICS - Data from Information Repositories."
+  search_keywords:
+    - "data acquisition unit"
+    - "DAU"
+    - "data acquisition system"
+    - "DAS"
+    - "industrial data logger"
+    - "SCADA data acquisition"
+    - "OT sensor data collection"
+    - "ICS data acquisition"
+  embedding_text: >-
+    A Data Acquisition Unit (DAU) is a hardware device that collects, digitizes, and transmits
+    analog and digital signals from sensors and transducers to computing systems. DAUs are
+    fundamental in industrial control systems (ICS), SCADA environments, and operational
+    technology (OT) networks, converting physical measurements like temperature, pressure, and
+    voltage into digital data streams. They use analog-to-digital converters, signal conditioning,
+    and industrial protocols such as Modbus, OPC UA, and MQTT. From a security perspective, DAUs
+    are critical because they operate at the IT/OT network boundary with limited security
+    capabilities. Compromised DAUs can provide false sensor readings causing unsafe conditions,
+    serve as lateral movement pivot points, or enable reconnaissance of physical processes.
+    Security controls are often limited to basic authentication and network segmentation, making
+    them targets under MITRE ATT&CK for ICS frameworks.

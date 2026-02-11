@@ -1,0 +1,71 @@
+# GR Atom: CVE-2017-15303
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE201715303-001"
+  name: "CVE-2017-15303"
+  normalized_name: "cve_2017_15303"
+  aliases:
+    - "Docker Content Trust Bypass"
+    - "Docker Image Verification Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EVADE
+    - CONTAINER
+    - DOCKER
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Docker Engine"
+    - "Docker Content Trust (DCT)"
+
+definition:
+  what: "CVE-2017-15303 is a configuration vulnerability in Docker Engine where the Docker Content Trust (DCT) image signature verification can be bypassed. When DOCKER_CONTENT_TRUST is enabled, Docker is supposed to verify image signatures before pulling or running containers. However, the verification is only enforced on 'docker pull' and 'docker build' commands, but not on 'docker run' when the image is already present in the local cache, allowing unsigned or tampered images to execute."
+  why: "Docker Content Trust is a critical security control for ensuring container image integrity in enterprise container deployments. This bypass undermines the entire image signing and verification workflow, allowing potentially malicious or tampered container images to run despite DCT being enabled. Organizations relying solely on DCT for supply chain security have a false sense of security when this vulnerability is present."
+  how: "The bypass works because Docker Engine only enforces content trust verification during image pull operations but not during container creation from cached images. An attacker who can place a malicious image in the local Docker image cache (through filesystem access or a prior pull of a tag that was later re-tagged with malicious content) can run the untrusted image even with DOCKER_CONTENT_TRUST=1 set. The fix requires Docker Engine updates that enforce signature verification at container runtime, not just at pull time."
+  core_concepts:
+    - key: "Docker Content Trust (DCT)"
+      value: "Security feature using Notary to sign and verify Docker images, bypassed because verification was only enforced at pull time not at container runtime"
+    - key: "Image Cache Bypass"
+      value: "Attack vector where locally cached Docker images bypass content trust verification, allowing tampered images to run despite DCT being enabled"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2017-15303 is a configuration vulnerability in Docker's content trust enforcement mechanism"
+  - type: applies_to
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "Content trust bypass allows running containers with vulnerable or tampered components"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1610"
+    tactic: ["Defense Evasion", "Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2017-15303 - NVD NIST"
+    - "Docker Security Advisory"
+    - "MITRE ATT&CK T1610 - Deploy Container"
+  search_keywords:
+    - "CVE-2017-15303"
+    - "Docker Content Trust bypass"
+    - "DCT bypass"
+    - "Docker image verification"
+    - "Docker container trust"
+    - "Docker image signing bypass"
+    - "container supply chain"
+  embedding_text: "CVE-2017-15303 is a Docker Engine vulnerability where Docker Content Trust image signature verification can be bypassed. DCT verification is only enforced during docker pull and docker build but not when running containers from locally cached images. This allows unsigned or tampered container images to execute even with DOCKER_CONTENT_TRUST=1 enabled. The vulnerability undermines container image integrity verification and supply chain security controls. Attackers who can place malicious images in the local Docker cache can bypass all DCT protections. Remediation requires Docker Engine updates that enforce verification at container runtime. Maps to MITRE ATT&CK T1610 Deploy Container."

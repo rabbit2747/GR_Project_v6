@@ -1,0 +1,71 @@
+# GR Atom: ThreatPost
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-THREATPOST-001"
+  name: "ThreatPost"
+  normalized_name: "threatpost"
+  aliases:
+    - "Threat Post"
+    - "Kaspersky ThreatPost"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ThreatPost was an independent cybersecurity news site originally launched by Kaspersky Lab in 2010, which operated as a standalone security news publication covering vulnerabilities, malware, privacy, and cybersecurity policy. The publication provided daily news coverage of security incidents, vulnerability disclosures, threat actor campaigns, and emerging cyber threats. ThreatPost was known for its timely reporting on critical CVEs, zero-day exploits, ransomware campaigns, and data breaches, serving as a widely referenced source in the cybersecurity community. The site ceased active publication in its original form but its archived content remains a valuable historical resource."
+  why: "ThreatPost was significant as one of the most widely read cybersecurity news sources, providing timely and technically accurate coverage of vulnerabilities and threats. Its archives contain detailed reporting on major cybersecurity events and campaigns that occurred over more than a decade, serving as a historical reference for threat intelligence research and cybersecurity timeline analysis."
+  how: "ThreatPost operated through a team of cybersecurity journalists who reported on breaking security news, vulnerability disclosures, and threat intelligence. Reporters covered vendor advisories, analyzed threat actor campaigns, interviewed security researchers, and produced both news articles and in-depth analysis pieces. Content was distributed through the website, newsletters, and social media channels."
+  core_concepts:
+    - key: "Cybersecurity News"
+      value: "Daily coverage of vulnerabilities, malware campaigns, data breaches, and security incidents"
+    - key: "Vulnerability Reporting"
+      value: "Timely technical reporting on critical CVEs, zero-day exploits, and patch advisories"
+    - key: "Threat Intelligence Coverage"
+      value: "Analysis of threat actor campaigns, ransomware operations, and emerging cyber threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow cybersecurity news publication in the security media ecosystem"
+  - type: is_a
+    target: "ACTOR-RESEARCH-SECUWEEK-001"
+    description: "Peer publication providing vulnerability and threat coverage"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://threatpost.com"
+  search_keywords:
+    - "threatpost"
+    - "threat post"
+    - "cybersecurity news"
+    - "vulnerability reporting"
+    - "malware news"
+    - "zero-day coverage"
+    - "ransomware news"
+    - "security journalism"
+  embedding_text: "ThreatPost was an independent cybersecurity news site originally launched by Kaspersky Lab in 2010, operating as a standalone security news publication covering vulnerabilities, malware, privacy, and cybersecurity policy. The publication provided daily news coverage of security incidents, vulnerability disclosures, threat actor campaigns, and emerging cyber threats, and was known for timely reporting on critical CVEs, zero-day exploits, ransomware campaigns, and data breaches. ThreatPost served as one of the most widely read cybersecurity news sources, with its archived content remaining a valuable historical reference for threat intelligence research. Reporters covered vendor advisories, analyzed threat actor campaigns, and produced both news articles and in-depth analysis pieces for the cybersecurity community."

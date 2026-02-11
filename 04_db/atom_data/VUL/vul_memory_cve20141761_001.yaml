@@ -1,0 +1,105 @@
+# GR Atom: CVE-2014-1761
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20141761-001"
+  name: "CVE-2014-1761"
+  normalized_name: "cve_2014_1761"
+  aliases:
+    - "Microsoft Word RTF Memory Corruption"
+    - "Word RTF Stack Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Word 2003, 2007, 2010, 2013"
+    - "Microsoft Word Viewer"
+    - "Office Web Apps 2010, 2013"
+    - "RTF parser"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-1761 is a memory corruption vulnerability (CVSS 9.3) in Microsoft Word's RTF
+    file parser that allows remote code execution when a user opens a specially crafted RTF
+    file. The vulnerability exists in how Word handles certain RTF properties, causing a
+    stack-based buffer overflow. It was exploited as a zero-day in targeted attacks in March
+    2014 before Microsoft patched it in MS14-017 (April 2014). The vulnerability affects
+    Word 2003 through 2013 and Office Web Apps.
+  why: >-
+    This vulnerability was actively exploited as a zero-day in targeted attacks and quickly
+    became one of the most popular exploitation vectors for APT and cybercrime groups. RTF
+    files are commonly allowed through email gateways and can be opened by Outlook's preview
+    functionality, expanding the attack surface. Microsoft Word's ubiquity in enterprise
+    environments made this vulnerability particularly dangerous for organizations worldwide.
+  how: >-
+    The exploit crafts a malicious RTF document with specially constructed property values that
+    trigger a stack-based buffer overflow during parsing. The overflow corrupts the stack,
+    allowing the attacker to overwrite the return address and redirect execution to shellcode.
+    The RTF file is typically delivered via email attachment, and in some configurations Outlook
+    automatically previews RTF content, enabling exploitation without explicit user file opening.
+  core_concepts:
+    - key: "RTF Parser Stack Overflow"
+      value: "Malformed RTF property values cause stack-based buffer overflow in Microsoft Word's RTF parsing engine"
+    - key: "Email-Based Zero-Day Exploitation"
+      value: "RTF delivery via email with potential Outlook preview exploitation expanded the attack surface beyond explicit file opening"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Stack-based buffer overflow in Microsoft Word RTF parser"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2014-1761 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS14-017"
+    - "Microsoft Security Advisory 2953095"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2014-1761"
+    - "Microsoft Word"
+    - "RTF"
+    - "buffer overflow"
+    - "MS14-017"
+    - "zero-day"
+    - "document exploit"
+    - "memory corruption"
+    - "Office exploit"
+  embedding_text: >-
+    CVE-2014-1761 is a stack-based buffer overflow vulnerability with CVSS 9.3 in Microsoft
+    Word's RTF file parser. Malformed RTF property values trigger memory corruption during
+    parsing, enabling remote code execution when users open malicious RTF documents. Exploited
+    as a zero-day in targeted attacks in March 2014, it was patched in MS14-017 in April 2014.
+    Affecting Word 2003 through 2013, the vulnerability was particularly dangerous because
+    RTF files pass through email gateways and may be automatically previewed by Outlook.
+    It became a widely-used exploitation vector for both APT groups and cybercrime operations
+    targeting enterprise environments.

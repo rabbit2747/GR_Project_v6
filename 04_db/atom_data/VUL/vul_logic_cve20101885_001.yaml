@@ -1,0 +1,102 @@
+# GR Atom: CVE-2010-1885
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20101885-001"
+  name: "CVE-2010-1885"
+  normalized_name: "cve_2010_1885"
+  aliases:
+    - "Windows Help Center URL Validation Flaw"
+    - "HCP Protocol Handler Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - WINDOWS
+    - EVADE
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Help and Support Center"
+    - "Windows XP"
+    - "Windows Server 2003"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-1885 is a remote code execution vulnerability in the Windows Help and Support Center
+    (helpctr.exe) on Windows XP and Server 2003. The flaw exists in the handling of the HCP
+    protocol (hcp://) URL validation logic, where insufficient input sanitization allows an
+    attacker to craft malicious URLs that escape the intended safe browsing context and execute
+    arbitrary commands. CVSS v2 base score: 9.3 (Critical). Actively exploited in the wild.
+  why: >-
+    This vulnerability was disclosed by a Google security researcher as a zero-day after Microsoft
+    failed to patch within a 60-day disclosure window, making it immediately exploitable. The
+    HCP protocol handler is registered system-wide on Windows XP, meaning any application that
+    processes URLs (browsers, email clients, document viewers) could trigger exploitation.
+    Active exploitation was observed shortly after public disclosure.
+  how: >-
+    An attacker crafts a malicious hcp:// URL that exploits insufficient validation in the
+    Help Center protocol handler. The URL parsing logic fails to properly sanitize certain
+    escape sequences, allowing injection of arbitrary commands into the helpctr.exe process.
+    The attack is triggered when a user clicks a malicious link or visits a compromised webpage
+    that redirects through the HCP protocol handler.
+  core_concepts:
+    - key: "Protocol Handler Logic Flaw"
+      value: "HCP protocol URL validation fails to sanitize escape sequences, allowing command injection through the Help Center application"
+    - key: "Zero-Day Exploitation"
+      value: "Publicly disclosed before patch availability, leading to immediate active exploitation in the wild"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "URL validation logic flaw in Windows protocol handler enabling command execution"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE20103338-001"
+    description: "Both are 2010-era Windows logic flaws exploited for privilege escalation and code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2010-1885"
+    - "Microsoft Security Bulletin MS10-042"
+    - "NIST NVD - CVE-2010-1885"
+    - "Google Security Research - Tavis Ormandy Disclosure"
+  search_keywords:
+    - "CVE-2010-1885"
+    - "Windows Help Center"
+    - "HCP protocol handler"
+    - "helpctr.exe"
+    - "MS10-042"
+    - "Windows XP RCE"
+    - "protocol handler vulnerability"
+  embedding_text: >-
+    CVE-2010-1885 is a remote code execution vulnerability in Windows Help and Support Center
+    on Windows XP and Server 2003. The HCP protocol handler URL validation logic fails to
+    sanitize escape sequences, allowing command injection through helpctr.exe. Disclosed as
+    a zero-day by Google security researcher Tavis Ormandy. Actively exploited in the wild.
+    CVSS v2 9.3 Critical. Patched in MS10-042. Any application processing URLs could trigger
+    exploitation. Protocol handler logic flaw enabling arbitrary command execution. Year 2010.

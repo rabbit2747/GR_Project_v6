@@ -1,0 +1,89 @@
+# GR Atom: WinterVivern
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-WINTERVIVE-001"
+  name: "WinterVivern"
+  normalized_name: "wintervivern"
+  aliases:
+    - "TA473"
+    - "UAC-0114"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - CRED
+    - EXFIL
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WinterVivern, also tracked as TA473 by Proofpoint and UAC-0114 by Ukraine CERT, is a threat actor group with suspected ties to Belarus and Russia, active since at least 2021. The group conducts cyber-espionage operations targeting European government entities, military organizations, and diplomatic missions, with particular focus on organizations involved in the Russia-Ukraine conflict. WinterVivern is known for exploiting vulnerabilities in webmail platforms, particularly Zimbra and Roundcube."
+  why: "WinterVivern is significant for its targeted exploitation of government webmail infrastructure across Europe, particularly entities providing support to Ukraine. The group's rapid exploitation of webmail vulnerabilities, including zero-day exploits in Roundcube, demonstrates focused capability development aimed at collecting diplomatic and military intelligence related to the Russia-Ukraine conflict and European defense cooperation."
+  how: "WinterVivern exploits cross-site scripting (XSS) vulnerabilities in webmail platforms including Zimbra Collaboration Suite and Roundcube Webmail to steal email credentials and access mailbox contents. The group sends specially crafted phishing emails containing malicious JavaScript payloads that execute within the webmail context when opened. Notable exploits include CVE-2023-5631 (Roundcube XSS zero-day) and CVE-2022-27926 (Zimbra XSS). The group also creates malicious websites impersonating legitimate government portals and uses custom PowerShell-based downloaders for additional malware delivery."
+  core_concepts:
+    - key: "Webmail Exploitation"
+      value: "Specialized capability to exploit XSS vulnerabilities in Zimbra and Roundcube webmail platforms for email credential theft and mailbox access"
+    - key: "Ukraine Conflict Intelligence"
+      value: "Focused collection of diplomatic and military intelligence from European governments and organizations involved in the Russia-Ukraine conflict"
+    - key: "Zero-Day Development"
+      value: "Demonstrated ability to develop and deploy zero-day exploits targeting specific webmail platforms used by government organizations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Belarus/Russia-linked APT group exploiting webmail platforms for diplomatic espionage"
+  - type: enables
+    target: "ATK-EXPLOIT-XSS-001"
+    description: "Exploits XSS vulnerabilities in Zimbra and Roundcube webmail for credential theft and email access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "initial-access"
+      - "credential-access"
+      - "collection"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Proofpoint - TA473 / WinterVivern campaign analysis"
+    - "ESET - WinterVivern Roundcube zero-day exploitation"
+    - "CERT-UA - UAC-0114 advisories"
+    - "SentinelOne - WinterVivern research"
+  search_keywords:
+    - "wintervivern"
+    - "ta473"
+    - "uac-0114"
+    - "zimbra exploit"
+    - "roundcube exploit"
+    - "webmail exploitation"
+    - "xss vulnerability"
+    - "european government targeting"
+    - "ukraine conflict espionage"
+    - "belarus apt"
+    - "cve-2023-5631"
+    - "email credential theft"
+  embedding_text: "WinterVivern, tracked as TA473 by Proofpoint and UAC-0114 by Ukraine CERT, is a threat actor with suspected Belarus and Russia ties conducting cyber-espionage against European government entities and diplomatic missions since at least 2021. The group specializes in exploiting XSS vulnerabilities in webmail platforms, particularly Zimbra and Roundcube, to steal email credentials and access mailbox contents. Notable exploits include the CVE-2023-5631 Roundcube zero-day. WinterVivern targets organizations involved in the Russia-Ukraine conflict, collecting diplomatic and military intelligence related to European defense cooperation and Ukraine support. The group sends crafted phishing emails with malicious JavaScript payloads that execute within webmail contexts."

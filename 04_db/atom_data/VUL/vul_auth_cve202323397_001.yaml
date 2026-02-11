@@ -1,0 +1,121 @@
+# GR Atom: CVE-2023-23397
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202323397-001"
+  name: "CVE-2023-23397"
+  normalized_name: "cve_2023_23397"
+  aliases:
+    - "Outlook NTLM Relay Vulnerability"
+    - "Microsoft Outlook Elevation of Privilege"
+    - "Outlook Zero-Click NTLM Leak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - INITIAL
+    - AUTHN
+    - WINDOWS
+    - SMTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Outlook for Windows"
+    - "Microsoft Exchange Server"
+    - "Windows NTLM Authentication"
+    - "SMB Protocol"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-23397 is a critical elevation of privilege vulnerability in Microsoft Outlook for
+    Windows that allows an attacker to steal NTLM credential hashes without any user interaction.
+    The vulnerability is triggered when Outlook processes a specially crafted email containing a
+    UNC path in the PidLidReminderFileParameter extended MAPI property. When the reminder fires,
+    Outlook automatically connects to the attacker-controlled SMB server, leaking the victim's
+    Net-NTLMv2 hash. CVSS v3.1 score is 9.8 (Critical). Discovered exploited in the wild by
+    Russian state-sponsored threat group APT28 (Fancy Bear/Forest Blizzard).
+  why: >-
+    This vulnerability is exceptionally dangerous because it requires zero user interaction - the
+    victim does not need to open, read, or click anything in the malicious email. The mere receipt
+    and processing of the email by Outlook triggers the credential theft. The stolen NTLM hashes
+    can be relayed to authenticate against other services, enabling lateral movement and privilege
+    escalation within Active Directory environments. It was actively exploited by APT28 against
+    government, military, energy, and transportation sector targets across Europe.
+  how: >-
+    The attacker sends a specially crafted calendar invitation or task with a reminder that includes
+    a UNC path (\\attacker-server\share) in the PidLidReminderFileParameter property. When
+    Outlook processes the reminder, it initiates an SMB connection to the attacker-controlled
+    server, sending the victim's Net-NTLMv2 authentication hash. The attacker captures this hash
+    and uses it in NTLM relay attacks against other services. Mitigation includes applying the
+    March 2023 Microsoft security update, blocking outbound SMB (TCP 445) at the network
+    perimeter, adding users to the Protected Users security group in Active Directory, and
+    disabling NTLM authentication where possible.
+  core_concepts:
+    - key: "Zero-Click NTLM Hash Theft"
+      value: "Exploiting Outlook reminder processing to silently leak Net-NTLMv2 credentials to an attacker-controlled server without any user interaction"
+    - key: "NTLM Relay Attack Enablement"
+      value: "Stolen credential hashes enable pass-the-hash and relay attacks against Active Directory services for lateral movement and privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2023-23397 exploits NTLM authentication mechanisms to steal credential hashes"
+  - type: "enables"
+    target: "VUL-AUTH-WEAKPASS-001"
+    description: "Stolen NTLM hashes can be cracked offline, especially when password policies are weak"
+  - type: "causes"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "NTLM relay from stolen hashes enables authentication to services without knowing the actual password"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1187"
+    tactic:
+      - "Credential Access"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2023-23397"
+    - "NIST NVD CVE-2023-23397 (CVSS v3.1: 9.8)"
+    - "Microsoft Security Response Center - Outlook EoP Advisory"
+    - "MITRE ATT&CK T1187 - Forced Authentication"
+    - "CISA KEV Catalog - CVE-2023-23397"
+    - "Microsoft Incident Response - APT28 Attribution"
+  search_keywords:
+    - "CVE-2023-23397"
+    - "Outlook NTLM vulnerability"
+    - "Outlook zero-click exploit"
+    - "NTLM relay attack"
+    - "PidLidReminderFileParameter"
+    - "APT28 Outlook"
+    - "Outlook credential theft"
+    - "Net-NTLMv2 hash leak"
+  embedding_text: >-
+    CVE-2023-23397 is a critical zero-click elevation of privilege vulnerability in Microsoft
+    Outlook for Windows with CVSS v3.1 score 9.8. An attacker sends a crafted email with a UNC
+    path in the PidLidReminderFileParameter property. When Outlook processes the reminder, it
+    automatically initiates an SMB connection to the attacker's server, leaking the victim's
+    Net-NTLMv2 hash without any user interaction. The stolen hash enables NTLM relay attacks for
+    lateral movement and privilege escalation in Active Directory environments. Actively exploited
+    by Russian APT28 against European government and military targets. Mitigation includes the
+    March 2023 patch, blocking outbound SMB at the perimeter, using Protected Users group, and
+    disabling NTLM authentication where possible.

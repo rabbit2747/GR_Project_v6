@@ -1,0 +1,118 @@
+# GR Atom: Event Log Stop Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGSTO-001"
+  name: "Event Log Stop Event"
+  normalized_name: "event_log_stop_event"
+  aliases:
+    - "Log Stop Event"
+    - "Event Log Service Stopped"
+    - "Logging Service Shutdown"
+    - "EventLog Service Stop"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - EVADE
+    - AUDIT
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Stop Event is a detection pattern for log entries generated when an event
+    logging service or log channel stops recording events. On Windows, this is recorded as
+    Event ID 6006 in the System log (The Event log service was stopped), Event ID 7036 showing
+    the Windows Event Log service entering the stopped state, and Event ID 1100 in the Security
+    log (The event logging service has shut down). On Linux, this corresponds to systemd service
+    stop events for syslog, rsyslog, syslog-ng, or systemd-journald. Stop events occur normally
+    during system shutdown, service maintenance, and configuration changes, but unexpected stop
+    events during normal operations are high-priority security indicators that may signal active
+    attacker interference with the logging infrastructure.
+  why: >-
+    Event log stop events are critical security indicators because stopping the logging service
+    immediately creates a detection blind spot. Attackers use sc stop EventLog, net stop EventLog,
+    or equivalent commands to halt logging before performing high-risk activities. MITRE ATT&CK
+    classifies this under T1562.002 (Impair Defenses: Disable Windows Event Logging). The stop
+    event is typically the last event recorded before the blind spot begins, making it a crucial
+    early warning. Unlike the disable event which is a persistent configuration change, a stop
+    event is transient — the service may automatically restart on reboot — but the immediate
+    gap in logging is equally dangerous for detection. Correlating stop events with subsequent
+    start events quantifies the exact duration of the detection gap.
+  how: >-
+    Event log stop event detection operates through: (1) Monitoring Windows System log for Event
+    ID 6006 (Event log service was stopped) and Event ID 7036 for EventLog service stopped state;
+    (2) Monitoring Security log for Event ID 1100 (event logging service shut down), which is
+    the last event written to the Security log before shutdown; (3) Detecting process creation
+    events for sc.exe, net.exe, or PowerShell Stop-Service commands targeting the EventLog
+    service; (4) SIEM heartbeat monitoring that detects when expected log flow from a source
+    ceases; (5) On Linux, monitoring systemd journal for service stop events on logging daemons;
+    (6) EDR telemetry for service control operations against logging services; (7) Alerting on
+    stop events that are not correlated with system shutdown (Event ID 1074) or approved
+    maintenance windows.
+  core_concepts:
+    - key: "Event ID 1100"
+      value: "Windows Security log event that records the shutdown of the event logging service, representing the last Security log entry before the logging gap begins."
+    - key: "Event ID 6006"
+      value: "Windows System log event recording that the Event log service was stopped, used to mark the end of the logging timeline for gap analysis."
+    - key: "Transient vs Persistent Stop"
+      value: "A service stop is transient and may auto-recover on reboot, unlike disabling which persists; both create immediate logging gaps but have different recovery characteristics."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Event log stop is a critical security event indicating potential defense evasion"
+  - type: "part_of"
+    target: "DETECT-LOG-EVELOGRES-001"
+    description: "A stop event is the first phase of a logging service restart sequence"
+  - type: "enables"
+    target: "DETECT-LOG-EVELOGDEL-001"
+    description: "Stopping the logging service enables deletion of log files that would otherwise be locked"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.002"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Event ID 6006: The Event log service was stopped"
+    - "Microsoft — Event ID 1100: The event logging service has shut down"
+    - "MITRE ATT&CK — T1562.002: Impair Defenses: Disable Windows Event Logging"
+    - "SANS — Windows Event Log Forensics"
+  search_keywords:
+    - "event log stop"
+    - "Event ID 6006"
+    - "Event ID 1100"
+    - "logging service stopped"
+    - "EventLog service stop"
+    - "sc stop EventLog"
+    - "logging shutdown"
+    - "syslog stop"
+    - "audit log stopped"
+    - "T1562.002"
+    - "logging blind spot"
+  embedding_text: >-
+    Event Log Stop Event is a detection pattern for log entries generated when event logging
+    services stop recording. On Windows, Event ID 6006 (Event log service stopped), Event ID
+    1100 (event logging service shut down in Security log), and Event ID 7036 (service state
+    change) mark logging cessation. On Linux, systemd stop events for syslog and auditd apply.
+    Stop events are critical security indicators under MITRE ATT&CK T1562.002, as attackers
+    halt logging before high-risk activities. The stop event is typically the last entry before
+    a detection blind spot. Detection relies on service state monitoring, process creation logs
+    for stop commands, SIEM heartbeat monitoring, and correlation with system shutdown and
+    maintenance windows.

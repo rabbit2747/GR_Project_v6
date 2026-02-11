@@ -1,0 +1,124 @@
+# GR Atom: Forest Trust
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-FORETRUS-001"
+  name: "Forest Trust"
+  normalized_name: "forest_trust"
+  aliases:
+    - "Active Directory Forest Trust"
+    - "AD Trust Relationship"
+    - "Cross-Forest Trust"
+    - "Domain Trust"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - KERBEROS
+    - AUTHZ
+    - AUTHN
+    - LATERAL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Forest Trust is a security relationship established between Active Directory forests
+    or domains that enables authenticated access to resources across organizational boundaries.
+    Trusts define the direction (one-way or two-way) and transitivity (transitive or
+    non-transitive) of authentication delegation. Within a forest, all domain trusts are
+    automatic and transitive. Between forests, trusts are manually configured and can be
+    external (non-transitive between specific domains), forest (transitive between forest
+    roots), realm (with non-Windows Kerberos realms), or shortcut (optimized authentication
+    paths within a forest).
+  why: >-
+    Trust relationships are a primary lateral movement vector in Active Directory environments.
+    Attackers exploit trusts to move between domains and forests using techniques such as
+    SIDHistory injection, trust key extraction from domain controllers, and inter-realm
+    Kerberos ticket forging. Misconfigured trusts with disabled SID filtering enable
+    privilege escalation by injecting administrative SIDs into cross-trust authentication
+    tickets. The transitive nature of intra-forest trusts means compromising any domain
+    can provide a path to the forest root. External trust enumeration is a standard
+    reconnaissance step in Active Directory attacks.
+  how: >-
+    Trust relationships are established through shared secrets (trust keys) stored on domain
+    controllers. When a user from a trusted domain requests access to a trusting domain
+    resource, Kerberos referral tickets are issued using inter-realm trust keys. The trusting
+    domain validates the referral and issues a service ticket. SID filtering on trust
+    boundaries removes non-originating SIDs from authentication tickets to prevent SIDHistory
+    abuse. Selective authentication restricts which trusted users can access trusting domain
+    resources. Trust relationships are stored as Trusted Domain Objects (TDOs) in Active
+    Directory and can be enumerated through LDAP queries or nltest commands.
+  core_concepts:
+    - key: "Trust-Based Lateral Movement"
+      value: "Trust relationships enable cross-domain and cross-forest authentication that attackers exploit for lateral movement through SID injection and ticket forging"
+    - key: "SID Filtering"
+      value: "Security mechanism that removes non-originating SIDs from cross-trust Kerberos tickets to prevent SIDHistory-based privilege escalation"
+    - key: "Inter-Realm Kerberos"
+      value: "Trust keys enable Kerberos referral tickets for cross-domain authentication, and extraction of these keys enables forging inter-realm tickets"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-FOREDOMA-001"
+    description: "Trust relationships are established between forest domains"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Trusts enable cross-domain and cross-forest authentication through Kerberos referrals"
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Trust objects are stored in Active Directory as Trusted Domain Objects"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1134.005"
+    tactic:
+      - "Defense Evasion"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Understanding Active Directory Trust Types"
+    - "MITRE ATT&CK T1134.005 - Access Token Manipulation: SID-History Injection"
+    - "Harmj0y - A Guide to Attacking Domain Trusts"
+  search_keywords:
+    - "forest trust"
+    - "Active Directory trust"
+    - "cross-forest trust"
+    - "SID filtering"
+    - "SIDHistory abuse"
+    - "trust key extraction"
+    - "inter-realm Kerberos"
+    - "Trusted Domain Object"
+  embedding_text: >-
+    A Forest Trust is a security relationship between Active Directory forests or domains
+    enabling cross-boundary authenticated access. Trusts define direction (one-way/two-way)
+    and transitivity. Intra-forest trusts are automatic and transitive. Between forests,
+    trusts include external, forest, realm, and shortcut types. Trust relationships are a
+    primary lateral movement vector exploited through SIDHistory injection, trust key
+    extraction, and inter-realm Kerberos ticket forging. Misconfigured trusts with disabled
+    SID filtering enable privilege escalation. Trust keys stored on domain controllers
+    enable Kerberos referral tickets for cross-domain authentication. Security teams must
+    enable SID filtering on all external trusts, implement selective authentication, audit
+    trust configurations, monitor inter-realm Kerberos activity, protect trust keys on
+    domain controllers, and regularly review trust relationships for necessity.

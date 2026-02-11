@@ -1,0 +1,110 @@
+# GR Atom: CVE-2019-9670
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20199670-001"
+  name: "CVE-2019-9670"
+  normalized_name: "cve_2019_9670"
+  aliases:
+    - "Zimbra XXE to RCE"
+    - "Zimbra Collaboration Suite XXE"
+    - "Zimbra Autodiscover XXE Injection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - XXE
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Zimbra Collaboration Suite 8.7.x before 8.7.11p10"
+    - "Zimbra mailboxd component"
+    - "Zimbra Autodiscover servlet"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-9670 is an XML External Entity (XXE) injection vulnerability in Zimbra
+    Collaboration Suite that can be chained with other flaws to achieve unauthenticated remote
+    code execution. The Autodiscover servlet in Zimbra mailboxd processes XML input without
+    disabling external entity resolution. The CVSS v3 base score is 9.8 (Critical) and it
+    was disclosed in 2019, actively exploited by APT groups for email server compromise.
+  why: >-
+    Zimbra Collaboration Suite is a widely deployed email and collaboration platform used by
+    government agencies, educational institutions, and businesses. Email servers contain
+    highly sensitive communications and are prime targets for espionage. The vulnerability
+    was exploited by multiple APT groups to access email content and establish persistent
+    access to target organizations.
+  how: >-
+    Attackers send crafted XML payloads to the Zimbra Autodiscover endpoint containing
+    external entity declarations. The XXE vulnerability enables reading of local files
+    including Zimbra LDAP credentials. Using the extracted credentials, attackers authenticate
+    and upload a web shell through the Zimbra admin interface or chain with SSRF to achieve
+    code execution. Mitigation requires upgrading Zimbra and hardening XML parser configs.
+  core_concepts:
+    - key: "XXE to RCE Chain"
+      value: "XML External Entity injection used to extract credentials which are then leveraged for authenticated remote code execution"
+    - key: "Email Server Targeting"
+      value: "Exploitation of email infrastructure to access sensitive communications and establish persistent surveillance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Zimbra XXE injection is a specific instance of injection through XML external entity processing"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE20134152-001"
+    description: "Both are XXE injection vulnerabilities in Java-based platforms enabling file reading and further exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2019-9670"
+  cvss_score: 9.8
+  affected_product: "Zimbra Collaboration Suite 8.7.x"
+  year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2019-9670"
+    - "CWE-611 Improper Restriction of XML External Entity Reference"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2019-9670"
+    - "Zimbra XXE"
+    - "Zimbra Collaboration RCE"
+    - "Zimbra Autodiscover vulnerability"
+    - "email server exploit"
+    - "Zimbra XML injection"
+    - "Zimbra credential theft"
+  embedding_text: >-
+    CVE-2019-9670 is a critical XXE injection vulnerability in Zimbra Collaboration Suite
+    with CVSS score 9.8. The Autodiscover servlet processes XML without disabling external
+    entity resolution enabling file reading and credential extraction. Attackers chain the
+    XXE with credential theft to achieve unauthenticated remote code execution. Actively
+    exploited by APT groups targeting email servers for espionage. Zimbra is widely deployed
+    by government agencies and businesses. The attack chain progresses from XXE to LDAP
+    credential extraction to authenticated web shell deployment. Mitigation requires Zimbra
+    upgrades and XML parser hardening.

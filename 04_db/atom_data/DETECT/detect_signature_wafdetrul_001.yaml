@@ -1,0 +1,81 @@
+# GR Atom: WAF Detection Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-WAFDETRUL-001"
+  name: "WAF Detection Rules"
+  normalized_name: "waf_detection_rules"
+  aliases:
+    - "Web Application Firewall Rules"
+    - "WAF Signatures"
+    - "WAF Rule Set"
+    - "Web Application Detection Rules"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - WAF
+    - WEB
+    - HTTP
+    - IDS
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "WAF detection rules are pattern-matching signatures deployed within Web Application Firewalls to identify and block malicious HTTP/HTTPS requests targeting web applications and APIs. These rules inspect all components of HTTP transactions including request URIs, query parameters, headers, cookies, POST body data, JSON/XML payloads, and multipart file uploads for patterns indicative of web application attacks. Major WAF rule sets include the OWASP ModSecurity Core Rule Set (CRS), which provides comprehensive coverage of the OWASP Top 10 vulnerabilities including SQL injection, cross-site scripting (XSS), remote code execution, local/remote file inclusion, server-side request forgery (SSRF), and command injection. WAF rules operate using regular expressions, string matching, operator chains, and anomaly scoring to detect attack patterns while minimizing false positives against legitimate application traffic. Commercial WAF platforms (AWS WAF, Cloudflare WAF, Azure WAF, Imperva) maintain proprietary rule sets alongside CRS-compatible rules."
+  why: "WAF detection rules are the primary defense layer for web applications and APIs against application-layer attacks that bypass network-level security controls. Since web applications are the most common attack surface for external adversaries, WAF rules are essential for preventing SQL injection, XSS, and other OWASP Top 10 exploits that can lead to data breaches, account takeovers, and server compromise. WAF rules provide virtual patching capability, allowing organizations to protect against known vulnerabilities before application code fixes can be deployed. In regulated industries, WAF deployment with appropriate rule sets is often a compliance requirement (e.g., PCI DSS Requirement 6.6)."
+  how: "WAF detection rules operate within the HTTP request processing pipeline. When a request arrives, the WAF engine decodes and normalizes the request (URL decoding, HTML entity decoding, comment removal, whitespace normalization), then evaluates the normalized request against the active rule set. Rules are organized by attack category (SQLi, XSS, RCE, LFI/RFI, SSRF) and assigned severity scores. The OWASP CRS uses an anomaly scoring model where each matching rule adds to a cumulative score; the request is blocked when the score exceeds a configurable threshold (paranoia level). Rules can operate in detection mode (logging only) or prevention mode (blocking). ModSecurity uses the SecRule directive with variables (REQUEST_URI, ARGS, REQUEST_HEADERS), operators (@rx for regex, @contains, @beginsWith), and actions (deny, pass, log). Rule tuning involves creating exceptions for legitimate application traffic patterns that trigger false positives."
+  core_concepts:
+    - key: "Anomaly Scoring"
+      value: "Cumulative scoring model where each matching rule adds to a total score, with blocking triggered when the score exceeds a threshold based on the configured paranoia level"
+    - key: "Virtual Patching"
+      value: "Using WAF rules to protect against known vulnerabilities before application code fixes can be deployed"
+    - key: "Input Normalization"
+      value: "Pre-processing of HTTP request data through multiple decoding steps to defeat evasion techniques before rule evaluation"
+    - key: "Paranoia Levels"
+      value: "Configurable detection sensitivity levels in the CRS that control the aggressiveness of rule matching, trading false positive rates for detection coverage"
+
+relations:
+  - type: applies_to
+    target: "INFRA-SEC-WAF-001"
+    description: "WAF detection rules are the core detection mechanism deployed within WAF infrastructure"
+  - type: effective_against
+    target: "ATK-INJECT-SQL-001"
+    description: "WAF rules provide primary defense against SQL injection attacks at the application layer"
+  - type: effective_against
+    target: "ATK-INJECT-XSS-001"
+    description: "WAF rules detect and block cross-site scripting attacks in HTTP request and response data"
+  - type: enables
+    target: "DETECT-SIGNATURE-GRCTWAUN-001"
+    description: "WAF detection rules provide the framework within which specific rules like GRSec CTL00010 operate"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP ModSecurity Core Rule Set - https://coreruleset.org/"
+    - "ModSecurity Reference Manual - https://github.com/SpiderLabs/ModSecurity/wiki/Reference-Manual"
+    - "OWASP Top 10 - https://owasp.org/www-project-top-ten/"
+    - "PCI DSS Requirement 6.6 - Web Application Firewall Requirements"
+  search_keywords:
+    - "WAF detection rules"
+    - "web application firewall rules"
+    - "ModSecurity rules"
+    - "OWASP CRS"
+    - "WAF signatures"
+    - "web application security rules"
+    - "WAF rule set"
+    - "SQL injection WAF"
+    - "XSS WAF detection"
+    - "anomaly scoring WAF"
+  embedding_text: "WAF detection rules are pattern-matching signatures deployed in Web Application Firewalls to identify and block malicious HTTP requests targeting web applications and APIs. Rules inspect request URIs, parameters, headers, cookies, POST bodies, and file uploads for attack patterns including SQL injection, XSS, RCE, LFI/RFI, and SSRF. The OWASP ModSecurity Core Rule Set provides comprehensive OWASP Top 10 coverage using anomaly scoring where cumulative rule match scores trigger blocking at configurable paranoia levels. Rules operate using regex matching, string operations, and input normalization including URL decoding and HTML entity decoding. WAF rules provide virtual patching capability and are a primary defense for application-layer attacks that bypass network-level security."

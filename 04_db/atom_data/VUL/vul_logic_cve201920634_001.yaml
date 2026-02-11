@@ -1,0 +1,94 @@
+# GR Atom: CVE-2019-20634
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE201920634-001"
+  name: "CVE-2019-20634"
+  normalized_name: "cve_2019_20634"
+  aliases:
+    - "Proofpoint Email Protection URL Rewriting Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EVADE
+    - WEB
+    - NETWORK
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Proofpoint Email Protection"
+    - "Proofpoint URL Defense"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-20634 is a security bypass vulnerability in Proofpoint Email Protection's URL
+    Defense feature that allows attackers to craft URLs that evade the URL rewriting and
+    scanning logic. The URL processing logic fails to properly handle certain URL encoding
+    schemes and redirect patterns, allowing malicious links to pass through the protection
+    system without being rewritten or scanned. CVSS v3 base score: 5.3 (Medium).
+  why: >-
+    Proofpoint Email Protection is widely deployed in enterprise environments to protect
+    against phishing and malicious URLs in email. Bypassing the URL defense mechanism allows
+    attackers to deliver phishing links and malware download URLs directly to users without
+    the expected security scanning and warning pages. This undermines a critical layer of
+    email security.
+  how: >-
+    An attacker crafts URLs with specific encoding patterns or redirect chains that exploit
+    parsing inconsistencies in Proofpoint's URL rewriting logic. The URL defense system fails
+    to recognize these crafted URLs as needing rewriting, allowing them to reach end users
+    in their original form without Proofpoint's click-time protection and scanning.
+  core_concepts:
+    - key: "URL Rewriting Logic Bypass"
+      value: "Crafted URL encoding patterns exploit parsing inconsistencies to evade the email protection URL defense system"
+    - key: "Security Gateway Evasion"
+      value: "Bypassing URL scanning removes click-time protection, allowing malicious links to reach users unmodified"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "URL processing logic flaw that allows evasion of intended security scanning"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2019-20634"
+    - "NIST NVD - CVE-2019-20634"
+    - "Proofpoint Security Advisory"
+  search_keywords:
+    - "CVE-2019-20634"
+    - "Proofpoint URL Defense bypass"
+    - "email protection bypass"
+    - "URL rewriting evasion"
+    - "Proofpoint vulnerability"
+    - "phishing protection bypass"
+  embedding_text: >-
+    CVE-2019-20634 is a security bypass vulnerability in Proofpoint Email Protection URL
+    Defense. Crafted URL encoding patterns exploit parsing inconsistencies to evade URL
+    rewriting and scanning. Malicious links reach users without click-time protection.
+    CVSS v3 5.3 Medium. Undermines enterprise email security against phishing. URL processing
+    logic flaw allowing evasion of intended security mechanisms. Affects Proofpoint Email
+    Protection deployments. Year 2019.

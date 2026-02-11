@@ -1,0 +1,109 @@
+# GR Atom: McShield
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-MCSHIELD-001"
+  name: "McShield"
+  normalized_name: "mcshield"
+  aliases:
+    - "McAfee On-Access Scanner"
+    - "mcshield.exe"
+    - "McAfee Real-Time Scanner"
+    - "Trellix On-Access Scanner"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SANDBOX
+    - WINDOWS
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "S1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    McShield is the on-access (real-time) scanning service in McAfee/Trellix endpoint protection
+    products. It intercepts file system operations using a kernel-mode mini-filter driver to
+    scan files as they are created, opened, modified, or executed. McShield passes intercepted
+    content to the McAfee Engine Service for malware analysis and enforces configured actions
+    (block, clean, quarantine, delete) based on scan results and policy settings.
+  why: >-
+    McShield provides the real-time protection layer that prevents malware from executing on
+    endpoints. Disabling or evading McShield is a primary objective for attackers during
+    post-exploitation. Attackers use techniques including service termination, driver unloading,
+    exclusion path abuse, and in-memory execution to bypass on-access scanning. McShield
+    performance impact on systems is a common operational concern that can lead to overly
+    broad scan exclusions creating security gaps.
+  how: >-
+    McShield registers a file system mini-filter driver that intercepts I/O operations at the
+    kernel level. When a file operation matches scan policy (read, write, execute), the driver
+    passes the file to the McAfee Engine Service via shared memory or named pipe. The engine
+    performs multi-layer analysis and returns a verdict. McShield enforces the configured
+    response action. Scan exclusions by path, extension, or process can be configured through
+    ePO policy. Process scanning monitors new process creation for malicious behavior.
+  core_concepts:
+    - key: "On-Access Scanning"
+      value: "Real-time interception of file operations via kernel mini-filter driver to prevent malware execution before it occurs"
+    - key: "Scan Exclusion Risk"
+      value: "Performance-driven exclusions create security gaps that attackers can exploit by placing malware in excluded paths"
+    - key: "Kernel-Mode Operation"
+      value: "Mini-filter driver operates at kernel level providing comprehensive file system visibility but creating stability risk"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-MCAFENGI-001"
+    description: "McShield relies on the McAfee Engine Service for malware scanning and detection verdicts"
+  - type: "part_of"
+    target: "INFRA-SEC-MCAFEE-001"
+    description: "McShield is a component of the McAfee Framework endpoint protection suite"
+  - type: "is_a"
+    target: "INFRA-SEC-FILSYSSEN-001"
+    description: "McShield functions as a file system sensor performing real-time file operation monitoring"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "McAfee/Trellix - Endpoint Security On-Access Scanner Guide"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "Microsoft - File System Minifilter Drivers"
+  search_keywords:
+    - "McShield"
+    - "mcshield.exe"
+    - "McAfee on-access scanner"
+    - "McAfee real-time protection"
+    - "Trellix on-access"
+    - "antivirus mini-filter"
+    - "McAfee scan exclusion"
+  embedding_text: >-
+    McShield is the on-access real-time scanning service in McAfee/Trellix endpoint protection.
+    Uses kernel-mode mini-filter driver to intercept file operations and pass them to McAfee
+    Engine Service for malware analysis. Enforces block, clean, quarantine, or delete actions
+    based on policy. Attackers target McShield via service termination, driver unloading, and
+    exclusion path abuse. Performance-driven scan exclusions create security gaps. Part of
+    McAfee Framework managed via ePO. Now Trellix On-Access Scanner.

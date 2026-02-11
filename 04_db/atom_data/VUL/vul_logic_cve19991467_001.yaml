@@ -1,0 +1,94 @@
+# GR Atom: CVE-1999-1467
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE19991467-001"
+  name: "CVE-1999-1467"
+  normalized_name: "cve_1999_1467"
+  aliases:
+    - "Netscape Enterprise Server URL Logic Flaw"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - INFO_LEAK
+    - PATH
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2"]
+  target_components:
+    - "Netscape Enterprise Server 3.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-1999-1467 is a directory traversal and information disclosure vulnerability in Netscape
+    Enterprise Server 3.6 that allows remote attackers to list directory contents and read files
+    outside the web root through specially crafted URL requests. The server fails to properly
+    validate and canonicalize URL paths containing encoded traversal sequences, allowing bypass
+    of access controls. CVSS v2 base score: 5.0 (Medium).
+  why: >-
+    Directory traversal exposes sensitive server files including configuration data, password
+    files, and application source code. In 1999, many organizations relied on Netscape Enterprise
+    Server for intranet and internet-facing applications. Exploitation enables reconnaissance
+    for further attacks by revealing server structure, installed software versions, and
+    configuration details.
+  how: >-
+    An attacker crafts HTTP requests with URL-encoded directory traversal sequences targeting
+    Netscape Enterprise Server 3.6. The server's URL parsing logic fails to properly
+    canonicalize these paths before file system access, allowing navigation outside the
+    configured document root. This enables reading arbitrary files accessible to the web
+    server process and listing directory contents.
+  core_concepts:
+    - key: "URL Canonicalization Failure"
+      value: "Server fails to normalize URL paths before file system access, allowing encoded traversal sequences to escape the document root"
+    - key: "Directory Listing Exposure"
+      value: "Unintended exposure of server directory structure and file contents through manipulated URL requests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "URL parsing logic flaw that violates intended path restriction business rules"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1083"
+    tactic:
+      - "Discovery"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-1999-1467"
+    - "NIST NVD - CVE-1999-1467"
+    - "Netscape Enterprise Server Security Advisory"
+  search_keywords:
+    - "CVE-1999-1467"
+    - "Netscape Enterprise Server"
+    - "directory traversal"
+    - "path traversal"
+    - "URL canonicalization"
+    - "information disclosure"
+  embedding_text: >-
+    CVE-1999-1467 is a directory traversal vulnerability in Netscape Enterprise Server 3.6
+    allowing remote attackers to list directory contents and read files outside the web root.
+    The server fails to properly canonicalize URL paths containing encoded traversal sequences,
+    bypassing access controls. Exposes configuration data, password files, and source code.
+    Enables reconnaissance through server structure and version disclosure. CVSS v2 5.0 Medium.
+    URL parsing logic flaw in the request processing pipeline. Discovered 1999.

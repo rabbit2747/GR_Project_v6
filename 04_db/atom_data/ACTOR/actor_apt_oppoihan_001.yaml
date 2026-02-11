@@ -1,0 +1,77 @@
+# GR Atom: Op Poisoned Handover
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-OPPOIHAN-001"
+  name: "Op Poisoned Handover"
+  normalized_name: "op_poisoned_handover"
+  aliases:
+    - "Operation Poisoned Handover"
+    - "APT12 Campaign"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "C2"
+    - "EXFIL"
+    - "WINDOWS"
+    - "WEB"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "news media websites"
+    - "web browsers"
+    - "email systems"
+    - "journalist workstations"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Operation Poisoned Handover is a cyber espionage campaign attributed to APT12 (also known as IXESHE, DynCalc, and Numbered Panda), a Chinese state-sponsored threat group. The operation targeted media organizations, particularly those covering topics sensitive to China, using watering hole attacks on legitimate news websites and spear-phishing campaigns. The campaign was documented by FireEye in 2014 and demonstrated strategic interest in controlling narratives and monitoring journalists."
+  why: "The campaign aimed to compromise journalists, media organizations, and individuals consuming news about China-sensitive topics including Uyghur issues, Tibet, Taiwan, and Hong Kong. Intelligence collection from media targets supports Chinese government efforts to monitor reporting on sensitive domestic issues, track journalist sources, and understand foreign media coverage strategies."
+  how: "The operation used a combination of strategic web compromises (watering holes) on legitimate news websites popular among the target audience and spear-phishing emails with current-events themed lures. Compromised websites served exploits targeting Internet Explorer vulnerabilities to deliver custom backdoors. The campaign also used poisoned document files exploiting Microsoft Office vulnerabilities. Malware deployed included RIPTIDE, HIGHTIDE, and WATERSPOUT backdoors, with C2 infrastructure that dynamically changed to evade detection."
+  core_concepts:
+    - "media organization targeting"
+    - "watering hole on news sites"
+    - "journalist and source monitoring"
+    - "China-sensitive topic surveillance"
+    - "dynamic C2 infrastructure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "applies_to"
+    target: "ACTOR-APT-LOTUBLOS-001"
+    description: "Both operations involve Chinese state-sponsored groups targeting entities relevant to Chinese geopolitical interests"
+  - type: "enables"
+    target: "ACTOR-APT-LUCKMOUS-001"
+    description: "Part of the broader Chinese APT ecosystem with shared targeting of media and government entities"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "FireEye - Operation Poisoned Handover: Targeting of Chinese Dissident Media (2014)"
+    - "MITRE ATT&CK - APT12/IXESHE (G0005)"
+  search_keywords:
+    - "operation poisoned handover"
+    - "APT12"
+    - "IXESHE"
+    - "numbered panda"
+    - "media targeting APT"
+    - "RIPTIDE backdoor"
+    - "journalist hacking china"
+    - "news watering hole"
+  embedding_text: "Operation Poisoned Handover is a cyber espionage campaign attributed to APT12, a Chinese state-sponsored threat group also known as IXESHE and Numbered Panda. The operation targeted media organizations and journalists covering China-sensitive topics including Uyghur issues, Tibet, Taiwan, and Hong Kong. Techniques included strategic web compromises of legitimate news websites serving exploits for Internet Explorer vulnerabilities, spear-phishing with current-events lures, and poisoned Office documents. Custom malware deployed included RIPTIDE, HIGHTIDE, and WATERSPOUT backdoors with dynamically changing C2 infrastructure. The campaign demonstrated Chinese state interest in monitoring foreign media coverage, tracking journalist sources, and surveilling individuals consuming news on sensitive domestic issues. Operation Poisoned Handover represents the intersection of media freedom concerns and state-sponsored cyber espionage targeting the information environment."

@@ -1,0 +1,124 @@
+# GR Atom: Secrets Manager
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-SECRMANA-001"
+  name: "Secrets Manager"
+  normalized_name: "secrets_manager"
+  aliases:
+    - "AWS Secrets Manager"
+    - "Secret Management Service"
+    - "HashiCorp Vault"
+    - "Secrets Vault"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CRED
+    - ENCRYPT
+    - CLOUD
+    - AUTHN
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z3"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Secrets Manager is a centralized service for securely storing, accessing, rotating,
+    and auditing secrets such as database credentials, API keys, OAuth tokens, TLS
+    certificates, and encryption keys. Secrets managers provide programmatic access through
+    APIs, automated rotation capabilities, fine-grained access policies, and comprehensive
+    audit logging. Examples include AWS Secrets Manager, HashiCorp Vault, Azure Key Vault,
+    and CyberArk Conjur. These services encrypt secrets at rest using KMS or HSM-backed
+    keys and control access through identity-based policies.
+  why: >-
+    Secrets managers are critical infrastructure for reducing credential exposure, but they
+    represent high-value targets containing concentrated sensitive material. Misconfigured
+    access policies, overly permissive IAM roles, exposed API endpoints, and insufficient
+    audit monitoring can enable unauthorized secrets extraction. Attackers who gain access
+    to a secrets manager often obtain credentials for multiple downstream systems, enabling
+    rapid lateral movement. Supply chain attacks targeting secrets managers (such as the
+    CircleCI breach) have demonstrated the cascading impact of secrets infrastructure
+    compromise.
+  how: >-
+    Secrets managers store encrypted secrets in backend storage (database, encrypted file,
+    cloud storage) with access controlled by identity-based policies. Applications
+    authenticate to the secrets manager using IAM roles, service accounts, tokens, or
+    certificates, then retrieve secrets through REST APIs. Automatic rotation is configured
+    per-secret with Lambda functions (AWS), rotation policies (Vault), or platform-native
+    mechanisms. Secrets are versioned to support rotation without downtime. Audit logs
+    capture all access and modification events. Dynamic secrets (generated on-demand with
+    automatic expiration) reduce exposure compared to static credentials. Transit encryption
+    enables encryption-as-a-service without exposing keys to applications.
+  core_concepts:
+    - key: "Centralized Secret Storage"
+      value: "Single encrypted repository for all organizational secrets with policy-based access control and comprehensive audit trails"
+    - key: "Automated Secret Rotation"
+      value: "Scheduled automatic rotation of credentials with versioning support, reducing the exposure window of compromised secrets"
+    - key: "Dynamic Secrets"
+      value: "On-demand credential generation with automatic expiration, providing ephemeral access that eliminates persistent credential risk"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "Secrets manager provides the storage and rotation backend for credential management systems"
+  - type: "requires"
+    target: "INFRA-IDENTITY-HSM-001"
+    description: "Secrets managers use HSM or KMS for encryption key protection"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Access to secrets is governed by authorization policies determining who can read which secrets"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1555.006"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - AWS Secrets Manager"
+    - "HashiCorp Documentation - Vault"
+    - "MITRE ATT&CK T1555.006 - Credentials from Password Stores: Cloud Secrets Management Stores"
+  search_keywords:
+    - "Secrets Manager"
+    - "AWS Secrets Manager"
+    - "HashiCorp Vault"
+    - "secret management"
+    - "credential vault"
+    - "secrets rotation"
+    - "dynamic secrets"
+    - "secrets manager access"
+  embedding_text: >-
+    A Secrets Manager is a centralized service for securely storing, accessing, rotating,
+    and auditing secrets including database credentials, API keys, tokens, and certificates.
+    Services like AWS Secrets Manager, HashiCorp Vault, and Azure Key Vault encrypt secrets
+    at rest with KMS or HSM-backed keys and control access through identity-based policies.
+    Applications authenticate via IAM roles or tokens and retrieve secrets through APIs.
+    Features include automated rotation, versioning, dynamic secret generation, and
+    transit encryption. Secrets managers are high-value targets because they contain
+    concentrated sensitive material enabling lateral movement. Misconfigured access
+    policies and overly permissive roles enable unauthorized extraction. Security teams
+    must enforce least-privilege access policies, enable audit logging, implement automated
+    rotation, use dynamic secrets where possible, monitor access patterns for anomalies,
+    and protect secrets manager administrative access with MFA.

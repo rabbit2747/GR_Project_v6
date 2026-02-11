@@ -1,0 +1,90 @@
+# GR Atom: Exploit Guard Non-Microsoft Signed Blocked
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-EXGUNOMISI-001"
+  name: "Exploit Guard Non-Microsoft Signed Blocked"
+  normalized_name: "exploit_guard_non_microsoft_signed_blocked"
+  aliases:
+    - "WDEG Unsigned Binary Block"
+    - "Exploit Guard Code Integrity Block"
+    - "ASR Non-Microsoft Signed Block"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - WINDOWS
+    - EXEC
+    - EVADE
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for events generated when Windows Defender Exploit Guard blocks execution of binaries not signed by Microsoft. This Attack Surface Reduction (ASR) rule prevents untrusted executables from running in protected contexts, generating telemetry events when a non-Microsoft-signed binary is blocked from execution. The detection captures the blocked process path, the parent process, the signing status, and the ASR rule that triggered the block."
+  why: "Blocking non-Microsoft-signed binaries in sensitive contexts prevents attackers from executing custom malware, toolkits, and LOLBin alternatives. The block events serve as high-fidelity indicators of attempted malicious execution, whether from initial access payloads, lateral movement tools, or persistence mechanisms deploying unsigned code."
+  how: "Monitor Windows Defender Exploit Guard event logs (Microsoft-Windows-Windows Defender/Operational) for ASR rule block events with rule GUID specific to non-Microsoft signed binary blocking. Correlate blocked execution attempts with the originating process, user context, and file path to determine if the block represents a true attack attempt or a legitimate software compatibility issue. Track block frequency and patterns per endpoint to identify persistent attack campaigns."
+  core_concepts:
+    - key: "Attack Surface Reduction"
+      value: "Windows Defender Exploit Guard feature that enforces rules to reduce the attack surface by blocking specific behaviors commonly exploited by malware"
+    - key: "Code Signing Enforcement"
+      value: "Security control that restricts execution to binaries bearing valid digital signatures from trusted publishers"
+    - key: "ASR Rule Block Event"
+      value: "Telemetry event generated when an ASR rule prevents a specific action, including the blocked file path, parent process, and triggering rule identifier"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Exploit Guard block events are part of EDR telemetry on Windows endpoints"
+  - type: effective_against
+    target: "ATK-EXEC-MALWARE-001"
+    description: "Blocks and detects execution of unsigned malicious binaries"
+  - type: prevents
+    target: "ATK-EXEC-USREXEC-001"
+    description: "Prevents user execution of untrusted non-Microsoft-signed executables"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204.002"
+    tactic:
+      - "Execution"
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1204.002"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Attack Surface Reduction Rules"
+    - "Microsoft Documentation - Windows Defender Exploit Guard"
+    - "MITRE ATT&CK T1204.002 - User Execution: Malicious File"
+  search_keywords:
+    - "exploit guard"
+    - "attack surface reduction"
+    - "ASR rule"
+    - "non-Microsoft signed"
+    - "unsigned binary blocked"
+    - "code integrity"
+    - "Windows Defender"
+    - "execution prevention"
+  embedding_text: "Exploit Guard Non-Microsoft Signed Blocked is an endpoint detection pattern for events generated when Windows Defender Exploit Guard Attack Surface Reduction rules block execution of binaries not signed by Microsoft. This detection captures blocked process paths, parent processes, signing status, and the triggering ASR rule. Block events serve as high-fidelity indicators of attempted malicious execution from custom malware, attack toolkits, and unsigned code. Monitoring includes correlating blocked attempts with originating processes and user context, tracking block frequency patterns per endpoint to identify persistent attack campaigns, and distinguishing true attack attempts from legitimate software compatibility issues."

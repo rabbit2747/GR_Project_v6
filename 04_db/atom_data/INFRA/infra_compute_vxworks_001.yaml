@@ -1,0 +1,71 @@
+# GR Atom: VxWorks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-VXWORKS-001"
+  name: "VxWorks"
+  normalized_name: "vxworks"
+  aliases: ["Wind River VxWorks", "VxWorks RTOS", "VxWorks OS"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [OS, FIRMWARE, ICS, IOT]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    VxWorks is a commercial real-time operating system (RTOS) developed by Wind River Systems,
+    widely deployed in safety-critical and mission-critical embedded systems. VxWorks runs on
+    aerospace systems, medical devices, industrial controllers, networking equipment (routers,
+    switches, firewalls), automotive systems, and defense platforms. It provides deterministic
+    real-time scheduling, memory protection, and POSIX compatibility. VxWorks is estimated to
+    run on over 2 billion devices globally.
+  why: >-
+    VxWorks is security-critical due to its deployment in safety-critical infrastructure. The
+    URGENT/11 vulnerabilities (2019) in the VxWorks TCP/IP stack (IPnet) affected over 200
+    million devices with remote code execution capabilities, demonstrating the catastrophic
+    impact of RTOS vulnerabilities at scale. VxWorks devices often run for years without
+    updates, use default credentials, lack monitoring capabilities, and operate in environments
+    where patching requires physical access or regulatory recertification.
+  how: >-
+    VxWorks provides a monolithic or modular kernel with preemptive real-time scheduling and
+    microsecond-level task switching. The IPnet TCP/IP stack provides networking. Wind River
+    Workbench provides development and debugging. Updates are delivered via firmware flashing
+    requiring device access. Security features include memory protection units (MPU), stack
+    guard pages, ASLR (on supported architectures), secure boot, and certificate-based
+    authentication. Network segmentation isolates VxWorks devices from IT networks. ICS-CERT
+    advisories track VxWorks vulnerabilities in industrial deployments.
+  core_concepts:
+    - key: "URGENT/11 TCP/IP Vulnerabilities"
+      value: "Critical RCE vulnerabilities in VxWorks IPnet stack affecting 200M+ devices, demonstrating catastrophic impact of RTOS security flaws at IoT scale"
+    - key: "Safety-Critical Deployment"
+      value: "Runs in aerospace, medical, defense, and industrial systems where compromise has physical safety implications and patching requires recertification"
+    - key: "Long Lifecycle Without Updates"
+      value: "VxWorks devices operate for years/decades without security updates due to certification requirements, physical access limitations, and operational constraints"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-EMBECOMP-001"
+    description: "VxWorks is a real-time operating system for embedded computing platforms"
+  - type: "enables"
+    target: "INFRA-COMPUTE-CUBESATS-001"
+    description: "VxWorks is used as the RTOS in many satellite and CubeSat systems"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Wind River VxWorks Documentation", "Armis URGENT/11 Research", "ICS-CERT VxWorks Advisories"]
+  search_keywords: ["VxWorks", "RTOS", "URGENT/11", "real-time operating system", "embedded RTOS", "VxWorks vulnerability", "Wind River", "IPnet"]
+  embedding_text: >-
+    VxWorks is a commercial RTOS by Wind River deployed in 2+ billion safety-critical embedded
+    systems including aerospace, medical devices, industrial controllers, networking equipment,
+    and defense platforms. The URGENT/11 vulnerabilities in its IPnet TCP/IP stack affected
+    200M+ devices with remote code execution. VxWorks devices operate years without updates
+    due to certification requirements and physical access constraints. Security features
+    include memory protection, secure boot, and certificate authentication. Network
+    segmentation isolates VxWorks devices. ICS-CERT tracks industrial deployment vulnerabilities.

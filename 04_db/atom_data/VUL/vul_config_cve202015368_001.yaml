@@ -1,0 +1,72 @@
+# GR Atom: CVE-2020-15368
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202015368-001"
+  name: "CVE-2020-15368"
+  normalized_name: "cve_2020_15368"
+  aliases:
+    - "AsrDrv103 Kernel Driver Vulnerability"
+    - "ASRock BIOS Driver Arbitrary MSR Access"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - OS
+    - FIRMWARE
+
+scope:
+  target_layers: ["L3", "L4", "L5"]
+  target_zones: ["Z1"]
+  target_components:
+    - "ASRock AsrDrv103.sys Kernel Driver"
+    - "Windows Kernel"
+
+definition:
+  what: "CVE-2020-15368 is a vulnerability in the ASRock Polychrome RGB software's kernel driver (AsrDrv103.sys) that allows low-privileged users to read and write arbitrary Model-Specific Registers (MSRs) and physical memory through IOCTLs. The driver is signed by a legitimate certificate and loaded at the kernel level, providing ring-0 access to any user-mode process that can open a handle to the device."
+  why: "This vulnerability represents the Bring Your Own Vulnerable Driver (BYOVD) attack pattern where threat actors install legitimately signed but vulnerable kernel drivers to gain kernel-level access. Multiple APT groups and ransomware operators have used vulnerable drivers like AsrDrv103 to disable endpoint security products, establish kernel-level persistence, and bypass driver signing enforcement. The signed nature of the driver makes it difficult to block through standard security controls."
+  how: "The AsrDrv103.sys driver exposes IOCTL interfaces that allow user-mode processes to read/write arbitrary MSRs, read/write physical memory, and perform PCI configuration space operations without any access validation. An attacker installs the legitimately signed driver, opens a handle to its device, and sends IOCTL requests to read/write kernel memory, disable security features, or modify system behavior at the hardware level. This enables disabling PatchGuard, modifying kernel structures, and disabling security software."
+  core_concepts:
+    - key: "Bring Your Own Vulnerable Driver (BYOVD)"
+      value: "Attack technique where threat actors install legitimately signed vulnerable kernel drivers to achieve kernel-level code execution and bypass security controls"
+    - key: "Arbitrary MSR/Physical Memory Access"
+      value: "Kernel driver exposes interfaces allowing user-mode processes to directly read and write Model-Specific Registers and physical memory without access control"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2020-15368 is a configuration vulnerability in a kernel driver that lacks access control on privileged operations"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "The vulnerable driver enables BYOVD attacks that compromise the entire operating system"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic: ["Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-15368 - NVD NIST"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "LOLDrivers Project - AsrDrv103.sys"
+  search_keywords:
+    - "CVE-2020-15368"
+    - "AsrDrv103 vulnerability"
+    - "BYOVD"
+    - "bring your own vulnerable driver"
+    - "ASRock driver exploit"
+    - "kernel driver vulnerability"
+    - "MSR arbitrary access"
+    - "LOLDrivers"
+  embedding_text: "CVE-2020-15368 is a vulnerability in ASRock's AsrDrv103.sys kernel driver that allows low-privileged users to read and write arbitrary MSRs and physical memory through exposed IOCTL interfaces without access validation. The driver is legitimately signed, making it a prime candidate for Bring Your Own Vulnerable Driver attacks where threat actors install the driver to gain kernel-level access. Multiple APT groups and ransomware operators have used BYOVD techniques to disable endpoint security products and establish kernel-level persistence. The signed nature of the driver makes blocking difficult through standard security controls. Maps to MITRE ATT&CK T1068 Exploitation for Privilege Escalation."

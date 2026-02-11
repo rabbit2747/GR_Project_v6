@@ -1,0 +1,71 @@
+# GR Atom: CVE-2022-22948
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202222948-001"
+  name: "CVE-2022-22948"
+  normalized_name: "cve_2022_22948"
+  aliases:
+    - "vCenter Server Information Disclosure"
+    - "vCenter Improper File Permissions"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - INFO_LEAK
+    - CRED
+    - VMWARE
+
+scope:
+  target_layers: ["L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "VMware vCenter Server"
+    - "VMware Cloud Foundation"
+
+definition:
+  what: "CVE-2022-22948 is an information disclosure vulnerability in VMware vCenter Server caused by improper default file permissions on a critical configuration file. The vCenter Server stores sensitive credentials and configuration data in files with overly permissive access controls, allowing authenticated low-privileged users to read sensitive information including database credentials and cryptographic material."
+  why: "VMware vCenter Server is the centralized management platform for vSphere environments, controlling all ESXi hosts and virtual machines. Exposure of vCenter credentials enables attackers to gain administrative access to the entire virtualization infrastructure. This vulnerability was exploited by UNC3886, a Chinese state-sponsored threat group, as part of a multi-stage attack chain against VMware infrastructure to maintain persistent access to defense and technology organizations."
+  how: "The vulnerability exists because the PostgreSQL database configuration file on vCenter Server contains database credentials stored with file permissions that allow non-administrative users to read the file. An attacker with low-privileged access to the vCenter Server appliance can read the database credentials, then connect directly to the PostgreSQL database to extract additional secrets, modify configurations, or escalate privileges. VMware addressed this with updated file permissions in patches. CVSS v3: 5.5 (Medium)."
+  core_concepts:
+    - key: "Overpermissive File ACLs"
+      value: "vCenter configuration files containing sensitive credentials had file permissions allowing non-administrative users to read them, violating least-privilege principles"
+    - key: "UNC3886 Attack Chain"
+      value: "Chinese APT group that used CVE-2022-22948 along with other VMware vulnerabilities to compromise virtualization infrastructure of defense and technology organizations"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2022-22948 is a configuration vulnerability caused by overly permissive default file permissions"
+  - type: precedes
+    target: "VUL-CONFIG-CVE202320867-001"
+    description: "This vulnerability was used in attack chains alongside CVE-2023-20867 for VMware infrastructure compromise"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-22948 - NVD NIST"
+    - "VMware Security Advisory VMSA-2022-0009"
+    - "Mandiant - UNC3886 VMware Attack Chain Analysis"
+    - "MITRE ATT&CK T1552.001 - Unsecured Credentials: Credentials In Files"
+  search_keywords:
+    - "CVE-2022-22948"
+    - "vCenter information disclosure"
+    - "VMware vCenter credentials"
+    - "vCenter file permissions"
+    - "UNC3886 VMware"
+    - "vCenter Server vulnerability"
+  embedding_text: "CVE-2022-22948 is an information disclosure vulnerability in VMware vCenter Server where sensitive credentials and configuration data are stored in files with overly permissive access controls. Authenticated low-privileged users can read database credentials and cryptographic material. This vulnerability was exploited by UNC3886, a Chinese state-sponsored threat group, as part of multi-stage attacks against VMware infrastructure in defense and technology organizations. CVSS v3 score is 5.5 Medium. vCenter Server manages all ESXi hosts and virtual machines, making credential exposure critical. Maps to MITRE ATT&CK T1552.001 Unsecured Credentials: Credentials In Files."

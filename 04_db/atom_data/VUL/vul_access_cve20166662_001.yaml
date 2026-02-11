@@ -1,0 +1,127 @@
+# GR Atom: CVE-2016-6662
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20166662-001"
+  name: "CVE-2016-6662"
+  normalized_name: "cve_2016_6662"
+  aliases:
+    - "MySQL Remote Root Code Execution"
+    - "MySQL Privilege Escalation via Logging"
+    - "MariaDB CVE-2016-6662"
+    - "Percona CVE-2016-6662"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - PRIV
+    - DATABASE
+    - MYSQL
+    - CONFIG
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "MySQL Server 5.5, 5.6, 5.7"
+    - "MariaDB Server"
+    - "Percona Server"
+    - "MySQL configuration files (my.cnf)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-6662 is a critical remote root code execution vulnerability affecting MySQL,
+    MariaDB, and Percona Server, disclosed in September 2016 with a CVSS score of 9.8. The
+    vulnerability allows an authenticated MySQL user (or an attacker who can exploit SQL
+    injection) to achieve root-level code execution on the underlying operating system. The
+    flaw combines MySQL's ability to modify logging configuration with the ability to load
+    shared libraries. An attacker uses the SET GLOBAL general_log_file statement to write a
+    malicious shared library to disk, then modifies the MySQL configuration file (my.cnf) to
+    load this library using the malloc_lib directive on the next MySQL restart, executing
+    code as root since MySQL starts with root privileges before dropping them.
+  why: >-
+    This vulnerability was exceptional because it allowed privilege escalation from any MySQL
+    user with FILE privilege to root-level operating system access. MySQL is the world's most
+    popular open-source database, running on millions of servers. The vulnerability chain could
+    be initiated through SQL injection in web applications, meaning a web application
+    vulnerability could lead to full server compromise. The affected versions included MySQL
+    5.5, 5.6, and 5.7, as well as MariaDB and Percona forks, creating an enormous attack
+    surface.
+  how: >-
+    The exploitation chain works as follows: First, the attacker obtains MySQL access through
+    valid credentials or SQL injection. Next, using the FILE privilege, the attacker writes a
+    malicious shared library to the MySQL data directory via SELECT INTO DUMPFILE. The attacker
+    then uses SET GLOBAL general_log_file to write to the MySQL configuration file (my.cnf),
+    adding a malloc_lib directive pointing to the malicious shared library. When MySQL restarts
+    (triggered by crash, maintenance, or SHUTDOWN privilege), it reads my.cnf and loads the
+    malicious library as root before dropping privileges. The loaded library executes arbitrary
+    code with root privileges. Mitigation includes restricting FILE privilege, ensuring my.cnf
+    is not writable by the mysql user, and applying vendor patches.
+  core_concepts:
+    - key: "Configuration File Injection"
+      value: "Abusing MySQL logging features to write malicious configuration directives into my.cnf that load attacker-controlled shared libraries on restart"
+    - key: "SQL-to-Root Escalation"
+      value: "Chaining SQL injection or MySQL user access through FILE privilege to achieve root-level operating system code execution"
+    - key: "Library Preloading"
+      value: "Using MySQL's malloc_lib configuration directive to preload a malicious shared library executed with root privileges during server startup"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2016-6662 exploits broken access controls in MySQL configuration and file operations to escalate privileges"
+  - type: "enables"
+    target: "VUL-ACCESS-CVE20173066-001"
+    description: "Both represent server-side application vulnerabilities that chain to full system compromise through code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505.001"
+    tactic:
+      - "Persistence"
+      - "Privilege Escalation"
+  cve_id: "CVE-2016-6662"
+  cvss_score: 9.8
+  affected_product: "MySQL, MariaDB, Percona Server"
+  disclosure_year: 2016
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD CVE-2016-6662 CVSS 9.8"
+    - "MITRE ATT&CK T1505.001 - Server Software Component: SQL Stored Procedures"
+    - "Legal Hackers - MySQL Remote Root Code Execution Advisory"
+    - "Oracle Critical Patch Update October 2016"
+  search_keywords:
+    - "CVE-2016-6662"
+    - "MySQL root code execution"
+    - "MySQL privilege escalation"
+    - "MariaDB vulnerability"
+    - "my.cnf injection"
+    - "malloc_lib exploit"
+    - "MySQL FILE privilege"
+    - "database remote code execution"
+  embedding_text: >-
+    CVE-2016-6662 is a critical remote root code execution vulnerability (CVSS 9.8) in MySQL,
+    MariaDB, and Percona Server. Authenticated MySQL users or SQL injection attackers escalate
+    to root OS access by writing malicious shared libraries via FILE privilege and injecting
+    malloc_lib directives into my.cnf through logging manipulation. On MySQL restart the
+    malicious library executes as root. Affects MySQL 5.5, 5.6, 5.7 and forks. Chains web
+    application SQL injection to full server compromise. Mitigation includes restricting FILE
+    privilege, protecting my.cnf ownership and permissions, and applying vendor patches.
+    One of the most critical database vulnerabilities enabling SQL-to-root escalation.

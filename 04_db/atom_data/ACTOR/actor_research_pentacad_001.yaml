@@ -1,0 +1,73 @@
+# GR Atom: Pentester Academy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-PENTACAD-001"
+  name: "Pentester Academy"
+  normalized_name: "pentester_academy"
+  aliases:
+    - "PentesterAcademy"
+    - "Pentester Academy TV"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Pentester Academy is an online cybersecurity training platform founded by Vivek Ramachandran that provides hands-on courses in penetration testing, red teaming, exploit development, wireless security, and defensive security. The platform features interactive lab environments, attack-defense scenarios, and certification programs including the Certified Red Team Professional (CRTP) and Certified Red Team Expert (CRTE). Pentester Academy emphasizes practical, lab-based learning with real-world attack scenarios covering Active Directory attacks, web application hacking, network exploitation, and malware analysis."
+  why: "Pentester Academy is significant in the cybersecurity education landscape for providing affordable, hands-on training that bridges the gap between theoretical knowledge and practical offensive security skills. Its Active Directory attack lab and certification programs have become widely recognized in the industry, helping security professionals develop real-world red team and penetration testing capabilities."
+  how: "Pentester Academy operates through an online platform offering video courses, interactive labs, and attack-defense environments. Students learn by practicing techniques in controlled lab settings that simulate real enterprise environments. The platform provides guided learning paths from beginner to advanced levels, with certifications validated through practical examinations requiring hands-on exploitation and report writing."
+  core_concepts:
+    - key: "Hands-on Security Training"
+      value: "Lab-based learning with interactive environments simulating real enterprise attack scenarios"
+    - key: "Red Team Certification"
+      value: "Industry-recognized certifications including CRTP and CRTE for red team professionals"
+    - key: "Active Directory Security"
+      value: "Specialized training on Active Directory attack techniques and enterprise network exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-INFOINST-001"
+    description: "Fellow cybersecurity education and training platform"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Trains offensive security professionals who contribute to the conference ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for training platform
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.pentesteracademy.com"
+  search_keywords:
+    - "pentester academy"
+    - "vivek ramachandran"
+    - "CRTP"
+    - "CRTE"
+    - "red team training"
+    - "penetration testing course"
+    - "active directory hacking"
+    - "security lab"
+    - "offensive security training"
+  embedding_text: "Pentester Academy is an online cybersecurity training platform founded by Vivek Ramachandran that provides hands-on courses in penetration testing, red teaming, exploit development, wireless security, and defensive security. The platform features interactive lab environments, attack-defense scenarios, and certification programs including the Certified Red Team Professional (CRTP) and Certified Red Team Expert (CRTE). Pentester Academy emphasizes practical, lab-based learning with real-world attack scenarios covering Active Directory attacks, web application hacking, network exploitation, and malware analysis. The platform provides guided learning paths from beginner to advanced levels, helping security professionals develop real-world red team and penetration testing capabilities through practical examinations and controlled lab environments."

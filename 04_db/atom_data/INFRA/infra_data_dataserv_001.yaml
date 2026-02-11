@@ -1,0 +1,131 @@
+# GR Atom: Database Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-DATASERV-001"
+  name: "Database Server"
+  normalized_name: "database_server"
+  aliases:
+    - "DB Server"
+    - "Database Host"
+    - "RDBMS Server"
+    - "Database Engine Host"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - NETWORK
+    - AUTHN
+    - ENCRYPT
+    - PATCH
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Database Server is a dedicated computing system (physical or virtual) that hosts one or
+    more database management system (DBMS) instances and provides data storage, retrieval, and
+    management services to client applications over a network. Database servers run database
+    engine software such as MySQL, PostgreSQL, Microsoft SQL Server, Oracle Database, or MongoDB,
+    and are optimized for I/O throughput, memory capacity, and CPU performance to handle
+    concurrent query workloads. They listen on well-known network ports (MySQL 3306, PostgreSQL
+    5432, MSSQL 1433, Oracle 1521, MongoDB 27017) for client connections.
+  why: >-
+    Database servers are among the most valuable targets in any network because they centralize
+    access to an organization's data assets. Compromise of a database server can result in
+    massive data breaches, data manipulation, ransomware encryption of critical data, or
+    complete business disruption. Database servers require careful hardening including network
+    isolation, strong authentication, encryption at rest and in transit, regular patching,
+    audit logging, and backup strategies. They are targeted through SQL injection, credential
+    attacks, privilege escalation, and exploitation of unpatched vulnerabilities.
+  how: >-
+    Database servers operate by running DBMS software that manages data files, buffer pools,
+    query parsers, optimizers, and execution engines. Client connections are authenticated
+    through database-native authentication or integrated authentication (Kerberos, LDAP).
+    The server processes SQL or NoSQL queries, manages transactions with ACID properties,
+    enforces access controls through grants and roles, and maintains data integrity through
+    constraints. Storage is managed through tablespaces or data directories on local or
+    SAN-attached storage. Replication, clustering, and failover mechanisms provide high
+    availability. Backup and recovery procedures protect against data loss.
+  core_concepts:
+    - key: "Network Port Exposure"
+      value: >-
+        Database servers listen on well-known ports that are commonly scanned and targeted
+        by attackers. Network segmentation and firewall rules should restrict access to
+        authorized application servers and administrators only.
+    - key: "Database Authentication"
+      value: >-
+        Authentication mechanisms include native database accounts, integrated Windows/Kerberos
+        authentication, LDAP integration, and certificate-based authentication, each with
+        different security characteristics.
+    - key: "Data-at-Rest Encryption"
+      value: >-
+        Transparent Data Encryption (TDE) and column-level encryption protect stored data
+        from unauthorized access at the storage layer, mitigating risks from physical media
+        theft or unauthorized file system access.
+    - key: "Audit Logging"
+      value: >-
+        Database audit logging records authentication attempts, query execution, schema changes,
+        and privilege modifications, providing forensic evidence and compliance documentation.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "Database servers enable database services by providing the computing infrastructure to run DBMS instances"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "Database servers enable database applications by providing the backend data processing and storage services"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A database server is a type of data store that provides structured data management through DBMS software"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505"
+    tactic:
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CIS Benchmark for Database Servers. https://www.cisecurity.org/cis-benchmarks"
+    - "NIST SP 800-123 - Guide to General Server Security."
+    - "OWASP Database Security Cheat Sheet. https://cheatsheetseries.owasp.org/"
+  search_keywords:
+    - "database server"
+    - "DB server"
+    - "database host"
+    - "RDBMS server"
+    - "database server hardening"
+    - "database port security"
+    - "database server vulnerability"
+    - "database encryption at rest"
+  embedding_text: >-
+    A Database Server is a dedicated computing system hosting one or more database management
+    system (DBMS) instances that provide data storage, retrieval, and management services over
+    a network. Database servers run engines like MySQL, PostgreSQL, SQL Server, Oracle, or
+    MongoDB, listening on well-known ports (3306, 5432, 1433, 1521, 27017). They are high-value
+    targets because they centralize organizational data. Compromise can result in data breaches,
+    manipulation, ransomware, or business disruption. Security requires network isolation, strong
+    authentication (native, Kerberos, LDAP), encryption at rest (TDE) and in transit (TLS),
+    regular patching, audit logging, and backup strategies. Database servers process queries,
+    manage ACID transactions, enforce role-based access controls, and maintain data integrity.
+    Common attack vectors include SQL injection, credential attacks, privilege escalation, and
+    exploitation of unpatched vulnerabilities.

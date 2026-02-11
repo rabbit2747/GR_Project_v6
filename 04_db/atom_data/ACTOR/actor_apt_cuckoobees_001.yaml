@@ -1,0 +1,86 @@
+# GR Atom: CuckooBees
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-CUCKOOBEES-001"
+  name: "CuckooBees"
+  normalized_name: "cuckoobees"
+  aliases:
+    - "Winnti Subgroup"
+    - "APT41 Associated"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - PERSIST
+    - EVADE
+    - EXFIL
+    - PRIV
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CuckooBees is a Chinese APT operation identified by Cybereason in 2022, attributed to the Winnti Group (APT41) cluster. The operation conducted sustained intellectual property theft from technology and manufacturing companies over multiple years, remaining undetected for extended periods. CuckooBees used sophisticated Windows CLFS log exploitation, digitally signed kernel-mode rootkits, and abuse of the Windows CNG key isolation service for credential theft and persistent access."
+  why: "CuckooBees demonstrates the long-term, stealthy nature of Chinese industrial espionage operations. The campaign's multi-year persistence within victim environments and focus on stealing trade secrets, proprietary technology, and intellectual property highlights the economic threat posed by state-sponsored industrial espionage. The sophisticated evasion techniques employed, including signed rootkits and CLFS exploitation, represent an advanced threat to corporate security."
+  how: "The group exploited internet-facing applications for initial access, then deployed a multi-stage infection chain using signed Windows drivers and CLFS log file manipulation for privilege escalation and persistence. They used the DEPLOYLOG and Spyder Loader malware families for command-and-control. The Winnti malware provided additional backdoor capabilities. Data exfiltration focused on intellectual property and was conducted through encrypted channels over extended periods to avoid detection. The group leveraged legitimate Windows services for lateral movement and credential dumping."
+  core_concepts:
+    - key: "CLFS Log Exploitation"
+      value: "Abuses Windows Common Log File System for privilege escalation and stealthy persistence"
+    - key: "Signed Rootkits"
+      value: "Deploys kernel-mode rootkits signed with stolen or fraudulently obtained digital certificates"
+    - key: "Intellectual Property Theft"
+      value: "Multi-year operations focused on stealing trade secrets and proprietary technology from manufacturing companies"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Exploits internet-facing applications for initial access to target networks"
+  - type: is_a
+    target: "ACTOR-APT-CUCKOOBEES-001"
+    description: "Chinese APT operation within the Winnti/APT41 cluster focused on IP theft"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+      - "Persistence"
+      - "Defense Evasion"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Cybereason - Operation CuckooBees Technical Report"
+    - "Cybereason - Winnti Group IP Theft Campaign"
+  search_keywords:
+    - "cuckoobees"
+    - "winnti subgroup"
+    - "apt41 ip theft"
+    - "clfs log exploitation"
+    - "signed rootkit china"
+    - "intellectual property theft apt"
+    - "spyder loader"
+    - "deploylog malware"
+    - "chinese industrial espionage"
+    - "manufacturing espionage"
+  embedding_text: "CuckooBees is a Chinese APT operation identified by Cybereason in 2022, attributed to the Winnti Group (APT41) cluster. The operation conducted sustained intellectual property theft from technology and manufacturing companies over multiple years. CuckooBees employed sophisticated techniques including Windows CLFS log exploitation for privilege escalation, digitally signed kernel-mode rootkits for persistence, and abuse of the Windows CNG key isolation service for credential theft. The group used DEPLOYLOG and Spyder Loader malware families alongside the Winnti backdoor. Data exfiltration focused on trade secrets and proprietary technology through encrypted channels over extended periods. The campaign demonstrates the long-term, stealthy nature of Chinese state-sponsored industrial espionage operations."

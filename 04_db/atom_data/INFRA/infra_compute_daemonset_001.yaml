@@ -1,0 +1,97 @@
+# GR Atom: DaemonSet
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-DAEMONSET-001"
+  name: "DaemonSet"
+  normalized_name: "daemonset"
+  aliases:
+    - "Kubernetes DaemonSet"
+    - "K8s DaemonSet"
+    - "Node-Level Pod Controller"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - K8S
+    - CONTAINER
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Kubernetes DaemonSet ensures that a copy of a specific pod runs on all (or a selected subset
+    of) nodes in a cluster. When new nodes join the cluster, DaemonSet pods are automatically
+    scheduled on them. When nodes are removed, those pods are garbage collected. DaemonSets are
+    used for node-level infrastructure services such as log collectors (Fluentd), monitoring agents
+    (Prometheus node-exporter), storage daemons (Ceph), network plugins (Calico), and security
+    agents (Falco).
+  why: >-
+    DaemonSets run with elevated privileges on every node, making them high-value targets. A
+    compromised DaemonSet pod has access to the node's filesystem, network namespace, and
+    potentially host PID namespace. Attackers who can modify DaemonSet specifications can deploy
+    malicious code that automatically propagates to every node in the cluster, achieving
+    cluster-wide persistence. DaemonSet pods often run as privileged containers or with host
+    network access for legitimate operational reasons.
+  how: >-
+    DaemonSets are defined as YAML manifests with a pod template specifying the container image,
+    resource requirements, and volume mounts. The DaemonSet controller ensures one pod per node
+    matching the nodeSelector or node affinity rules. Update strategies include RollingUpdate
+    (default) and OnDelete. DaemonSet pods typically mount hostPath volumes for node-level access,
+    use hostNetwork for direct network access, and may run with privileged security contexts.
+    Node selection uses nodeSelector, nodeAffinity, or tolerations.
+  core_concepts:
+    - key: "Per-Node Scheduling"
+      value: "Ensures exactly one pod runs on every matching node, automatically adapting as nodes join or leave the cluster"
+    - key: "Node-Level Access"
+      value: "DaemonSet pods typically run with hostPath mounts, host networking, and elevated privileges for infrastructure operations"
+    - key: "Cluster-Wide Persistence"
+      value: "DaemonSets provide automatic propagation across all nodes, making them a powerful persistence mechanism if compromised"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "DaemonSet is a Kubernetes workload controller for per-node pod scheduling"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "DaemonSet pods require a container runtime to execute on each node"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Kubernetes DaemonSet Documentation - kubernetes.io"
+    - "CIS Kubernetes Benchmark"
+    - "MITRE ATT&CK Containers Matrix - Persistence"
+  search_keywords:
+    - "kubernetes daemonset"
+    - "daemonset"
+    - "k8s node agent"
+    - "per-node pod"
+    - "kubernetes persistence"
+    - "node-level daemon"
+    - "daemonset security"
+  embedding_text: >-
+    A Kubernetes DaemonSet ensures a pod copy runs on all or selected nodes in a cluster,
+    automatically scheduling on new nodes and cleaning up when nodes are removed. Used for
+    node-level services like log collectors, monitoring agents, network plugins, and security
+    agents. DaemonSets are high-value targets because they run with elevated privileges on
+    every node with host filesystem and network access. A compromised DaemonSet propagates
+    malicious code cluster-wide for persistence. Pods typically use hostPath volumes, host
+    networking, and privileged security contexts for legitimate infrastructure operations.

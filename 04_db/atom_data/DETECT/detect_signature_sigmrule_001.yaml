@@ -1,0 +1,81 @@
+# GR Atom: Sigma Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-SIGMRULE-001"
+  name: "Sigma Rules"
+  normalized_name: "sigma_rules"
+  aliases:
+    - "Sigma Detection Rules"
+    - "Generic Signature Format"
+    - "SigmaHQ Rules"
+    - "Sigma SIEM Rules"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - BLUE_TEAM
+    - LOG
+    - THREAT_INTEL
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Sigma rules are an open, vendor-agnostic detection rule format for SIEM systems, analogous to what YARA is for files and Snort/Suricata are for network traffic. Written in YAML, Sigma rules describe log event patterns indicative of malicious activity, misconfigurations, or security-relevant system states. The Sigma project, maintained by the SigmaHQ community, provides both the rule specification and a large repository of community-contributed detection rules covering the MITRE ATT&CK framework. Sigma rules are compiled (converted) into native query languages for specific SIEM platforms including Splunk SPL, Microsoft Sentinel KQL, Elastic Query DSL, QRadar AQL, Chronicle YARA-L, and many others using the pySigma framework and platform-specific backends. The SigmaHQ repository contains thousands of rules organized by log source categories including Windows event logs, Linux auditd, web server logs, cloud platform logs, and application logs."
+  why: "Sigma rules solve the critical problem of detection rule portability across SIEM platforms. Without a vendor-neutral format, security teams must rewrite every detection rule when migrating between SIEM platforms, and threat intelligence sharing of detection content is limited to platform-specific formats. Sigma enables the security community to collaboratively develop and share detection content once, then deploy it across any supported SIEM. This dramatically accelerates detection engineering by providing a curated library of community-vetted rules that map to ATT&CK techniques. Organizations using Sigma rules benefit from collective threat intelligence and can maintain consistent detection coverage regardless of their SIEM platform."
+  how: "Sigma rules are authored in YAML following the Sigma specification, defining a title, description, log source (product, category, service), detection logic (field conditions with modifiers), false positive documentation, severity level, ATT&CK tags, and metadata. The detection section uses named conditions combined with Boolean logic operators. Rules are compiled to target platforms using pySigma with platform-specific backends that translate Sigma syntax into native queries. Organizations integrate Sigma into their detection engineering pipeline by: maintaining a Sigma rule repository, running automated compilation to their SIEM platform, deploying compiled rules through CI/CD pipelines, validating rules using adversary emulation, and managing rule lifecycle through version control. The SigmaHQ repository serves as the primary community rule source with thousands of peer-reviewed rules."
+  core_concepts:
+    - key: "Vendor-Agnostic Format"
+      value: "YAML-based detection rule format that is independent of any specific SIEM vendor, enabling portability across platforms"
+    - key: "Rule Compilation"
+      value: "Translation of Sigma rules into native SIEM query languages using pySigma backends for specific target platforms"
+    - key: "Log Source Abstraction"
+      value: "Sigma abstracts log sources using product, category, and service fields, allowing rules to reference logs without platform-specific naming"
+    - key: "Detection Engineering Pipeline"
+      value: "Integration of Sigma rules into automated workflows for rule development, compilation, deployment, and validation"
+
+relations:
+  - type: requires
+    target: "DETECT-SIGNATURE-SIGRULSTR-001"
+    description: "Sigma rules require adherence to the Sigma rule structure specification"
+  - type: requires
+    target: "DETECT-SIGNATURE-SIGRULMOD-001"
+    description: "Sigma rules use modifiers for flexible field matching and detection logic"
+  - type: applies_to
+    target: "INFRA-SEC-SIEM-001"
+    description: "Sigma rules are compiled and deployed to SIEM infrastructure"
+  - type: alternative_to
+    target: "DETECT-SIGNATURE-FALCFRID-001"
+    description: "Sigma rules are a vendor-neutral alternative to platform-specific detection formats like Falcon Friday KQL"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "SigmaHQ - https://sigmahq.io/"
+    - "SigmaHQ GitHub Repository - https://github.com/SigmaHQ/sigma"
+    - "Sigma Specification - https://sigmahq.io/docs/guide/getting-started.html"
+    - "pySigma - https://github.com/SigmaHQ/pySigma"
+  search_keywords:
+    - "Sigma rules"
+    - "Sigma detection"
+    - "SIEM detection rules"
+    - "vendor-agnostic detection"
+    - "SigmaHQ"
+    - "Sigma YAML"
+    - "detection rule format"
+    - "Sigma converter"
+    - "pySigma"
+    - "detection engineering"
+  embedding_text: "Sigma rules are an open, vendor-agnostic detection rule format for SIEM systems written in YAML. Analogous to YARA for files and Snort for network traffic, Sigma rules describe log event patterns indicative of malicious activity and are compiled into native query languages for specific SIEM platforms including Splunk SPL, Microsoft Sentinel KQL, Elastic Query DSL, and QRadar AQL using the pySigma framework. The SigmaHQ community maintains both the specification and a large repository of rules covering the MITRE ATT&CK framework. Sigma solves the detection rule portability problem by enabling collaborative development and sharing of detection content across any supported SIEM platform through automated compilation pipelines."

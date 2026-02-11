@@ -1,0 +1,71 @@
+# GR Atom: DigiNinja
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DIGININJA-001"
+  name: "DigiNinja"
+  normalized_name: "digininja"
+  aliases:
+    - "Robin Wood"
+    - "digininja.org"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - RED_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DigiNinja is the online identity of Robin Wood, a British security researcher and penetration tester best known as the creator of DVWA (Damn Vulnerable Web Application), a deliberately vulnerable PHP/MySQL web application used globally for security training and education. DigiNinja also develops other security tools including CeWL (Custom Word List generator), Pipal (password analysis tool), and various enumeration scripts used in penetration testing."
+  why: "DigiNinja is significant in cybersecurity because DVWA is one of the most widely used training platforms for teaching web application security, used by security professionals, educators, and students worldwide. The tool provides a legal, controlled environment to practice common web attack techniques including SQL injection, XSS, CSRF, and file inclusion. DigiNinja's other tools like CeWL and Pipal are standard utilities in the penetration tester's toolkit."
+  how: "DigiNinja develops and maintains open-source security tools primarily focused on web application security testing and password analysis. DVWA provides configurable security levels allowing progressive learning from low to impossible difficulty. CeWL generates custom wordlists by spidering target websites. Pipal performs statistical analysis on password dumps to identify patterns and weaknesses. Tools are distributed via GitHub and the digininja.org website."
+  core_concepts:
+    - key: "DVWA Training Platform"
+      value: "Damn Vulnerable Web Application - deliberately vulnerable web app for hands-on security training and education"
+    - key: "Security Tool Development"
+      value: "Open-source penetration testing utilities including CeWL wordlist generator and Pipal password analyzer"
+    - key: "Web Application Security Education"
+      value: "Configurable vulnerability training covering SQL injection, XSS, CSRF, file inclusion, and command injection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-PENTEST-WEB-001"
+    description: "Produces DVWA, CeWL, Pipal, and other open-source web security testing and training tools"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security researcher/tool developer
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.digininja.org"
+    - "https://github.com/digininja"
+    - "https://github.com/digininja/DVWA"
+  search_keywords:
+    - "digininja"
+    - "robin wood security"
+    - "dvwa"
+    - "damn vulnerable web application"
+    - "cewl wordlist"
+    - "pipal password"
+    - "web application security training"
+    - "vulnerable web app"
+  embedding_text: "DigiNinja is the online identity of Robin Wood, a British security researcher and penetration tester best known as the creator of DVWA (Damn Vulnerable Web Application), a deliberately vulnerable PHP/MySQL web application used globally for security training and education. DigiNinja also develops CeWL (Custom Word List generator), Pipal (password analysis tool), and various enumeration scripts used in penetration testing. DVWA is one of the most widely used training platforms for teaching web application security, providing a legal controlled environment to practice SQL injection, XSS, CSRF, file inclusion, and command injection attacks. The platform offers configurable security levels allowing progressive learning from low to impossible difficulty. DigiNinja's tools are standard utilities in the penetration tester's toolkit, distributed via GitHub and digininja.org."

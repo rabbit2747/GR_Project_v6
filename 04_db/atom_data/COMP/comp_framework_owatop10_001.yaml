@@ -1,0 +1,136 @@
+# GR Atom: OWASP Top 10
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-OWATOP10-001"
+  name: "OWASP Top 10"
+  normalized_name: "owasp_top_10"
+  aliases:
+    - "OWASP Top Ten"
+    - "OWASP Top 10 Web Application Security Risks"
+    - "OWASP Top 10 2021"
+    - "Top 10 Web Vulnerabilities"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - WEB
+    - DEVSECOPS
+    - COMPLIANCE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Top 10 is the most widely recognized awareness document for web application
+    security, identifying the ten most critical security risks to web applications. The 2021
+    edition includes: A01-Broken Access Control, A02-Cryptographic Failures, A03-Injection,
+    A04-Insecure Design, A05-Security Misconfiguration, A06-Vulnerable and Outdated Components,
+    A07-Identification and Authentication Failures, A08-Software and Data Integrity Failures,
+    A09-Security Logging and Monitoring Failures, and A10-Server-Side Request Forgery (SSRF).
+    Each risk category includes description, common vulnerabilities, attack scenarios, and
+    prevention guidance. The Top 10 is updated approximately every three to four years based
+    on industry-wide vulnerability data analysis.
+  why: >-
+    Web application vulnerabilities remain the primary vector for data breaches and
+    cyber attacks against organizations. Developers, security testers, and organizational
+    leaders need a prioritized, accessible reference for the most impactful web security
+    risks to guide development practices, security testing, and risk management. The OWASP
+    Top 10 provides this by distilling thousands of vulnerability data points into ten
+    actionable risk categories, establishing a common vocabulary for application security
+    across the industry and serving as the minimum security awareness standard that
+    regulatory frameworks, security assessments, and procurement processes reference.
+  how: >-
+    The OWASP Top 10 is developed through a data-driven process: (1) Vulnerability data
+    is collected from application security companies, bug bounty programs, and security
+    assessments covering hundreds of thousands of applications worldwide; (2) Data is
+    analyzed for incidence rates, exploitability, detectability, and technical impact;
+    (3) Risk categories are ranked using a combination of quantitative data analysis and
+    qualitative expert input; (4) Each category includes a standardized description with
+    Common Weakness Enumeration (CWE) mappings, example attack scenarios, and prevention
+    guidelines; (5) Organizations use the Top 10 for developer security training, as
+    minimum requirements for security testing programs, as baseline security requirements
+    in software procurement, and as a starting point for more comprehensive standards
+    like ASVS. The Top 10 explicitly states it is an awareness document and should not
+    be used as the sole security standard.
+  core_concepts:
+    - key: "Data-Driven Risk Ranking"
+      value: >-
+        Risk categories ranked through analysis of real-world vulnerability data from
+        hundreds of thousands of applications, combining quantitative incidence rates
+        with expert assessment of exploitability and impact to identify the most critical
+        web application security risks.
+    - key: "Awareness Document"
+      value: >-
+        The Top 10 serves as an awareness and education tool providing a prioritized
+        starting point for web application security, explicitly designed to be
+        supplemented by more comprehensive standards like ASVS for detailed security
+        requirements.
+    - key: "Industry Common Vocabulary"
+      value: >-
+        Establishes standardized risk categories with CWE mappings that create a shared
+        language for application security across development teams, security professionals,
+        auditors, and regulatory frameworks worldwide.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "The OWASP Top 10 is the most recognized OWASP project and the foundation for application security awareness"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "The Top 10 provides awareness-level categories that ASVS expands into comprehensive security verification requirements"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWATESGUI-001"
+    description: "The Top 10 risk categories define the primary scope for OWASP Testing Guide security assessment"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWMOTO10-001"
+    description: "The Top 10 awareness methodology was adapted to create the Mobile Top 10 for mobile-specific risks"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-LLM-001"
+    description: "The Top 10 awareness methodology was adapted to create the Top 10 for LLM for AI-specific risks"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Top 10 - 2021. https://owasp.org/Top10/"
+    - "OWASP Top 10 GitHub Repository. https://github.com/OWASP/Top10"
+    - "OWASP Top 10 Project. https://owasp.org/www-project-top-ten/"
+  search_keywords:
+    - "OWASP Top 10"
+    - "web application security risks"
+    - "OWASP Top Ten"
+    - "broken access control"
+    - "injection vulnerabilities"
+    - "web application vulnerabilities"
+    - "security misconfiguration"
+    - "OWASP 2021"
+    - "application security awareness"
+    - "web security risks"
+  embedding_text: >-
+    The OWASP Top 10 is the most widely recognized awareness document for web application
+    security, identifying ten critical risks. The 2021 edition includes Broken Access Control,
+    Cryptographic Failures, Injection, Insecure Design, Security Misconfiguration, Vulnerable
+    and Outdated Components, Identification and Authentication Failures, Software and Data
+    Integrity Failures, Security Logging and Monitoring Failures, and Server-Side Request
+    Forgery. Each category includes descriptions, common vulnerabilities, attack scenarios,
+    and prevention guidance. Developed through data-driven analysis of vulnerability data
+    from hundreds of thousands of applications worldwide, risk categories are ranked by
+    incidence rates, exploitability, and impact. The Top 10 establishes a common vocabulary
+    for application security used in developer training, security testing, software procurement,
+    and regulatory compliance. It serves as an awareness document and starting point
+    supplemented by comprehensive standards like ASVS for detailed requirements.

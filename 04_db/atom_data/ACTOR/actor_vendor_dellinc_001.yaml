@@ -1,0 +1,76 @@
+# GR Atom: Dell Inc
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DELLINC-001"
+  name: "Dell Inc"
+  normalized_name: "dell_inc"
+  aliases:
+    - "Dell Technologies"
+    - "Dell SecureWorks"
+    - "Dell EMC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - CLOUD
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L5", "L6"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Dell Technologies is a multinational technology corporation providing enterprise hardware, software, and security solutions. In the cybersecurity context, Dell is relevant as a major server and endpoint hardware manufacturer whose supply chain, firmware, and driver software are targets for threat actors. Dell also provides data protection solutions (Dell EMC), and previously owned SecureWorks, a major managed security services provider. Dell's hardware, BIOS, and driver updates are critical components of enterprise security infrastructure."
+  why: "Dell is significant in cybersecurity because its enterprise hardware constitutes a major portion of the world's server and endpoint infrastructure. Vulnerabilities in Dell BIOS/UEFI firmware, drivers, and management tools (such as iDRAC) can provide attackers with persistent, pre-OS access to systems. Dell's supply chain integrity is critical, and compromises of Dell hardware or software distribution have serious downstream security implications."
+  how: "Dell provides enterprise security through hardware security features including Secure Boot, TPM integration, firmware attestation, and iDRAC management controllers. Dell EMC provides data protection and backup solutions. Dell publishes security advisories for firmware and driver vulnerabilities, provides BIOS/firmware updates, and operates Dell's Product Security Incident Response Team for vulnerability coordination."
+  core_concepts:
+    - key: "Enterprise Hardware Security"
+      value: "Server and endpoint hardware with Secure Boot, TPM, firmware attestation, and hardware-rooted security features"
+    - key: "Firmware & Supply Chain"
+      value: "Critical BIOS/UEFI firmware, drivers, and management tools that are targets for persistent threats"
+    - key: "Data Protection"
+      value: "Dell EMC data protection, backup, and disaster recovery solutions for enterprise environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-HARDWARE-SERVER-001"
+    description: "Produces enterprise server and endpoint hardware that forms the physical security infrastructure"
+  - type: enables
+    target: "ACTOR-VENDOR-SECUREWORK-001"
+    description: "Previously owned SecureWorks, a major managed security services and threat intelligence provider"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for hardware vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.dell.com/en-us/dt/corporate/about-us/security.htm"
+    - "https://www.dell.com/support/security"
+  search_keywords:
+    - "dell technologies"
+    - "dell security"
+    - "dell firmware vulnerability"
+    - "idrac security"
+    - "dell emc"
+    - "dell bios update"
+    - "dell supply chain"
+    - "dell secureworks"
+    - "enterprise hardware security"
+  embedding_text: "Dell Technologies is a multinational technology corporation providing enterprise hardware, software, and security solutions. In cybersecurity, Dell is relevant as a major server and endpoint hardware manufacturer whose supply chain, firmware, and driver software are targets for threat actors. Vulnerabilities in Dell BIOS/UEFI firmware, drivers, and management tools such as iDRAC can provide attackers with persistent pre-OS system access. Dell provides hardware security through Secure Boot, TPM integration, firmware attestation, and iDRAC management controllers. Dell EMC provides data protection and backup solutions, and Dell previously owned SecureWorks, a major managed security services provider. Dell publishes security advisories for firmware and driver vulnerabilities and operates a Product Security Incident Response Team for vulnerability coordination. Dell's enterprise hardware constitutes a major portion of the world's server infrastructure, making its security posture critical."

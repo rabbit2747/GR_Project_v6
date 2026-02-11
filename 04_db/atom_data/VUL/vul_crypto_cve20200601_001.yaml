@@ -1,0 +1,113 @@
+# GR Atom: CVE-2020-0601
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20200601-001"
+  name: "CVE-2020-0601"
+  normalized_name: "cve_2020_0601"
+  aliases:
+    - "CurveBall"
+    - "Chain of Fools"
+    - "Windows CryptoAPI ECC Spoofing"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - AUTHN
+    - WINDOWS
+    - TLS
+    - EVADE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Windows CryptoAPI (crypt32.dll)"
+    - "Windows Certificate Validation"
+    - "Elliptic Curve Cryptography Validation"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-0601 (CurveBall) is a critical vulnerability in Windows CryptoAPI (crypt32.dll) that
+    allows an attacker to spoof ECC certificates by exploiting improper validation of elliptic curve
+    parameters. The CryptoAPI fails to verify that a certificate's ECC public key specifies the same
+    curve parameters as the trusted root CA, allowing an attacker to create a certificate with custom
+    curve parameters that passes validation chain verification. CVSS score is 8.1. Disclosed by the
+    NSA in January 2020, affecting Windows 10, Windows Server 2016, and Windows Server 2019.
+  why: >-
+    CurveBall was extraordinary because it was reported by the NSA to Microsoft (rather than being
+    hoarded for offensive use), affecting Windows code signing, TLS certificate validation, and HTTPS
+    trust. An attacker could sign malware that appears to be from a trusted publisher, create
+    fraudulent TLS certificates for any domain, or intercept HTTPS connections. The vulnerability
+    undermined the entire Windows certificate trust model for affected systems.
+  how: >-
+    The attacker creates an ECC certificate that specifies a custom elliptic curve with a generator
+    point chosen such that the attacker's private key produces the same public key as a trusted root
+    CA. Windows CryptoAPI compares only the public key bytes (not the curve parameters) when
+    validating the certificate chain, so the attacker's certificate appears to be signed by the
+    trusted root CA. This allows creation of forged code-signing certificates, TLS certificates,
+    and any other X.509 certificate that chains to a trusted Windows root CA using ECC.
+  core_concepts:
+    - name: "ECC Parameter Spoofing"
+      value: "Custom elliptic curve parameters are chosen to make the attacker's key appear identical to a trusted CA's public key"
+    - name: "Certificate Chain Bypass"
+      value: "Windows CryptoAPI validates the public key value but not the curve parameters, allowing forged certificate chains"
+    - name: "Trust Model Subversion"
+      value: "Complete compromise of Windows certificate trust for code signing, TLS, and authentication"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "CurveBall is an instance of cryptographic implementation vulnerability in ECC certificate validation"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "CurveBall compromises TLS certificate validation on affected Windows systems"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1553.004"
+      tactic: ["Defense Evasion", "Initial Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2020-0601"
+    - "Microsoft Security Advisory ADV200001"
+    - "NSA Cybersecurity Advisory - Patch Critical Cryptographic Vulnerability"
+  search_keywords:
+    - "CVE-2020-0601"
+    - "CurveBall"
+    - "Chain of Fools"
+    - "Windows CryptoAPI spoofing"
+    - "ECC certificate forgery"
+    - "crypt32.dll vulnerability"
+    - "elliptic curve parameter spoofing"
+    - "Windows certificate bypass"
+  embedding_text: >-
+    CVE-2020-0601, known as CurveBall or Chain of Fools, is a critical vulnerability in Windows
+    CryptoAPI (crypt32.dll) that allows attackers to spoof ECC certificates. The vulnerability
+    exists because Windows fails to validate that a certificate's elliptic curve parameters match
+    those of the trusted root CA. An attacker creates a certificate with custom curve parameters
+    chosen so their private key produces the same public key value as a trusted root CA. Windows
+    validates only the public key bytes, not the curve, so the forged certificate passes chain
+    validation. This enables forging code-signing certificates, creating fraudulent TLS
+    certificates for any domain, and man-in-the-middle attacks on HTTPS. Reported by the NSA to
+    Microsoft in January 2020, CurveBall affected Windows 10, Windows Server 2016, and Windows
+    Server 2019. CVSS score is 8.1. The fix adds proper ECC curve parameter validation during
+    certificate chain verification.

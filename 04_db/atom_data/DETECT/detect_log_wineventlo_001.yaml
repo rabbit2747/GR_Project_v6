@@ -1,0 +1,123 @@
+# GR Atom: WinEventLog
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-WINEVENTLO-001"
+  name: "WinEventLog"
+  normalized_name: "wineventlog"
+  aliases:
+    - "Windows Event Log"
+    - "Windows Event Log Service"
+    - "Event Log System"
+    - "EVTX Log System"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - LOG
+    - MONITOR
+    - WINDOWS
+    - AUDIT
+    - FORENSICS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    WinEventLog (Windows Event Log) is the centralized logging infrastructure built into the
+    Windows operating system that records system, security, and application events in structured
+    .evtx (Event Log XML) files. The Windows Event Log service (wevtsvc.dll, hosted in
+    svchost.exe) manages event collection, storage, and retrieval across hundreds of log
+    channels organized into four major categories: Admin logs (operational errors and warnings),
+    Operational logs (detailed operational events), Analytic logs (high-volume trace events,
+    disabled by default), and Debug logs (developer diagnostics, disabled by default). The
+    primary security-relevant channels are Security (authentication, authorization, audit events),
+    System (service operations, driver loading, system state changes), Application (application
+    errors and events), and extended channels such as Microsoft-Windows-Sysmon/Operational,
+    Microsoft-Windows-PowerShell/Operational, and Microsoft-Windows-Windows Defender/Operational.
+    Event log files are stored in C:\Windows\System32\winevt\Logs\ in the proprietary .evtx
+    binary format.
+  why: >-
+    The Windows Event Log system is the cornerstone of security monitoring, forensic
+    investigation, and compliance auditing on Windows platforms which comprise the majority of
+    enterprise endpoints and servers. Every security-relevant activity on a Windows system —
+    user authentication, process execution, network connections, file access, registry changes,
+    service operations, and policy modifications — is potentially captured in the event log
+    system. The integrity and availability of the Windows Event Log directly determines the
+    organization's ability to detect threats, investigate incidents, and demonstrate compliance.
+    Attackers specifically target the Event Log system through clearing (T1070.001), disabling
+    (T1562.002), and modifying event logs because it represents the primary evidence source
+    for their activities.
+  how: >-
+    Windows Event Log operates through: (1) The Event Log service (Windows Event Log, wevtsvc.dll)
+    runs as a system service and manages all event log channels; (2) Event providers (applications,
+    services, drivers) register with the service and write events using the Windows Event Log API
+    (wevtapi.dll) or legacy Event Logging API (advapi32.dll); (3) Events are written to
+    channel-specific .evtx files with configurable maximum size and retention policies (overwrite,
+    archive, or do not overwrite); (4) Audit policies configured through Local Security Policy or
+    Group Policy determine which security events are generated; (5) Advanced Audit Policy
+    Configuration provides granular control over 58 audit subcategories; (6) Windows Event
+    Forwarding (WEF) enables centralized collection using WinRM subscriptions; (7) Third-party
+    agents (NXLog, Winlogbeat, Elastic Agent, Splunk UF) parse and forward events to SIEM
+    platforms; (8) Event Viewer (eventvwr.msc) and wevtutil.exe provide administrative interfaces
+    for log management and querying.
+  core_concepts:
+    - key: "Event Log Channels"
+      value: "Structured log destinations including Security, System, Application, and hundreds of component-specific channels that organize events by source and purpose."
+    - key: "Advanced Audit Policy Configuration"
+      value: "Granular audit policy settings providing 58 subcategories for fine-tuned control over which security events are generated, replacing the legacy 9-category audit policy."
+    - key: "EVTX Format"
+      value: "The proprietary binary format (.evtx) used to store Windows event logs, supporting XML-structured event data, binary header metadata, and efficient storage."
+    - key: "Windows Event Forwarding"
+      value: "Native Windows capability for centralized event collection using WinRM subscriptions, enabling source-initiated or collector-initiated event forwarding without third-party agents."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "The Windows Event Log system is a primary security event infrastructure"
+  - type: "enables"
+    target: "DETECT-LOG-WINEVENT-001"
+    description: "The WinEventLog system generates and stores individual WinEvent records"
+  - type: "enables"
+    target: "DETECT-LOG-SEEVLOCL-001"
+    description: "The WinEventLog system generates Event ID 1102 when the Security log is cleared"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Windows Event Log Architecture"
+    - "Microsoft — Advanced Security Audit Policy Settings"
+    - "Microsoft — Windows Event Forwarding Documentation"
+    - "SANS — Windows Event Log Encyclopedia"
+  search_keywords:
+    - "Windows Event Log"
+    - "WinEventLog"
+    - "evtx"
+    - "wevtsvc"
+    - "Event Log service"
+    - "Windows audit log"
+    - "event log channels"
+    - "Windows Event Forwarding"
+    - "WEF"
+    - "Advanced Audit Policy"
+    - "winevt"
+  embedding_text: >-
+    WinEventLog (Windows Event Log) is the centralized logging infrastructure built into Windows
+    that records system, security, and application events in structured .evtx files. Managed by
+    the Event Log service (wevtsvc.dll), it organizes events across hundreds of channels including
+    Security, System, Application, and extended channels like Sysmon and PowerShell. Advanced
+    Audit Policy Configuration provides 58 subcategories for granular security event control.
+    Events are stored in C:\Windows\System32\winevt\Logs\ in EVTX binary format. Collection uses
+    Windows Event Forwarding (WEF) or third-party agents. The Event Log system is the primary
+    target for defense evasion techniques (T1070.001, T1562.002) because it represents the
+    cornerstone evidence source for security monitoring and forensic investigation on Windows.

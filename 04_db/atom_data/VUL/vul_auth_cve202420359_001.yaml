@@ -1,0 +1,117 @@
+# GR Atom: CVE-2024-20359
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202420359-001"
+  name: "CVE-2024-20359"
+  normalized_name: "cve_2024_20359"
+  aliases:
+    - "Cisco ASA Persistent Local Code Execution"
+    - "ArcaneDoor Persistence Vulnerability"
+    - "Cisco ASA/FTD Local Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PERSIST
+    - EXEC
+    - NETWORK
+    - PRIV
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Cisco Adaptive Security Appliance (ASA)"
+    - "Cisco Firepower Threat Defense (FTD)"
+    - "Cisco ASA local file system"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-20359 is a persistent local code execution vulnerability in Cisco Adaptive Security
+    Appliance (ASA) and Firepower Threat Defense (FTD) software. The vulnerability allows an
+    authenticated local attacker with administrator-level privileges to execute arbitrary code
+    with root-level privileges on the underlying operating system by loading a crafted file onto
+    the device. The code persists across reboots, enabling long-term implant survival. This
+    vulnerability was exploited as part of the ArcaneDoor campaign by state-sponsored actors
+    (UAT4356/Storm-1849). CVSS v3.1 score is 6.0.
+  why: >-
+    While requiring local administrator access, this vulnerability is critical in the context of
+    the ArcaneDoor campaign because it provides persistence on network security appliances, which
+    are devices that typically lack endpoint detection and response (EDR) capabilities. The
+    ability to maintain persistent access through reboots on a firewall means the attacker
+    maintains a foothold even when patches are applied to other vulnerabilities. Network security
+    devices are high-value espionage targets because all network traffic passes through them,
+    enabling traffic interception, credential harvesting, and lateral movement.
+  how: >-
+    An attacker with administrative access to the Cisco ASA/FTD device loads a specially crafted
+    file that is executed with root-level privileges during the boot process, enabling persistence
+    across device reboots. In the ArcaneDoor campaign, the Line Runner implant was deployed using
+    this mechanism after initial access was gained through CVE-2024-20353. The Line Dancer implant
+    provided in-memory capabilities while Line Runner ensured persistence. Mitigation includes
+    applying Cisco security patches, performing integrity verification of the device file system,
+    monitoring for unauthorized files on ASA/FTD devices, and considering device replacement if
+    compromise is confirmed.
+  core_concepts:
+    - key: "Firewall Persistence Mechanism"
+      value: "Loading crafted files onto ASA/FTD that execute with root privileges during boot, surviving reboots and providing long-term implant persistence"
+    - key: "Network Appliance Blind Spot"
+      value: "Network security devices typically lack EDR and endpoint monitoring, making persistent implants on firewalls exceptionally difficult to detect"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-20359 exploits privileged access on network security appliances for persistent code execution"
+  - type: "requires"
+    target: "VUL-AUTH-CVE202420353-001"
+    description: "In the ArcaneDoor campaign, CVE-2024-20353 was used for initial access before deploying persistent implants via this vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1542.003"
+    tactic:
+      - "Persistence"
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-20359"
+    - "NIST NVD CVE-2024-20359 (CVSS v3.1: 6.0)"
+    - "Cisco Security Advisory cisco-sa-asaftd-persist-rce-FLsNXF4h"
+    - "Cisco Talos - ArcaneDoor Campaign Analysis"
+    - "CISA KEV Catalog - CVE-2024-20359"
+    - "MITRE ATT&CK T1542.003 - Pre-OS Boot: Bootkit"
+  search_keywords:
+    - "CVE-2024-20359"
+    - "Cisco ASA persistent code execution"
+    - "ArcaneDoor persistence"
+    - "Line Runner implant"
+    - "Line Dancer implant"
+    - "Cisco firewall backdoor"
+    - "UAT4356 persistence"
+    - "Cisco FTD local exploit"
+  embedding_text: >-
+    CVE-2024-20359 is a persistent local code execution vulnerability in Cisco ASA and Firepower
+    Threat Defense with CVSS v3.1 score 6.0. An authenticated administrator loads a crafted file
+    that executes with root privileges during boot, surviving reboots for long-term persistence.
+    Exploited in the ArcaneDoor campaign by UAT4356/Storm-1849 to deploy Line Runner and Line
+    Dancer implants on government and critical infrastructure firewalls. Network security appliances
+    lack EDR capabilities, making persistent implants exceptionally hard to detect. Used after
+    initial access via CVE-2024-20353. Mitigation includes patching, file system integrity
+    verification, monitoring for unauthorized files, and device replacement if compromise is
+    confirmed.

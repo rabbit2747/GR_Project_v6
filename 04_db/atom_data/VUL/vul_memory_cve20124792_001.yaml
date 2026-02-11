@@ -1,0 +1,106 @@
+# GR Atom: CVE-2012-4792
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20124792-001"
+  name: "CVE-2012-4792"
+  normalized_name: "cve_2012_4792"
+  aliases:
+    - "Internet Explorer CDwnBindInfo Use-After-Free"
+    - "IE Zero-Day December 2012"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Internet Explorer 6, 7, 8"
+    - "mshtml.dll CDwnBindInfo"
+    - "Windows XP, Vista, 7"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-4792 is a use-after-free vulnerability (CVSS 9.3) in Microsoft Internet Explorer
+    6, 7, and 8 involving the CDwnBindInfo object in mshtml.dll. The vulnerability allows remote
+    code execution when a user visits a specially crafted website. It was exploited as a zero-day
+    in December 2012 in a watering hole attack against the Council on Foreign Relations (CFR)
+    website. Microsoft issued an emergency Fix-it tool and subsequently patched it in MS13-008
+    (January 2013).
+  why: >-
+    This vulnerability is notable for its use in a high-profile watering hole attack targeting
+    the Council on Foreign Relations, a prestigious US foreign policy think tank. The attack
+    demonstrated the sophistication of nation-state actors using browser zero-days against
+    strategic targets. The CFR watering hole attack pattern became a widely-studied case of
+    strategic web compromise for targeted espionage operations.
+  how: >-
+    The exploit injects malicious JavaScript into a compromised website (watering hole) that
+    manipulates the IE DOM to trigger a use-after-free condition in the CDwnBindInfo object.
+    The freed memory is reallocated with attacker-controlled data through heap spraying. When
+    the dangling pointer to CDwnBindInfo is dereferenced, execution is redirected to the
+    attacker's shellcode, achieving code execution in the context of Internet Explorer.
+  core_concepts:
+    - key: "CDwnBindInfo Use-After-Free"
+      value: "CDwnBindInfo object in mshtml.dll is freed during DOM manipulation but dangling pointer allows code execution via heap spray"
+    - key: "Strategic Watering Hole Attack"
+      value: "Exploited as zero-day in watering hole attack against Council on Foreign Relations website for targeted espionage"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Use-after-free memory corruption in Internet Explorer CDwnBindInfo object"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-4792 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS13-008"
+    - "Microsoft Security Advisory 2794220"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2012-4792"
+    - "Internet Explorer"
+    - "use-after-free"
+    - "CDwnBindInfo"
+    - "watering hole"
+    - "Council on Foreign Relations"
+    - "MS13-008"
+    - "zero-day"
+    - "mshtml.dll"
+  embedding_text: >-
+    CVE-2012-4792 is a use-after-free vulnerability with CVSS 9.3 in Microsoft Internet
+    Explorer 6, 7, and 8 involving the CDwnBindInfo object in mshtml.dll. The flaw enables
+    remote code execution when users visit malicious websites. Exploited as a zero-day in
+    December 2012 in a strategic watering hole attack against the Council on Foreign Relations
+    website, it demonstrated nation-state use of browser zero-days for targeted espionage.
+    The exploit triggers a use-after-free through DOM manipulation and uses heap spraying
+    to redirect execution. Patched in MS13-008 in January 2013, this vulnerability became
+    a widely-studied case of strategic web compromise operations.

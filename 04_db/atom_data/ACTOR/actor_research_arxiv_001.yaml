@@ -1,0 +1,72 @@
+# GR Atom: arXiv
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-ARXIV-001"
+  name: "arXiv"
+  normalized_name: "arxiv"
+  aliases:
+    - "arXiv.org"
+    - "arXiv Preprint Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - AI
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "arXiv is an open-access preprint repository hosted by Cornell University, established in 1991, that publishes scholarly articles in computer science, mathematics, physics, and related fields. Within cybersecurity, arXiv serves as a primary venue for publishing cutting-edge research on cryptography, adversarial machine learning, network security, malware analysis, privacy-preserving computation, and AI security. Security researchers, academic institutions, and industry labs frequently publish vulnerability research, novel attack techniques, and defensive methodologies on the platform before formal peer review."
+  why: "arXiv is critical to the cybersecurity research ecosystem because it enables rapid dissemination of security findings, novel attack and defense techniques, and foundational research in cryptography and AI security. Many significant security breakthroughs, including adversarial ML attacks, side-channel discoveries, and cryptographic advances, first appear as arXiv preprints before formal publication."
+  how: "Researchers submit preprints to arXiv which are made publicly available after a basic moderation check. The platform enables open access to cutting-edge cybersecurity research, allowing practitioners to stay current with advances in threat modeling, vulnerability discovery, and defensive techniques. Papers are indexed and searchable, supporting systematic literature review and knowledge synthesis."
+  core_concepts:
+    - key: "Preprint Repository"
+      value: "Open-access platform for pre-peer-review publication of scholarly research articles"
+    - key: "Security Research Dissemination"
+      value: "Rapid publication of cybersecurity, cryptography, and AI security findings"
+    - key: "Academic Open Access"
+      value: "Free availability of research papers enabling broad knowledge sharing across the security community"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-GOOPROZER-001"
+    description: "Publishes foundational research that informs vulnerability research programs like Google Project Zero"
+  - type: enables
+    target: "ACTOR-RESEARCH-CYLAB-001"
+    description: "Platform where academic security labs like CyLab publish and share research findings"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for academic repository
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://arxiv.org"
+    - "https://en.wikipedia.org/wiki/ArXiv"
+  search_keywords:
+    - "arxiv"
+    - "preprint server"
+    - "security research papers"
+    - "cryptography research"
+    - "adversarial machine learning"
+    - "academic cybersecurity"
+    - "open access research"
+    - "AI security papers"
+  embedding_text: "arXiv is an open-access preprint repository hosted by Cornell University that serves as a primary platform for publishing cutting-edge cybersecurity research, including cryptography, adversarial machine learning, network security, malware analysis, and privacy-preserving computation. Established in 1991, arXiv enables rapid dissemination of security findings before formal peer review, allowing researchers from academic institutions, industry labs, and independent security teams to share novel attack techniques, defensive methodologies, and foundational security advances. Many significant cybersecurity breakthroughs first appear as arXiv preprints, making it an essential resource for security practitioners seeking to stay current with advances in threat modeling, vulnerability discovery, AI security, and cryptographic research."

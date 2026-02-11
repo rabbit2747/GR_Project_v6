@@ -1,0 +1,73 @@
+# GR Atom: GCP Organization Policy Constraints
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-GCORPOCO-001"
+  name: "GCP Organization Policy Constraints"
+  normalized_name: "gcp_organization_policy_constraints"
+  aliases:
+    - "GCP Org Policy"
+    - "Google Cloud Organization Policy"
+    - "GCP Policy Constraints"
+    - "Organization Policy Service"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - CLOUD
+
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "GCP Organization Policy Constraints are centralized governance controls within Google Cloud Platform that allow administrators to define and enforce configuration restrictions across the entire GCP resource hierarchy (organization, folders, projects). Organization policies use predefined or custom constraints to control resource configurations such as allowed VM external IP addresses, permitted resource locations, service account key creation, API enablement, and cross-project networking. Constraints are evaluated hierarchically with inheritance from parent to child resources, enabling consistent policy enforcement at scale."
+  why: "Cloud environments present unique compliance challenges due to self-service provisioning, rapid resource creation, and distributed management. Without centralized policy enforcement, misconfigurations propagate across projects, data residency requirements are violated, and security baselines erode. GCP Organization Policy Constraints provide preventive controls that enforce compliance before resources are created, complementing detective controls like Security Command Center."
+  how: "Administrators define organization policies by selecting constraints (boolean or list-based), configuring allowed or denied values, and applying policies at the appropriate hierarchy level. Policies inherit downward through the resource hierarchy but can be overridden or merged at lower levels. Custom constraints using Common Expression Language (CEL) enable organization-specific rules. Policies are enforced at resource creation and modification time through the Google Cloud Resource Manager API. Integration with Cloud Asset Inventory and Security Command Center enables monitoring of policy compliance and drift detection."
+  core_concepts:
+    - key: "Constraint"
+      value: "A predefined or custom rule that restricts a specific GCP resource configuration, either as a boolean toggle or a list of allowed/denied values"
+    - key: "Resource Hierarchy"
+      value: "The organization > folder > project structure through which policies inherit and can be overridden"
+    - key: "Policy Inheritance"
+      value: "Mechanism by which organization policies cascade from parent nodes to child resources in the hierarchy"
+    - key: "Custom Constraints"
+      value: "Organization-specific rules defined using Common Expression Language (CEL) for granular resource governance"
+
+relations:
+  - type: implements
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "GCP Org Policies implement security compliance frameworks within Google Cloud environments"
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Org policies provide preventive controls that are auditable for compliance verification"
+  - type: applies_to
+    target: "COMP-STANDARD-FEDRAMP-001"
+    description: "GCP Org Policies help enforce FedRAMP control requirements in cloud environments"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Cloud Organization Policy Service - https://cloud.google.com/resource-manager/docs/organization-policy/overview"
+    - "GCP Organization Policy Constraints Reference - https://cloud.google.com/resource-manager/docs/organization-policy/org-policy-constraints"
+    - "Google Cloud Security Best Practices - https://cloud.google.com/security/best-practices"
+  search_keywords:
+    - "GCP organization policy"
+    - "Google Cloud constraints"
+    - "org policy"
+    - "resource hierarchy"
+    - "cloud governance"
+    - "GCP compliance"
+    - "policy inheritance"
+    - "custom constraints"
+    - "Google Cloud security"
+    - "resource restrictions"
+  embedding_text: "GCP Organization Policy Constraints are centralized governance controls in Google Cloud Platform that enforce configuration restrictions across the resource hierarchy of organizations, folders, and projects. Administrators define boolean or list-based constraints to control VM external IPs, resource locations, service account keys, and API enablement. Policies inherit hierarchically and can be overridden at lower levels. Custom constraints use Common Expression Language for organization-specific rules. Constraints are enforced at resource creation time as preventive controls, complementing detective controls. Integration with Cloud Asset Inventory and Security Command Center enables compliance monitoring and drift detection."

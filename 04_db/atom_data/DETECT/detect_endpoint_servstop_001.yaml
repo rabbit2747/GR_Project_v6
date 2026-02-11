@@ -1,0 +1,93 @@
+# GR Atom: Service Stop Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVSTOP-001"
+  name: "Service Stop Event"
+  normalized_name: "service_stop_event"
+  aliases:
+    - "Service Stopped Detection"
+    - "Service Termination Event"
+    - "Service Shutdown Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when a system service transitions to a stopped state on an endpoint. On Windows, this is recorded as System Event ID 7036 with the service entering the stopped state, and may be accompanied by System Event ID 7034 if the service terminated unexpectedly. Sysmon captures the corresponding process termination (Event ID 5) for the service process. On Linux, this corresponds to systemd unit deactivation events in the journal, or process termination signals captured by auditd for daemon processes."
+  why: "Service stop events are critical for detecting adversary defense evasion activities where security services such as EDR, antivirus, firewall, or logging services are stopped before malicious operations. Unexpected stops of critical services may indicate system compromise, ransomware preparation (stopping backup services), or denial-of-service attacks. Monitoring service stops ensures rapid detection of impaired defenses and operational disruptions."
+  how: "Detection monitors Windows System Event ID 7036 for service state changes to stopped and Event ID 7034 for unexpected service termination. Sysmon Event ID 5 captures process termination for service processes. Command-line auditing detects net stop, sc.exe stop, Stop-Service PowerShell, and taskkill targeting service processes. On Linux, systemd journal entries for unit stop events and signal-based termination are monitored. SIEM correlation identifies patterns of multiple security services being stopped in sequence, which is a strong indicator of adversary activity."
+  core_concepts:
+    - key: "graceful_vs_unexpected_stop"
+      value: "Distinguishing between controlled service stops via SCM and unexpected service crashes or forced terminations"
+    - key: "security_service_monitoring"
+      value: "Prioritized monitoring of security-critical services whose stopping may indicate active compromise"
+    - key: "sequential_stop_pattern"
+      value: "Multiple security services being stopped in rapid succession is a strong indicator of adversary defense evasion"
+    - key: "stop_reason_analysis"
+      value: "Analyzing the account and process that initiated the service stop to determine if it was authorized"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service stop event is a specific type of service lifecycle event"
+  - type: "prevents"
+    target: "DETECT-ENDPOINT-SERVSTAR-001"
+    description: "Stopping a service prevents its continued execution until restarted"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1489"
+    tactic:
+      - "impact"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - System Event IDs 7034, 7036"
+    - "MITRE ATT&CK T1489 - Service Stop"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses"
+    - "Sysmon Documentation - Process Termination"
+  search_keywords:
+    - "service stop"
+    - "service stopped"
+    - "service termination"
+    - "Event ID 7034"
+    - "Event ID 7036"
+    - "net stop"
+    - "sc stop"
+    - "service shutdown"
+    - "defense evasion stop"
+    - "security service stopped"
+  embedding_text: "Service stop event detection pattern identifies when system services transition to stopped state on endpoints. On Windows this monitors System Event IDs 7036 and 7034 for service state changes and unexpected terminations, Sysmon process termination events, and command-line auditing for net stop and sc.exe operations. On Linux it tracks systemd unit deactivation events. Service stops are critical for detecting defense evasion where adversaries stop EDR, antivirus, and logging services before attacks. Maps to MITRE ATT&CK T1489 Service Stop and T1562.001 Impair Defenses. Sequential stopping of multiple security services is a strong compromise indicator. Detection distinguishes between graceful and forced terminations."

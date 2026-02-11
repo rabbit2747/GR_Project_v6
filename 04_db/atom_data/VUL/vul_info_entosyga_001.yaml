@@ -1,0 +1,110 @@
+# GR Atom: Endpoint Token Sync Gap
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-ENTOSYGA-001"
+  name: "Endpoint Token Sync Gap"
+  normalized_name: "endpoint_token_sync_gap"
+  aliases:
+    - "Token Synchronization Vulnerability"
+    - "Endpoint Token Desync"
+    - "Token Refresh Race Condition"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - AUTHN
+    - API
+    - RACE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Authentication token management systems"
+    - "Token refresh endpoints"
+    - "Distributed session management"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Endpoint Token Sync Gap is a vulnerability class where authentication tokens become
+    desynchronized between endpoints during refresh cycles, token rotation, or distributed
+    session management operations. The gap between token invalidation and new token propagation
+    creates a window where old tokens remain valid or new tokens are not yet recognized,
+    allowing unauthorized access or information disclosure through replay of stale tokens
+    or exploitation of the synchronization delay.
+  why: >-
+    Token synchronization gaps are particularly dangerous in distributed architectures where
+    multiple services validate tokens independently. During the sync gap, attackers can replay
+    expired or revoked tokens that have not yet been invalidated across all endpoints. This
+    affects OAuth flows, JWT-based authentication, API gateway token validation, and any system
+    where token state must be consistent across distributed components. The race condition
+    nature makes these vulnerabilities difficult to detect and reproduce.
+  how: >-
+    The vulnerability manifests when token refresh or revocation events are not atomically
+    propagated across all validating endpoints. An attacker captures a valid token, then
+    triggers a token refresh. During the propagation delay, the attacker replays the old
+    token against endpoints that have not yet received the revocation or update. This is
+    exacerbated in systems using eventual consistency, distributed caches with TTL-based
+    invalidation, or microservice architectures without centralized token validation.
+  core_concepts:
+    - key: "Synchronization Window"
+      value: "Time gap between token revocation/refresh and propagation to all validating endpoints creates exploitable window"
+    - key: "Distributed Token Validation"
+      value: "Independent token validation across multiple services increases sync gap attack surface"
+    - key: "Race Condition Exploitation"
+      value: "Timing-dependent attack exploiting eventual consistency in token management systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "Token sync gap is an information disclosure vulnerability in authentication token management"
+  - type: "enables"
+    target: "VUL-AUTH-BROKAUTH-001"
+    description: "Stale token replay during sync gaps enables broken authentication exploitation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1550.001"
+    tactic:
+      - "Defense Evasion"
+      - "Lateral Movement"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "OWASP - Session Management Cheat Sheet"
+    - "OAuth 2.0 Security Best Current Practice (RFC 6819)"
+    - "CWE-613 - Insufficient Session Expiration"
+  search_keywords:
+    - "token synchronization"
+    - "token sync gap"
+    - "token refresh race condition"
+    - "distributed authentication"
+    - "token replay"
+    - "session desynchronization"
+    - "eventual consistency token"
+  embedding_text: >-
+    Endpoint Token Sync Gap is a vulnerability where authentication tokens become desynchronized
+    between endpoints during refresh cycles or token rotation in distributed systems. The gap
+    between token invalidation and propagation creates a window for stale token replay. Affects
+    OAuth flows, JWT-based authentication, API gateways, and microservice architectures.
+    Attackers capture valid tokens, trigger refresh, then replay old tokens against endpoints
+    that have not received the revocation. Exacerbated by eventual consistency, distributed
+    caches with TTL-based invalidation, and lack of centralized token validation. Race condition
+    nature makes detection and reproduction difficult.

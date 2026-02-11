@@ -1,0 +1,107 @@
+# GR Atom: CVE-2023-48023
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202348023-001"
+  name: "CVE-2023-48023"
+  normalized_name: "cve_2023_48023"
+  aliases:
+    - "Ray Missing Authentication"
+    - "Anyscale Ray Cluster API Access"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - AUTHZ
+    - CLOUD
+    - AI
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray"
+    - "Ray Cluster API"
+    - "Ray AI/ML Framework"
+
+definition:
+  what: >-
+    CVE-2023-48023 is a missing authentication vulnerability in the Anyscale Ray open-source AI/ML
+    framework. The Ray Client API does not require authentication, allowing any user with network
+    access to the Ray cluster to connect as a client and submit compute tasks. This is a companion
+    vulnerability to CVE-2023-48022, affecting the Ray Client interface rather than the Dashboard API.
+    The vulnerability allows unauthenticated remote users to access cluster resources, read stored
+    data, and execute arbitrary code. CVSS v3: 9.8 (Critical). Like CVE-2023-48022, this is disputed
+    by Anyscale.
+  why: >-
+    The Ray Client API provides programmatic access to the full capabilities of a Ray cluster,
+    including job submission, actor creation, and data access. Without authentication, any network-
+    accessible attacker gains the same privileges as legitimate cluster users. This is especially
+    critical in cloud environments where Ray clusters may be inadvertently exposed to the internet.
+    Combined with CVE-2023-48022, it creates a situation where all Ray API surfaces lack authentication,
+    making exposed clusters trivially exploitable for data theft, cryptomining, and supply chain
+    attacks on ML models.
+  how: >-
+    Exploitation requires only network access to the Ray Client API port. An attacker connects using
+    the standard Ray Python client library with ray.init() pointing to the target cluster address.
+    Once connected, the attacker can submit arbitrary Python functions for remote execution, access
+    the Ray object store containing shared data, create persistent actors, and consume cluster compute
+    resources. No credentials or tokens are needed. Mitigation requires deploying Ray behind
+    authentication-enforcing reverse proxies, network segmentation to prevent unauthorized access,
+    or upgrading to Ray versions that support authentication when enabled.
+  core_concepts:
+    - key: "Missing Authentication for Critical Function"
+      value: "Complete absence of authentication on a compute cluster API that provides full code execution and data access capabilities"
+    - key: "AI Supply Chain Risk"
+      value: "Unauthenticated access to ML training infrastructure enables poisoning of models and theft of proprietary training data"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "CVE-2023-48023 is a vulnerable application instance where Ray Client API lacks authentication"
+  - type: enables
+    target: "VUL-CONFIG-CVE202348022-001"
+    description: "CVE-2023-48023 complements CVE-2023-48022 by exposing the Ray Client API without authentication alongside the Dashboard API"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access", "Execution"]
+  cve_mapping:
+    cve_id: "CVE-2023-48023"
+    cvss_score: 9.8
+    cwe_id: "CWE-306"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2023-48023 - NVD NIST"
+    - "Oligo Security - ShadowRay Campaign Analysis"
+    - "Anyscale Ray Security Documentation"
+    - "CWE-306 - Missing Authentication for Critical Function"
+  search_keywords:
+    - "CVE-2023-48023"
+    - "Ray Client API vulnerability"
+    - "Anyscale Ray authentication"
+    - "Ray cluster unauthenticated"
+    - "ShadowRay client API"
+    - "AI compute cluster exposure"
+    - "Ray missing authentication"
+  embedding_text: >-
+    CVE-2023-48023 is a critical missing authentication vulnerability in the Anyscale Ray AI/ML
+    framework's Client API. The Ray Client API does not require authentication, allowing any user
+    with network access to connect and submit arbitrary compute tasks, access stored data, and
+    execute code on the cluster. CVSS v3 score is 9.8 Critical. Companion vulnerability to
+    CVE-2023-48022 affecting the Client interface rather than the Dashboard API. Disputed by
+    Anyscale as a design decision. Exploitation enables data theft, cryptomining, and ML model
+    poisoning. Ray is widely used by major technology companies for distributed AI computing.
+    Mitigation requires authentication proxies and network segmentation. Maps to MITRE ATT&CK
+    T1190 and CWE-306 Missing Authentication for Critical Function.

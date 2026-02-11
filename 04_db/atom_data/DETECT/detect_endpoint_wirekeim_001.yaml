@@ -1,0 +1,94 @@
+# GR Atom: Windows Registry Key Import Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKEIM-001"
+  name: "Windows Registry Key Import Event"
+  normalized_name: "windows_registry_key_import_event"
+  aliases:
+    - "Registry Import Detection"
+    - "Reg Import Event"
+    - "Registry Hive Load"
+    - "RegRestoreKey Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - PERSIST
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when registry data is imported from external files into the Windows registry on an endpoint. This covers reg.exe import commands, reg.exe load operations for loading hive files, regedit.exe file import operations, and RegLoadKey/RegRestoreKey API calls. The event captures the source file path, target registry location, the importing process, and user context. Bulk registry imports can introduce multiple keys and values in a single operation, making them a powerful mechanism for rapid system configuration changes."
+  why: "Registry import operations are exploited by adversaries for rapid deployment of persistence mechanisms, mass configuration changes to disable security controls, and restoration of previously exfiltrated credential hives. A single .reg file can establish multiple autostart entries, modify security settings, and configure malicious services simultaneously. Monitoring imports detects both offensive tooling that deploys registry-based payloads and configuration attacks that modify system security posture through bulk registry changes."
+  how: "Detection monitors command-line auditing for reg.exe import and reg.exe load commands. Process creation events capture reg.exe and regedit.exe executions with import-related arguments. File access events on .reg and .hiv files detect staging of import data. Sysmon registry events (IDs 12-13) capture the individual key and value operations resulting from the import. EDR agents correlate the import command with the resulting registry changes. SIEM rules flag imports from unusual locations, imports by unexpected processes, and imports targeting security-critical registry paths."
+  core_concepts:
+    - key: "bulk_persistence_deployment"
+      value: "Using registry import files to rapidly deploy multiple persistence mechanisms, services, and autostart entries in a single operation"
+    - key: "hive_loading"
+      value: "Loading external registry hive files to access offline registry data or mount credential hives from other systems"
+    - key: "configuration_attack"
+      value: "Importing registry data that disables security features, modifies firewall rules, or weakens authentication settings"
+    - key: "import_file_analysis"
+      value: "Analyzing the content and origin of .reg import files to determine if they contain malicious configuration changes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key import is a specific type of registry key operation"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-WIREKEEX-001"
+    description: "Import operations typically require previously exported registry data"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1112"
+    tactic:
+      - "defense-evasion"
+      - "persistence"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Reg Import Command"
+    - "Microsoft Documentation - RegLoadKey Function"
+    - "MITRE ATT&CK T1112 - Modify Registry"
+    - "Sysmon Documentation - Registry Events"
+  search_keywords:
+    - "registry import"
+    - "reg import"
+    - "reg load"
+    - "registry hive load"
+    - "RegLoadKey"
+    - "RegRestoreKey"
+    - "registry file import"
+    - "reg file deployment"
+    - "bulk registry change"
+    - "registry persistence import"
+  embedding_text: "Windows registry key import event detection pattern identifies when registry data is imported from external files via reg.exe import/load commands, regedit import operations, or RegLoadKey/RegRestoreKey API calls. Adversaries use registry imports for rapid deployment of persistence mechanisms, mass configuration changes to disable security controls, and loading of credential hives from compromised systems. A single import can establish multiple autostart entries and modify security settings simultaneously. Maps to MITRE ATT&CK T1112 Modify Registry. Detection monitors command-line auditing, process creation events, and correlates import commands with resulting registry modifications to identify malicious bulk configuration changes."

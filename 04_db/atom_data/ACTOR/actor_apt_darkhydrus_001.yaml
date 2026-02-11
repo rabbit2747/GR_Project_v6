@@ -1,0 +1,83 @@
+# GR Atom: DarkHydrus
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DARKHYDRUS-001"
+  name: "DarkHydrus"
+  normalized_name: "darkhydrus"
+  aliases:
+    - "LazyMeerkat"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXEC
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DarkHydrus is a Middle Eastern APT group identified by Palo Alto Unit 42, targeting government entities, educational institutions, and critical infrastructure in the Middle East, primarily in the Arabian Peninsula region. Active since at least 2016, the group is known for using novel techniques such as DNS tunneling for command-and-control and Google Drive for C2 communications. They leverage credential harvesting, open-source tools, and custom malware including the RogueRobin trojan."
+  why: "DarkHydrus is notable for its creative use of legitimate services and DNS-based techniques to evade detection. Their abuse of Google Drive API for command-and-control and reliance on DNS tunneling for data exfiltration demonstrates how APT groups can leverage trusted services to bypass network security controls. The group's targeting of Middle Eastern government entities suggests state-sponsored intelligence collection operations."
+  how: "The group uses spearphishing emails with malicious Excel or Word documents containing macros that download and execute the RogueRobin trojan. RogueRobin communicates with operators through DNS tunneling, making C2 traffic appear as legitimate DNS queries. In later campaigns, the group evolved to use Google Drive API as an alternative C2 channel. They have also deployed open-source tools such as Phishery for credential harvesting and Meterpreter for post-exploitation. Persistence is achieved through scheduled tasks and registry modifications."
+  core_concepts:
+    - key: "DNS Tunneling C2"
+      value: "Uses DNS queries as a covert command-and-control channel to evade network monitoring"
+    - key: "RogueRobin Trojan"
+      value: "Custom .NET-based trojan with DNS tunneling and Google Drive API C2 capabilities"
+    - key: "Legitimate Service Abuse"
+      value: "Leverages Google Drive and DNS protocols as covert communication channels"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing with malicious documents as primary initial access vector"
+  - type: is_a
+    target: "ACTOR-APT-DARKHYDRUS-001"
+    description: "Middle Eastern APT group specializing in DNS-based evasion techniques"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.004"
+    tactic:
+      - "Initial Access"
+      - "Command and Control"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Palo Alto Unit 42 - DarkHydrus Campaign Reports"
+    - "Palo Alto Unit 42 - RogueRobin Trojan Analysis"
+  search_keywords:
+    - "darkhydrus"
+    - "lazymeerkat"
+    - "roguerobin trojan"
+    - "dns tunneling apt"
+    - "google drive c2"
+    - "middle east government targeting"
+    - "arabian peninsula apt"
+    - "phishery tool"
+    - "dns covert channel"
+    - "net trojan espionage"
+  embedding_text: "DarkHydrus is a Middle Eastern APT group identified by Palo Alto Unit 42, targeting government entities, educational institutions, and critical infrastructure in the Arabian Peninsula region. Active since at least 2016, the group uses spearphishing with malicious Excel and Word documents to deliver the RogueRobin trojan, a custom .NET-based implant that communicates through DNS tunneling. In evolved campaigns, the group added Google Drive API as an alternative command-and-control channel. They leverage open-source tools including Phishery for credential harvesting and Meterpreter for post-exploitation. DarkHydrus is notable for its creative abuse of legitimate services and DNS protocols to evade network security monitoring, demonstrating how APT groups can leverage trusted channels to bypass security controls."

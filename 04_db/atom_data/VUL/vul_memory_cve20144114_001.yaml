@@ -1,0 +1,109 @@
+# GR Atom: CVE-2014-4114
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20144114-001"
+  name: "CVE-2014-4114"
+  normalized_name: "cve_2014_4114"
+  aliases:
+    - "Sandworm OLE Package Manager Vulnerability"
+    - "Windows OLE Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Windows OLE Package Manager (packager.dll)"
+    - "Windows Vista through Windows 8.1"
+    - "Windows Server 2008 through 2012 R2"
+    - "Microsoft PowerPoint"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-4114 is a remote code execution vulnerability (CVSS 9.3) in the Windows OLE
+    Package Manager (packager.dll) that allows attackers to execute arbitrary code by embedding
+    OLE objects in Office documents, particularly PowerPoint presentations. The vulnerability
+    does not involve memory corruption but rather a design flaw allowing OLE objects to download
+    and execute files from external sources. It was exploited as a zero-day by the Russian
+    Sandworm APT group in espionage campaigns against NATO and European targets. Patched in
+    MS14-060 (October 2014).
+  why: >-
+    This vulnerability is historically significant as the Sandworm vulnerability, used by a
+    Russian state-sponsored APT group in espionage campaigns targeting NATO, the European Union,
+    Ukrainian government entities, and energy companies. The iSIGHT Partners (now Mandiant)
+    discovery and attribution to the Sandworm team marked a major milestone in public
+    attribution of nation-state cyber operations. The vulnerability demonstrated that design
+    flaws in document embedding could be as dangerous as memory corruption.
+  how: >-
+    The exploit embeds specially crafted OLE objects in a PowerPoint presentation that reference
+    external INF and GIF files via UNC paths or URLs. When the presentation is opened, the OLE
+    Package Manager automatically downloads the referenced files. The INF file is then executed
+    by Windows, which installs a malicious payload. This is a design-level vulnerability rather
+    than a memory corruption bug, as the OLE Package Manager was never intended to restrict
+    external file execution.
+  core_concepts:
+    - key: "OLE Package Manager Design Flaw"
+      value: "OLE objects in Office documents can reference and automatically execute external files through the Package Manager without memory corruption"
+    - key: "Sandworm APT Campaign"
+      value: "Exploited by Russian state-sponsored Sandworm group targeting NATO, EU, and Ukrainian government entities"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Code execution vulnerability in Windows OLE Package Manager exploited through document embedding"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2014-4114 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS14-060"
+    - "iSIGHT Partners - Sandworm Team Analysis"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2014-4114"
+    - "Sandworm"
+    - "OLE"
+    - "Package Manager"
+    - "packager.dll"
+    - "PowerPoint"
+    - "MS14-060"
+    - "zero-day"
+    - "NATO"
+    - "Russia"
+  embedding_text: >-
+    CVE-2014-4114 is a remote code execution vulnerability with CVSS 9.3 in the Windows OLE
+    Package Manager (packager.dll) allowing arbitrary code execution through crafted Office
+    documents. Unlike typical memory corruption, this is a design flaw enabling OLE objects
+    to download and execute external files automatically. Known as the Sandworm vulnerability,
+    it was exploited as a zero-day by the Russian state-sponsored Sandworm APT group in
+    espionage campaigns against NATO, EU, and Ukrainian entities. Patched in MS14-060 in
+    October 2014, its discovery by iSIGHT Partners marked a major milestone in public
+    attribution of nation-state cyber operations targeting geopolitical adversaries.

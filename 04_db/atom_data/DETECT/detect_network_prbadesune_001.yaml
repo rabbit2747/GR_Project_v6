@@ -1,0 +1,101 @@
+# GR Atom: Protocol-Based Detection of Suspicious Network Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-PRBADESUNE-001"
+  name: "Protocol-Based Detection of Suspicious Network Traffic"
+  normalized_name: "protocol_based_detection_of_suspicious_network_traffic"
+  aliases:
+    - "Protocol-Based Traffic Detection"
+    - "Suspicious Traffic Protocol Analysis"
+    - "Protocol-Aware Network Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - IPS
+    - MONITOR
+    - FIREWALL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection strategy that leverages protocol-specific knowledge and analysis to identify suspicious or malicious network traffic. This approach uses understanding of protocol specifications (RFCs), expected behavior patterns, and normal usage characteristics to detect anomalies, violations, and abuse across all network protocol layers. It serves as an overarching framework for protocol-aware detection that encompasses specific protocol detection patterns for HTTP, DNS, SMTP, SSH, and other protocols."
+  why: "Protocol-based detection provides a fundamental layer of network security by identifying traffic that violates or abuses protocol standards. Unlike signature-based detection that requires known attack patterns, protocol analysis can detect novel attacks that deviate from expected protocol behavior. This approach is essential for identifying zero-day exploits, custom malware communications, and sophisticated attacks that hide within ostensibly legitimate protocol traffic."
+  how: "Implementation involves deploying protocol-aware sensors that understand the state machines, message formats, and behavioral norms of monitored protocols. Analysis includes: protocol compliance verification against RFC specifications; state machine validation to detect out-of-order or malformed protocol exchanges; header and field analysis for anomalous values or combinations; timing and sequence analysis for behavioral deviations; and cross-protocol correlation to identify multi-stage attacks. Detection rules are organized by protocol family with specific analyzers for each major protocol."
+  core_concepts:
+    - key: "Protocol State Analysis"
+      value: "Tracking protocol state machines to detect invalid transitions, malformed exchanges, and protocol exploitation attempts."
+    - key: "RFC Compliance Validation"
+      value: "Verifying that traffic adheres to protocol standards defined in RFC specifications."
+    - key: "Cross-Protocol Correlation"
+      value: "Correlating suspicious indicators across multiple protocols to detect multi-stage or multi-vector attacks."
+    - key: "Protocol-Specific Signatures"
+      value: "Applying detection signatures tuned to specific protocol structures and known vulnerability patterns."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: abstracts
+    target: "DETECT-NETWORK-APPRABPA-001"
+    description: "Protocol-based detection abstracts specific application protocol abuse detection"
+  - type: abstracts
+    target: "DETECT-NETWORK-NETPORANO-001"
+    description: "Protocol-based detection abstracts specific port anomaly detection"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow data for protocol-level traffic analysis"
+  - type: effective_against
+    target: "ATK-EVASION-PROTO-001"
+    description: "Detects protocol evasion techniques used to bypass security controls"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071"
+    tactic:
+      - "Command and Control"
+      - "Exfiltration"
+    sub_techniques:
+      - "T1071.001"
+      - "T1071.002"
+      - "T1071.003"
+      - "T1071.004"
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Application Layer Protocol T1071"
+    - "NIST SP 800-94 Rev 1 - Guide to Intrusion Detection and Prevention Systems"
+    - "SANS Institute - Protocol Analysis for Network Security"
+  search_keywords:
+    - "protocol detection"
+    - "protocol analysis"
+    - "suspicious traffic"
+    - "protocol anomaly"
+    - "protocol compliance"
+    - "network protocol detection"
+    - "protocol-based IDS"
+    - "protocol violation"
+    - "traffic analysis"
+    - "protocol inspection"
+  embedding_text: "Protocol-based detection of suspicious network traffic is a strategy that leverages protocol-specific knowledge to identify malicious activity by analyzing protocol compliance, state machine validation, header and field anomalies, and behavioral deviations. It serves as an overarching framework for protocol-aware detection across HTTP, DNS, SMTP, SSH, and other protocols. Unlike signature-based detection, protocol analysis can identify novel attacks and zero-day exploits that deviate from expected protocol behavior defined in RFC specifications. This approach provides a fundamental layer of network security through cross-protocol correlation and protocol-specific analysis."

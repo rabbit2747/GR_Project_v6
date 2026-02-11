@@ -1,0 +1,110 @@
+# GR Atom: Pentest Lab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-PENTLAB-001"
+  name: "Pentest Lab"
+  normalized_name: "pentest_lab"
+  aliases:
+    - "Penetration Testing Lab"
+    - "Security Testing Lab"
+    - "Red Team Lab"
+    - "Offensive Security Lab"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - NETWORK
+    - LINUX
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z5"
+  function: "C1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Pentest Lab is an isolated infrastructure environment specifically designed for penetration
+    testing practice, security tool development, exploit testing, and offensive security training.
+    These environments may be physical networks with dedicated hardware, virtualized using
+    VMware/VirtualBox/Proxmox, or cloud-hosted on platforms like AWS/Azure. Pentest labs
+    typically contain intentionally vulnerable machines (Metasploitable, DVWA, VulnHub images),
+    network segmentation for simulating enterprise architectures, and attack tools (Kali Linux,
+    Parrot OS). Commercial platforms like Offensive Security labs, HackTheBox, and PentesterLab
+    provide managed lab environments.
+  why: >-
+    Pentest labs are critical security infrastructure for training offensive and defensive
+    security teams, validating security tools, testing exploits in controlled environments,
+    and developing attack playbooks before live engagements. However, they also present security
+    risks: misconfigured labs can expose vulnerable services to production networks, lab tools
+    can be repurposed for unauthorized attacks, and lab infrastructure may contain sensitive
+    client data from previous assessments. Air-gapping or strict network isolation of lab
+    environments is essential to prevent accidental exposure or compromise.
+  how: >-
+    Pentest labs are constructed by deploying intentionally vulnerable operating systems and
+    applications on isolated networks. Virtualization platforms host multiple target machines
+    simulating different OS versions, services, and vulnerability classes. Network segmentation
+    creates separate subnets mimicking DMZ, internal, and management zones. Attack machines
+    run security distributions (Kali, Parrot) with pre-installed tools. Lab management may
+    use automation tools (Vagrant, Terraform, Ansible) for reproducible environment deployment.
+    Access is controlled through VPN connections, jump boxes, and time-limited sessions.
+    Results are documented and environments are reset between assessments.
+  core_concepts:
+    - key: "Controlled Vulnerability Environment"
+      value: "Intentionally vulnerable infrastructure providing safe practice targets for offensive security skill development without legal or ethical risk"
+    - key: "Network Isolation"
+      value: "Critical requirement for air-gapping or strict segmentation of lab environments from production networks to prevent vulnerable service exposure"
+    - key: "Reproducible Deployment"
+      value: "Automated infrastructure-as-code deployment of lab environments ensuring consistent testing conditions and rapid environment reset between assessments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-ENDPOINT-TRYHACKME-001"
+    description: "On-premises pentest labs are an alternative to cloud-based training platforms like TryHackMe"
+  - type: "enables"
+    target: "DEF-OFFENSIVE-PENTEST-001"
+    description: "Pentest labs provide the isolated infrastructure required for safe penetration testing practice and tool development"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-115 - Technical Guide to Information Security Testing and Assessment"
+    - "OWASP Testing Guide v4.0 - Security Testing Methodology"
+    - "PTES - Penetration Testing Execution Standard"
+  search_keywords:
+    - "pentest lab"
+    - "penetration testing lab"
+    - "security testing environment"
+    - "red team lab"
+    - "offensive security lab"
+    - "vulnerable lab"
+    - "Metasploitable"
+    - "security training lab"
+    - "VulnHub"
+  embedding_text: >-
+    Pentest Lab is an isolated infrastructure environment designed for penetration testing
+    practice, security tool development, exploit testing, and offensive security training.
+    These environments may be physical, virtualized (VMware, VirtualBox, Proxmox), or cloud-
+    hosted, containing intentionally vulnerable machines like Metasploitable and DVWA with
+    network segmentation simulating enterprise architectures. Attack tools run on Kali Linux
+    or Parrot OS distributions. Labs are critical for training offensive and defensive teams,
+    validating tools, and developing attack playbooks. Security risks include misconfigured
+    labs exposing vulnerable services to production, repurposed attack tools, and residual
+    client data. Air-gapping and strict network isolation are essential. Automation tools like
+    Vagrant and Terraform enable reproducible deployment with environments reset between
+    assessments. Commercial platforms like HackTheBox provide managed alternatives.

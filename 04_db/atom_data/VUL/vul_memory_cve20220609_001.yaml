@@ -1,0 +1,115 @@
+# GR Atom: CVE-2022-0609
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20220609-001"
+  name: "CVE-2022-0609"
+  normalized_name: "cve_2022_0609"
+  aliases:
+    - "Chrome Animation Use-After-Free"
+    - "Operation Dream Job Chrome Exploit"
+    - "Lazarus Chrome Zero-Day"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Google Chrome before 98.0.4758.102"
+    - "Chrome Animation component"
+    - "Chromium-based browsers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-0609 is a use-after-free vulnerability (CVSS 8.8) in Google Chrome's Animation
+    component that allows remote code execution through crafted web pages. Disclosed in
+    February 2022 as an actively exploited zero-day, it was exploited by North Korean
+    (Lazarus Group) threat actors in Operation Dream Job and Operation AppleJeus campaigns
+    targeting cryptocurrency, media, and technology organizations. The vulnerability was
+    Chrome's first zero-day of 2022 and was patched via emergency update. Google TAG
+    identified two distinct Lazarus subgroups using the same exploit kit.
+  why: >-
+    CVE-2022-0609 demonstrated the continued capability of North Korean threat actors in
+    browser exploitation, with the same exploit being shared between multiple Lazarus
+    subgroups running different campaigns (cryptocurrency theft and espionage). The
+    targeting of cryptocurrency organizations aligned with DPRK's use of cybercrime for
+    revenue generation. Its exploitation through both watering hole attacks and direct
+    spear-phishing showed operational sophistication. Chrome's market dominance meant
+    the vulnerability had massive potential impact.
+  how: >-
+    The exploit serves crafted JavaScript through compromised websites (watering holes) or
+    attacker-controlled domains that triggers a use-after-free in Chrome's Animation
+    component. The freed memory is reclaimed with attacker-controlled content to achieve
+    arbitrary code execution within the Chrome renderer process. The exploit kit included
+    a sandbox escape component to break out of Chrome's security sandbox for full system
+    compromise. Delivery involved fake job offers (Dream Job) and fake cryptocurrency
+    trading platforms (AppleJeus) targeting specific industries.
+  core_concepts:
+    - key: "Chrome Animation Use-After-Free"
+      value: "Use-after-free in Chrome Animation component enables arbitrary code execution in renderer process"
+    - key: "Lazarus Dual Campaign"
+      value: "Same exploit shared between Operation Dream Job (espionage) and Operation AppleJeus (cryptocurrency theft)"
+    - key: "Full Exploit Chain"
+      value: "Exploit kit included sandbox escape for complete Chrome security model bypass and system compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2022-0609 is a use-after-free memory corruption in Chrome Animation component"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE202126411-001"
+    description: "Both are browser use-after-free vulnerabilities exploited by Lazarus Group for targeted operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Google Chrome Security Advisory CVE-2022-0609"
+    - "Google TAG - Lazarus Operation Dream Job and AppleJeus"
+    - "NVD Entry CVE-2022-0609 - CVSS 8.8"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2022-0609"
+    - "Chrome"
+    - "use-after-free"
+    - "Lazarus"
+    - "Operation Dream Job"
+    - "AppleJeus"
+    - "browser exploit"
+    - "North Korea"
+  embedding_text: >-
+    CVE-2022-0609 is a use-after-free vulnerability in Google Chrome's Animation component
+    with CVSS 8.8 enabling remote code execution through crafted web pages. Chrome's first
+    zero-day of 2022, it was exploited by Lazarus Group in Operation Dream Job (espionage)
+    and Operation AppleJeus (cryptocurrency theft). The same exploit kit was shared between
+    multiple DPRK subgroups, including a sandbox escape for full system compromise. Delivery
+    used fake job offers and cryptocurrency trading platforms targeting specific industries.
+    Patched via emergency Chrome update in February 2022, demonstrating continued North
+    Korean capability in browser exploitation.

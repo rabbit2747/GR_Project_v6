@@ -1,0 +1,128 @@
+# GR Atom: IDOR Insecure Direct Object Reference
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-IDINDIOBRE-001"
+  name: "IDOR Insecure Direct Object Reference"
+  normalized_name: "idor_insecure_direct_object_reference"
+  aliases:
+    - "IDOR"
+    - "Insecure Direct Object Reference"
+    - "Direct Object Reference Vulnerability"
+    - "Object Reference Manipulation"
+    - "CWE-639"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - WEB
+    - API
+    - INFO_LEAK
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web application URL parameters"
+    - "REST API resource identifiers"
+    - "Database primary keys in URLs"
+    - "File path references"
+    - "Session and object identifiers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Insecure Direct Object Reference (IDOR) is a type of access control vulnerability (CWE-639)
+    that occurs when an application uses user-supplied input to directly access objects such as
+    database records, files, or resources without performing adequate authorization checks. The
+    application exposes internal implementation objects through URLs, form parameters, or API
+    endpoints, and an attacker can modify these references to access unauthorized resources.
+    For example, changing a user ID parameter from /api/users/123 to /api/users/124 might
+    return another user's data if the application does not verify that the requesting user
+    is authorized to access that specific record. IDOR is a subset of broken access control
+    and is one of the most commonly found vulnerabilities in web applications and APIs.
+  why: >-
+    IDOR vulnerabilities are prevalent because developers often assume that sequential or
+    predictable identifiers will not be manipulated by users. These flaws are easy to discover
+    (requiring only parameter manipulation) and can have severe impacts including mass data
+    exposure, unauthorized account access, financial fraud, and privacy violations. Bug bounty
+    programs consistently report IDOR as one of the most frequently discovered vulnerability
+    types. IDOR is especially dangerous in APIs where BOLA (Broken Object Level Authorization)
+    is ranked as the number one risk in the OWASP API Security Top 10.
+  how: >-
+    Attackers discover IDOR by identifying object references in URLs, API endpoints, form
+    fields, or cookies (such as /order/12345 or /profile?id=100). The attacker modifies these
+    identifiers to sequential values, UUIDs from other users, or enumerated ranges. If the
+    application returns data without checking authorization, the IDOR is confirmed. Automated
+    tools can enumerate thousands of object IDs to mass-extract data. Advanced IDOR involves
+    manipulating references in POST bodies, headers, or nested JSON objects. Mitigation
+    requires implementing server-side authorization checks for every object access, using
+    indirect references (mapping user-visible tokens to internal IDs), validating object
+    ownership against the authenticated session, and implementing rate limiting to prevent
+    enumeration.
+  core_concepts:
+    - key: "Direct Object Reference"
+      value: "Application exposes internal identifiers (database IDs, file paths) allowing attackers to manipulate references to access unauthorized resources"
+    - key: "Missing Authorization Check"
+      value: "Application retrieves objects based on user-supplied identifiers without verifying that the requesting user is authorized to access that specific object"
+    - key: "BOLA Equivalence"
+      value: "IDOR in API context is classified as Broken Object Level Authorization (BOLA), ranked number one in OWASP API Security Top 10"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "IDOR is a specific instance of broken access control where object-level authorization is missing"
+  - type: "applies_to"
+    target: "VUL-ACCESS-API-001"
+    description: "IDOR/BOLA is the most prevalent API vulnerability type, ranked number one in OWASP API Security Top 10"
+  - type: "enables"
+    target: "VUL-ACCESS-MASSASSI-001"
+    description: "IDOR and mass assignment often coexist in applications with weak authorization, enabling combined data access and modification attacks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A01 Broken Access Control"
+    - "CWE-639 Authorization Bypass Through User-Controlled Key"
+    - "OWASP API Security Top 10 2023 - API1 Broken Object Level Authorization"
+    - "MITRE ATT&CK T1530 - Data from Cloud Storage"
+  search_keywords:
+    - "IDOR"
+    - "insecure direct object reference"
+    - "BOLA"
+    - "broken object level authorization"
+    - "object reference vulnerability"
+    - "parameter manipulation"
+    - "CWE-639"
+    - "authorization bypass"
+  embedding_text: >-
+    IDOR (Insecure Direct Object Reference, CWE-639) is an access control vulnerability where
+    applications use user-supplied input to directly access objects without authorization
+    checks. Attackers manipulate identifiers in URLs, API endpoints, or parameters to access
+    unauthorized database records, files, or resources. Equivalent to BOLA (Broken Object
+    Level Authorization) ranked number one in OWASP API Security Top 10. Most commonly found
+    vulnerability in bug bounty programs. Impacts include mass data exposure, unauthorized
+    account access, and privacy violations. Mitigation requires server-side authorization
+    for every object access, indirect reference mapping, ownership validation, and rate
+    limiting to prevent enumeration attacks.

@@ -1,0 +1,74 @@
+# GR Atom: Google Cloud Platform GCP
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-GCP-002"
+  name: "Google Cloud Platform GCP"
+  normalized_name: "google_cloud_platform_gcp"
+  aliases: ["Google Cloud Infrastructure", "GCP Infrastructure", "Google Cloud Services"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags: [GCP, CLOUD, IAC, HA]
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Google Cloud Platform (GCP) is Google's comprehensive cloud infrastructure platform
+    encompassing compute (Compute Engine, GKE, Cloud Run, Cloud Functions), storage (Cloud
+    Storage, Persistent Disk, Filestore), networking (VPC, Cloud Load Balancing, Cloud CDN,
+    Cloud Interconnect), data analytics (BigQuery, Dataflow, Pub/Sub), AI/ML (Vertex AI),
+    and security services (Security Command Center, Chronicle, BeyondCorp). GCP operates
+    across 40+ regions with a software-defined networking backbone.
+  why: >-
+    As a top-tier cloud provider hosting critical enterprise workloads, GCP is a prime target
+    for sophisticated attacks. Attack vectors include IAM policy exploitation, service account
+    impersonation chains, organization-level privilege escalation, Cloud Storage bucket
+    enumeration, VPC firewall misconfiguration, and cross-project lateral movement. GCP's
+    unique architecture using projects and organization hierarchy creates specific security
+    challenges around resource organization and policy inheritance.
+  how: >-
+    GCP uses a resource hierarchy of Organization, Folders, and Projects with IAM policies
+    inherited downward. VPC networks are global with regional subnets. Identity management
+    uses Cloud Identity with Workload Identity Federation for external identity providers.
+    Security Command Center provides continuous security posture management. Chronicle SIEM
+    provides threat detection with Google-scale data analytics. BeyondCorp Enterprise implements
+    zero-trust access. Cloud Armor provides DDoS protection and WAF. VPC Service Controls
+    create security perimeters around GCP resources.
+  core_concepts:
+    - key: "Resource Hierarchy and Policy Inheritance"
+      value: "Organization > Folders > Projects hierarchy with IAM policies inherited downward, enabling centralized governance but risking over-permissive inheritance"
+    - key: "VPC Service Controls"
+      value: "Security perimeters that restrict data movement between GCP services and projects, preventing data exfiltration even with valid IAM credentials"
+    - key: "BeyondCorp Zero Trust"
+      value: "Google's zero-trust access model that eliminates VPN dependencies by enforcing device trust, identity verification, and context-aware access policies"
+relations:
+  - type: "refines"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "This atom provides expanded coverage of GCP as a full infrastructure platform"
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "GCP is a major cloud service provider"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "GCP competes with AWS as a public cloud platform"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Google Cloud Architecture Framework", "CIS Google Cloud Platform Benchmark", "Google Cloud Security Best Practices"]
+  search_keywords: ["google cloud platform", "GCP infrastructure", "GCP security", "google cloud security", "VPC service controls", "BeyondCorp", "Chronicle SIEM"]
+  embedding_text: >-
+    Google Cloud Platform (GCP) is a comprehensive cloud infrastructure platform with compute,
+    storage, networking, analytics, AI/ML, and security services across 40+ regions. Attack
+    vectors include IAM exploitation, service account impersonation, organization-level
+    privilege escalation, and Cloud Storage enumeration. Resource hierarchy uses Organization,
+    Folders, Projects with inherited IAM policies. VPC Service Controls restrict data movement
+    between services. BeyondCorp implements zero-trust access. Chronicle SIEM provides
+    Google-scale threat detection. Security Command Center manages security posture.

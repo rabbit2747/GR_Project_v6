@@ -1,0 +1,100 @@
+# GR Atom: CVE-2021-42292
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202142292-001"
+  name: "CVE-2021-42292"
+  normalized_name: "cve_2021_42292"
+  aliases:
+    - "Microsoft Excel Security Feature Bypass"
+    - "Excel Macro Trust Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - EVADE
+    - WINDOWS
+    - MACOS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Excel 2013"
+    - "Microsoft Excel 2016"
+    - "Microsoft Excel 2019"
+    - "Microsoft Excel for Mac"
+    - "Microsoft 365 Apps"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-42292 is a security feature bypass vulnerability in Microsoft Excel that allows
+    an attacker to bypass macro security controls. The flaw exists in the logic that determines
+    whether to display the macro security prompt when opening Excel files, enabling execution
+    of embedded macros without user consent or awareness. CVSS v3 base score: 7.8 (High).
+    Actively exploited in the wild by APT groups.
+  why: >-
+    Excel macro security is a critical defense against malware delivery through document-based
+    attacks. Bypassing this control enables silent execution of malicious macros, a primary
+    vector for initial access in enterprise environments. This vulnerability was exploited
+    by APT actors to deliver malware without triggering the security warnings that users
+    rely on to identify suspicious documents.
+  how: >-
+    An attacker crafts a malicious Excel file that exploits the security feature bypass. When
+    opened, the Excel macro trust evaluation logic incorrectly processes certain file
+    characteristics, failing to trigger the macro security prompt. The embedded malicious
+    macros execute automatically without the user being presented with the expected enable/
+    disable macro dialog.
+  core_concepts:
+    - key: "Macro Trust Logic Bypass"
+      value: "Excel's macro security evaluation incorrectly processes certain files, failing to display the security prompt before macro execution"
+    - key: "Silent Macro Execution"
+      value: "Malicious macros execute without user consent, bypassing the primary defense against document-based malware delivery"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Security evaluation logic flaw that bypasses intended macro trust controls in Excel"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204.002"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2021-42292"
+    - "Microsoft Security Update Guide"
+    - "NIST NVD - CVE-2021-42292"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2021-42292"
+    - "Excel macro bypass"
+    - "Excel security feature bypass"
+    - "macro trust bypass"
+    - "Office macro vulnerability"
+    - "Excel malware delivery"
+  embedding_text: >-
+    CVE-2021-42292 is a security feature bypass in Microsoft Excel that allows macro execution
+    without user consent. Macro trust evaluation logic fails to display the security prompt
+    for certain crafted files. CVSS v3 7.8 High. Actively exploited by APT groups for
+    malware delivery. Bypasses primary defense against document-based attacks. Affects Excel
+    2013-2019, Mac, and Microsoft 365. CISA Known Exploited. Macro trust logic flaw.
+    Year 2021.

@@ -1,0 +1,79 @@
+# GR Atom: Code Repository
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-CODEREPO-001"
+  name: "Code Repository"
+  normalized_name: "code_repository"
+  aliases:
+    - "Source Code Repository"
+    - "Git Repository"
+    - "VCS Repository"
+    - "SCM"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - CICD
+    - SUPPLY_CHAIN
+    - GITOPS
+    - DEVSECOPS
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "P1.1"
+
+definition:
+  what: "Code Repository is the general infrastructure category for version-controlled source code hosting platforms that provide storage, versioning, branching, merging, and collaboration capabilities for software development. This includes platforms like GitHub, GitLab, Bitbucket, Azure DevOps Repos, and AWS CodeCommit that host Git repositories with additional features including pull requests, code review, issue tracking, and CI/CD pipeline integration."
+  why: "Code repositories are high-value targets because they contain the complete intellectual property of software organizations, including source code, configuration files, infrastructure-as-code definitions, and often embedded secrets. Unauthorized access enables source code theft, supply chain attacks through malicious code injection, and reconnaissance for vulnerability discovery. Repository access controls, branch protection, and secret scanning are critical security controls. Compromised repository credentials are among the most impactful security incidents."
+  how: "Code repositories operate on distributed version control systems (primarily Git) with centralized hosting providing authentication, authorization, and collaboration features. Branch protection rules enforce code review requirements. Webhooks trigger CI/CD pipelines on code changes. Secret scanning detects accidentally committed credentials. Signed commits verify author identity. Access is controlled through SSH keys, personal access tokens, and OAuth applications. Repository mirroring and forking enable distributed collaboration while maintaining access control boundaries."
+  core_concepts:
+    - key: "Version Control"
+      value: "System tracking all changes to source code files with full history, enabling collaboration, rollback, and audit trail of modifications"
+    - key: "Branch Protection"
+      value: "Access controls preventing direct pushes to critical branches, requiring pull requests, code reviews, and CI checks before merging"
+    - key: "Secret Scanning"
+      value: "Automated detection of accidentally committed credentials, API keys, and tokens in repository content and commit history"
+    - key: "CI/CD Integration"
+      value: "Webhook-based triggering of build, test, and deployment pipelines in response to code changes and pull request events"
+
+relations:
+  - type: abstracts
+    target: "INFRA-DEVOPS-BITBUCKET-001"
+    description: "Code Repository is the general concept that Bitbucket implements as a specific platform"
+  - type: abstracts
+    target: "INFRA-DEVOPS-SOURCEFORG-001"
+    description: "Code Repository is the general concept that SourceForge implements as a specific platform"
+  - type: enables
+    target: "INFRA-DEVOPS-CODEBUILD-001"
+    description: "Code repositories provide source code that feeds into build pipelines"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1213.003"
+    tactic: ["Collection"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "GitHub Security Best Practices - https://docs.github.com/en/code-security"
+    - "OWASP Source Code Management Security"
+    - "MITRE ATT&CK T1213.003 - Data from Information Repositories: Code Repositories"
+  search_keywords:
+    - "code repository"
+    - "source code management"
+    - "Git repository security"
+    - "version control"
+    - "repository access control"
+    - "branch protection"
+    - "secret scanning"
+    - "SCM security"
+  embedding_text: "Code Repository is the general infrastructure category for version-controlled source code hosting platforms providing storage, versioning, branching, and collaboration for software development. Includes GitHub, GitLab, Bitbucket, Azure DevOps Repos, and CodeCommit. Security significance includes protecting intellectual property, preventing supply chain attacks through malicious code injection, and detecting accidentally committed secrets. Branch protection rules enforce code review requirements. Webhook integrations trigger CI/CD pipelines. Access is controlled through SSH keys, tokens, and OAuth. Compromised repository credentials represent high-impact security incidents enabling source code theft and reconnaissance."

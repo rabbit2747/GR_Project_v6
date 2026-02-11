@@ -1,0 +1,74 @@
+# GR Atom: FIPS 140-2
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-FIPS1402-001"
+  name: "FIPS 140-2"
+  normalized_name: "fips_140_2"
+  aliases:
+    - "FIPS 140"
+    - "Federal Information Processing Standard 140-2"
+    - "FIPS 140-2 Validation"
+    - "Cryptographic Module Validation Program"
+    - "CMVP"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - ENCRYPT
+
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "FIPS 140-2 (Federal Information Processing Standard Publication 140-2) is a U.S. government standard published by NIST that defines the security requirements for cryptographic modules used to protect sensitive information. The standard specifies four increasing levels of security (Level 1 through Level 4) covering areas including cryptographic module specification, module ports and interfaces, roles and services, finite state model, physical security, operational environment, cryptographic key management, electromagnetic interference/compatibility, self-tests, design assurance, and mitigation of other attacks. Validation is performed through the Cryptographic Module Validation Program (CMVP) jointly operated by NIST and the Canadian Centre for Cyber Security."
+  why: "Cryptographic modules are foundational to data protection, yet flawed implementations can render encryption ineffective. FIPS 140-2 validation provides assurance that cryptographic modules correctly implement approved algorithms, protect keys from unauthorized access, and operate securely under defined conditions. Federal agencies are required by FISMA to use FIPS 140-2 validated modules, and the standard is widely adopted by regulated industries including healthcare, financial services, and defense."
+  how: "Vendors submit cryptographic modules to accredited Cryptographic and Security Testing (CST) laboratories for testing against the FIPS 140-2 requirements at the target security level. Testing covers algorithm validation (through the Cryptographic Algorithm Validation Program), physical security mechanisms, key management procedures, self-test functionality, and operational environment controls. Upon successful testing, NIST issues a validation certificate listing the module, its security level, and approved algorithms. Organizations verify module validation status through the CMVP validated modules list."
+  core_concepts:
+    - key: "Security Level 1-4"
+      value: "Increasing security requirements from basic software-only cryptography (L1) to physical tamper-active hardware with environmental protection (L4)"
+    - key: "Cryptographic Module"
+      value: "Hardware, software, or firmware component that implements approved cryptographic algorithms and key management functions"
+    - key: "CAVP"
+      value: "Cryptographic Algorithm Validation Program that tests individual algorithm implementations for correctness"
+    - key: "CMVP"
+      value: "Cryptographic Module Validation Program jointly operated by NIST and CCCS to validate complete cryptographic modules"
+
+relations:
+  - type: implements
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "FIPS 140-2 implements NIST cryptographic security requirements"
+  - type: enables
+    target: "COMP-STANDARD-FEDRAMP-001"
+    description: "FIPS 140-2 validated modules are required for FedRAMP authorized cloud services"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "FIPS 140-2 validated encryption satisfies PCI DSS strong cryptography requirements"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST FIPS 140-2 - https://csrc.nist.gov/publications/detail/fips/140/2/final"
+    - "NIST CMVP - https://csrc.nist.gov/projects/cryptographic-module-validation-program"
+    - "NIST CAVP - https://csrc.nist.gov/projects/cryptographic-algorithm-validation-program"
+  search_keywords:
+    - "FIPS 140-2"
+    - "FIPS 140"
+    - "cryptographic module validation"
+    - "CMVP"
+    - "CAVP"
+    - "cryptographic module"
+    - "FIPS validated"
+    - "encryption standard"
+    - "federal cryptography"
+    - "security level"
+  embedding_text: "FIPS 140-2 is a U.S. government standard defining security requirements for cryptographic modules at four increasing levels. Published by NIST, it covers cryptographic module specification, physical security, key management, self-tests, and design assurance. Validation is performed through the CMVP jointly operated by NIST and the Canadian Centre for Cyber Security. Vendors submit modules to accredited CST laboratories for testing against algorithm correctness via CAVP and module-level security requirements. FIPS 140-2 validation is required by FISMA for federal agencies and widely adopted in healthcare, financial services, and defense for assuring cryptographic implementation correctness."

@@ -1,0 +1,113 @@
+# GR Atom: CVE-2008-0166
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20080166-001"
+  name: "CVE-2008-0166"
+  normalized_name: "cve_2008_0166"
+  aliases:
+    - "Debian OpenSSL Predictable PRNG"
+    - "Debian Weak Key Vulnerability"
+    - "Debian OpenSSL Random Number Generator Bug"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - LINUX
+    - SSH
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components:
+    - "Debian OpenSSL libssl"
+    - "OpenSSH Key Generation"
+    - "SSL/TLS Certificate Generation"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2008-0166 is a critical vulnerability in Debian and Ubuntu distributions where a patch to
+    OpenSSL accidentally removed essential entropy sources from the pseudorandom number generator
+    (PRNG), reducing the seed space to only the process ID (PID). This meant all cryptographic keys
+    generated on affected systems between September 2006 and May 2008 were predictable, limited to
+    approximately 32,768 possible keys per key type and size. CVSS score is 7.8. Affected products
+    include Debian 4.0 (Etch) and derived distributions including Ubuntu.
+  why: >-
+    This vulnerability is one of the most catastrophic cryptographic failures in open-source history
+    because it affected every SSL certificate, SSH key, and other cryptographic material generated on
+    millions of Debian-based systems over nearly two years. All generated keys could be brute-forced
+    trivially since the entire keyspace was enumerable. The incident demonstrated how seemingly minor
+    code changes in cryptographic libraries can have devastating security consequences.
+  how: >-
+    A Debian maintainer removed two lines of code from OpenSSL's random number generator that appeared
+    to use uninitialized memory (flagged by Valgrind). However, these lines were critical entropy
+    sources. The resulting PRNG was seeded only by the process ID, limiting the keyspace to roughly
+    32,768 values. An attacker could pre-compute all possible keys and test them against any target
+    system. Tools were published that could crack any affected SSH key or SSL certificate within
+    seconds by trying all possible PID-seeded key values.
+  core_concepts:
+    - name: "Entropy Starvation"
+      value: "Removal of critical randomness sources reduced the PRNG seed space to approximately 32,768 values, making all generated keys predictable"
+    - name: "Supply Chain Impact"
+      value: "A single patch in a widely-distributed cryptographic library compromised key generation across millions of downstream systems"
+    - name: "Key Space Enumeration"
+      value: "The reduced keyspace allowed complete pre-computation of all possible keys, enabling trivial brute-force attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Debian OpenSSL PRNG bug is an instance of cryptographic vulnerability caused by entropy source removal"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Affects all TLS certificates generated on vulnerable Debian systems between 2006-2008"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1588.004"
+      tactic: ["Credential Access", "Initial Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2008-0166"
+    - "Debian Security Advisory DSA-1571"
+    - "Schneier on Security - Debian OpenSSL Vulnerability Analysis"
+  search_keywords:
+    - "CVE-2008-0166"
+    - "Debian OpenSSL PRNG"
+    - "Debian weak keys"
+    - "predictable random number generator"
+    - "OpenSSL entropy bug"
+    - "Debian SSH key vulnerability"
+    - "PRNG seed space reduction"
+    - "Debian cryptographic failure"
+  embedding_text: >-
+    CVE-2008-0166 is a critical vulnerability in Debian-based OpenSSL where a maintenance patch
+    accidentally removed essential entropy sources from the pseudorandom number generator, reducing
+    the seed space to only the process ID. This meant all cryptographic keys generated on affected
+    Debian and Ubuntu systems between September 2006 and May 2008 were predictable, limited to
+    approximately 32,768 possible keys per key type and size. The vulnerability affected SSL
+    certificates, SSH host keys, SSH user keys, and all other cryptographic material generated
+    using the flawed OpenSSL library. Attackers could pre-compute all possible keys and crack
+    any affected key within seconds. The incident is one of the most significant cryptographic
+    failures in open-source software history, demonstrating how seemingly innocuous code changes
+    in cryptographic libraries can have devastating security consequences across millions of
+    systems in the software supply chain.

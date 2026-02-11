@@ -1,0 +1,76 @@
+# GR Atom: Falcon Force Team
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-FALFORTEA-001"
+  name: "Falcon Force Team"
+  normalized_name: "falcon_force_team"
+  aliases:
+    - "FalconForce"
+    - "Falcon Force"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - RED_TEAM
+    - BLUE_TEAM
+    - PENTEST
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "FalconForce is a Dutch cybersecurity consulting firm specializing in red teaming, detection engineering, and security research. The company is known for its purple team approach, combining offensive security expertise with detection development to help organizations improve their security monitoring and response capabilities. FalconForce publishes open-source detection rules, attack tooling, and security research, notably the FalconFriday blog series providing weekly detection content mapped to MITRE ATT&CK."
+  why: "FalconForce is significant in cybersecurity because they bridge the gap between offensive and defensive security through their purple team methodology. Their FalconFriday detection content series provides free, high-quality detection rules mapped to MITRE ATT&CK techniques, enabling security teams to improve their detection coverage. Their research on Windows internals, Active Directory attacks, and EDR evasion techniques contributes to advancing both offensive and defensive security practices."
+  how: "FalconForce conducts red team engagements, detection engineering assessments, and security research for clients. The team develops custom attack tooling and detection rules, publishing their findings through the FalconFriday blog series, GitHub repositories, and conference presentations. Their purple team approach involves executing real attack techniques against client environments while simultaneously developing and validating detection rules for security monitoring platforms like Microsoft Sentinel, Defender, and Splunk."
+  core_concepts:
+    - key: "Purple Team Methodology"
+      value: "Combined offensive and defensive security approach developing detection rules alongside real attack execution"
+    - key: "FalconFriday Detection Series"
+      value: "Weekly published detection content mapped to MITRE ATT&CK techniques for security monitoring platforms"
+    - key: "Detection Engineering"
+      value: "Development and validation of detection rules for identifying adversary techniques in enterprise environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DETECT-BEHAVIOR-RULE-001"
+    description: "Produces FalconFriday detection rules and content mapped to MITRE ATT&CK for security monitoring"
+  - type: enables
+    target: "DEF-SIEM-PLATFORM-001"
+    description: "Enables SIEM and EDR detection improvement through purple team assessments and published detection rules"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security consulting firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.falconforce.nl"
+    - "https://github.com/FalconForceTeam"
+    - "https://medium.com/falconforce"
+  search_keywords:
+    - "falconforce"
+    - "falcon force team"
+    - "falconfriday"
+    - "purple team"
+    - "detection engineering"
+    - "red team netherlands"
+    - "mitre attack detection"
+    - "active directory attack"
+    - "dutch red team"
+  embedding_text: "FalconForce is a Dutch cybersecurity consulting firm specializing in red teaming, detection engineering, and security research. The company is known for its purple team approach, combining offensive security expertise with detection development to help organizations improve their security monitoring and response capabilities. FalconForce publishes the FalconFriday blog series providing weekly detection content mapped to MITRE ATT&CK techniques, along with open-source detection rules and attack tooling via GitHub. Their research on Windows internals, Active Directory attacks, and EDR evasion contributes to advancing both offensive and defensive security practices. The team conducts red team engagements and detection engineering assessments, developing custom attack tooling and detection rules for security monitoring platforms like Microsoft Sentinel, Defender, and Splunk."

@@ -1,0 +1,95 @@
+# GR Atom: Service Deletion Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVDELE-001"
+  name: "Service Deletion Event"
+  normalized_name: "service_deletion_event"
+  aliases:
+    - "Service Removal Event"
+    - "Service Uninstall Detection"
+    - "Service Delete Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that captures the removal or deletion of a system service from an endpoint. On Windows, this corresponds to the deletion of a service entry from the Service Control Manager (SCM) database, generating System Event ID 7036 and Security Event ID 4689, as well as registry deletions under HKLM\\SYSTEM\\CurrentControlSet\\Services. On Linux, this covers the removal of systemd unit files, init.d scripts, or other service management entries. The event records the service name, the account that performed the deletion, and the timestamp."
+  why: "Service deletion is a significant security event because adversaries frequently delete services to cover their tracks after exploitation, remove security tooling such as EDR or antivirus agents, or disrupt critical system operations as part of a denial-of-service or destructive attack. Monitoring service deletions enables detection of defense evasion techniques, anti-forensics activity, and sabotage attempts targeting endpoint protection mechanisms."
+  how: "Detection relies on monitoring the Windows System event log for service deletion entries, Security event log for process termination of service processes, and registry auditing for deletions under the Services key. Sysmon registry events (Event ID 12, 14) can capture service registry key deletions. On Linux, file integrity monitoring on /etc/systemd/system, /lib/systemd/system, and /etc/init.d directories captures service file removals. EDR agents provide real-time telemetry for service lifecycle changes including deletions."
+  core_concepts:
+    - key: "service_registry_deletion"
+      value: "Removal of service configuration entries from the Windows registry Services hive, permanently unregistering the service"
+    - key: "security_tool_removal"
+      value: "Detection of adversaries deleting security-related services such as antivirus, EDR, or host-based firewall services"
+    - key: "anti_forensics"
+      value: "Attackers delete services they created for persistence to remove evidence of their presence on the system"
+    - key: "service_dependency_impact"
+      value: "Deletion of services that other services depend on can cause cascading failures in system operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service deletion event is a specific type of service lifecycle event"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-SERVSTOP-001"
+    description: "Service deletion is preceded by or causes service stop events"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1489"
+    tactic:
+      - "impact"
+      - "defense-evasion"
+    sub_techniques:
+      - "T1562.001"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Service Control Manager Events"
+    - "MITRE ATT&CK T1489 - Service Stop"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "Windows Security Event Log Reference"
+  search_keywords:
+    - "service deletion"
+    - "service removal"
+    - "service uninstall"
+    - "SCM delete"
+    - "service registry deletion"
+    - "defense evasion service"
+    - "security tool removal"
+    - "service lifecycle monitoring"
+    - "endpoint service delete"
+    - "anti-forensics service"
+  embedding_text: "Service deletion event detection pattern captures the removal of system services from endpoints. On Windows this monitors Service Control Manager deletions, registry key removals under the Services hive, and related security event logs. On Linux it tracks removal of systemd units and init.d scripts. Adversaries delete services to remove persistence mechanisms, eliminate security tools like EDR and antivirus, or disrupt system operations. This pattern is critical for detecting defense evasion techniques including MITRE ATT&CK T1562.001 Impair Defenses and T1489 Service Stop, as well as anti-forensics activity where attackers clean up evidence of compromised services."

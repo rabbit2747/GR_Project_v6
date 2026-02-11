@@ -1,0 +1,71 @@
+# GR Atom: macOS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-MACOS-001"
+  name: "macOS"
+  normalized_name: "macos"
+  aliases: ["Mac OS X", "Apple macOS", "OS X", "Macintosh Operating System"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [OS, MACOS, CONFIG]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    macOS is Apple's Unix-based desktop operating system running on Mac hardware (Intel and
+    Apple Silicon). It features a layered security architecture including System Integrity
+    Protection (SIP), Gatekeeper code signing enforcement, XProtect malware detection, the
+    Transparency Consent and Control (TCC) privacy framework, FileVault disk encryption,
+    sandboxed applications, and the Secure Enclave processor on Apple Silicon for hardware-
+    backed key storage and biometric authentication.
+  why: >-
+    macOS is increasingly targeted by sophisticated threat actors (APT groups, ransomware
+    operators) as enterprise Mac adoption grows. Attack vectors include TCC bypass for
+    accessing protected user data, Gatekeeper bypass for executing unsigned code, SIP bypass
+    for modifying protected system files, persistence through Launch Agents/Daemons and login
+    items, and supply chain attacks through compromised developer tools. The myth that Macs
+    are immune to malware leads to inadequate security tooling on macOS endpoints.
+  how: >-
+    macOS security is built on Darwin/XNU kernel with mandatory access controls. SIP prevents
+    modification of system files even by root. Gatekeeper validates code signatures and
+    notarization before execution. TCC controls application access to camera, microphone,
+    contacts, and files. XProtect provides signature-based malware detection. Endpoint Security
+    Framework (ESF) provides kernel-level event monitoring for EDR tools. MDM profiles enable
+    enterprise management. FileVault 2 provides full-disk encryption with Secure Enclave key
+    protection on Apple Silicon.
+  core_concepts:
+    - key: "System Integrity Protection (SIP)"
+      value: "Kernel-level protection preventing modification of system files, directories, and processes even by root; bypasses enable rootkit-level persistence"
+    - key: "TCC Privacy Framework"
+      value: "Controls application access to sensitive data (camera, microphone, files); TCC database bypasses are high-value vulnerabilities for spyware"
+    - key: "Gatekeeper and Notarization"
+      value: "Code signing and Apple notarization enforce software provenance; bypasses allow execution of unsigned malicious code"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "macOS runs on desktop and laptop computers (Mac hardware)"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-ARCHLINU-001"
+    description: "macOS is an alternative desktop OS to Linux distributions"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Apple Platform Security Guide", "MITRE ATT&CK macOS Matrix", "CIS Apple macOS Benchmark"]
+  search_keywords: ["macOS", "mac security", "SIP bypass", "TCC bypass", "Gatekeeper", "macOS malware", "Apple security", "FileVault"]
+  embedding_text: >-
+    macOS is Apple's Unix-based desktop OS with layered security including System Integrity
+    Protection (SIP), Gatekeeper code signing, XProtect malware detection, TCC privacy
+    framework, FileVault encryption, and Secure Enclave on Apple Silicon. Increasingly targeted
+    by APTs and ransomware as enterprise adoption grows. Attack vectors include TCC bypass for
+    data access, Gatekeeper bypass for unsigned code execution, SIP bypass for system
+    modification, and Launch Agent/Daemon persistence. Endpoint Security Framework provides
+    kernel-level event monitoring for EDR tools. MDM enables enterprise management.

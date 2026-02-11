@@ -1,0 +1,67 @@
+# GR Atom: NetSarang
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-NETSARANG-001"
+  name: "NetSarang"
+  normalized_name: "netsarang"
+  aliases:
+    - "NetSarang Computer"
+    - "NetSarang Computer Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "NetSarang Computer is a South Korean software company that develops network connectivity and management tools including Xshell (SSH client), Xftp (SFTP/FTP client), Xlpd (LPD print server), and Xmanager (X11 server). In cybersecurity, NetSarang is notable as the victim of a significant supply chain attack in 2017 when their Xshell software was backdoored with the ShadowPad malware by a suspected Chinese state-sponsored threat actor, affecting customers who downloaded the compromised build."
+  why: "NetSarang is relevant to cybersecurity primarily as a supply chain attack case study. The 2017 ShadowPad backdoor incident, where attackers compromised NetSarang's build environment to inject malicious code into the legitimate Xshell distribution, demonstrated how software supply chain attacks can leverage trusted vendors to reach high-value targets. This incident predated and foreshadowed larger supply chain attacks like SolarWinds."
+  how: "NetSarang develops and distributes remote connectivity tools used by system administrators and IT professionals for managing servers and network devices. In the supply chain attack, threat actors compromised NetSarang's software build process to inject the ShadowPad backdoor into a signed Xshell update distributed through official channels. The backdoor was discovered by Kaspersky researchers through behavioral analysis, leading to coordinated remediation with NetSarang."
+  core_concepts:
+    - key: "Supply chain attack victim"
+      value: "Xshell software backdoored with ShadowPad malware through compromised build environment"
+    - key: "Remote connectivity tools"
+      value: "SSH, SFTP, and X11 management tools used by IT administrators worldwide"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-REMOTE-XSHELL-001"
+    description: "NetSarang produces Xshell and Xftp remote connectivity tools"
+  - type: "applies_to"
+    target: "TECHNIQUE-SUPPLYCHAIN-001"
+    description: "NetSarang was targeted in a supply chain attack via ShadowPad backdoor injection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - ShadowPad Supply Chain Attack Analysis"
+    - "NetSarang Security Advisory 2017"
+    - "ESET - ShadowPad Backdoor Research"
+  search_keywords:
+    - "netsarang"
+    - "xshell"
+    - "xftp"
+    - "netsarang supply chain"
+    - "shadowpad"
+    - "xshell backdoor"
+    - "netsarang compromise"
+  embedding_text: "NetSarang Computer is a South Korean software company developing network connectivity and management tools including Xshell SSH client, Xftp SFTP/FTP client, and Xmanager X11 server, widely used by system administrators for remote server management. NetSarang gained significant cybersecurity attention in 2017 when their Xshell software was compromised in a supply chain attack by a suspected Chinese state-sponsored threat actor who injected the ShadowPad backdoor into a signed software update distributed through official channels. The ShadowPad backdoor was discovered by Kaspersky researchers through behavioral analysis, revealing that attackers had compromised NetSarang's build environment to inject malicious code into legitimate software distributions. This incident is considered one of the significant early examples of software supply chain attacks targeting trusted vendor build processes, predating and foreshadowing larger supply chain compromises like SolarWinds. The case demonstrates how attackers can leverage trusted software vendors as vectors to reach high-value targets in enterprise environments."

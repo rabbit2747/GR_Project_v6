@@ -1,0 +1,116 @@
+# GR Atom: FreeDesktop
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-FREEDESKTO-001"
+  name: "FreeDesktop"
+  normalized_name: "freedesktop"
+  aliases:
+    - "FreeDesktop.org"
+    - "freedesktop.org"
+    - "XDG"
+    - "X Desktop Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - LINUX
+    - OS
+    - CONFIG
+    - PERSIST
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FreeDesktop.org (formerly X Desktop Group / XDG) is an open-source project that develops
+    interoperability specifications and shared infrastructure for Linux and Unix desktop
+    environments. It defines standards including the XDG Base Directory Specification, Desktop
+    Entry files (.desktop), MIME type handling, D-Bus message bus, systemd service management,
+    and shared libraries like Mesa (OpenGL), PulseAudio/PipeWire, and NetworkManager used
+    across GNOME, KDE, XFCE, and other desktop environments.
+  why: >-
+    FreeDesktop specifications define security-relevant system behaviors including autostart
+    mechanisms (.desktop files in autostart directories), D-Bus inter-process communication
+    (which can be abused for privilege escalation), and XDG directory conventions that determine
+    where applications store configuration and credentials. Vulnerabilities in FreeDesktop
+    components (D-Bus, PolicyKit/polkit, systemd) have led to critical privilege escalation
+    exploits (e.g., PwnKit CVE-2021-4034 in polkit). Malware exploits XDG autostart for
+    persistence on Linux desktop systems.
+  how: >-
+    FreeDesktop specifications are implemented through shared libraries, daemons, and
+    configuration conventions. D-Bus provides system and session message buses for IPC.
+    PolicyKit (polkit) manages privilege authorization for system operations. XDG Base
+    Directory Specification defines paths ($XDG_CONFIG_HOME, $XDG_DATA_HOME) where applications
+    store configuration and data. Desktop Entry files (.desktop) define application launchers
+    and autostart entries. Attackers exploit D-Bus service policies for privilege escalation,
+    drop malicious .desktop files for persistence, and target polkit for authorization bypass.
+  core_concepts:
+    - key: "Desktop Interoperability Standards"
+      value: "Specifications defining shared desktop infrastructure including D-Bus IPC, XDG directories, autostart, and MIME handling across Linux environments"
+    - key: "Privilege Escalation Components"
+      value: "FreeDesktop components like polkit and D-Bus have been subject to critical privilege escalation vulnerabilities (PwnKit CVE-2021-4034)"
+    - key: "XDG Autostart Persistence"
+      value: "XDG autostart directories and .desktop files provide a persistence mechanism exploited by malware on Linux desktop systems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-APP-DISPSERV-001"
+    description: "FreeDesktop specifications define the desktop stack that display servers like X11 and Wayland integrate with"
+  - type: "part_of"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "FreeDesktop components form part of the Linux enterprise desktop service infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1547.001"
+    tactic:
+      - "Persistence"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FreeDesktop.org Specifications"
+    - "CVE-2021-4034 - PwnKit Polkit Privilege Escalation"
+    - "MITRE ATT&CK T1547.001 - Boot or Logon Autostart Execution"
+    - "XDG Base Directory Specification"
+  search_keywords:
+    - "FreeDesktop"
+    - "freedesktop.org"
+    - "XDG specification"
+    - "D-Bus vulnerability"
+    - "polkit exploit"
+    - "PwnKit"
+    - "XDG autostart"
+    - "Linux desktop security"
+  embedding_text: >-
+    FreeDesktop.org develops interoperability specifications and shared infrastructure for Linux
+    desktop environments including D-Bus message bus, PolicyKit (polkit) authorization, XDG
+    Base Directory Specification, Desktop Entry files, and shared libraries like Mesa and
+    PipeWire. Security significance includes critical privilege escalation vulnerabilities in
+    polkit (PwnKit CVE-2021-4034) and D-Bus, XDG autostart directories exploited by malware
+    for persistence through .desktop files, and D-Bus service policies targeted for authorization
+    bypass. FreeDesktop components define security-relevant system behaviors across GNOME, KDE,
+    and other Linux desktops. Security teams should monitor XDG autostart directories for
+    unauthorized .desktop files, ensure polkit and D-Bus components are patched, and audit
+    D-Bus service policies for excessive permissions.

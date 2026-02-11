@@ -1,0 +1,132 @@
+# GR Atom: BianLian
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BIANLIAN-001"
+  name: "BianLian"
+  normalized_name: "bianlian"
+  aliases:
+    - "Bian Lian"
+    - "BianLian Ransomware Group"
+    - "BianLian Extortion Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - EXFIL
+    - PERSIST
+    - INITIAL
+    - CRED
+    - NETWORK
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BianLian is a cybercriminal extortion group that emerged in mid-2022 initially operating as a
+    double-extortion ransomware operation deploying custom Go-based ransomware. Following the release
+    of a free decryptor by Avast in January 2023, the group pivoted to a pure data exfiltration and
+    extortion model, abandoning file encryption entirely. BianLian targets critical infrastructure
+    sectors including healthcare, financial services, education, manufacturing, professional services,
+    and government organizations primarily in the United States, Australia, and the United Kingdom.
+    The group is known for exploiting external-facing applications such as RDP, VPN, and ProxyShell
+    vulnerabilities for initial access, then establishing persistence through implanted web shells,
+    custom backdoors, and legitimate remote access tools.
+  why: >-
+    BianLian represents an evolving threat model in the ransomware ecosystem, demonstrating that
+    cybercriminal groups can successfully monetize stolen data without encrypting victim systems.
+    Their pivot to exfiltration-only operations in 2023 reduced their operational complexity while
+    maintaining revenue through extortion. The group's targeting of healthcare and critical
+    infrastructure organizations poses significant risks to public safety and data privacy. A joint
+    CISA, FBI, and ACSC advisory (AA23-136A) was issued specifically for BianLian, underscoring the
+    threat level. Their use of legitimate tools like AnyDesk, TeamViewer, and SplashTop for
+    persistence makes detection particularly challenging for defenders.
+  how: >-
+    BianLian gains initial access primarily through compromised RDP credentials, exploitation of
+    known vulnerabilities in VPN appliances and Microsoft Exchange (ProxyShell), and phishing
+    campaigns. Post-compromise, the group deploys custom backdoors written in Go, uses living-off-the-land
+    techniques including PowerShell, WMI, and cmd.exe for discovery, and leverages legitimate remote
+    management tools (AnyDesk, TeamViewer, Atera, SplashTop) for persistent access. For credential
+    harvesting, they use tools including Mimikatz, LaZagne, and credential dumping from LSASS. Data
+    exfiltration is conducted using Rclone, Mega, and custom scripts to cloud storage. The group
+    operates a Tor-based leak site where they publish stolen data from non-paying victims.
+  core_concepts:
+    - key: "Exfiltration-Only Extortion"
+      value: >-
+        BianLian's post-2023 model focuses exclusively on stealing sensitive data and threatening
+        public disclosure rather than encrypting files, representing a strategic shift in the
+        ransomware-as-extortion landscape.
+    - key: "Go-Based Tooling"
+      value: >-
+        The group develops custom malware and backdoors in the Go programming language, enabling
+        cross-platform targeting of both Windows and Linux systems with compiled static binaries.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "BianLian is a financially motivated cybercriminal extortion group"
+  - type: "enables"
+    target: "ATK-EXFIL"
+    description: "BianLian operations enable large-scale data exfiltration from victim organizations"
+  - type: "applies_to"
+    target: "SECTOR-HEALTHCARE"
+    description: "BianLian heavily targets healthcare sector organizations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Exfiltration"
+      - "Initial Access"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Advisory AA23-136A - BianLian Ransomware Group. https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-136a"
+    - "FBI Flash - BianLian Group Targets Critical Infrastructure. https://www.ic3.gov/Media/News/2023/230516.pdf"
+    - "Avast BianLian Ransomware Decryptor Release (January 2023). https://decoded.avast.io/threatresearch/decrypted-bianlian-ransomware/"
+    - "MITRE ATT&CK - BianLian Group Profile. https://attack.mitre.org/groups/G1017/"
+  search_keywords:
+    - "bianlian ransomware"
+    - "bianlian extortion group"
+    - "bianlian data exfiltration"
+    - "CISA AA23-136A"
+    - "go ransomware bianlian"
+    - "bianlian healthcare"
+    - "bianlian RDP compromise"
+    - "bianlian leak site"
+    - "bianlian avast decryptor"
+  embedding_text: >-
+    BianLian is a cybercriminal extortion group that emerged in 2022 initially deploying custom
+    Go-based ransomware for double extortion operations. After Avast released a free decryptor in
+    January 2023, the group pivoted entirely to data exfiltration and extortion without encryption.
+    BianLian targets critical infrastructure sectors including healthcare, financial services,
+    education, and government, primarily in the United States, Australia, and the United Kingdom.
+    Initial access is gained through compromised RDP credentials, VPN vulnerabilities, and ProxyShell
+    exploitation. The group uses legitimate remote access tools like AnyDesk and TeamViewer for
+    persistence, along with custom Go backdoors. Data exfiltration uses Rclone and cloud storage
+    services. CISA, FBI, and ACSC issued joint advisory AA23-136A specifically addressing BianLian
+    threats. The group operates a Tor-based leak site for publishing stolen data from non-paying
+    victims, representing the evolution toward pure extortion models in the cybercrime ecosystem.

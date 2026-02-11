@@ -1,0 +1,107 @@
+# GR Atom: Remote Procedure Call
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-REMPROCAL-001"
+  name: "Remote Procedure Call"
+  normalized_name: "remote_procedure_call"
+  aliases:
+    - "RPC"
+    - "gRPC"
+    - "XML-RPC"
+    - "JSON-RPC"
+    - "DCOM"
+    - "MSRPC"
+    - "Sun RPC"
+    - "DCE/RPC"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Remote Procedure Call (RPC) is an inter-process communication protocol that enables a program
+    to execute a procedure on a remote server as if it were a local function call. RPC abstracts
+    the underlying network communication, serialization, and transport details. Major RPC
+    implementations include Sun/ONC RPC (RFC 5531), Microsoft DCE/RPC (MSRPC), gRPC (Google,
+    using HTTP/2 and Protobuf), XML-RPC, and JSON-RPC. Microsoft MSRPC underpins many Windows
+    services including Active Directory, file sharing, print spooling, and WMI. gRPC is the
+    dominant modern RPC framework for microservice architectures.
+  why: >-
+    RPC protocols are critical attack surfaces in enterprise networks. MSRPC vulnerabilities have
+    enabled some of the most devastating exploits in history: MS08-067 (Conficker), MS17-010
+    (EternalBlue/WannaCry), and PrintNightmare (CVE-2021-34527) all targeted RPC services.
+    Exposed RPC endpoints enable remote code execution, privilege escalation, and lateral
+    movement. DCOM/RPC is used for lateral movement techniques (T1021.003). gRPC's binary
+    Protobuf encoding complicates network inspection. RPC port mapping services (portmapper,
+    endpoint mapper) reveal available services during reconnaissance.
+  how: >-
+    RPC operates through: (1) Interface definition using IDL (Interface Definition Language) or
+    proto files specifying remote procedures and data types; (2) Stub generation creating client
+    and server code that handles serialization and network communication; (3) Client stub
+    marshals parameters and sends request to server; (4) Server stub unmarshals parameters,
+    executes the procedure, marshals the return value; (5) Client stub receives and unmarshals
+    the response. Transport varies by implementation — MSRPC uses named pipes or TCP 135 with
+    dynamic ports, gRPC uses HTTP/2, Sun RPC uses TCP/UDP with portmapper on port 111.
+  core_concepts:
+    - key: "Interface Definition Language (IDL)"
+      value: "Specification language describing remote procedure signatures, data types, and service interfaces that generate client/server stub code."
+    - key: "MSRPC Endpoint Mapper"
+      value: "Windows service on TCP port 135 that maps RPC interface UUIDs to dynamic port numbers, enabling service discovery and connection establishment."
+    - key: "gRPC"
+      value: "Modern high-performance RPC framework using HTTP/2 transport, Protobuf serialization, and bidirectional streaming for microservice communication."
+    - key: "Marshalling/Unmarshalling"
+      value: "Process of serializing procedure parameters into network-transmittable format (marshalling) and deserializing on receipt (unmarshalling)."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "RPC is an application layer protocol for remote procedure execution across networked systems"
+  - type: "requires"
+    target: "PROTO-MSG-PROTOBUF-001"
+    description: "gRPC uses Protobuf as its default serialization format for procedure parameters and return values"
+  - type: "enables"
+    target: "PROTO-MSG-SMB-001"
+    description: "Microsoft RPC (MSRPC) is used by SMB for named pipe operations and administrative functions"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 5531 — RPC: Remote Procedure Call Protocol Specification Version 2"
+    - "Microsoft — [MS-RPCE]: Remote Procedure Call Protocol Extensions"
+    - "gRPC — gRPC Protocol Documentation"
+    - "MITRE ATT&CK — T1021.003: DCOM Remote Services"
+  search_keywords:
+    - "RPC"
+    - "remote procedure call"
+    - "gRPC"
+    - "MSRPC"
+    - "DCE/RPC"
+    - "DCOM"
+    - "port 135"
+    - "endpoint mapper"
+    - "XML-RPC"
+    - "JSON-RPC"
+  embedding_text: >-
+    Remote Procedure Call (RPC) enables programs to execute procedures on remote servers as
+    local function calls. Major implementations include MSRPC (Windows services), gRPC (HTTP/2
+    + Protobuf), Sun RPC, XML-RPC, and JSON-RPC. RPC is a critical attack surface — MSRPC
+    vulnerabilities enabled Conficker, EternalBlue/WannaCry, and PrintNightmare. DCOM/RPC
+    facilitates lateral movement (MITRE T1021.003). gRPC's binary encoding complicates network
+    inspection. RPC endpoint mappers (port 135, 111) reveal available services during
+    reconnaissance. Security requires restricting RPC access, patching promptly, and monitoring
+    RPC traffic patterns.

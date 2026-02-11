@@ -1,0 +1,121 @@
+# GR Atom: YouTube
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-YOUTUBE-001"
+  name: "YouTube"
+  normalized_name: "youtube"
+  aliases:
+    - "Google YouTube"
+    - "YouTube.com"
+    - "YouTube Premium"
+    - "YouTube Studio"
+    - "YouTube API"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - CLOUD
+    - PRIVACY
+    - HTTP
+    - API
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    YouTube is a Google-owned video sharing and streaming platform with over 2.5 billion
+    monthly active users, serving as the world's largest video hosting service and second-largest
+    search engine. The platform supports video upload, live streaming, community interaction,
+    monetization (YouTube Partner Program), and an extensive API ecosystem. YouTube provides
+    web access, mobile applications (iOS, Android), smart TV apps, and embedded player
+    capabilities. YouTube Studio enables content management, analytics, and channel
+    administration.
+  why: >-
+    YouTube is exploited as a social engineering and malware distribution vector through
+    video descriptions containing malicious links, fake software download tutorials leading
+    to malware, and compromised channel accounts used for cryptocurrency scams and live stream
+    fraud. YouTube comments and community posts distribute phishing links. The platform's
+    advertising system has been abused for malvertising campaigns. YouTube API keys and OAuth
+    tokens, if leaked, enable channel takeover and content manipulation. Creator accounts
+    are high-value targets for credential theft through phishing, with stolen channels used
+    for large-scale scam operations. YouTube's data collection and tracking capabilities
+    raise privacy concerns in enterprise environments.
+  how: >-
+    YouTube operates on Google Cloud infrastructure with a web application and REST/gRPC
+    APIs. Video content is transcoded into multiple formats and resolutions, served through
+    Google's global CDN. Authentication uses Google accounts with OAuth 2.0 for API access.
+    The YouTube Data API v3 provides programmatic access to video management, playlist
+    operations, and channel configuration. YouTube uses adaptive bitrate streaming (DASH/HLS)
+    for video delivery. Content moderation uses automated systems (machine learning) and
+    manual review. The YouTube iframe embed API enables video playback integration in
+    third-party websites. Monetization integrates with Google AdSense for advertising revenue.
+  core_concepts:
+    - key: "Social Engineering Distribution Platform"
+      value: "YouTube videos and descriptions are used to distribute malware through fake software tutorials, cryptocurrency scams, and malicious links reaching billions of users"
+    - key: "Channel Account Compromise"
+      value: "Creator accounts are targeted through phishing for channel takeover, enabling large-scale scam operations leveraging the channel's established audience and trust"
+    - key: "Enterprise Privacy and Productivity"
+      value: "YouTube's tracking capabilities, data collection, and bandwidth consumption create privacy and productivity concerns requiring enterprise policy controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "YouTube is a web application platform used in both consumer and enterprise contexts for video content"
+  - type: "alternative_to"
+    target: "INFRA-APP-TIKTOK-001"
+    description: "YouTube competes with TikTok as a major video content and social media platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204.001"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google YouTube Security Documentation"
+    - "MITRE ATT&CK T1204.001 - Malicious Link"
+    - "Google Threat Analysis Group YouTube Abuse Reports"
+  search_keywords:
+    - "YouTube"
+    - "YouTube security"
+    - "YouTube malware"
+    - "YouTube channel takeover"
+    - "YouTube phishing"
+    - "YouTube scam"
+    - "YouTube API security"
+    - "YouTube enterprise policy"
+  embedding_text: >-
+    YouTube is a Google-owned video platform with 2.5+ billion monthly users, the world's
+    largest video hosting service. It is exploited for social engineering through malicious
+    video descriptions, fake software tutorials distributing malware, and compromised channels
+    running cryptocurrency scams. Comments and community posts distribute phishing links.
+    The advertising system has been abused for malvertising. Leaked API keys and OAuth tokens
+    enable channel takeover. Creator accounts are high-value phishing targets with stolen
+    channels used for scam operations. Security teams should implement web filtering policies
+    for YouTube access, monitor for leaked API credentials, train users on YouTube-based
+    social engineering, restrict YouTube API access to authorized applications, and implement
+    enterprise controls for data privacy and bandwidth management.

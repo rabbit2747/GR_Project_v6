@@ -1,0 +1,113 @@
+# GR Atom: SysAid Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SYSASERV-001"
+  name: "SysAid Server"
+  normalized_name: "sysaid_server"
+  aliases:
+    - "SysAid"
+    - "SysAid IT Service Management"
+    - "SysAid Help Desk"
+    - "SysAid ITSM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - AUTHN
+    - PATH
+    - UPLOAD
+    - INFO_LEAK
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SysAid is an IT Service Management (ITSM) and help desk platform providing incident
+    management, asset management, remote control, patch management, and IT automation. It
+    is available as both on-premises (SysAid Server) and cloud-hosted deployments. The
+    platform includes agent-based endpoint management, a self-service portal for end users,
+    knowledge base, and workflow automation capabilities. SysAid Server runs on Apache Tomcat
+    with a backend database (typically MySQL or MSSQL).
+  why: >-
+    SysAid Server has been targeted by nation-state actors, notably in the 2023 campaign
+    exploiting CVE-2023-47246, a zero-day path traversal vulnerability used by the Lace
+    Tempest threat actor to deploy ransomware. The platform's combination of web application
+    attack surface, file upload capabilities, and privileged access to managed endpoints makes
+    it a high-value target. SysAid agents running on endpoints with SYSTEM privileges provide
+    post-compromise lateral movement and code execution capabilities. The Tomcat-based
+    architecture inherits Java web application vulnerabilities.
+  how: >-
+    SysAid Server operates as a Java web application on Apache Tomcat, typically accessible
+    via HTTPS on port 8443. It manages endpoints through SysAid Agent software that
+    communicates with the server for inventory, remote control, and patch deployment. The
+    self-service portal allows end users to submit tickets via web interface. REST APIs
+    enable integration with other ITSM tools. Asset discovery scans networks using WMI, SNMP,
+    and agent-based collection. The database stores ticket data, asset inventories,
+    configuration details, and user credentials.
+  core_concepts:
+    - key: "Zero-Day Exploitation History"
+      value: "CVE-2023-47246 path traversal zero-day was exploited by Lace Tempest for ransomware deployment, demonstrating SysAid as a high-priority target"
+    - key: "Endpoint Management Pivot"
+      value: "SysAid agents running with SYSTEM privileges on managed endpoints provide lateral movement and code execution capabilities after server compromise"
+    - key: "Privileged IT Management Platform"
+      value: "Concentrates IT asset data, credentials, and remote management capabilities making server compromise equivalent to domain-wide access"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-SERVDESK-001"
+    description: "SysAid Server is a service desk and IT service management platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Lateral Movement"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "SysAid Security Advisories"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "Microsoft Threat Intelligence - Lace Tempest CVE-2023-47246"
+    - "CISA Advisory on SysAid Vulnerability"
+  search_keywords:
+    - "SysAid"
+    - "SysAid Server"
+    - "CVE-2023-47246"
+    - "SysAid vulnerability"
+    - "Lace Tempest SysAid"
+    - "SysAid ITSM"
+    - "SysAid path traversal"
+    - "SysAid zero day"
+  embedding_text: >-
+    SysAid Server is an ITSM and help desk platform running on Apache Tomcat with endpoint
+    agent management capabilities. It was targeted in a 2023 zero-day campaign (CVE-2023-47246)
+    by Lace Tempest threat actor deploying ransomware through a path traversal vulnerability.
+    SysAid agents running with SYSTEM privileges on endpoints enable lateral movement after
+    server compromise. The platform concentrates IT asset data, credentials, and remote
+    management capabilities. Security concerns include web application vulnerabilities in the
+    Tomcat-based architecture, file upload abuse, privileged agent exploitation, and database
+    exposure of credentials and asset data. Security teams should patch promptly, restrict
+    network access, monitor for anomalous file uploads, and audit agent communications.

@@ -1,0 +1,117 @@
+# GR Atom: Exchange Certificate
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-EXCHCERT-001"
+  name: "Exchange Certificate"
+  normalized_name: "exchange_certificate"
+  aliases:
+    - "Exchange TLS Certificate"
+    - "Exchange SSL Certificate"
+    - "Exchange Server Certificate"
+    - "Exchange Self-Signed Certificate"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - TLS
+    - CRYPTO
+    - SMTP
+    - WINDOWS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Exchange Certificate refers to the X.509 digital certificates used by Microsoft Exchange
+    Server to secure communications including SMTP mail flow (TLS/STARTTLS), Outlook client
+    connections (HTTPS/MAPI over HTTP), Exchange Web Services (EWS), Autodiscover, and the
+    Exchange Admin Center. Exchange supports self-signed certificates, certificates from
+    internal PKI (Active Directory Certificate Services), and certificates from public
+    certificate authorities.
+  why: >-
+    Exchange certificates are security-critical because they protect email communications
+    in transit and authenticate Exchange services to clients. Expired, misconfigured, or
+    self-signed certificates can lead to man-in-the-middle attacks, mail flow disruption,
+    and client connectivity failures. Attackers who compromise Exchange certificate private
+    keys can decrypt intercepted email traffic and impersonate Exchange services. The
+    ProxyLogon and ProxyShell vulnerabilities demonstrated how Exchange's HTTPS services
+    (protected by these certificates) are primary attack vectors for initial access.
+  how: >-
+    Exchange certificates are managed through the Exchange Admin Center or Exchange Management
+    Shell (PowerShell). Certificates are bound to Exchange services (IIS, SMTP, POP, IMAP)
+    through the Enable-ExchangeCertificate cmdlet. Exchange uses certificates for TLS
+    encryption on SMTP connectors for mail flow, HTTPS binding on IIS for client access
+    services, and mutual TLS authentication between Exchange servers. Certificate renewal
+    and rotation requires coordination across all Exchange services to prevent service
+    disruption. Private key protection relies on Windows certificate store security and
+    DPAPI encryption.
+  core_concepts:
+    - key: "Exchange Service Authentication"
+      value: "X.509 certificates authenticate Exchange services to clients and partner servers while encrypting SMTP, HTTPS, and web service communications"
+    - key: "Private Key Protection"
+      value: "Exchange certificate private keys stored in Windows certificate store are targets for attackers seeking to decrypt email traffic or impersonate services"
+    - key: "Certificate Lifecycle Management"
+      value: "Certificate renewal and rotation across multiple Exchange services requires coordination to maintain secure mail flow and client connectivity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-EXCHSERV-001"
+    description: "Exchange certificates are integral components of Exchange Server securing all its communication services"
+  - type: "requires"
+    target: "INFRA-IDENTITY-CERTAUTH-001"
+    description: "Exchange certificates are issued by certificate authorities including internal PKI or public CAs"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1557.002"
+    tactic:
+      - "Credential Access"
+      - "Collection"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Exchange Server Certificate Management Documentation"
+    - "MITRE ATT&CK T1557 - Adversary-in-the-Middle"
+    - "Exchange Server TLS Configuration Best Practices"
+  search_keywords:
+    - "Exchange certificate"
+    - "Exchange TLS certificate"
+    - "Exchange SSL"
+    - "Exchange certificate management"
+    - "Exchange self-signed certificate"
+    - "Exchange certificate vulnerability"
+    - "Exchange SMTP TLS"
+    - "Exchange certificate renewal"
+  embedding_text: >-
+    Exchange Certificate refers to X.509 digital certificates used by Microsoft Exchange
+    Server to secure SMTP mail flow, Outlook client connections, Exchange Web Services,
+    Autodiscover, and the Admin Center through TLS/HTTPS encryption. Certificates authenticate
+    Exchange services to clients and partner servers. Security concerns include expired or
+    misconfigured certificates enabling man-in-the-middle attacks, compromised private keys
+    allowing email traffic decryption and service impersonation, and self-signed certificates
+    weakening trust validation. Exchange HTTPS services protected by these certificates are
+    primary attack vectors as demonstrated by ProxyLogon and ProxyShell vulnerabilities.
+    Certificate management through Exchange Management Shell requires coordination across
+    all services during renewal. Security teams should use CA-signed certificates, protect
+    private keys, monitor certificate expiration, and enforce TLS on all Exchange connectors.

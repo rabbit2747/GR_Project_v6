@@ -1,0 +1,109 @@
+# GR Atom: CVE-2022-27518
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202227518-001"
+  name: "CVE-2022-27518"
+  normalized_name: "cve_2022_27518"
+  aliases:
+    - "Citrix ADC and Gateway RCE"
+    - "Citrix NetScaler Remote Code Execution"
+    - "Citrix ADC Unauthenticated RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - VPN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Citrix ADC (Application Delivery Controller)"
+    - "Citrix Gateway"
+    - "NetScaler VPN Gateway"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-27518 is a critical unauthenticated remote code execution vulnerability in Citrix ADC
+    and Citrix Gateway (formerly NetScaler) that allows an attacker to execute arbitrary code on
+    the appliance. The vulnerability exists when the devices are configured as SAML service
+    providers or SAML identity providers. CVSS score is 9.8. Disclosed in December 2022 with
+    active exploitation by APT5, a China-linked threat actor group.
+  why: >-
+    Citrix ADC and Gateway are deployed at the network edge of thousands of organizations as VPN
+    gateways and application delivery controllers. Compromising these devices provides attackers
+    with a foothold at the network perimeter, access to VPN credentials, and the ability to
+    intercept all traffic flowing through the appliance. NSA released a specific advisory attributing
+    exploitation to APT5 and urging immediate patching.
+  how: >-
+    The attacker sends crafted requests to the Citrix ADC or Gateway device configured with SAML
+    authentication. The vulnerability in the SAML processing logic allows the attacker to trigger
+    a condition that leads to arbitrary code execution without authentication. The specific
+    exploitation mechanism involves improper handling of SAML request data that can be manipulated
+    to execute arbitrary commands on the underlying operating system of the Citrix appliance.
+  core_concepts:
+    - name: "SAML Processing Exploitation"
+      value: "Vulnerabilities in SAML request handling enable unauthenticated code execution on the Citrix appliance"
+    - name: "Network Edge Compromise"
+      value: "Citrix ADC/Gateway sits at the network perimeter, providing attackers a strategic foothold for lateral movement"
+    - name: "APT5 Active Exploitation"
+      value: "Actively exploited by APT5 (China-linked) for targeting critical infrastructure and government networks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Citrix ADC RCE involves insecure processing of SAML data leading to code execution"
+  - type: "applies_to"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "Applies to Citrix network edge appliances configured with SAML authentication"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1190"
+      tactic: ["Initial Access", "Execution"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2022-27518"
+    - "NSA Advisory - APT5 Citrix ADC Exploitation"
+    - "Citrix Security Bulletin CTX474995"
+  search_keywords:
+    - "CVE-2022-27518"
+    - "Citrix ADC RCE"
+    - "Citrix Gateway vulnerability"
+    - "NetScaler remote code execution"
+    - "Citrix SAML vulnerability"
+    - "APT5 Citrix exploitation"
+    - "Citrix ADC unauthenticated RCE"
+  embedding_text: >-
+    CVE-2022-27518 is a critical unauthenticated remote code execution vulnerability in Citrix ADC
+    and Citrix Gateway appliances configured as SAML service providers or identity providers. The
+    vulnerability in SAML processing logic allows attackers to execute arbitrary code without
+    authentication. CVSS score is 9.8. Actively exploited by APT5, a China-linked threat actor
+    group, prompting an NSA advisory urging immediate patching. Citrix ADC and Gateway are deployed
+    at the network edge of thousands of organizations as VPN gateways and application delivery
+    controllers. Compromising these devices provides a strategic foothold at the network perimeter
+    with access to VPN credentials and the ability to intercept all traffic. Mitigation requires
+    immediate patching, checking for indicators of compromise, and reviewing SAML configuration.
+    Listed in CISA's Known Exploited Vulnerabilities catalog.

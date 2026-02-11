@@ -1,0 +1,73 @@
+# GR Atom: Security Compliance Frameworks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-SECCOMFRA-001"
+  name: "Security Compliance Frameworks"
+  normalized_name: "security_compliance_frameworks"
+  aliases:
+    - "Compliance Frameworks"
+    - "Security Standards Frameworks"
+    - "Regulatory Compliance Frameworks"
+    - "Information Security Frameworks"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Security compliance frameworks are structured sets of guidelines, standards, and best practices that organizations use to manage information security risks and demonstrate compliance with regulatory, industry, and contractual requirements. Major frameworks include NIST Cybersecurity Framework, ISO 27001, SOC 2, PCI DSS, HIPAA, and FedRAMP. Each framework defines control objectives, implementation requirements, assessment methodologies, and reporting structures. Frameworks may be prescriptive (specifying exact controls) or risk-based (allowing organizations to select controls based on their risk profile)."
+  why: "Organizations face a complex landscape of overlapping regulatory, industry, and contractual security requirements. Security compliance frameworks provide structured approaches to systematically address these requirements, reduce duplication of effort through control mapping across frameworks, demonstrate security posture to stakeholders through standardized reporting, and establish a common language for discussing security controls and risk management across the organization and with external parties."
+  how: "Organizations adopt security compliance frameworks by identifying applicable requirements based on their industry, geography, and business relationships. They then map controls across multiple frameworks to identify commonalities and reduce duplication, implement controls using a risk-based approach, establish continuous monitoring and evidence collection processes, undergo formal assessments or audits as required by each framework, and maintain ongoing compliance through governance processes. GRC platforms automate much of this work by providing cross-framework control mapping, evidence management, and compliance reporting."
+  core_concepts:
+    - key: "Control Mapping"
+      value: "Aligning controls across multiple frameworks to identify overlap and ensure comprehensive coverage with minimal duplication"
+    - key: "Risk-Based Approach"
+      value: "Selecting and implementing controls based on organizational risk assessment rather than prescriptive checklists"
+    - key: "Compliance Assessment"
+      value: "Formal evaluation of control implementation and effectiveness against framework requirements by internal or external assessors"
+    - key: "Framework Harmonization"
+      value: "Coordinating compliance activities across multiple frameworks to reduce assessment fatigue and redundant controls"
+
+relations:
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Compliance frameworks define the control objectives and assessment criteria for audit compliance"
+  - type: enables
+    target: "COMP-STANDARD-CONTCATA-001"
+    description: "Frameworks provide the context for selecting and implementing controls from catalogs"
+  - type: enables
+    target: "COMP-STANDARD-DIGSAFCER-001"
+    description: "Compliance frameworks define the requirements that digital safety certifications validate"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST Cybersecurity Framework - https://www.nist.gov/cyberframework"
+    - "ISO/IEC 27001:2022 Information Security Management Systems"
+    - "ISACA COBIT 2019 - https://www.isaca.org/resources/cobit"
+  search_keywords:
+    - "security compliance framework"
+    - "compliance framework"
+    - "security standards"
+    - "regulatory compliance"
+    - "control mapping"
+    - "framework harmonization"
+    - "GRC"
+    - "information security framework"
+    - "compliance management"
+    - "risk-based compliance"
+  embedding_text: "Security compliance frameworks are structured sets of guidelines and standards that organizations use to manage information security risks and demonstrate compliance with regulatory and industry requirements. Major frameworks include NIST CSF, ISO 27001, SOC 2, PCI DSS, HIPAA, and FedRAMP. Organizations adopt frameworks by identifying applicable requirements, mapping controls across frameworks, implementing controls using risk-based approaches, establishing continuous monitoring, undergoing formal assessments, and maintaining compliance through governance processes. GRC platforms automate cross-framework control mapping, evidence management, and compliance reporting to reduce duplication and assessment fatigue."

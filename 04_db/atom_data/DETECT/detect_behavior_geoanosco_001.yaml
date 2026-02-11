@@ -1,0 +1,72 @@
+# GR Atom: Geolocation Anomaly Score
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-GEOANOSCO-001"
+  name: "Geolocation Anomaly Score"
+  normalized_name: "geolocation_anomaly_score"
+  aliases:
+    - "Geo Risk Score"
+    - "Location Anomaly Rating"
+    - "Geographic Deviation Score"
+    - "GeoIP Risk Score"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - MONITOR
+    - SIEM
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Geolocation Anomaly Score is a quantitative metric that numerically represents the degree of geographic deviation an authentication or access event exhibits relative to a user's established location baseline. The score is calculated by combining multiple geographic risk factors including the distance from the user's typical access locations, the frequency of access from the observed location, whether the location is on known risk lists, the time since the user last accessed from this location, and whether the access involves VPN or proxy infrastructure. The score is normalized to a consistent scale enabling comparison across users and integration into composite risk models."
+  why: "Raw geographic anomaly signals need quantification to enable automated decision-making, threshold-based alerting, and integration with broader risk scoring systems. A numeric anomaly score allows security platforms to differentiate between minor deviations like accessing from a neighboring city and major anomalies like accessing from a country never previously visited. The score enables risk-based authentication policies where the required assurance level adapts dynamically based on geographic risk, implementing stronger verification for higher-risk locations while maintaining seamless access for normal patterns."
+  how: "The scoring algorithm evaluates each authentication event against multiple geographic dimensions. Distance-based scoring calculates the geodesic distance from the nearest known user location, with scoring increasing logarithmically with distance. Frequency-based scoring considers how often the user has accessed from this location historically, with first-time locations receiving the highest scores. Temporal scoring evaluates recency of previous access from this location. Country risk scoring applies static risk ratings based on cybercrime indexes and organizational policy. VPN and proxy scoring adds risk when the source IP is associated with anonymization services. These individual scores are weighted and combined into a composite geolocation anomaly score. The scoring model self-calibrates by continuously updating baselines based on confirmed legitimate access patterns."
+  core_concepts:
+    - key: "Distance-Based Risk"
+      value: "Geographic risk that increases logarithmically with distance from the user's nearest established access location"
+    - key: "Composite Geographic Score"
+      value: "A normalized numeric value combining distance, frequency, temporal, country risk, and proxy indicators into a single risk metric"
+    - key: "Self-Calibrating Baseline"
+      value: "Automatic adjustment of geographic baselines based on confirmed legitimate access, reducing false positives over time"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOM-001"
+    description: "The geolocation anomaly score quantifies geographic anomalies detected by geo anomaly analysis"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOLALER-001"
+    description: "The anomaly score determines alert severity for geolocation alerts"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOLRISK-001"
+    description: "Geographic anomaly scores feed into overall geolocation risk assessment"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Identity Protection Risk Scoring - https://learn.microsoft.com/en-us/entra/identity-protection/"
+    - "Gartner - User Entity Behavior Analytics Risk Scoring"
+    - "NIST SP 800-63B - Digital Identity Guidelines"
+  search_keywords:
+    - "geolocation anomaly score"
+    - "geographic risk scoring"
+    - "location deviation score"
+    - "GeoIP risk rating"
+    - "geographic anomaly quantification"
+    - "location-based risk score"
+    - "access location scoring"
+    - "geo risk metric"
+  embedding_text: "Geolocation Anomaly Score quantifies the degree of geographic deviation in authentication events relative to user location baselines. The composite score combines distance-based risk increasing logarithmically from known locations, frequency scoring for first-time locations, temporal recency evaluation, country-level cybercrime risk ratings, and VPN/proxy anonymization indicators. Normalized scoring enables threshold-based alerting, risk-based authentication policies, and integration with broader UEBA risk models. Self-calibrating baselines automatically adjust based on confirmed legitimate access patterns. This metric enables automated decision-making differentiating minor location deviations from major anomalies requiring investigation or access blocking."

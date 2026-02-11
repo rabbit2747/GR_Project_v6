@@ -1,0 +1,110 @@
+# GR Atom: Security Health Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SECUHEAL-001"
+  name: "Security Health Service"
+  normalized_name: "security_health_service"
+  aliases:
+    - "Windows Security Health Service"
+    - "SecurityHealthService.exe"
+    - "Windows Defender Security Center"
+    - "Windows Security App"
+    - "SecurityHealthSystray"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - MONITOR
+    - EDR
+    - OS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "M1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Windows Security Health Service (SecurityHealthService.exe) is a Windows 10/11 system
+    service that manages the Windows Security app (formerly Windows Defender Security Center).
+    It provides the user interface for Windows Security features including Virus & Threat
+    Protection, Firewall & Network Protection, App & Browser Control, Device Security, Device
+    Performance & Health, and Family Options. The service aggregates security health data
+    from Windows Defender Antivirus, Windows Firewall, and third-party security providers.
+  why: >-
+    The Security Health Service is the primary security status dashboard for Windows endpoints.
+    It provides at-a-glance visibility into whether antivirus, firewall, and other security
+    features are operational. Attackers target this service to hide the impact of disabling
+    security controls. Malware may terminate SecurityHealthService.exe, tamper with its
+    registry configuration, or replace the executable to prevent security status alerts from
+    reaching users and administrators.
+  how: >-
+    SecurityHealthService.exe runs as a system service and communicates with the Windows
+    Security Center Service (wscsvc/ScSecSvc) to receive security provider status. It renders
+    the Windows Security app UI using UWP components. The service monitors Device Health
+    Attestation data, Secure Boot status, BitLocker encryption state, and Windows Update
+    compliance. Health attestation data can be reported to MDM solutions (Intune) for
+    conditional access decisions. System tray notifications via SecurityHealthSystray.exe
+    alert users to security issues.
+  core_concepts:
+    - key: "Security Dashboard"
+      value: "Unified Windows Security app providing at-a-glance status of all endpoint security features and third-party security products"
+    - key: "Health Attestation"
+      value: "Device health data including Secure Boot, BitLocker, and antivirus status reported to MDM for conditional access decisions"
+    - key: "Defense Evasion Target"
+      value: "Attackers terminate or tamper with Security Health Service to suppress user-facing alerts about disabled security controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-SEC-SCSECSVC-001"
+    description: "Security Health Service depends on ScSecSvc (Security Center Service) for security provider status data"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "Security Health Service functions as a Windows built-in endpoint health monitoring agent"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Microsoft - Windows Security App Documentation"
+    - "Microsoft - Device Health Attestation"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+  search_keywords:
+    - "Security Health Service"
+    - "SecurityHealthService.exe"
+    - "Windows Security"
+    - "Windows Defender Security Center"
+    - "device health attestation"
+    - "Windows security dashboard"
+    - "SecurityHealthSystray"
+  embedding_text: >-
+    Windows Security Health Service (SecurityHealthService.exe) manages the Windows Security
+    app providing unified endpoint security status. Aggregates data from Windows Defender
+    Antivirus, Windows Firewall, and third-party providers. Monitors Virus & Threat Protection,
+    Firewall, App & Browser Control, Device Security, and Health. Reports Device Health
+    Attestation data (Secure Boot, BitLocker, antivirus) to MDM solutions for conditional
+    access. Attackers target this service to suppress security alerts after disabling
+    protection tools. Depends on ScSecSvc for provider status data.

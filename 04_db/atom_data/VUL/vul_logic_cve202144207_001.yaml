@@ -1,0 +1,97 @@
+# GR Atom: CVE-2021-44207
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202144207-001"
+  name: "CVE-2021-44207"
+  normalized_name: "cve_2021_44207"
+  aliases:
+    - "Acclaim USAHERDS Hardcoded Credentials"
+    - "USAHERDS Static ValidationKey"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - EXEC
+    - WEB
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Acclaim USAHERDS"
+    - "ASP.NET ViewState"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-44207 is a remote code execution vulnerability in Acclaim Systems USAHERDS, an
+    animal health tracking application used by US state government agencies. The application
+    uses hardcoded static ValidationKey and DecryptionKey values in the ASP.NET machineKey
+    configuration, enabling attackers to forge ViewState payloads containing malicious
+    serialized objects for server-side execution. CVSS v3 base score: 8.1 (High).
+  why: >-
+    USAHERDS is deployed by multiple US state government agencies for livestock disease
+    tracking and animal health management. The hardcoded cryptographic keys allow any attacker
+    who discovers the keys to forge ViewState payloads and achieve remote code execution on
+    government servers. This vulnerability was exploited by the APT41 (Double Dragon) threat
+    group to compromise US state government networks.
+  how: >-
+    An attacker obtains the hardcoded ValidationKey and DecryptionKey from the USAHERDS
+    application. Using these keys, they craft a malicious ASP.NET ViewState payload containing
+    serialized objects that execute arbitrary commands when deserialized. The forged ViewState
+    is submitted to the application, which validates it against the known keys and processes
+    the malicious payload.
+  core_concepts:
+    - key: "Hardcoded Cryptographic Keys"
+      value: "Static machineKey values enable ViewState forgery by any attacker who discovers the hardcoded keys"
+    - key: "ViewState Deserialization Chain"
+      value: "Forged ViewState payloads containing malicious serialized objects are processed by the server, achieving remote code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Hardcoded cryptographic key logic flaw enabling ViewState forgery and code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2021-44207"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "NIST NVD - CVE-2021-44207"
+    - "Mandiant - APT41 Exploitation of USAHERDS"
+  search_keywords:
+    - "CVE-2021-44207"
+    - "USAHERDS vulnerability"
+    - "Acclaim Systems"
+    - "hardcoded machineKey"
+    - "ViewState forgery"
+    - "APT41 exploitation"
+    - "government application vulnerability"
+  embedding_text: >-
+    CVE-2021-44207 is an RCE vulnerability in Acclaim USAHERDS using hardcoded static ASP.NET
+    machineKey values. Attackers forge ViewState payloads with malicious serialized objects.
+    CVSS v3 8.1 High. Used by US state government agencies for animal health tracking. Exploited
+    by APT41 to compromise government networks. Hardcoded cryptographic key logic flaw enabling
+    ViewState deserialization attacks. CISA Known Exploited. Year 2021.

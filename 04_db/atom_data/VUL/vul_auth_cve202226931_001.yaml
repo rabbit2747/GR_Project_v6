@@ -1,0 +1,74 @@
+# GR Atom: CVE-2022-26931
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202226931-001"
+  name: "CVE-2022-26931"
+  normalized_name: "cve_2022_26931"
+  aliases:
+    - "Windows Kerberos Elevation of Privilege"
+    - "Kerberos KDC Certificate Mapping Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - WINDOWS
+    - KERBEROS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Microsoft Windows Server 2008 through 2022"
+    - "Microsoft Windows 10"
+    - "Microsoft Windows 11"
+    - "Kerberos Key Distribution Center (KDC)"
+
+definition:
+  what: "CVE-2022-26931 is a privilege escalation vulnerability in the Windows Kerberos authentication protocol related to certificate-based authentication mapping. The vulnerability exists in how the Kerberos KDC maps certificates to Active Directory accounts during PKINIT authentication, allowing an attacker with a certificate to authenticate as a higher-privileged account. CVSS v3: 7.5 (High). Disclosed in May 2022."
+  why: "This vulnerability is part of the broader class of certificate-based authentication weaknesses in Active Directory environments. It complements CVE-2022-26923 (Certifried) in the May 2022 security update that addressed certificate mapping issues. The vulnerability highlights fundamental weaknesses in how Windows maps X.509 certificates to AD account identities. Microsoft introduced KB5014754 certificate-based authentication changes to enforce stricter certificate-to-account mapping as a long-term remediation strategy."
+  how: "The vulnerability exploits weak certificate-to-account mapping in the Kerberos KDC. During PKINIT authentication, the KDC uses certificate fields (Subject, SAN, issuer) to identify the authenticating account. Insufficient validation of the mapping between certificate identity fields and the actual AD account allows an attacker to present a certificate that maps to a different, more privileged account. Microsoft addressed this through phased enforcement of strong certificate mapping (Full Enforcement Mode) via KB5014754, with a transition period allowing organizations to audit and update their certificate configurations."
+  core_concepts:
+    - key: "Weak Certificate Mapping"
+      value: "Kerberos KDC insufficiently validates the mapping between X.509 certificate identity fields and Active Directory account objects during PKINIT authentication"
+    - key: "Strong Certificate Mapping Enforcement"
+      value: "Microsoft introduced KB5014754 requiring explicit certificate-to-account mapping through new AD attributes to prevent identity confusion during certificate-based authentication"
+
+relations:
+  - type: is_a
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2022-26931 is an authentication privilege escalation vulnerability in Kerberos certificate mapping"
+  - type: enables
+    target: "VUL-AUTH-CVE202226923-001"
+    description: "Weak certificate mapping compounds with Certifried to enable certificate-based privilege escalation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1558"
+    tactic: ["Privilege Escalation", "Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-26931 - NVD NIST"
+    - "Microsoft Security Advisory - Kerberos EoP"
+    - "Microsoft KB5014754 - Certificate-Based Authentication Changes"
+    - "MITRE ATT&CK T1558 - Steal or Forge Kerberos Tickets"
+  search_keywords:
+    - "CVE-2022-26931"
+    - "Kerberos certificate mapping"
+    - "PKINIT privilege escalation"
+    - "Windows Kerberos elevation"
+    - "certificate-based authentication bypass"
+    - "KB5014754"
+    - "strong certificate mapping"
+  embedding_text: "CVE-2022-26931 is a privilege escalation vulnerability in Windows Kerberos authentication related to weak certificate-to-account mapping during PKINIT authentication. The KDC insufficiently validates the mapping between X.509 certificate identity fields and Active Directory account objects, allowing authentication as higher-privileged accounts. CVSS v3 score is 7.5 High. Complements CVE-2022-26923 Certifried in addressing certificate mapping weaknesses. Microsoft introduced KB5014754 for strong certificate mapping enforcement. Affects all Windows Server and client versions. Maps to MITRE ATT&CK T1558 Steal or Forge Kerberos Tickets. Patched May 2022 with phased enforcement timeline."

@@ -1,0 +1,73 @@
+# GR Atom: WithSecure Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-WITHLABS-001"
+  name: "WithSecure Labs"
+  normalized_name: "withsecure_labs"
+  aliases:
+    - "WithSecure Intelligence"
+    - "F-Secure Labs"
+    - "WithSecure Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - EDR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WithSecure Labs (formerly F-Secure Labs) is the threat intelligence and security research division of WithSecure, conducting malware analysis, APT campaign tracking, vulnerability research, and incident investigation. The research team has a long history of producing detailed analysis of state-sponsored threats, crimeware operations, and emerging attack techniques, with particular expertise in threats affecting European organizations and infrastructure."
+  why: "WithSecure Labs is significant because of its decades-long track record of high-quality security research under the F-Secure Labs banner. The team has published groundbreaking research on APT groups including the Dukes (Cozy Bear) attribution, software supply chain attacks, and industrial espionage campaigns, making it one of the most respected European security research teams in the industry."
+  how: "WithSecure Labs operates through dedicated threat research teams that perform malware reverse engineering, campaign tracking, vulnerability discovery, and incident forensics. The team uses telemetry from WithSecure's endpoint protection deployments, honeypots, and intelligence partnerships to identify and analyze emerging threats. Findings are published through technical blog posts, threat advisories, and conference presentations."
+  core_concepts:
+    - key: "APT Research"
+      value: "Detailed analysis and attribution of state-sponsored threat campaigns, particularly those targeting European organizations"
+    - key: "Malware Research"
+      value: "In-depth reverse engineering and behavioral analysis of malware families and exploit techniques"
+    - key: "Threat Intelligence"
+      value: "Continuous monitoring and analysis of the global threat landscape with focus on European regional threats"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "ACTOR-VENDOR-WITHSECURE-001"
+    description: "Threat research division of WithSecure providing intelligence for the company's security products"
+  - type: is_a
+    target: "ACTOR-VENDOR-SECURELIST-001"
+    description: "Fellow vendor threat research division producing threat intelligence and malware analysis"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.withsecure.com/en/expertise/research"
+  search_keywords:
+    - "withsecure labs"
+    - "f-secure labs"
+    - "threat research"
+    - "apt research"
+    - "malware analysis"
+    - "european threat intelligence"
+    - "dukes attribution"
+    - "finnish security research"
+  embedding_text: "WithSecure Labs (formerly F-Secure Labs) is the threat intelligence and security research division of WithSecure, conducting malware analysis, APT campaign tracking, vulnerability research, and incident investigation. The team has a decades-long track record of high-quality security research, with groundbreaking publications on APT groups including the Dukes attribution, software supply chain attacks, and industrial espionage campaigns targeting European organizations. WithSecure Labs is one of the most respected European security research teams in the industry."

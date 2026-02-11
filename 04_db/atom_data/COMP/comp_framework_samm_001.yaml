@@ -1,0 +1,131 @@
+# GR Atom: OWASP SAMM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-SAMM-001"
+  name: "OWASP SAMM"
+  normalized_name: "owasp_samm"
+  aliases:
+    - "Software Assurance Maturity Model"
+    - "SAMM"
+    - "OWASP Software Assurance Maturity Model"
+    - "SAMM 2.0"
+    - "OpenSAMM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - DEVSECOPS
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Software Assurance Maturity Model (SAMM) is an open framework for formulating and
+    implementing a software security strategy tailored to the specific risks facing an organization.
+    SAMM 2.0 organizes software security activities into five business functions: Governance,
+    Design, Implementation, Verification, and Operations. Each business function contains three
+    security practices, and each practice is assessed across three maturity levels, resulting in
+    a comprehensive model of 15 security practices with 45 maturity level definitions. The model
+    provides prescriptive activities, quality criteria, and maturity scoring to measure and improve
+    an organization's software security posture over time.
+  why: >-
+    Organizations struggle to implement comprehensive software security programs because they lack
+    a structured approach to assess their current maturity, prioritize improvements, and measure
+    progress. Ad hoc security activities without a maturity framework lead to inconsistent
+    coverage, wasted resources on low-impact activities, and inability to demonstrate security
+    improvements to stakeholders. SAMM provides a measurable, prescriptive model that enables
+    organizations to evaluate their existing software security practices, define a target maturity
+    level, build a prioritized improvement roadmap, and track progress through objective scoring.
+  how: >-
+    SAMM implementation follows a structured lifecycle: (1) Assess current maturity by evaluating
+    each of the 15 security practices against the three maturity levels using SAMM's assessment
+    questionnaires and scoring criteria; (2) Set target maturity levels for each practice based
+    on organizational risk tolerance, regulatory requirements, and business objectives;
+    (3) Define improvement roadmaps by identifying specific activities needed to advance from
+    current to target maturity levels; (4) Implement improvements through prioritized security
+    activities within each business function; (5) Measure progress through periodic reassessment
+    using the same scoring methodology. The five business functions cover: Governance (strategy,
+    policy, education), Design (threat assessment, security requirements, security architecture),
+    Implementation (secure build, secure deployment, defect management), Verification (architecture
+    assessment, requirements-driven testing, security testing), and Operations (incident management,
+    environment management, operational management).
+  core_concepts:
+    - key: "Five Business Functions"
+      value: >-
+        Software security activities organized into Governance, Design, Implementation,
+        Verification, and Operations, covering the complete software development lifecycle
+        from strategic planning through operational security management.
+    - key: "Maturity Levels"
+      value: >-
+        Three progressive maturity levels for each security practice, from initial ad hoc
+        activities (Level 1) through structured implementation (Level 2) to comprehensive
+        optimization (Level 3), enabling measurable progress tracking.
+    - key: "Prescriptive Activities"
+      value: >-
+        Specific, actionable security activities defined for each maturity level within
+        each practice, providing clear implementation guidance rather than abstract
+        recommendations, with quality criteria for objective assessment.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "SAMM is an OWASP flagship project providing organizational software security maturity assessment"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "SAMM's Verification business function drives adoption and implementation of ASVS security verification requirements"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-OWATESGUI-001"
+    description: "SAMM's security testing practices leverage the OWASP Testing Guide methodologies"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "SAMM maturity assessment maps to NIST CSF implementation tiers for software security programs"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP SAMM. https://owaspsamm.org/"
+    - "OWASP SAMM Model. https://owaspsamm.org/model/"
+    - "OWASP SAMM GitHub Repository. https://github.com/owaspsamm/core"
+  search_keywords:
+    - "OWASP SAMM"
+    - "software assurance maturity model"
+    - "software security maturity"
+    - "security program assessment"
+    - "SAMM 2.0"
+    - "software security governance"
+    - "security maturity levels"
+    - "secure development lifecycle"
+    - "SAMM business functions"
+    - "software security improvement"
+  embedding_text: >-
+    OWASP Software Assurance Maturity Model (SAMM) is an open framework for formulating and
+    implementing a software security strategy. SAMM 2.0 organizes activities into five business
+    functions: Governance, Design, Implementation, Verification, and Operations. Each function
+    contains three security practices assessed across three maturity levels, providing 15 practices
+    with 45 maturity definitions. Organizations assess current maturity using questionnaires and
+    scoring criteria, set target levels based on risk tolerance and regulatory requirements, build
+    prioritized improvement roadmaps, implement security activities, and measure progress through
+    periodic reassessment. The model addresses the challenge of implementing comprehensive software
+    security programs by providing measurable, prescriptive activities with quality criteria.
+    SAMM enables organizations to evaluate existing practices, define targets, and track
+    improvement over time. The framework covers the complete software development lifecycle from
+    strategic planning and threat assessment through secure build, testing, and operational
+    security management.

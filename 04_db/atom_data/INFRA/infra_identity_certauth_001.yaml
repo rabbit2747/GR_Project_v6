@@ -1,0 +1,121 @@
+# GR Atom: Certificate Authority
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-CERTAUTH-001"
+  name: "Certificate Authority"
+  normalized_name: "certificate_authority"
+  aliases:
+    - "CA"
+    - "PKI Certificate Authority"
+    - "Enterprise CA"
+    - "Certificate Issuer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - TLS
+    - AUTHN
+    - ENCRYPT
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z3"
+  function: "P2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Certificate Authority (CA) is a trusted entity that issues, manages, and revokes
+    X.509 digital certificates used for authentication, encryption, and code signing within
+    a Public Key Infrastructure (PKI). CAs validate the identity of certificate requestors,
+    sign certificates with their private key establishing a chain of trust, and publish
+    Certificate Revocation Lists (CRLs) or OCSP responses for certificate status verification.
+    CAs can be root authorities (self-signed trust anchors) or subordinate/intermediate
+    authorities operating under a root CA's trust chain.
+  why: >-
+    A compromised Certificate Authority represents a catastrophic security event because it
+    enables the attacker to issue trusted certificates for any identity, enabling impersonation,
+    man-in-the-middle attacks, and code signing of malicious software. Historical incidents
+    such as the DigiNotar compromise and the Comodo hack demonstrated the devastating impact
+    of CA compromise. Weak CA key protection, insecure certificate issuance processes, and
+    failure to properly scope CA trust enable certificate-based attacks. AD CS misconfigurations
+    (ESC1-ESC8) allow privilege escalation through enterprise CA abuse.
+  how: >-
+    CAs operate using asymmetric cryptography where the CA's private key signs certificates
+    establishing trust chains back to a root certificate. The enrollment process involves
+    identity validation, Certificate Signing Request (CSR) processing, and certificate
+    issuance based on configured templates or policies. Root CAs are typically kept offline
+    in HSMs, while subordinate CAs handle daily issuance. CAs publish CRLs and support OCSP
+    for real-time revocation checking. Enterprise CAs in Active Directory environments
+    auto-publish to AD and support auto-enrollment through Group Policy. Certificate
+    lifecycle management includes issuance, renewal, revocation, and key archival.
+  core_concepts:
+    - key: "Chain of Trust"
+      value: "Hierarchical trust model where root CA signs subordinate CA certificates, which sign end-entity certificates, establishing verifiable trust"
+    - key: "CA Compromise Impact"
+      value: "Compromise of a CA private key enables issuance of trusted certificates for any identity, with catastrophic impersonation potential"
+    - key: "Certificate Lifecycle Management"
+      value: "Full lifecycle from enrollment through issuance, renewal, revocation via CRL/OCSP, and key archival with proper audit trails"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-ADCERTEM-001"
+    description: "Certificate Authority issues certificates based on AD certificate templates"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "CA-issued certificates enable certificate-based authentication"
+  - type: "requires"
+    target: "INFRA-IDENTITY-HSM-001"
+    description: "CA private keys should be protected by hardware security modules"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1553.004"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-57 - Recommendation for Key Management"
+    - "MITRE ATT&CK T1553.004 - Subvert Trust Controls: Install Root Certificate"
+    - "SpecterOps - Certified Pre-Owned: AD CS Abuse"
+  search_keywords:
+    - "Certificate Authority"
+    - "PKI CA"
+    - "enterprise CA"
+    - "CA compromise"
+    - "certificate issuance"
+    - "X.509 certificate"
+    - "root CA subordinate CA"
+    - "certificate revocation CRL OCSP"
+  embedding_text: >-
+    A Certificate Authority (CA) is a trusted PKI entity that issues, manages, and revokes
+    X.509 digital certificates for authentication, encryption, and code signing. CAs
+    validate requestor identity, sign certificates establishing chains of trust, and
+    publish Certificate Revocation Lists or OCSP responses. CA compromise enables issuance
+    of trusted certificates for any identity, with catastrophic impersonation potential as
+    demonstrated by the DigiNotar and Comodo incidents. Root CAs serve as offline trust
+    anchors protected by HSMs, while subordinate CAs handle daily issuance. Enterprise CAs
+    in Active Directory support auto-enrollment and template-based issuance. AD CS
+    misconfigurations (ESC1-ESC8) enable privilege escalation. Security teams must protect
+    CA private keys in HSMs, audit certificate issuance, restrict template permissions,
+    implement proper revocation checking, and monitor for unauthorized certificate requests.

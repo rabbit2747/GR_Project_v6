@@ -1,0 +1,105 @@
+# GR Atom: CVE-2012-0158
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20120158-001"
+  name: "CVE-2012-0158"
+  normalized_name: "cve_2012_0158"
+  aliases:
+    - "MSCOMCTL.OCX ListView Buffer Overflow"
+    - "MS12-027 ActiveX Buffer Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OVERFLOW
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "MSCOMCTL.OCX ActiveX control"
+    - "Microsoft Office 2003, 2007, 2010"
+    - "Microsoft SQL Server 2000, 2005, 2008"
+    - "Windows Common Controls ListView"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-0158 is a stack-based buffer overflow vulnerability (CVSS 9.3) in the ListView,
+    ListView2, TreeView, and TreeView2 ActiveX controls in MSCOMCTL.OCX used by Microsoft
+    Office and other applications. The vulnerability allows remote code execution when a user
+    opens a specially crafted Office document (DOC, RTF, XLS) containing a malicious ActiveX
+    control. Patched in MS12-027 (April 2012), this became one of the most exploited
+    vulnerabilities in history, used extensively in targeted attacks for years after the patch.
+  why: >-
+    CVE-2012-0158 was the single most exploited vulnerability in targeted attacks for multiple
+    consecutive years (2012-2015). Its popularity stemmed from the simplicity of exploitation,
+    the ubiquity of Microsoft Office, and the ease of creating weaponized documents. APT groups,
+    cybercrime actors, and nation-state operators all leveraged this vulnerability extensively.
+    It remained the top exploit choice long after the patch was available due to slow patching
+    rates in enterprise environments.
+  how: >-
+    The exploit crafts a malicious Office document (typically RTF or DOC) that embeds a
+    specially constructed MSCOMCTL.OCX ActiveX control with an oversized data field. When the
+    document is opened, the ListView control processes the malformed data, triggering a
+    stack-based buffer overflow in MSCOMCTL.OCX. The overflow overwrites the return address
+    on the stack, redirecting execution to attacker-controlled shellcode embedded in the document.
+  core_concepts:
+    - key: "ActiveX Stack Buffer Overflow"
+      value: "MSCOMCTL.OCX ListView control fails to validate data size, causing stack-based buffer overflow when processing malicious Office documents"
+    - key: "Most Exploited Vulnerability of Its Era"
+      value: "Remained the top targeted attack vector for years due to simple exploitation, Office ubiquity, and slow enterprise patching"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Stack-based buffer overflow in MSCOMCTL.OCX ActiveX control"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-0158 - CVSS 9.3"
+    - "Microsoft Security Bulletin MS12-027"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2012-0158"
+    - "MSCOMCTL.OCX"
+    - "ListView"
+    - "ActiveX"
+    - "buffer overflow"
+    - "MS12-027"
+    - "Microsoft Office exploit"
+    - "RTF exploit"
+    - "targeted attack"
+  embedding_text: >-
+    CVE-2012-0158 is a stack-based buffer overflow with CVSS 9.3 in the MSCOMCTL.OCX ActiveX
+    ListView control used by Microsoft Office. The vulnerability allows remote code execution
+    when users open malicious Office documents containing oversized ActiveX data that overflows
+    the stack. Patched in MS12-027 in April 2012, it became the single most exploited
+    vulnerability in targeted attacks for multiple consecutive years. APT groups, cybercrime
+    actors, and nation-state operators extensively leveraged weaponized RTF and DOC documents
+    exploiting this flaw. Its enduring popularity was driven by exploitation simplicity,
+    Office ubiquity, and persistently slow enterprise patching rates.

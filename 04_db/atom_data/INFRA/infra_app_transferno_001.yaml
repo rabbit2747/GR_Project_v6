@@ -1,0 +1,109 @@
+# GR Atom: TransferNow
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-TRANSFERNO-001"
+  name: "TransferNow"
+  normalized_name: "transfernow"
+  aliases:
+    - "TransferNow.net"
+    - "TransferNow File Transfer"
+    - "TransferNow Cloud"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - WEB
+    - EXFIL
+    - HTTP
+    - ENCRYPT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "D4.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TransferNow is a French cloud-based file transfer service that enables users to send and
+    receive large files (up to 5GB free, 50GB premium) via web interface without requiring
+    recipient registration. The platform provides temporary file hosting with configurable
+    expiration periods, download notifications, password protection, and a file storage
+    workspace for premium users. It operates as a web application accessible through browsers
+    on any platform.
+  why: >-
+    File transfer services like TransferNow are commonly abused for data exfiltration because
+    they allow uploading large volumes of data to external cloud storage through standard
+    HTTPS connections that bypass traditional network security controls. Attackers use these
+    services to stage stolen data for retrieval. Phishing campaigns distribute malicious files
+    through TransferNow links that appear as legitimate file transfer notifications. The
+    temporary nature of hosted files (auto-deletion) can complicate forensic investigation.
+    Employee use of unapproved file transfer services creates shadow IT and data leakage risks.
+  how: >-
+    TransferNow operates through a web interface at transfernow.net. Users upload files which
+    are stored on TransferNow's cloud infrastructure (hosted in France/EU). Recipients receive
+    email notifications with download links. Files are transmitted over HTTPS and stored with
+    server-side encryption. Premium features include password protection, custom expiration,
+    and download tracking. The service does not require authentication for basic transfers,
+    lowering the barrier for both legitimate use and abuse.
+  core_concepts:
+    - key: "Exfiltration via File Transfer"
+      value: "HTTPS-based file transfer to external cloud storage bypasses traditional network security controls designed to prevent data exfiltration"
+    - key: "Ephemeral File Hosting"
+      value: "Auto-expiring file links and temporary storage complicate forensic investigation of data exfiltration or malware distribution"
+    - key: "Unauthenticated Transfer Risk"
+      value: "Basic transfers require no authentication, enabling anonymous file staging and distribution for both data theft and malware delivery"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-WETRANSFER-001"
+    description: "TransferNow provides file transfer capabilities similar to WeTransfer as a competing service"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1567.002"
+    tactic:
+      - "Exfiltration"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "TransferNow Service Documentation"
+    - "MITRE ATT&CK T1567.002 - Exfiltration to Cloud Storage"
+    - "ENISA Cloud Service Security Guidance"
+  search_keywords:
+    - "TransferNow"
+    - "file transfer service"
+    - "TransferNow security"
+    - "cloud file transfer"
+    - "data exfiltration file sharing"
+    - "TransferNow phishing"
+    - "temporary file hosting"
+    - "large file transfer service"
+  embedding_text: >-
+    TransferNow is a French cloud-based file transfer service allowing large file sending
+    (5GB free, 50GB premium) without recipient registration. Files are hosted temporarily
+    on EU-based infrastructure with HTTPS transmission and server-side encryption. Security
+    concerns include use as a data exfiltration channel bypassing network controls, malware
+    distribution through transfer links, ephemeral file hosting complicating forensics, and
+    shadow IT risks from unapproved employee usage. Unauthenticated basic transfers lower
+    barriers for abuse. Security teams should monitor for transfers to file sharing services,
+    implement DLP controls, consider blocking unapproved file transfer platforms, and educate
+    users about approved data sharing channels.

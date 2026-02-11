@@ -1,0 +1,124 @@
+# GR Atom: Sign Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-SIGNSERV-001"
+  name: "Sign Server"
+  normalized_name: "sign_server"
+  aliases:
+    - "SignServer"
+    - "Code Signing Server"
+    - "Digital Signing Service"
+    - "PrimeKey SignServer"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CRYPTO
+    - TLS
+    - SUPPLY_CHAIN
+    - AUTHN
+    - AUDIT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z3"
+  function: "P2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Sign Server is a centralized digital signing service that provides code signing,
+    document signing, time stamping, and certificate validation operations using
+    cryptographically protected signing keys. PrimeKey SignServer (now Keyfactor SignServer)
+    is a prominent open-source implementation that manages signing keys, enforces signing
+    policies, and provides APIs for automated signing workflows. Sign servers integrate
+    with HSMs for key protection and support multiple signing standards including
+    Authenticode, JAR, PDF, XML, and CMS signatures.
+  why: >-
+    Sign servers are critical supply chain security components because code signing keys
+    establish software authenticity and integrity. Compromise of a signing server enables
+    attackers to sign malicious code with trusted certificates, bypassing code signing
+    verification controls. Notable incidents like the SolarWinds attack, the ASUS supply
+    chain attack, and the Codecov compromise demonstrated that signed malware is extremely
+    difficult to detect. Weak access controls on signing APIs, insufficient audit logging,
+    and inadequate key protection are common vulnerabilities that enable unauthorized
+    signing operations.
+  how: >-
+    Sign servers receive signing requests through APIs (REST, SOAP) or command-line
+    interfaces, authenticate the requestor, apply signing policies (approved signers,
+    time restrictions, signing key selection), and perform the cryptographic signing
+    operation using keys stored in HSMs or software keystores. Time stamping services
+    prove that signing occurred at a specific time, ensuring signature validity beyond
+    certificate expiration. The server maintains comprehensive audit logs of all signing
+    operations. Deployment typically involves network segmentation with restricted access
+    to the signing service, HSM integration for key protection, and approval workflows
+    for sensitive signing operations.
+  core_concepts:
+    - key: "Supply Chain Trust Anchor"
+      value: "Code signing establishes software authenticity, and signing server compromise enables trusted distribution of malicious code"
+    - key: "Key Protection"
+      value: "Signing keys must be stored in HSMs with strict access controls to prevent unauthorized signing operations"
+    - key: "Signing Policy Enforcement"
+      value: "Centralized signing policies control who can sign what, with which key, providing governance over the signing process"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-IDENTITY-HSM-001"
+    description: "Signing keys should be protected in HSMs to prevent unauthorized extraction and signing"
+  - type: "requires"
+    target: "INFRA-IDENTITY-CERTAUTH-001"
+    description: "Code signing certificates are issued by Certificate Authorities and managed by the sign server"
+  - type: "requires"
+    target: "INFRA-IDENTITY-AUTHORIZAT-001"
+    description: "Authorization policies control which principals can perform signing operations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1553.002"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Keyfactor Documentation - SignServer"
+    - "MITRE ATT&CK T1553.002 - Subvert Trust Controls: Code Signing"
+    - "NIST SP 800-89 - Recommendation for Obtaining Assurances for Digital Signature Applications"
+  search_keywords:
+    - "Sign Server"
+    - "SignServer"
+    - "code signing server"
+    - "digital signing service"
+    - "PrimeKey SignServer"
+    - "code signing compromise"
+    - "signing key protection"
+    - "Authenticode signing"
+  embedding_text: >-
+    A Sign Server is a centralized digital signing service providing code signing, document
+    signing, time stamping, and certificate validation using cryptographically protected
+    keys. PrimeKey/Keyfactor SignServer is a leading implementation supporting Authenticode,
+    JAR, PDF, XML, and CMS signing standards. Sign servers are critical supply chain
+    security components because compromise enables signing malicious code with trusted
+    certificates, as demonstrated by SolarWinds and ASUS supply chain attacks. Signed
+    malware bypasses code signing verification controls and is extremely difficult to
+    detect. Signing keys must be stored in HSMs with strict access controls. The service
+    enforces signing policies controlling approved signers, key selection, and approval
+    workflows. Security teams must protect signing keys in HSMs, implement approval
+    workflows for sensitive signing, audit all signing operations, restrict API access,
+    and monitor for unauthorized signing requests to prevent supply chain compromise.

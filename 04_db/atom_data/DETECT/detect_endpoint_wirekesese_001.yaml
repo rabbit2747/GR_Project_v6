@@ -1,0 +1,94 @@
+# GR Atom: Windows Registry Key Set Security Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-WIREKESESE-001"
+  name: "Windows Registry Key Set Security Event"
+  normalized_name: "windows_registry_key_set_security_event"
+  aliases:
+    - "Registry ACL Change"
+    - "Registry Permissions Modification"
+    - "RegSetKeySecurity Detection"
+    - "Registry DACL Change"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - EVADE
+    - PRIV
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when the security descriptor (DACL/SACL) of a Windows registry key is modified on an endpoint. This covers RegSetKeySecurity API calls, changes made through regedit permissions dialog, and programmatic ACL modifications using SetSecurityInfo. Windows Security Event ID 4670 (Permissions on an object were changed) captures these modifications. The event records the target registry key path, the old and new security descriptors, the modifying process, and user context."
+  why: "Registry key permission modifications are a potent defense evasion and privilege escalation technique. Adversaries modify registry key DACLs to grant themselves write access to previously protected keys, remove audit SACLs to eliminate monitoring of their registry modifications, prevent security tools from accessing their persistence entries, or lock out administrators from removing malicious configurations. Changes to registry key permissions often precede or accompany other malicious registry operations."
+  how: "Detection monitors Windows Security Event ID 4670 for registry key permission changes. Windows Security Event ID 4657 with WRITE_DAC access captures DACL modification attempts. ETW providers capture SetSecurityInfo and RegSetKeySecurity API calls. EDR agents detect permission changes on monitored registry keys and compare the old and new security descriptors. SIEM rules alert on permission changes to security-critical keys, removal of audit entries (SACL changes), and addition of unusual access control entries. Baseline comparison identifies unauthorized permission modifications."
+  core_concepts:
+    - key: "dacl_modification"
+      value: "Changing the Discretionary Access Control List to grant or revoke access permissions on registry keys"
+    - key: "sacl_tampering"
+      value: "Removing or modifying the System Access Control List to disable audit logging on specific registry keys"
+    - key: "permission_escalation"
+      value: "Granting write access to normally protected registry keys to enable subsequent modification attacks"
+    - key: "lockout_attack"
+      value: "Modifying permissions to prevent administrators and security tools from accessing or modifying malicious registry entries"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-WINREGKEY-001"
+    description: "Registry key security set is a specific type of registry key operation"
+  - type: "enables"
+    target: "DETECT-ENDPOINT-WIREKEUP-001"
+    description: "Changing permissions can enable subsequent key update operations that were previously blocked by ACLs"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1222.001"
+    tactic:
+      - "defense-evasion"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - RegSetKeySecurity Function"
+    - "Microsoft Documentation - Security Event ID 4670"
+    - "MITRE ATT&CK T1222.001 - File and Directory Permissions Modification: Windows"
+    - "Windows Registry Key Security and Access Rights"
+  search_keywords:
+    - "registry set security"
+    - "registry ACL change"
+    - "registry permissions"
+    - "RegSetKeySecurity"
+    - "Event ID 4670"
+    - "registry DACL"
+    - "registry SACL"
+    - "registry permission change"
+    - "registry access control"
+    - "registry security descriptor"
+  embedding_text: "Windows registry key set security event detection pattern identifies when the security descriptor (DACL/SACL) of registry keys is modified. Captures RegSetKeySecurity API calls and permission changes via Windows Security Event ID 4670. Adversaries modify registry key permissions for defense evasion by granting write access to protected keys, removing audit SACLs to eliminate monitoring, preventing security tools from accessing persistence entries, and locking out administrators. Maps to MITRE ATT&CK T1222.001 File and Directory Permissions Modification. Detection compares old and new security descriptors to identify unauthorized permission escalation, audit bypass, and lockout attacks on critical registry paths."

@@ -1,0 +1,114 @@
+# GR Atom: Google Cloud Messaging
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-GOOCLOMES-001"
+  name: "Google Cloud Messaging"
+  normalized_name: "google_cloud_messaging"
+  aliases:
+    - "GCM"
+    - "Google GCM"
+    - "Android Cloud to Device Messaging"
+    - "C2DM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - API
+    - MOBILE
+    - HTTP
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z0A"
+  function: "D3.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Google Cloud Messaging (GCM) was Google's cloud-to-device messaging service that enabled
+    application servers to send push notifications and data messages to Android devices and
+    Chrome browser extensions. GCM was the successor to Android Cloud to Device Messaging
+    (C2DM) and preceded Firebase Cloud Messaging (FCM). Google deprecated GCM server and
+    client APIs on April 10, 2018, and shut down the service on May 29, 2019, requiring
+    migration to FCM.
+  why: >-
+    Despite deprecation, GCM remains security-relevant because legacy applications may still
+    reference GCM APIs, and the same C2 abuse patterns that affected GCM continue with FCM.
+    Historical malware campaigns used GCM as a command-and-control channel, hiding C2
+    communications within legitimate Google messaging infrastructure. Legacy GCM server keys
+    that were never rotated may still be present in source code repositories, configuration
+    files, and mobile application packages, potentially exposing applications to unauthorized
+    message injection if legacy endpoints remain active.
+  how: >-
+    GCM operated through a persistent XMPP connection between Android devices and Google's
+    servers, maintained by Google Play Services. Application servers sent messages via the GCM
+    HTTP or XMPP APIs using API keys for authentication. Each client registered with GCM to
+    obtain a registration token, which servers used to address messages. GCM supported
+    downstream messages (server to device), upstream messages (device to server), and topic-
+    based pub/sub messaging. The protocol was eventually superseded by FCM's HTTP v1 API
+    with OAuth 2.0 authentication replacing static API keys.
+  core_concepts:
+    - key: "Deprecated Service"
+      value: "GCM was deprecated in 2018 and shut down in 2019, replaced by Firebase Cloud Messaging with improved authentication and delivery features"
+    - key: "Legacy C2 Abuse"
+      value: "Historical mobile malware used GCM's trusted infrastructure for command-and-control, a pattern that continued with FCM"
+    - key: "API Key Exposure"
+      value: "Static GCM API keys embedded in applications and source code repositories remain a credential exposure risk in legacy codebases"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "precedes"
+    target: "INFRA-ENDPOINT-FIRCLOMES-001"
+    description: "Google Cloud Messaging was deprecated and replaced by Firebase Cloud Messaging in 2018-2019"
+  - type: "enables"
+    target: "ATK-C2-CLOUDSERVICE-001"
+    description: "GCM was historically abused by mobile malware as a command-and-control channel using Google infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1481"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Developers Blog - GCM Deprecation and Migration to FCM"
+    - "MITRE ATT&CK Mobile - Web Service C2 Techniques"
+    - "Android Developers - Migrate from GCM to FCM"
+  search_keywords:
+    - "Google Cloud Messaging"
+    - "GCM"
+    - "GCM deprecated"
+    - "Android push notification"
+    - "C2DM"
+    - "GCM to FCM migration"
+    - "GCM C2 malware"
+    - "Google messaging API"
+  embedding_text: >-
+    Google Cloud Messaging (GCM) was Google's cloud-to-device messaging service for sending
+    push notifications to Android devices and Chrome extensions. Deprecated in April 2018 and
+    shut down in May 2019, GCM was replaced by Firebase Cloud Messaging (FCM). GCM operated
+    through persistent XMPP connections maintained by Google Play Services with servers
+    authenticating via static API keys. Despite deprecation, GCM remains relevant because
+    legacy applications may reference GCM APIs, unreted server keys persist in repositories,
+    and the same C2 abuse patterns continue with FCM. Historical malware campaigns used GCM
+    to hide command-and-control communications within legitimate Google infrastructure. GCM
+    supported downstream, upstream, and topic-based messaging with registration tokens for
+    device addressing.

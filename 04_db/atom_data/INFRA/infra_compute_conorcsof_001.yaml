@@ -1,0 +1,101 @@
+# GR Atom: Container Orchestration Software
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CONORCSOF-001"
+  name: "Container Orchestration Software"
+  normalized_name: "container_orchestration_software"
+  aliases:
+    - "Container Orchestrator"
+    - "Container Management Platform"
+    - "Container Orchestration Platform"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CONTAINER
+    - K8S
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Container Orchestration Software automates the deployment, scaling, networking, and management
+    of containerized applications across clusters of hosts. It handles scheduling containers to
+    available nodes, maintaining desired replica counts, performing rolling updates, managing
+    service discovery and load balancing, and ensuring container health through liveness and
+    readiness probes. Kubernetes is the dominant container orchestrator, with alternatives
+    including Docker Swarm, Apache Mesos, and Nomad.
+  why: >-
+    Container orchestration is essential infrastructure for running containers at scale in
+    production. From a security perspective, orchestrators control container placement, network
+    policies, secret management, RBAC, and pod security standards. A compromised orchestrator
+    can deploy malicious containers, exfiltrate secrets, modify network policies, and control
+    all workloads in the cluster. Securing the orchestration layer is critical to container
+    security.
+  how: >-
+    Container orchestrators operate through a control plane that manages cluster state and a
+    data plane where workloads run. The control plane includes an API server, scheduler,
+    controller manager, and state store (etcd in Kubernetes). Workloads are defined as
+    declarative specifications (Deployments, StatefulSets, DaemonSets) and the orchestrator
+    reconciles actual state with desired state. Networking is handled through CNI plugins,
+    service meshes, and network policies.
+  core_concepts:
+    - key: "Declarative State Management"
+      value: "Users declare desired workload state and the orchestrator continuously reconciles actual state to match through control loops"
+    - key: "Scheduling and Placement"
+      value: "Intelligent placement of containers on cluster nodes based on resource requirements, constraints, affinity rules, and availability"
+    - key: "Service Discovery"
+      value: "Automatic DNS-based service discovery and load balancing enabling container-to-container communication without hardcoded addresses"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-KUBERNETES-001"
+    description: "Container orchestration software is the abstract category that Kubernetes implements"
+  - type: "requires"
+    target: "INFRA-COMPUTE-CONTRUNT-001"
+    description: "Container orchestration software requires a container runtime to execute containers on nodes"
+  - type: "enables"
+    target: "INFRA-COMPUTE-APPLCONT-001"
+    description: "Container orchestration enables management of application containers at scale"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "CNCF Cloud Native Landscape"
+    - "NIST SP 800-190 - Application Container Security Guide"
+    - "Kubernetes Documentation - kubernetes.io"
+  search_keywords:
+    - "container orchestration"
+    - "container management"
+    - "kubernetes orchestration"
+    - "container scheduling"
+    - "workload orchestration"
+    - "container platform"
+    - "container orchestrator"
+  embedding_text: >-
+    Container Orchestration Software automates deployment, scaling, networking, and management of
+    containerized applications across host clusters. It handles scheduling, replica management,
+    rolling updates, service discovery, load balancing, and health monitoring. Kubernetes is the
+    dominant orchestrator with alternatives including Docker Swarm and Nomad. The control plane
+    manages cluster state through API server, scheduler, controllers, and etcd. Security concerns
+    include compromised control planes deploying malicious containers, secret exfiltration, RBAC
+    bypass, and network policy manipulation. Securing the orchestration layer is critical to
+    overall container security.

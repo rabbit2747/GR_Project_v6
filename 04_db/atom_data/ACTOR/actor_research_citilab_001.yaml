@@ -1,0 +1,75 @@
+# GR Atom: Citizen Lab
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-CITILAB-001"
+  name: "Citizen Lab"
+  normalized_name: "citizen_lab"
+  aliases:
+    - "The Citizen Lab"
+    - "Munk School Citizen Lab"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - FORENSICS
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "The Citizen Lab is an interdisciplinary research laboratory based at the Munk School of Global Affairs and Public Policy at the University of Toronto, founded by Ronald Deibert in 2001. It focuses on research at the intersection of information and communication technologies, human rights, and global security. The Citizen Lab is internationally recognized for its groundbreaking investigations into digital espionage, commercial spyware such as NSO Group's Pegasus, internet censorship and surveillance, and targeted threats against civil society, journalists, and human rights defenders."
+  why: "The Citizen Lab is critically important to cybersecurity because it uncovers state-sponsored surveillance operations and commercial spyware deployments that threaten human rights, press freedom, and civil liberties worldwide. Its research has led to major public policy debates, legal actions against spyware vendors, and improved security practices for at-risk populations including journalists, activists, and political dissidents."
+  how: "The Citizen Lab employs a combination of technical analysis, including network scanning, reverse engineering of spyware, forensic analysis of targeted devices, and internet measurement, together with policy research and legal analysis. Researchers analyze malware samples, map command-and-control infrastructure, and correlate technical indicators with geopolitical context to attribute surveillance operations and publish detailed public reports."
+  core_concepts:
+    - key: "Commercial Spyware Research"
+      value: "Investigation of spyware vendors like NSO Group, Candiru, and Cytrox and their government clients"
+    - key: "Digital Rights and Surveillance"
+      value: "Research on internet censorship, surveillance, and their impact on civil society and human rights"
+    - key: "Targeted Threat Analysis"
+      value: "Forensic analysis of attacks against journalists, activists, and political dissidents worldwide"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-PEGCITLAB-001"
+    description: "Conducted the seminal Pegasus spyware investigation that exposed NSO Group operations"
+  - type: is_a
+    target: "ACTOR-RESEARCH-CYLAB-001"
+    description: "Fellow university-based cybersecurity research laboratory"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for research laboratory
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://citizenlab.ca"
+    - "https://en.wikipedia.org/wiki/Citizen_Lab"
+  search_keywords:
+    - "citizen lab"
+    - "university of toronto"
+    - "digital surveillance"
+    - "spyware research"
+    - "NSO group"
+    - "pegasus spyware"
+    - "human rights"
+    - "internet censorship"
+    - "targeted threats"
+    - "ronald deibert"
+  embedding_text: "The Citizen Lab is an interdisciplinary research laboratory based at the University of Toronto's Munk School of Global Affairs, founded by Ronald Deibert in 2001, focusing on research at the intersection of information technology, human rights, and global security. The lab is internationally recognized for groundbreaking investigations into commercial spyware such as NSO Group's Pegasus, digital espionage campaigns, internet censorship and surveillance, and targeted threats against civil society, journalists, and human rights defenders. Using technical analysis including network scanning, malware reverse engineering, forensic device analysis, and internet measurement combined with policy research, the Citizen Lab uncovers state-sponsored surveillance operations and their impact on civil liberties. Their research has led to major public policy debates, legal actions against spyware vendors, and improved security practices for at-risk populations worldwide."

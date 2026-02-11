@@ -1,0 +1,117 @@
+# GR Atom: CVE-2017-10271
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE201710271-001"
+  name: "CVE-2017-10271"
+  normalized_name: "cve_2017_10271"
+  aliases:
+    - "WebLogic XMLDecoder RCE"
+    - "Oracle WebLogic WLS-WSAT Deserialization"
+    - "WebLogic SOAP Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle WebLogic Server 10.3.6.0"
+    - "Oracle WebLogic Server 12.1.3.0"
+    - "Oracle WebLogic Server 12.2.1.1-12.2.1.2"
+    - "WLS Security (WLS-WSAT) component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-10271 is a critical remote code execution vulnerability in Oracle WebLogic Server
+    caused by unsafe deserialization in the WLS Security (WLS-WSAT) component. The XMLDecoder
+    class is used to process user-supplied XML data in SOAP requests without proper input
+    validation, allowing attackers to inject and execute arbitrary Java objects. The CVSS v3
+    base score is 7.5 and it was disclosed in October 2017. This vulnerability was massively
+    exploited for cryptocurrency mining campaigns.
+  why: >-
+    Oracle WebLogic Server is a leading enterprise Java application server deployed across
+    financial institutions, government agencies, and large corporations. The vulnerability
+    requires no authentication and is exploitable over HTTP, making it ideal for automated
+    mass exploitation. It was widely adopted by cryptomining botnets and APT groups as a
+    reliable initial access vector for enterprise network infiltration.
+  how: >-
+    Attackers send specially crafted SOAP XML requests to the WLS-WSAT endpoint
+    (/wls-wsat/CoordinatorPortType). The XML payload contains serialized Java objects that
+    the XMLDecoder processes without validation. Through carefully constructed object graphs,
+    attackers invoke Runtime.exec() or similar methods to execute operating system commands.
+    Common payloads deploy cryptocurrency miners, web shells, or reverse shells. Mitigation
+    requires applying Oracle Critical Patch Update or restricting access to WLS-WSAT endpoints.
+  core_concepts:
+    - key: "XMLDecoder Deserialization"
+      value: "Java XMLDecoder class processes XML into arbitrary Java objects, enabling code execution when processing untrusted input"
+    - key: "WLS-WSAT Endpoint"
+      value: "WebLogic Web Services Atomic Transaction endpoint that exposes the vulnerable XML processing to unauthenticated HTTP requests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "XMLDecoder injection in WebLogic is a specific instance of injection through deserialization"
+  - type: "enables"
+    target: "VUL-INJECT-CVE201712149-001"
+    description: "Both target Java application server deserialization for remote code execution"
+  - type: "supersedes"
+    target: "VUL-INJECT-CVE20060265-001"
+    description: "More critical WebLogic injection supersedes earlier BEA WebLogic injection vulnerability"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2017-10271"
+  cvss_score: 7.5
+  affected_product: "Oracle WebLogic Server 10.3.6.0/12.1.3.0/12.2.1.x"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-10271"
+    - "CWE-502 Deserialization of Untrusted Data"
+    - "Oracle Critical Patch Update October 2017"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-10271"
+    - "WebLogic XMLDecoder"
+    - "WLS-WSAT deserialization"
+    - "Oracle WebLogic RCE"
+    - "WebLogic cryptocurrency mining"
+    - "WebLogic SOAP injection"
+    - "Java deserialization WebLogic"
+  embedding_text: >-
+    CVE-2017-10271 is a critical remote code execution vulnerability in Oracle WebLogic Server
+    caused by unsafe XMLDecoder deserialization in the WLS-WSAT component. With CVSS score 7.5,
+    attackers send crafted SOAP XML to the CoordinatorPortType endpoint containing serialized
+    Java objects that execute arbitrary commands without authentication. Massively exploited
+    for cryptocurrency mining campaigns and APT operations targeting enterprise networks.
+    Affects WebLogic Server 10.3.6.0, 12.1.3.0, and 12.2.1.x versions. The vulnerability
+    demonstrates the severe risk of using XMLDecoder to process untrusted input in enterprise
+    middleware. Mitigation requires Oracle Critical Patch Update application or restricting
+    network access to WLS-WSAT endpoints.

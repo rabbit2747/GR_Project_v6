@@ -1,0 +1,110 @@
+# GR Atom: Red Penguin
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDPENG-001"
+  name: "Red Penguin"
+  normalized_name: "red_penguin"
+  aliases:
+    - "Fancy Bear"
+    - "APT28"
+    - "Sofacy"
+    - "Pawn Storm"
+    - "Sednit"
+    - "Tsar Team"
+    - "Forest Blizzard"
+    - "STRONTIUM"
+    - "Iron Twilight"
+    - "Grizzly Steppe"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - CRED
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+    - LINUX
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Penguin, most widely known as APT28 or Fancy Bear, is a Russia-nexus advanced persistent threat group attributed to the Russian General Staff Main Intelligence Directorate (GRU) Unit 26165. Active since at least 2004, it is one of the most prolific and sophisticated state-sponsored threat actors globally, targeting government agencies, military organizations, defense contractors, media outlets, political organizations, and critical infrastructure across NATO member states and former Soviet countries."
+  why: "Red Penguin/APT28 represents one of the most significant cyber threats from a nation-state actor due to its attribution to Russian military intelligence and its role in high-profile operations including interference in the 2016 U.S. presidential election, the Democratic National Committee breach, and destructive attacks against international organizations. The group's operations directly support Russian strategic military and geopolitical objectives."
+  how: "Red Penguin employs a diverse arsenal including zero-day exploits, credential phishing via OAuth abuse and fake login pages, watering hole attacks, and exploitation of public-facing applications. Key malware families include X-Agent/Sofacy, XTunnel, Zebrocy, and GoDownloader. The group uses compromised email accounts for lateral phishing, deploys VPN exploitation capabilities, and leverages legitimate services for C2 communications. It also conducts hack-and-leak operations for information warfare."
+  core_concepts:
+    - key: "GRU Attribution"
+      value: "Formally attributed to Russian GRU Unit 26165, with multiple indictments by the U.S. Department of Justice against specific officers"
+    - key: "Information Warfare"
+      value: "Conducts hack-and-leak operations combining cyber intrusions with information operations to influence political outcomes"
+    - key: "Zero-Day Capability"
+      value: "Demonstrated ability to develop and deploy zero-day exploits across multiple platforms including Windows, Linux, and network devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Russian GRU-attributed APT group conducting military intelligence and information warfare operations"
+  - type: enables
+    target: "ATK-PHISH-CRED-001"
+    description: "Extensive credential phishing campaigns using fake OAuth pages and login portals"
+  - type: enables
+    target: "ATK-EXPLOIT-ZERODAY-001"
+    description: "Develops and deploys zero-day exploits across multiple platforms for initial access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "credential-access"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - APT28"
+    - "CrowdStrike - Fancy Bear threat profile"
+    - "Microsoft - Forest Blizzard threat intelligence"
+    - "U.S. DOJ - GRU officer indictments"
+    - "ESET - Sednit group analysis"
+  search_keywords:
+    - "red penguin"
+    - "fancy bear"
+    - "apt28"
+    - "sofacy"
+    - "pawn storm"
+    - "sednit"
+    - "forest blizzard"
+    - "strontium"
+    - "gru"
+    - "russia apt"
+    - "x-agent"
+    - "zebrocy"
+    - "dnc hack"
+    - "information warfare"
+    - "credential phishing"
+  embedding_text: "Red Penguin, most widely known as APT28 or Fancy Bear, is a Russian GRU-attributed advanced persistent threat group (Unit 26165) active since at least 2004. One of the most prolific state-sponsored threat actors globally, the group targets government agencies, military organizations, defense contractors, media outlets, and political organizations across NATO member states. Red Penguin employs zero-day exploits, credential phishing via OAuth abuse, watering hole attacks, and key malware families including X-Agent, XTunnel, and Zebrocy. The group is responsible for high-profile operations including the 2016 DNC breach and conducts hack-and-leak information warfare operations supporting Russian strategic military and geopolitical objectives."

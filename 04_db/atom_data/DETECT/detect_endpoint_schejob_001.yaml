@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHEJOB-001"
+  name: "Scheduled Job Event"
+  normalized_name: "scheduled_job_event"
+  aliases:
+    - "Scheduled Task Lifecycle Event"
+    - "Task Scheduler Monitoring"
+    - "Job Scheduling Telemetry"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - PERSIST
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Event is a comprehensive endpoint detection pattern that serves as the parent category for all scheduled task lifecycle events across operating systems. It encompasses the complete lifecycle of scheduled jobs including creation, modification, deletion, enabling, disabling, starting, completion, and failure events for Windows Task Scheduler tasks, Linux cron jobs, systemd timers, at jobs, and macOS launchd agents and daemons. This unified pattern provides holistic visibility into all scheduled execution mechanisms on endpoints, enabling correlation across lifecycle phases to detect sophisticated attack patterns that span multiple events."
+  why: "Scheduled task manipulation is among the most prevalent adversary techniques for persistence, execution, and privilege escalation, documented extensively in MITRE ATT&CK T1053. A comprehensive view of the complete scheduled job lifecycle is necessary because adversaries often combine multiple operations such as creating a disabled task, modifying its trigger, enabling it at a specific time, and deleting it after execution to evade detection systems that only monitor individual event types. The parent scheduled job event pattern ensures no phase of task manipulation escapes detection and enables behavioral analysis across the full task lifecycle."
+  how: "The scheduled job event framework aggregates telemetry from Windows Task Scheduler events (Event IDs 4698-4702 and operational log events), Linux auditd rules for crontab operations, systemd timer unit management events, at daemon logs, and macOS launchd configuration changes. The unified event stream maintains per-task lifecycle state machines that track each task from creation through all state changes to deletion. Correlation engines identify suspicious patterns such as rapid create-execute-delete cycles, tasks that are created and immediately disabled for later activation, modifications to existing legitimate tasks to insert malicious commands, and scheduled tasks that consistently fail suggesting reconnaissance or testing by adversaries."
+  core_concepts:
+    - key: "Task Lifecycle State Machine"
+      value: "A model tracking each scheduled task through its complete lifecycle including creation, modification, enable/disable states, execution history, and deletion"
+    - key: "Cross-Platform Unified Monitoring"
+      value: "Aggregating scheduled job events from Windows, Linux, and macOS scheduling mechanisms into a single coherent monitoring framework"
+    - key: "Behavioral Pattern Detection"
+      value: "Analyzing sequences of scheduled task operations to identify attack patterns that are not detectable from individual events alone"
+
+relations:
+  - type: abstracts
+    target: "DETECT-ENDPOINT-SCHJOBCRE-001"
+    description: "Scheduled job event is the parent category that encompasses job creation events"
+  - type: abstracts
+    target: "DETECT-ENDPOINT-SCHJOBDEL-001"
+    description: "Scheduled job event is the parent category that encompasses job deletion events"
+  - type: effective_against
+    target: "ATK-PERSIST-SCHEDTASK-001"
+    description: "Provides comprehensive detection coverage against all scheduled task-based persistence techniques"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053"
+    tactic: ["Persistence", "Execution", "Privilege Escalation"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1053 - Scheduled Task/Job"
+    - "Microsoft - Task Scheduler Security Events - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-other-object-access-events"
+    - "Linux man pages - crontab(5), systemd.timer(5), at(1)"
+  search_keywords:
+    - "scheduled job event"
+    - "scheduled task monitoring"
+    - "task scheduler detection"
+    - "cron job monitoring"
+    - "job scheduling telemetry"
+    - "scheduled task lifecycle"
+    - "persistence detection"
+    - "task manipulation detection"
+  embedding_text: "Scheduled Job Event is the comprehensive parent detection pattern for all scheduled task lifecycle events across operating systems, encompassing creation, modification, deletion, enabling, disabling, starting, and completion of Windows Task Scheduler tasks, Linux cron jobs, systemd timers, and macOS launchd agents. Aggregating telemetry from Task Scheduler Event IDs 4698-4702, auditd rules, and launchd monitoring, this framework maintains per-task lifecycle state machines and applies behavioral analysis to detect sophisticated patterns including rapid create-execute-delete cycles, staged disabled-task activation, and modification of legitimate tasks for malicious purposes."

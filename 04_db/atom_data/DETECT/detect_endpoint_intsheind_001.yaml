@@ -1,0 +1,77 @@
+# GR Atom: Interactive Shell Indicator
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-INTSHEIND-001"
+  name: "Interactive Shell Indicator"
+  normalized_name: "interactive_shell_indicator"
+  aliases:
+    - "Reverse Shell Detection"
+    - "Interactive Command Shell Indicator"
+    - "Remote Shell Session Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - EXEC
+    - LATERAL
+    - BLUE_TEAM
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Interactive Shell Indicator is an endpoint detection pattern that identifies when a process is operating as an interactive command shell session, particularly in contexts that suggest unauthorized remote access. This includes detection of reverse shells where stdin/stdout/stderr are redirected to network sockets, bind shells listening on network ports, web shells providing command execution through HTTP, and legitimate shells (cmd.exe, PowerShell, bash, sh, zsh) spawned by unexpected parent processes such as web servers, database engines, or office applications. The pattern analyzes process attributes including file descriptor redirections, TTY allocation, parent-child process relationships, network connections, and command-line arguments."
+  why: "Interactive shell access is a primary objective for adversaries after initial exploitation, providing them with direct command execution capability on compromised systems. Detection of interactive shells is critical because they enable full system control including credential harvesting, lateral movement, data exfiltration, and persistence establishment. Many attack frameworks including Metasploit, Cobalt Strike, and custom tooling establish interactive shells as their primary post-exploitation mechanism. Identifying these shells early in the kill chain significantly reduces adversary dwell time and limits the scope of compromise."
+  how: "Detection systems identify interactive shells through multiple indicators including process creation events where shell processes are spawned by unusual parent processes, network connection analysis showing shell processes with established connections to external addresses, file descriptor inspection revealing stdin/stdout connected to network sockets rather than terminals, TTY/PTY allocation patterns indicating remote interactive sessions, environment variable analysis showing shell sessions without standard desktop session variables, and command-line argument patterns associated with reverse shell one-liners across multiple languages. Machine learning models score the probability of malicious interactive shells based on combined behavioral indicators."
+  core_concepts:
+    - key: "Reverse Shell Detection"
+      value: "Identifying shell processes where input/output streams are redirected to network connections, allowing remote command execution by an attacker"
+    - key: "Anomalous Parent Process"
+      value: "Detecting shell processes spawned by processes that should not normally create interactive shells, such as web servers or document editors"
+    - key: "File Descriptor Analysis"
+      value: "Examining the stdin, stdout, and stderr redirections of shell processes to determine if they are connected to network sockets rather than local terminals"
+
+relations:
+  - type: effective_against
+    target: "ATK-EXEC-REVSHELL-001"
+    description: "Directly detects reverse shell establishment as a post-exploitation execution technique"
+  - type: enables
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Interactive shell detection feeds into EDR telemetry for comprehensive endpoint threat visibility"
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "Shell indicator detection leverages file event monitoring for process and descriptor analysis"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1059 - Command and Scripting Interpreter"
+    - "SANS - Detecting Reverse Shells - https://www.sans.org/white-papers/"
+    - "Elastic Security - Shell Detection Rules - https://www.elastic.co/guide/en/security/current/detection-engine-overview.html"
+  search_keywords:
+    - "interactive shell detection"
+    - "reverse shell indicator"
+    - "bind shell detection"
+    - "web shell indicator"
+    - "command shell monitoring"
+    - "anomalous shell process"
+    - "remote shell session"
+    - "post-exploitation detection"
+  embedding_text: "Interactive Shell Indicator detection identifies processes operating as interactive command shells in unauthorized contexts, including reverse shells with network-redirected I/O, bind shells on listening ports, web shells via HTTP, and legitimate shells spawned by unexpected parents like web servers or office applications. Analysis covers file descriptor redirections, TTY allocation, parent-child relationships, network connections, and command-line patterns. This enables early detection of post-exploitation activity from frameworks like Metasploit and Cobalt Strike, reducing adversary dwell time by identifying command execution capabilities before credential harvesting and lateral movement."

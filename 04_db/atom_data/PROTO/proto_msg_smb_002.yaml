@@ -1,0 +1,103 @@
+# GR Atom: SMB Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-SMB-002"
+  name: "SMB Protocol"
+  normalized_name: "smb_protocol"
+  aliases:
+    - "SMB/CIFS Protocol Suite"
+    - "SMB Direct"
+    - "SMB over QUIC"
+    - "SMB Multichannel"
+    - "MS-SMB2"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMB
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    The SMB Protocol suite encompasses the complete set of Server Message Block specifications
+    covering file access, named pipes, print services, and distributed file system operations
+    across networked Windows and cross-platform environments. Beyond basic file sharing, the
+    SMB protocol family includes SMB Direct (RDMA), SMB Multichannel for bandwidth aggregation,
+    SMB over QUIC for secure internet access without VPN, SMB Compression, and DFS (Distributed
+    File System) namespace integration. The protocol suite is documented across multiple Microsoft
+    specifications including MS-SMB, MS-SMB2, MS-DFSC, MS-SRVS, and MS-SRVSVC.
+  why: >-
+    The breadth of the SMB protocol suite creates an extensive attack surface. Each SMB
+    sub-protocol introduces unique risks: DFS referrals can be poisoned for credential harvesting,
+    SMB Direct bypasses traditional network security controls through RDMA, named pipe operations
+    enable RPC-based exploitation, and print service protocols (MS-RPRN, MS-PAR) have been
+    exploited in PrintNightmare attacks. SMB protocol enumeration reveals server capabilities,
+    supported dialects, and security configuration. Understanding the full protocol suite is
+    essential for comprehensive network security assessment, firewall rule design, and
+    intrusion detection signature development.
+  how: >-
+    The SMB protocol suite operates as layered specifications: (1) Core SMB2/3 protocol (MS-SMB2)
+    handles session management, tree connects, file operations, and change notifications; (2)
+    Service protocols (MS-SRVS, MS-SRVSVC) manage share enumeration and server configuration;
+    (3) DFS protocols (MS-DFSC) provide namespace virtualization across multiple servers; (4)
+    SMB Direct (MS-SMBD) enables RDMA transport for high-performance storage networking; (5)
+    SMB Multichannel aggregates multiple network connections for throughput and failover; (6)
+    SMB over QUIC provides TLS 1.3 encrypted transport for internet-facing file access without
+    VPN. Each sub-protocol negotiates capabilities during session establishment.
+  core_concepts:
+    - key: "SMB Direct (RDMA)"
+      value: "Remote Direct Memory Access transport for SMB enabling zero-copy data transfer with microsecond latency for storage workloads."
+    - key: "SMB Multichannel"
+      value: "Bandwidth aggregation across multiple network interfaces providing increased throughput and automatic failover for high-availability file services."
+    - key: "SMB over QUIC"
+      value: "TLS 1.3 encrypted SMB transport over UDP enabling secure file access over the internet without requiring VPN tunnels (Windows Server 2022+)."
+    - key: "Distributed File System (DFS)"
+      value: "Namespace virtualization protocol enabling transparent access to shared folders across multiple servers through a unified logical path hierarchy."
+
+relations:
+  - type: "is_a"
+    target: "PROTO-MSG-SMB-001"
+    description: "SMB Protocol suite is the comprehensive specification set for Server Message Block implementations"
+  - type: "enables"
+    target: "PROTO-MSG-REMPROCAL-001"
+    description: "SMB named pipes provide transport for RPC communications in Windows environments"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — [MS-SMB2]: Server Message Block Protocol Versions 2 and 3"
+    - "Microsoft — [MS-SMBD]: SMB2 Remote Direct Memory Access Transport"
+    - "Microsoft — [MS-DFSC]: Distributed File System (DFS) Client Protocol"
+    - "Microsoft — SMB over QUIC Documentation (Windows Server 2022)"
+  search_keywords:
+    - "SMB protocol"
+    - "SMB Direct"
+    - "SMB over QUIC"
+    - "SMB Multichannel"
+    - "CIFS protocol"
+    - "DFS"
+    - "MS-SMB2"
+    - "SMB RDMA"
+    - "Windows file protocol"
+    - "SMB compression"
+  embedding_text: >-
+    The SMB Protocol suite encompasses the complete Server Message Block specification family
+    including core file access (MS-SMB2), SMB Direct (RDMA) for high-performance storage, SMB
+    Multichannel for bandwidth aggregation and failover, SMB over QUIC for VPN-less internet
+    file access with TLS 1.3, SMB Compression, and DFS namespace virtualization. The broad
+    protocol surface creates extensive attack vectors through DFS referral poisoning, RDMA
+    bypassing network controls, named pipe exploitation, and print service vulnerabilities
+    like PrintNightmare. Comprehensive security requires understanding all sub-protocols for
+    effective firewall rules, IDS signatures, and network segmentation.

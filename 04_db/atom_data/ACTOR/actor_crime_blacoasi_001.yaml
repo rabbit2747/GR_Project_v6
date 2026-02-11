@@ -1,0 +1,133 @@
+# GR Atom: Black Oasis
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-BLACOASI-001"
+  name: "Black Oasis"
+  normalized_name: "black_oasis"
+  aliases:
+    - "BlackOasis"
+    - "Black Oasis APT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - RECON
+    - NETWORK
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Black Oasis is a threat actor tracked by Kaspersky since 2015 that is notable for its use of
+    commercially available surveillance software and zero-day exploits in Adobe Flash Player to
+    conduct targeted espionage operations. The group deployed the FinFisher (also known as FinSpy)
+    commercial spyware suite developed by Gamma Group as its primary post-exploitation tool. Black
+    Oasis was responsible for exploiting at least five Adobe Flash zero-day vulnerabilities between
+    2015 and 2017, including CVE-2017-11292, CVE-2016-4117, CVE-2016-0984, CVE-2015-5119, and
+    CVE-2015-5122. Targets included political figures, UN officials, opposition bloggers, and
+    activists primarily in the Middle East, with victims also identified in Russia, the United
+    Kingdom, Afghanistan, and other countries.
+  why: >-
+    Black Oasis represents the convergence of commercial surveillance tools and zero-day
+    exploitation capabilities, highlighting the threat posed by the commercial spyware market to
+    civil society, journalists, and political dissidents. The group's repeated acquisition and
+    deployment of Flash Player zero-days demonstrates access to sophisticated exploit supply chains,
+    either through internal development or purchase from exploit brokers. Their exclusive use of
+    FinFisher/FinSpy, a tool marketed to government and law enforcement agencies, suggests potential
+    state-sponsored or state-adjacent motivation. The group's targeting pattern of political
+    dissidents, activists, and journalists in the Middle East aligns with authoritarian surveillance
+    objectives.
+  how: >-
+    Black Oasis delivered exploits primarily through spear-phishing emails containing Microsoft
+    Office documents with embedded Adobe Flash objects that triggered zero-day vulnerabilities.
+    The exploit chain typically involved a Flash SWF file embedded in an Office document that,
+    when opened, exploited the Flash vulnerability to achieve code execution and deploy the
+    FinFisher/FinSpy implant. FinFisher provided comprehensive surveillance capabilities including
+    keystroke logging, screen capture, microphone and webcam activation, file exfiltration, and
+    encrypted command-and-control communication. The group's command-and-control infrastructure
+    used multi-hop proxy networks to obscure attribution. Kaspersky discovered CVE-2017-11292
+    through their analysis of Black Oasis operations, demonstrating how threat intelligence
+    research can identify active zero-day exploitation.
+  core_concepts:
+    - key: "Commercial Spyware Deployment"
+      value: >-
+        Black Oasis exclusively deployed FinFisher/FinSpy, a commercial surveillance tool sold by
+        Gamma Group to government agencies, demonstrating how commercially available spyware enables
+        sophisticated surveillance operations against civil society targets.
+    - key: "Flash Zero-Day Exploitation"
+      value: >-
+        The group exploited at least five Adobe Flash Player zero-day vulnerabilities between 2015
+        and 2017, indicating sustained access to high-value exploit capabilities either through
+        internal research or procurement from exploit brokers.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Black Oasis is a threat actor using commercial spyware for targeted surveillance"
+  - type: "enables"
+    target: "ATK-EXEC"
+    description: "Black Oasis zero-day exploits enable arbitrary code execution on target systems"
+  - type: "applies_to"
+    target: "SECTOR-CIVIL-SOCIETY"
+    description: "Black Oasis primarily targets political dissidents, journalists, and activists"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+      - "Collection"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Kaspersky - BlackOasis APT and New Targeted Attacks with Zero-Day. https://securelist.com/blackoasis-apt-and-new-targeted-attacks-leveraging-zero-day-exploit/82732/"
+    - "Kaspersky - CVE-2017-11292 Adobe Flash Zero-Day Discovery. https://securelist.com/cve-2017-11292-adobe-flash-zero-day-used-in-the-wild/82788/"
+    - "MITRE ATT&CK - FinFisher/FinSpy Software. https://attack.mitre.org/software/S0182/"
+    - "Citizen Lab - FinFisher/FinSpy Commercial Spyware Analysis. https://citizenlab.ca/tag/finfisher/"
+  search_keywords:
+    - "black oasis APT"
+    - "blackoasis kaspersky"
+    - "black oasis finfisher"
+    - "black oasis finspy"
+    - "CVE-2017-11292"
+    - "flash zero-day black oasis"
+    - "black oasis gamma group"
+    - "black oasis middle east surveillance"
+  embedding_text: >-
+    Black Oasis is a threat actor tracked by Kaspersky since 2015 that deploys FinFisher/FinSpy
+    commercial surveillance software through Adobe Flash Player zero-day exploits for targeted
+    espionage operations. The group exploited at least five Flash zero-days between 2015 and 2017
+    including CVE-2017-11292, CVE-2016-4117, and CVE-2015-5119. Targets include political figures,
+    UN officials, opposition bloggers, and activists primarily in the Middle East with additional
+    victims in Russia, the United Kingdom, and Afghanistan. Attack delivery uses spear-phishing
+    with Office documents containing embedded Flash exploits that deploy the FinFisher implant for
+    comprehensive surveillance including keystroke logging, screen capture, and microphone activation.
+    The group's use of commercially available Gamma Group spyware suggests state-sponsored or
+    state-adjacent motivation, representing the convergence of commercial surveillance tools and
+    zero-day exploitation capabilities that threatens civil society and press freedom.

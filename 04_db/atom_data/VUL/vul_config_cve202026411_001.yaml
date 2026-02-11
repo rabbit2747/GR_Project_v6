@@ -1,0 +1,70 @@
+# GR Atom: CVE-2020-26411
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202026411-001"
+  name: "CVE-2020-26411"
+  normalized_name: "cve_2020_26411"
+  aliases:
+    - "GitLab User Enumeration"
+    - "GitLab Information Disclosure"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - INFO_LEAK
+    - RECON
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "GitLab Community Edition"
+    - "GitLab Enterprise Edition"
+
+definition:
+  what: "CVE-2020-26411 is an information disclosure vulnerability in GitLab CE/EE affecting versions before 13.4.7, 13.5.x before 13.5.5, and 13.6.x before 13.6.2. The vulnerability allows unauthenticated attackers to enumerate valid user accounts through differential response timing or content in the login and password reset functionality. The application provides different responses for valid versus invalid usernames."
+  why: "User enumeration in a source code management platform like GitLab is significant because it enables targeted attacks against developer accounts. Attackers can build a list of valid usernames for brute-force attacks, credential stuffing, or social engineering campaigns. In organizations using GitLab for CI/CD, compromised developer accounts can lead to source code theft, malicious code injection, and supply chain attacks."
+  how: "The vulnerability is exploited by sending login or password reset requests with various usernames and observing the application's responses. GitLab provides different error messages, HTTP status codes, or response times for valid versus invalid usernames, allowing enumeration. Attackers automate this with tools like Burp Suite Intruder or custom scripts to identify valid accounts at scale. The fix standardizes responses regardless of username validity. CVSS v3: 5.3 (Medium)."
+  core_concepts:
+    - key: "Username Enumeration"
+      value: "Information disclosure vulnerability where application responses differ based on whether a submitted username exists, enabling attackers to identify valid accounts"
+    - key: "Supply Chain Target Reconnaissance"
+      value: "Enumeration of developer accounts in source code platforms as reconnaissance for supply chain attacks targeting software development pipelines"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2020-26411 is a configuration vulnerability in GitLab's authentication response handling"
+  - type: precedes
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "User enumeration is a reconnaissance step that precedes exploitation of the vulnerable application"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1589.001"
+    tactic: ["Reconnaissance"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2020-26411 - NVD NIST"
+    - "GitLab Security Advisory"
+    - "MITRE ATT&CK T1589.001 - Gather Victim Identity Information: Credentials"
+  search_keywords:
+    - "CVE-2020-26411"
+    - "GitLab user enumeration"
+    - "GitLab information disclosure"
+    - "GitLab username enumeration"
+    - "GitLab security vulnerability"
+    - "source code platform reconnaissance"
+  embedding_text: "CVE-2020-26411 is an information disclosure vulnerability in GitLab CE/EE before versions 13.4.7, 13.5.5, and 13.6.2 that allows unauthenticated attackers to enumerate valid user accounts through differential responses in login and password reset functionality. User enumeration in a source code management platform enables targeted attacks against developer accounts for credential stuffing, brute-force, or social engineering. Compromised GitLab accounts can lead to source code theft and supply chain attacks. CVSS v3 score is 5.3 Medium. Remediation requires updating GitLab to patched versions. Maps to MITRE ATT&CK T1589.001 Gather Victim Identity Information."

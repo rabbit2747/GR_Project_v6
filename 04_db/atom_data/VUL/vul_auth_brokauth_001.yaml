@@ -1,0 +1,122 @@
+# GR Atom: Broken Authentication
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-BROKAUTH-001"
+  name: "Broken Authentication"
+  normalized_name: "broken_authentication"
+  aliases:
+    - "Authentication Failure"
+    - "OWASP A07 2021"
+    - "OWASP A02 2017"
+    - "Session Management Flaw"
+    - "Credential Mismanagement"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - CRED
+    - WEB
+    - API
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Web application login systems"
+    - "API authentication endpoints"
+    - "Session management services"
+    - "Token issuance systems"
+    - "Password reset mechanisms"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Broken Authentication refers to implementation weaknesses in authentication and session
+    management functions that allow attackers to compromise passwords, keys, or session tokens,
+    or to exploit other implementation flaws to assume other users' identities. This includes
+    credential stuffing when known breached username-password lists are used, brute-force attacks
+    due to missing rate limiting, permitting weak or well-known passwords, ineffective credential
+    recovery processes, plaintext or weakly hashed password storage, absent or ineffective
+    multi-factor authentication, and session identifier exposure in URLs.
+  why: >-
+    Broken authentication is consistently ranked among the most dangerous application security
+    risks. Attackers have access to billions of valid username-password combinations from
+    data breaches. The automated nature of credential stuffing and brute-force tools makes
+    exploitation trivial. Successful exploitation leads to complete account takeover, identity
+    theft, unauthorized transactions, and exposure of sensitive personal and financial data.
+  how: >-
+    Attackers exploit broken authentication through automated credential stuffing using breach
+    databases, brute-force attacks against login endpoints without rate limiting, session
+    fixation or hijacking through insecure token handling, and exploitation of weak password
+    recovery flows. Mitigation requires implementing multi-factor authentication, avoiding
+    default credentials, checking passwords against known breached lists, enforcing password
+    complexity and length, hardening credential recovery paths, using secure session management
+    with server-side storage, and implementing progressive delays on failed login attempts.
+  core_concepts:
+    - key: "Credential Stuffing"
+      value: "Automated injection of breached username-password pairs against login endpoints to gain unauthorized access at scale"
+    - key: "Session Fixation"
+      value: "Attack where an attacker sets a users session ID to a known value before authentication, then hijacks the authenticated session"
+    - key: "Multi-Factor Bypass"
+      value: "Techniques to circumvent additional authentication factors through implementation flaws, social engineering, or protocol weaknesses"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Broken authentication is a specific manifestation of the broader authentication vulnerability class"
+  - type: "enables"
+    target: "VUL-AUTH-PASNOTREQ-001"
+    description: "Broken authentication configurations may enable scenarios where passwords are not required"
+  - type: "causes"
+    target: "VUL-AUTH-PASREUPAT-001"
+    description: "Broken authentication lacking breach checking enables password reuse patterns to persist"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1110"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP Top 10 2021 - A07 Identification and Authentication Failures"
+    - "OWASP Top 10 2017 - A02 Broken Authentication"
+    - "CWE-287 Improper Authentication"
+    - "CWE-384 Session Fixation"
+    - "NIST SP 800-63B Digital Identity Guidelines"
+  search_keywords:
+    - "broken authentication"
+    - "credential stuffing"
+    - "session management vulnerability"
+    - "brute force login"
+    - "authentication failure"
+    - "session fixation"
+    - "OWASP A07"
+    - "password breach"
+  embedding_text: >-
+    Broken Authentication encompasses implementation weaknesses in authentication and session
+    management that allow attackers to compromise credentials, keys, or session tokens to
+    assume other users identities. This includes credential stuffing with breached password
+    lists, brute-force attacks without rate limiting, weak password policies, ineffective
+    credential recovery, plaintext password storage, missing multi-factor authentication,
+    and session ID exposure. Mitigation requires multi-factor authentication, breach-checked
+    passwords, secure session management with server-side storage, progressive login delays,
+    and hardened credential recovery. Impacts include account takeover, identity theft, and
+    unauthorized access to sensitive data and systems.

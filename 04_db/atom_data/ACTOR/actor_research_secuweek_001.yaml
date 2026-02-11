@@ -1,0 +1,73 @@
+# GR Atom: Security Week
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-SECUWEEK-001"
+  name: "Security Week"
+  normalized_name: "security_week"
+  aliases:
+    - "SecurityWeek"
+    - "SW"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SecurityWeek is a leading cybersecurity news publication that provides comprehensive coverage of security vulnerabilities, data breaches, threat intelligence, malware analysis, ICS/SCADA security, and enterprise security strategy. The publication is known for its strong focus on vulnerability disclosures, maintaining extensive databases of reported CVEs, and hosting the ICS Cyber Security Conference, one of the premier events focused on industrial control system security. SecurityWeek covers the full spectrum of cybersecurity domains including network security, cloud security, IoT security, and critical infrastructure protection."
+  why: "SecurityWeek is a primary daily reference for cybersecurity professionals, providing some of the most comprehensive vulnerability disclosure coverage in the industry. Its focus on ICS/SCADA security and industrial cybersecurity fills a critical niche, as critical infrastructure protection becomes increasingly important. The publication's vulnerability database and timely reporting help organizations prioritize patching and risk management."
+  how: "SecurityWeek publishes daily news articles, analysis pieces, and vulnerability reports covering the global cybersecurity landscape. Journalists report on newly disclosed CVEs, vendor security advisories, data breach incidents, and threat actor campaigns. The publication also hosts the annual ICS Cyber Security Conference and SecurityWeek conference, bringing together practitioners, vendors, and researchers for knowledge sharing and networking."
+  core_concepts:
+    - key: "Vulnerability Disclosure Coverage"
+      value: "Comprehensive reporting on newly disclosed CVEs, vendor advisories, and exploitation activity"
+    - key: "ICS/SCADA Security"
+      value: "Specialized focus on industrial control system cybersecurity and critical infrastructure protection"
+    - key: "Enterprise Security News"
+      value: "Daily coverage of data breaches, threat campaigns, and enterprise security strategy"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow leading cybersecurity news publication"
+  - type: enables
+    target: "ACTOR-RESEARCH-ARSTECH-001"
+    description: "Part of the cybersecurity media ecosystem providing vulnerability intelligence"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media organization
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.securityweek.com"
+  search_keywords:
+    - "security week"
+    - "securityweek"
+    - "vulnerability disclosure"
+    - "CVE reporting"
+    - "ICS security"
+    - "SCADA security"
+    - "cybersecurity news"
+    - "enterprise security"
+    - "critical infrastructure"
+  embedding_text: "SecurityWeek is a leading cybersecurity news publication providing comprehensive coverage of security vulnerabilities, data breaches, threat intelligence, malware analysis, ICS/SCADA security, and enterprise security strategy. Known for its strong vulnerability disclosure coverage and extensive CVE databases, the publication also hosts the ICS Cyber Security Conference, one of the premier events for industrial control system security. SecurityWeek covers the full spectrum of cybersecurity domains including network security, cloud security, IoT security, and critical infrastructure protection, serving as a primary daily reference for cybersecurity professionals. The publication's focus on ICS/SCADA security and industrial cybersecurity fills a critical niche as critical infrastructure protection becomes increasingly important."

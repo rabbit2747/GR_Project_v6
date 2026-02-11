@@ -1,0 +1,96 @@
+# GR Atom: Disk Drive
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-DISKDRIV-001"
+  name: "Disk Drive"
+  normalized_name: "disk_drive"
+  aliases:
+    - "Hard Drive"
+    - "HDD"
+    - "SSD"
+    - "Storage Drive"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - OS
+    - ENCRYPT
+    - FORENSICS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "S1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Disk Drive is a persistent storage device (HDD or SSD) that stores operating system files,
+    applications, user data, and system configurations on a computer system. HDDs use magnetic
+    platters with read/write heads, while SSDs use NAND flash memory. Disk drives connect via
+    SATA, NVMe, SAS, or USB interfaces and are organized with partition tables (MBR/GPT) and
+    filesystems (NTFS, ext4, APFS, XFS) that manage data storage and retrieval.
+  why: >-
+    Disk drives contain all persistent data on a system including operating system artifacts,
+    user files, application data, and forensic evidence. They are critical to cybersecurity for
+    data-at-rest encryption (BitLocker, LUKS, FileVault), forensic acquisition and analysis,
+    secure data destruction, and evidence preservation. Unencrypted disk drives from decommissioned
+    systems are a leading cause of data breaches through physical theft or improper disposal.
+  how: >-
+    Disk drives store data in organized filesystem structures addressable by the operating system.
+    Full-disk encryption (FDE) protects data at rest using AES encryption with keys managed by
+    TPM chips or password-derived keys. Self-encrypting drives (SEDs) implement encryption in
+    hardware. Forensic acquisition creates bit-for-bit images using tools like dd, FTK Imager,
+    or EnCase. Secure erasure uses NIST 800-88 guidelines including cryptographic erase, block
+    erase, or physical destruction.
+  core_concepts:
+    - key: "Data-at-Rest Encryption"
+      value: "Full-disk encryption using BitLocker, LUKS, or FileVault protects all data on the drive from unauthorized physical access"
+    - key: "Forensic Acquisition"
+      value: "Bit-for-bit disk imaging preserves evidence for digital forensics investigation while maintaining chain of custody"
+    - key: "Secure Data Destruction"
+      value: "NIST 800-88 compliant methods including cryptographic erase, block erase, and physical destruction for data sanitization"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "Disk drives are storage components within desktop computers and servers"
+  - type: "enables"
+    target: "INFRA-COMPUTE-DRIVSTOR-001"
+    description: "Disk drives store the driver files managed by the Driver Store"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-88 - Guidelines for Media Sanitization"
+    - "NIST SP 800-111 - Guide to Storage Encryption Technologies"
+    - "SANS Digital Forensics and Incident Response"
+  search_keywords:
+    - "disk drive"
+    - "hard drive"
+    - "SSD"
+    - "HDD"
+    - "disk encryption"
+    - "forensic imaging"
+    - "data at rest"
+  embedding_text: >-
+    A Disk Drive is a persistent storage device (HDD or SSD) storing operating system files,
+    applications, user data, and configurations. Connected via SATA, NVMe, or SAS with MBR/GPT
+    partition tables and NTFS/ext4/APFS filesystems. Critical to cybersecurity for data-at-rest
+    encryption (BitLocker, LUKS, FileVault), forensic acquisition (bit-for-bit imaging), secure
+    destruction (NIST 800-88), and evidence preservation. Unencrypted drives from decommissioned
+    systems are a leading data breach cause. Self-encrypting drives (SEDs) implement hardware
+    encryption. Full-disk encryption uses AES with TPM-managed keys.

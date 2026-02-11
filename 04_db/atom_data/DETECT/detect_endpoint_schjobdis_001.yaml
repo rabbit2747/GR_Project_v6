@@ -1,0 +1,77 @@
+# GR Atom: Scheduled Job Disable Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-SCHJOBDIS-001"
+  name: "Scheduled Job Disable Event"
+  normalized_name: "scheduled_job_disable_event"
+  aliases:
+    - "Scheduled Task Disable Detection"
+    - "Task Scheduler Disable Monitoring"
+    - "Cron Job Disable Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - EVADE
+    - OS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "Scheduled Job Disable Event is an endpoint detection pattern that captures when existing scheduled tasks are disabled without being deleted. On Windows, this corresponds to Task Scheduler Event ID 4701 where a task is set to a disabled state, preventing its next scheduled execution while preserving the task configuration. On Linux, this can involve commenting out crontab entries, masking systemd timer units, or setting timer enable flags to false. On macOS, this corresponds to launchctl unload operations or setting the Disabled key in plist files. The event records the task name, the account performing the disable, the disable method, and the timestamp."
+  why: "Scheduled job disabling is a subtler form of defense evasion compared to deletion because the task configuration is preserved and can be re-enabled later. Adversaries may disable security-related scheduled tasks such as antivirus definition updates, log rotation, backup operations, or compliance scans to reduce detection capability while maintaining the appearance that the security infrastructure is intact. Disabling rather than deleting also avoids generating deletion audit events that some organizations more aggressively monitor. Detecting task disabling ensures comprehensive coverage of scheduled job manipulation techniques."
+  how: "Detection systems monitor scheduled job disable events through Windows Task Scheduler Event ID 4701, WMI subscriptions for task state changes, Linux monitoring of systemd unit masking operations and crontab comment modifications, and macOS monitoring of launchctl unload commands and plist Disabled key modifications. Detection rules flag disabling of security-critical scheduled tasks, disable operations by non-administrative accounts, bulk task disabling suggesting automated attack activity, tasks disabled shortly after being modified, and disable operations correlated with other defense evasion indicators such as security tool tampering."
+  core_concepts:
+    - key: "Subtle Defense Evasion"
+      value: "Disabling rather than deleting scheduled tasks as a less conspicuous method of preventing security operations while preserving task definitions"
+    - key: "Security Task Integrity"
+      value: "Ensuring that scheduled tasks performing security functions remain enabled and operational as part of endpoint security posture management"
+    - key: "Task State Monitoring"
+      value: "Tracking enabled/disabled state transitions of scheduled tasks to detect unauthorized state changes"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-SCHEJOB-001"
+    description: "Scheduled job disable is a specific lifecycle event within the broader scheduled job event category"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-SCHJOBENA-001"
+    description: "Job disable events are the inverse of job enable events, tracking the opposite state transition"
+  - type: effective_against
+    target: "ATK-EVASION-DISDEF-001"
+    description: "Detects defense evasion through disabling of security-related scheduled tasks"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "Microsoft - Task Scheduler Event ID 4701 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4701"
+    - "Linux systemd documentation - systemctl mask"
+  search_keywords:
+    - "scheduled task disable"
+    - "task scheduler disable event"
+    - "scheduled job disable"
+    - "cron job disable"
+    - "task scheduler event 4701"
+    - "security task disable"
+    - "defense evasion detection"
+    - "systemd timer mask"
+  embedding_text: "Scheduled Job Disable Event detection captures when scheduled tasks are disabled without deletion, preserving configuration while preventing execution. Monitored through Windows Task Scheduler Event ID 4701, Linux systemd unit masking and crontab commenting, and macOS launchctl unload operations, this telemetry records task names, disabling accounts, and methods. Detection flags disabling of security-critical tasks like antivirus updates and log rotation, non-administrative disable operations, bulk disabling patterns, and disable events correlated with other defense evasion indicators, identifying subtle defense weakening that avoids generating deletion audit events."

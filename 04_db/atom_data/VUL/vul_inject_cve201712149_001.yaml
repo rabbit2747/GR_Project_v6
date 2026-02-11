@@ -1,0 +1,114 @@
+# GR Atom: CVE-2017-12149
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE201712149-001"
+  name: "CVE-2017-12149"
+  normalized_name: "cve_2017_12149"
+  aliases:
+    - "JBoss Java Deserialization RCE"
+    - "Red Hat JBoss EAP Deserialization"
+    - "JBoss HttpInvoker Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Red Hat JBoss Enterprise Application Platform"
+    - "JBoss Application Server"
+    - "JBoss HttpInvoker component"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-12149 is a Java deserialization vulnerability in Red Hat JBoss Enterprise
+    Application Platform (EAP) that allows unauthenticated remote attackers to execute
+    arbitrary code. The HttpInvoker component in JBoss does not properly restrict access to
+    the ReadOnlyAccessFilter, enabling deserialization of untrusted Java objects sent through
+    HTTP requests. The CVSS v3 base score is 9.8 (Critical) and it was disclosed in 2017.
+  why: >-
+    JBoss EAP is a widely deployed enterprise Java application server used by government
+    agencies, financial institutions, and large enterprises. The vulnerability allows complete
+    server compromise without any authentication, making it a high-priority target for
+    automated exploitation. Java deserialization vulnerabilities in application servers
+    became one of the most dangerous vulnerability classes during this period.
+  how: >-
+    Attackers send crafted HTTP requests containing malicious serialized Java objects to the
+    JBoss HttpInvoker endpoint at /invoker/readonly. The server deserializes the objects
+    without proper access control or input validation, triggering gadget chains that execute
+    arbitrary code. Common exploitation uses the Apache Commons Collections or similar
+    libraries as gadget sources. Attackers deploy web shells, reverse shells, or malware
+    through the resulting code execution. Mitigation requires removing or restricting access
+    to the HttpInvoker and applying Red Hat security patches.
+  core_concepts:
+    - key: "Java Deserialization"
+      value: "Unsafe conversion of serialized Java byte streams into objects, enabling execution of arbitrary code through gadget chains"
+    - key: "Gadget Chain"
+      value: "Sequence of existing Java class methods chained together during deserialization to achieve arbitrary code execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Java deserialization in JBoss is a specific class of injection vulnerability"
+  - type: "applies_to"
+    target: "VUL-INJECT-CVE201710271-001"
+    description: "Both are Java application server deserialization vulnerabilities enabling unauthenticated RCE"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2017-12149"
+  cvss_score: 9.8
+  affected_product: "Red Hat JBoss Enterprise Application Platform"
+  year: 2017
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2017-12149"
+    - "CWE-502 Deserialization of Untrusted Data"
+    - "Red Hat Security Advisory RHSA-2017:3454"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2017-12149"
+    - "JBoss deserialization"
+    - "JBoss EAP RCE"
+    - "HttpInvoker vulnerability"
+    - "Java deserialization exploit"
+    - "JBoss unauthenticated RCE"
+    - "Red Hat JBoss vulnerability"
+  embedding_text: >-
+    CVE-2017-12149 is a critical Java deserialization vulnerability in Red Hat JBoss
+    Enterprise Application Platform with CVSS score 9.8. The HttpInvoker component at
+    /invoker/readonly deserializes untrusted Java objects from HTTP requests without
+    authentication or access control. Attackers exploit gadget chains from libraries like
+    Apache Commons Collections to achieve arbitrary code execution. JBoss EAP is widely
+    deployed in enterprise environments including government and financial institutions.
+    Exploitation enables complete server compromise through web shell deployment or reverse
+    shell establishment. This vulnerability is part of the broader Java deserialization
+    vulnerability class that affected multiple application servers. Mitigation requires
+    removing the HttpInvoker endpoint and applying Red Hat security patches.

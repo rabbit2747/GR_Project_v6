@@ -1,0 +1,117 @@
+# GR Atom: Smart Contract Vulnerability
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-SMARCONT-001"
+  name: "Smart Contract Vulnerability"
+  normalized_name: "smart_contract_vulnerability"
+  aliases:
+    - "DeFi Vulnerability"
+    - "Solidity Security Flaw"
+    - "Blockchain Contract Bug"
+    - "DApp Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - BLOCKCHAIN
+    - EXEC
+    - AUTHZ
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Solidity smart contracts"
+    - "Ethereum blockchain"
+    - "EVM-compatible chains"
+    - "DeFi protocols"
+    - "NFT contracts"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Smart contract vulnerabilities are security flaws in self-executing programs deployed on
+    blockchain platforms that can be exploited to steal funds, manipulate protocol logic, or
+    cause unintended state changes. Unlike traditional software, smart contracts are immutable
+    once deployed, making vulnerabilities permanent unless upgrade mechanisms exist. Common
+    vulnerability classes include reentrancy, integer overflow/underflow, front-running,
+    oracle manipulation, flash loan attacks, and access control failures.
+  why: >-
+    Smart contracts manage billions of dollars in decentralized finance (DeFi) protocols, NFT
+    marketplaces, and governance systems. The combination of immutable deployment, direct
+    financial impact, and public code visibility creates a unique threat landscape where
+    vulnerabilities lead to immediate, irreversible financial losses. The DAO hack ($60M),
+    Parity wallet freeze ($150M), and numerous DeFi exploits demonstrate the catastrophic
+    impact of smart contract flaws.
+  how: >-
+    Attackers exploit smart contract vulnerabilities through crafted transactions that trigger
+    unintended execution paths. Reentrancy attacks re-enter a contract during external calls
+    before state updates complete. Flash loan attacks borrow massive amounts to manipulate
+    prices and drain pools in a single transaction. Oracle manipulation provides false data
+    to trigger liquidations or mispricing. Front-running observes pending transactions to
+    extract value through transaction ordering.
+  core_concepts:
+    - key: "Immutable Deployment"
+      value: "Once deployed, smart contract code cannot be modified, making vulnerabilities permanent and requiring proxy patterns for upgrades"
+    - key: "Composability Risk"
+      value: "DeFi protocol interconnections create complex attack surfaces where exploiting one contract can cascade through dependent protocols"
+    - key: "Atomic Transaction Exploitation"
+      value: "Flash loans and atomic transactions enable complex multi-step attacks that borrow, manipulate, and profit in a single transaction"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Smart contract vulnerabilities are business logic flaws in blockchain-deployed programs"
+  - type: "enables"
+    target: "VUL-LOGIC-DELECALL-001"
+    description: "Smart contract vulnerability class encompasses delegate call attacks as a specific exploitation pattern"
+  - type: "enables"
+    target: "VUL-LOGIC-RACECOND-001"
+    description: "Reentrancy in smart contracts is a form of race condition unique to blockchain execution models"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "SWC Registry - Smart Contract Weakness Classification"
+    - "OWASP Smart Contract Top 10"
+    - "Ethereum Smart Contract Best Practices"
+    - "Trail of Bits - Building Secure Smart Contracts"
+    - "OpenZeppelin Security Audits"
+  search_keywords:
+    - "smart contract vulnerability"
+    - "DeFi exploit"
+    - "Solidity security"
+    - "reentrancy attack"
+    - "flash loan attack"
+    - "oracle manipulation"
+    - "blockchain vulnerability"
+    - "smart contract audit"
+  embedding_text: >-
+    Smart contract vulnerabilities are security flaws in blockchain-deployed programs enabling
+    fund theft, protocol manipulation, and state corruption. Common classes include reentrancy,
+    integer overflow, front-running, oracle manipulation, flash loans, and access control
+    failures. Immutable deployment makes flaws permanent. DeFi protocols manage billions in
+    assets. The DAO hack ($60M) and Parity freeze ($150M) demonstrate catastrophic impact.
+    Composability creates cascading attack surfaces. Atomic transactions enable complex
+    single-transaction exploits. SWC Registry classification.

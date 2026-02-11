@@ -1,0 +1,101 @@
+# GR Atom: CVE-2021-35464
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202135464-001"
+  name: "CVE-2021-35464"
+  normalized_name: "cve_2021_35464"
+  aliases:
+    - "ForgeRock OpenAM Java Deserialization RCE"
+    - "ForgeRock Access Management Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - AUTHN
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "ForgeRock OpenAM"
+    - "ForgeRock Access Management"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-35464 is a pre-authentication remote code execution vulnerability in ForgeRock
+    Access Management (OpenAM) caused by unsafe Java deserialization in the jato framework.
+    The vulnerability exists in the session handling logic where user-supplied serialized
+    Java objects are deserialized without validation, enabling an unauthenticated attacker
+    to execute arbitrary commands on the server. CVSS v3 base score: 9.8 (Critical).
+    Actively exploited in the wild.
+  why: >-
+    ForgeRock Access Management is a widely deployed identity and access management platform
+    used by large enterprises and government organizations. As an authentication gateway, it
+    typically sits at the network perimeter processing all authentication requests.
+    Pre-authentication RCE on this component provides immediate access to the identity
+    infrastructure and enables lateral movement into protected systems.
+  how: >-
+    An attacker sends a specially crafted HTTP request containing a malicious serialized Java
+    object to the ForgeRock AM endpoint. The jato framework's session handling logic
+    deserializes the object without validation, triggering a gadget chain that executes
+    arbitrary commands. No authentication is required as the vulnerable endpoint is accessible
+    pre-authentication.
+  core_concepts:
+    - key: "Pre-Auth Deserialization"
+      value: "Session handling logic deserializes user-supplied objects before authentication, enabling unauthenticated remote code execution"
+    - key: "Identity Gateway Compromise"
+      value: "Compromising the access management gateway provides control over authentication infrastructure and access to all protected applications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Session handling deserialization logic flaw enabling pre-authentication code execution"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE202247966-001"
+    description: "Both exploit deserialization logic in enterprise identity/management platforms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2021-35464"
+    - "ForgeRock Security Advisory AM-2021-02"
+    - "NIST NVD - CVE-2021-35464"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2021-35464"
+    - "ForgeRock OpenAM"
+    - "ForgeRock Access Management"
+    - "Java deserialization RCE"
+    - "OpenAM vulnerability"
+    - "identity management RCE"
+  embedding_text: >-
+    CVE-2021-35464 is a pre-authentication RCE in ForgeRock Access Management via unsafe Java
+    deserialization in jato framework session handling. Unauthenticated attackers send malicious
+    serialized objects triggering gadget chains. CVSS v3 9.8 Critical. Actively exploited.
+    ForgeRock AM is an identity gateway for enterprise authentication. Compromise provides
+    control over identity infrastructure. CISA Known Exploited. Deserialization logic flaw.
+    Year 2021.

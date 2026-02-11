@@ -1,0 +1,75 @@
+# GR Atom: WatchGuard
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-WATCHGUARD-001"
+  name: "WatchGuard"
+  normalized_name: "watchguard"
+  aliases:
+    - "WatchGuard Technologies"
+    - "WatchGuard Inc"
+    - "Firebox"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FIREWALL
+    - NETWORK
+    - IPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WatchGuard Technologies is a network security vendor providing unified threat management firewalls, secure Wi-Fi solutions, multi-factor authentication, and endpoint protection primarily for small-to-medium businesses and distributed enterprises. The company's Firebox firewall appliances deliver network security, intrusion prevention, application control, and VPN capabilities, while WatchGuard Cloud provides centralized management and security visibility across distributed environments."
+  why: "WatchGuard is significant in cybersecurity as a major provider of network security solutions for the SMB and distributed enterprise market. The company's products protect hundreds of thousands of organizations worldwide. WatchGuard firewalls were also notably targeted by the Russian Sandworm group's Cyclops Blink botnet in 2022, highlighting both their widespread deployment and the persistent threat to network security appliances."
+  how: "WatchGuard operates through hardware and virtual Firebox appliances that provide unified threat management including stateful firewall, intrusion prevention, gateway antivirus, URL filtering, application control, and VPN services. WatchGuard Cloud provides centralized management, reporting, and threat visibility. The company also provides AuthPoint multi-factor authentication and Wi-Fi access point security for comprehensive network protection."
+  core_concepts:
+    - key: "Unified Threat Management"
+      value: "Integrated network security appliances combining firewall, IPS, antivirus, and content filtering for comprehensive protection"
+    - key: "Firebox Appliances"
+      value: "Hardware and virtual firewall platform providing multi-layered network security for SMB and distributed enterprises"
+    - key: "WatchGuard Cloud"
+      value: "Centralized cloud management platform providing security visibility, reporting, and policy management across distributed environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SONICWALL-001"
+    description: "Fellow network security vendor providing unified threat management firewall solutions for the SMB market"
+  - type: is_a
+    target: "ACTOR-VENDOR-FORTIGARD-001"
+    description: "Fellow next-generation firewall vendor serving enterprise and SMB network security markets"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.watchguard.com"
+    - "https://en.wikipedia.org/wiki/WatchGuard"
+  search_keywords:
+    - "watchguard"
+    - "firebox"
+    - "unified threat management"
+    - "network firewall"
+    - "watchguard cloud"
+    - "authpoint"
+    - "cyclops blink"
+    - "SMB security"
+    - "network security appliance"
+  embedding_text: "WatchGuard Technologies is a network security vendor providing unified threat management firewalls, secure Wi-Fi solutions, multi-factor authentication, and endpoint protection primarily for small-to-medium businesses and distributed enterprises. The company's Firebox firewall appliances deliver network security, intrusion prevention, application control, and VPN capabilities. WatchGuard firewalls protect hundreds of thousands of organizations worldwide and were notably targeted by the Russian Sandworm group's Cyclops Blink botnet in 2022, highlighting both their widespread deployment and the persistent threat to network security appliances."

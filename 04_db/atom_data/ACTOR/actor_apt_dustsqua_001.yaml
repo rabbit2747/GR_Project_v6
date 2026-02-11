@@ -1,0 +1,84 @@
+# GR Atom: Dusty Squad
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-DUSTSQUA-001"
+  name: "Dusty Squad"
+  normalized_name: "dusty_squad"
+  aliases:
+    - "DustSquad"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXFIL
+    - WINDOWS
+    - ANDROID
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DustSquad is a Russian-speaking APT group identified by Kaspersky, targeting diplomatic and government entities in Central Asian countries including Kazakhstan, Uzbekistan, Kyrgyzstan, and Tajikistan. Active since at least 2014, the group conducts cyber-espionage using custom malware for both Windows and Android platforms, including the Octopus trojan and various Android surveillance implants. Their operations focus on gathering diplomatic intelligence from Central Asian foreign affairs and government institutions."
+  why: "DustSquad is significant as a cyber-espionage operation focused on Central Asian diplomatic targets, likely conducting intelligence collection on behalf of a Russian-speaking state actor interested in monitoring political developments and diplomatic relationships in the region. Their dual-platform approach targeting both desktop and mobile devices demonstrates comprehensive surveillance capabilities against diplomatic personnel."
+  how: "The group uses spearphishing emails with weaponized documents, often themed around diplomatic or government-related topics, to deliver the Octopus trojan. For Android targets, they distribute trojanized messaging applications disguised as Telegram or other popular apps. The Octopus trojan provides full remote access including file collection, keylogging, screenshot capture, and microphone recording. Android implants collect call logs, SMS messages, contacts, GPS locations, and device information. C2 infrastructure uses HTTP-based protocols with custom encryption."
+  core_concepts:
+    - key: "Central Asian Targeting"
+      value: "Focuses on diplomatic and government entities in Central Asian countries"
+    - key: "Octopus Trojan"
+      value: "Custom Windows backdoor providing full remote access and surveillance capabilities"
+    - key: "Dual-Platform Surveillance"
+      value: "Deploys malware on both Windows and Android for comprehensive target monitoring"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing with diplomatic-themed documents for initial access"
+  - type: is_a
+    target: "ACTOR-APT-DUSTSQUA-001"
+    description: "Russian-speaking APT group targeting Central Asian diplomatic entities"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "Initial Access"
+      - "Collection"
+      - "Command and Control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky - DustSquad Central Asian Operations"
+    - "Kaspersky - Octopus Trojan Technical Analysis"
+  search_keywords:
+    - "dusty squad"
+    - "dustsquad"
+    - "octopus trojan"
+    - "central asia espionage"
+    - "kazakhstan apt"
+    - "diplomatic targeting central asia"
+    - "russian-speaking apt"
+    - "uzbekistan espionage"
+    - "android surveillance implant"
+    - "central asian government targeting"
+  embedding_text: "DustSquad is a Russian-speaking APT group identified by Kaspersky, targeting diplomatic and government entities in Central Asian countries including Kazakhstan, Uzbekistan, Kyrgyzstan, and Tajikistan. Active since at least 2014, the group conducts cyber-espionage using the custom Octopus trojan for Windows and trojanized messaging applications for Android surveillance. Spearphishing emails with diplomatic-themed weaponized documents serve as the primary initial access vector. The Octopus trojan provides full remote access including keylogging, screenshot capture, and microphone recording. Android implants collect call logs, SMS messages, contacts, and GPS locations. Their operations focus on gathering diplomatic intelligence from Central Asian foreign affairs institutions on behalf of a Russian-speaking state actor monitoring regional political developments."

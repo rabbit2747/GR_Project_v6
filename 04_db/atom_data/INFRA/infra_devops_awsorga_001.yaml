@@ -1,0 +1,79 @@
+# GR Atom: AWS Organizations
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-AWSORGA-001"
+  name: "AWS Organizations"
+  normalized_name: "aws_organizations"
+  aliases:
+    - "AWS Org"
+    - "Amazon Organizations"
+    - "AWS Multi-Account Management"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - AUTHZ
+    - COMPLIANCE
+    - CONFIG
+
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "P3.1"
+
+definition:
+  what: "AWS Organizations is an account management service that enables centralized governance and consolidation of multiple AWS accounts into an organizational hierarchy. It provides Service Control Policies (SCPs) for guardrail enforcement, consolidated billing, automated account provisioning, and delegated administration across organizational units (OUs). Organizations serves as the root trust boundary for multi-account AWS environments."
+  why: "AWS Organizations is security-critical because it defines blast radius boundaries between workloads through account isolation, enforces organization-wide security guardrails via SCPs that override individual IAM permissions, and controls which AWS services and regions are accessible. Misconfigured SCPs or compromised management accounts can result in organization-wide security failures. Organizations is the foundation for AWS landing zone architectures and compliance frameworks."
+  how: "Organizations operates through a management account that creates and manages member accounts arranged in organizational units (OUs). SCPs are attached to OUs or accounts to restrict available AWS API actions regardless of IAM permissions. Integration with AWS Control Tower automates account provisioning with predefined guardrails. AWS CloudTrail organization trails provide centralized audit logging. Tag policies enforce consistent resource tagging across accounts for cost allocation and security attribution."
+  core_concepts:
+    - key: "Service Control Policy (SCP)"
+      value: "Organization-level permission boundaries that restrict the maximum available permissions for all IAM entities in member accounts, acting as guardrails"
+    - key: "Organizational Unit (OU)"
+      value: "A logical grouping of AWS accounts within an organization used to apply policies and manage accounts by function, environment, or compliance requirement"
+    - key: "Management Account"
+      value: "The root account of an AWS Organization with full administrative control over all member accounts and policy management capabilities"
+    - key: "Consolidated Billing"
+      value: "Unified payment and cost management across all member accounts with volume discount aggregation"
+
+relations:
+  - type: part_of
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "AWS Organizations is a core governance service within the AWS cloud platform"
+  - type: enables
+    target: "INFRA-DEVOPS-CLOUDTRAIL-001"
+    description: "Organizations enables organization-wide CloudTrail trails for centralized audit logging across all member accounts"
+  - type: enables
+    target: "INFRA-DEVOPS-AWSKMS-001"
+    description: "Organizations governs KMS key policies and cross-account key sharing through organizational boundaries"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1098.003"
+    tactic: ["Persistence"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Organizations Documentation - https://docs.aws.amazon.com/organizations/"
+    - "AWS Well-Architected Framework - Multi-Account Strategy"
+    - "MITRE ATT&CK T1098.003 - Account Manipulation: Additional Cloud Roles"
+  search_keywords:
+    - "AWS Organizations"
+    - "Service Control Policy"
+    - "SCP AWS"
+    - "AWS multi-account"
+    - "organizational units AWS"
+    - "AWS governance"
+    - "AWS landing zone"
+    - "consolidated billing AWS"
+  embedding_text: "AWS Organizations is Amazon's account management service for centralized governance of multiple AWS accounts in an organizational hierarchy. It enforces security guardrails through Service Control Policies (SCPs) that restrict maximum permissions across member accounts regardless of IAM settings. Organizations arranges accounts into Organizational Units (OUs) for policy application by function or compliance requirement. The management account has root control over all members. Security significance includes blast radius isolation between workloads, organization-wide policy enforcement, centralized CloudTrail logging, and automated account provisioning through Control Tower integration. Compromised management accounts or misconfigured SCPs can result in organization-wide security failures."

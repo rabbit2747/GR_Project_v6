@@ -1,0 +1,69 @@
+# GR Atom: CVE-2019-3610
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20193610-001"
+  name: "CVE-2019-3610"
+  normalized_name: "cve_2019_3610"
+  aliases:
+    - "McAfee TIE Server Information Disclosure"
+    - "McAfee Threat Intelligence Exchange Information Leak"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - INFO_LEAK
+    - CRED
+    - WINDOWS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "McAfee Threat Intelligence Exchange (TIE) Server"
+
+definition:
+  what: "CVE-2019-3610 is an information disclosure vulnerability in McAfee Threat Intelligence Exchange (TIE) Server prior to version 2.3.1 where sensitive configuration data including database credentials is stored in a manner accessible to local low-privileged users. The vulnerability allows authenticated local users to retrieve sensitive information that should only be accessible to administrative accounts."
+  why: "McAfee TIE Server is a critical enterprise security component that aggregates and distributes threat intelligence data across an organization's security infrastructure. Exposure of database credentials from the TIE server could allow an attacker to access the threat intelligence database directly, potentially manipulating reputation data, disabling protections, or accessing sensitive organizational security telemetry."
+  how: "The vulnerability exists because TIE Server stores sensitive configuration data including database connection strings and credentials in files or registry locations with overly permissive access controls. A local user with low-level system access can read these configuration stores to extract database credentials. McAfee addressed this in TIE Server 2.3.1 by implementing proper access controls on sensitive configuration data. CVSS v3: 5.6 (Medium)."
+  core_concepts:
+    - key: "Insecure Credential Storage"
+      value: "TIE Server stored database credentials in configuration files accessible to low-privileged local users, violating principle of least privilege"
+    - key: "Security Tool Self-Protection"
+      value: "Security products must protect their own credentials and configuration data to prevent attackers from subverting the security infrastructure"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2019-3610 is a configuration vulnerability involving insecure credential storage in McAfee TIE Server"
+  - type: enables
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Exposed credentials enable further exploitation of the TIE Server application and its database"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2019-3610 - NVD NIST"
+    - "McAfee Security Bulletin SB10278"
+    - "MITRE ATT&CK T1552.001 - Unsecured Credentials: Credentials In Files"
+  search_keywords:
+    - "CVE-2019-3610"
+    - "McAfee TIE Server"
+    - "McAfee information disclosure"
+    - "TIE Server credential exposure"
+    - "McAfee Threat Intelligence Exchange"
+    - "security product credential leak"
+  embedding_text: "CVE-2019-3610 is an information disclosure vulnerability in McAfee Threat Intelligence Exchange Server prior to version 2.3.1 where sensitive configuration data including database credentials is stored with overly permissive access controls accessible to local low-privileged users. This allows attackers to extract database credentials and potentially access or manipulate the threat intelligence database. The vulnerability highlights the importance of security products protecting their own credentials and configuration. CVSS v3 score is 5.6 Medium. Remediation requires updating to TIE Server 2.3.1 or later. Maps to MITRE ATT&CK T1552.001 Unsecured Credentials: Credentials In Files."

@@ -1,0 +1,115 @@
+# GR Atom: CVE-2024-1709
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20241709-001"
+  name: "CVE-2024-1709"
+  normalized_name: "cve_2024_1709"
+  aliases:
+    - "ConnectWise ScreenConnect Authentication Bypass"
+    - "SlashAndGrab"
+    - "ScreenConnect Setup Wizard Bypass"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - AUTHN
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "ConnectWise ScreenConnect (versions prior to 23.9.8)"
+    - "ScreenConnect Server setup wizard"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-1709 is a critical authentication bypass vulnerability in ConnectWise ScreenConnect
+    server versions prior to 23.9.8, also known as SlashAndGrab. The vulnerability allows a
+    remote unauthenticated attacker to access the setup wizard of an already-configured
+    ScreenConnect instance by appending a trailing path to the setup URL. This grants the attacker
+    the ability to create a new administrator account with full control over the ScreenConnect
+    server and all managed endpoints. CVSS v3.1 score is 10.0 (Critical).
+  why: >-
+    This is a maximum severity vulnerability in one of the most widely deployed remote management
+    tools, used by thousands of managed service providers (MSPs) to manage millions of endpoints.
+    The trivial exploitability (simple URL manipulation) combined with the devastating impact
+    (full administrative control) made this one of the most critical vulnerabilities of 2024. It
+    was rapidly weaponized by multiple ransomware groups within 24 hours of disclosure, including
+    LockBit, Black Basta, and others. A single compromised ScreenConnect server can provide access
+    to hundreds of downstream client organizations.
+  how: >-
+    The attacker accesses the ScreenConnect setup wizard by navigating to a URL path that bypasses
+    authentication checks (e.g., appending a path segment after the SetupWizard.aspx endpoint).
+    The setup wizard allows creating a new administrator account even on fully configured servers.
+    With admin access, the attacker can deploy malicious ScreenConnect extensions, execute commands
+    on all managed endpoints, and deploy ransomware at scale. Mitigation includes immediately
+    upgrading to ScreenConnect 23.9.8 or later, reviewing administrative accounts for unauthorized
+    additions, auditing all connected endpoints for signs of compromise, and implementing network
+    segmentation for RMM tools.
+  core_concepts:
+    - key: "Setup Wizard Authentication Bypass"
+      value: "URL path manipulation to re-access the initial setup wizard on a configured ScreenConnect server, enabling unauthorized admin account creation"
+    - key: "RMM Supply Chain Attack"
+      value: "Compromising a remote management tool provides cascading access to all downstream managed endpoints and client networks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-1709 is a critical authentication bypass enabling unauthorized administrative access"
+  - type: "enables"
+    target: "VUL-AUTH-CVE20241708-001"
+    description: "Authentication bypass enables exploitation of CVE-2024-1708 path traversal for RCE"
+  - type: "instance_of"
+    target: "VUL-AUTH-PRAUNORE-001"
+    description: "This is a specific instance of pre-authentication bypass requiring no credentials at all"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-1709"
+    - "NIST NVD CVE-2024-1709 (CVSS v3.1: 10.0)"
+    - "ConnectWise Security Advisory February 2024"
+    - "CISA KEV Catalog - CVE-2024-1709"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2024-1709"
+    - "ConnectWise ScreenConnect authentication bypass"
+    - "SlashAndGrab"
+    - "ScreenConnect setup wizard vulnerability"
+    - "ScreenConnect CVSS 10"
+    - "RMM authentication bypass"
+    - "ConnectWise critical vulnerability 2024"
+  embedding_text: >-
+    CVE-2024-1709 is a maximum severity authentication bypass vulnerability in ConnectWise
+    ScreenConnect server with CVSS v3.1 score 10.0, known as SlashAndGrab. A remote
+    unauthenticated attacker manipulates the URL path to access the setup wizard on a configured
+    instance, creating a new administrator account with full control. Weaponized within 24 hours
+    of disclosure by LockBit, Black Basta, and other ransomware groups. Affects all versions
+    prior to 23.9.8. Compromising an RMM server provides cascading access to all managed
+    endpoints, enabling supply-chain-style attacks against MSP client networks. Mitigation requires
+    immediate upgrade, auditing admin accounts, checking connected endpoints, and implementing
+    network segmentation for management tools.

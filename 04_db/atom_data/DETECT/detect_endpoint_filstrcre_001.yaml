@@ -1,0 +1,89 @@
+# GR Atom: File Stream Created
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILSTRCRE-001"
+  name: "File Stream Created"
+  normalized_name: "file_stream_created"
+  aliases:
+    - "Alternate Data Stream Creation"
+    - "ADS Creation Event"
+    - "NTFS Stream Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - WINDOWS
+    - EVADE
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a new NTFS alternate data stream (ADS) is created on a file on a Windows endpoint. NTFS supports multiple named data streams per file, with the default unnamed stream containing the primary file content and additional named streams providing hidden storage. The event captures the host file, stream name, stream content hash, the creating process, and user context. Sysmon Event ID 15 (FileCreateStreamHash) is the primary detection source for this event type."
+  why: "Alternate data streams are a well-known technique for hiding malicious content within seemingly legitimate files. Attackers use ADS to store payloads, scripts, and configuration data in hidden streams that are not visible through standard file browsing tools. ADS can also be used to store executable content that is later extracted and run. Additionally, the Zone.Identifier ADS is used by Windows for Mark of the Web tracking, and its manipulation is a defense evasion technique."
+  how: "Monitor Sysmon Event ID 15 (FileCreateStreamHash) which logs the creation of alternate data streams along with a hash of the stream content. Track creation of named streams (file.txt:hidden_stream) across all monitored endpoints. Alert on ADS creation by unusual processes, ADS with executable content hashes matching known threats, and manipulation of Zone.Identifier streams. Correlate ADS creation with subsequent stream execution attempts through techniques like wmic, powershell, or type command redirection."
+  core_concepts:
+    - key: "Alternate Data Stream"
+      value: "NTFS file system feature allowing multiple named data streams per file, providing storage that is hidden from standard directory listings and most file management tools"
+    - key: "Sysmon Event 15"
+      value: "FileCreateStreamHash event that logs alternate data stream creation with the stream content hash, enabling detection and forensic analysis of ADS usage"
+    - key: "Zone.Identifier Stream"
+      value: "Special alternate data stream used by Windows to store Mark of the Web information indicating a file's origin zone, commonly manipulated to bypass security controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "Stream creation is a specific type of file event on NTFS file systems"
+  - type: effective_against
+    target: "ATK-EVASION-ADS-001"
+    description: "Detects use of alternate data streams for hiding malicious content"
+  - type: enables
+    target: "DETECT-ENDPOINT-EMBCONIND-001"
+    description: "ADS creation reveals hidden embedded content stored in alternate streams"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1564.004"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1564.004"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1564.004 - Hide Artifacts: NTFS File Attributes"
+    - "Microsoft Sysinternals - Sysmon Event ID 15"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "alternate data stream"
+    - "ADS creation"
+    - "NTFS stream"
+    - "Sysmon event 15"
+    - "FileCreateStreamHash"
+    - "hidden stream"
+    - "Zone.Identifier"
+    - "file stream"
+  embedding_text: "File Stream Created is an endpoint detection pattern for events generated when NTFS alternate data streams are created on Windows. ADS provides hidden storage within files that is invisible to standard browsing tools. Attackers use alternate data streams to hide payloads, scripts, and configuration data, and manipulate Zone.Identifier streams to bypass Mark of the Web protections. Sysmon Event ID 15 (FileCreateStreamHash) is the primary detection source, logging stream creation with content hashes. Detection monitors for ADS creation by unusual processes, streams with executable content, Zone.Identifier manipulation, and correlation with subsequent stream execution through techniques like wmic, PowerShell, or type command redirection."

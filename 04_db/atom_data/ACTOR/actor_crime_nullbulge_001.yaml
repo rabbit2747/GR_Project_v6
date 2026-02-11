@@ -1,0 +1,135 @@
+# GR Atom: NullBulge
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-NULLBULGE-001"
+  name: "NullBulge"
+  normalized_name: "nullbulge"
+  aliases:
+    - "Null Bulge"
+    - "NullBulge Group"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - SUPPLY_CHAIN
+    - INITIAL
+    - EXEC
+    - EXFIL
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NullBulge is a cybercriminal group that emerged in 2024, claiming to be motivated by protecting
+    artists and opposing the use of artificial intelligence in creative industries. The group gained
+    significant attention for their July 2024 breach of the Walt Disney Company's internal Slack
+    workspace, where they exfiltrated and leaked over 1.1 terabytes of data including internal
+    communications, unreleased project details, source code, API credentials, and confidential
+    business information from approximately 10,000 Slack channels. NullBulge also conducts supply
+    chain attacks by distributing malicious code through popular open-source platforms including
+    GitHub repositories and modding communities, poisoning AI/ML training datasets and tools, and
+    deploying information-stealing malware through trojanized software targeting AI developers
+    and creative professionals.
+  why: >-
+    NullBulge represents an emerging threat actor archetype that combines ideological motivations
+    (anti-AI activism) with traditional cybercriminal techniques. The Disney Slack breach
+    demonstrated the catastrophic potential of compromising enterprise collaboration platforms,
+    where a single insider credential or compromised account can expose vast amounts of
+    organizational data across thousands of channels. The group's supply chain attack tactics,
+    targeting AI/ML repositories and developer tools, pose risks to the integrity of AI training
+    data and development pipelines. A US individual, Ryan Mitchell Kramer, was charged by the
+    FBI in connection with the NullBulge Disney breach, with the criminal complaint revealing
+    the use of a malicious Python package that contained AsyncRAT to compromise a Disney
+    employee's credentials.
+  how: >-
+    NullBulge uses multiple attack vectors. For the Disney breach, the group compromised a Disney
+    employee through a trojanized Python tool distributed via GitHub that contained the AsyncRAT
+    remote access trojan, which harvested credentials including the employee's Slack authentication
+    tokens. With access to the Disney internal Slack workspace, the group exfiltrated data from
+    approximately 10,000 channels over a period of time before announcing the breach publicly.
+    Supply chain attacks involve publishing malicious code packages on GitHub, PyPI, and modding
+    platforms (including BeamNG.drive and Cities: Skylines modding communities) that contain
+    information-stealing malware. The group also targets AI/ML practitioners by distributing
+    poisoned datasets, malicious Jupyter notebooks, and trojanized AI model files. NullBulge
+    uses Telegram and dark web forums to publish stolen data and recruit collaborators.
+  core_concepts:
+    - key: "Enterprise Collaboration Platform Compromise"
+      value: >-
+        The Disney Slack breach demonstrated that compromising enterprise collaboration platforms
+        like Slack provides access to vast amounts of organizational data, as these platforms
+        aggregate communications, files, and credentials across thousands of channels and teams.
+    - key: "AI/ML Supply Chain Poisoning"
+      value: >-
+        NullBulge targets the AI development ecosystem through trojanized tools, poisoned datasets,
+        and malicious code packages distributed through popular repositories, representing an
+        emerging threat to AI/ML development pipeline integrity.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "NullBulge is a cybercriminal group conducting data theft and supply chain attacks"
+  - type: "enables"
+    target: "ATK-EXFIL"
+    description: "NullBulge operations enable massive data exfiltration from enterprise platforms"
+  - type: "enables"
+    target: "ATK-INITIAL"
+    description: "NullBulge supply chain attacks enable initial access through trojanized developer tools"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1195.001"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Collection"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "FBI - NullBulge Disney Breach Criminal Complaint. https://www.justice.gov/usao-cdca/press-release/file/nullbulge-disney-breach"
+    - "Wall Street Journal - Disney Slack Hack by NullBulge. https://www.wsj.com/articles/disney-hack-nullbulge"
+    - "BleepingComputer - NullBulge Claims Disney Slack Data Breach. https://www.bleepingcomputer.com/news/security/nullbulge-threat-actor-disney-slack/"
+    - "SentinelOne - NullBulge Supply Chain Attack Analysis. https://www.sentinelone.com/labs/nullbulge/"
+  search_keywords:
+    - "nullbulge"
+    - "nullbulge disney"
+    - "nullbulge slack breach"
+    - "disney slack hack"
+    - "nullbulge AI"
+    - "nullbulge supply chain"
+    - "nullbulge github"
+    - "nullbulge asyncrat"
+    - "ryan mitchell kramer"
+  embedding_text: >-
+    NullBulge is a cybercriminal group that emerged in 2024 claiming anti-AI motivations, gaining
+    attention for their July 2024 breach of Walt Disney Company's internal Slack workspace. The
+    group exfiltrated over 1.1 terabytes of data from approximately 10,000 Slack channels including
+    internal communications, unreleased project details, and API credentials. The breach was
+    accomplished by compromising a Disney employee through a trojanized Python tool containing
+    AsyncRAT distributed via GitHub. Ryan Mitchell Kramer was charged by the FBI in connection with
+    the breach. NullBulge also conducts supply chain attacks targeting AI/ML developers through
+    malicious code packages on GitHub and PyPI, poisoned datasets, and trojanized tools distributed
+    through gaming modding communities. The group represents an emerging threat combining ideological
+    anti-AI activism with cybercriminal techniques, demonstrating the catastrophic potential of
+    enterprise collaboration platform compromise and AI supply chain poisoning attacks.

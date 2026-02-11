@@ -1,0 +1,79 @@
+# GR Atom: Radio Modem
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-NET-RADIMODE-001"
+  name: "Radio Modem"
+  normalized_name: "radio_modem"
+  aliases:
+    - "RF Modem"
+    - "Wireless Modem"
+    - "Radio Frequency Modem"
+    - "SCADA Radio"
+    - "Serial Radio Modem"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - FIRMWARE
+    - ICS
+    - IOT
+    - CONFIG
+
+gr_coordinates:
+  layer: "L0"
+  zone: "Z0B"
+  function: "N4.1"
+
+definition:
+  what: "A Radio Modem is a hardware device that modulates digital data onto radio frequency (RF) carriers for wireless transmission and demodulates received RF signals back to digital data. Radio modems operate across various frequency bands including VHF, UHF, ISM bands, and licensed spectrum, providing point-to-point or point-to-multipoint data communication over distances ranging from hundreds of meters to hundreds of kilometers depending on power, frequency, and antenna configuration. They are widely used in industrial control systems (ICS/SCADA), telemetry systems, pipeline monitoring, remote environmental sensors, agricultural automation, and utility infrastructure where wired connectivity is impractical. Radio modems typically provide serial (RS-232, RS-485) or Ethernet interfaces to connect to local equipment."
+  why: "Radio modems are critical infrastructure components in industrial and remote monitoring environments where they provide the only viable data communication link. They connect distributed field devices, RTUs, PLCs, and sensors to central SCADA and monitoring systems across geographically dispersed infrastructure. From a security perspective, radio modems present significant concerns because many legacy deployments lack encryption and authentication, use proprietary protocols with undocumented security properties, operate on known frequencies susceptible to eavesdropping and jamming, and provide direct access to industrial control systems if compromised. Their remote locations make physical security and firmware updates challenging."
+  how: "Radio modems convert digital data from connected equipment into RF signals using modulation techniques such as FSK, GMSK, or OFDM. The modulated signal is amplified and transmitted through an antenna at the configured frequency and power level. At the receiving end, the antenna captures the signal, the modem demodulates it, and delivers the digital data to the connected equipment. Communication can be configured in simplex, half-duplex, or full-duplex modes. Polling protocols manage access in multi-point configurations where a master station communicates with multiple remote stations. Modern radio modems support AES encryption, frequency hopping spread spectrum for interference resistance, over-the-air diagnostics, and remote firmware updates. Network configurations include point-to-point links, star topologies with a central base station, and mesh networks for redundancy."
+  core_concepts:
+    - key: "RF Modulation"
+      value: "The process of encoding digital data onto a radio frequency carrier signal using techniques like FSK, GMSK, or OFDM for wireless transmission"
+    - key: "SCADA Radio Communication"
+      value: "The use of radio modems as the primary communication link between distributed field devices and central SCADA systems in industrial control environments"
+    - key: "Frequency Hopping Spread Spectrum"
+      value: "A transmission technique where the radio frequency rapidly changes in a pseudo-random pattern, providing resistance to interference, eavesdropping, and jamming"
+
+relations:
+  - type: alternative_to
+    target: "INFRA-NET-DIALMODE-001"
+    description: "Radio modems provide wireless data communication as an alternative to dialup modem connections over telephone lines"
+  - type: alternative_to
+    target: "INFRA-NET-DIRNETLIN-001"
+    description: "Radio modems provide omnidirectional or semi-directional wireless connectivity compared to focused directional links"
+  - type: enables
+    target: "INFRA-NET-ROUTHOST-001"
+    description: "Radio modems enable router connectivity for remote sites where wired WAN infrastructure is unavailable"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1600"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology Security"
+    - "ICS-CERT - Recommended Practices for Securing Industrial Control Systems"
+    - "CISA - Securing Industrial Control Systems - https://www.cisa.gov/topics/industrial-control-systems"
+  search_keywords:
+    - "radio modem"
+    - "RF modem"
+    - "SCADA radio"
+    - "wireless modem"
+    - "serial radio modem"
+    - "industrial radio communication"
+    - "telemetry radio"
+    - "ICS wireless"
+  embedding_text: "A Radio Modem modulates digital data onto radio frequency carriers for wireless transmission and demodulates received signals back to digital data. Operating across VHF, UHF, ISM, and licensed bands, radio modems provide point-to-point or multipoint communication for distances from meters to hundreds of kilometers. They are critical in ICS/SCADA, telemetry, pipeline monitoring, and remote sensor networks where wired connectivity is impractical. Security concerns include lack of encryption in legacy deployments, proprietary protocols with unknown security properties, susceptibility to eavesdropping and jamming, and direct access to industrial control systems. Modern implementations support AES encryption and frequency hopping spread spectrum."

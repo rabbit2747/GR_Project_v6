@@ -1,0 +1,121 @@
+# GR Atom: ProtonMail
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-PROTONMAIL-001"
+  name: "ProtonMail"
+  normalized_name: "protonmail"
+  aliases:
+    - "Proton Mail"
+    - "ProtonMail.com"
+    - "Proton"
+    - "ProtonMail Encrypted Email"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - SMTP
+    - CRYPTO
+    - PRIVACY
+    - WEB
+    - CLOUD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    ProtonMail (Proton Mail) is an end-to-end encrypted email service developed by Proton AG,
+    headquartered in Switzerland. It uses client-side encryption with PGP to ensure that emails
+    are encrypted before leaving the user's device. ProtonMail operates under Swiss privacy laws
+    and claims zero-access architecture where the provider cannot read user emails. The service
+    supports web, mobile, and desktop clients, and provides bridge software for integration
+    with standard email clients via IMAP/SMTP.
+  why: >-
+    ProtonMail is relevant to cybersecurity as a privacy-focused email service frequently used
+    by both legitimate privacy-conscious users and threat actors. APT groups, ransomware
+    operators, and cybercriminals use ProtonMail for anonymous communication, ransom negotiation
+    contact addresses, and command-and-control communication due to its end-to-end encryption
+    and Swiss jurisdiction. ProtonMail addresses appear frequently in ransomware payment
+    instructions and initial access broker communications. The service's encryption makes
+    interception and monitoring of threat actor communications difficult for law enforcement and
+    incident response teams. ProtonMail accounts are also targeted by state-sponsored actors
+    for credential theft against activists and journalists.
+  how: >-
+    ProtonMail implements end-to-end encryption using OpenPGP with client-side key generation
+    and management. Emails between ProtonMail users are encrypted automatically. Emails to
+    external recipients can be protected with password-based encryption. The ProtonMail Bridge
+    provides IMAP/SMTP access for desktop email clients with local decryption. Threat actors
+    create anonymous ProtonMail accounts for ransomware contact addresses, phishing campaign
+    infrastructure, and covert communication channels. Law enforcement access requires Swiss
+    legal process, complicating international investigations. ProtonMail has cooperated with
+    authorities in specific cases, providing IP logging when required by Swiss court orders,
+    despite its privacy-focused marketing.
+  core_concepts:
+    - key: "End-to-End Encrypted Email"
+      value: "Swiss-based encrypted email service using client-side PGP encryption with zero-access architecture under Swiss privacy jurisdiction"
+    - key: "Threat Actor Communication Channel"
+      value: "Frequently used by ransomware operators, APT groups, and cybercriminals for anonymous communication, ransom negotiation, and C2 due to encryption and jurisdiction"
+    - key: "Privacy vs Investigation Tension"
+      value: "End-to-end encryption and Swiss jurisdiction complicate law enforcement monitoring and incident response investigation of threat actor communications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "ProtonMail is a web-based email application used by organizations and individuals for secure encrypted communications"
+  - type: "alternative_to"
+    target: "INFRA-APP-EXCHONLI-001"
+    description: "ProtonMail serves as a privacy-focused alternative to Exchange Online and other cloud email services for encrypted communications"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.003"
+    tactic:
+      - "Command and Control"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ProtonMail Security Documentation and Transparency Report"
+    - "MITRE ATT&CK T1071.003 - Application Layer Protocol: Mail Protocols"
+    - "Ransomware Communication Analysis - Encrypted Email Usage"
+  search_keywords:
+    - "ProtonMail"
+    - "Proton Mail"
+    - "ProtonMail security"
+    - "ProtonMail ransomware"
+    - "ProtonMail threat actor"
+    - "encrypted email security"
+    - "ProtonMail investigation"
+    - "ProtonMail privacy"
+    - "ProtonMail APT"
+  embedding_text: >-
+    ProtonMail (Proton Mail) is an end-to-end encrypted email service by Proton AG based in
+    Switzerland, using client-side PGP encryption with zero-access architecture. ProtonMail is
+    frequently used by threat actors including ransomware operators, APT groups, and cybercriminals
+    for anonymous communication, ransom negotiation contacts, and covert C2 channels due to its
+    encryption and Swiss privacy jurisdiction. ProtonMail addresses appear commonly in ransomware
+    payment instructions. The service's encryption complicates law enforcement interception and
+    incident response investigation, though ProtonMail has cooperated with Swiss court orders for
+    IP logging. ProtonMail accounts are also targeted by state-sponsored actors against activists
+    and journalists. Security teams should monitor for ProtonMail addresses in threat intelligence,
+    track ProtonMail usage in organizational communications, and include ProtonMail indicators in
+    ransomware response playbooks.

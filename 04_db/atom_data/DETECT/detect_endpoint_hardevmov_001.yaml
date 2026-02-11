@@ -1,0 +1,71 @@
+# GR Atom: Hardware Device Move Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVMOV-001"
+  name: "Hardware Device Move Event"
+  normalized_name: "hardware_device_move_event"
+  aliases:
+    - "Device Bus Migration Event"
+    - "Hardware Device Relocation"
+    - "Device Port Change Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Move Event is an endpoint detection pattern that captures when a hardware device changes its physical or logical location within the system bus hierarchy. This includes a device being moved to a different USB port, migrated between bus controllers, reassigned to a different PCI slot, or relocated within the device tree due to hot-plug topology changes. The event records the device identifier, the original location in the device tree, the new location, the reason for the move, and the timestamp. On Windows this is tracked through Device Installation events and Plug and Play reconfiguration, on Linux through udev device path changes."
+  why: "Device move events are significant for security monitoring because they can indicate hardware device spoofing attempts where an attacker replaces a legitimate device with a malicious one at a different port, physical tampering with system hardware, or attempts to circumvent port-based device control policies that restrict device usage to specific physical ports. Unexpected device moves in data center environments may also indicate unauthorized physical access to servers or network equipment."
+  how: "Detection systems capture device move events through Windows Device Installation event logs that record device location changes, Linux udev subsystem notifications when device paths change in sysfs, and macOS IOKit registry updates for device tree modifications. Endpoint agents track the device tree topology and flag changes including devices appearing on different ports than their last known location, devices moving from internal to external bus controllers, and devices that change locations without corresponding physical disconnect events. Alerts are correlated with physical access logs and other device lifecycle events."
+  core_concepts:
+    - key: "Device Tree Topology"
+      value: "The hierarchical representation of hardware devices and their bus connections within the system, where each device has a unique path based on its physical and logical location"
+    - key: "Port-Based Device Control"
+      value: "Security policy that restricts device operation to specific physical ports, where device move events may indicate attempts to circumvent these restrictions"
+    - key: "Device Location Tracking"
+      value: "Maintaining a history of where each device has been connected within the system to detect unauthorized relocations"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device move events are a specific lifecycle event within the broader hardware device event category"
+  - type: requires
+    target: "DETECT-ENDPOINT-HARDEVCON-001"
+    description: "Device move detection relies on device connection history to establish previous locations"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDEVSTA-001"
+    description: "Device moves trigger state changes that are captured by hardware device state monitoring"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Device Installation Events - https://learn.microsoft.com/en-us/windows-hardware/drivers/install/"
+    - "Linux Kernel - udev Device Management - https://www.kernel.org/doc/html/latest/admin-guide/devices.html"
+    - "NIST SP 800-53 - PE-3 Physical Access Control"
+  search_keywords:
+    - "hardware device move"
+    - "device relocation detection"
+    - "device port change"
+    - "bus migration event"
+    - "device topology change"
+    - "physical device tampering"
+    - "device tree monitoring"
+    - "port-based device control"
+  embedding_text: "Hardware Device Move Event detection captures when hardware devices change their physical or logical location within the system bus hierarchy, including USB port changes, bus controller migrations, and PCI slot reassignments. Monitored through Windows Device Installation event logs, Linux udev device path change notifications, and macOS IOKit registry updates, this telemetry tracks device tree topology changes. Detection flags devices appearing on different ports than last known, internal-to-external bus moves, and location changes without corresponding disconnect events, identifying device spoofing attempts, physical hardware tampering, and port-based policy circumvention."

@@ -1,0 +1,135 @@
+# GR Atom: TCP Transmission Control Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-TRANSPORT-TCPTRAN-001"
+  name: "TCP Transmission Control Protocol"
+  normalized_name: "tcp_transmission_control_protocol"
+  aliases:
+    - "TCP"
+    - "TCP/IP"
+    - "Transmission Control Protocol"
+    - "TCP Protocol"
+    - "TCP Connection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TCP (Transmission Control Protocol) is the connection-oriented transport layer protocol
+    defined in RFC 9293 (obsoleting RFC 793) that provides reliable, ordered, and error-checked
+    delivery of byte streams between applications over IP networks. TCP uses a three-way handshake
+    (SYN, SYN-ACK, ACK) for connection establishment, sequence numbers for ordering and
+    reliability, acknowledgments for delivery confirmation, flow control via sliding window, and
+    congestion control algorithms (Reno, CUBIC, BBR) to prevent network overload. TCP operates
+    at Layer 4 and is the transport for the majority of Internet application protocols including
+    HTTP, HTTPS, SSH, SMTP, BGP, and FTP.
+  why: >-
+    TCP is the most widely used transport protocol on the Internet, carrying over 80% of all
+    Internet traffic. Its security implications are pervasive: TCP SYN flood attacks remain one
+    of the most common denial-of-service vectors, consuming server resources through half-open
+    connections. TCP session hijacking exploits predictable sequence numbers to inject data into
+    established connections. TCP reset attacks can terminate any TCP session when an attacker can
+    observe or predict sequence numbers. Port scanning via TCP SYN/ACK/FIN techniques enables
+    network reconnaissance. TCP fingerprinting reveals operating system types through variations
+    in TCP stack implementation (window sizes, options, timing). Understanding TCP is fundamental
+    to network security because virtually every network security control must process TCP segments.
+  how: >-
+    TCP operates through a state machine managing connection lifecycle: (1) Connection establishment
+    via three-way handshake - client sends SYN with initial sequence number (ISN), server responds
+    with SYN-ACK and its own ISN, client completes with ACK; (2) Data transfer using sequence
+    numbers for byte-stream ordering, acknowledgment numbers confirming receipt, and retransmission
+    timers for lost segments; (3) Flow control via receiver-advertised window sizes limiting
+    unacknowledged data in flight; (4) Congestion control using algorithms (slow start, congestion
+    avoidance, fast retransmit, fast recovery) to adapt sending rate to network conditions;
+    (5) Connection termination via FIN handshake or RST. Security mechanisms include: SYN cookies
+    (RFC 4987) mitigating SYN flood attacks, TCP-AO (RFC 5925) for segment authentication,
+    randomized ISN generation preventing sequence prediction attacks, TCP Fast Open (RFC 7413)
+    reducing handshake overhead, and stateful firewalls tracking TCP connection states for policy
+    enforcement.
+  core_concepts:
+    - key: "Three-Way Handshake"
+      value: >-
+        The SYN, SYN-ACK, ACK connection establishment process that synchronizes sequence
+        numbers between endpoints and establishes connection parameters. This handshake is
+        the target of SYN flood attacks and the basis for TCP port scanning techniques.
+    - key: "TCP SYN Flood"
+      value: >-
+        A denial-of-service attack that exhausts server resources by sending large volumes
+        of SYN packets without completing the handshake, filling the connection backlog with
+        half-open connections. Mitigated by SYN cookies, SYN proxy, and rate limiting.
+    - key: "TCP Sequence Numbers"
+      value: >-
+        32-bit counters tracking byte position in the data stream, used for ordering,
+        duplicate detection, and reliability. Predictable ISNs enable session hijacking;
+        modern implementations use randomized ISN generation per RFC 6528.
+    - key: "Stateful Inspection"
+      value: >-
+        Firewall technology that tracks TCP connection state (handshake, established, closing)
+        to enforce security policies based on connection context rather than individual
+        packets, preventing attacks that exploit out-of-state packets.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-TRANSPORT-001"
+    description: "TCP is the primary connection-oriented protocol within the transport protocol family"
+  - type: "enables"
+    target: "PROTO-ROUTING-BGP-001"
+    description: "TCP provides the reliable transport required for BGP session establishment and route exchange on port 179"
+  - type: "enables"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "TCP carries DNS queries and responses for zone transfers and large DNS messages exceeding UDP size limits"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 9293 - Transmission Control Protocol (TCP) (August 2022). IETF. https://datatracker.ietf.org/doc/html/rfc9293"
+    - "RFC 4987 - TCP SYN Flooding Attacks and Common Mitigations (August 2007). IETF. https://datatracker.ietf.org/doc/html/rfc4987"
+    - "RFC 6528 - Defending Against Sequence Number Attacks (February 2012). IETF. https://datatracker.ietf.org/doc/html/rfc6528"
+    - "RFC 5925 - The TCP Authentication Option (June 2010). IETF. https://datatracker.ietf.org/doc/html/rfc5925"
+  search_keywords:
+    - "TCP"
+    - "transmission control protocol"
+    - "TCP SYN flood"
+    - "three-way handshake"
+    - "TCP session hijacking"
+    - "TCP reset attack"
+    - "SYN cookies"
+    - "TCP port scanning"
+    - "stateful firewall"
+    - "TCP fingerprinting"
+    - "RFC 9293"
+    - "TCP sequence number"
+    - "TCP congestion control"
+  embedding_text: >-
+    TCP (Transmission Control Protocol) is the connection-oriented transport protocol defined in
+    RFC 9293 providing reliable, ordered byte-stream delivery over IP networks. It uses a three-way
+    handshake for connection establishment, sequence numbers for reliability, sliding window for
+    flow control, and congestion control algorithms to prevent network overload. TCP carries over
+    80% of Internet traffic including HTTP, SSH, BGP, and SMTP. Security concerns include SYN
+    flood denial of service, session hijacking via sequence prediction, TCP reset attacks, port
+    scanning reconnaissance, and OS fingerprinting through stack behavior analysis. Defenses
+    include SYN cookies, randomized ISN generation, TCP-AO segment authentication, stateful
+    firewall inspection, and rate limiting. TCP is fundamental to network security as virtually
+    all security controls must process TCP segments.

@@ -1,0 +1,94 @@
+# GR Atom: HTTP Put
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPPUT-001"
+  name: "HTTP Put"
+  normalized_name: "http_put"
+  aliases:
+    - "HTTP PUT Method"
+    - "PUT Request"
+    - "REST PUT"
+    - "Resource Replace"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - API
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP PUT is a standard HTTP request method defined in RFC 9110 that creates or replaces the
+    target resource with the request payload. PUT is idempotent — multiple identical requests
+    produce the same result as a single request. Unlike POST which submits data for processing,
+    PUT provides a complete replacement representation of the target resource. If the target
+    resource exists, PUT replaces it entirely; if it does not exist, PUT creates it at the
+    specified URI. In RESTful API design, PUT maps to the Update/Replace operation in CRUD.
+  why: >-
+    HTTP PUT is a high-risk method from a security perspective. When enabled on web servers, PUT
+    allows attackers to upload arbitrary files including web shells, malicious scripts, and
+    configuration overrides. PUT-based file upload attacks have been used to compromise IIS,
+    Apache, and other web servers. In API contexts, improper PUT authorization allows attackers
+    to overwrite resources belonging to other users (IDOR). PUT replaces the entire resource,
+    meaning omitted fields are set to defaults or null, potentially causing unintended data loss.
+    PUT should only be enabled where explicitly required with strict authorization controls.
+  how: >-
+    HTTP PUT operates by sending a request with the PUT method, the target resource URI, Content-
+    Type header, and a complete resource representation in the body. The server validates
+    authentication, checks authorization, and either creates a new resource (returning 201
+    Created) or replaces the existing resource (returning 200 OK or 204 No Content). PUT
+    requires the client to send the full resource representation, not partial updates (which
+    is PATCH's role). Validators like ETag and If-Match headers enable optimistic concurrency
+    control to prevent lost updates in concurrent modification scenarios.
+  core_concepts:
+    - key: "Idempotency"
+      value: "PUT is idempotent — sending the same PUT request multiple times produces identical server state, making it safe for retries after network failures."
+    - key: "Full Replacement"
+      value: "PUT replaces the entire target resource with the request payload, unlike PATCH which applies partial modifications. Omitted fields may be set to null or defaults."
+    - key: "Optimistic Concurrency"
+      value: "Using ETag and If-Match headers with PUT to prevent lost updates when multiple clients attempt concurrent modifications of the same resource."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP PUT is one of the standard HTTP methods for resource creation and full replacement"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP PUT is a sub-component of the HTTP protocol for idempotent resource replacement"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9.3.4 PUT"
+    - "OWASP — Testing for HTTP Methods and XST"
+    - "MDN Web Docs — HTTP PUT Method"
+  search_keywords:
+    - "HTTP PUT"
+    - "PUT method"
+    - "PUT request"
+    - "REST PUT"
+    - "resource replacement"
+    - "idempotent update"
+    - "file upload PUT"
+    - "web shell PUT"
+  embedding_text: >-
+    HTTP PUT defined in RFC 9110 creates or fully replaces the target resource with the request
+    payload. PUT is idempotent — repeated identical requests produce the same server state.
+    Unlike PATCH for partial updates, PUT requires the complete resource representation. In
+    security contexts, PUT on web servers enables arbitrary file upload attacks including web
+    shells. In APIs, improper PUT authorization allows IDOR-based resource overwriting.
+    Optimistic concurrency via ETag/If-Match prevents lost updates. PUT should only be enabled
+    where required with strict authentication and authorization controls.

@@ -1,0 +1,83 @@
+# GR Atom: CostaRicto
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-COSTARICTO-001"
+  name: "CostaRicto"
+  normalized_name: "costaricto"
+  aliases: []
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CostaRicto is a mercenary APT group (hack-for-hire) identified by BlackBerry in 2020, operating as a cyber-espionage-as-a-service operation. The group targets financial institutions, investment firms, and global entertainment companies across Europe, the Americas, Asia, Australia, and Africa. CostaRicto uses custom-developed backdoor malware called Sombra (also known as SombRAT) and maintains a complex network infrastructure including Tor-based C2 nodes, SSH tunnels, and multiple proxy layers to obscure their operations."
+  why: "CostaRicto is significant as a representation of the growing mercenary hacker ecosystem, where sophisticated APT-level capabilities are available for hire to any client willing to pay. Their global targeting across diverse industries suggests operations on behalf of multiple clients rather than a single state sponsor, making attribution and motivation analysis more complex. Understanding mercenary APT operations is critical for threat modeling in any industry."
+  how: "The group deploys custom PowerShell-based loaders to deliver the SombRAT backdoor, a C++ implant that supports plugin-based capability extension. Network infrastructure uses layered proxying through SSH tunnels and Tor hidden services to obscure the C2 channel. The group uses phishing campaigns for initial access and deploys CostaBricks, a custom VM-based payload loader that uses a virtual machine to execute bytecode payloads, adding an additional layer of obfuscation against analysis."
+  core_concepts:
+    - key: "Hack-for-Hire"
+      value: "Operates as a mercenary APT group providing cyber-espionage services to paying clients"
+    - key: "SombRAT Backdoor"
+      value: "Custom C++ backdoor with plugin architecture for extensible espionage capabilities"
+    - key: "Layered Infrastructure"
+      value: "Uses Tor hidden services, SSH tunnels, and multi-layer proxying to obscure C2 communications"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses phishing campaigns for initial access to target organizations"
+  - type: is_a
+    target: "ACTOR-APT-COSTARICTO-001"
+    description: "Mercenary APT group providing cyber-espionage-as-a-service"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.001"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+      - "Command and Control"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "BlackBerry - CostaRicto Mercenary APT Report"
+    - "BlackBerry Research - SombRAT Technical Analysis"
+  search_keywords:
+    - "costaricto"
+    - "sombrat backdoor"
+    - "sombra malware"
+    - "hack-for-hire apt"
+    - "mercenary hacker"
+    - "costabricks loader"
+    - "cyber espionage service"
+    - "tor c2 infrastructure"
+    - "vm-based payload loader"
+    - "mercenary apt group"
+  embedding_text: "CostaRicto is a mercenary APT group (hack-for-hire) identified by BlackBerry in 2020, operating as a cyber-espionage-as-a-service provider. The group targets financial institutions, investment firms, and entertainment companies globally across Europe, the Americas, Asia, Australia, and Africa. They deploy the custom SombRAT backdoor, a C++ implant with plugin-based architecture, delivered through PowerShell loaders and the CostaBricks VM-based payload loader. Network infrastructure uses layered proxying through SSH tunnels and Tor hidden services to obscure command-and-control communications. Their global targeting across diverse industries suggests operations on behalf of multiple paying clients, representing the growing mercenary hacker ecosystem where sophisticated APT capabilities are available for hire."

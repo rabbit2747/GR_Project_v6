@@ -1,0 +1,65 @@
+# GR Atom: DISM Host
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-DISMHOST-001"
+  name: "DISM Host"
+  normalized_name: "dism_host"
+  aliases: ["DismHost.exe", "DISM Host Servicing Process"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [WINDOWS, OS, PATCH]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "P3.1"
+definition:
+  what: >-
+    DISM Host (DismHost.exe) is the Windows process that hosts the DISM servicing engine in a
+    separate process when servicing online or offline Windows images. It loads DismCore.dll and
+    the appropriate provider DLLs to perform image servicing operations in an isolated process
+    context. DISM Host acts as the execution container for DISM operations initiated by dism.exe
+    or the DISM PowerShell module.
+  why: >-
+    DISM Host runs with SYSTEM privileges and can be abused for privilege escalation or defense
+    evasion. As a signed Microsoft binary, it can be used for DLL side-loading attacks where
+    malicious DLLs are loaded instead of legitimate DISM providers. Monitoring DismHost.exe
+    process creation and loaded modules is important for detecting abuse of Windows servicing
+    mechanisms for malicious purposes.
+  how: >-
+    DismHost.exe is spawned by dism.exe or the DISM API when servicing operations are requested.
+    It loads DismCore.dll and provider DLLs from the Windows system directory. The host process
+    communicates with the parent process via named pipes or RPC. When servicing is complete,
+    the host process terminates. It operates at SYSTEM privilege level to modify Windows system
+    files, registry, and component store.
+  core_concepts:
+    - key: "Isolated Servicing Process"
+      value: "Runs DISM operations in a separate process to isolate servicing from the calling application"
+    - key: "SYSTEM Privilege Execution"
+      value: "Runs with SYSTEM privileges to modify protected Windows system files, making it a high-value target for abuse"
+    - key: "DLL Side-Loading Risk"
+      value: "As a signed Microsoft binary loading DLLs dynamically, it can be exploited for DLL side-loading attacks"
+relations:
+  - type: "requires"
+    target: "INFRA-COMPUTE-DISMCORE-001"
+    description: "DISM Host loads and executes DISM Core as its servicing engine"
+  - type: "part_of"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "DISM Host is a Windows system component on desktop and server computers"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft DISM Technical Reference", "MITRE ATT&CK T1574.002 - DLL Side-Loading"]
+  search_keywords: ["dismhost", "dism host", "dismhost.exe", "windows image servicing", "DISM process"]
+  embedding_text: >-
+    DISM Host (DismHost.exe) is the Windows process hosting the DISM servicing engine for image
+    servicing operations. It loads DismCore.dll and provider DLLs with SYSTEM privileges to
+    modify Windows system files. As a signed Microsoft binary, it is a target for DLL
+    side-loading attacks. Monitoring DismHost.exe process creation and loaded modules helps
+    detect abuse of Windows servicing mechanisms for privilege escalation or defense evasion.

@@ -1,0 +1,105 @@
+# GR Atom: CVE-2025-8088
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20258088-001"
+  name: "CVE-2025-8088"
+  normalized_name: "cve_2025_8088"
+  aliases:
+    - "Container Runtime Escape Vulnerability"
+    - "Container Breakout via Misconfigured Runtime"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - CONTAINER
+    - EXEC
+    - LINUX
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Container Runtime (containerd/CRI-O)"
+    - "Linux Kernel Namespaces"
+
+definition:
+  what: >-
+    CVE-2025-8088 is a container escape vulnerability in container runtime configurations that
+    allows a process running inside a container to break out of the container namespace and gain
+    access to the underlying host operating system. The vulnerability exists in how the container
+    runtime handles certain namespace operations when specific kernel capabilities are available
+    to the container process. Successful exploitation provides root-level access on the container
+    host. CVSS v3: 8.8 (High).
+  why: >-
+    Container isolation is a fundamental security boundary in modern cloud-native infrastructure.
+    Container escape vulnerabilities break this boundary, allowing an attacker who has compromised
+    a containerized application to access the host OS, other containers, and potentially the
+    entire Kubernetes cluster. In multi-tenant environments, container escapes can lead to
+    cross-tenant compromise. Container hosts typically run many containers, so a single escape
+    affects all co-located workloads. This is particularly impactful in managed Kubernetes services.
+  how: >-
+    The attacker first gains code execution within a container (through application vulnerability
+    or supply chain compromise). The attacker then exploits the vulnerability by performing
+    specific namespace operations that the container runtime fails to properly restrict. When
+    certain Linux capabilities (such as CAP_SYS_ADMIN or CAP_NET_ADMIN) are available to the
+    container, the attacker can manipulate namespace boundaries to escape the container isolation.
+    Post-escape, the attacker has root access on the host and can access other containers,
+    Kubernetes secrets, and node resources. Mitigation includes dropping unnecessary capabilities
+    from containers, using seccomp profiles, running containers as non-root, and applying patches.
+  core_concepts:
+    - key: "Container Isolation Boundary Breach"
+      value: "Breaking the container namespace isolation to gain host-level access from within a containerized process"
+    - key: "Capability-Based Escape"
+      value: "Exploiting overly permissive Linux capabilities granted to containers to perform namespace operations that break isolation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-8088 is a vulnerability in container runtime namespace isolation"
+  - type: enables
+    target: "ATK-PRIV-ESCAPE-001"
+    description: "Container escape enables privilege escalation from containerized application to host root access"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1611"
+    tactic: ["Privilege Escalation"]
+  cve_mapping:
+    cve_id: "CVE-2025-8088"
+    cvss_score: 8.8
+    cwe_id: "CWE-269"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-8088 - NVD NIST"
+    - "Container Runtime Security Advisory"
+    - "CWE-269 - Improper Privilege Management"
+    - "MITRE ATT&CK T1611 - Escape to Host"
+  search_keywords:
+    - "CVE-2025-8088"
+    - "container escape vulnerability"
+    - "container runtime breakout"
+    - "container namespace escape"
+    - "container privilege escalation"
+    - "containerd vulnerability"
+    - "container isolation bypass"
+  embedding_text: >-
+    CVE-2025-8088 is a container escape vulnerability in container runtime configurations that
+    allows processes inside containers to break out and gain host root access. CVSS v3 score is
+    8.8 High. The vulnerability exploits how the runtime handles namespace operations when certain
+    Linux capabilities are available to container processes. Container isolation is a fundamental
+    security boundary in cloud-native infrastructure. Escape compromises the host OS, other
+    containers, and potentially the entire Kubernetes cluster. Mitigation includes dropping
+    unnecessary capabilities, using seccomp profiles, running as non-root, and patching. Maps
+    to MITRE ATT&CK T1611 Escape to Host.

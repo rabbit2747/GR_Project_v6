@@ -1,0 +1,64 @@
+# GR Atom: RedHunt Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-REDHLABS-001"
+  name: "RedHunt Labs"
+  normalized_name: "redhunt_labs"
+  aliases:
+    - "RedHunt Labs Pvt. Ltd."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "RedHunt Labs is a cybersecurity company specializing in attack surface management, external threat intelligence, and offensive security research. The company provides automated attack surface discovery and monitoring solutions that help organizations identify exposed assets, misconfigurations, and potential attack vectors visible from the internet. RedHunt Labs also contributes open-source security tools and publishes threat research."
+  why: "RedHunt Labs is relevant to cybersecurity because attack surface management has become a critical discipline as organizations increasingly expose digital assets through cloud adoption, remote work, and digital transformation. Their tools and research help organizations understand their external attack surface, identifying shadow IT, exposed services, and exploitable misconfigurations before attackers discover them."
+  how: "RedHunt Labs provides automated continuous discovery and monitoring of an organization's internet-facing assets including domains, subdomains, IP addresses, open ports, exposed services, and cloud resources. The platform identifies misconfigurations, exposed credentials, data leaks, and vulnerable services through passive and active reconnaissance techniques. The company publishes security research and contributes open-source tools for attack surface enumeration and threat hunting."
+  core_concepts:
+    - key: "Attack surface management"
+      value: "Automated discovery and monitoring of internet-facing assets and exposures"
+    - key: "External threat intelligence"
+      value: "Identifying exposed assets, misconfigurations, and potential attack vectors from attacker perspective"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-ASM-001"
+    description: "RedHunt Labs provides attack surface management and external threat monitoring"
+  - type: enables
+    target: "TECHNIQUE-RECON-001"
+    description: "RedHunt Labs enables external reconnaissance and attack surface discovery"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "RedHunt Labs Official Website"
+    - "GitHub - RedHunt Labs Repositories"
+  search_keywords:
+    - "redhunt labs"
+    - "redhunt attack surface"
+    - "redhunt labs asm"
+    - "redhunt external intelligence"
+    - "redhunt reconnaissance"
+  embedding_text: "RedHunt Labs is a cybersecurity company specializing in attack surface management, external threat intelligence, and offensive security research. The company provides automated attack surface discovery and monitoring solutions that continuously identify and track an organization's internet-facing assets including domains, subdomains, IP addresses, open ports, exposed services, and cloud resources. Their platform detects misconfigurations, exposed credentials, data leaks, and vulnerable services through passive and active reconnaissance techniques from the attacker's perspective. RedHunt Labs contributes open-source security tools and publishes threat research that helps organizations understand their external attack surface and identify shadow IT, exposed services, and exploitable misconfigurations before adversaries can discover and exploit them."

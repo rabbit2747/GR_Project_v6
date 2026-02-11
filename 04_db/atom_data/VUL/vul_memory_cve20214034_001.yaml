@@ -1,0 +1,120 @@
+# GR Atom: CVE-2021-4034
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20214034-001"
+  name: "CVE-2021-4034"
+  normalized_name: "cve_2021_4034"
+  aliases:
+    - "PwnKit"
+    - "Polkit pkexec Local Privilege Escalation"
+    - "pkexec Memory Corruption"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - LINUX
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Polkit pkexec (all versions since 2009)"
+    - "All major Linux distributions"
+    - "SUID root binary"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2021-4034, dubbed PwnKit, is a memory corruption vulnerability (CVSS 7.8) in
+    Polkit's pkexec component that allows any unprivileged local user to gain full root
+    privileges on virtually every Linux distribution. The vulnerability existed for over 12
+    years since pkexec's initial commit in May 2009. Discovered by Qualys and disclosed in
+    January 2022, the flaw is an out-of-bounds write triggered when pkexec is invoked with
+    zero command-line arguments (argc=0). Since pkexec is installed as a SUID-root binary
+    on all major Linux distributions, exploitation provides immediate root access. The
+    vulnerability is trivially exploitable with highly reliable public exploits.
+  why: >-
+    PwnKit is critically important because it provides trivially reliable root access on
+    virtually every Linux installation. The pkexec binary is installed by default as SUID-root
+    on all major distributions including Ubuntu, Debian, Fedora, and CentOS. The 12-year
+    presence, trivial exploitability, and universal distribution made it one of the most
+    impactful Linux privilege escalation vulnerabilities ever discovered. Public exploits
+    were available immediately and are trivially reliable, making it a go-to privilege
+    escalation tool for both attackers and penetration testers.
+  how: >-
+    The exploit invokes pkexec with argc=0 (zero arguments) using execve(). When pkexec
+    processes an empty argv, it reads argv[1] from out-of-bounds memory, which corresponds
+    to the first environment variable (envp[0]). Through careful manipulation of environment
+    variables, the attacker causes pkexec to write an attacker-controlled value to an
+    out-of-bounds position that overwrites the first environment variable. This is used to
+    inject a malicious LD_PRELOAD or GCONV_PATH environment variable that causes pkexec
+    to load an attacker-controlled shared library as root, achieving arbitrary code execution
+    with root privileges.
+  core_concepts:
+    - key: "argc Zero Out-of-Bounds Write"
+      value: "Invoking pkexec with argc=0 causes out-of-bounds read/write in argv/envp memory enabling environment variable injection"
+    - key: "Universal Linux Root Access"
+      value: "SUID-root pkexec installed by default on all major Linux distributions for 12 years provides trivial root escalation"
+    - key: "Environment Variable Injection"
+      value: "Out-of-bounds write overwrites environment variables to inject LD_PRELOAD/GCONV_PATH for shared library loading as root"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "PwnKit is an out-of-bounds write memory corruption in Polkit pkexec"
+  - type: "enables"
+    target: "VUL-MEMORY-DIRTCOW-001"
+    description: "Both are Linux local privilege escalation vulnerabilities that provide root from unprivileged users"
+  - type: "enables"
+    target: "VUL-MEMORY-DIRTPIPE-001"
+    description: "Both are Linux privilege escalation vulnerabilities with trivially reliable exploits and widespread impact"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Qualys Security Advisory - PwnKit: Local Privilege Escalation in Polkit pkexec"
+    - "NVD Entry CVE-2021-4034 - CVSS 7.8"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "Polkit Security Advisory CVE-2021-4034"
+  search_keywords:
+    - "CVE-2021-4034"
+    - "PwnKit"
+    - "pkexec"
+    - "Polkit"
+    - "Linux privilege escalation"
+    - "root exploit"
+    - "SUID"
+    - "out-of-bounds write"
+  embedding_text: >-
+    CVE-2021-4034, known as PwnKit, is a memory corruption vulnerability in Polkit pkexec
+    with CVSS 7.8 allowing any unprivileged local user to gain root on virtually every
+    Linux distribution. The 12-year-old flaw is triggered when pkexec is invoked with
+    argc=0, causing out-of-bounds reads and writes in argv/envp memory. This enables
+    environment variable injection (GCONV_PATH/LD_PRELOAD) to load attacker-controlled
+    shared libraries as root. Since pkexec is installed SUID-root by default on all major
+    distributions, exploitation is trivially reliable. Discovered by Qualys in January 2022,
+    it became one of the most impactful Linux privilege escalation vulnerabilities ever.

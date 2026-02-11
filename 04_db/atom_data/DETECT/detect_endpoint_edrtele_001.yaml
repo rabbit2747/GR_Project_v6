@@ -1,0 +1,83 @@
+# GR Atom: EDR Telemetry
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-EDRTELE-001"
+  name: "EDR Telemetry"
+  normalized_name: "edr_telemetry"
+  aliases:
+    - "Endpoint Detection and Response Telemetry"
+    - "EDR Event Data"
+    - "Endpoint Sensor Telemetry"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - BLUE_TEAM
+    - FORENSICS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern representing the comprehensive telemetry data collected by Endpoint Detection and Response (EDR) agents installed on endpoints. EDR telemetry encompasses process creation and termination events, file system operations, registry modifications, network connections, loaded modules, memory operations, and inter-process communications. This data forms the foundational visibility layer for endpoint-based threat detection and investigation."
+  why: "EDR telemetry provides the deepest visibility into endpoint activity and is the primary data source for detecting advanced threats that bypass traditional antivirus. Without comprehensive endpoint telemetry, security teams lack the granular event data needed to identify sophisticated attack techniques, perform root cause analysis, and reconstruct attack timelines during incident response."
+  how: "EDR agents use kernel-level hooks, ETW providers, mini-filter drivers, and user-mode API hooking to capture system events in real time. Telemetry is normalized into structured event schemas, enriched with process context and threat intelligence, and streamed to a centralized backend for analysis. Detection rules and behavioral analytics are applied to identify suspicious patterns across multiple telemetry types."
+  core_concepts:
+    - key: "Kernel Callbacks"
+      value: "Operating system mechanisms that notify EDR drivers of security-relevant events such as process creation, image loading, and registry operations"
+    - key: "Telemetry Pipeline"
+      value: "The end-to-end flow of endpoint event data from collection through normalization, enrichment, storage, and analysis"
+    - key: "Behavioral Detection"
+      value: "Analysis approach that identifies threats based on sequences and patterns of telemetry events rather than static signatures"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "EDR telemetry provides the underlying event data for file event detection"
+  - type: requires
+    target: "DETECT-ENDPOINT-ETWTRAPRO-001"
+    description: "EDR solutions rely on ETW trace providers as a key telemetry source on Windows"
+  - type: enables
+    target: "DETECT-ENDPOINT-ENDHEABEA-001"
+    description: "EDR telemetry pipeline supports endpoint health beacon monitoring"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK - Data Sources: Endpoint"
+    - "OCSF Endpoint Activity Schema"
+    - "CrowdStrike Falcon EDR Architecture Documentation"
+  search_keywords:
+    - "EDR telemetry"
+    - "endpoint detection and response"
+    - "endpoint sensor"
+    - "process telemetry"
+    - "kernel callbacks"
+    - "behavioral detection"
+    - "endpoint visibility"
+    - "threat hunting"
+  embedding_text: "EDR Telemetry is an endpoint detection pattern representing the comprehensive event data collected by Endpoint Detection and Response agents deployed on endpoints. EDR telemetry includes process creation, file operations, registry changes, network connections, loaded modules, and memory operations captured through kernel-level hooks, ETW providers, and mini-filter drivers. This telemetry forms the foundational visibility layer enabling behavioral threat detection, threat hunting, and incident response. EDR agents normalize raw system events into structured schemas, enrich data with process genealogy and threat intelligence context, and stream events to centralized analytics platforms for real-time and retrospective analysis."

@@ -1,0 +1,77 @@
+# GR Atom: CVE-2023-48788
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202348788-001"
+  name: "CVE-2023-48788"
+  normalized_name: "cve_2023_48788"
+  aliases:
+    - "FortiClient EMS SQL Injection"
+    - "Fortinet FortiClient EMS RCE"
+    - "FortiClient EMS DAS Component SQLi"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - DATABASE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Fortinet FortiClient EMS 7.2.0 through 7.2.2"
+    - "Fortinet FortiClient EMS 7.0.1 through 7.0.10"
+    - "FortiClient EMS DAS Component (MS SQL backend)"
+
+definition:
+  what: "CVE-2023-48788 is a critical SQL injection vulnerability in Fortinet FortiClient Enterprise Management Server (EMS), specifically in the Data Access Server (DAS) component. The vulnerability allows an unauthenticated remote attacker to execute arbitrary SQL commands against the underlying Microsoft SQL Server database through crafted requests to the FortiClient EMS web service. The SQL injection can be escalated to operating system command execution using SQL Server's xp_cmdshell stored procedure, achieving full remote code execution on the FortiClient EMS server. CVSS v3: 9.8 (Critical). Disclosed March 12, 2024."
+  why: "FortiClient EMS is an endpoint management platform used by organizations to centrally manage FortiClient endpoint security agents across their networks. Compromising the EMS server gives attackers control over the endpoint security infrastructure, potentially allowing them to disable endpoint protection, deploy malware to managed endpoints, and access sensitive security telemetry. The SQL injection to RCE chain via xp_cmdshell is reliable and easily automated. CISA added CVE-2023-48788 to the Known Exploited Vulnerabilities catalog after confirming active exploitation. The vulnerability was used in attacks targeting government and enterprise organizations to establish initial network access."
+  how: "The vulnerability is exploited by sending crafted HTTP requests to the FortiClient EMS DAS component web service containing SQL injection payloads. The DAS component passes user-controlled input directly into SQL queries without proper parameterization or sanitization. The attacker first confirms the SQL injection by using time-based blind techniques, then escalates to command execution by enabling and invoking the xp_cmdshell extended stored procedure in the underlying Microsoft SQL Server. This provides operating system-level command execution with the privileges of the SQL Server service account, which is typically SYSTEM or a highly privileged domain account. Post-exploitation commonly involves web shell deployment, lateral movement tools, and persistence establishment. Mitigation requires upgrading to FortiClient EMS 7.2.3+ or 7.0.11+."
+  core_concepts:
+    - key: "SQL Injection to OS Command Execution"
+      value: "The SQL injection in FortiClient EMS DAS component is escalated to full RCE by leveraging MS SQL Server's xp_cmdshell stored procedure to execute operating system commands through the database engine"
+    - key: "Endpoint Management Platform Compromise"
+      value: "Compromising the EMS server provides attackers control over enterprise endpoint security infrastructure, enabling them to disable protection, deploy malware to managed endpoints, and access security telemetry"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2023-48788 is a SQL injection vulnerability in Fortinet FortiClient EMS"
+  - type: enables
+    target: "VUL-INJECT-INJECTION-001"
+    description: "SQL injection in FortiClient EMS enables OS command injection via xp_cmdshell escalation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2023-48788 - NVD NIST"
+    - "Fortinet PSIRT Advisory FG-IR-24-007"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Horizon3.ai - FortiClient EMS SQLi to RCE Analysis"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2023-48788"
+    - "FortiClient EMS SQL injection"
+    - "FortiClient EMS RCE"
+    - "Fortinet SQL injection"
+    - "FortiClient EMS vulnerability"
+    - "FortiClient DAS SQLi"
+    - "Fortinet endpoint management exploit"
+    - "xp_cmdshell FortiClient"
+  embedding_text: "CVE-2023-48788 is a critical CVSS 9.8 SQL injection vulnerability in Fortinet FortiClient Enterprise Management Server (EMS) DAS component. Disclosed March 2024, it allows unauthenticated remote attackers to execute arbitrary SQL commands against the underlying MS SQL Server database. The SQL injection is escalated to full RCE using xp_cmdshell stored procedure. FortiClient EMS centrally manages endpoint security agents, making its compromise a high-value target for disabling endpoint protection and deploying malware to managed systems. CISA added it to the Known Exploited Vulnerabilities catalog after confirmed active exploitation targeting government and enterprise organizations. Mitigation requires upgrading to FortiClient EMS 7.2.3 or 7.0.11. Maps to MITRE ATT&CK T1190 Initial Access."

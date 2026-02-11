@@ -1,0 +1,118 @@
+# GR Atom: Google Chrome
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-GOOGCHRO-001"
+  name: "Google Chrome"
+  normalized_name: "google_chrome"
+  aliases:
+    - "Chrome Browser"
+    - "Chromium"
+    - "Google Chrome Browser"
+    - "Chrome"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - TLS
+    - EXEC
+    - CRED
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.6"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Google Chrome is a cross-platform web browser developed by Google based on the open-source
+    Chromium project. It uses the Blink rendering engine and V8 JavaScript engine, and is the
+    most widely used web browser globally. Chrome features a multi-process architecture with
+    site isolation, a built-in PDF viewer, automatic updates, and the Chrome Web Store for
+    extensions. Chrome also serves as the rendering engine foundation for Microsoft Edge,
+    Brave, Opera, and other Chromium-based browsers.
+  why: >-
+    As the dominant web browser, Chrome is the primary target for browser exploitation including
+    zero-day attacks. Chrome vulnerabilities in V8 (type confusion, JIT bugs), Blink renderer,
+    and GPU process have been actively exploited by nation-state actors and commercial spyware
+    vendors. Chrome's password manager stores credentials that are a high-value target for
+    infostealers. The extension ecosystem has been abused through malicious extensions that
+    steal data, inject ads, or provide persistent access. Chrome's sync feature, if compromised,
+    can expose saved passwords, bookmarks, and browsing history across all synced devices.
+  how: >-
+    Chrome processes web content through site-isolated renderer processes sandboxed via the
+    Chromium sandbox. V8 compiles and executes JavaScript with TurboFan JIT compiler. The
+    browser stores credentials in the Login Data SQLite database, protected by OS-level
+    encryption (DPAPI on Windows, Keychain on macOS). Extensions run in isolated contexts
+    with permission-based access to browser APIs. Exploitation typically targets V8 JIT
+    vulnerabilities for initial code execution, followed by sandbox escape through IPC or
+    kernel vulnerabilities. Infostealers target the Login Data database by decrypting the
+    local encryption key.
+  core_concepts:
+    - key: "Dominant Browser Platform"
+      value: "Most widely used web browser providing the Chromium engine foundation for multiple browsers and representing the primary browser exploitation target"
+    - key: "Credential Storage Targeting"
+      value: "Login Data SQLite database with OS-encrypted credentials is the primary target for infostealer malware families"
+    - key: "Zero-Day Exploitation Surface"
+      value: "V8 JavaScript engine JIT compilation and Blink renderer are actively targeted by nation-state actors and commercial spyware for zero-day exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "INFRA-APP-FIREFOX-001"
+    description: "Chrome and Firefox are alternative web browsers with different rendering engines"
+  - type: "enables"
+    target: "INFRA-APP-MICREDGE-001"
+    description: "Chrome's Chromium engine provides the rendering foundation for Microsoft Edge"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+  defense_context:
+    effectiveness: "critical"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google Chrome Security Blog"
+    - "Chromium Security Architecture Documentation"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+    - "Google Project Zero - Chrome Vulnerability Research"
+  search_keywords:
+    - "Google Chrome"
+    - "Chrome vulnerability"
+    - "Chromium exploit"
+    - "V8 JavaScript exploit"
+    - "Chrome zero-day"
+    - "Chrome credential theft"
+    - "Chrome extension malware"
+    - "Chromium sandbox escape"
+  embedding_text: >-
+    Google Chrome is the most widely used web browser, built on the open-source Chromium
+    project with Blink rendering engine and V8 JavaScript engine. It features multi-process
+    architecture with site isolation and sandboxing. Chrome is the primary target for browser
+    exploitation with zero-day vulnerabilities in V8 JIT compilation actively exploited by
+    nation-state actors and commercial spyware. Chrome's password manager storing credentials
+    in Login Data SQLite database is targeted by infostealer malware. The extension ecosystem
+    is abused through malicious extensions for data theft and persistent access. Chromium
+    serves as the engine foundation for Microsoft Edge, Brave, and other browsers. Security
+    teams should enforce automatic updates, manage extension policies, and monitor for
+    credential theft from Chrome profile data.

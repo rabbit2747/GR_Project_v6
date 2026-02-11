@@ -1,0 +1,130 @@
+# GR Atom: CVE-2018-13379
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE201813379-001"
+  name: "CVE-2018-13379"
+  normalized_name: "cve_2018_13379"
+  aliases:
+    - "FortiGate Path Traversal"
+    - "Fortinet SSL VPN Credential Leak"
+    - "FortiOS Path Traversal"
+    - "Fortinet VPN Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - PATH
+    - CRED
+    - VPN
+    - NETWORK
+    - INFO_LEAK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z1"]
+  target_components:
+    - "Fortinet FortiOS 5.6.3 to 5.6.7"
+    - "Fortinet FortiOS 6.0.0 to 6.0.4"
+    - "FortiGate SSL VPN web portal"
+    - "FortiProxy"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-13379 is a critical path traversal vulnerability in the Fortinet FortiOS SSL VPN
+    web portal, disclosed in 2019 with a CVSS score of 9.8. The vulnerability allows an
+    unauthenticated remote attacker to download arbitrary files from the FortiGate device by
+    sending specially crafted HTTP requests. Most critically, attackers can retrieve the
+    sslvpn_websession file which contains plaintext usernames and passwords of active VPN
+    sessions. This provides immediate authenticated VPN access to the victim's network.
+    Affected versions include FortiOS 5.6.3 through 5.6.7 and FortiOS 6.0.0 through 6.0.4.
+  why: >-
+    This vulnerability became one of the most exploited initial access vectors for ransomware
+    groups, APT actors, and other threat actors. Fortinet FortiGate devices are among the most
+    widely deployed enterprise VPN solutions globally. In November 2020, threat actors published
+    credentials for nearly 50,000 vulnerable FortiGate VPN devices. The leaked credentials
+    were actively used for ransomware deployment, espionage, and network intrusion campaigns.
+    CISA, FBI, and NSA issued joint advisories. The vulnerability remained actively exploited
+    years after patches were available due to slow patching of perimeter devices.
+  how: >-
+    An attacker sends an HTTP GET request to the FortiGate SSL VPN web portal with a path
+    traversal payload in the URL. By using sequences like /remote/fgt_lang?lang=/../../../../..
+    /etc/passwd or targeting /remote/fgt_lang?lang=/../../../../..
+    /dev/cmdb/sslvpn_websession, the attacker bypasses path restrictions to read arbitrary
+    files. The sslvpn_websession file contains active session tokens and plaintext credentials
+    of VPN users. With these credentials, the attacker authenticates to the VPN and gains
+    network access. Post-exploitation typically involves lateral movement, data exfiltration,
+    and ransomware deployment. Mitigation requires updating FortiOS to patched versions,
+    enabling multi-factor authentication, resetting all VPN user credentials, and monitoring
+    for unauthorized VPN access.
+  core_concepts:
+    - key: "VPN Credential Theft"
+      value: "Path traversal to sslvpn_websession file reveals plaintext VPN usernames and passwords providing immediate authenticated network access"
+    - key: "Mass Exploitation"
+      value: "Nearly 50,000 FortiGate VPN device credentials leaked in 2020, enabling widespread ransomware and espionage campaigns"
+    - key: "Perimeter Device Risk"
+      value: "VPN appliances sit at network boundaries with internet exposure, and slow patching cycles make them persistent attack vectors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2018-13379 bypasses access controls through path traversal to read sensitive VPN session files"
+  - type: "enables"
+    target: "VUL-ACCESS-ARCADOOR-001"
+    description: "Both are VPN/perimeter device vulnerabilities that provide initial network access through appliance exploitation"
+  - type: "precedes"
+    target: "VUL-ACCESS-CVE202334362-001"
+    description: "FortiGate credential leak (2019) established the pattern of mass-exploited perimeter appliance vulnerabilities continued by MOVEit (2023)"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+  cve_id: "CVE-2018-13379"
+  cvss_score: 9.8
+  affected_product: "Fortinet FortiOS SSL VPN"
+  disclosure_year: 2019
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Fortinet PSIRT Advisory FG-IR-18-384"
+    - "NVD CVE-2018-13379 CVSS 9.8"
+    - "CISA Alert AA21-321A - Iranian APT Exploitation of FortiOS"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2018-13379"
+    - "FortiGate path traversal"
+    - "Fortinet SSL VPN"
+    - "FortiOS vulnerability"
+    - "VPN credential leak"
+    - "sslvpn_websession"
+    - "Fortinet exploit"
+    - "FortiGate credential theft"
+  embedding_text: >-
+    CVE-2018-13379 is a critical path traversal vulnerability (CVSS 9.8) in Fortinet FortiOS
+    SSL VPN web portal enabling unauthenticated file reading. Attackers retrieve the
+    sslvpn_websession file containing plaintext VPN credentials for immediate network access.
+    Affects FortiOS 5.6.3-5.6.7 and 6.0.0-6.0.4. Nearly 50,000 device credentials leaked
+    in 2020. One of the most exploited initial access vectors for ransomware groups and APT
+    actors. Joint CISA, FBI, and NSA advisories issued. Credentials used for ransomware
+    deployment, espionage, and network intrusion. Mitigation requires FortiOS patching,
+    MFA enablement, credential resets, and VPN access monitoring. Perimeter device
+    vulnerability with persistent exploitation years after patch availability.

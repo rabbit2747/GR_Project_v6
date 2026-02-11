@@ -1,0 +1,100 @@
+# GR Atom: CVE-2015-7450
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20157450-001"
+  name: "CVE-2015-7450"
+  normalized_name: "cve_2015_7450"
+  aliases:
+    - "IBM WebSphere Java Deserialization RCE"
+    - "Apache Commons Collections Deserialization"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "IBM WebSphere Application Server"
+    - "Apache Commons Collections"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-7450 is a remote code execution vulnerability in IBM WebSphere Application Server
+    caused by unsafe Java object deserialization of data from the Apache Commons Collections
+    library. The application logic deserializes untrusted data without proper validation,
+    allowing an attacker to craft malicious serialized Java objects that execute arbitrary
+    commands when deserialized by the server. CVSS v3 base score: 9.8 (Critical).
+  why: >-
+    IBM WebSphere is widely deployed in enterprise environments for hosting critical business
+    applications. This vulnerability allows unauthenticated remote code execution, providing
+    full control over the application server. The Apache Commons Collections deserialization
+    issue affected numerous Java platforms and became one of the most significant vulnerability
+    classes of 2015-2016.
+  how: >-
+    An attacker sends a specially crafted serialized Java object to the WebSphere Application
+    Server through exposed interfaces that accept serialized data. The server's deserialization
+    logic processes the malicious object using vulnerable Apache Commons Collections classes,
+    triggering a gadget chain that results in arbitrary command execution on the server with
+    the privileges of the WebSphere process.
+  core_concepts:
+    - key: "Unsafe Deserialization Logic"
+      value: "Application deserializes untrusted input without validation, allowing attacker-controlled object instantiation and method invocation"
+    - key: "Gadget Chain Exploitation"
+      value: "Apache Commons Collections classes form a chain of method calls that transform deserialization into arbitrary command execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Deserialization logic flaw that processes untrusted input without proper validation"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE202247966-001"
+    description: "Both exploit deserialization logic flaws in enterprise application servers for remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2015-7450"
+    - "IBM Security Advisory"
+    - "NIST NVD - CVE-2015-7450"
+    - "FoxGlove Security - Java Deserialization Research"
+  search_keywords:
+    - "CVE-2015-7450"
+    - "IBM WebSphere deserialization"
+    - "Apache Commons Collections"
+    - "Java deserialization RCE"
+    - "WebSphere remote code execution"
+    - "gadget chain attack"
+  embedding_text: >-
+    CVE-2015-7450 is a remote code execution vulnerability in IBM WebSphere Application Server
+    via unsafe Java deserialization of Apache Commons Collections objects. Unauthenticated
+    attackers send malicious serialized objects that trigger gadget chains executing arbitrary
+    commands. CVSS v3 9.8 Critical. Affects enterprise WebSphere deployments. Part of the
+    widespread 2015-2016 Java deserialization vulnerability class. Deserialization logic flaw
+    processing untrusted input without validation. Year 2015.

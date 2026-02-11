@@ -1,0 +1,155 @@
+# GR Atom: TLS 1.3
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-TLS13-001"
+  name: "TLS 1.3"
+  normalized_name: "tls_1_3"
+  aliases:
+    - "Transport Layer Security 1.3"
+    - "TLSv1.3"
+    - "RFC 8446"
+    - "TLS Version 1.3"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TLS 1.3 (Transport Layer Security version 1.3) is the latest version of the TLS protocol,
+    defined in RFC 8446 (August 2018), representing a major redesign that reduces handshake
+    latency to one round trip (1-RTT), mandates perfect forward secrecy through ephemeral-only
+    key exchange, eliminates all legacy and vulnerable cipher suites, and encrypts most of the
+    handshake to protect metadata. TLS 1.3 supports only five cipher suites using AEAD
+    algorithms (AES-128-GCM, AES-256-GCM, ChaCha20-Poly1305, AES-128-CCM, AES-128-CCM-8),
+    removes RSA key exchange, static DH, compression, renegotiation, and non-AEAD ciphers.
+    The protocol also introduces 0-RTT (zero round trip) resumption for repeated connections,
+    enabling encrypted data transmission on the first flight at the cost of replay protection.
+  why: >-
+    TLS 1.2, while still secure when properly configured, carried decades of accumulated
+    complexity and legacy features that expanded the attack surface. RSA key exchange lacked
+    forward secrecy, CBC cipher suites enabled padding oracle attacks (Lucky13), renegotiation
+    created state machine vulnerabilities, and compression enabled CRIME/BREACH attacks.
+    TLS 1.3 addressed these by removing vulnerable features rather than patching them. The
+    handshake was redesigned from a 2-RTT to 1-RTT exchange, reducing connection latency by
+    50% and improving mobile and high-latency network performance. Encrypting the handshake
+    from ServerHello onward protects certificate information and extensions from passive
+    surveillance. The simplified design with only five AEAD cipher suites reduces implementation
+    complexity and cryptanalytic attack surface. NIST SP 800-52 Rev. 2 recommends TLS 1.3
+    as the preferred version.
+  how: >-
+    TLS 1.3 fundamentally restructured the handshake: the ClientHello includes key_share
+    extensions with ephemeral DH public keys (X25519 or P-256), allowing the server to
+    complete key exchange in its ServerHello response. After ServerHello, handshake traffic
+    keys are derived via HKDF-Expand-Label, and all subsequent messages (EncryptedExtensions,
+    Certificate, CertificateVerify, Finished) are encrypted. The server authenticates by
+    signing the entire handshake transcript in CertificateVerify using Ed25519, RSA-PSS,
+    or ECDSA. The key schedule uses HKDF (RFC 5869) with a transcript hash to derive
+    handshake secrets, master secrets, and application traffic keys through a deterministic
+    chain. Forward secrecy is mandatory as only ephemeral (EC)DHE key exchange is supported.
+    0-RTT mode allows clients with cached PSK (Pre-Shared Key) from previous sessions to
+    send encrypted application data in the first flight, though this data is not protected
+    against replay. Session resumption uses PSK-based authentication through NewSessionTicket
+    messages. The protocol version negotiation uses the supported_versions extension while
+    advertising {3,3} in the legacy version field for middlebox compatibility.
+  core_concepts:
+    - key: "1-RTT Handshake"
+      value: >-
+        TLS 1.3 completes the handshake in one round trip by combining key exchange with
+        the ClientHello/ServerHello, reducing connection latency by 50% compared to
+        TLS 1.2's 2-RTT handshake.
+    - key: "Mandatory Forward Secrecy"
+      value: >-
+        Only ephemeral (EC)DHE key exchange is supported, ensuring that compromise of
+        long-term server keys cannot decrypt past sessions. RSA key transport and static
+        DH were removed entirely.
+    - key: "AEAD-Only Encryption"
+      value: >-
+        TLS 1.3 mandates authenticated encryption (AES-GCM, ChaCha20-Poly1305), eliminating
+        CBC cipher suites and the MAC-then-encrypt construction that enabled padding oracle
+        attacks in all prior versions.
+    - key: "Encrypted Handshake"
+      value: >-
+        All handshake messages after ServerHello are encrypted under handshake traffic keys,
+        protecting certificate information, extensions, and server identity from passive
+        network observers.
+    - key: "0-RTT Resumption"
+      value: >-
+        Clients with cached PSK from previous sessions can send encrypted application data
+        in the first flight for zero round-trip latency, with the trade-off of limited
+        replay protection for this early data.
+    - key: "HKDF Key Schedule"
+      value: >-
+        A deterministic key derivation chain using HKDF-Expand-Label produces handshake
+        secrets, master secrets, and traffic keys from the shared secret and transcript
+        hash, replacing the custom PRF used in prior versions.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "TLS 1.3 is the latest and most secure version of the Transport Layer Security protocol"
+  - type: "supersedes"
+    target: "PROTO-SECURITY-TLS12-001"
+    description: "TLS 1.3 supersedes TLS 1.2 with a redesigned handshake, mandatory forward secrecy, and AEAD-only ciphers"
+  - type: "enables"
+    target: "PROTO-SECURITY-ENCREXTE-001"
+    description: "TLS 1.3 introduced the EncryptedExtensions message for handshake metadata protection"
+  - type: "enables"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "TLS 1.3 key_share extension mechanism enables Hybrid TLS post-quantum key exchange"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 8446 - The Transport Layer Security (TLS) Protocol Version 1.3. IETF. https://datatracker.ietf.org/doc/html/rfc8446"
+    - "NIST SP 800-52 Rev. 2 - Guidelines for the Selection, Configuration, and Use of TLS Implementations. https://csrc.nist.gov/publications/detail/sp/800-52/rev-2/final"
+    - "Rescorla, E. (2018). The Illustrated TLS 1.3 Connection. https://tls13.xargs.org/"
+  search_keywords:
+    - "TLS 1.3"
+    - "TLSv1.3"
+    - "RFC 8446"
+    - "1-RTT handshake"
+    - "0-RTT resumption"
+    - "AEAD cipher suites"
+    - "forward secrecy mandatory"
+    - "encrypted handshake"
+    - "HKDF key schedule"
+    - "X25519 key exchange"
+    - "NIST SP 800-52"
+  embedding_text: >-
+    TLS 1.3 is the latest Transport Layer Security version defined in RFC 8446 (2018),
+    representing a major protocol redesign. The 1-RTT handshake reduces connection latency by
+    50% over TLS 1.2 by combining key exchange with ClientHello/ServerHello. Forward secrecy
+    is mandatory through ephemeral-only (EC)DHE key exchange, removing RSA key transport and
+    static DH. Only five AEAD cipher suites are supported (AES-GCM, ChaCha20-Poly1305),
+    eliminating CBC modes and padding oracle vulnerabilities. All handshake messages after
+    ServerHello are encrypted, protecting certificates and extensions from passive observers.
+    0-RTT resumption enables zero round-trip encrypted data for repeat connections using cached
+    PSK. The HKDF key schedule derives all secrets through a deterministic chain from shared
+    secrets and transcript hashes. TLS 1.3 removed compression, renegotiation, and legacy
+    cipher suites to reduce attack surface. NIST SP 800-52 Rev. 2 recommends TLS 1.3 as the
+    preferred version. Server authentication uses transcript signatures via CertificateVerify
+    with Ed25519, RSA-PSS, or ECDSA.

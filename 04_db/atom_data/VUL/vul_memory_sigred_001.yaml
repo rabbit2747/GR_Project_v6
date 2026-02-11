@@ -1,0 +1,127 @@
+# GR Atom: SIGRed
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-SIGRED-001"
+  name: "SIGRed"
+  normalized_name: "sigred"
+  aliases:
+    - "CVE-2020-1350"
+    - "Windows DNS Server RCE"
+    - "DNS Wormable Vulnerability"
+    - "SIG Record Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - WINDOWS
+    - NETWORK
+    - DNS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows DNS Server (dns.exe)"
+    - "Windows Server 2003 through 2019"
+    - "Active Directory DNS infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SIGRed (CVE-2020-1350, CVSS 10.0) is a critical wormable remote code execution
+    vulnerability in Windows DNS Server that allows unauthenticated attackers to execute
+    arbitrary code as Local System by sending crafted DNS responses. Discovered by Check
+    Point Research and patched in July 2020, the vulnerability exists in the way Windows
+    DNS Server handles SIG (signature) resource record queries. With the maximum CVSS
+    score of 10.0, it was classified as wormable because exploitation requires no
+    authentication or user interaction and can propagate automatically between DNS servers.
+    The vulnerability had existed in Windows DNS Server code for 17 years. See also
+    CVE-2020-1350 (VUL-MEMORY-CVE20201350-001) for the CVE entry.
+  why: >-
+    SIGRed received the maximum CVSS score of 10.0 due to its wormable nature, no
+    authentication requirement, and SYSTEM-level code execution on domain controllers.
+    Since most Active Directory domain controllers also serve as DNS servers, exploitation
+    could compromise an entire Active Directory forest from a single entry point. The
+    wormable classification meant a single exploitation could cascade through an
+    organization's DNS infrastructure without any user interaction, similar to EternalBlue's
+    impact potential. Microsoft issued an emergency out-of-band registry workaround
+    alongside the patch. CISA issued Emergency Directive 20-03 requiring federal agencies
+    to patch within 24 hours.
+  how: >-
+    The vulnerability is triggered by causing a Windows DNS Server to process a crafted
+    DNS response containing a malicious SIG (signature) resource record. When the server
+    performs a recursive query and receives the crafted SIG record response from a
+    malicious authoritative server, a heap-based buffer overflow occurs in dns.exe due to
+    the oversized SIG record exceeding expected buffer sizes. The overflow corrupts heap
+    metadata, enabling the attacker to gain arbitrary code execution as SYSTEM. The attack
+    can be initiated remotely across the internet by causing the target DNS server to
+    query an attacker-controlled domain, or from the local network by responding to DNS
+    queries with malicious SIG records. No authentication is required.
+  core_concepts:
+    - key: "Wormable DNS RCE"
+      value: "Maximum CVSS 10.0 vulnerability that propagates automatically between Windows DNS servers without authentication"
+    - key: "SIG Record Buffer Overflow"
+      value: "Heap overflow in dns.exe triggered by oversized SIG resource records during recursive DNS resolution"
+    - key: "Active Directory Compromise"
+      value: "DNS servers on domain controllers means exploitation can cascade through entire AD forests"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "SIGRed is a heap-based buffer overflow memory corruption in Windows DNS Server"
+  - type: "enables"
+    target: "VUL-MEMORY-ETERBLUE-001"
+    description: "Both are wormable Windows network service vulnerabilities with unauthenticated remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Check Point Research - SigRed: Resolving Your Way into Domain Admin"
+    - "Microsoft Security Advisory CVE-2020-1350"
+    - "NVD Entry CVE-2020-1350 - CVSS 10.0"
+    - "CISA Emergency Directive 20-03"
+    - "MITRE ATT&CK T1210 - Exploitation of Remote Services"
+  search_keywords:
+    - "SIGRed"
+    - "CVE-2020-1350"
+    - "Windows DNS"
+    - "wormable"
+    - "DNS server RCE"
+    - "CVSS 10"
+    - "heap overflow"
+    - "domain controller"
+    - "SIG record"
+    - "Active Directory"
+  embedding_text: >-
+    SIGRed (CVE-2020-1350) is a wormable remote code execution vulnerability in Windows
+    DNS Server with the maximum CVSS score of 10.0. The heap-based buffer overflow in
+    dns.exe occurs when processing oversized SIG resource records during recursive DNS
+    resolution. Requiring no authentication and capable of automatic propagation between
+    DNS servers, it can compromise entire Active Directory forests since DNS typically
+    runs on domain controllers. The 17-year-old vulnerability was patched in July 2020
+    with CISA issuing an emergency directive. Comparable to EternalBlue in wormable
+    network service exploitation potential.

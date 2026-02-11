@@ -1,0 +1,96 @@
+# GR Atom: Direct Send
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-DIRESEND-001"
+  name: "Direct Send"
+  normalized_name: "direct_send"
+  aliases:
+    - "Direct SMTP Send"
+    - "Direct Mail Delivery"
+    - "MX Direct Send"
+    - "Smarthost Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SMTP
+    - NETWORK
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    Direct Send is a mail delivery method where an application or device sends email messages
+    directly to the recipient's mail server by performing MX (Mail Exchange) DNS lookups and
+    establishing SMTP connections without routing through an intermediate relay or smarthost.
+    In Microsoft Exchange environments, Direct Send specifically refers to the configuration
+    where internal devices (printers, scanners, line-of-business applications) send email to
+    internal recipients by connecting directly to the Exchange server's SMTP receive connector
+    on port 25. This method does not require SMTP authentication, as access is typically
+    controlled by IP address restrictions on the receive connector.
+  why: >-
+    Direct Send introduces security risks because it bypasses normal SMTP authentication and
+    relay controls. Misconfigured Direct Send connectors can be exploited for email spoofing,
+    spam relay, and phishing attacks originating from within the network. The absence of
+    authentication means any device with network access to the SMTP connector can send email
+    as any internal address. Attackers who gain access to the internal network can abuse Direct
+    Send for lateral phishing, social engineering, and data exfiltration via email. Proper IP
+    restriction and monitoring of Direct Send connectors is essential.
+  how: >-
+    Direct Send operates by: (1) The sending application performs a DNS MX lookup for the
+    recipient's domain to identify the destination mail server; (2) A TCP connection is
+    established to port 25 on the resolved mail server; (3) The SMTP conversation proceeds
+    with HELO/EHLO, MAIL FROM, RCPT TO, and DATA commands; (4) The message is delivered without
+    SMTP AUTH authentication. In Exchange environments, the receive connector is configured to
+    accept anonymous connections from specific IP ranges. TLS may be opportunistically negotiated
+    via STARTTLS but is not typically enforced for internal Direct Send scenarios.
+  core_concepts:
+    - key: "MX Lookup"
+      value: "DNS query to resolve the Mail Exchange record for the recipient domain, identifying the target SMTP server for direct message delivery."
+    - key: "Anonymous SMTP Relay"
+      value: "SMTP connection without authentication credentials, relying on IP-based access controls rather than user identity verification."
+    - key: "Receive Connector"
+      value: "Exchange Server component that defines SMTP listener configurations including permitted IP ranges, authentication requirements, and relay permissions."
+
+relations:
+  - type: "requires"
+    target: "PROTO-MSG-SMSIMATR-001"
+    description: "Direct Send uses the SMTP protocol for message transmission to the recipient mail server"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Direct Send is an application layer email delivery method using SMTP without relay intermediation"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Learn — How to set up a multifunction device or application to send email using Microsoft 365 or Office 365"
+    - "IETF RFC 5321 — Simple Mail Transfer Protocol"
+    - "Microsoft — Exchange Server Receive Connector Configuration"
+  search_keywords:
+    - "direct send"
+    - "direct SMTP"
+    - "MX direct delivery"
+    - "smarthost bypass"
+    - "anonymous SMTP relay"
+    - "exchange receive connector"
+    - "direct mail delivery"
+    - "SMTP port 25"
+  embedding_text: >-
+    Direct Send is a mail delivery method where applications send email directly to the
+    recipient's mail server via SMTP without routing through an intermediate relay or smarthost.
+    The sending application performs DNS MX lookups and establishes SMTP connections on port 25
+    without authentication, relying on IP-based access controls. In Exchange environments, Direct
+    Send is configured on receive connectors to allow internal devices like printers and scanners
+    to send email. Security risks include email spoofing, spam relay abuse, and lateral phishing
+    when connectors are misconfigured. Proper IP restriction and monitoring are essential to
+    prevent exploitation of unauthenticated SMTP access.

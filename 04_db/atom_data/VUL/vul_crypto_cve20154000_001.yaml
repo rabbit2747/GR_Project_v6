@@ -1,0 +1,112 @@
+# GR Atom: CVE-2015-4000
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE20154000-001"
+  name: "CVE-2015-4000"
+  normalized_name: "cve_2015_4000"
+  aliases:
+    - "Logjam Attack"
+    - "TLS Diffie-Hellman Export Downgrade"
+    - "DHE_EXPORT Downgrade Attack"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - INFO_LEAK
+    - TLS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "TLS DHE_EXPORT Cipher Suites"
+    - "Diffie-Hellman Key Exchange"
+    - "Web Browsers and Servers"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-4000 (Logjam) is a vulnerability in the TLS protocol that allows a man-in-the-middle
+    attacker to downgrade TLS connections to use export-grade 512-bit Diffie-Hellman key exchange.
+    The attacker modifies the handshake to request DHE_EXPORT cipher suites, which use 512-bit DH
+    groups that can be broken through precomputation of discrete logarithms. CVSS score is 3.7.
+    Disclosed in May 2015 by researchers who also showed that a nation-state could break 1024-bit
+    DH groups used by a large fraction of HTTPS, SSH, and VPN servers.
+  why: >-
+    Logjam revealed that the most commonly used 1024-bit DH groups were potentially vulnerable to
+    well-resourced adversaries. The researchers estimated that breaking a single common 1024-bit
+    DH group would allow passive decryption of 18% of the top million HTTPS domains. This finding
+    suggested that NSA's reported ability to decrypt VPN traffic could be explained by precomputation
+    against commonly shared DH primes, making Logjam one of the most strategically significant
+    cryptographic vulnerabilities discovered.
+  how: >-
+    The attacker intercepts the TLS handshake and replaces the client's supported cipher suites with
+    DHE_EXPORT. When the server supports export DH, it responds with a 512-bit DH group. The
+    attacker precomputes the discrete logarithm for common 512-bit DH groups (feasible in minutes)
+    and uses this to compute the session key, decrypting the entire connection. For 1024-bit groups,
+    the precomputation phase takes approximately one year and significant resources, but once complete
+    allows real-time decryption of any connection using that group.
+  core_concepts:
+    - name: "Number Field Sieve Precomputation"
+      value: "Discrete logarithm computation for fixed DH groups can be precomputed once and then used to break many connections using that group"
+    - name: "DH Export Downgrade"
+      value: "Man-in-the-middle forcing TLS to negotiate export-grade 512-bit Diffie-Hellman parameters"
+    - name: "Shared Prime Vulnerability"
+      value: "Widespread reuse of the same DH prime groups means a single precomputation can compromise millions of connections"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Logjam is an instance of cryptographic downgrade vulnerability targeting DH key exchange"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "Logjam affects TLS implementations supporting DHE_EXPORT and weak DH groups"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1557"
+      tactic: ["Credential Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2015-4000"
+    - "weakdh.org - Imperfect Forward Secrecy: How Diffie-Hellman Fails in Practice"
+    - "Adrian et al. - Imperfect Forward Secrecy (CCS 2015)"
+  search_keywords:
+    - "CVE-2015-4000"
+    - "Logjam attack"
+    - "DHE_EXPORT downgrade"
+    - "Diffie-Hellman export vulnerability"
+    - "512-bit DH"
+    - "1024-bit DH weakness"
+    - "discrete logarithm precomputation"
+    - "TLS DH downgrade"
+  embedding_text: >-
+    CVE-2015-4000, known as Logjam, is a TLS downgrade vulnerability that allows man-in-the-middle
+    attackers to force connections to use export-grade 512-bit Diffie-Hellman key exchange. The
+    attacker modifies the handshake to request DHE_EXPORT cipher suites, and can precompute
+    discrete logarithms for common 512-bit DH groups to decrypt traffic in real time. More
+    significantly, the researchers showed that 1024-bit DH groups, used by a large fraction of
+    HTTPS, SSH, and VPN servers, could potentially be broken by nation-state adversaries through
+    number field sieve precomputation against commonly shared primes. Breaking a single 1024-bit
+    group would allow passive decryption of 18 percent of top HTTPS domains. Disclosed in May
+    2015, Logjam motivated the transition to 2048-bit DH groups and ECDH key exchange. The
+    vulnerability traces back to 1990s US export restrictions on cryptography. CVSS score is 3.7.

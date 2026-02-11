@@ -1,0 +1,95 @@
+# GR Atom: HTTP Delete
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPDELE-001"
+  name: "HTTP Delete"
+  normalized_name: "http_delete"
+  aliases:
+    - "HTTP DELETE Method"
+    - "DELETE Request"
+    - "REST DELETE"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - API
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP DELETE is one of the standard HTTP request methods defined in RFC 9110 that requests the
+    origin server to remove the association between the target resource and its current
+    functionality. A successful DELETE operation typically returns 200 (OK) with a response body,
+    204 (No Content) without a body, or 202 (Accepted) for asynchronous deletion. DELETE is
+    idempotent — multiple identical DELETE requests should have the same effect as a single
+    request. In RESTful API design, DELETE maps to the destroy/remove operation in CRUD
+    (Create, Read, Update, Delete) patterns.
+  why: >-
+    The HTTP DELETE method is a security-sensitive operation that, when improperly secured, can
+    lead to unauthorized data deletion, resource destruction, and denial of service. APIs exposing
+    DELETE endpoints without proper authentication and authorization enable attackers to remove
+    critical data. Mass DELETE operations can be weaponized for data destruction attacks.
+    Insecure Direct Object Reference (IDOR) vulnerabilities combined with DELETE methods allow
+    attackers to delete resources belonging to other users. WAF and API gateway configurations
+    should enforce strict access controls on DELETE operations.
+  how: >-
+    HTTP DELETE operates by sending a request with the DELETE method to the target resource URI.
+    The server validates the request against authentication credentials, authorization policies,
+    and resource existence before performing the deletion. Implementation patterns include:
+    soft delete (marking resources as deleted without physical removal), hard delete (permanent
+    removal), and cascading delete (removing dependent resources). Proper implementation requires
+    authentication verification, authorization checking, audit logging of deletion operations,
+    and confirmation mechanisms for irreversible deletions.
+  core_concepts:
+    - key: "Idempotency"
+      value: "Multiple identical DELETE requests produce the same server state as a single request — the resource is removed regardless of how many times DELETE is called."
+    - key: "Soft Delete vs. Hard Delete"
+      value: "Soft delete marks resources as deleted while retaining data for recovery; hard delete permanently removes data from storage."
+    - key: "CRUD Mapping"
+      value: "In RESTful API design, DELETE maps to the 'Delete' operation, removing the resource identified by the request URI."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP DELETE is one of the standard HTTP methods defined in the HTTP method specification"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP DELETE is a sub-component of the HTTP protocol for resource removal operations"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9.3.5 DELETE"
+    - "OWASP — REST Security Cheat Sheet"
+    - "MDN Web Docs — HTTP DELETE Method"
+  search_keywords:
+    - "HTTP DELETE"
+    - "DELETE method"
+    - "REST DELETE"
+    - "HTTP delete request"
+    - "resource deletion"
+    - "CRUD delete"
+    - "idempotent HTTP"
+    - "API delete endpoint"
+  embedding_text: >-
+    HTTP DELETE is a standard HTTP method defined in RFC 9110 that requests removal of the target
+    resource from the origin server. DELETE is idempotent and maps to the destroy operation in
+    RESTful CRUD patterns. Successful responses use status codes 200, 204, or 202. DELETE is a
+    security-sensitive operation requiring proper authentication and authorization enforcement.
+    Improperly secured DELETE endpoints enable unauthorized data deletion, IDOR-based attacks on
+    other users' resources, and data destruction denial of service. Implementation should include
+    authentication verification, authorization checking, audit logging, and consideration of soft
+    delete versus hard delete patterns.

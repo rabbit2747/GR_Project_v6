@@ -1,0 +1,112 @@
+# GR Atom: CVE-2022-1471
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE20221471-001"
+  name: "CVE-2022-1471"
+  normalized_name: "cve_2022_1471"
+  aliases:
+    - "SnakeYAML Constructor Deserialization RCE"
+    - "SnakeYAML Unsafe Deserialization"
+    - "YAML Deserialization Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - WEB
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "SnakeYAML Library"
+    - "Java Applications Processing YAML Input"
+    - "Spring Boot Applications with SnakeYAML"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-1471 is a critical remote code execution vulnerability in SnakeYAML, a widely used
+    Java YAML parsing library. The vulnerability exists in the Constructor class which by default
+    allows instantiation of arbitrary Java classes specified in YAML tags. An attacker can provide
+    malicious YAML input that triggers instantiation of dangerous classes leading to code execution.
+    CVSS score is 9.8. Affects SnakeYAML versions prior to 2.0. SnakeYAML is a transitive
+    dependency in Spring Boot and many other Java frameworks.
+  why: >-
+    SnakeYAML is one of the most widely used YAML parsing libraries in the Java ecosystem, included
+    as a transitive dependency in Spring Boot, Apache frameworks, and thousands of other projects.
+    The default Constructor allows arbitrary type instantiation, creating a deserialization attack
+    surface wherever untrusted YAML input is processed. The ubiquity of SnakeYAML makes this
+    vulnerability extremely widespread and challenging to remediate across the software ecosystem.
+  how: >-
+    The attacker provides YAML input containing type tags that specify dangerous Java classes to
+    instantiate. When SnakeYAML's Constructor processes the YAML, it creates instances of the
+    tagged classes and populates their properties. By specifying classes that execute code during
+    construction or property setting (such as javax.script.ScriptEngineManager or similar gadgets),
+    the attacker achieves arbitrary code execution. The attack requires the application to parse
+    untrusted YAML using the default Constructor without a SafeConstructor.
+  core_concepts:
+    - name: "YAML Type Tag Abuse"
+      value: "YAML tags specify arbitrary Java classes for instantiation, allowing attacker-controlled class loading"
+    - name: "Default Unsafe Constructor"
+      value: "SnakeYAML's default Constructor allows instantiation of any Java class, creating a broad attack surface"
+    - name: "Transitive Dependency Risk"
+      value: "SnakeYAML's inclusion as a transitive dependency in Spring Boot and other frameworks creates widespread exposure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "SnakeYAML deserialization is an instance of insecure deserialization in YAML processing"
+  - type: "applies_to"
+    target: "VUL-DESER-DESERIALIZ-001"
+    description: "SnakeYAML vulnerability is a specific manifestation of the deserialization vulnerability class"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1059"
+      tactic: ["Execution", "Initial Access"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2022-1471"
+    - "SnakeYAML GitHub Advisory"
+    - "Google Open Source Security Advisory"
+  search_keywords:
+    - "CVE-2022-1471"
+    - "SnakeYAML deserialization"
+    - "SnakeYAML RCE"
+    - "YAML deserialization vulnerability"
+    - "SnakeYAML Constructor"
+    - "Java YAML code execution"
+    - "Spring Boot SnakeYAML"
+    - "SnakeYAML type tag attack"
+  embedding_text: >-
+    CVE-2022-1471 is a critical remote code execution vulnerability in SnakeYAML, a widely used
+    Java YAML parsing library included as a transitive dependency in Spring Boot and thousands of
+    other projects. The default Constructor class allows instantiation of arbitrary Java classes
+    specified through YAML type tags. An attacker providing malicious YAML input can trigger
+    instantiation of dangerous gadget classes leading to arbitrary code execution. CVSS score is
+    9.8, affecting versions prior to 2.0. The vulnerability creates a deserialization attack
+    surface wherever untrusted YAML input is processed using the default Constructor. Mitigation
+    requires using SafeConstructor which restricts type instantiation to safe classes, upgrading
+    to SnakeYAML 2.0 which changed default behavior, or implementing input validation. The
+    ubiquity of SnakeYAML as a transitive dependency makes comprehensive remediation challenging
+    across the Java ecosystem.

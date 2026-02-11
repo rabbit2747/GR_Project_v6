@@ -1,0 +1,73 @@
+# GR Atom: SOC 2 Type I vs Type II
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-II-001"
+  name: "SOC 2 Type I vs Type II"
+  normalized_name: "soc_2_type_i_vs_type_ii"
+  aliases:
+    - "SOC 2 Type 1 vs Type 2"
+    - "SOC 2 Report Types"
+    - "SOC 2 Type I"
+    - "SOC 2 Type II"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "SOC 2 Type I and Type II are two distinct examination types under the SOC 2 auditing standard that differ in scope and depth of evaluation. A Type I report evaluates the suitability of the design of controls at a specific point in time, confirming that controls are appropriately designed to meet the applicable Trust Service Criteria. A Type II report evaluates both the design and the operating effectiveness of controls over a minimum period of 6 months (typically 12 months), providing evidence that controls not only exist but function consistently over time. Type II reports include detailed testing results showing how each control was tested and the outcomes of those tests."
+  why: "The distinction between Type I and Type II is critical for assessing the maturity and reliability of a service organization's control environment. Type I serves as an initial milestone demonstrating that controls are properly designed, often used by organizations starting their SOC 2 journey. Type II provides substantially greater assurance because it demonstrates sustained control operation over time, which is the standard expected by enterprise customers and required in most vendor risk management programs. Most organizations progress from Type I to Type II within their first two examination cycles."
+  how: "Organizations typically pursue Type I first by designing controls, implementing them, and engaging a CPA firm to assess control design at a point in time. The Type I examination involves documentation review, walkthroughs, and inquiry but does not test operating effectiveness. After establishing controls and operating them for at least 6 months, organizations progress to Type II, where the auditor performs detailed testing of control operation including sampling of transactions, inspection of logs, re-performance of processes, and observation of operational practices throughout the examination period. Type II examinations occur annually and cover the period since the previous examination."
+  core_concepts:
+    - key: "Design Effectiveness (Type I)"
+      value: "Evaluation that controls are suitably designed to achieve the control objective at a specific point in time"
+    - key: "Operating Effectiveness (Type II)"
+      value: "Evidence that controls functioned consistently and correctly throughout the examination period, not just at a point in time"
+    - key: "Examination Period"
+      value: "The time window covered by a Type II report, minimum 6 months, typically 12 months for annual examinations"
+    - key: "Testing of Controls"
+      value: "Audit procedures including inquiry, observation, inspection, and re-performance used to evaluate operating effectiveness in Type II"
+
+relations:
+  - type: part_of
+    target: "COMP-STANDARD-SOC2-001"
+    description: "Type I and Type II are the two examination types within the SOC 2 standard"
+  - type: enables
+    target: "COMP-STANDARD-SOC2COM-001"
+    description: "Understanding Type I vs Type II informs SOC 2 compliance framework strategy and maturity progression"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Both report types require audit compliance processes with increasing rigor for Type II"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AICPA SOC 2 Reporting Guidance - https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2"
+    - "SSAE 18 (AT-C Section 205) - Examination Engagements"
+    - "AICPA Guide: SOC 2 Reporting on Controls at a Service Organization"
+  search_keywords:
+    - "SOC 2 Type I"
+    - "SOC 2 Type II"
+    - "SOC 2 report types"
+    - "Type 1 vs Type 2"
+    - "design effectiveness"
+    - "operating effectiveness"
+    - "SOC 2 examination period"
+    - "SOC 2 audit types"
+    - "control testing"
+    - "SOC 2 maturity"
+  embedding_text: "SOC 2 Type I and Type II are distinct examination types differing in scope and assurance level. Type I evaluates control design suitability at a point in time through documentation review and walkthroughs. Type II evaluates both design and operating effectiveness over a minimum 6-month period through detailed testing including sampling, log inspection, re-performance, and observation. Type II provides substantially greater assurance and is the standard expected by enterprise customers. Organizations typically progress from Type I to Type II, establishing controls first then demonstrating sustained operation. Annual Type II examinations cover the period since the previous examination."

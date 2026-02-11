@@ -1,0 +1,94 @@
+# GR Atom: CVE-1999-1471
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE19991471-001"
+  name: "CVE-1999-1471"
+  normalized_name: "cve_1999_1471"
+  aliases:
+    - "ICQ Web Front Logic Flaw"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - INFO_LEAK
+    - PATH
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "ICQ Web Front"
+    - "Mirabilis ICQ"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-1999-1471 is a directory traversal vulnerability in ICQ Web Front that allows remote
+    attackers to read arbitrary files on the host system by using dot-dot-slash (../) sequences
+    in HTTP requests to the ICQ personal web server. The web front component fails to properly
+    validate URL paths, enabling access to files outside the intended shared directory.
+    CVSS v2 base score: 5.0 (Medium).
+  why: >-
+    ICQ was one of the most popular instant messaging clients in the late 1990s and included
+    a personal web server feature allowing users to share files. The directory traversal flaw
+    exposed personal files on user workstations to remote attackers, including documents,
+    email archives, and system configuration files. This vulnerability was significant because
+    ICQ ran on millions of desktop machines with limited security awareness.
+  how: >-
+    An attacker sends HTTP requests containing ../ directory traversal sequences to the ICQ
+    Web Front personal web server. The path validation logic fails to sanitize these sequences
+    before file system access, allowing navigation outside the configured shared directory
+    to read arbitrary files accessible to the ICQ process running under the user's context.
+  core_concepts:
+    - key: "Personal Web Server Traversal"
+      value: "Directory traversal in ICQ's personal web server feature exposes user files beyond the intended shared directory"
+    - key: "Desktop Application Exposure"
+      value: "Web server functionality embedded in a messaging client creates unexpected network attack surface on user workstations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Path validation logic flaw enabling directory traversal beyond intended boundaries"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-1999-1471"
+    - "NIST NVD - CVE-1999-1471"
+    - "BugTraq Advisory"
+  search_keywords:
+    - "CVE-1999-1471"
+    - "ICQ Web Front"
+    - "directory traversal"
+    - "ICQ vulnerability"
+    - "personal web server"
+    - "Mirabilis ICQ"
+  embedding_text: >-
+    CVE-1999-1471 is a directory traversal vulnerability in ICQ Web Front allowing remote
+    attackers to read arbitrary files on host systems using ../ sequences in HTTP requests.
+    The personal web server component fails to validate URL paths, enabling access outside
+    the shared directory. ICQ ran on millions of desktops, exposing personal documents and
+    configuration files. Path validation logic flaw in embedded web server functionality.
+    CVSS v2 5.0 Medium. Affects Mirabilis ICQ client. Discovered 1999.

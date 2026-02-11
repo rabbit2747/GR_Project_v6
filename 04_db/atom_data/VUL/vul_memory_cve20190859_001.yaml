@@ -1,0 +1,116 @@
+# GR Atom: CVE-2019-0859
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20190859-001"
+  name: "CVE-2019-0859"
+  normalized_name: "cve_2019_0859"
+  aliases:
+    - "Win32k Use-After-Free EoP"
+    - "Windows Win32k CreateWindowEx UAF"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Win32k kernel-mode driver"
+    - "Windows 7 through Windows 10 1809"
+    - "Windows Server 2008 through 2019"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-0859 is a use-after-free vulnerability (CVSS 7.0) in the Windows Win32k
+    kernel-mode driver that allows local privilege escalation to SYSTEM. The vulnerability
+    exists in the CreateWindowEx function's handling of window objects. Discovered by
+    Kaspersky Lab being actively exploited as a zero-day in March 2019, it was used in
+    targeted attacks to deploy a PowerShell-based backdoor. Microsoft patched it in April
+    2019. The exploit was notable for its use of a PowerShell reverse shell downloaded
+    from a paste service as the post-exploitation payload.
+  why: >-
+    CVE-2019-0859 exemplifies the persistent security challenges in Win32k, with yet another
+    use-after-free vulnerability in window object handling. The combination of kernel privilege
+    escalation with a PowerShell-based backdoor payload demonstrates modern attack chain
+    sophistication, where kernel exploits are seamlessly integrated with fileless malware
+    techniques. Detection of this zero-day by Kaspersky highlighted the importance of
+    behavioral detection for kernel exploitation.
+  how: >-
+    The exploit triggers a use-after-free condition in Win32k through specific manipulation
+    of the CreateWindowEx function and window callback procedures. By carefully timing window
+    creation and destruction operations, the attacker causes Win32k to reference freed memory
+    containing attacker-controlled data. This enables arbitrary code execution in kernel mode.
+    Once SYSTEM privileges are obtained, the exploit deploys a PowerShell one-liner that
+    downloads and executes a reverse shell script from a paste hosting service, establishing
+    fileless persistence and command-and-control.
+  core_concepts:
+    - key: "CreateWindowEx Use-After-Free"
+      value: "Window object lifecycle manipulation in CreateWindowEx creates use-after-free condition in Win32k kernel memory"
+    - key: "PowerShell Backdoor Integration"
+      value: "Post-exploitation deploys fileless PowerShell reverse shell downloaded from paste services"
+    - key: "Behavioral Zero-Day Detection"
+      value: "Discovered through behavioral detection of kernel exploitation rather than signature-based methods"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2019-0859 is a use-after-free memory corruption in Win32k kernel driver"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170263-001"
+    description: "Both are Win32k use-after-free privilege escalation vulnerabilities in window object handling"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20190803-001"
+    description: "Both are Win32k kernel privilege escalation vulnerabilities patched in April 2019"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2019-0859"
+    - "Kaspersky Lab - CVE-2019-0859 Zero-Day Discovery"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+    - "NVD Entry CVE-2019-0859 - CVSS 7.0"
+  search_keywords:
+    - "CVE-2019-0859"
+    - "Win32k"
+    - "use-after-free"
+    - "CreateWindowEx"
+    - "privilege escalation"
+    - "kernel exploit"
+    - "PowerShell backdoor"
+    - "zero-day"
+  embedding_text: >-
+    CVE-2019-0859 is a use-after-free vulnerability in Windows Win32k kernel-mode driver
+    with CVSS 7.0 enabling privilege escalation to SYSTEM through CreateWindowEx window
+    object manipulation. Discovered by Kaspersky as an active zero-day in March 2019, it
+    was used in targeted attacks deploying PowerShell-based fileless backdoors downloaded
+    from paste services. The exploit manipulates window creation and destruction timing to
+    cause Win32k to reference freed memory with attacker-controlled data for kernel code
+    execution. Patched in April 2019, it continues the pattern of Win32k use-after-free
+    vulnerabilities exploited for local privilege escalation.

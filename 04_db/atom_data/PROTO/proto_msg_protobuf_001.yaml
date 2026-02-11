@@ -1,0 +1,98 @@
+# GR Atom: Protobuf
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-PROTOBUF-001"
+  name: "Protobuf"
+  normalized_name: "protobuf"
+  aliases:
+    - "Protocol Buffers"
+    - "Google Protocol Buffers"
+    - "proto3"
+    - "proto2"
+    - "Protobuf Serialization"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - API
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: >-
+    Protocol Buffers (Protobuf) is a language-neutral, platform-neutral extensible mechanism for
+    serializing structured data, developed by Google. Protobuf uses .proto schema definition files
+    to define message structures, then generates language-specific code (C++, Java, Python, Go,
+    etc.) for serialization and deserialization. The binary wire format is significantly more
+    compact and faster to parse than JSON or XML. Protobuf is the primary serialization format
+    for gRPC remote procedure calls and is widely used in microservice architectures, data
+    storage, and inter-process communication. The current version is proto3 (2016).
+  why: >-
+    Protobuf's binary encoding format creates security challenges for network inspection. WAF,
+    IDS, and DPI systems designed for text-based protocols (JSON, XML) cannot inspect Protobuf
+    payloads without schema-aware decoding. This makes Protobuf-based APIs harder to monitor for
+    injection attacks, data exfiltration, and malicious payloads. Protobuf deserialization
+    vulnerabilities can cause denial of service through deeply nested messages, oversized fields,
+    or malformed wire format. Schema evolution (adding/removing fields) can introduce backward
+    compatibility issues creating unexpected application behavior.
+  how: >-
+    Protobuf operates through a schema-driven workflow: (1) Define message structures in .proto
+    files specifying field types, numbers, and rules; (2) Use the protoc compiler to generate
+    language-specific serialization code; (3) Application code creates message objects, populates
+    fields, and serializes to compact binary wire format; (4) Receiving application deserializes
+    the binary data back to structured objects. The wire format uses field number + type tags
+    followed by value encoding (varint, fixed-width, length-delimited). Unknown fields are
+    preserved during deserialization for forward compatibility.
+  core_concepts:
+    - key: "Schema Definition (.proto)"
+      value: "Declarative schema files defining message types, field types and numbers, enums, and service interfaces for code generation across programming languages."
+    - key: "Binary Wire Format"
+      value: "Compact binary encoding using field tags and efficient value encoding (varint for integers) achieving 3-10x size reduction versus JSON."
+    - key: "Schema Evolution"
+      value: "Adding, removing, or modifying fields while maintaining wire compatibility using field numbers and compatibility rules."
+    - key: "gRPC Integration"
+      value: "Protobuf is the default serialization format for gRPC, providing strongly-typed service definitions and efficient binary message exchange."
+
+relations:
+  - type: "enables"
+    target: "PROTO-MSG-REMPROCAL-001"
+    description: "Protobuf is the primary serialization format for gRPC and other modern RPC frameworks"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "Protobuf operates as an application layer serialization protocol for structured data exchange"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Google — Protocol Buffers Language Guide (proto3)"
+    - "Google — Protocol Buffers Encoding Specification"
+    - "gRPC — Protocol Buffers Integration Documentation"
+  search_keywords:
+    - "protobuf"
+    - "protocol buffers"
+    - "Google protobuf"
+    - "proto3"
+    - "binary serialization"
+    - "gRPC serialization"
+    - "protoc compiler"
+    - "proto file"
+    - "wire format"
+  embedding_text: >-
+    Protocol Buffers (Protobuf) is a Google-developed binary serialization format using .proto
+    schema files to define message structures and generate language-specific code. The compact
+    binary wire format achieves 3-10x size reduction versus JSON. Protobuf is the primary
+    serialization for gRPC and microservice communication. Security challenges include binary
+    encoding evading text-based WAF/IDS inspection, deserialization vulnerabilities from nested
+    or malformed messages, and schema evolution compatibility issues. Network security tools
+    require schema-aware decoding for effective Protobuf payload inspection.

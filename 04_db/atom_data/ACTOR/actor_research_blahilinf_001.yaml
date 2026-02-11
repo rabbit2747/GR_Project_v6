@@ -1,0 +1,76 @@
+# GR Atom: Black Hills InfoSec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-BLAHILINF-001"
+  name: "Black Hills InfoSec"
+  normalized_name: "black_hills_infosec"
+  aliases:
+    - "BHIS"
+    - "Black Hills Information Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - BLUE_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Black Hills Information Security (BHIS) is a cybersecurity consulting firm and research organization founded by John Strand, known for penetration testing, red team and blue team operations, threat hunting, and security training. BHIS is recognized for developing open-source security tools, hosting the Backdoors & Breaches tabletop exercise game, and running the popular webcasts and podcasts that provide free cybersecurity education. The organization also operates the Wild West Hackin' Fest conference and the Active Countermeasures division focused on threat hunting technology."
+  why: "BHIS is a significant contributor to the cybersecurity community through its dual focus on offensive and defensive security operations, open-source tool development, and free educational content. Their emphasis on practical, hands-on security training and community education helps bridge the cybersecurity skills gap and improves defensive capabilities across organizations of all sizes."
+  how: "BHIS provides penetration testing, red team assessments, threat hunting, and incident response services to enterprise clients. They develop and maintain open-source tools for security testing and threat hunting, deliver free educational webcasts and training content, and organize the Wild West Hackin' Fest conference. Their Active Countermeasures division produces threat hunting tools and training focused on network defense."
+  core_concepts:
+    - key: "Offensive Security Services"
+      value: "Penetration testing, red team operations, and vulnerability assessments for enterprise clients"
+    - key: "Community Education"
+      value: "Free webcasts, podcasts, and training resources to advance cybersecurity knowledge"
+    - key: "Threat Hunting"
+      value: "Proactive detection of adversary presence through Active Countermeasures division tools and techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BISHFOX-001"
+    description: "Fellow offensive security consulting and research organization"
+  - type: enables
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Contributes research presentations and training content to major security conferences"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security consulting firm
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.blackhillsinfosec.com"
+    - "https://www.activecountermeasures.com"
+  search_keywords:
+    - "black hills infosec"
+    - "BHIS"
+    - "john strand"
+    - "penetration testing"
+    - "red team"
+    - "blue team"
+    - "threat hunting"
+    - "wild west hackin fest"
+    - "active countermeasures"
+    - "backdoors and breaches"
+  embedding_text: "Black Hills Information Security (BHIS) is a cybersecurity consulting firm and research organization founded by John Strand, specializing in penetration testing, red team and blue team operations, threat hunting, and security training. BHIS develops open-source security tools, hosts the Backdoors and Breaches tabletop exercise game, and produces popular webcasts and podcasts providing free cybersecurity education. The organization operates the Wild West Hackin' Fest conference and the Active Countermeasures division focused on threat hunting technology. Their dual emphasis on offensive and defensive security operations, combined with extensive community education efforts, makes BHIS a significant contributor to bridging the cybersecurity skills gap and improving defensive capabilities across the security community."

@@ -1,0 +1,77 @@
+# GR Atom: Geo Anomaly
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-GEOANOM-001"
+  name: "Geo Anomaly"
+  normalized_name: "geo_anomaly"
+  aliases:
+    - "Geographic Anomaly Detection"
+    - "Location-Based Anomaly"
+    - "Geospatial Access Anomaly"
+    - "Unusual Location Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHN
+    - MONITOR
+    - CLOUD
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Geo Anomaly detection identifies authentication and access events originating from geographic locations that are unusual for a given user, organization, or resource. The detection baselines normal geographic access patterns including typical countries, regions, cities, and IP address ranges associated with each user and entity. Events originating from locations outside established patterns are flagged as anomalous. The technique encompasses first-time access from new countries, access from countries on organizational blocklists, simultaneous access from geographically distant locations, and access patterns inconsistent with known travel schedules."
+  why: "Geographic anomalies are strong indicators of account compromise, credential theft, and unauthorized access. When valid credentials are used from an unexpected location, it often means those credentials have been stolen through phishing, credential stuffing, or dark web marketplace purchases and are being used by a remote attacker. VPN and proxy services complicate but do not eliminate the value of geolocation analysis, as most users have consistent VPN exit patterns. Geo anomaly detection provides an important security signal that, when combined with other behavioral indicators, significantly improves detection of compromised accounts and unauthorized access."
+  how: "Authentication events are enriched with geolocation data derived from source IP addresses using GeoIP databases. Per-user profiles track historical access locations including countries, regions, cities, and specific IP ranges. Statistical models establish normal geographic patterns and calculate deviation scores for each new event. Detection rules flag events from new countries never previously seen for the user, events from high-risk countries on organizational watchlists, and events from locations that deviate significantly from the user's established pattern. The system accounts for legitimate travel by incorporating calendar data, travel request systems, and gradual pattern expansion. VPN and proxy detection enriches the analysis by identifying when source IPs belong to known VPN providers or anonymization services. Geo anomaly scores are combined with other behavioral signals in user risk profiles."
+  core_concepts:
+    - key: "GeoIP Resolution"
+      value: "The process of mapping IP addresses to geographic locations using databases maintained by providers like MaxMind, IP2Location, and commercial threat intelligence services"
+    - key: "Location Baseline"
+      value: "A per-user profile of normal geographic access patterns including typical countries, regions, and IP ranges"
+    - key: "High-Risk Geography"
+      value: "Countries or regions associated with elevated cyber threat activity or on organizational blocklists due to compliance requirements"
+
+relations:
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOVELO-001"
+    description: "Geo anomaly detection provides the location data foundation for geo velocity calculations"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOANOSCO-001"
+    description: "Individual geo anomalies are quantified into the geolocation anomaly score"
+  - type: enables
+    target: "DETECT-BEHAVIOR-GEOLALER-001"
+    description: "Geo anomaly detections trigger geolocation alerts"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic: ["Initial Access", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1078 - Valid Accounts - https://attack.mitre.org/techniques/T1078/"
+    - "Microsoft - Anomalous Sign-in Detection - https://learn.microsoft.com/en-us/entra/identity-protection/"
+    - "NIST SP 800-63B - Digital Identity Guidelines Authentication"
+  search_keywords:
+    - "geo anomaly detection"
+    - "geographic access anomaly"
+    - "unusual location login"
+    - "GeoIP authentication"
+    - "location-based access detection"
+    - "geographic behavioral analysis"
+    - "account compromise location"
+    - "geospatial security"
+  embedding_text: "Geo Anomaly detection identifies authentication events from geographic locations unusual for a given user or organization. It baselines normal access patterns including countries, regions, cities, and IP ranges per user, flagging deviations such as first-time country access, blocklisted country access, and simultaneous access from distant locations. GeoIP databases map source IPs to locations, while VPN and proxy detection enriches analysis. The technique accounts for legitimate travel through calendar integration and gradual pattern expansion. Combined with other behavioral signals in user risk profiles, geographic anomalies are strong indicators of credential theft and account compromise, providing critical detection of unauthorized access using stolen credentials."

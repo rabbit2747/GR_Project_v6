@@ -1,0 +1,81 @@
+# GR Atom: SingHealth
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-SINGHEALTH-001"
+  name: "SingHealth"
+  normalized_name: "singhealth"
+  aliases:
+    - "SingHealth Cyberattack"
+    - "SingHealth Data Breach"
+    - "Singapore Health Services"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INCIDENT
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SingHealth (Singapore Health Services) is Singapore's largest public healthcare group. In the cybersecurity context, SingHealth refers to the major cyberattack discovered in July 2018 in which threat actors exfiltrated personal data of 1.5 million patients, including the medical records of Singapore's Prime Minister Lee Hsien Loong. The attack, attributed to a sophisticated state-sponsored threat actor, exploited vulnerabilities in SingHealth's IT infrastructure over a period of months using advanced lateral movement, credential theft, and data exfiltration techniques. The incident became a landmark case study in healthcare cybersecurity and led to significant reforms in Singapore's cybersecurity governance."
+  why: "The SingHealth breach is one of the most significant healthcare data breaches in history and a critical case study for understanding targeted attacks against healthcare infrastructure. The incident led to the creation of the Committee of Inquiry (COI), whose detailed public report provided unprecedented transparency into how a state-sponsored attack was conducted and what organizational and technical failures enabled it. The lessons learned have influenced healthcare cybersecurity practices globally."
+  how: "The attackers gained initial access through a front-end workstation, established persistence, and conducted lateral movement through the network using stolen credentials and exploitation of vulnerabilities. They accessed the SCM (Sunrise Clinical Manager) database system and exfiltrated patient records over several months. The Committee of Inquiry identified failures in network segmentation, endpoint monitoring, incident response processes, and security awareness that allowed the attack to succeed."
+  core_concepts:
+    - key: "Healthcare Data Breach"
+      value: "Exfiltration of 1.5 million patient records from Singapore's largest public healthcare group"
+    - key: "State-Sponsored Attack"
+      value: "Sophisticated targeted attack attributed to a nation-state threat actor"
+    - key: "Cybersecurity Governance Reform"
+      value: "Post-breach reforms including the Committee of Inquiry and enhanced cybersecurity governance frameworks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Major breach extensively covered by cybersecurity news outlets"
+  - type: enables
+    target: "ACTOR-RESEARCH-CYBERSCOOP-001"
+    description: "State-sponsored attack reported on by policy-focused cybersecurity media"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078"
+    tactic:
+      - "Initial Access"
+      - "Lateral Movement"
+      - "Collection"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://en.wikipedia.org/wiki/2018_SingHealth_data_breach"
+    - "https://www.mci.gov.sg/pressroom/news-and-stories/pressroom/2019/1/public-report-of-the-coi"
+  search_keywords:
+    - "singhealth"
+    - "singapore healthcare breach"
+    - "singhealth data breach"
+    - "healthcare cyberattack"
+    - "patient data breach"
+    - "singapore cyber attack"
+    - "state-sponsored healthcare"
+    - "committee of inquiry"
+  embedding_text: "SingHealth refers to the major cyberattack against Singapore Health Services discovered in July 2018 in which threat actors exfiltrated personal data of 1.5 million patients including the medical records of Singapore's Prime Minister. Attributed to a sophisticated state-sponsored threat actor, the attack exploited vulnerabilities in SingHealth's IT infrastructure using advanced lateral movement, credential theft, and data exfiltration techniques over several months. The incident is one of the most significant healthcare data breaches in history and a critical case study for understanding targeted attacks against healthcare infrastructure. The subsequent Committee of Inquiry provided unprecedented transparency into how the attack was conducted and what organizational and technical failures enabled it, leading to significant reforms in Singapore's cybersecurity governance that have influenced healthcare cybersecurity practices globally."

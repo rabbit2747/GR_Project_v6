@@ -1,0 +1,72 @@
+# GR Atom: CVE-2022-34151
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202234151-001"
+  name: "CVE-2022-34151"
+  normalized_name: "cve_2022_34151"
+  aliases:
+    - "OMRON CX-Programmer Hardcoded Credentials"
+    - "OMRON PLC Authentication Bypass"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - AUTHN
+    - ICS
+    - CRED
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "OMRON CX-Programmer"
+    - "OMRON SYSMAC CS/CJ/CP Series PLCs"
+
+definition:
+  what: "CVE-2022-34151 is a hardcoded credential vulnerability in OMRON products including CX-Programmer and SYSMAC CS/CJ/CP series PLCs where an undocumented authentication mechanism uses hardcoded credentials that can be extracted and used by attackers to bypass authentication. The vulnerability allows an attacker to access the PLC with engineering-level privileges without valid credentials."
+  why: "OMRON PLCs are widely deployed in manufacturing, utilities, and critical infrastructure environments. Hardcoded credentials in ICS/SCADA equipment represent a severe security risk because they cannot be changed by the end user and provide direct access to programmable logic controllers that control physical processes. An attacker exploiting this vulnerability can reprogram PLCs to alter industrial processes, cause equipment damage, or create safety hazards."
+  how: "The vulnerability involves hardcoded authentication credentials embedded in the OMRON software and firmware that provide a backdoor authentication mechanism. Attackers can extract these credentials through reverse engineering of the CX-Programmer software or firmware analysis. Once obtained, the credentials allow direct FINS protocol connections to OMRON PLCs with full engineering access, enabling program upload/download, memory read/write, and PLC mode changes. OMRON released firmware updates to address the hardcoded credentials. CVSS v3: 9.4 (Critical)."
+  core_concepts:
+    - key: "Hardcoded ICS Credentials"
+      value: "Authentication credentials embedded in industrial control system firmware and software that cannot be changed by end users and provide backdoor access to PLCs"
+    - key: "PLC Engineering Access"
+      value: "Full programming and configuration access to Programmable Logic Controllers that enables modification of industrial process control logic"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2022-34151 is a configuration vulnerability involving hardcoded credentials in ICS products"
+  - type: applies_to
+    target: "VUL-CONFIG-VULNAPPL-001"
+    description: "Hardcoded credentials make the OMRON applications inherently vulnerable to authentication bypass"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T0859"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-34151 - NVD NIST"
+    - "ICS-CERT Advisory ICSA-22-314-01"
+    - "OMRON Security Advisory"
+    - "MITRE ATT&CK for ICS T0859 - Valid Accounts"
+  search_keywords:
+    - "CVE-2022-34151"
+    - "OMRON hardcoded credentials"
+    - "OMRON PLC vulnerability"
+    - "ICS hardcoded password"
+    - "OMRON CX-Programmer"
+    - "SCADA authentication bypass"
+    - "PLC backdoor credentials"
+  embedding_text: "CVE-2022-34151 is a hardcoded credential vulnerability in OMRON CX-Programmer and SYSMAC CS/CJ/CP series PLCs where undocumented authentication mechanisms use extractable hardcoded credentials. Attackers can bypass authentication to gain engineering-level access to PLCs that control industrial processes. OMRON PLCs are widely deployed in manufacturing and critical infrastructure. CVSS v3 score is 9.4 Critical. Exploiting this vulnerability allows PLC reprogramming, memory modification, and mode changes that can alter physical processes or create safety hazards. Maps to MITRE ATT&CK for ICS T0859 Valid Accounts."

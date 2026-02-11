@@ -1,0 +1,119 @@
+# GR Atom: WebSphere
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WEBSPHERE-001"
+  name: "WebSphere"
+  normalized_name: "websphere"
+  aliases:
+    - "IBM WebSphere"
+    - "IBM WebSphere Application Server"
+    - "WAS"
+    - "WebSphere Liberty"
+    - "IBM WAS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - API
+    - DESER
+    - HTTP
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    IBM WebSphere Application Server (WAS) is a Java EE (Jakarta EE) application server
+    providing a runtime environment for enterprise Java applications. Available in traditional
+    (full-profile), Liberty (lightweight), and Network Deployment editions, it supports
+    application hosting, clustering, messaging (JMS), web services, and transaction management.
+    WebSphere is extensively deployed in banking, insurance, government, and large enterprise
+    environments for mission-critical applications.
+  why: >-
+    WebSphere has been affected by critical Java deserialization vulnerabilities similar to
+    WebLogic, including CVE-2015-7450 (Apache Commons Collections deserialization in SOAP
+    connector) and CVE-2020-4450 (IIOP deserialization RCE). The administration console
+    (typically port 9060/9043) provides a management interface that can be targeted for
+    authentication bypass. WebSphere's role in financial and government systems makes it a
+    high-value target for state-sponsored actors. Misconfigured CORS policies, SOAP endpoints,
+    and deployment descriptors can expose application internals and enable exploitation.
+  how: >-
+    WebSphere Application Server runs as a Java process with a cell/node/server topology.
+    The Deployment Manager coordinates multiple nodes in Network Deployment configurations.
+    The administration console operates on ports 9060 (HTTP) and 9043 (HTTPS). Applications
+    are deployed as WAR/EAR archives. SOAP and IIOP connectors handle inter-process
+    communication. WebSphere uses LDAP, file-based, and custom authentication registries.
+    Liberty profile provides a lightweight alternative with dynamic feature loading. The
+    platform integrates with IBM MQ for messaging and IBM DB2 for data persistence.
+  core_concepts:
+    - key: "Java Deserialization Attacks"
+      value: "SOAP connector and IIOP deserialization vulnerabilities enable unauthenticated RCE on WebSphere deployments processing untrusted serialized objects"
+    - key: "Financial Sector Prevalence"
+      value: "Extensive deployment in banking and financial services makes WebSphere vulnerabilities high-impact for critical financial infrastructure"
+    - key: "Administration Console Targeting"
+      value: "WebSphere admin console on ports 9060/9043 provides management access targeted by authentication bypass and exploitation attempts"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "WebSphere is a Java EE application server that serves as web server application infrastructure"
+  - type: "alternative_to"
+    target: "INFRA-APP-WEBLOGIC-001"
+    description: "WebSphere competes with Oracle WebLogic as an enterprise Java application server"
+  - type: "alternative_to"
+    target: "INFRA-APP-WILDFLY-001"
+    description: "WebSphere is a commercial alternative to the open-source WildFly Java EE application server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IBM WebSphere Application Server Security Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "IBM Security Bulletins for WebSphere"
+  search_keywords:
+    - "IBM WebSphere"
+    - "WebSphere Application Server"
+    - "WebSphere vulnerability"
+    - "WebSphere deserialization"
+    - "CVE-2015-7450"
+    - "WAS security"
+    - "WebSphere Liberty"
+    - "WebSphere admin console exploit"
+  embedding_text: >-
+    IBM WebSphere Application Server is a Java EE platform extensively deployed in banking,
+    government, and large enterprises. Available in traditional, Liberty, and Network Deployment
+    editions, it supports clustering, JMS, and web services. WebSphere has critical
+    deserialization vulnerabilities (CVE-2015-7450, CVE-2020-4450) in SOAP and IIOP connectors
+    enabling unauthenticated RCE. The administration console on ports 9060/9043 is targeted
+    for exploitation. Its financial sector prevalence makes vulnerabilities high-impact.
+    Security teams should restrict SOAP/IIOP connector access, secure the admin console,
+    apply IBM security bulletins promptly, implement network segmentation, and monitor for
+    deserialization exploit attempts targeting WebSphere infrastructure.

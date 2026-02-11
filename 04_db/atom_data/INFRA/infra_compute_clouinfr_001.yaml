@@ -1,0 +1,102 @@
+# GR Atom: Cloud Infrastructure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOUINFR-001"
+  name: "Cloud Infrastructure"
+  normalized_name: "cloud_infrastructure"
+  aliases:
+    - "Cloud Computing Infrastructure"
+    - "Cloud Platform Infrastructure"
+    - "IaaS Infrastructure"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - IAC
+    - HA
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Cloud Infrastructure refers to the collective set of virtualized compute, storage, networking,
+    and platform resources delivered as on-demand services by cloud service providers such as
+    AWS, Azure, and GCP. It encompasses the physical data centers, hypervisors, virtual machines,
+    containers, serverless runtimes, software-defined networking, and object/block storage that
+    form the foundation for cloud-based application deployment. Cloud infrastructure operates
+    under shared responsibility models between providers and customers.
+  why: >-
+    Cloud infrastructure has become the dominant computing model for enterprises, creating a
+    massive and dynamic attack surface. Understanding cloud infrastructure is essential for
+    cybersecurity because it introduces unique threat vectors including misconfigured services,
+    excessive IAM permissions, exposed APIs, insecure defaults, and multi-tenant isolation
+    failures. The shared responsibility model means organizations must actively secure their
+    portion of the cloud stack or face data breaches and compliance violations.
+  how: >-
+    Cloud infrastructure is provisioned through provider management consoles, APIs, CLIs, and
+    Infrastructure-as-Code tools. Compute resources run on hypervisor-managed hardware in
+    geographically distributed data centers organized into regions and availability zones.
+    Software-defined networking provides virtual networks, load balancers, and DNS services.
+    Identity and access management controls authentication and authorization. Monitoring,
+    logging, and security services provide observability and threat detection across the stack.
+  core_concepts:
+    - key: "Shared Responsibility Model"
+      value: "Cloud providers secure the infrastructure layer while customers are responsible for securing their data, configurations, and application workloads"
+    - key: "Infrastructure as Code"
+      value: "Programmatic provisioning and management of cloud resources through declarative templates enabling version control and automated compliance"
+    - key: "Multi-Tenancy"
+      value: "Physical infrastructure shared among multiple customers with logical isolation enforced through hypervisors, virtual networks, and access controls"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "Cloud infrastructure is the abstract concept that AWS implements as a concrete cloud platform"
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "Cloud infrastructure is the abstract concept that Microsoft Azure implements as a concrete cloud platform"
+  - type: "abstracts"
+    target: "INFRA-COMPUTE-GCP-001"
+    description: "Cloud infrastructure is the abstract concept that GCP implements as a concrete cloud platform"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-145 - The NIST Definition of Cloud Computing"
+    - "CSA Cloud Controls Matrix v4.0"
+    - "MITRE ATT&CK Cloud Matrix"
+  search_keywords:
+    - "cloud infrastructure"
+    - "cloud computing infrastructure"
+    - "IaaS"
+    - "cloud platform"
+    - "cloud security"
+    - "shared responsibility model"
+    - "multi-tenant cloud"
+  embedding_text: >-
+    Cloud Infrastructure encompasses the virtualized compute, storage, networking, and platform
+    resources delivered as on-demand services by cloud providers including AWS, Azure, and GCP.
+    It includes physical data centers, hypervisors, virtual machines, containers, serverless
+    runtimes, software-defined networking, and storage systems organized into geographically
+    distributed regions and availability zones. Cloud infrastructure operates under shared
+    responsibility models where providers secure the physical layer while customers secure their
+    workloads and configurations. Key security concerns include misconfigured services, excessive
+    IAM permissions, exposed APIs, multi-tenant isolation failures, and the need for
+    Infrastructure-as-Code to enable auditable and repeatable deployments.

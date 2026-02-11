@@ -1,0 +1,123 @@
+# GR Atom: MobileIron
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-MOBILEIRON-001"
+  name: "MobileIron"
+  normalized_name: "mobileiron"
+  aliases:
+    - "Ivanti MobileIron"
+    - "Ivanti Endpoint Manager Mobile"
+    - "MobileIron Core"
+    - "MobileIron UEM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - MOBILE
+    - CLOUD
+    - CONFIG
+    - AUTHN
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MobileIron (now Ivanti Endpoint Manager Mobile) is a unified endpoint management (UEM)
+    and mobile device management (MDM) platform that provides device enrollment, configuration
+    management, application deployment, and security policy enforcement across iOS, Android,
+    Windows, and macOS devices. MobileIron Core serves as the management server handling
+    device enrollment, policy distribution, and compliance evaluation. MobileIron Sentry
+    provides secure gateway access for managed devices to corporate resources.
+  why: >-
+    MobileIron infrastructure has been targeted by multiple critical vulnerabilities including
+    CVE-2020-15505 (remote code execution), CVE-2021-36260 (authentication bypass), and
+    other RCE and authentication bypass flaws. The MobileIron Core server is internet-facing
+    by design for device enrollment, making it an attractive initial access target.
+    Compromise of the MDM platform enables mass device management manipulation, deployment
+    of malicious profiles, credential harvesting from managed devices, and remote wipe
+    capabilities. APT actors have exploited MobileIron vulnerabilities for initial access
+    to enterprise networks.
+  how: >-
+    MobileIron Core manages device lifecycles through enrollment, configuration, and
+    retirement. Devices connect to MobileIron Core for policy updates, compliance checks,
+    and application management. MobileIron Sentry acts as a gateway between managed devices
+    and internal resources, providing conditional access based on device compliance.
+    Configuration profiles define security policies including encryption requirements,
+    passcode policies, VPN configurations, and certificate deployment. The admin portal
+    provides centralized management for device fleet operations. MobileIron integrates
+    with enterprise identity providers for authentication and directory services.
+  core_concepts:
+    - key: "Internet-Facing Attack Surface"
+      value: "MobileIron Core is internet-exposed for device enrollment, making it a high-value target for initial access through RCE vulnerabilities"
+    - key: "MDM Compromise Impact"
+      value: "Compromise enables mass malicious profile deployment, credential harvesting, remote wipe, and persistent access across all managed devices"
+    - key: "Sentry Gateway"
+      value: "MobileIron Sentry provides conditional access gateway between managed devices and internal resources based on compliance status"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "MobileIron provides device identity and compliance signals for authentication decisions"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-INTUNE-001"
+    description: "MobileIron serves as an alternative to Intune for mobile device and endpoint management"
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "MobileIron integrates with directory services for user identity and group-based policy assignment"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1072"
+    tactic:
+      - "Execution"
+      - "Lateral Movement"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Ivanti Documentation - Endpoint Manager Mobile"
+    - "MITRE ATT&CK T1072 - Software Deployment Tools"
+    - "CISA Advisory - MobileIron Core Vulnerability CVE-2020-15505"
+  search_keywords:
+    - "MobileIron"
+    - "Ivanti Endpoint Manager Mobile"
+    - "MobileIron Core"
+    - "CVE-2020-15505"
+    - "MobileIron vulnerability"
+    - "MDM platform"
+    - "MobileIron Sentry"
+    - "mobile device management"
+  embedding_text: >-
+    MobileIron (Ivanti Endpoint Manager Mobile) is a UEM and MDM platform providing device
+    enrollment, configuration management, application deployment, and security policy
+    enforcement across mobile and desktop devices. MobileIron Core is the management server
+    and Sentry provides secure gateway access. The platform has been targeted by critical
+    vulnerabilities including CVE-2020-15505 (RCE) and authentication bypass flaws. The
+    internet-facing enrollment endpoint makes it an attractive initial access target. MDM
+    compromise enables mass malicious profile deployment, credential harvesting, and remote
+    device control. APT actors have exploited MobileIron for enterprise network access.
+    Security teams must maintain aggressive patching, restrict admin portal access, monitor
+    for unauthorized profile deployments, implement network segmentation for MDM servers,
+    and audit device enrollment for unauthorized additions.

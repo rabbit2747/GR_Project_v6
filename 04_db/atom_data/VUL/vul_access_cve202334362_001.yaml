@@ -1,0 +1,132 @@
+# GR Atom: CVE-2023-34362
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE202334362-001"
+  name: "CVE-2023-34362"
+  normalized_name: "cve_2023_34362"
+  aliases:
+    - "MOVEit Transfer SQL Injection"
+    - "MOVEit Zero-Day"
+    - "Progress MOVEit Vulnerability"
+    - "Cl0p MOVEit Exploitation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - INITIAL
+    - EXFIL
+    - WEB
+    - DATABASE
+    - MSSQL
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Progress MOVEit Transfer"
+    - "MOVEit Transfer web application"
+    - "MOVEit Cloud"
+    - "Microsoft SQL Server backend"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-34362 is a critical SQL injection vulnerability in Progress Software's MOVEit
+    Transfer managed file transfer application, disclosed as a zero-day in May 2023 with a
+    CVSS score of 9.8. The vulnerability allows unauthenticated remote attackers to execute
+    arbitrary SQL statements against the MOVEit Transfer database by sending crafted HTTP
+    requests to the web application. Exploitation enables attackers to access, modify, or
+    delete data in the MOVEit database, deploy web shells for persistent access, and
+    exfiltrate sensitive files transferred through the platform. The vulnerability was
+    mass-exploited by the Cl0p ransomware group in a campaign that affected over 2,500
+    organizations and 65 million individuals globally.
+  why: >-
+    MOVEit Transfer is a widely used enterprise managed file transfer solution deployed by
+    government agencies, financial institutions, healthcare organizations, and Fortune 500
+    companies for secure data exchange. The Cl0p group's mass exploitation campaign beginning
+    in late May 2023 represented one of the largest supply chain attacks in history, affecting
+    organizations across every sector. Stolen data was used for extortion, with Cl0p
+    threatening public release of sensitive files. Notable victims included the US Department
+    of Energy, Shell, British Airways, BBC, and numerous financial institutions and government
+    agencies.
+  how: >-
+    Attackers send crafted HTTP requests to the MOVEit Transfer web application exploiting a
+    SQL injection vulnerability in the file transfer workflow. The injected SQL queries execute
+    against the Microsoft SQL Server database backend with elevated privileges. The attack
+    chain typically deploys a web shell (human2.aspx) for persistent access, then executes
+    Azure Blob Storage commands to exfiltrate transferred files en masse. The Cl0p group
+    automated the exploitation across thousands of internet-facing MOVEit instances. Subsequent
+    related vulnerabilities CVE-2023-35036 and CVE-2023-35708 were discovered during
+    investigation. Mitigation includes applying Progress patches, checking for web shell
+    indicators, auditing database and file access logs, and implementing WAF rules.
+  core_concepts:
+    - key: "Managed File Transfer Attack"
+      value: "SQL injection in enterprise file transfer platform enables mass exfiltration of sensitive data from thousands of organizations simultaneously"
+    - key: "Supply Chain Impact"
+      value: "Single vulnerability in shared platform affected 2,500+ organizations and 65 million individuals through Cl0p ransomware group mass exploitation"
+    - key: "Web Shell Persistence"
+      value: "Attackers deploy human2.aspx web shell for persistent access and automated data exfiltration via Azure Blob Storage commands"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "MOVEit SQL injection bypasses authentication and authorization controls through database-level access"
+  - type: "supersedes"
+    target: "VUL-ACCESS-CVE201813379-001"
+    description: "MOVEit (2023) exceeded FortiGate (2019) in mass exploitation scale as an enterprise appliance initial access vector"
+  - type: "enables"
+    target: "VUL-ACCESS-FILEUPLO-001"
+    description: "MOVEit exploitation enables web shell upload for persistent access in the file transfer platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Exfiltration"
+  cve_id: "CVE-2023-34362"
+  cvss_score: 9.8
+  affected_product: "Progress MOVEit Transfer"
+  disclosure_year: 2023
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Progress Security Advisory for MOVEit Transfer"
+    - "NVD CVE-2023-34362 CVSS 9.8"
+    - "CISA Alert - Cl0p MOVEit Transfer Exploitation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2023-34362"
+    - "MOVEit Transfer"
+    - "MOVEit vulnerability"
+    - "Cl0p ransomware"
+    - "MOVEit SQL injection"
+    - "managed file transfer exploit"
+    - "Progress MOVEit"
+    - "human2.aspx web shell"
+  embedding_text: >-
+    CVE-2023-34362 is a critical SQL injection vulnerability (CVSS 9.8) in Progress MOVEit
+    Transfer managed file transfer application. Unauthenticated attackers execute arbitrary
+    SQL against MSSQL backend, deploy web shells (human2.aspx), and exfiltrate files via
+    Azure Blob Storage. Mass-exploited by Cl0p ransomware group affecting 2,500+ organizations
+    and 65 million individuals including US DOE, Shell, BBC, and British Airways. Largest
+    supply chain attack of 2023. Subsequent CVE-2023-35036 and CVE-2023-35708 discovered
+    during investigation. Mitigation requires patches, web shell detection, database audit,
+    and WAF rules. Enterprise managed file transfer as critical attack surface.

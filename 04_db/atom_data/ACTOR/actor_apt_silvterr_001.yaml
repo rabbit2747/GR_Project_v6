@@ -1,0 +1,86 @@
+# GR Atom: Silver Terrier
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-SILVTERR-001"
+  name: "Silver Terrier"
+  normalized_name: "silver_terrier"
+  aliases:
+    - "Nigerian BEC Actors"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - CRED
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Silver Terrier is a collective designation used by Palo Alto Networks Unit 42 to track a large cluster of Nigerian cybercriminal threat actors conducting business email compromise (BEC), credential phishing, and malware distribution campaigns. The collective encompasses hundreds of individual actors and groups operating from Nigeria, responsible for billions of dollars in financial losses globally. Silver Terrier actors target organizations across all industries worldwide with sophisticated social engineering and commodity malware."
+  why: "Silver Terrier represents one of the most financially impactful cyber threat ecosystems globally, with BEC attacks causing over $50 billion in cumulative losses according to FBI estimates. The collective's sophistication has evolved from simple advance-fee fraud to technically complex operations involving commodity RATs, credential harvesting, and man-in-the-mailbox attacks. The scale and financial impact make Nigerian BEC operations one of the highest-priority cybercrime threats."
+  how: "Silver Terrier actors employ business email compromise schemes including CEO fraud, invoice manipulation, and payroll diversion. They use spear-phishing emails to deliver commodity malware such as Agent Tesla, LokiBot, Pony, ISRStealer, and NanoCore RAT for credential harvesting. Compromised email accounts are used for man-in-the-mailbox attacks to intercept and redirect financial transactions. The actors leverage free or low-cost email services, bulletproof hosting, and VPN services for operational infrastructure."
+  core_concepts:
+    - key: "Business Email Compromise"
+      value: "Sophisticated social engineering attacks impersonating executives and business partners to redirect financial transactions and harvest credentials"
+    - key: "Commodity Malware Ecosystem"
+      value: "Widespread deployment of affordable commodity RATs including Agent Tesla, LokiBot, and NanoCore for credential theft and account takeover"
+    - key: "Financial Fraud Scale"
+      value: "Billions of dollars in global losses from BEC and email fraud operations spanning hundreds of individual threat actors"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Nigerian cybercriminal collective conducting large-scale BEC and credential theft operations"
+  - type: enables
+    target: "ATK-PHISH-BEC-001"
+    description: "Conducts sophisticated business email compromise attacks for financial fraud"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "credential-access"
+      - "collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Palo Alto Networks Unit 42 - Silver Terrier research series"
+    - "FBI IC3 - Business Email Compromise annual reports"
+    - "Interpol - African cyber threat assessment"
+  search_keywords:
+    - "silver terrier"
+    - "nigerian bec"
+    - "business email compromise"
+    - "agent tesla"
+    - "lokibot"
+    - "nanocore rat"
+    - "ceo fraud"
+    - "invoice fraud"
+    - "email fraud"
+    - "unit 42"
+    - "credential harvesting"
+    - "nigerian cybercrime"
+  embedding_text: "Silver Terrier is a collective designation by Palo Alto Networks Unit 42 tracking a large cluster of Nigerian cybercriminal threat actors conducting business email compromise, credential phishing, and malware distribution campaigns. The collective encompasses hundreds of actors responsible for billions of dollars in global financial losses. Silver Terrier actors employ BEC schemes including CEO fraud and invoice manipulation, deploy commodity malware such as Agent Tesla, LokiBot, and NanoCore RAT for credential harvesting, and use compromised email accounts for man-in-the-mailbox attacks. The collective's evolution from simple advance-fee fraud to technically complex operations represents one of the highest-priority cybercrime threats globally."

@@ -1,0 +1,87 @@
+# GR Atom: File Get Permissions Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILGETPER-001"
+  name: "File Get Permissions Event"
+  normalized_name: "file_get_permissions_event"
+  aliases:
+    - "File Permission Query"
+    - "ACL Read Event"
+    - "File Security Descriptor Query"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - AUDIT
+    - LOG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when a process queries the security permissions of a file on an endpoint. This event captures reads of file Access Control Lists (ACLs), security descriptors, owner information, and discretionary/system access control entries (DACLs/SACLs). The event records the target file, requesting process, user context, and the specific permission information retrieved."
+  why: "Permission queries are a key reconnaissance technique during privilege escalation and lateral movement. Attackers enumerate file permissions to identify misconfigured ACLs, world-writable directories, files with weak DACLs, and opportunities for DLL hijacking or service binary replacement. Detecting systematic permission enumeration enables early identification of privilege escalation attempts."
+  how: "Monitor GetSecurityInfo, GetNamedSecurityInfo, and NtQuerySecurityObject system calls through ETW providers and EDR hooks. Track Security Event 4656 (handle request with READ_CONTROL access) for SACL-audited files. Apply anomaly detection to identify processes performing bulk permission queries across sensitive directories. Correlate with subsequent permission modification events to detect complete privilege escalation attack chains."
+  core_concepts:
+    - key: "Access Control List"
+      value: "Security data structure defining which users and groups have what permissions on a file, consisting of Discretionary ACL (DACL) and System ACL (SACL) components"
+    - key: "Security Descriptor"
+      value: "Windows security object containing owner, group, DACL, and SACL information that governs access control for a file system object"
+    - key: "Permission Enumeration"
+      value: "The systematic querying of file permissions across directories to identify misconfigured access controls exploitable for privilege escalation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File permission queries are a specific type of file event"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILSETPER-001"
+    description: "Permission queries precede permission modification in privilege escalation chains"
+  - type: effective_against
+    target: "ATK-PRIVESC-WEAKPERM-001"
+    description: "Detects enumeration of weak file permissions for privilege escalation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1083"
+    tactic:
+      - "Discovery"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1083 - File and Directory Discovery"
+    - "Microsoft Documentation - GetSecurityInfo Function"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "file permissions"
+    - "ACL query"
+    - "security descriptor"
+    - "GetSecurityInfo"
+    - "file permission enumeration"
+    - "DACL read"
+    - "access control list"
+    - "permission discovery"
+  embedding_text: "File Get Permissions Event is an endpoint detection pattern for events generated when processes query file security permissions. This covers reads of Access Control Lists, security descriptors, owner information, and DACL/SACL entries. Permission queries are a key reconnaissance technique during privilege escalation where attackers enumerate file permissions to identify misconfigured ACLs, world-writable directories, and DLL hijacking opportunities. Detection monitors GetSecurityInfo, GetNamedSecurityInfo, and NtQuerySecurityObject calls through ETW providers, tracks Windows Event 4656 for permission reads, and applies anomaly detection for bulk permission queries correlated with subsequent modification events."

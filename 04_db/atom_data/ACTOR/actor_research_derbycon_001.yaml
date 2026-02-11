@@ -1,0 +1,72 @@
+# GR Atom: DerbyCon
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-DERBYCON-001"
+  name: "DerbyCon"
+  normalized_name: "derbycon"
+  aliases:
+    - "Derby Con"
+    - "DerbyCon Conference"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DerbyCon was an annual information security conference held in Louisville, Kentucky from 2011 to 2019, founded by Dave Kennedy and Martin Bos. The conference was known for its strong community focus, affordable pricing, and high-quality technical talks covering penetration testing, red teaming, social engineering, exploit development, and defensive security. DerbyCon was widely regarded as one of the most community-oriented hacker conferences, featuring a single-track format that promoted shared experiences and networking among attendees."
+  why: "DerbyCon was influential in the cybersecurity community for democratizing access to security conference content through its affordable pricing and welcoming atmosphere. Many significant security tools, techniques, and research findings were first presented at DerbyCon. Although the conference ended in 2019, its recorded talks remain a valuable educational resource, and its community-first model influenced the design of subsequent security conferences."
+  how: "DerbyCon operated as a single-track conference with technical presentations, hands-on workshops, capture-the-flag competitions, and extensive networking opportunities. Speakers included both well-known security researchers and newcomers, fostering diversity in perspectives. Talks were recorded and made freely available online, extending the conference's educational impact beyond in-person attendance."
+  core_concepts:
+    - key: "Community-Focused Conference"
+      value: "Affordable, welcoming security conference emphasizing community building and shared learning"
+    - key: "Offensive Security Presentations"
+      value: "High-quality talks on penetration testing, red teaming, social engineering, and exploit development"
+    - key: "Knowledge Democratization"
+      value: "Free availability of recorded conference talks extending educational impact globally"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-BLACHAT-001"
+    description: "Fellow cybersecurity conference in the infosec conference ecosystem"
+  - type: is_a
+    target: "ACTOR-RESEARCH-SHMOOCON-001"
+    description: "Fellow community-oriented hacker conference"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for conference
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://en.wikipedia.org/wiki/DerbyCon"
+  search_keywords:
+    - "derbycon"
+    - "hacker conference"
+    - "security conference"
+    - "penetration testing"
+    - "dave kennedy"
+    - "louisville"
+    - "infosec community"
+    - "red team conference"
+  embedding_text: "DerbyCon was an annual information security conference held in Louisville, Kentucky from 2011 to 2019, founded by Dave Kennedy and Martin Bos. Known for its strong community focus, affordable pricing, and high-quality technical talks, the conference covered penetration testing, red teaming, social engineering, exploit development, and defensive security in a single-track format that promoted shared experiences. DerbyCon was influential in democratizing access to security conference content and many significant security tools and techniques were first presented there. Although the conference ended in 2019, its recorded talks remain a valuable educational resource and its community-first model influenced the design of subsequent security conferences in the infosec ecosystem."

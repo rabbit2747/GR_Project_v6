@@ -1,0 +1,110 @@
+# GR Atom: AWS GuardDuty
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-AWSGUAR-001"
+  name: "AWS GuardDuty"
+  normalized_name: "aws_guardduty"
+  aliases:
+    - "Amazon GuardDuty"
+    - "GuardDuty"
+    - "AWS Threat Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - AWS
+    - CLOUD
+    - SIEM
+    - THREAT_INTEL
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z4"
+  function: "M3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS GuardDuty is a managed threat detection service that continuously monitors AWS accounts
+    and workloads for malicious activity and unauthorized behavior. It analyzes multiple AWS
+    data sources including VPC Flow Logs, AWS CloudTrail management and data events, DNS logs,
+    Amazon EBS volume data, Amazon S3 data events, Amazon EKS audit logs, and RDS login
+    activity. GuardDuty uses machine learning, anomaly detection, and integrated threat
+    intelligence feeds to identify threats and generate security findings classified by severity.
+  why: >-
+    GuardDuty addresses the critical challenge of threat detection in cloud environments where
+    traditional network-based security tools have limited visibility. It detects cloud-specific
+    threats including cryptocurrency mining, unauthorized API calls from compromised credentials,
+    data exfiltration from S3 buckets, Kubernetes cluster compromise, container escape attacks,
+    and command-and-control communications. GuardDuty findings feed into AWS Security Hub for
+    centralized security management and can trigger automated remediation through EventBridge
+    and Lambda functions.
+  how: >-
+    GuardDuty operates as a fully managed service requiring no agent deployment. When enabled,
+    it automatically ingests VPC Flow Logs, CloudTrail events, DNS query logs, and other data
+    sources through internal AWS APIs without impacting performance. The service applies machine
+    learning models trained on AWS-scale threat patterns, anomaly detection baselines established
+    per account, and threat intelligence feeds from AWS, CrowdStrike, and Proofpoint. Findings
+    are categorized as Recon, UnauthorizedAccess, Trojan, Exfiltration, CryptoCurrency,
+    Stealth, and Impact types with Low/Medium/High severity. Multi-account management uses
+    AWS Organizations with delegated administrator configuration.
+  core_concepts:
+    - key: "Agentless Cloud Threat Detection"
+      value: "Fully managed service requiring no agent deployment, analyzing cloud-native data sources for threat indicators"
+    - key: "Machine Learning Anomaly Detection"
+      value: "ML models trained on AWS-scale patterns establish per-account behavioral baselines to identify anomalous and malicious activity"
+    - key: "Multi-Source Analysis"
+      value: "Correlates findings across VPC Flow Logs, CloudTrail, DNS, EKS, S3, RDS, and EBS data sources for comprehensive threat detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-AZURSENT-001"
+    description: "GuardDuty findings can be forwarded to Azure Sentinel in multi-cloud SIEM architectures for centralized analysis"
+  - type: "requires"
+    target: "INFRA-ENDPOINT-CLOSERSEN-001"
+    description: "GuardDuty depends on cloud service telemetry from AWS-native sensors and log sources"
+  - type: "implements"
+    target: "DEF-DETECT-THREATDETECT-001"
+    description: "GuardDuty implements automated cloud threat detection using ML and threat intelligence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation - Amazon GuardDuty User Guide"
+    - "AWS Security Blog - GuardDuty Threat Detection Features"
+    - "MITRE ATT&CK - Cloud Service Detection Techniques"
+  search_keywords:
+    - "AWS GuardDuty"
+    - "Amazon GuardDuty"
+    - "cloud threat detection"
+    - "AWS security monitoring"
+    - "GuardDuty findings"
+    - "VPC Flow Log analysis"
+    - "CloudTrail threat detection"
+    - "AWS SIEM"
+    - "cloud anomaly detection"
+  embedding_text: >-
+    AWS GuardDuty is a managed threat detection service that continuously monitors AWS accounts
+    and workloads for malicious activity by analyzing VPC Flow Logs, CloudTrail events, DNS
+    logs, S3 data events, EKS audit logs, and RDS login activity. Using machine learning,
+    anomaly detection, and threat intelligence from AWS, CrowdStrike, and Proofpoint, it
+    identifies cryptocurrency mining, unauthorized API calls, data exfiltration, Kubernetes
+    compromise, and C2 communications. Findings are categorized by type and severity and feed
+    into AWS Security Hub for centralized management. The agentless service requires no
+    deployment and establishes per-account behavioral baselines. Multi-account management uses
+    AWS Organizations. GuardDuty addresses cloud-specific threat detection where traditional
+    network security tools have limited visibility.

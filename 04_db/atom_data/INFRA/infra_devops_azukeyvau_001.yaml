@@ -1,0 +1,79 @@
+# GR Atom: Azure Key Vault
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-AZUKEYVAU-001"
+  name: "Azure Key Vault"
+  normalized_name: "azure_key_vault"
+  aliases:
+    - "AKV"
+    - "Microsoft Azure Key Vault"
+    - "Azure Secrets Manager"
+
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CRYPTO
+    - ENCRYPT
+    - CLOUD
+    - PAM
+
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "P2.1"
+
+definition:
+  what: "Azure Key Vault is Microsoft Azure's managed service for securely storing and accessing secrets, encryption keys, and certificates. It provides centralized secrets management with hardware security module (HSM) backing for cryptographic keys, automated certificate lifecycle management, and fine-grained access control through Azure RBAC and vault access policies. Key Vault supports both software-protected and HSM-protected keys with FIPS 140-2 Level 2 or Level 3 validation."
+  why: "Azure Key Vault is security-critical because it centralizes the management of secrets, keys, and certificates that protect application data and communications. Compromise of Key Vault access enables decryption of protected data, impersonation through stolen certificates, and access to downstream systems through exposed secrets. Proper Key Vault configuration with managed identities eliminates hardcoded credentials and reduces secret sprawl. It is required for Azure compliance frameworks including PCI DSS, HIPAA, and ISO 27001."
+  how: "Key Vault operates through REST APIs and Azure SDKs, integrating natively with Azure services through managed identities. Secrets are stored encrypted and accessed through authenticated API calls. Cryptographic operations can be performed within the vault without exposing key material. Soft-delete and purge protection prevent accidental or malicious deletion. Diagnostic logging through Azure Monitor captures all access operations. Private endpoints restrict network access to specific virtual networks. Key Vault references in App Service and Azure Functions enable secretless deployment configurations."
+  core_concepts:
+    - key: "Secrets Management"
+      value: "Secure storage and retrieval of sensitive values like connection strings, API keys, and passwords with versioning and expiration"
+    - key: "Key Management"
+      value: "Creation and lifecycle management of cryptographic keys with support for encrypt, decrypt, sign, verify, wrap, and unwrap operations"
+    - key: "Certificate Management"
+      value: "Automated certificate lifecycle including issuance, renewal, and revocation with integration to certificate authorities"
+    - key: "Managed Identity Integration"
+      value: "Azure AD-based authentication allowing services to access Key Vault without storing credentials, eliminating secret sprawl"
+
+relations:
+  - type: instance_of
+    target: "INFRA-DEVOPS-KEYVAUL-001"
+    description: "Azure Key Vault is a specific implementation of the general key vault infrastructure pattern"
+  - type: alternative_to
+    target: "INFRA-DEVOPS-AWSKMS-001"
+    description: "Azure Key Vault serves a similar key and secrets management role to AWS KMS in the AWS ecosystem"
+  - type: enables
+    target: "INFRA-DEVOPS-KUEXSEOP-001"
+    description: "Azure Key Vault serves as an external secret store for Kubernetes External Secrets Operator"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.001"
+    tactic: ["Credential Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Azure Key Vault Documentation - https://learn.microsoft.com/en-us/azure/key-vault/"
+    - "Azure Key Vault Security - https://learn.microsoft.com/en-us/azure/key-vault/general/security-features"
+    - "MITRE ATT&CK T1552.001 - Unsecured Credentials: Credentials In Files"
+  search_keywords:
+    - "Azure Key Vault"
+    - "AKV secrets"
+    - "Azure key management"
+    - "Azure secrets manager"
+    - "Azure certificate management"
+    - "Azure HSM keys"
+    - "Azure managed identity vault"
+    - "Azure RBAC Key Vault"
+  embedding_text: "Azure Key Vault is Microsoft Azure's managed service for securely storing secrets, encryption keys, and certificates. It provides HSM-backed cryptographic keys with FIPS 140-2 validation, automated certificate lifecycle management, and fine-grained access through Azure RBAC and vault policies. Key Vault integrates natively with Azure services through managed identities, eliminating hardcoded credentials. Security significance includes centralized secrets management, prevention of secret sprawl, audit logging through Azure Monitor, and soft-delete with purge protection against accidental or malicious deletion. Compromise enables data decryption, certificate impersonation, and downstream system access. Required for Azure compliance frameworks including PCI DSS and HIPAA."

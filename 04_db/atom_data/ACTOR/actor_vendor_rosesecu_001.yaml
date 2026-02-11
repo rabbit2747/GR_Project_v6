@@ -1,0 +1,62 @@
+# GR Atom: Rose Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-ROSESECU-001"
+  name: "Rose Security"
+  normalized_name: "rose_security"
+  aliases: []
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Rose Security is a cybersecurity research entity focused on developing open-source security tools and publishing research on cloud security, infrastructure as code security, and geospatial intelligence (GEOINT) applied to cybersecurity. The entity is known for contributing tools and frameworks on GitHub that address security assessment of cloud infrastructure, Terraform configurations, and related DevSecOps workflows."
+  why: "Rose Security is relevant to cybersecurity through their contributions to open-source security tooling and research in areas of growing importance including infrastructure as code security, cloud misconfiguration detection, and the application of geospatial intelligence techniques to cybersecurity problems. Their work addresses the intersection of DevOps automation and security that is increasingly critical as organizations adopt cloud-native infrastructure."
+  how: "Rose Security develops and publishes open-source tools and frameworks on GitHub for security assessment of cloud infrastructure and infrastructure as code configurations. Their research explores the application of geospatial intelligence methodologies to cyber threat analysis and the security implications of infrastructure automation tools like Terraform. Tools and findings are shared through GitHub repositories and technical blog posts."
+  core_concepts:
+    - key: "Infrastructure as code security"
+      value: "Security assessment of Terraform and cloud automation configurations"
+    - key: "Open-source security tools"
+      value: "Community contributions for cloud security and DevSecOps workflows"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-DEVSECOPS-001"
+    description: "Rose Security produces open-source tools for cloud and infrastructure as code security"
+  - type: enables
+    target: "TECHNIQUE-CLOUDSEC-001"
+    description: "Rose Security enables cloud security assessment through open-source tooling and research"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "low"
+  trust_source: "secondary"
+  sources:
+    - "GitHub - Rose Security Repositories"
+    - "Rose Security Research Publications"
+  search_keywords:
+    - "rose security"
+    - "rose security github"
+    - "rose security tools"
+    - "rose security cloud"
+    - "rose security terraform"
+  embedding_text: "Rose Security is a cybersecurity research entity focused on developing open-source security tools and publishing research on cloud security, infrastructure as code security, and geospatial intelligence applied to cybersecurity. The entity contributes tools and frameworks on GitHub that address security assessment of cloud infrastructure, Terraform configurations, and DevSecOps workflows. Their research explores the intersection of infrastructure automation and security, including the application of geospatial intelligence methodologies to cyber threat analysis. Rose Security's open-source contributions address areas of growing importance in the cybersecurity landscape as organizations increasingly adopt cloud-native infrastructure and infrastructure as code practices that require specialized security assessment capabilities."

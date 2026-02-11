@@ -1,0 +1,118 @@
+# GR Atom: SIEM Correlation Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-SIECORRUL-001"
+  name: "SIEM Correlation Rules"
+  normalized_name: "siem_correlation_rules"
+  aliases:
+    - "SIEM Rules"
+    - "Correlation Rules"
+    - "SIEM Detection Rules"
+    - "Log Correlation Logic"
+
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - LOG
+    - BLUE_TEAM
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    SIEM Correlation Rules are the detection logic definitions within Security Information and
+    Event Management platforms that analyze, correlate, and evaluate security events from
+    multiple sources to identify threats, policy violations, and anomalous behavior. Correlation
+    rules range from simple single-event pattern matches (e.g., Event ID 1102 detected) to
+    complex multi-event temporal correlations (e.g., 5 failed logins followed by a successful
+    login from the same source within 10 minutes). Rule types include threshold rules (event
+    count exceeds N in time window T), sequence rules (ordered event patterns), aggregation
+    rules (statistical anomaly detection), join rules (correlating events across different log
+    sources), and behavioral rules (deviation from established baselines). SIEM platforms such
+    as Splunk, Microsoft Sentinel, QRadar, Elastic Security, and Chronicle each implement
+    correlation rules using platform-specific query languages (SPL, KQL, AQL, EQL, YARA-L).
+  why: >-
+    SIEM correlation rules are the primary mechanism for converting raw security event data
+    into actionable detection alerts. Individual security events in isolation rarely indicate
+    attacks — it is the correlation of events across time, sources, and entities that reveals
+    attack patterns. Without effective correlation rules, organizations are limited to manual
+    log review which cannot scale to modern event volumes (millions of events per day).
+    Correlation rules encode security expertise and threat intelligence into automated detection
+    logic, enabling 24/7 monitoring without proportional analyst staffing. The quality of
+    correlation rules directly determines detection coverage, false positive rates, and mean
+    time to detect (MTTD) for security incidents.
+  how: >-
+    SIEM correlation rule implementation follows: (1) Rule development based on threat
+    intelligence, MITRE ATT&CK techniques, regulatory requirements, and organizational risk
+    assessment; (2) Rule authoring using platform-specific languages with fields, conditions,
+    temporal windows, and aggregation functions; (3) Rule testing against historical data to
+    validate detection accuracy and false positive rates; (4) Rule deployment with severity
+    classification (critical, high, medium, low, informational); (5) Alert routing to SOC
+    analysts with contextual enrichment including affected assets, user context, threat
+    intelligence matches, and recommended response actions; (6) Continuous rule tuning based
+    on false positive analysis, detection gap assessments, and new threat intelligence; (7)
+    Rule lifecycle management including version control, performance monitoring, and
+    deprecation of obsolete rules.
+  core_concepts:
+    - key: "Temporal Correlation"
+      value: "Analyzing the timing and sequence of events within defined windows to identify patterns that indicate attacks spanning multiple stages or time periods."
+    - key: "Cross-Source Correlation"
+      value: "Joining events from different log sources (e.g., firewall logs, authentication logs, endpoint telemetry) to detect attacks that span multiple systems and layers."
+    - key: "Rule Tuning"
+      value: "The iterative process of adjusting rule conditions, thresholds, and exceptions to reduce false positives while maintaining true positive detection rates."
+    - key: "Detection Coverage Matrix"
+      value: "A mapping of SIEM rules against MITRE ATT&CK techniques to identify detection gaps and prioritize rule development efforts."
+
+relations:
+  - type: "requires"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "SIEM correlation rules require security events as input data for evaluation"
+  - type: "implements"
+    target: "DETECT-LOG-SIGCORRUL-001"
+    description: "SIEM platforms implement Sigma rules by converting them to platform-native correlation rule syntax"
+  - type: "enables"
+    target: "DETECT-LOG-SECUVIOL-001"
+    description: "SIEM correlation rules enable automated detection of security policy violations"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "SANS — Building Effective SIEM Correlation Rules"
+    - "MITRE ATT&CK — Detection Development"
+    - "Gartner — Magic Quadrant for SIEM"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+  search_keywords:
+    - "SIEM correlation rules"
+    - "SIEM rules"
+    - "correlation logic"
+    - "detection rules"
+    - "SIEM alerts"
+    - "log correlation"
+    - "Splunk rules"
+    - "Sentinel rules"
+    - "QRadar rules"
+    - "detection engineering"
+    - "SIEM tuning"
+  embedding_text: >-
+    SIEM Correlation Rules are detection logic definitions within SIEM platforms that analyze and
+    correlate security events from multiple sources to identify threats and policy violations.
+    Rule types include threshold, sequence, aggregation, join, and behavioral rules implemented
+    in platform-specific languages (SPL, KQL, AQL, EQL, YARA-L). Correlation rules convert raw
+    security events into actionable alerts by detecting patterns across time, sources, and
+    entities. Rule quality directly determines detection coverage, false positive rates, and MTTD.
+    The rule lifecycle includes development from MITRE ATT&CK techniques, testing against
+    historical data, deployment with severity classification, continuous tuning, and coverage
+    matrix maintenance against the ATT&CK framework.

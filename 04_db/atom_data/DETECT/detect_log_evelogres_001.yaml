@@ -1,0 +1,114 @@
+# GR Atom: Event Log Restart Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGRES-001"
+  name: "Event Log Restart Event"
+  normalized_name: "event_log_restart_event"
+  aliases:
+    - "Log Restart Event"
+    - "Event Log Service Restart"
+    - "Logging Service Restart"
+    - "EventLog Service Bounce"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+    - EVADE
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Restart Event is a detection pattern for the sequence of log entries generated
+    when an event logging service is stopped and then started again in rapid succession. On
+    Windows, this manifests as paired Event ID 7036 entries in the System log showing the
+    Windows Event Log service entering the stopped state followed by the running state, or
+    Service Control Manager events indicating a restart. On Linux, this corresponds to
+    systemd restart events for syslog, rsyslog, syslog-ng, or systemd-journald services.
+    The restart sequence creates a brief logging gap during which events are not recorded.
+    Restart events are normal during system updates, configuration changes, and maintenance,
+    but unexpected restarts outside maintenance windows warrant investigation.
+  why: >-
+    Event log service restarts create temporary logging blind spots that sophisticated
+    attackers may exploit. By forcing a logging service restart, an attacker creates a window
+    during which malicious activities — such as credential dumping, lateral movement commands,
+    or file access — are not logged. Some attack tools explicitly restart the Event Log service
+    as part of their anti-forensics routine. Additionally, frequent unexpected restarts may
+    indicate service instability caused by resource exhaustion attacks, log injection attempts
+    that crash the service, or configuration tampering. Monitoring restart events enables SOC
+    teams to identify and investigate these logging gaps.
+  how: >-
+    Event log restart detection operates through: (1) Monitoring Windows System log for paired
+    Event ID 7036 entries for the Windows Event Log service showing stop followed by start
+    within a short time window; (2) Detecting Event ID 7034 (service crashed unexpectedly)
+    followed by automatic restart; (3) Monitoring for net stop/net start or sc stop/sc start
+    commands targeting the EventLog service via process creation logging; (4) Tracking PowerShell
+    Restart-Service commands for logging services; (5) On Linux, monitoring systemd journal for
+    restart events on syslog and audit services; (6) SIEM correlation rules that detect logging
+    gaps by measuring time between the last event before restart and the first event after;
+    (7) Alerting on restarts outside scheduled maintenance windows.
+  core_concepts:
+    - key: "Logging Gap Window"
+      value: "The time period between service stop and start during which events are not recorded, representing a potential blind spot that attackers may exploit for unlogged activities."
+    - key: "Service Crash and Restart"
+      value: "Unexpected service crashes followed by automatic restart may indicate denial-of-service attacks against the logging infrastructure or attempts to trigger log rotation."
+    - key: "Maintenance Window Correlation"
+      value: "Correlating restart events with approved maintenance windows distinguishes legitimate administrative restarts from suspicious unauthorized restarts."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Event log restart generates security-relevant events for monitoring"
+  - type: "requires"
+    target: "DETECT-LOG-EVELOGSTO-001"
+    description: "A restart inherently requires a stop event as its first phase"
+  - type: "requires"
+    target: "DETECT-LOG-EVELOGSTA-001"
+    description: "A restart inherently requires a start event as its second phase"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.002"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft — Windows Event Log Service Reference"
+    - "MITRE ATT&CK — T1562.002: Impair Defenses: Disable Windows Event Logging"
+    - "SANS — Detecting Anti-Forensics Techniques"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+  search_keywords:
+    - "event log restart"
+    - "logging service restart"
+    - "EventLog service bounce"
+    - "Event ID 7036"
+    - "log service restart detection"
+    - "logging gap"
+    - "event log service stop start"
+    - "syslog restart"
+    - "logging blind spot"
+    - "audit log restart"
+  embedding_text: >-
+    Event Log Restart Event is a detection pattern for the stop-then-start sequence of logging
+    services. On Windows, this manifests as paired Event ID 7036 entries for the EventLog
+    service; on Linux, as systemd restart events for syslog or audit services. Restarts create
+    temporary logging blind spots that attackers may exploit for unlogged malicious activities.
+    Detection relies on monitoring service state change events, process creation logs for
+    restart commands, SIEM gap detection between pre-restart and post-restart events, and
+    correlation with maintenance windows. Unexpected restarts outside maintenance windows
+    warrant investigation as potential defense evasion activity under MITRE ATT&CK T1562.002.

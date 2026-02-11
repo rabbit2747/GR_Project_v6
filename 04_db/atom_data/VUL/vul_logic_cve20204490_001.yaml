@@ -1,0 +1,94 @@
+# GR Atom: CVE-2020-4490
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20204490-001"
+  name: "CVE-2020-4490"
+  normalized_name: "cve_2020_4490"
+  aliases:
+    - "IBM Business Automation Workflow Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHZ
+    - WEB
+    - API
+    - PRIV
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "IBM Business Automation Workflow"
+    - "IBM Business Process Manager"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2020-4490 is an authorization bypass vulnerability in IBM Business Automation Workflow
+    and IBM Business Process Manager that allows authenticated users to escalate their
+    privileges through a logic flaw in the access control enforcement. The application fails
+    to properly validate authorization for certain administrative functions, allowing a
+    lower-privileged user to perform actions reserved for administrators. CVSS v3 base
+    score: 6.5 (Medium).
+  why: >-
+    IBM Business Automation Workflow manages critical business processes in enterprise
+    environments. Privilege escalation enables unauthorized users to modify workflows, access
+    sensitive business data, and alter process automation rules. This can lead to unauthorized
+    business process manipulation and data exposure in organizations relying on these platforms.
+  how: >-
+    An authenticated user with limited privileges crafts specific API requests that bypass
+    the authorization checks in the workflow management interface. The access control logic
+    fails to validate the user's role against the requested operation, allowing execution
+    of administrative functions with a standard user session.
+  core_concepts:
+    - key: "Authorization Logic Bypass"
+      value: "Access control enforcement fails to validate user roles against administrative operations, enabling privilege escalation"
+    - key: "Business Process Manipulation"
+      value: "Escalated privileges allow unauthorized modification of workflow definitions and business automation rules"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Authorization enforcement logic flaw enabling privilege escalation in business workflow platform"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.003"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2020-4490"
+    - "IBM Security Advisory"
+    - "NIST NVD - CVE-2020-4490"
+  search_keywords:
+    - "CVE-2020-4490"
+    - "IBM Business Automation Workflow"
+    - "IBM BPM vulnerability"
+    - "authorization bypass"
+    - "privilege escalation IBM"
+    - "business workflow vulnerability"
+  embedding_text: >-
+    CVE-2020-4490 is an authorization bypass vulnerability in IBM Business Automation Workflow
+    and Business Process Manager. Authenticated users escalate privileges through logic flaws
+    in access control enforcement. Lower-privileged users perform administrative functions
+    including workflow modification and business process manipulation. CVSS v3 6.5 Medium.
+    Authorization logic fails to validate roles against operations. Affects enterprise
+    business process management platforms. Year 2020.

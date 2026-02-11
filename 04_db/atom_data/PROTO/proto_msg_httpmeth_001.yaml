@@ -1,0 +1,104 @@
+# GR Atom: HTTP Methods
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPMETH-001"
+  name: "HTTP Methods"
+  normalized_name: "http_methods"
+  aliases:
+    - "HTTP Verbs"
+    - "HTTP Request Methods"
+    - "REST Methods"
+    - "HTTP Operations"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP methods (also called HTTP verbs) are the set of request methods defined in RFC 9110 that
+    indicate the desired action to be performed on a target resource. The standard methods are
+    GET (retrieve), HEAD (metadata only), POST (submit data), PUT (replace resource), DELETE
+    (remove resource), CONNECT (establish tunnel), OPTIONS (describe communication options),
+    TRACE (message loop-back), and PATCH (partial modification, RFC 5789). Methods are
+    classified by safety (no side effects: GET, HEAD, OPTIONS, TRACE), idempotency (same result
+    for repeated calls: GET, HEAD, PUT, DELETE, OPTIONS, TRACE), and cacheability (GET, HEAD).
+  why: >-
+    HTTP method configuration is a critical security control. Overly permissive method allowance
+    exposes applications to unauthorized data modification (PUT, PATCH, DELETE), information
+    disclosure (TRACE enabling cross-site tracing), and server exploitation. TRACE method
+    combined with XSS enables cross-site tracing (XST) attacks. PUT method on web servers can
+    enable arbitrary file upload. The OPTIONS method reveals supported methods, aiding
+    reconnaissance. Method override headers (X-HTTP-Method-Override) can bypass method
+    restrictions. WAF and server configurations should restrict methods to only those required.
+  how: >-
+    HTTP methods are specified in the request line of an HTTP message as the first token before
+    the request URI. Servers process methods based on the resource type and configured handlers.
+    RESTful API design maps methods to CRUD operations: POST (Create), GET (Read), PUT/PATCH
+    (Update), DELETE (Delete). Method handling is configured at the web server, application
+    framework, and API gateway levels. Security implementation includes: disabling unnecessary
+    methods (TRACE, CONNECT, PUT), enforcing method-specific authorization, validating method
+    override headers, and implementing proper CORS preflight handling for cross-origin requests.
+  core_concepts:
+    - key: "Safe Methods"
+      value: "Methods that do not modify server state (GET, HEAD, OPTIONS, TRACE) — safe methods should only retrieve data, never cause side effects."
+    - key: "Idempotent Methods"
+      value: "Methods where multiple identical requests produce the same server state as a single request (GET, HEAD, PUT, DELETE, OPTIONS, TRACE) — POST and PATCH are not idempotent."
+    - key: "CRUD Mapping"
+      value: "RESTful convention mapping HTTP methods to data operations: POST=Create, GET=Read, PUT=Replace, PATCH=Partial Update, DELETE=Delete."
+    - key: "Method Override"
+      value: "Technique using X-HTTP-Method-Override header to simulate methods not supported by clients or proxies, creating potential security bypass vectors."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP methods are a fundamental sub-component of the HTTP protocol defining the action semantics for each request"
+  - type: "enables"
+    target: "PROTO-MSG-HTTPGET-001"
+    description: "HTTP Methods define GET as the primary resource retrieval method"
+  - type: "enables"
+    target: "PROTO-MSG-HTTPPOST-001"
+    description: "HTTP Methods define POST as the data submission method"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9: Methods"
+    - "IETF RFC 5789 — PATCH Method for HTTP"
+    - "OWASP — Testing for HTTP Methods and XST"
+    - "MDN Web Docs — HTTP Request Methods"
+  search_keywords:
+    - "HTTP methods"
+    - "HTTP verbs"
+    - "GET POST PUT DELETE"
+    - "REST methods"
+    - "HTTP request methods"
+    - "safe methods"
+    - "idempotent methods"
+    - "CRUD mapping"
+    - "method override"
+    - "TRACE method"
+  embedding_text: >-
+    HTTP methods (verbs) defined in RFC 9110 indicate the desired action on a target resource:
+    GET (retrieve), HEAD (metadata), POST (submit), PUT (replace), DELETE (remove), CONNECT
+    (tunnel), OPTIONS (describe), TRACE (loop-back), and PATCH (partial modify). Methods are
+    classified by safety, idempotency, and cacheability. RESTful APIs map methods to CRUD
+    operations. Security requires restricting methods to only those needed — TRACE enables XST
+    attacks, PUT allows file upload, OPTIONS aids reconnaissance. Method override headers can
+    bypass restrictions. WAF and server configurations should enforce method-specific
+    authorization and disable unnecessary methods.

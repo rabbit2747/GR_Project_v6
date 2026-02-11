@@ -1,0 +1,106 @@
+# GR Atom: CVE-2010-3338
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20103338-001"
+  name: "CVE-2010-3338"
+  normalized_name: "cve_2010_3338"
+  aliases:
+    - "Windows Task Scheduler Privilege Escalation"
+    - "Stuxnet Task Scheduler Vulnerability"
+    - "MS10-092"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - WINDOWS
+    - OS
+    - PERSIST
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Windows Task Scheduler"
+    - "Windows Vista"
+    - "Windows 7"
+    - "Windows Server 2008"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-3338 is a local privilege escalation vulnerability in the Windows Task Scheduler
+    that allows authenticated users to execute arbitrary code with SYSTEM privileges. The flaw
+    exists in how the Task Scheduler validates integrity levels of scheduled tasks, where a
+    logic error in the CRC validation of task XML files allows modification of task parameters
+    including the execution privilege level. CVSS v2 base score: 6.9 (Medium). Notably
+    exploited by the Stuxnet worm.
+  why: >-
+    This vulnerability was famously exploited by Stuxnet, the first known cyber weapon targeting
+    industrial control systems. Stuxnet used this flaw to escalate privileges on compromised
+    Windows systems as part of its propagation and persistence strategy. The vulnerability
+    allows any authenticated user to gain SYSTEM privileges, enabling full system compromise
+    from a low-privilege foothold.
+  how: >-
+    An attacker modifies the XML definition of a scheduled task, changing the privilege level
+    from limited user to SYSTEM. The Task Scheduler uses a CRC-based integrity check to
+    validate task files, but the CRC algorithm has a logic flaw that allows recalculation
+    after modification, bypassing the integrity verification. The modified task then executes
+    with SYSTEM privileges on its next scheduled run.
+  core_concepts:
+    - key: "Integrity Check Logic Bypass"
+      value: "CRC-based validation of task XML files can be recalculated after modification, nullifying the integrity protection"
+    - key: "Stuxnet Exploitation Vector"
+      value: "Used by the Stuxnet worm for privilege escalation as part of the first known cyber weapon targeting ICS infrastructure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Integrity validation logic flaw in Task Scheduler enabling privilege escalation"
+  - type: "enables"
+    target: "VUL-LOGIC-CVE20149195-001"
+    description: "Stuxnet-class vulnerabilities paved the way for targeting ICS systems like those affected by CVE-2014-9195"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1053.005"
+    tactic:
+      - "Privilege Escalation"
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2010-3338"
+    - "Microsoft Security Bulletin MS10-092"
+    - "NIST NVD - CVE-2010-3338"
+    - "Symantec - W32.Stuxnet Dossier"
+  search_keywords:
+    - "CVE-2010-3338"
+    - "Windows Task Scheduler"
+    - "Stuxnet vulnerability"
+    - "MS10-092"
+    - "privilege escalation"
+    - "Task Scheduler CRC bypass"
+    - "Stuxnet zero-day"
+  embedding_text: >-
+    CVE-2010-3338 is a privilege escalation vulnerability in Windows Task Scheduler allowing
+    SYSTEM-level code execution. The CRC-based integrity check on task XML files has a logic
+    flaw enabling recalculation after modification, bypassing validation. Famously exploited
+    by the Stuxnet worm targeting Iranian nuclear facilities. Affects Windows Vista, 7, and
+    Server 2008. CVSS v2 6.9 Medium. Patched in MS10-092. Integrity validation logic bypass
+    enabling local privilege escalation to SYSTEM. Year 2010.

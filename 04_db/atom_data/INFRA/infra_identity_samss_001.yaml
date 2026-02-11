@@ -1,0 +1,121 @@
+# GR Atom: SamSS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-SAMSS-001"
+  name: "SamSS"
+  normalized_name: "samss"
+  aliases:
+    - "Security Account Manager Subsystem"
+    - "SAM Service"
+    - "Security Accounts Manager"
+    - "SamSs Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WINDOWS
+    - AUTHN
+    - CRED
+    - OS
+    - PRIV
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The Security Account Manager Subsystem Service (SamSS) is a Windows service that manages
+    the Security Account Manager (SAM) database, which stores local user accounts, group
+    memberships, and hashed credentials on non-domain-controller Windows systems. SamSS
+    is a critical authentication component that validates local logon credentials and manages
+    the SAM registry hive (HKLM\SAM). On domain controllers, the equivalent functionality
+    is provided by the NTDS.DIT database through Active Directory Domain Services.
+  why: >-
+    The SAM database is a primary target for credential theft attacks. Tools like Mimikatz,
+    secretsdump, and reg save can extract password hashes from the SAM database for offline
+    cracking or pass-the-hash attacks. The HiveNightmare/SeriousSAM vulnerability
+    (CVE-2021-36934) demonstrated that ACL misconfigurations on the SAM file could allow
+    non-privileged users to read credential hashes. SAM hash extraction is a standard
+    post-exploitation technique for local credential harvesting and lateral movement.
+    Attackers target SamSS to obtain local administrator password hashes reused across
+    multiple systems.
+  how: >-
+    SamSS runs as a Windows service under the Local System account and manages access to
+    the SAM registry hive stored at %SystemRoot%\System32\config\SAM. The service handles
+    local authentication requests by comparing submitted credential hashes against stored
+    NTLM hashes. SAM data is protected by SYSKEY encryption (boot key) derived from the
+    SYSTEM registry hive. Volume Shadow Copies can contain accessible copies of the SAM
+    file. Credential extraction requires SYSTEM-level access (or exploitation of ACL
+    vulnerabilities) to read the SAM hive and the SYSTEM hive for decryption keys.
+    Windows Credential Guard can protect against some hash extraction techniques.
+  core_concepts:
+    - key: "Local Credential Store"
+      value: "SAM database stores NTLM password hashes for local accounts, making it a primary target for credential theft and pass-the-hash attacks"
+    - key: "SYSKEY Encryption"
+      value: "SAM data is encrypted using the boot key from the SYSTEM hive, requiring both SAM and SYSTEM hive access for credential extraction"
+    - key: "Volume Shadow Copy Exposure"
+      value: "SAM database copies in Volume Shadow Copies can be accessed without SYSTEM privileges, enabling credential extraction through backup data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "SamSS provides local credential validation for Windows authentication"
+  - type: "part_of"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "SAM is the local directory service equivalent for non-domain-controller Windows systems"
+  - type: "enables"
+    target: "INFRA-IDENTITY-CREDENTIAL-001"
+    description: "SAM database functions as the local credential store for Windows accounts"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003.002"
+    tactic:
+      - "Credential Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Security Account Manager"
+    - "MITRE ATT&CK T1003.002 - OS Credential Dumping: Security Account Manager"
+    - "CVE-2021-36934 - HiveNightmare/SeriousSAM"
+  search_keywords:
+    - "SamSS"
+    - "Security Account Manager"
+    - "SAM database"
+    - "SAM hash extraction"
+    - "HiveNightmare"
+    - "SeriousSAM CVE-2021-36934"
+    - "pass-the-hash SAM"
+    - "Windows local credentials"
+  embedding_text: >-
+    The Security Account Manager Subsystem Service (SamSS) manages the SAM database storing
+    local user accounts, group memberships, and NTLM password hashes on Windows systems.
+    It runs under Local System and manages the SAM registry hive at HKLM\SAM. The SAM
+    database is a primary credential theft target using tools like Mimikatz and secretsdump
+    for offline hash cracking and pass-the-hash attacks. The HiveNightmare vulnerability
+    (CVE-2021-36934) enabled non-privileged SAM access through ACL misconfigurations. SAM
+    data is encrypted using SYSKEY from the SYSTEM hive, requiring both hives for extraction.
+    Volume Shadow Copies can expose SAM backup copies. Security teams must enforce Credential
+    Guard, restrict local administrator accounts using LAPS, monitor for SAM access attempts,
+    patch HiveNightmare-class vulnerabilities, protect Volume Shadow Copies, and avoid
+    password reuse for local administrator accounts across systems.

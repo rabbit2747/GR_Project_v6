@@ -1,0 +1,126 @@
+# GR Atom: Change Cipher Spec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-CHACIPSPE-001"
+  name: "Change Cipher Spec"
+  normalized_name: "change_cipher_spec"
+  aliases:
+    - "CCS"
+    - "ChangeCipherSpec"
+    - "CCS Message"
+    - "Change Cipher Spec Protocol"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - ENCRYPT
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Change Cipher Spec (CCS) is a single-byte protocol message in TLS 1.2 and earlier versions
+    that signals the transition from unencrypted to encrypted communication during the TLS
+    handshake. Defined in RFC 5246 Section 7.1, it is technically a separate sub-protocol within
+    the TLS record layer (content type 20) rather than part of the handshake protocol itself. The
+    CCS message instructs the receiving peer that subsequent records will be protected under the
+    newly negotiated cipher suite and keys. In TLS 1.3 (RFC 8446), the CCS message is retained
+    only as a compatibility artifact for middlebox traversal and carries no cryptographic
+    significance; the actual key transition is handled implicitly by the handshake protocol.
+  why: >-
+    The Change Cipher Spec message serves as the explicit demarcation point between plaintext and
+    encrypted phases of a TLS connection. Without this signaling mechanism in pre-1.3 TLS
+    versions, peers would have no coordinated way to determine when to activate negotiated
+    cryptographic parameters. The CCS protocol was the target of the CCS Injection vulnerability
+    (CVE-2014-0224) in OpenSSL, where premature acceptance of CCS messages allowed man-in-the-middle
+    attackers to force the use of weak keying material. This vulnerability demonstrated the
+    security implications of improper CCS handling and influenced the TLS 1.3 design decision
+    to eliminate CCS as a cryptographically meaningful signal.
+  how: >-
+    During a TLS 1.2 handshake, after the client and server exchange key material through
+    ClientKeyExchange and related messages, each side sends a CCS message (a single byte with
+    value 0x01) to indicate that all subsequent records will use the newly negotiated cipher suite,
+    compression method, and keying material. The sender then immediately switches its write state
+    to the new parameters and sends the Finished message encrypted under the new keys. The receiver
+    processes the CCS by activating the pending read state as the current read state. In TLS 1.3
+    middlebox compatibility mode, a CCS message may be sent after the first ClientHello or
+    ServerHello to satisfy intermediary devices that expect traditional TLS handshake patterns,
+    but it is ignored by conforming TLS 1.3 implementations.
+  core_concepts:
+    - key: "Content Type 20"
+      value: >-
+        CCS occupies its own content type (20) in the TLS record layer, separate from the
+        handshake protocol (22), alert protocol (21), and application data (23), making it
+        a distinct sub-protocol within the TLS architecture.
+    - key: "Key Activation Signal"
+      value: >-
+        The CCS message triggers the transition from pending cryptographic state to active
+        state, causing all subsequent records to be encrypted with the negotiated cipher
+        suite and derived keying material.
+    - key: "CCS Injection Vulnerability"
+      value: >-
+        CVE-2014-0224 demonstrated that accepting CCS messages at inappropriate points in
+        the handshake could force use of weak or predictable keys, enabling man-in-the-middle
+        attacks against OpenSSL implementations.
+    - key: "TLS 1.3 Middlebox Compatibility"
+      value: >-
+        In TLS 1.3, CCS is sent only to satisfy network middleboxes that expect traditional
+        handshake patterns. It has no cryptographic function and is ignored by endpoints.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "Change Cipher Spec is a sub-protocol within the TLS record layer protocol suite"
+  - type: "part_of"
+    target: "PROTO-SECURITY-TLS12-001"
+    description: "CCS is a cryptographically significant handshake component in TLS 1.2"
+  - type: "applies_to"
+    target: "PROTO-SECURITY-TLS10-001"
+    description: "CCS is used as a key activation signal in TLS 1.0 handshakes"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 5246 - The Transport Layer Security (TLS) Protocol Version 1.2, Section 7.1. IETF. https://datatracker.ietf.org/doc/html/rfc5246#section-7.1"
+    - "RFC 8446 - The Transport Layer Security (TLS) Protocol Version 1.3, Section D.4 Middlebox Compatibility Mode. IETF. https://datatracker.ietf.org/doc/html/rfc8446#appendix-D.4"
+    - "CVE-2014-0224 - CCS Injection Vulnerability. NIST NVD. https://nvd.nist.gov/vuln/detail/CVE-2014-0224"
+  search_keywords:
+    - "change cipher spec"
+    - "CCS message"
+    - "TLS key activation"
+    - "content type 20"
+    - "CCS injection"
+    - "CVE-2014-0224"
+    - "cipher suite transition"
+    - "TLS record layer sub-protocol"
+  embedding_text: >-
+    Change Cipher Spec (CCS) is a single-byte TLS sub-protocol message that signals the
+    transition from plaintext to encrypted communication during the TLS handshake. Assigned
+    content type 20 in the TLS record layer, CCS is distinct from the handshake, alert, and
+    application data protocols. In TLS 1.2 and earlier, sending CCS activates the pending
+    cryptographic state containing the negotiated cipher suite and derived keys, causing all
+    subsequent records to be encrypted. The CCS Injection vulnerability CVE-2014-0224 in
+    OpenSSL demonstrated that premature acceptance of CCS messages could enable man-in-the-middle
+    attacks by forcing weak keying material. In TLS 1.3, CCS was stripped of cryptographic
+    significance and retained only as a middlebox compatibility artifact. The sender transmits
+    the single byte value 0x01, then switches its write state to the new parameters before
+    sending the encrypted Finished message. This protocol illustrates the evolution from
+    explicit signaling in older TLS to implicit key transitions in TLS 1.3.

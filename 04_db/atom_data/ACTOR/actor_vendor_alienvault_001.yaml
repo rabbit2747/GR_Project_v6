@@ -1,0 +1,74 @@
+# GR Atom: AlienVault
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-ALIENVAULT-001"
+  name: "AlienVault"
+  normalized_name: "alienvault"
+  aliases:
+    - "AlienVault OTX"
+    - "AT&T Cybersecurity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - SIEM
+    - THREAT_INTEL
+    - IDS
+    - MONITOR
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "AlienVault is a cybersecurity company founded in 2007, best known for its Unified Security Management (USM) platform and the Open Threat Exchange (OTX), one of the world's largest open threat intelligence communities. Acquired by AT&T in 2018, AlienVault's USM platform combines SIEM, intrusion detection, vulnerability assessment, and behavioral monitoring into a single solution. OTX provides a collaborative platform where security researchers share indicators of compromise and threat intelligence freely."
+  why: "AlienVault is significant for democratizing threat intelligence through OTX, which enables organizations of all sizes to access community-contributed indicators of compromise and threat data. Their USM platform made enterprise-grade security monitoring accessible to mid-market organizations that could not afford separate SIEM, IDS, and vulnerability management tools."
+  how: "AlienVault operates through its USM platform that integrates asset discovery, vulnerability assessment, intrusion detection, behavioral monitoring, and SIEM into a unified console. The OTX platform aggregates threat intelligence from a global community of over 200,000 security professionals, distributing pulses containing IOCs, TTPs, and contextual threat data via API integration."
+  core_concepts:
+    - key: "Open Threat Exchange (OTX)"
+      value: "Collaborative threat intelligence platform enabling community-driven sharing of IOCs and threat data across organizations"
+    - key: "Unified Security Management"
+      value: "Integrated platform combining SIEM, IDS, vulnerability assessment, and behavioral monitoring in a single solution"
+    - key: "Community Threat Intelligence"
+      value: "Crowdsourced approach to threat intelligence aggregation and distribution through pulse-based sharing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-SIEM-PLATFORM-001"
+    description: "Produces the USM unified security management and SIEM platform"
+  - type: enables
+    target: "DEF-THREATINTEL-FEED-001"
+    description: "OTX platform enables community-driven threat intelligence sharing"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://otx.alienvault.com"
+    - "https://cybersecurity.att.com"
+  search_keywords:
+    - "alienvault"
+    - "alienvault otx"
+    - "open threat exchange"
+    - "unified security management"
+    - "usm anywhere"
+    - "att cybersecurity"
+    - "alienvault siem"
+    - "otx pulse"
+  embedding_text: "AlienVault is a cybersecurity company founded in 2007, acquired by AT&T in 2018, known for its Unified Security Management (USM) platform and the Open Threat Exchange (OTX) community threat intelligence platform. OTX is one of the world's largest open threat intelligence communities with over 200,000 contributors sharing indicators of compromise, threat data, and analysis. The USM platform integrates SIEM, intrusion detection, vulnerability assessment, behavioral monitoring, and asset discovery into a single console, making enterprise-grade security monitoring accessible to mid-market organizations. AlienVault democratized threat intelligence by enabling organizations of all sizes to access and contribute community-driven IOCs and TTPs through the OTX API. The platform remains a critical resource for security operations teams and threat researchers worldwide."

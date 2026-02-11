@@ -1,0 +1,125 @@
+# GR Atom: CVE-2018-0171
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-CVE20180171-001"
+  name: "CVE-2018-0171"
+  normalized_name: "cve_2018_0171"
+  aliases:
+    - "Cisco Smart Install RCE"
+    - "Cisco IOS Smart Install Vulnerability"
+    - "Cisco Switch Stack Overflow"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - OVERFLOW
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Cisco IOS Software"
+    - "Cisco IOS XE Software"
+    - "Cisco Catalyst switches"
+    - "Smart Install protocol (port 4786)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2018-0171 is a critical remote code execution vulnerability in the Cisco Smart Install
+    feature of Cisco IOS and IOS XE Software, disclosed in March 2018 with a CVSS score of
+    9.8. The vulnerability is a stack-based buffer overflow in the Smart Install client code
+    that processes crafted Smart Install messages on TCP port 4786. An unauthenticated remote
+    attacker can exploit this vulnerability to cause a denial of service (device reload) or
+    execute arbitrary code on affected Cisco switches. Smart Install is enabled by default on
+    many Cisco Catalyst switches, and the protocol requires no authentication, making millions
+    of network infrastructure devices potentially vulnerable.
+  why: >-
+    This vulnerability is especially dangerous because Cisco switches form the backbone of
+    enterprise and ISP networks. Smart Install was designed for zero-touch provisioning but
+    lacks authentication, creating an enormous attack surface. The vulnerability was weaponized
+    by nation-state actors and hacktivists, notably in attacks against Iranian and other
+    national network infrastructure in April 2018. CISA and US-CERT issued urgent advisories.
+    The lack of authentication in Smart Install means any device with port 4786 accessible
+    can be exploited, and Shodan scans revealed hundreds of thousands of exposed devices.
+  how: >-
+    An attacker sends a specially crafted Smart Install message to TCP port 4786 on a
+    vulnerable Cisco switch. The malformed message triggers a stack-based buffer overflow
+    in the Smart Install client processing code. This allows the attacker to overwrite
+    the stack and redirect execution to attacker-controlled code, achieving remote code
+    execution with the highest privilege level on the network device. Alternatively, the
+    attacker can cause a denial of service by forcing the device to reload. The exploit
+    requires no authentication and can be executed remotely. Mitigation includes applying
+    Cisco IOS patches, disabling Smart Install with 'no vstack', implementing access
+    control lists to block port 4786, and using Smart Install Director to restrict
+    client access.
+  core_concepts:
+    - key: "Zero-Touch Provisioning Abuse"
+      value: "Smart Install protocol designed for automated switch deployment lacks authentication, enabling unauthenticated remote exploitation on port 4786"
+    - key: "Network Infrastructure RCE"
+      value: "Buffer overflow in Cisco switch firmware enables attackers to execute arbitrary code on core network infrastructure devices"
+    - key: "Mass Exposure"
+      value: "Smart Install enabled by default on Catalyst switches with hundreds of thousands of devices exposing port 4786 to the internet"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "CVE-2018-0171 exploits the complete absence of access control in the Cisco Smart Install protocol"
+  - type: "applies_to"
+    target: "VUL-ACCESS-ARCADOOR-001"
+    description: "Both are Cisco network device vulnerabilities enabling unauthenticated remote compromise of perimeter infrastructure"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  cve_id: "CVE-2018-0171"
+  cvss_score: 9.8
+  affected_product: "Cisco IOS and IOS XE Smart Install"
+  disclosure_year: 2018
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Cisco Security Advisory cisco-sa-20180328-smi2"
+    - "NVD CVE-2018-0171 CVSS 9.8"
+    - "US-CERT Alert TA18-106A"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2018-0171"
+    - "Cisco Smart Install"
+    - "Smart Install RCE"
+    - "Cisco IOS vulnerability"
+    - "port 4786 exploit"
+    - "Cisco switch exploit"
+    - "network infrastructure RCE"
+    - "vstack vulnerability"
+  embedding_text: >-
+    CVE-2018-0171 is a critical remote code execution vulnerability (CVSS 9.8) in Cisco IOS
+    and IOS XE Smart Install protocol. Stack-based buffer overflow in Smart Install client
+    on TCP port 4786 enables unauthenticated remote code execution or denial of service on
+    Cisco Catalyst switches. Smart Install lacks authentication and is enabled by default.
+    Weaponized by nation-state actors against national network infrastructure. Hundreds of
+    thousands of devices exposed via port 4786. Mitigation includes disabling Smart Install
+    with no vstack, applying IOS patches, and implementing ACLs to block port 4786. Critical
+    network infrastructure vulnerability affecting enterprise and ISP backbone devices.

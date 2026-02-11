@@ -1,0 +1,71 @@
+# GR Atom: Global Sign
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-GLOBSIGN-001"
+  name: "Global Sign"
+  normalized_name: "global_sign"
+  aliases:
+    - "GlobalSign"
+    - "GlobalSign nv-sa"
+    - "GMO GlobalSign"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - WEB
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "GlobalSign is a certificate authority and identity services provider founded in 1996, now a subsidiary of GMO Internet Group. The company issues digital certificates including SSL/TLS, code signing, document signing, and S/MIME certificates. GlobalSign provides Public Key Infrastructure (PKI) solutions for enterprise identity management, IoT device authentication, and secure communications across cloud and on-premise environments."
+  why: "GlobalSign plays a critical role in the internet trust ecosystem as a widely recognized certificate authority whose root certificates are embedded in major browsers and operating systems. Compromise or misuse of certificate authorities directly impacts the security of encrypted communications, code integrity verification, and digital identity trust chains, making them a significant entity in cybersecurity threat modeling."
+  how: "GlobalSign operates by issuing and managing digital certificates through automated and manual validation processes, maintaining certificate revocation infrastructure via CRL and OCSP, providing managed PKI services for enterprise customers, and offering cloud-based certificate lifecycle management platforms. They support ACME protocol for automated certificate provisioning and integrate with DevOps and IoT workflows."
+  core_concepts:
+    - key: "Certificate authority"
+      value: "Trusted third-party issuing digital certificates for identity verification and encrypted communications"
+    - key: "PKI solutions"
+      value: "Enterprise Public Key Infrastructure for managing digital identities across devices and services"
+    - key: "IoT identity"
+      value: "Device identity and authentication services for Internet of Things ecosystems"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-CRYPTO-PKI-001"
+    description: "GlobalSign provides PKI certificate services and digital identity infrastructure"
+  - type: enables
+    target: "CONTROL-ENCRYPT-TLS-001"
+    description: "GlobalSign enables TLS encryption through SSL/TLS certificate issuance"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "GlobalSign Official Website"
+    - "GMO Internet Group - GlobalSign Corporate Information"
+    - "Mozilla Root Certificate Program - GlobalSign"
+  search_keywords:
+    - "globalsign"
+    - "globalsign certificate authority"
+    - "globalsign ssl"
+    - "globalsign pki"
+    - "globalsign digital certificates"
+    - "gmo globalsign"
+    - "globalsign code signing"
+  embedding_text: "GlobalSign is a major certificate authority and digital identity services provider, a subsidiary of GMO Internet Group, operating since 1996. The company issues SSL/TLS certificates, code signing certificates, document signing certificates, and S/MIME certificates for secure email. GlobalSign provides enterprise Public Key Infrastructure solutions for managing digital identities across cloud, on-premise, and IoT environments. Their root certificates are embedded in all major web browsers and operating systems, making them a foundational trust anchor in the internet security ecosystem. GlobalSign supports automated certificate management through ACME protocol, offers managed PKI services for large organizations, and provides device identity solutions for IoT authentication. As a certificate authority, GlobalSign is a critical component of the web trust infrastructure whose security directly impacts encrypted communications and digital identity verification worldwide."

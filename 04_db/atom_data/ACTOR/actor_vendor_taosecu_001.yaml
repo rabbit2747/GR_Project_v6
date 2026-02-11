@@ -1,0 +1,70 @@
+# GR Atom: Tao Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TAOSECU-001"
+  name: "Tao Security"
+  normalized_name: "tao_security"
+  aliases:
+    - "TaoSecurity"
+    - "Tao Security Blog"
+    - "Richard Bejtlich"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - BLUE_TEAM
+    - MONITOR
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Tao Security is a cybersecurity consultancy and influential security blog founded by Richard Bejtlich, a pioneering figure in network security monitoring and incident detection. The organization is known for advancing the practice of network security monitoring, developing the concept of network security monitoring as a discipline, and authoring foundational books including 'The Practice of Network Security Monitoring' and 'The Tao of Network Security Monitoring.'"
+  why: "Tao Security is significant because Richard Bejtlich's work fundamentally shaped how the cybersecurity industry approaches network security monitoring and intrusion detection. His books and blog posts established core principles for network-based threat detection that remain foundational to modern security operations center practices and network defense strategies."
+  how: "Tao Security operates through consulting services, published books, and the TaoSecurity blog which has been a influential source of security monitoring guidance since the early 2000s. Bejtlich's approach emphasizes evidence-based network monitoring, traffic analysis, and the importance of understanding network baseline behavior to detect anomalies and intrusions through careful observation and analysis of network data."
+  core_concepts:
+    - key: "Network Security Monitoring"
+      value: "Disciplined approach to collecting, detecting, and analyzing network traffic for evidence of intrusions and threats"
+    - key: "Evidence-Based Detection"
+      value: "Detection methodology grounded in observable network evidence rather than signature-only approaches"
+    - key: "Security Operations Philosophy"
+      value: "Foundational principles for building effective security monitoring programs and operations centers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECUREWORK-001"
+    description: "Fellow security monitoring and threat detection organization contributing to defensive security practices"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://taosecurity.blogspot.com"
+  search_keywords:
+    - "tao security"
+    - "richard bejtlich"
+    - "network security monitoring"
+    - "intrusion detection"
+    - "security monitoring"
+    - "traffic analysis"
+    - "security operations"
+    - "NSM"
+  embedding_text: "Tao Security is a cybersecurity consultancy and influential security blog founded by Richard Bejtlich, a pioneering figure in network security monitoring and incident detection. The organization advanced the practice of network security monitoring as a discipline through foundational books including 'The Practice of Network Security Monitoring' and 'The Tao of Network Security Monitoring.' Bejtlich's work fundamentally shaped how the industry approaches network-based threat detection, establishing core principles for security operations centers and network defense strategies."

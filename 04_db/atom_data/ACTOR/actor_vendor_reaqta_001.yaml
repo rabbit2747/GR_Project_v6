@@ -1,0 +1,68 @@
+# GR Atom: ReaQta
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-REAQTA-001"
+  name: "ReaQta"
+  normalized_name: "reaqta"
+  aliases:
+    - "ReaQta Ltd"
+    - "IBM ReaQta"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - AI
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "ReaQta is a cybersecurity company that developed an AI-powered endpoint detection and response (EDR) platform using autonomous behavioral analysis and nano-OS hypervisor technology. The platform was designed to detect threats without relying on signatures by monitoring endpoint behavior at the hypervisor level. ReaQta was acquired by IBM in 2022 and integrated into the IBM Security QRadar EDR product line, extending IBM's extended detection and response capabilities."
+  why: "ReaQta is significant in cybersecurity for its innovative approach to endpoint security using hypervisor-based monitoring that operates below the operating system level, making it resistant to evasion techniques that target OS-level security tools. The acquisition by IBM validated the approach and brought the technology into IBM's broader security portfolio, influencing the direction of enterprise EDR solutions."
+  how: "ReaQta's platform deployed a nano-OS hypervisor on endpoints that monitored system behavior from below the operating system, capturing process execution, file operations, network connections, and memory activity. AI models analyzed behavioral patterns to identify anomalous activity indicative of malware, lateral movement, or data exfiltration without relying on signatures. The technology now operates as IBM Security QRadar EDR, integrated with QRadar SIEM and SOAR for unified security operations."
+  core_concepts:
+    - key: "Hypervisor-based EDR"
+      value: "Nano-OS monitoring below the operating system for evasion-resistant threat detection"
+    - key: "AI behavioral analysis"
+      value: "Autonomous machine learning for signature-less threat detection on endpoints"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "SERVICE-EDR-001"
+    description: "ReaQta provides AI-powered endpoint detection and response through hypervisor monitoring"
+  - type: part_of
+    target: "ACTOR-VENDOR-IBM-001"
+    description: "ReaQta was acquired by IBM and integrated into QRadar EDR product line"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "IBM Security - QRadar EDR (ReaQta) Documentation"
+    - "IBM Acquisition Announcement - ReaQta 2022"
+    - "Gartner - Endpoint Detection and Response Market Guide"
+  search_keywords:
+    - "reaqta"
+    - "reaqta edr"
+    - "ibm reaqta"
+    - "qradar edr"
+    - "reaqta hypervisor"
+    - "reaqta ai endpoint"
+    - "nano-os edr"
+  embedding_text: "ReaQta is a cybersecurity company that developed an innovative AI-powered endpoint detection and response platform using autonomous behavioral analysis and nano-OS hypervisor technology. The platform detects threats without relying on signatures by monitoring endpoint behavior at the hypervisor level, operating below the operating system to resist evasion techniques that target OS-level security tools. AI models analyze behavioral patterns including process execution, file operations, network connections, and memory activity to identify anomalous behavior indicative of malware, lateral movement, or data exfiltration. ReaQta was acquired by IBM in 2022 and integrated into the IBM Security QRadar EDR product line, extending IBM's extended detection and response capabilities. The acquisition brought hypervisor-based endpoint monitoring and autonomous AI detection into IBM's broader security portfolio, influencing the direction of enterprise EDR solutions and providing integration with QRadar SIEM and SOAR for unified security operations."

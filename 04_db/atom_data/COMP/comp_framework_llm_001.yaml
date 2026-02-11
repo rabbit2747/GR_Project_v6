@@ -1,0 +1,140 @@
+# GR Atom: OWASP Top 10 for LLM
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-LLM-001"
+  name: "OWASP Top 10 for LLM"
+  normalized_name: "owasp_top_10_for_llm"
+  aliases:
+    - "OWASP Top 10 for Large Language Model Applications"
+    - "LLM Top 10"
+    - "OWASP LLM AI Security Top 10"
+    - "Top 10 for LLM Applications"
+    - "OWASP GenAI Top 10"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - AI
+    - WEB
+    - DEVSECOPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The OWASP Top 10 for Large Language Model Applications identifies the ten most critical
+    security risks specific to applications that integrate large language models (LLMs) and
+    generative AI. The 2025 edition covers: LLM01-Prompt Injection, LLM02-Sensitive Information
+    Disclosure, LLM03-Supply Chain Vulnerabilities, LLM04-Data and Model Poisoning,
+    LLM05-Improper Output Handling, LLM06-Excessive Agency, LLM07-System Prompt Leakage,
+    LLM08-Vector and Embedding Weaknesses, LLM09-Misinformation, and LLM10-Unbounded
+    Consumption. Each risk category addresses security concerns unique to AI-powered
+    applications including prompt manipulation, training data integrity, model output
+    trustworthiness, and the expanded attack surface created by granting LLMs access to
+    tools, APIs, and sensitive data.
+  why: >-
+    The rapid adoption of large language models in enterprise applications has introduced
+    novel security risks that traditional web application security frameworks do not
+    adequately address. LLM applications face unique threats including prompt injection
+    attacks that manipulate model behavior, sensitive information leakage through model
+    outputs, supply chain risks from pre-trained models and training data, and excessive
+    agency risks when models are granted autonomous access to tools and systems. Organizations
+    deploying LLM-powered applications need specific guidance on these AI-unique risks to
+    build secure AI systems, as conventional application security controls are necessary
+    but insufficient for the expanded attack surface that LLM integration creates.
+  how: >-
+    The OWASP Top 10 for LLM is applied through AI-specific security practices:
+    (1) Prompt Injection mitigation through input sanitization, privilege separation between
+    user prompts and system instructions, and human-in-the-loop controls for sensitive
+    operations; (2) Sensitive Information Disclosure prevention through data sanitization
+    of training data, output filtering, and access control on model responses;
+    (3) Supply Chain security through model provenance verification, training data validation,
+    and third-party plugin security assessment; (4) Data and Model Poisoning prevention
+    through training data integrity verification, model behavior monitoring, and adversarial
+    testing; (5) Output Handling security through treating model outputs as untrusted,
+    applying encoding and validation before rendering or executing; (6) Excessive Agency
+    mitigation through least-privilege access for LLM tool integrations, approval workflows,
+    and action scope limitations; (7) Ongoing monitoring for misinformation, hallucination
+    detection, and resource consumption controls to prevent denial-of-service through
+    unbounded model invocations.
+  core_concepts:
+    - key: "Prompt Injection"
+      value: >-
+        The primary novel attack vector for LLM applications where adversarial inputs
+        manipulate model behavior to bypass safety controls, exfiltrate data, or execute
+        unauthorized actions, analogous to SQL injection but targeting the natural language
+        interface of AI models.
+    - key: "Excessive Agency"
+      value: >-
+        Risks arising from granting LLMs autonomous access to tools, APIs, databases,
+        and systems without appropriate privilege boundaries, approval workflows, and
+        scope limitations, potentially enabling cascading unauthorized actions through
+        AI-driven automation.
+    - key: "AI Supply Chain Security"
+      value: >-
+        Security risks in the LLM supply chain including compromised pre-trained models,
+        poisoned training datasets, malicious third-party plugins and extensions, and
+        vulnerabilities in ML frameworks and inference infrastructure that can undermine
+        the integrity of AI-powered applications.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-OWASP-001"
+    description: "The Top 10 for LLM is an OWASP project extending application security awareness to AI-powered applications"
+  - type: "is_a"
+    target: "COMP-FRAMEWORK-OWATOP10-001"
+    description: "The LLM Top 10 applies the OWASP Top 10 awareness methodology to LLM-specific security risks"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-MITREATLAS-001"
+    description: "LLM Top 10 risk categories map to MITRE ATLAS adversarial ML techniques for comprehensive AI threat modeling"
+  - type: "requires"
+    target: "COMP-FRAMEWORK-ASVS-001"
+    description: "Traditional application security verification from ASVS remains necessary alongside LLM-specific controls"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OWASP Top 10 for Large Language Model Applications. https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    - "OWASP Top 10 for LLM Applications 2025. https://genai.owasp.org/"
+    - "OWASP LLM Top 10 GitHub Repository. https://github.com/OWASP/www-project-top-10-for-large-language-model-applications"
+  search_keywords:
+    - "OWASP Top 10 for LLM"
+    - "LLM security risks"
+    - "prompt injection"
+    - "AI application security"
+    - "large language model security"
+    - "generative AI security"
+    - "LLM vulnerabilities"
+    - "AI supply chain security"
+    - "excessive agency"
+    - "OWASP AI security"
+  embedding_text: >-
+    The OWASP Top 10 for Large Language Model Applications identifies ten critical security
+    risks specific to LLM-powered applications. The 2025 edition covers Prompt Injection,
+    Sensitive Information Disclosure, Supply Chain Vulnerabilities, Data and Model Poisoning,
+    Improper Output Handling, Excessive Agency, System Prompt Leakage, Vector and Embedding
+    Weaknesses, Misinformation, and Unbounded Consumption. These risks are unique to AI
+    applications and not adequately addressed by traditional web security frameworks. Prompt
+    injection is the primary novel attack vector, manipulating model behavior through adversarial
+    inputs. Excessive Agency addresses risks from granting LLMs autonomous tool access without
+    privilege boundaries. AI supply chain security covers compromised models, poisoned training
+    data, and malicious plugins. Organizations deploying LLM applications need this specific
+    guidance alongside traditional security controls. The framework maps to MITRE ATLAS for
+    comprehensive AI threat modeling and extends OWASP Top 10 awareness methodology to the
+    generative AI domain.

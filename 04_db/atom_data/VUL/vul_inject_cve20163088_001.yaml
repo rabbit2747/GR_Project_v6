@@ -1,0 +1,114 @@
+# GR Atom: CVE-2016-3088
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INJECT-CVE20163088-001"
+  name: "CVE-2016-3088"
+  normalized_name: "cve_2016_3088"
+  aliases:
+    - "Apache ActiveMQ Fileserver RCE"
+    - "ActiveMQ PUT Method Upload"
+    - "ActiveMQ Web Console File Upload"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INJ
+    - UPLOAD
+    - EXEC
+    - WEB
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache ActiveMQ 5.x before 5.14.0"
+    - "ActiveMQ Fileserver web application"
+    - "ActiveMQ Web Console"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2016-3088 is a remote code execution vulnerability in Apache ActiveMQ versions before
+    5.14.0 that allows attackers to upload and execute arbitrary files through the Fileserver
+    web application. The ActiveMQ Fileserver allows HTTP PUT method file uploads without
+    proper authentication or file type restrictions, enabling attackers to upload JSP web
+    shells or other executable content. The CVSS v3 base score is 9.8 (Critical) and it
+    was disclosed in June 2016.
+  why: >-
+    Apache ActiveMQ is one of the most popular open-source message brokers used in enterprise
+    messaging architectures. The ability to upload arbitrary files to a web server without
+    authentication provides a trivial path to remote code execution. Many ActiveMQ deployments
+    expose the web console to the network, making this vulnerability easily discoverable and
+    exploitable in mass scanning campaigns.
+  how: >-
+    Attackers use HTTP PUT requests to upload a JSP web shell to the ActiveMQ Fileserver
+    endpoint. Since the Fileserver does not require authentication and does not restrict file
+    types, the web shell is stored on the server. The attacker then accesses the uploaded JSP
+    file through the web server to execute arbitrary commands on the underlying system. Some
+    exploit variants use the MOVE method to relocate uploaded files to web-accessible
+    directories. Mitigation requires upgrading ActiveMQ, disabling the Fileserver application,
+    and restricting web console access.
+  core_concepts:
+    - key: "Unrestricted File Upload"
+      value: "HTTP PUT method allows uploading arbitrary files including web shells without authentication or type validation"
+    - key: "Web Shell Deployment"
+      value: "Uploaded JSP files execute server-side code when accessed through the web server, providing command execution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INJECT-INJECTION-001"
+    description: "File upload leading to code execution is a form of injection vulnerability"
+  - type: "enables"
+    target: "VUL-INJECT-CVE202346604-001"
+    description: "Both are Apache ActiveMQ vulnerabilities enabling remote code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+  cve_id: "CVE-2016-3088"
+  cvss_score: 9.8
+  affected_product: "Apache ActiveMQ before 5.14.0"
+  year: 2016
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD - CVE-2016-3088"
+    - "CWE-434 Unrestricted Upload of File with Dangerous Type"
+    - "Apache ActiveMQ Security Advisory"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2016-3088"
+    - "Apache ActiveMQ RCE"
+    - "ActiveMQ file upload"
+    - "ActiveMQ Fileserver vulnerability"
+    - "ActiveMQ web shell"
+    - "message broker vulnerability"
+    - "ActiveMQ PUT method exploit"
+  embedding_text: >-
+    CVE-2016-3088 is a critical remote code execution vulnerability in Apache ActiveMQ
+    before 5.14.0 with CVSS score 9.8. The Fileserver web application allows unauthenticated
+    HTTP PUT file uploads without file type restrictions, enabling attackers to deploy JSP
+    web shells for arbitrary command execution. Apache ActiveMQ is a widely deployed
+    open-source message broker in enterprise architectures. Exploitation is trivial through
+    PUT requests to upload web shells followed by HTTP access to execute commands. Some
+    variants use the MOVE method to relocate files to web-accessible paths. Mitigation
+    requires upgrading ActiveMQ, disabling the Fileserver application, and restricting
+    web console network access.

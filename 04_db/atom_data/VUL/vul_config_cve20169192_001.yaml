@@ -1,0 +1,71 @@
+# GR Atom: CVE-2016-9192
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE20169192-001"
+  name: "CVE-2016-9192"
+  normalized_name: "cve_2016_9192"
+  aliases:
+    - "Cisco AnyConnect Privilege Escalation"
+    - "AnyConnect Path Traversal"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - PRIV
+    - WINDOWS
+    - NETWORK
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Cisco AnyConnect Secure Mobility Client"
+    - "Windows"
+
+definition:
+  what: "CVE-2016-9192 is a privilege escalation vulnerability in Cisco AnyConnect Secure Mobility Client for Windows (versions prior to 4.3.04.2075) caused by improper path validation in the client installer. A local attacker can exploit insufficient validation of path names and file names to execute arbitrary code with SYSTEM privileges through a crafted IPC message to the AnyConnect service."
+  why: "This vulnerability is significant because Cisco AnyConnect is one of the most widely deployed enterprise VPN clients, installed on millions of corporate endpoints. Privilege escalation from a standard user to SYSTEM on an endpoint running AnyConnect provides an attacker with full control over the host, enabling credential harvesting, lateral movement, and persistence. The vulnerability requires only local access, making it valuable in post-compromise scenarios."
+  how: "The vulnerability exists in the IPC (Inter-Process Communication) channel between the AnyConnect GUI process running as the user and the vpnagent service running as SYSTEM. The service does not properly validate file paths received through IPC messages. An attacker crafts a malicious IPC message containing a path traversal sequence that causes the SYSTEM-level service to load or execute an attacker-controlled file. Cisco addressed this in AnyConnect 4.3.04.2075 and later. CVSS v3 Base Score: 7.8 (High)."
+  core_concepts:
+    - key: "IPC Path Validation Failure"
+      value: "The AnyConnect VPN agent service running as SYSTEM fails to validate file paths received from the user-level GUI process through IPC, allowing path traversal"
+    - key: "Privileged Service Exploitation"
+      value: "Technique of abusing a SYSTEM-level service's trust relationship with user-level components to achieve privilege escalation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2016-9192 is a configuration and design vulnerability in AnyConnect's IPC path validation"
+  - type: enables
+    target: "VUL-CONFIG-HIJAPATH-001"
+    description: "The path traversal in AnyConnect enables hijacking of file paths for privilege escalation"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1574.005"
+    tactic: ["Privilege Escalation", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2016-9192 - NVD NIST"
+    - "Cisco Security Advisory cisco-sa-20161207-anyconnect1"
+    - "MITRE ATT&CK T1574.005 - Hijack Execution Flow: Executable Installer File Permissions Weakness"
+  search_keywords:
+    - "CVE-2016-9192"
+    - "Cisco AnyConnect privilege escalation"
+    - "AnyConnect path traversal"
+    - "AnyConnect SYSTEM exploit"
+    - "Cisco VPN vulnerability"
+    - "vpnagent privilege escalation"
+    - "AnyConnect IPC vulnerability"
+  embedding_text: "CVE-2016-9192 is a privilege escalation vulnerability in Cisco AnyConnect Secure Mobility Client for Windows prior to version 4.3.04.2075. The vulnerability exists due to improper path validation in the IPC channel between the user-level AnyConnect GUI and the SYSTEM-level vpnagent service. A local attacker can send crafted IPC messages with path traversal sequences to cause the privileged service to load attacker-controlled files, achieving SYSTEM-level code execution. CVSS v3 score is 7.8 High. Remediation requires updating to AnyConnect 4.3.04.2075 or later. The vulnerability is significant due to AnyConnect's widespread deployment across enterprise environments."

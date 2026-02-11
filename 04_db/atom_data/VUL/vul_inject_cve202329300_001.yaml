@@ -1,0 +1,76 @@
+# GR Atom: CVE-2023-29300
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202329300-001"
+  name: "CVE-2023-29300"
+  normalized_name: "cve_2023_29300"
+  aliases:
+    - "Adobe ColdFusion Deserialization RCE"
+    - "ColdFusion Pre-Auth RCE"
+    - "ColdFusion WDDX Deserialization"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - INITIAL
+    - WEB
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Adobe ColdFusion 2018 (Update 16 and earlier)"
+    - "Adobe ColdFusion 2021 (Update 6 and earlier)"
+    - "Adobe ColdFusion 2023 (GA release)"
+
+definition:
+  what: "CVE-2023-29300 is a critical pre-authentication remote code execution vulnerability in Adobe ColdFusion caused by insecure deserialization of untrusted WDDX (Web Distributed Data eXchange) data. The vulnerability exists in ColdFusion's handling of WDDX-formatted data in HTTP requests, where an attacker can supply a crafted serialized Java object that gets deserialized by the ColdFusion server, leading to arbitrary code execution without any authentication. CVSS v3: 9.8 (Critical). Disclosed July 11, 2023."
+  why: "Adobe ColdFusion remains in use across many government agencies and enterprise organizations for legacy web applications. The vulnerability is particularly dangerous because it requires no authentication and can be exploited remotely via standard HTTP requests. It was added to CISA's Known Exploited Vulnerabilities catalog after confirmed active exploitation in the wild. Government and enterprise ColdFusion deployments often handle sensitive data and are integrated with internal systems, making compromise of these servers a high-value target for threat actors. The vulnerability was chained with CVE-2023-38203 (a patch bypass) extending the exploitation window."
+  how: "Exploitation involves sending an HTTP request to the ColdFusion server containing a malicious WDDX payload with a crafted serialized Java object. ColdFusion's WDDX deserialization mechanism processes the payload without adequate validation, instantiating attacker-controlled Java objects that execute arbitrary system commands. The attack does not require authentication and targets publicly accessible ColdFusion endpoints. Attackers typically deploy web shells for persistent access after initial exploitation. Mitigation requires applying Adobe security updates (ColdFusion 2018 Update 17, ColdFusion 2021 Update 7, ColdFusion 2023 Update 1), restricting access to ColdFusion administrative interfaces, and implementing WAF rules to filter WDDX deserialization payloads."
+  core_concepts:
+    - key: "WDDX Deserialization Exploitation"
+      value: "ColdFusion's WDDX data handling deserializes untrusted Java objects from HTTP requests without adequate validation, enabling pre-authentication remote code execution through crafted serialized payloads"
+    - key: "Patch Bypass Chain"
+      value: "The initial patch for CVE-2023-29300 was bypassed by CVE-2023-38203, extending the exploitation window and requiring multiple remediation cycles for affected organizations"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2023-29300 is an injection vulnerability through insecure deserialization of WDDX data in ColdFusion"
+  - type: precedes
+    target: "VUL-INJECT-CVE202338203-001"
+    description: "The patch for CVE-2023-29300 was bypassed by CVE-2023-38203"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2023-29300 - NVD NIST"
+    - "Adobe Security Bulletin APSB23-40"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Rapid7 - ColdFusion CVE-2023-29300 Analysis"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2023-29300"
+    - "ColdFusion RCE"
+    - "ColdFusion deserialization"
+    - "Adobe ColdFusion vulnerability"
+    - "ColdFusion WDDX"
+    - "ColdFusion pre-auth RCE"
+    - "ColdFusion zero-day"
+  embedding_text: "CVE-2023-29300 is a critical CVSS 9.8 pre-authentication remote code execution vulnerability in Adobe ColdFusion caused by insecure deserialization of WDDX data. Disclosed July 2023, it allows attackers to send crafted HTTP requests containing malicious serialized Java objects that ColdFusion deserializes without validation, enabling arbitrary code execution. The vulnerability affects ColdFusion 2018, 2021, and 2023 versions. Actively exploited in the wild and added to CISA Known Exploited Vulnerabilities catalog. ColdFusion remains deployed across government agencies and enterprises for legacy web applications. The initial patch was bypassed by CVE-2023-38203 extending the exploitation window. Maps to MITRE ATT&CK T1190 Initial Access."

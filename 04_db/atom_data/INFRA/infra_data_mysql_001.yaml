@@ -1,0 +1,134 @@
+# GR Atom: MySQL
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-MYSQL-001"
+  name: "MySQL"
+  normalized_name: "mysql"
+  aliases:
+    - "MySQL Server"
+    - "MySQL Database"
+    - "MySQL RDBMS"
+    - "Oracle MySQL"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - MYSQL
+    - DATABASE
+    - INJ
+    - AUTHN
+    - PATCH
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z3"
+  function: "D1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MySQL is an open-source relational database management system (RDBMS) developed originally
+    by MySQL AB, acquired by Sun Microsystems in 2008, and subsequently by Oracle Corporation
+    in 2010. It is the world's most popular open-source database, using SQL for data management.
+    MySQL listens on TCP port 3306 by default and supports multiple storage engines including
+    InnoDB (default, ACID-compliant) and MyISAM. MySQL is available as MySQL Community (GPL),
+    MySQL Enterprise, and through cloud-managed services including Amazon RDS for MySQL, Azure
+    Database for MySQL, and Google Cloud SQL for MySQL. MariaDB is a notable fork maintained
+    as a community-developed alternative.
+  why: >-
+    MySQL is one of the most targeted database systems due to its ubiquity in web application
+    stacks (LAMP, LEMP). SQL injection attacks against MySQL-backed web applications are among
+    the most common attack vectors. MySQL instances exposed to the internet with weak or default
+    credentials are routinely compromised. Privilege escalation through MySQL user-defined
+    functions (UDFs), local file read/write through LOAD DATA INFILE and INTO OUTFILE, and
+    command execution through stored procedures are well-documented attack techniques. MySQL
+    credentials stored in configuration files and application code are frequent credential
+    harvesting targets.
+  how: >-
+    MySQL operates as a client-server database system. The server process (mysqld) manages
+    database files, handles client connections, parses and optimizes SQL queries, and manages
+    transactions. Authentication uses native password hashing (mysql_native_password),
+    caching_sha2_password (default in MySQL 8.0+), or LDAP/PAM plugins. Authorization is
+    enforced through a privilege system with global, database, table, column, and routine-level
+    grants. TLS encryption protects client connections. InnoDB provides row-level locking, ACID
+    transactions, foreign keys, and crash recovery. MySQL Enterprise features include audit
+    logging, firewall, encryption, and thread pool management.
+  core_concepts:
+    - key: "SQL Injection Attack Surface"
+      value: >-
+        MySQL-backed web applications are primary SQL injection targets, with MySQL-specific
+        syntax (UNION SELECT, LOAD_FILE(), INTO OUTFILE) enabling data extraction, file
+        read/write, and in some cases command execution.
+    - key: "Authentication Security"
+      value: >-
+        MySQL 8.0+ defaults to caching_sha2_password for stronger credential hashing,
+        replacing the weaker mysql_native_password, but legacy applications may still
+        use older authentication methods.
+    - key: "File System Interaction"
+      value: >-
+        MySQL's LOAD DATA INFILE and SELECT INTO OUTFILE capabilities enable reading and
+        writing files on the server, which can be exploited for data exfiltration or webshell
+        deployment if the MySQL user has FILE privilege.
+    - key: "Replication Security"
+      value: >-
+        MySQL replication transmits data between primary and replica servers, requiring TLS
+        encryption and strong authentication to prevent interception and unauthorized replicas.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "MySQL is a specific implementation of a relational database service"
+  - type: "is_a"
+    target: "INFRA-DATA-DATASERV-001"
+    description: "MySQL is a database server providing data storage and query processing services"
+  - type: "instance_of"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "MySQL is a specific instance of a data store using relational data model with SQL interface"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1505"
+    tactic:
+      - "Persistence"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MySQL 8.0 Reference Manual - Security. https://dev.mysql.com/doc/refman/8.0/en/security.html"
+    - "CIS MySQL Benchmark. https://www.cisecurity.org/cis-benchmarks"
+    - "OWASP SQL Injection Prevention Cheat Sheet. https://cheatsheetseries.owasp.org/"
+  search_keywords:
+    - "MySQL"
+    - "MySQL security"
+    - "MySQL injection"
+    - "MySQL hardening"
+    - "MySQL vulnerability"
+    - "MySQL port 3306"
+    - "MySQL authentication"
+    - "MySQL LOAD DATA INFILE"
+    - "MariaDB"
+  embedding_text: >-
+    MySQL is the world's most popular open-source relational database management system,
+    listening on TCP port 3306. Originally developed by MySQL AB and now owned by Oracle,
+    it uses SQL for data management with InnoDB as the default ACID-compliant storage engine.
+    MySQL is heavily targeted due to its ubiquity in web stacks (LAMP/LEMP). SQL injection
+    attacks against MySQL-backed applications are among the most common attack vectors.
+    MySQL-specific exploitation techniques include UNION SELECT for data extraction, LOAD_FILE()
+    and INTO OUTFILE for file system interaction, and UDFs for command execution. Authentication
+    uses native password hashing or caching_sha2_password (MySQL 8.0+). Security features
+    include TLS encryption, privilege-based authorization, audit logging (Enterprise), and
+    MySQL Firewall. Available as Community, Enterprise, and cloud-managed services (RDS, Azure,
+    Cloud SQL). MariaDB is a community-maintained fork.

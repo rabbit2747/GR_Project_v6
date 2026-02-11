@@ -1,0 +1,74 @@
+# GR Atom: BeyondTrust
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BEYONDTRUS-001"
+  name: "BeyondTrust"
+  normalized_name: "beyondtrust"
+  aliases:
+    - "BeyondTrust Inc."
+    - "BeyondTrust PAM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PAM
+    - ZTNA
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7", "Cross"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BeyondTrust is a cybersecurity vendor specializing in privileged access management (PAM), identity security, and endpoint privilege management. The company provides solutions including Password Safe (privileged credential vaulting), Privilege Management (endpoint least privilege enforcement), and Privileged Remote Access (secure vendor and remote access). BeyondTrust enables organizations to control, monitor, and audit all privileged access across their environments."
+  why: "BeyondTrust is significant because privileged account compromise is one of the most common and damaging attack vectors in enterprise breaches. Their PAM solutions address the critical security need to control and monitor administrative access, enforce least privilege principles, and secure remote access for IT staff and third-party vendors. Privileged access management is consistently identified as a top security control by major frameworks."
+  how: "BeyondTrust operates through an integrated PAM platform that discovers and vaults privileged credentials, enforces least privilege on endpoints by elevating applications rather than users, provides secure remote access with session recording, and monitors privileged sessions for anomalous behavior. The platform integrates with SIEM, ITSM, and identity governance solutions to provide comprehensive privileged access lifecycle management."
+  core_concepts:
+    - key: "Privileged Access Management"
+      value: "Comprehensive platform for discovering, vaulting, managing, and auditing privileged credentials and sessions"
+    - key: "Endpoint Privilege Management"
+      value: "Enforcing least privilege on endpoints by elevating applications rather than granting users administrative rights"
+    - key: "Privileged Remote Access"
+      value: "Secure, audited remote access for IT administrators and third-party vendors without VPN exposure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-PAM-PLATFORM-001"
+    description: "Produces privileged access management solutions for enterprise credential vaulting and session control"
+  - type: enables
+    target: "DEF-ZTNA-ACCESS-001"
+    description: "Enables zero trust privileged access through least privilege enforcement and session monitoring"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for PAM vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.beyondtrust.com"
+    - "https://www.beyondtrust.com/resources"
+  search_keywords:
+    - "beyondtrust"
+    - "privileged access management"
+    - "pam solution"
+    - "endpoint privilege management"
+    - "password safe"
+    - "privileged remote access"
+    - "least privilege"
+    - "credential vaulting"
+  embedding_text: "BeyondTrust is a cybersecurity vendor specializing in privileged access management (PAM), identity security, and endpoint privilege management. The company provides Password Safe for privileged credential vaulting, Privilege Management for endpoint least privilege enforcement, and Privileged Remote Access for secure vendor and remote administration. BeyondTrust enables organizations to control, monitor, and audit all privileged access across their environments by discovering and vaulting privileged credentials, enforcing least privilege on endpoints through application elevation rather than user elevation, providing secure remote access with session recording, and monitoring privileged sessions for anomalous behavior. Privileged account compromise is one of the most common and damaging attack vectors in enterprise breaches, making BeyondTrust's PAM solutions critical for controlling and auditing administrative access. The platform integrates with SIEM, ITSM, and identity governance solutions for comprehensive privileged access lifecycle management."

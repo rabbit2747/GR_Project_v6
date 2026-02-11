@@ -1,0 +1,73 @@
+# GR Atom: CVE-2023-34048
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202334048-001"
+  name: "CVE-2023-34048"
+  normalized_name: "cve_2023_34048"
+  aliases:
+    - "vCenter Server Out-of-Bounds Write"
+    - "vCenter DCERPC Protocol Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 3
+  atom_tags:
+    - CONFIG
+    - EXEC
+    - VMWARE
+    - OVERFLOW
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "VMware vCenter Server"
+    - "VMware Cloud Foundation"
+
+definition:
+  what: "CVE-2023-34048 is a critical out-of-bounds write vulnerability in VMware vCenter Server's implementation of the DCERPC protocol. A remote attacker with network access to vCenter Server can trigger the out-of-bounds write to achieve remote code execution without authentication. The vulnerability exists in the vCenter Server's handling of DCERPC protocol messages."
+  why: "VMware vCenter Server is the central management platform for enterprise virtualization infrastructure. Unauthenticated remote code execution on vCenter provides immediate administrative access to all managed ESXi hosts and virtual machines. This vulnerability was exploited in the wild by UNC3886 (Chinese state-sponsored group) and was retroactively identified as having been exploited since at least late 2021, predating its public disclosure. CISA added it to the Known Exploited Vulnerabilities catalog. VMware took the unusual step of releasing patches for end-of-life vCenter Server versions."
+  how: "The vulnerability is exploited by sending specially crafted DCERPC protocol messages to the vCenter Server over the network. The malformed messages trigger an out-of-bounds write condition in the DCERPC implementation, allowing the attacker to overwrite memory and achieve code execution as the vCenter Server process. No authentication is required. Exploitation provides full administrative access to the vCenter Server, and from there, all managed VMware infrastructure. VMware released patches for vCenter Server 7.0, 8.0, and even end-of-life 6.7 and 6.5 versions. CVSS v3: 9.8 (Critical)."
+  core_concepts:
+    - key: "DCERPC Protocol Exploitation"
+      value: "Out-of-bounds write in vCenter Server's DCERPC protocol handler enabling unauthenticated remote code execution through crafted network packets"
+    - key: "Pre-Disclosure Active Exploitation"
+      value: "UNC3886 exploited this vulnerability since at least late 2021, approximately two years before public disclosure, demonstrating advanced persistent threat capability"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "CVE-2023-34048 is a vulnerability in vCenter Server's default DCERPC protocol implementation"
+  - type: enables
+    target: "VUL-CONFIG-CVE202320867-001"
+    description: "vCenter compromise through CVE-2023-34048 enables exploitation of CVE-2023-20867 for guest VM access"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2023-34048 - NVD NIST"
+    - "VMware Security Advisory VMSA-2023-0023"
+    - "Mandiant - UNC3886 Exploiting CVE-2023-34048"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2023-34048"
+    - "vCenter DCERPC"
+    - "vCenter out-of-bounds write"
+    - "VMware vCenter RCE"
+    - "UNC3886 vCenter"
+    - "vCenter unauthenticated RCE"
+    - "VMware critical vulnerability"
+  embedding_text: "CVE-2023-34048 is a critical out-of-bounds write vulnerability in VMware vCenter Server's DCERPC protocol implementation allowing unauthenticated remote code execution. Exploited by UNC3886, a Chinese state-sponsored group, since at least late 2021 before public disclosure. Compromising vCenter provides administrative access to all managed ESXi hosts and VMs. CVSS v3 score is 9.8 Critical. VMware released patches including for end-of-life versions. CISA added it to the Known Exploited Vulnerabilities catalog. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application."

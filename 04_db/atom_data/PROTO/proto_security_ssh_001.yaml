@@ -1,0 +1,137 @@
+# GR Atom: SSH
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-SSH-001"
+  name: "SSH"
+  normalized_name: "ssh"
+  aliases:
+    - "Secure Shell"
+    - "SSH-2"
+    - "SSH Protocol"
+    - "OpenSSH"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SSH
+    - ENCRYPT
+    - NETWORK
+    - CRYPTO
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SSH (Secure Shell) is a cryptographic network protocol defined in RFC 4251-4254 that
+    provides secure encrypted communication over unsecured networks. SSH-2, the current version,
+    comprises three layered protocols: the Transport Layer Protocol (RFC 4253) for server
+    authentication, key exchange, and encryption; the User Authentication Protocol (RFC 4252)
+    for client identity verification via password, public key, or certificate; and the Connection
+    Protocol (RFC 4254) for multiplexing encrypted channels for interactive shells, command
+    execution, and port forwarding. SSH operates on TCP port 22 by default and is the primary
+    protocol for secure remote system administration, file transfer (SFTP/SCP), and secure
+    tunneling across the internet.
+  why: >-
+    SSH was created by Tatu Ylonen in 1995 to replace insecure plaintext protocols (Telnet,
+    rlogin, rsh, FTP) that transmitted credentials and data in cleartext, vulnerable to
+    eavesdropping and man-in-the-middle attacks. The protocol addresses the fundamental need
+    for secure remote access to servers and network devices where administrators must
+    authenticate and transmit sensitive commands over potentially hostile networks. SSH's
+    port forwarding capability enables secure tunneling of arbitrary TCP connections, providing
+    encrypted access to services behind firewalls. NIST IR 7966 provides guidelines for SSH
+    key management in enterprise environments, recognizing SSH as critical infrastructure for
+    system administration. OpenSSH, the dominant implementation, is deployed on virtually all
+    Linux/Unix systems and is included in Windows 10+ and macOS.
+  how: >-
+    SSH connection establishment begins with the Transport Layer Protocol: client and server
+    exchange version strings, then negotiate algorithms for key exchange (typically
+    curve25519-sha256 or diffie-hellman-group16-sha512), server host key verification
+    (ssh-ed25519, rsa-sha2-512), encryption (chacha20-poly1305, aes256-gcm), MAC (implicit
+    with AEAD ciphers, or hmac-sha2-256), and compression. The key exchange produces a shared
+    secret and session ID. The server authenticates itself using its host key, which the client
+    verifies against known_hosts. Next, the User Authentication Protocol authenticates the
+    client using publickey (Ed25519, RSA, ECDSA keys), password, keyboard-interactive, or
+    certificate-based methods. Finally, the Connection Protocol multiplexes the encrypted
+    transport into channels for shell sessions, exec commands, SFTP subsystems, and local/
+    remote port forwarding. Key re-exchange occurs periodically or after transferring a
+    configured amount of data.
+  core_concepts:
+    - key: "Host Key Verification"
+      value: >-
+        The server's host key fingerprint is verified against the client's known_hosts file
+        on first connection (trust-on-first-use model) and on all subsequent connections to
+        detect man-in-the-middle attacks or server key changes.
+    - key: "Public Key Authentication"
+      value: >-
+        Clients authenticate using Ed25519, RSA, or ECDSA key pairs where the public key is
+        placed on the server in authorized_keys and the client proves possession of the private
+        key through a digital signature challenge.
+    - key: "Channel Multiplexing"
+      value: >-
+        The Connection Protocol multiplexes multiple independent channels (shell, exec, SFTP,
+        port forwarding) over a single encrypted SSH transport, each with independent flow
+        control.
+    - key: "Port Forwarding (Tunneling)"
+      value: >-
+        SSH provides local forwarding (client-side listening), remote forwarding (server-side
+        listening), and dynamic SOCKS proxy forwarding, enabling secure tunneling of arbitrary
+        TCP connections through the encrypted SSH channel.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "SSH provides encrypted remote access and tunneling as an alternative to TLS-based remote access solutions"
+  - type: "is_a"
+    target: "PROTO-SECURITY-SSHSECSHE-001"
+    description: "SSH is the specific protocol implementation of the Secure Shell concept"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-IPSEC-001"
+    description: "SSH tunneling provides an application-layer alternative to IPSec VPN for encrypting specific TCP connections"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4251 - The Secure Shell (SSH) Protocol Architecture. IETF. https://datatracker.ietf.org/doc/html/rfc4251"
+    - "RFC 4253 - The Secure Shell (SSH) Transport Layer Protocol. IETF. https://datatracker.ietf.org/doc/html/rfc4253"
+    - "RFC 4252 - The Secure Shell (SSH) Authentication Protocol. IETF. https://datatracker.ietf.org/doc/html/rfc4252"
+    - "NIST IR 7966 - Security of Interactive and Automated Access Management Using Secure Shell (SSH). https://csrc.nist.gov/publications/detail/nistir/7966/final"
+  search_keywords:
+    - "SSH"
+    - "Secure Shell"
+    - "SSH-2"
+    - "OpenSSH"
+    - "SSH key authentication"
+    - "SSH port forwarding"
+    - "SFTP"
+    - "SSH tunnel"
+    - "known_hosts"
+    - "RFC 4251"
+  embedding_text: >-
+    SSH (Secure Shell) is a cryptographic network protocol defined in RFC 4251-4254 providing
+    secure encrypted communication over unsecured networks. SSH-2 comprises three layers: the
+    Transport Layer Protocol for server authentication, key exchange using curve25519-sha256
+    or DH groups, and encryption with chacha20-poly1305 or aes256-gcm; the User Authentication
+    Protocol supporting public key, password, and certificate methods; and the Connection
+    Protocol multiplexing channels for shells, SFTP, and port forwarding. Created by Tatu
+    Ylonen in 1995 to replace plaintext Telnet and rlogin, SSH operates on TCP port 22 and
+    is the primary protocol for secure remote administration. Host key verification uses
+    trust-on-first-use against known_hosts. Public key authentication uses Ed25519, RSA, or
+    ECDSA keys. OpenSSH is the dominant implementation deployed on virtually all Unix/Linux
+    systems, Windows 10+, and macOS. SSH port forwarding enables secure tunneling of arbitrary
+    TCP connections. NIST IR 7966 provides enterprise SSH key management guidance.

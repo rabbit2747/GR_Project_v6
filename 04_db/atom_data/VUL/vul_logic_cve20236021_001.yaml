@@ -1,0 +1,94 @@
+# GR Atom: CVE-2023-6021
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20236021-001"
+  name: "CVE-2023-6021"
+  normalized_name: "cve_2023_6021"
+  aliases:
+    - "Ray AI Framework Arbitrary File Read"
+    - "Anyscale Ray Path Traversal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PATH
+    - INFO_LEAK
+    - AI
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray"
+    - "Ray AI/ML framework"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-6021 is an arbitrary file read vulnerability in Anyscale Ray that allows
+    unauthenticated attackers to read arbitrary files from the Ray server filesystem. The
+    vulnerability exists in the dashboard log viewer functionality where file path parameters
+    are not properly validated, enabling directory traversal to access files outside the
+    intended log directory. CVSS v3 base score: 7.5 (High).
+  why: >-
+    File read on Ray cluster nodes exposes AI model files, training datasets, configuration
+    files containing credentials, SSH keys, and other sensitive data. Ray clusters often
+    process proprietary AI models and sensitive training data. Combined with the lack of
+    default authentication, this allows unauthenticated extraction of valuable intellectual
+    property and credentials.
+  how: >-
+    An attacker sends a request to the Ray dashboard log viewer endpoint with directory
+    traversal sequences in the file path parameter. The log viewer's path processing logic
+    fails to sanitize traversal sequences, allowing access to arbitrary files on the server
+    filesystem. The file contents are returned in the HTTP response to the attacker.
+  core_concepts:
+    - key: "Log Viewer Path Traversal"
+      value: "Dashboard log viewer fails to validate file paths, enabling directory traversal to read arbitrary files from the server"
+    - key: "AI Asset Exposure"
+      value: "File read on ML cluster nodes exposes AI models, training data, and configuration credentials"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Path validation logic failure in AI framework log viewer enabling arbitrary file read"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1005"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-6021"
+    - "NIST NVD - CVE-2023-6021"
+    - "Protect AI - Ray Vulnerability Research"
+  search_keywords:
+    - "CVE-2023-6021"
+    - "Ray file read"
+    - "Anyscale Ray vulnerability"
+    - "AI framework path traversal"
+    - "Ray log viewer exploit"
+    - "ML model theft"
+  embedding_text: >-
+    CVE-2023-6021 is an arbitrary file read vulnerability in Anyscale Ray AI/ML framework.
+    Dashboard log viewer fails to validate file paths, enabling directory traversal. CVSS v3
+    7.5 High. Exposes AI models, training data, and configuration credentials on cluster
+    nodes. No authentication required by default. Enables intellectual property theft from
+    ML infrastructure. Path validation logic failure in AI framework log viewer. Year 2023.

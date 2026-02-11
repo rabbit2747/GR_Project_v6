@@ -1,0 +1,115 @@
+# GR Atom: CVE-2019-0708
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-INFO-CVE20190708-001"
+  name: "CVE-2019-0708"
+  normalized_name: "cve_2019_0708"
+  aliases:
+    - "BlueKeep"
+    - "BlueKeep RDP Vulnerability"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - INFO_LEAK
+    - EXEC
+    - WINDOWS
+    - NETWORK
+    - INITIAL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Windows Remote Desktop Services (RDS)"
+    - "Windows 7"
+    - "Windows Server 2008 R2"
+    - "Windows Server 2008"
+    - "Windows XP"
+    - "Windows Server 2003"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-0708 (BlueKeep) is a critical remote code execution vulnerability in Microsoft
+    Windows Remote Desktop Services (RDS). It affects Windows 7, Windows Server 2008 R2,
+    Windows Server 2008, Windows XP, and Windows Server 2003. The vulnerability is wormable,
+    meaning it can propagate without user interaction. CVSS v3.1 score is 9.8 (Critical).
+    An unauthenticated attacker can send specially crafted requests to RDS via RDP to execute
+    arbitrary code on the target system.
+  why: >-
+    BlueKeep is one of the most critical Windows vulnerabilities discovered in recent years due
+    to its wormable nature and pre-authentication exploitation. Similar to EternalBlue (MS17-010),
+    it can be weaponized for mass exploitation across networks. Remote Desktop Services are
+    widely exposed on the internet, and the vulnerability affects legacy Windows systems still
+    prevalent in enterprise and industrial environments. NSA issued a rare advisory urging
+    immediate patching.
+  how: >-
+    The vulnerability exists in the Remote Desktop Protocol (RDP) pre-authentication handling
+    within the RDP kernel driver termdd.sys. An attacker sends specially crafted RDP packets
+    to port 3389 that exploit a use-after-free condition in the RDP connection sequence. The
+    flaw occurs during the binding of internal channels before authentication completes,
+    allowing kernel-level code execution without credentials. The wormable nature means
+    compromised systems can automatically scan and exploit other vulnerable systems.
+  core_concepts:
+    - key: "Wormable RCE"
+      value: "Pre-authentication remote code execution in RDP that can self-propagate across networks without user interaction"
+    - key: "Kernel-Level Exploitation"
+      value: "Use-after-free in termdd.sys RDP driver enables kernel-mode code execution via crafted RDP packets to port 3389"
+    - key: "Legacy System Risk"
+      value: "Affects Windows XP through Server 2008 R2, systems still common in enterprise and industrial control environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-INFO-SECURITY-001"
+    description: "BlueKeep is a critical security vulnerability enabling remote code execution via RDP"
+  - type: "causes"
+    target: "VUL-ACCESS-BLUEKEEP-001"
+    description: "CVE-2019-0708 is the same vulnerability tracked as BlueKeep in the access vulnerability category"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1210"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "NVD - CVE-2019-0708"
+    - "Microsoft Security Advisory - CVE-2019-0708"
+    - "NSA Cybersecurity Advisory - Patch Remote Desktop Services on Legacy Versions of Windows"
+    - "MITRE ATT&CK T1210"
+  search_keywords:
+    - "CVE-2019-0708"
+    - "BlueKeep"
+    - "Remote Desktop Services"
+    - "RDP vulnerability"
+    - "wormable vulnerability"
+    - "Windows RCE"
+    - "termdd.sys"
+    - "pre-authentication RDP"
+  embedding_text: >-
+    CVE-2019-0708 (BlueKeep) is a critical wormable remote code execution vulnerability in
+    Microsoft Windows Remote Desktop Services. CVSS 9.8. Affects Windows 7, Server 2008 R2,
+    Server 2008, XP, and Server 2003. Unauthenticated attackers exploit a use-after-free in
+    the termdd.sys RDP kernel driver by sending crafted packets to port 3389 before authentication
+    completes. The wormable nature allows automatic propagation across networks without user
+    interaction, similar to EternalBlue. NSA issued a rare advisory urging immediate patching.
+    Widely exposed RDP services and legacy Windows systems make this a significant enterprise
+    and industrial control system risk. Discovered May 2019.

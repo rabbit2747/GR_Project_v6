@@ -1,0 +1,71 @@
+# GR Atom: Oracle OCI Lib
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-ORAOCILIB-001"
+  name: "Oracle OCI Lib"
+  normalized_name: "oracle_oci_lib"
+  aliases: ["Oracle Cloud Infrastructure", "OCI", "Oracle Cloud", "OCI SDK"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [CLOUD, IAC, API]
+gr_coordinates:
+  layer: "Cross"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Oracle Cloud Infrastructure (OCI) is Oracle's cloud computing platform providing compute
+    (Bare Metal, VM, Container Instances), networking (VCN, Load Balancer, FastConnect),
+    storage (Block Volumes, Object Storage, File Storage), database (Autonomous Database,
+    MySQL, Exadata Cloud), and security services (Cloud Guard, Vault, IAM). The OCI SDK and
+    CLI libraries provide programmatic access to all OCI services via REST APIs with
+    request signing using RSA key pairs for authentication.
+  why: >-
+    OCI is targeted for its enterprise database workloads and Oracle application hosting.
+    Security concerns include IAM policy misconfiguration using Oracle's unique policy language,
+    API key exposure (PEM private keys), instance principal abuse, cross-tenancy attacks,
+    insecure Object Storage bucket policies, and VCN security list misconfigurations. The OCI
+    SDK and CLI store authentication credentials (API keys, config files) that become credential
+    theft targets on developer workstations and CI/CD pipelines.
+  how: >-
+    OCI uses a compartment-based resource hierarchy with IAM policies written in a human-
+    readable policy language (Allow group X to manage Y in compartment Z). Authentication
+    uses API key signing (RSA key pairs), instance principals for VM authentication, or
+    resource principals for service-to-service access. Cloud Guard provides automated threat
+    detection and response. OCI Vault manages encryption keys with HSM backing. Security
+    Zones enforce security posture on compartments. VCN security lists and network security
+    groups control network access.
+  core_concepts:
+    - key: "Compartment-Based Resource Hierarchy"
+      value: "Resources organized in compartments with IAM policies using Oracle's unique policy language; misconfigured compartment policies enable cross-resource access"
+    - key: "API Key Authentication"
+      value: "RSA key pair authentication for API/SDK access; PEM private key files are credential theft targets stored on developer workstations and CI/CD systems"
+    - key: "Cloud Guard Threat Detection"
+      value: "Automated security monitoring that detects misconfigurations, threats, and anomalous activities across OCI resources with automated response recipes"
+relations:
+  - type: "is_a"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "Oracle OCI is a cloud service provider"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "OCI provides cloud infrastructure as an alternative to AWS"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Oracle Cloud Infrastructure Security Guide", "CIS Oracle Cloud Infrastructure Benchmark", "OCI SDK Documentation"]
+  search_keywords: ["Oracle OCI", "oracle cloud infrastructure", "OCI security", "OCI IAM", "cloud guard", "OCI vault", "oracle cloud security"]
+  embedding_text: >-
+    Oracle Cloud Infrastructure (OCI) provides compute, networking, storage, database, and
+    security services with SDK/CLI libraries for programmatic access. Uses compartment-based
+    resource hierarchy with a unique IAM policy language. Authentication via RSA API key
+    signing, instance principals, or resource principals. Security concerns include IAM policy
+    misconfiguration, API key exposure, instance principal abuse, and Object Storage
+    misconfigurations. Cloud Guard provides automated threat detection. OCI Vault manages
+    encryption keys. Security Zones enforce security posture on compartments.

@@ -1,0 +1,71 @@
+# GR Atom: Hardware Device Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDDEVI-001"
+  name: "Hardware Device Event"
+  normalized_name: "hardware_device_event"
+  aliases:
+    - "Device Lifecycle Event"
+    - "Hardware Event Monitoring"
+    - "Device Management Telemetry"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L0", "L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Event is a comprehensive endpoint detection pattern that serves as the parent category for all hardware device lifecycle events on an endpoint system. It encompasses device connection, disconnection, binding, unbinding, enabling, disabling, state changes, moves, and updates across all device types including USB, PCI, Thunderbolt, Bluetooth, and virtual devices. This pattern provides a unified view of all hardware-related activity on the system, aggregating telemetry from multiple OS subsystems into a coherent device activity timeline."
+  why: "Comprehensive hardware device monitoring is essential because adversaries use hardware-based attack vectors at multiple stages of the attack lifecycle. Hardware additions provide initial access, driver manipulation enables privilege escalation, device state changes facilitate defense evasion, and removable media enables exfiltration. A unified hardware event monitoring framework ensures no device activity falls through detection gaps and enables correlation across device lifecycle events that individually may appear benign but together reveal malicious patterns such as a new device connection followed by driver binding, data access, and rapid disconnection."
+  how: "The hardware device event framework aggregates telemetry from multiple OS sources including Windows WMI and ETW providers for Plug and Play events, Linux udev subsystem and kernel device model events, macOS IOKit framework notifications, and BIOS/UEFI device enumeration data. The unified event stream is processed through correlation engines that link related device lifecycle events, maintain device session timelines, track device state machines, and apply behavioral analytics to identify anomalous device usage patterns. Machine learning models establish baseline device activity per user and workstation to detect deviations."
+  core_concepts:
+    - key: "Device Lifecycle"
+      value: "The complete sequence of events from initial device connection through binding, operation, and eventual disconnection or removal"
+    - key: "Unified Device Telemetry"
+      value: "Aggregation of device events from multiple OS subsystems into a single coherent timeline for comprehensive monitoring"
+    - key: "Device Behavioral Analytics"
+      value: "Application of machine learning and statistical analysis to device activity patterns to detect anomalous hardware usage"
+
+relations:
+  - type: abstracts
+    target: "DETECT-ENDPOINT-HARDEVCON-001"
+    description: "Hardware device event is the parent category that encompasses device connection events"
+  - type: abstracts
+    target: "DETECT-ENDPOINT-HARDEVDIS-002"
+    description: "Hardware device event is the parent category that encompasses device disconnection events"
+  - type: enables
+    target: "DETECT-ENDPOINT-PERIDEVI-001"
+    description: "Hardware device event monitoring provides the foundation for peripheral device event detection"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1200 - Hardware Additions"
+    - "Microsoft - Windows Device Management - https://learn.microsoft.com/en-us/windows-hardware/drivers/"
+    - "Linux Kernel - Device Model Documentation - https://www.kernel.org/doc/Documentation/driver-model/"
+  search_keywords:
+    - "hardware device event"
+    - "device lifecycle monitoring"
+    - "hardware telemetry"
+    - "device management event"
+    - "hardware security monitoring"
+    - "device activity tracking"
+    - "unified device event"
+    - "endpoint hardware monitoring"
+  embedding_text: "Hardware Device Event is the comprehensive parent detection pattern for all hardware device lifecycle events on endpoints, encompassing connection, disconnection, binding, unbinding, enabling, disabling, state changes, moves, and updates across USB, PCI, Thunderbolt, Bluetooth, and virtual devices. Aggregating telemetry from Windows WMI/ETW, Linux udev, macOS IOKit, and BIOS/UEFI subsystems, this unified framework correlates device lifecycle events, maintains session timelines, and applies behavioral analytics to detect anomalous patterns. This ensures comprehensive coverage of hardware-based attack vectors across initial access, privilege escalation, defense evasion, and exfiltration."

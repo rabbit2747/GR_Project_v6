@@ -1,0 +1,130 @@
+# GR Atom: NIST CSF 2.0
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISTCSF20-001"
+  name: "NIST CSF 2.0"
+  normalized_name: "nist_csf_2_0"
+  aliases:
+    - "NIST Cybersecurity Framework 2.0"
+    - "CSF 2.0"
+    - "Cybersecurity Framework Version 2.0"
+    - "NIST CSF v2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 2
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NIST CSF 2.0, released in February 2024, is the major update to the NIST Cybersecurity
+    Framework that expands scope from critical infrastructure to all organizations regardless
+    of sector or size. The most significant change is the addition of a sixth core function,
+    Govern, alongside the original five (Identify, Protect, Detect, Respond, Recover). CSF 2.0
+    introduces improved organizational profiles, tiered implementation levels, an expanded
+    catalog of informative references mapped to other frameworks, and enhanced supply chain
+    risk management guidance. The framework is now explicitly designed for international
+    adoption with improved integration points for global cybersecurity standards.
+  why: >-
+    The original CSF 1.1 was designed primarily for critical infrastructure and lacked explicit
+    governance guidance. As cybersecurity became a board-level concern and regulatory requirements
+    expanded globally, organizations needed a framework that addressed governance, supply chain
+    risk, and organizational cybersecurity culture. CSF 2.0 addresses these gaps by adding the
+    Govern function to emphasize cybersecurity as an enterprise risk alongside financial,
+    reputational, and operational risks, and by broadening applicability beyond critical
+    infrastructure to all organizations.
+  how: >-
+    CSF 2.0 is structured around six core functions: (1) Govern - establish and monitor
+    cybersecurity risk management strategy, expectations, and policy including organizational
+    context, risk management strategy, roles and responsibilities, policy, oversight, and
+    supply chain risk management; (2) Identify - understand organizational cybersecurity risk
+    through asset management, risk assessment, and improvement planning; (3) Protect - implement
+    safeguards including identity management, awareness training, data security, platform
+    security, and technology infrastructure resilience; (4) Detect - identify cybersecurity
+    events through continuous monitoring and adverse event analysis; (5) Respond - take action
+    regarding detected incidents through incident management, analysis, reporting, and
+    mitigation; (6) Recover - restore capabilities through incident recovery plan execution
+    and recovery communication.
+  core_concepts:
+    - key: "Govern Function"
+      value: >-
+        The new sixth core function in CSF 2.0 that establishes cybersecurity risk management
+        strategy, organizational context, policies, roles, oversight, and supply chain risk
+        management as foundational governance activities.
+    - key: "Organizational Profiles"
+      value: >-
+        Customized descriptions of an organization's current and target cybersecurity posture
+        using CSF functions, categories, and subcategories, enabling gap analysis and
+        improvement planning.
+    - key: "Implementation Tiers"
+      value: >-
+        Four tiers (Partial, Risk Informed, Repeatable, Adaptive) describing the degree of
+        rigor and sophistication in cybersecurity risk management practices, from informal
+        and ad hoc to agile and risk-informed.
+    - key: "Expanded Scope"
+      value: >-
+        CSF 2.0 is explicitly designed for all organizations regardless of sector, size, or
+        cybersecurity maturity, expanding from the original critical infrastructure focus to
+        universal applicability.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "CSF 2.0 supersedes the original NIST Cybersecurity Framework (CSF 1.0/1.1) with expanded scope and the addition of the Govern function"
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "CSF 2.0 is a NIST publication developed and maintained by the National Institute of Standards and Technology"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NICSCOFU-001"
+    description: "CSF 2.0 defines the updated six core functions (Govern, Identify, Protect, Detect, Respond, Recover)"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST Cybersecurity Framework 2.0 (February 2024). https://www.nist.gov/cyberframework"
+    - "NIST - CSF 2.0 Reference Tool. https://csrc.nist.gov/projects/cybersecurity-framework"
+    - "NIST CSF 2.0 Quick Start Guides. https://www.nist.gov/cyberframework/getting-started"
+  search_keywords:
+    - "NIST CSF 2.0"
+    - "cybersecurity framework 2.0"
+    - "CSF 2.0 Govern function"
+    - "NIST CSF update"
+    - "cybersecurity framework version 2"
+    - "CSF organizational profiles"
+    - "CSF implementation tiers"
+    - "NIST CSF supply chain"
+    - "CSF 2.0 core functions"
+    - "cybersecurity governance framework"
+  embedding_text: >-
+    NIST CSF 2.0 released in February 2024 is the major update to the NIST Cybersecurity
+    Framework expanding scope from critical infrastructure to all organizations. The most
+    significant change is the addition of a sixth core function Govern alongside the original
+    five Identify Protect Detect Respond and Recover. CSF 2.0 introduces improved organizational
+    profiles, tiered implementation levels, expanded informative references mapped to other
+    frameworks, and enhanced supply chain risk management. The Govern function establishes
+    cybersecurity risk management strategy, organizational context, policies, roles, oversight,
+    and supply chain risk management as foundational governance activities. The framework
+    addresses the gap where CSF 1.1 lacked explicit governance guidance as cybersecurity
+    became a board-level enterprise risk. Implementation tiers range from Partial through
+    Risk Informed and Repeatable to Adaptive. CSF 2.0 is designed for international adoption
+    with improved integration points for global cybersecurity standards, superseding the
+    original CSF with universal applicability regardless of sector or size.

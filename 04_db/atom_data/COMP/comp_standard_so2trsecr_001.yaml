@@ -1,0 +1,76 @@
+# GR Atom: SOC 2 Trust Service Criteria
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-SO2TRSECR-001"
+  name: "SOC 2 Trust Service Criteria"
+  normalized_name: "soc_2_trust_service_criteria"
+  aliases:
+    - "Trust Service Criteria"
+    - "TSC"
+    - "Trust Service Principles"
+    - "AICPA Trust Services"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+    - PRIVACY
+
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "SOC 2 Trust Service Criteria (TSC) are the five categories of control objectives defined by the AICPA against which service organizations are evaluated in SOC 2 examinations. The criteria are: Security (CC series - common criteria applicable to all engagements), Availability (A series - system availability for operation and use), Processing Integrity (PI series - system processing completeness, validity, accuracy, timeliness), Confidentiality (C series - protection of designated confidential information), and Privacy (P series - personal information collection, use, retention, disclosure, and disposal). Security is the mandatory baseline; the other four are optionally selected based on organizational relevance."
+  why: "The Trust Service Criteria provide the structured evaluation framework that makes SOC 2 examinations consistent, comparable, and meaningful. By defining specific control objectives across five categories, TSC enables organizations to select criteria relevant to their services, auditors to conduct standardized assessments, and report users to understand the scope and depth of the examination. The criteria integrate with COSO Internal Control framework principles, providing a foundation in established governance and risk management practice."
+  how: "Organizations implement TSC by first selecting which criteria are applicable to their services (Security is always required). For each selected criterion, they identify the specific criteria points (e.g., CC6.1 for logical and physical access), design controls that address each point, implement those controls in their environment, and collect evidence demonstrating control operation. During the SOC 2 examination, the auditor tests controls against each applicable criteria point and reports results. The criteria are organized into Common Criteria (applicable to all engagements), Additional Criteria for Availability, Processing Integrity, Confidentiality, and supplemental criteria for Privacy."
+  core_concepts:
+    - key: "Security (Common Criteria)"
+      value: "Mandatory baseline criteria covering logical and physical access, system operations, change management, and risk mitigation (CC1-CC9)"
+    - key: "Availability"
+      value: "Criteria addressing system availability commitments including capacity planning, disaster recovery, and incident management"
+    - key: "Processing Integrity"
+      value: "Criteria ensuring system processing is complete, valid, accurate, timely, and authorized"
+    - key: "Confidentiality"
+      value: "Criteria for identifying and protecting information designated as confidential through its lifecycle"
+    - key: "Privacy"
+      value: "Criteria aligned with Generally Accepted Privacy Principles for personal information handling"
+
+relations:
+  - type: part_of
+    target: "COMP-STANDARD-SOC2-001"
+    description: "Trust Service Criteria are the evaluation framework within SOC 2"
+  - type: enables
+    target: "COMP-STANDARD-SOC2COM-001"
+    description: "TSC defines the control objectives that the SOC 2 compliance framework must address"
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "TSC provides structured criteria against which audit compliance is measured"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AICPA Trust Service Criteria (2017) - https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-trust-services-criteria"
+    - "AICPA SOC 2 Reporting on an Examination of Controls"
+    - "COSO Internal Control - Integrated Framework"
+  search_keywords:
+    - "trust service criteria"
+    - "TSC"
+    - "SOC 2 criteria"
+    - "common criteria"
+    - "availability criteria"
+    - "processing integrity"
+    - "confidentiality criteria"
+    - "privacy criteria"
+    - "AICPA trust services"
+    - "SOC 2 control objectives"
+  embedding_text: "SOC 2 Trust Service Criteria are five AICPA-defined evaluation categories for SOC 2 examinations: Security (mandatory, CC1-CC9 common criteria), Availability (capacity and recovery), Processing Integrity (accuracy and completeness), Confidentiality (designated information protection), and Privacy (personal information handling aligned with GAPP). Organizations select applicable criteria, design controls for each criteria point, implement controls, and collect evidence. During examinations, auditors test controls against criteria points. The TSC integrates with COSO Internal Control framework principles, providing consistency across examinations and enabling meaningful comparison of service organization control environments."

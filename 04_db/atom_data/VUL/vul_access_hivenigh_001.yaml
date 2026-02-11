@@ -1,0 +1,132 @@
+# GR Atom: Hive Nightmare
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-HIVENIGH-001"
+  name: "Hive Nightmare"
+  normalized_name: "hive_nightmare"
+  aliases:
+    - "CVE-2021-36934"
+    - "SeriousSAM"
+    - "HiveNightmare"
+    - "SAM File Access Vulnerability"
+    - "Windows Elevation of Privilege"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - CRED
+    - WINDOWS
+    - OS
+    - CONFIG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Windows 10 Version 1809+"
+    - "Windows 11"
+    - "SAM registry hive"
+    - "SYSTEM registry hive"
+    - "SECURITY registry hive"
+    - "Volume Shadow Copy Service (VSS)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Hive Nightmare (CVE-2021-36934), also known as SeriousSAM, is a local privilege escalation
+    vulnerability in Windows 10 and 11 disclosed in July 2021 with a CVSS score of 7.8. The
+    vulnerability exists because overly permissive Access Control Lists (ACLs) on Windows
+    system registry hive files (SAM, SYSTEM, SECURITY) allow non-administrative users to
+    read these sensitive files through Volume Shadow Copies (VSS). The SAM file contains
+    password hashes for local accounts, the SYSTEM file contains the boot key needed to
+    decrypt them, and the SECURITY file contains cached domain credentials. A local user
+    can extract these files and crack password hashes offline to escalate privileges.
+  why: >-
+    Hive Nightmare was particularly impactful because it affected all Windows 10 installations
+    from version 1809 onward, which represents the vast majority of Windows desktops and many
+    servers. The vulnerability is trivially exploitable by any local user without requiring
+    any special privileges, tools, or exploit development skills. The ACL misconfiguration
+    was introduced during a Windows update and persisted undetected for years. Once exploited,
+    the attacker obtains password hashes that can be cracked offline or used for pass-the-hash
+    attacks, enabling lateral movement across the network.
+  how: >-
+    A non-administrative user accesses Volume Shadow Copies (VSS snapshots) which preserve
+    copies of the SAM, SYSTEM, and SECURITY registry hive files. While the live hive files
+    are locked by the operating system, the shadow copies are not. The user reads
+    \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1\Windows\System32\config\SAM (and SYSTEM,
+    SECURITY) using standard file read operations. The extracted SAM file is processed with
+    tools like secretsdump.py (Impacket), mimikatz, or samdump2 using the boot key from the
+    SYSTEM file to decrypt local account password hashes. These hashes can be cracked with
+    hashcat or used in pass-the-hash attacks. Mitigation includes applying Windows updates,
+    restricting ACLs on %windir%\system32\config, deleting existing VSS shadow copies, and
+    changing all local account passwords.
+  core_concepts:
+    - key: "ACL Misconfiguration"
+      value: "Overly permissive file system ACLs on SAM, SYSTEM, and SECURITY registry hives allow non-admin users to read credential databases"
+    - key: "Volume Shadow Copy Exposure"
+      value: "VSS shadow copies preserve accessible copies of locked system files, bypassing the operating system's exclusive file locks on live hive files"
+    - key: "Offline Credential Extraction"
+      value: "Extracted SAM hashes can be cracked offline or used in pass-the-hash attacks for lateral movement without online password guessing"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Hive Nightmare is a broken access control vulnerability where sensitive credential files are readable by unauthorized users"
+  - type: "applies_to"
+    target: "VUL-ACCESS-CERTIFRIED-001"
+    description: "Both Hive Nightmare and CertiFried enable privilege escalation through Windows default configuration weaknesses"
+  - type: "enables"
+    target: "VUL-ACCESS-BLUEKEEP-001"
+    description: "Credential extraction from Hive Nightmare can provide administrative credentials enabling RDP access to other systems"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003.002"
+    tactic:
+      - "Credential Access"
+      - "Privilege Escalation"
+  cve_id: "CVE-2021-36934"
+  cvss_score: 7.8
+  affected_product: "Microsoft Windows 10/11"
+  disclosure_year: 2021
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Advisory CVE-2021-36934"
+    - "NVD CVE-2021-36934 CVSS 7.8"
+    - "MITRE ATT&CK T1003.002 - OS Credential Dumping: Security Account Manager"
+    - "CISA Alert - Windows SAM Vulnerability"
+  search_keywords:
+    - "CVE-2021-36934"
+    - "Hive Nightmare"
+    - "SeriousSAM"
+    - "SAM file vulnerability"
+    - "Windows privilege escalation"
+    - "Volume Shadow Copy exploit"
+    - "SAM hash extraction"
+    - "Windows credential dumping"
+  embedding_text: >-
+    Hive Nightmare (CVE-2021-36934/SeriousSAM) is a Windows privilege escalation vulnerability
+    (CVSS 7.8) where overly permissive ACLs allow non-admin users to read SAM, SYSTEM, and
+    SECURITY registry hives through Volume Shadow Copies. Affects Windows 10 version 1809+
+    and Windows 11. Local users extract password hashes from shadow copy SAM files using
+    secretsdump.py, mimikatz, or samdump2. Hashes cracked offline or used in pass-the-hash
+    attacks for lateral movement. Trivially exploitable without special privileges or tools.
+    ACL misconfiguration introduced during Windows update persisted undetected for years.
+    Mitigation requires patching, ACL correction, VSS deletion, and password resets.

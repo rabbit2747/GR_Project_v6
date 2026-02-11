@@ -1,0 +1,113 @@
+# GR Atom: GlassFish
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-GLASSFISH-001"
+  name: "GlassFish"
+  normalized_name: "glassfish"
+  aliases:
+    - "Eclipse GlassFish"
+    - "Oracle GlassFish Server"
+    - "GlassFish Application Server"
+    - "Payara Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - HTTP
+    - CONFIG
+    - DESER
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    GlassFish is an open-source Jakarta EE (formerly Java EE) application server that serves
+    as the reference implementation for the Jakarta EE specification. Originally developed by
+    Sun Microsystems and later Oracle, it is now maintained by the Eclipse Foundation. GlassFish
+    provides a full Java EE container supporting servlets, JSP, EJB, JPA, JMS, JAX-RS, and
+    other enterprise Java specifications. Payara Server is a commercially supported fork.
+  why: >-
+    GlassFish has been subject to critical vulnerabilities including directory traversal
+    (CVE-2017-1000028), remote code execution through deserialization flaws, and admin console
+    exposure. The admin console listens on port 4848 by default and may use default or weak
+    credentials. As a Java application server, GlassFish inherits Java deserialization
+    vulnerabilities that enable remote code execution. Production deployments that use GlassFish
+    as a standalone server expose additional attack surface through its HTTP listener and admin
+    interfaces.
+  how: >-
+    GlassFish operates as a Java process hosting the Jakarta EE container. It deploys
+    applications as WAR/EAR packages, managing their lifecycle through the admin console
+    (port 4848) or asadmin CLI. The server provides HTTP listeners (ports 8080/8181),
+    connection pooling, transaction management, and security realms. Exploitation targets the
+    admin console through default credentials, Java deserialization in various components, and
+    directory traversal vulnerabilities in file serving components.
+  core_concepts:
+    - key: "Jakarta EE Reference Implementation"
+      value: "Open-source application server serving as reference implementation for Jakarta EE specifications with full enterprise Java container support"
+    - key: "Admin Console Exposure"
+      value: "Default admin console on port 4848 with potentially weak credentials provides direct server management and application deployment access"
+    - key: "Java Deserialization Surface"
+      value: "Inherits Java platform deserialization vulnerabilities enabling remote code execution through crafted serialized objects"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTESERV-001"
+    description: "GlassFish is a Jakarta EE enterprise application server within the enterprise services category"
+  - type: "alternative_to"
+    target: "INFRA-APP-NETWEAVER-001"
+    description: "GlassFish and SAP NetWeaver are alternative enterprise application server platforms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Eclipse GlassFish Documentation"
+    - "CVE-2017-1000028 - GlassFish Directory Traversal"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "GlassFish"
+    - "Eclipse GlassFish"
+    - "GlassFish vulnerability"
+    - "GlassFish admin console"
+    - "Jakarta EE server"
+    - "GlassFish deserialization"
+    - "Payara Server"
+    - "GlassFish exploit"
+  embedding_text: >-
+    GlassFish is an open-source Jakarta EE application server serving as the reference
+    implementation, now maintained by the Eclipse Foundation. It provides a full Java EE
+    container supporting servlets, EJB, JPA, JMS, and other enterprise specifications.
+    Security concerns include admin console exposure on port 4848 with potentially weak
+    credentials, Java deserialization vulnerabilities enabling remote code execution, and
+    directory traversal flaws (CVE-2017-1000028). Payara Server is a commercial fork. As
+    with all Java application servers, GlassFish inherits platform-level deserialization
+    risks. Security teams should restrict admin console access, deploy behind reverse
+    proxies, and maintain current patch levels.

@@ -1,0 +1,72 @@
+# GR Atom: Micro Focus
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-MICRFOCU-001"
+  name: "Micro Focus"
+  normalized_name: "micro_focus"
+  aliases:
+    - "Micro Focus International"
+    - "OpenText Security"
+    - "OpenText Cybersecurity"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - SIEM
+    - MONITOR
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Micro Focus was a British software company acquired by OpenText in 2023, known in cybersecurity for its ArcSight SIEM platform, Fortify application security testing tools, and Voltage data protection solutions. ArcSight is one of the pioneering SIEM platforms used by enterprise security operations centers for log management, security event correlation, and compliance reporting. Fortify provides static and dynamic application security testing (SAST/DAST) for secure software development."
+  why: "Micro Focus/OpenText is significant in cybersecurity because ArcSight remains a widely deployed enterprise SIEM platform that security operations teams depend on for threat detection, incident investigation, and compliance. Fortify is a key player in application security testing used in secure development lifecycles. Understanding these products is essential for security architects designing SOC infrastructure and DevSecOps pipelines."
+  how: "ArcSight collects and normalizes log data from diverse sources through connectors, applies correlation rules to identify security events, provides dashboards and reporting for SOC analysts, and supports compliance frameworks through predefined content packages. Fortify integrates into CI/CD pipelines to perform static code analysis and dynamic application scanning. Voltage provides format-preserving encryption and data masking for sensitive data protection. These products are now maintained under the OpenText Cybersecurity portfolio."
+  core_concepts:
+    - key: "ArcSight SIEM"
+      value: "Enterprise security information and event management platform for SOC operations"
+    - key: "Fortify AppSec"
+      value: "Application security testing tools for static and dynamic analysis in development pipelines"
+    - key: "Data protection"
+      value: "Voltage encryption and data masking solutions for sensitive data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-SIEM-ARCSIGHT-001"
+    description: "Micro Focus produces ArcSight SIEM platform for security event management"
+  - type: enables
+    target: "TECHNIQUE-APPSEC-001"
+    description: "Micro Focus enables application security testing through Fortify SAST/DAST tools"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "OpenText Cybersecurity (formerly Micro Focus) Website"
+    - "ArcSight Product Documentation"
+    - "Gartner Magic Quadrant - SIEM"
+  search_keywords:
+    - "micro focus"
+    - "arcsight"
+    - "arcsight siem"
+    - "fortify"
+    - "fortify sast"
+    - "micro focus security"
+    - "opentext cybersecurity"
+    - "voltage encryption"
+  embedding_text: "Micro Focus, now part of OpenText following the 2023 acquisition, is a significant cybersecurity vendor known primarily for ArcSight SIEM, Fortify application security testing, and Voltage data protection solutions. ArcSight is one of the pioneering enterprise SIEM platforms widely deployed in security operations centers for log management, security event correlation, threat detection, incident investigation, and compliance reporting. The platform collects and normalizes log data from diverse sources, applies correlation rules to identify security events, and provides dashboards and reporting for SOC analysts. Fortify provides static application security testing and dynamic application security testing tools that integrate into CI/CD pipelines for secure software development lifecycle practices. Voltage offers format-preserving encryption and data masking for sensitive data protection across enterprise environments. These products continue under the OpenText Cybersecurity portfolio, serving enterprise customers who depend on them for foundational security operations and application security capabilities."

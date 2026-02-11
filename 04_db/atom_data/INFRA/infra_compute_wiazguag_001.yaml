@@ -1,0 +1,72 @@
+# GR Atom: Windows Azure Guest Agent
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-WIAZGUAG-001"
+  name: "Windows Azure Guest Agent"
+  normalized_name: "windows_azure_guest_agent"
+  aliases: ["Azure Guest Agent", "WindowsAzureGuestAgent", "WaAgent", "Azure VM Agent"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [AZURE, CLOUD, WINDOWS, CONFIG]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "P3.1"
+definition:
+  what: >-
+    The Windows Azure Guest Agent (WaAgent/WindowsAzureGuestAgent.exe) is a system service
+    running inside Azure Virtual Machines that manages communication between the VM and the
+    Azure Fabric Controller. It handles VM provisioning, extension installation and management,
+    certificate deployment, password resets, diagnostic data collection, and heartbeat
+    reporting. The agent runs as a Windows service (WindowsAzureGuestAgent) with SYSTEM
+    privileges and is required for most Azure VM management operations.
+  why: >-
+    The Azure Guest Agent runs with SYSTEM privileges and has access to Azure management
+    credentials, making it a high-value target for attackers who have compromised an Azure VM.
+    Vulnerabilities in the agent can enable privilege escalation from standard user to SYSTEM.
+    The agent communicates with the Azure wireserver (168.63.129.16) to retrieve provisioning
+    data including certificates and credentials. Attackers can abuse the wireserver endpoint
+    to access VM configuration data and managed identity tokens for cloud lateral movement.
+  how: >-
+    The agent communicates with the Azure Fabric Controller via the wireserver at
+    168.63.129.16 over HTTP. It manages VM extensions (custom scripts, DSC, antimalware)
+    by downloading, installing, and reporting extension status. The agent processes goal
+    state documents from the fabric controller defining desired VM configuration. Certificate
+    management deploys certificates from Key Vault to the VM certificate store. The Linux
+    equivalent (waagent) provides similar functionality. Monitoring the agent's communication
+    and extension installation helps detect unauthorized configuration changes.
+  core_concepts:
+    - key: "SYSTEM Privilege Execution"
+      value: "Runs as SYSTEM with access to Azure management credentials, certificates, and wireserver communication channel for fabric controller interaction"
+    - key: "Wireserver Attack Surface"
+      value: "Communication with Azure wireserver (168.63.129.16) exposes provisioning data, certificates, and managed identity tokens to local attackers"
+    - key: "Extension-Based Code Execution"
+      value: "VM extensions enable arbitrary code execution with SYSTEM privileges; compromised extensions or unauthorized extension installation enable persistence"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "The Guest Agent is a core Azure VM management component"
+  - type: "requires"
+    target: "INFRA-COMPUTE-IMDS-001"
+    description: "The Guest Agent interacts with Azure instance metadata and wireserver endpoints"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft Azure VM Agent Documentation", "Azure VM Agent Security Research", "MITRE ATT&CK T1059 - Command and Scripting Interpreter"]
+  search_keywords: ["azure guest agent", "WindowsAzureGuestAgent", "WaAgent", "azure VM agent", "wireserver", "168.63.129.16", "azure agent security"]
+  embedding_text: >-
+    The Windows Azure Guest Agent is a SYSTEM-privilege service inside Azure VMs managing
+    communication with the Azure Fabric Controller. It handles provisioning, extension
+    management, certificate deployment, and heartbeat reporting. Communicates with wireserver
+    at 168.63.129.16 to retrieve provisioning data and credentials. Security concerns include
+    privilege escalation via agent vulnerabilities, wireserver endpoint abuse for credential
+    theft and managed identity tokens, and unauthorized VM extension installation for
+    persistence. Monitoring agent communication and extension installation detects unauthorized
+    configuration changes.

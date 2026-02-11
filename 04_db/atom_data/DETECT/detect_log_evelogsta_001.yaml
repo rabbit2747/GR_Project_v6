@@ -1,0 +1,106 @@
+# GR Atom: Event Log Start Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGSTA-001"
+  name: "Event Log Start Event"
+  normalized_name: "event_log_start_event"
+  aliases:
+    - "Log Start Event"
+    - "Event Log Service Started"
+    - "Logging Service Initialization"
+    - "EventLog Service Start"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Start Event is a detection pattern for log entries generated when an event
+    logging service or log channel begins recording events. On Windows, this is recorded as
+    Event ID 6005 in the System log (The Event log service was started), Event ID 7036 showing
+    the Windows Event Log service entering the running state, and channel-specific initialization
+    events. On Linux, this corresponds to systemd service start events for syslog, rsyslog,
+    syslog-ng, or systemd-journald, as well as auditd service start messages. The start event
+    marks the beginning of the logging timeline and is the first event recorded after system
+    boot, service restart, or recovery from a logging disruption. It establishes the baseline
+    timestamp from which all subsequent events are referenced.
+  why: >-
+    Event log start events are critical for establishing logging continuity and identifying
+    gaps in the audit trail. The timestamp of the start event, compared with the last event
+    before a stop or system shutdown, reveals the duration of any logging gap during which
+    security events were not recorded. Unexpected start events outside of system boot sequences
+    or scheduled maintenance may indicate that the logging service was previously stopped or
+    disabled by an attacker and has been restored, either by the attacker covering tracks or
+    by automated recovery mechanisms. Start events also confirm that logging is operational
+    after system deployment, patch installation, or incident recovery.
+  how: >-
+    Event log start event detection operates through: (1) Monitoring Windows System log for
+    Event ID 6005 (Event log service started) which occurs at every system boot; (2) Tracking
+    Event ID 7036 for the EventLog service entering the running state; (3) Correlating start
+    events with prior stop events to calculate logging gap duration; (4) Alerting on start
+    events that are not preceded by a normal system boot sequence (Event ID 6009/6013) which
+    may indicate a service restart; (5) On Linux, monitoring systemd journal for service start
+    entries for logging daemons; (6) SIEM rules that validate logging timeline continuity by
+    comparing the start event timestamp with the expected boot time or maintenance schedule;
+    (7) Automated health checks that verify logging service status across managed endpoints.
+  core_concepts:
+    - key: "Logging Timeline Baseline"
+      value: "The start event timestamp establishes the beginning of the logging timeline, with any gap between the previous stop event and this start representing unmonitored time."
+    - key: "Boot vs Service Restart"
+      value: "Distinguishing between start events caused by normal system boot and those caused by isolated service restarts is critical for identifying potential logging disruption attacks."
+    - key: "Post-Incident Logging Verification"
+      value: "After incident response or recovery operations, start events confirm that logging has been properly restored and is capturing events for ongoing monitoring."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Log start events are security-relevant for establishing audit trail continuity"
+  - type: "part_of"
+    target: "DETECT-LOG-EVELOGRES-001"
+    description: "A start event is the second phase of a logging service restart sequence"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Event ID 6005: The Event log service was started"
+    - "Microsoft — Windows Event Log Service Reference"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log start"
+    - "Event ID 6005"
+    - "logging service started"
+    - "EventLog service start"
+    - "log initialization"
+    - "logging timeline"
+    - "syslog start"
+    - "audit log start"
+    - "logging gap detection"
+    - "log service running"
+  embedding_text: >-
+    Event Log Start Event is a detection pattern for log entries generated when event logging
+    services begin recording. On Windows, Event ID 6005 (Event log service was started) and
+    Event ID 7036 (service running state) mark logging initialization. On Linux, systemd
+    service start events for syslog and auditd serve the same purpose. Start events establish
+    the logging timeline baseline, and gap analysis between previous stop events and start
+    events reveals unmonitored periods. Unexpected start events outside boot sequences or
+    maintenance windows may indicate recovery from attacker-caused logging disruption.
+    Detection relies on event correlation, boot sequence validation, and SIEM timeline
+    continuity checks.

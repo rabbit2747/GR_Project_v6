@@ -1,0 +1,149 @@
+# GR Atom: Kaspersky Carbanak
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-KASPCARB-001"
+  name: "Kaspersky Carbanak"
+  normalized_name: "kaspersky_carbanak"
+  aliases:
+    - "Carbanak"
+    - "Carbanak Group"
+    - "Anunak"
+    - "FIN7 (overlapping)"
+    - "Carbon Spider"
+    - "Gold Niagara"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - PERSIST
+    - LATERAL
+    - C2
+    - CRED
+    - EXFIL
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Carbanak (also known as Anunak) is one of the most sophisticated and financially successful
+    cybercriminal groups in history, first documented by Kaspersky Lab in 2015. The group targeted
+    banks and financial institutions worldwide between 2013 and 2018, stealing an estimated $1
+    billion or more through direct manipulation of banking systems, ATM networks, and financial
+    transaction infrastructure. Unlike typical banking trojans that target customers, Carbanak
+    directly infiltrated bank internal networks, compromised SWIFT terminals, manipulated account
+    balances, and controlled ATM dispensers to withdraw cash on demand. The group's operations
+    demonstrated nation-state-level sophistication applied to purely financial crime, with campaigns
+    affecting over 100 financial institutions across 40 countries. There is significant operational
+    overlap between Carbanak and the FIN7 cybercriminal group.
+  why: >-
+    Carbanak fundamentally changed the threat landscape for the financial sector by demonstrating
+    that cybercriminals could directly compromise and manipulate core banking infrastructure for
+    theft at unprecedented scale. The group's estimated $1 billion in theft from financial
+    institutions represented a paradigm shift from targeting individual customers to attacking
+    the banks themselves. Kaspersky's 2015 report on Carbanak was a landmark in cybersecurity
+    research, revealing the sophistication and organizational capability of cybercriminal groups.
+    The arrest of the alleged Carbanak leader in Alicante, Spain in March 2018 through a joint
+    Europol/FBI/Spanish Police operation was a major law enforcement achievement. The tools,
+    techniques, and operational model developed by Carbanak influenced subsequent financially
+    motivated cybercriminal groups including FIN7 and others.
+  how: >-
+    Carbanak attacks began with spear-phishing emails targeting bank employees, delivering malicious
+    Office documents with embedded exploits or macro-based payloads that installed the Carbanak
+    backdoor. Once inside bank networks, the group conducted extensive reconnaissance over weeks to
+    months, studying internal banking processes, video-recording employee screens via the backdoor's
+    surveillance capabilities, and mapping the financial infrastructure. The Carbanak backdoor
+    provided remote access, keystroke logging, screen capture, and file transfer capabilities
+    through encrypted C2 channels. Money theft was accomplished through three primary methods:
+    (1) Direct ATM cash-out by sending commands to ATM controllers to dispense cash at predetermined
+    times and locations, (2) SWIFT network manipulation to transfer funds to accounts controlled by
+    the group, and (3) Inflation of account balances followed by transfer of the excess to mule
+    accounts. The group used extensive anti-forensic techniques and maintained persistent access
+    for extended periods.
+  core_concepts:
+    - key: "Banking Infrastructure Compromise"
+      value: >-
+        Carbanak pioneered the approach of directly compromising bank internal systems rather
+        than targeting customers, manipulating core banking applications, ATM controllers, and
+        SWIFT terminals to conduct theft at institutional scale.
+    - key: "Patient Network Reconnaissance"
+      value: >-
+        The group invested weeks to months studying compromised bank networks, video-recording
+        employee activities, and mapping financial processes before executing theft, demonstrating
+        an operational patience that maximized the return on each compromise.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Carbanak is a financially motivated cybercriminal group targeting banking infrastructure"
+  - type: "enables"
+    target: "ATK-CRED"
+    description: "Carbanak operations enable credential theft and banking system manipulation"
+  - type: "enables"
+    target: "ATK-LATERAL"
+    description: "Carbanak demonstrates sophisticated lateral movement within banking networks"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1559"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+      - "Persistence"
+      - "Credential Access"
+      - "Lateral Movement"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Kaspersky Lab - The Great Bank Robbery: Carbanak APT. https://securelist.com/the-great-bank-robbery-the-carbanak-apt/68732/"
+    - "Europol - Carbanak Leader Arrested in Spain (March 2018). https://www.europol.europa.eu/newsroom/news/mastermind-behind-eur-1-billion-cyber-bank-robbery-arrested-in-spain"
+    - "MITRE ATT&CK - Carbanak Group Profile. https://attack.mitre.org/groups/G0008/"
+    - "Group-IB - Anunak/Carbanak Technical Analysis. https://www.group-ib.com/resources/research-hub/anunak-apt/"
+    - "Fox-IT - Follow the Money: Dissecting the Operations of the Cyber Crime Group FIN7/Carbanak. https://blog.fox-it.com/2018/12/11/carbanak/"
+  search_keywords:
+    - "carbanak"
+    - "carbanak APT"
+    - "anunak"
+    - "carbanak kaspersky"
+    - "carbanak billion dollar hack"
+    - "carbanak banking trojan"
+    - "carbanak ATM attack"
+    - "carbanak SWIFT"
+    - "FIN7 carbanak"
+    - "carbon spider"
+  embedding_text: >-
+    Carbanak (Anunak) is one of the most sophisticated cybercriminal groups in history, first
+    documented by Kaspersky Lab in 2015, targeting banks and financial institutions worldwide between
+    2013 and 2018. The group stole an estimated $1 billion or more by directly infiltrating bank
+    internal networks, compromising SWIFT terminals, manipulating account balances, and controlling
+    ATM dispensers. Unlike typical banking trojans targeting customers, Carbanak attacked banking
+    infrastructure itself across over 100 financial institutions in 40 countries. Operations began
+    with spear-phishing delivering the Carbanak backdoor, followed by weeks of reconnaissance
+    including video-recording employee screens and mapping financial processes. Theft was executed
+    through ATM cash-outs, SWIFT transfers, and balance manipulation. The alleged leader was arrested
+    in Spain in March 2018. Carbanak fundamentally changed the financial sector threat landscape and
+    influenced subsequent groups including FIN7. There is significant operational overlap between
+    Carbanak and the FIN7 cybercriminal organization.

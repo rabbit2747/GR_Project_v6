@@ -1,0 +1,80 @@
+# GR Atom: CVE-2023-46604
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202346604-001"
+  name: "CVE-2023-46604"
+  normalized_name: "cve_2023_46604"
+  aliases:
+    - "Apache ActiveMQ RCE"
+    - "ActiveMQ ClassInfo Deserialization"
+    - "ActiveMQ OpenWire Protocol Exploit"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - DESER
+    - EXEC
+    - INITIAL
+    - NETWORK
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache ActiveMQ (before 5.15.16)"
+    - "Apache ActiveMQ (before 5.16.7)"
+    - "Apache ActiveMQ (before 5.17.6)"
+    - "Apache ActiveMQ (before 5.18.3)"
+    - "Apache ActiveMQ Legacy OpenWire Module"
+
+definition:
+  what: "CVE-2023-46604 is a critical remote code execution vulnerability in Apache ActiveMQ, a widely used open-source message broker. The vulnerability exists in the OpenWire protocol implementation where a specially crafted ClassInfo command can be used to trigger the instantiation of arbitrary Java classes, leading to remote code execution. An unauthenticated attacker with network access to the ActiveMQ broker port (default 61616) can exploit this vulnerability to execute arbitrary commands on the server. CVSS v3: 10.0 (Critical). Disclosed October 27, 2023."
+  why: "Apache ActiveMQ is one of the most widely deployed message brokers in enterprise environments, handling inter-application messaging for financial systems, healthcare platforms, and critical infrastructure. The vulnerability is trivially exploitable, requires no authentication, and the exploit code was publicly available shortly after disclosure. Multiple ransomware groups including HelloKitty and TellYouThePass rapidly weaponized CVE-2023-46604 to deploy ransomware and cryptominers. The vulnerability was also exploited by nation-state threat actors. CISA added it to the Known Exploited Vulnerabilities catalog. ActiveMQ brokers are often deeply embedded in application architectures, making patching disruptive and creating extended exposure windows."
+  how: "The attack exploits the OpenWire protocol marshalling mechanism in ActiveMQ. The attacker connects to the ActiveMQ broker port (default TCP 61616) and sends a specially crafted ExceptionResponse message containing a ClassInfo command with a malicious class path URL. ActiveMQ's OpenWire protocol handler processes the ClassInfo command and attempts to load the specified class from the attacker-controlled URL. The remote class file contains arbitrary code that executes in the context of the ActiveMQ broker process. No authentication is required as the OpenWire protocol allows unauthenticated connections by default. Mitigation requires upgrading to Apache ActiveMQ 5.15.16+, 5.16.7+, 5.17.6+, or 5.18.3+, or restricting network access to the broker ports using firewalls."
+  core_concepts:
+    - key: "OpenWire Protocol ClassInfo Exploitation"
+      value: "ActiveMQ's OpenWire protocol allows ClassInfo commands that trigger remote class loading from attacker-specified URLs, enabling unauthenticated remote code execution through the broker's default network port"
+    - key: "Message Broker Attack Surface"
+      value: "Enterprise message brokers like ActiveMQ represent high-value targets as they are deeply embedded in application architectures, handle sensitive inter-system communications, and often have broad network access"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2023-46604 is an injection vulnerability through malicious ClassInfo commands in ActiveMQ's OpenWire protocol"
+  - type: enables
+    target: "VUL-INJECT-INJECTION-001"
+    description: "ActiveMQ RCE enables arbitrary code injection on the message broker server through remote class loading"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2023-46604 - NVD NIST"
+    - "Apache ActiveMQ Security Advisory"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "Rapid7 - CVE-2023-46604 ActiveMQ Analysis"
+    - "MITRE ATT&CK T1190"
+    - "SentinelOne - ActiveMQ Exploitation by Ransomware Groups"
+  search_keywords:
+    - "CVE-2023-46604"
+    - "Apache ActiveMQ RCE"
+    - "ActiveMQ vulnerability"
+    - "ActiveMQ OpenWire"
+    - "ActiveMQ ClassInfo exploit"
+    - "ActiveMQ remote code execution"
+    - "message broker vulnerability"
+    - "ActiveMQ ransomware"
+  embedding_text: "CVE-2023-46604 is a critical CVSS 10.0 remote code execution vulnerability in Apache ActiveMQ message broker. Disclosed October 2023, it exploits the OpenWire protocol's ClassInfo command to trigger remote class loading and arbitrary code execution without authentication on the default broker port 61616. Apache ActiveMQ is one of the most widely deployed enterprise message brokers. The vulnerability was rapidly weaponized by ransomware groups including HelloKitty and TellYouThePass, and by nation-state actors. CISA added it to the Known Exploited Vulnerabilities catalog. ActiveMQ brokers are deeply embedded in enterprise application architectures handling inter-system messaging. Mitigation requires upgrading to patched versions or restricting network access to broker ports. Maps to MITRE ATT&CK T1190 Initial Access."

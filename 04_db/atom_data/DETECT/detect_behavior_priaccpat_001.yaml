@@ -1,0 +1,78 @@
+# GR Atom: Privileged Account Patterns
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-PRIACCPAT-001"
+  name: "Privileged Account Patterns"
+  normalized_name: "privileged_account_patterns"
+  aliases:
+    - "Privileged Access Monitoring"
+    - "Admin Account Behavioral Analysis"
+    - "Privileged User Activity Detection"
+    - "PAM Behavioral Analytics"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - PRIV
+    - AUTHN
+    - AUTHZ
+    - MONITOR
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Privileged Account Patterns detection monitors the behavioral characteristics of privileged accounts including domain administrators, root accounts, service accounts, and emergency access accounts to identify anomalous usage patterns that may indicate compromise, abuse, or policy violations. The analysis tracks authentication patterns, resource access scope, command execution history, session duration and timing, delegation and impersonation events, and privilege escalation activities. Baselines are established for each privileged account capturing normal operational patterns, and deviations are flagged for investigation."
+  why: "Privileged accounts are the primary targets for advanced threat actors because they provide access to the most sensitive systems and data. Compromised privileged credentials enable attackers to move laterally across the network, access critical infrastructure, disable security controls, and exfiltrate sensitive data with minimal detection. Many of the most damaging breaches involve privileged account compromise including domain admin takeover, service account abuse, and emergency access account exploitation. Monitoring privileged account behavior is essential because these accounts have disproportionate impact potential, making even minor anomalies worthy of investigation."
+  how: "Privileged access management systems and SIEM platforms monitor all privileged account activity through dedicated telemetry channels. Authentication monitoring tracks login times, source locations, MFA usage, and protocol types for each privileged account. Resource access monitoring records which systems, databases, and applications are accessed, comparing against expected scope. Command execution monitoring captures administrative commands and compares against approved change windows and change management tickets. Session analysis monitors duration, idle patterns, and concurrent session counts. Anomaly detection identifies deviations including privileged logins outside business hours, access to systems not in the account's normal scope, service accounts used interactively, emergency accounts accessed without corresponding incident tickets, and privileged sessions from unusual source endpoints. Risk scoring aggregates multiple indicators into prioritized alerts for the security operations team."
+  core_concepts:
+    - key: "Privileged Account Baseline"
+      value: "Per-account model of normal usage patterns including authentication timing, resource access scope, and command execution frequency"
+    - key: "Service Account Monitoring"
+      value: "Specialized monitoring for non-interactive accounts that should only authenticate from specific sources for specific purposes"
+    - key: "Just-in-Time Access"
+      value: "Security model where privileged access is granted temporarily for specific tasks, with monitoring ensuring access is revoked after use"
+
+relations:
+  - type: requires
+    target: "DETECT-BEHAVIOR-GEOANOM-001"
+    description: "Geographic anomaly detection provides location context for privileged account access monitoring"
+  - type: enables
+    target: "DETECT-BEHAVIOR-INSTHRIND-001"
+    description: "Privileged account pattern analysis feeds into insider threat detection for privileged users"
+  - type: effective_against
+    target: "ATK-PRIV-PRIVESC-001"
+    description: "Detects unauthorized privilege escalation and privileged account abuse"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.002"
+    tactic: ["Persistence", "Privilege Escalation", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1078.002 - Valid Accounts: Domain Accounts - https://attack.mitre.org/techniques/T1078/002/"
+    - "NIST SP 800-53 - AC-6 Least Privilege - https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+    - "CyberArk - Privileged Access Security Best Practices - https://www.cyberark.com/resources/"
+  search_keywords:
+    - "privileged account monitoring"
+    - "admin account behavioral analysis"
+    - "privileged access detection"
+    - "service account anomaly"
+    - "PAM behavioral analytics"
+    - "privileged user monitoring"
+    - "domain admin detection"
+    - "emergency account monitoring"
+  embedding_text: "Privileged Account Patterns detection monitors behavioral characteristics of privileged accounts including domain admins, root accounts, and service accounts to identify compromise, abuse, or policy violations. It baselines normal operational patterns and flags deviations in authentication timing, resource access scope, command execution, session behavior, and privilege escalation activities. Detection identifies privileged logins outside business hours, access beyond normal scope, interactive use of service accounts, and emergency access without incident tickets. Risk scoring aggregates multiple indicators for prioritized alerting. This technique is critical because compromised privileged accounts enable attackers to access critical infrastructure, disable security controls, and exfiltrate data with maximum impact."

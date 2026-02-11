@@ -1,0 +1,83 @@
+# GR Atom: Cloud IAM Misconfiguration
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CLOIAMMIS-001"
+  name: "Cloud IAM Misconfiguration"
+  normalized_name: "cloud_iam_misconfiguration"
+  aliases:
+    - "IAM Policy Misconfiguration"
+    - "Cloud Identity Misconfiguration"
+    - "Overprivileged Cloud Roles"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - CONFIG
+    - AUTHZ
+    - CLOUD
+    - PRIV
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components:
+    - "AWS IAM"
+    - "Azure Active Directory / Entra ID"
+    - "GCP IAM"
+    - "Cloud Resource Policies"
+
+definition:
+  what: "Cloud IAM Misconfiguration refers to improperly configured Identity and Access Management policies in cloud environments (AWS, Azure, GCP) that grant excessive permissions, allow unintended access, or fail to enforce the principle of least privilege. Common manifestations include wildcard permissions, overprivileged service accounts, missing MFA requirements, cross-account trust misconfigurations, and publicly accessible resources through permissive resource-based policies."
+  why: "IAM misconfigurations are the leading cause of cloud security breaches and represent the most significant attack surface in cloud environments. Overly permissive IAM policies can allow privilege escalation from a compromised low-privilege identity to full administrative control. Cloud providers operate on a shared responsibility model where customers are responsible for IAM configuration, making human error in policy creation a persistent risk factor."
+  how: "Cloud IAM misconfigurations arise through several patterns: granting Action:* or Resource:* wildcard permissions instead of specific least-privilege policies; failing to implement permission boundaries or Service Control Policies (SCPs); creating service accounts with persistent access keys instead of using temporary credentials via role assumption; not enforcing MFA for privileged operations; misconfiguring trust relationships in cross-account roles; and leaving resource-based policies (S3 bucket policies, KMS key policies) open to unauthorized principals. Attackers enumerate IAM permissions using tools like Pacu, ScoutSuite, or Prowler, then chain privilege escalation paths."
+  core_concepts:
+    - key: "Principle of Least Privilege"
+      value: "Security principle that IAM policies should grant only the minimum permissions necessary for a specific function, violated by wildcard or overly broad permissions"
+    - key: "Privilege Escalation Paths"
+      value: "Chains of IAM permissions that allow an identity with limited access to gradually escalate to administrative privileges through policy manipulation or role assumption"
+    - key: "Resource-Based Policy Exposure"
+      value: "Misconfigured policies attached to cloud resources (S3 buckets, KMS keys, Lambda functions) that allow unintended access from external accounts or anonymous users"
+    - key: "Service Account Key Management"
+      value: "Use of long-lived access keys for service accounts instead of temporary credentials through role assumption or workload identity federation"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-CLOUMISC-001"
+    description: "Cloud IAM misconfiguration is a specific category of cloud misconfiguration focused on identity and access management"
+  - type: enables
+    target: "VUL-CONFIG-CLOUD-001"
+    description: "IAM misconfigurations enable broader cloud vulnerability exploitation by providing elevated access"
+  - type: causes
+    target: "VUL-CONFIG-CONFIGURAT-001"
+    description: "IAM misconfigurations are a primary cause of configuration vulnerabilities in cloud-hosted applications"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic: ["Privilege Escalation", "Defense Evasion", "Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CIS Benchmarks - AWS/Azure/GCP IAM"
+    - "MITRE ATT&CK T1078.004 - Valid Accounts: Cloud Accounts"
+    - "Rhino Security Labs - AWS IAM Privilege Escalation"
+    - "OWASP Cloud Security - IAM Misconfigurations"
+  search_keywords:
+    - "cloud IAM misconfiguration"
+    - "AWS IAM privilege escalation"
+    - "Azure AD misconfiguration"
+    - "GCP IAM overprivileged"
+    - "cloud identity access management"
+    - "wildcard IAM permissions"
+    - "cloud security posture"
+    - "service account misconfiguration"
+  embedding_text: "Cloud IAM Misconfiguration is a vulnerability class involving improperly configured Identity and Access Management policies in AWS, Azure, and GCP environments. Common issues include wildcard permissions, overprivileged service accounts, missing MFA requirements, cross-account trust misconfigurations, and publicly accessible resource policies. IAM misconfigurations are the leading cause of cloud security breaches and enable privilege escalation chains. Attackers use tools like Pacu, ScoutSuite, and Prowler to enumerate permissions and find escalation paths. Remediation requires implementing least privilege, permission boundaries, Service Control Policies, temporary credentials, and continuous IAM policy auditing through cloud security posture management tools."

@@ -1,0 +1,165 @@
+# GR Atom: SAML 2.0
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-SAML20-001"
+  name: "SAML 2.0"
+  normalized_name: "saml_2_0"
+  aliases:
+    - "SAML Version 2.0"
+    - "Security Assertion Markup Language 2.0"
+    - "SAML V2.0"
+    - "OASIS SAML 2.0"
+    - "SAML2"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - SAML
+    - AUTHN
+    - AUTHZ
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    SAML 2.0 is the current major version of the Security Assertion Markup Language, ratified
+    as an OASIS Standard in March 2005. SAML 2.0 merged and extended the features of SAML 1.1
+    and the Shibboleth initiative's Identity Provider Discovery Protocol, establishing the
+    definitive XML-based framework for federated identity management. The specification defines
+    a comprehensive set of profiles (Web Browser SSO, Enhanced Client or Proxy, Identity Provider
+    Discovery, Single Logout, Name Identifier Management), bindings (HTTP POST, HTTP Redirect,
+    HTTP Artifact, SOAP, PAOS), and a standardized metadata format for automated trust
+    establishment between identity providers and service providers. SAML 2.0 is the predominant
+    enterprise SSO protocol, implemented by identity platforms including Microsoft ADFS, Okta,
+    Ping Identity, OneLogin, and Shibboleth.
+  why: >-
+    SAML 2.0 addressed limitations in SAML 1.1 by introducing standardized metadata for
+    automated trust configuration, enhanced profiles for diverse deployment scenarios, and
+    improved security features. The protocol is essential for enterprise federated identity
+    because it enables cross-organizational SSO, centralized access management, and compliance
+    with regulatory requirements for identity governance. SAML 2.0 is mandated by numerous
+    government and industry standards including US Federal ICAM, EU eIDAS, and healthcare
+    identity frameworks. From a security perspective, SAML 2.0 inherits and extends the SAML
+    attack surface: XML Signature Wrapping (XSW) attacks remain the most critical vulnerability
+    class, where attackers restructure signed XML to inject unauthorized assertions. The 2017
+    SAML vulnerability in multiple implementations (CVE-2017-11427 through CVE-2017-11432)
+    demonstrated that comment injection in NameID elements could bypass signature validation.
+    Golden SAML attacks, where compromised IdP signing keys enable forging arbitrary assertions,
+    were used in the SolarWinds supply chain attack for persistent access to cloud services.
+  how: >-
+    SAML 2.0 Web Browser SSO operates through two primary profiles: (1) SP-Initiated SSO - the
+    user accesses the SP, which generates an AuthnRequest specifying the desired IdP, name
+    identifier format, and authentication context requirements; the request is sent to the IdP
+    via HTTP Redirect or POST binding; the IdP authenticates the user, generates a signed SAML
+    Response containing an Assertion with SubjectConfirmation (bearer method), Conditions
+    (audience restriction, time bounds), AuthnStatement (authentication context class), and
+    AttributeStatement; the Response is delivered to the SP's ACS endpoint via HTTP POST; the
+    SP validates the signature, conditions, and subject confirmation, then establishes a local
+    session. (2) IdP-Initiated SSO - the user authenticates at the IdP and selects a target SP;
+    the IdP generates an unsolicited Response delivered directly to the SP's ACS. Metadata
+    exchange automates trust configuration: each entity publishes an XML metadata document
+    containing entity ID, endpoints, supported bindings, name ID formats, and X.509 signing
+    certificates. Single Logout Profile enables coordinated session termination across all
+    SPs in a federation. Artifact resolution enables back-channel assertion retrieval for
+    environments requiring assertion confidentiality.
+  core_concepts:
+    - key: "Web Browser SSO Profile"
+      value: >-
+        The primary SAML 2.0 profile defining how authentication assertions are exchanged
+        through the user's browser between IdP and SP. SP-initiated SSO begins at the service
+        provider with an AuthnRequest, while IdP-initiated SSO begins with an unsolicited
+        assertion from the identity provider.
+    - key: "SAML 2.0 Metadata"
+      value: >-
+        Standardized XML documents describing entity configuration including entity ID,
+        endpoints, supported protocols and bindings, name ID formats, and X.509 certificates.
+        Metadata enables automated trust establishment and dynamic federation configuration
+        between identity and service providers.
+    - key: "Golden SAML Attack"
+      value: >-
+        A persistence attack where the adversary compromises the IdP's SAML signing certificate
+        private key and forges arbitrary SAML assertions for any user with any permissions. Used
+        in the SolarWinds attack (2020) to maintain persistent access to cloud services
+        including Microsoft 365 and Azure AD without triggering normal authentication alerts.
+    - key: "Single Logout Profile"
+      value: >-
+        The SAML 2.0 profile enabling coordinated session termination across all service
+        providers in a federation when a user logs out from any single SP or the IdP. Supports
+        front-channel (browser redirect) and back-channel (direct SP notification) logout
+        mechanisms.
+    - key: "Subject Confirmation and Conditions"
+      value: >-
+        Security constraints within SAML assertions: SubjectConfirmation specifies how the
+        bearer proves possession (typically bearer method with InResponseTo, Recipient, and
+        NotOnOrAfter attributes). Conditions restrict assertion validity through audience
+        restriction (intended SP), time bounds (NotBefore, NotOnOrAfter), and one-time use.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "supersedes"
+    target: "PROTO-AUTH-SAML-001"
+    description: "SAML 2.0 supersedes SAML 1.0/1.1 with enhanced profiles, standardized metadata, and improved security features"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-OPENID-001"
+    description: "SAML 2.0 is the XML-based enterprise alternative to OpenID Connect for federated SSO, predominant in legacy enterprise environments"
+  - type: "alternative_to"
+    target: "PROTO-AUTH-OAU20-001"
+    description: "SAML 2.0 is the enterprise XML-based alternative to OAuth 2.0 for federated authorization and SSO"
+  - type: "requires"
+    target: "PROTO-SECURITY-TLS-001"
+    description: "SAML 2.0 requires TLS for transport security of assertion exchanges to prevent interception and tampering"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "OASIS SAML V2.0 Core Specification (March 2005). OASIS. http://docs.oasis-open.org/security/saml/v2.0/saml-core-2.0-os.pdf"
+    - "OASIS SAML V2.0 Profiles Specification (March 2005). OASIS. http://docs.oasis-open.org/security/saml/v2.0/saml-profiles-2.0-os.pdf"
+    - "OASIS SAML V2.0 Metadata Specification (March 2005). OASIS. http://docs.oasis-open.org/security/saml/v2.0/saml-metadata-2.0-os.pdf"
+    - "CyberArk Research - Golden SAML Attack (2017). https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps"
+    - "MITRE ATT&CK T1606.002 - Forge Web Credentials: SAML Tokens. https://attack.mitre.org/techniques/T1606/002/"
+  search_keywords:
+    - "SAML 2.0"
+    - "SAML V2.0"
+    - "Security Assertion Markup Language 2.0"
+    - "SAML SSO"
+    - "SAML metadata"
+    - "Golden SAML"
+    - "SAML assertion"
+    - "XML signature wrapping"
+    - "Web Browser SSO Profile"
+    - "SAML identity provider"
+    - "SAML service provider"
+    - "assertion consumer service"
+    - "SAML federation"
+    - "single logout SAML"
+  embedding_text: >-
+    SAML 2.0 is the current major version of the Security Assertion Markup Language, ratified
+    as an OASIS Standard in 2005 for XML-based federated identity management. The specification
+    defines profiles (Web Browser SSO, Single Logout, Identity Provider Discovery), bindings
+    (HTTP POST, Redirect, Artifact, SOAP), and standardized metadata for automated trust
+    establishment. SAML 2.0 enables cross-domain SSO where users authenticate at an identity
+    provider and access service providers via signed XML assertions containing authentication,
+    attribute, and authorization statements. The protocol is implemented by major identity
+    platforms including Microsoft ADFS, Okta, and Shibboleth. Critical security concerns include
+    XML Signature Wrapping attacks that inject unauthorized assertions while preserving valid
+    signatures, Golden SAML attacks using compromised IdP signing keys to forge arbitrary
+    assertions (as demonstrated in the SolarWinds attack), and comment injection vulnerabilities
+    in NameID processing. SAML 2.0 remains the predominant enterprise SSO protocol alongside
+    the modern alternative OpenID Connect, mandated by government and industry identity
+    frameworks worldwide.

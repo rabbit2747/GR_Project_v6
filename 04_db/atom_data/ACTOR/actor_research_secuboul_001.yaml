@@ -1,0 +1,71 @@
+# GR Atom: Security Boulevard
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-SECUBOUL-001"
+  name: "Security Boulevard"
+  normalized_name: "security_boulevard"
+  aliases:
+    - "SecurityBoulevard"
+    - "SecBoulevard"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - WEB
+    - DEVSECOPS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Security Boulevard is a cybersecurity news and content aggregation platform that curates and publishes articles from security vendors, researchers, and practitioners covering DevSecOps, application security, cloud security, threat intelligence, and compliance. The platform aggregates content from multiple sources including vendor blogs, independent researchers, and industry analysts, providing a centralized hub for cybersecurity commentary and analysis. Security Boulevard is associated with the DevOps.com network and focuses particularly on the intersection of software development, operations, and security."
+  why: "Security Boulevard serves as a valuable content aggregation platform that brings together perspectives from across the cybersecurity industry, particularly around DevSecOps and application security topics. Its aggregation model provides security professionals with a broad view of industry thinking, vendor developments, and emerging security practices without requiring them to follow dozens of individual sources."
+  how: "Security Boulevard operates as a content platform where vendor security teams, independent researchers, and analysts publish articles and commentary. The platform curates content across topic channels, syndicates blog posts from security companies, and provides editorial oversight. Content covers practical guidance, threat analysis, product reviews, and industry commentary, serving as a daily reading resource for security professionals."
+  core_concepts:
+    - key: "Security Content Aggregation"
+      value: "Centralized platform curating cybersecurity articles from vendors, researchers, and practitioners"
+    - key: "DevSecOps Coverage"
+      value: "Focus on the intersection of software development, operations, and security practices"
+    - key: "Industry Commentary"
+      value: "Multi-perspective analysis and commentary from across the cybersecurity industry"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-RESEARCH-DARKREAD-001"
+    description: "Fellow cybersecurity news and content platform"
+  - type: enables
+    target: "ACTOR-RESEARCH-SECUNEWS-001"
+    description: "Part of the broader security media content ecosystem"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for media platform
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "https://securityboulevard.com"
+  search_keywords:
+    - "security boulevard"
+    - "cybersecurity blog"
+    - "DevSecOps news"
+    - "application security"
+    - "security content"
+    - "infosec aggregation"
+    - "cloud security news"
+  embedding_text: "Security Boulevard is a cybersecurity news and content aggregation platform that curates and publishes articles from security vendors, researchers, and practitioners covering DevSecOps, application security, cloud security, threat intelligence, and compliance. Associated with the DevOps.com network, the platform aggregates content from vendor blogs, independent researchers, and industry analysts, providing a centralized hub for cybersecurity commentary and analysis with particular focus on the intersection of software development, operations, and security. Security Boulevard serves as a daily reading resource for security professionals, offering multi-perspective analysis and practical guidance across security topics without requiring them to follow dozens of individual sources."

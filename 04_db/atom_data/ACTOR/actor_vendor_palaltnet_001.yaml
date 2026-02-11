@@ -1,0 +1,75 @@
+# GR Atom: Palo Alto Networks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-PALALTNET-001"
+  name: "Palo Alto Networks"
+  normalized_name: "palo_alto_networks"
+  aliases:
+    - "PANW"
+    - "PAN"
+    - "Palo Alto Networks Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FIREWALL
+    - EDR
+    - CLOUD
+    - THREAT_INTEL
+    - ZTNA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Palo Alto Networks is one of the world's largest cybersecurity companies, providing next-generation firewalls, cloud security, endpoint protection, and threat intelligence. Key products include the Strata network security platform (PA-Series NGFW), Prisma Cloud (cloud-native security), Cortex XDR (extended detection and response), and Cortex XSOAR (SOAR). Unit 42 is their threat intelligence and incident response team that publishes extensive APT campaign analysis and malware research."
+  why: "Palo Alto Networks is a dominant force in enterprise cybersecurity whose products protect a large portion of global network infrastructure. Unit 42's threat research is among the most cited in the industry, providing critical intelligence on APT campaigns, ransomware operations, and emerging threats. Their product vulnerabilities (such as PAN-OS authentication bypass CVE-2024-0012) are high-impact events because of the widespread deployment of their network security appliances."
+  how: "Palo Alto Networks provides security through next-generation firewalls performing deep packet inspection, SSL decryption, and application-aware traffic control; Prisma Cloud securing cloud workloads, containers, and serverless functions; Cortex XDR combining endpoint, network, and cloud data for threat detection; and Cortex XSOAR automating security operations workflows. Unit 42 conducts threat research, incident response, and publishes threat intelligence through blogs, reports, and the AutoFocus threat intelligence platform."
+  core_concepts:
+    - key: "Next-generation firewall"
+      value: "Application-aware network security with deep packet inspection and SSL decryption"
+    - key: "Unit 42 threat intelligence"
+      value: "Premier threat research team publishing APT analysis and incident response findings"
+    - key: "Cortex XDR platform"
+      value: "Extended detection and response across endpoints, networks, and cloud"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-FIREWALL-PANOS-001"
+    description: "Palo Alto Networks produces next-generation firewalls and PAN-OS network security platform"
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "Unit 42 produces threat intelligence reports and APT campaign analysis"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Palo Alto Networks Official Website"
+    - "Unit 42 Threat Intelligence Blog"
+    - "Gartner Magic Quadrant - Network Firewalls"
+  search_keywords:
+    - "palo alto networks"
+    - "unit 42"
+    - "cortex xdr"
+    - "prisma cloud"
+    - "pan-os"
+    - "palo alto firewall"
+    - "panw"
+    - "palo alto threat intelligence"
+    - "cortex xsoar"
+  embedding_text: "Palo Alto Networks is one of the world's largest cybersecurity companies providing next-generation firewalls, cloud security, endpoint protection, and threat intelligence solutions. Key products include the Strata network security platform featuring PA-Series next-generation firewalls with deep packet inspection and SSL decryption, Prisma Cloud for cloud-native security across containers and serverless environments, Cortex XDR for extended detection and response across endpoints, networks, and cloud, and Cortex XSOAR for security orchestration and automated response. Unit 42 is their premier threat intelligence and incident response team, producing some of the most widely cited threat research in the industry covering APT campaigns, ransomware operations, and emerging cyber threats. Palo Alto Networks products protect a significant portion of global enterprise network infrastructure, making their product security critical to the overall cybersecurity ecosystem. Vulnerabilities in PAN-OS are considered high-impact events due to the widespread deployment of their network security appliances across enterprise and government environments."

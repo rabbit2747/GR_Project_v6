@@ -1,0 +1,111 @@
+# GR Atom: CVE-2022-21449
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-CVE202221449-001"
+  name: "CVE-2022-21449"
+  normalized_name: "cve_2022_21449"
+  aliases:
+    - "Psychic Signatures"
+    - "Java ECDSA Blank Signature Bypass"
+    - "Oracle Java Signature Validation Bug"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - AUTHN
+    - AUTHZ
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "Java SE 15 through 18"
+    - "Oracle JDK ECDSA Implementation"
+    - "Java Signature Verification API"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-21449 (Psychic Signatures) is a critical vulnerability in Oracle Java's ECDSA
+    (Elliptic Curve Digital Signature Algorithm) implementation where a blank or zero-value
+    signature (r=0, s=0) is accepted as valid for any message and any public key. The vulnerability
+    exists in Java versions 15 through 18 due to a rewrite of the EC code in Java 15 that omitted
+    a check for zero values in signature components. CVSS score is 7.5. Disclosed in April 2022.
+  why: >-
+    This vulnerability is exceptionally severe because ECDSA signatures are used for JWT
+    authentication tokens, TLS certificate validation, code signing (JAR files), and many other
+    security-critical operations in the Java ecosystem. An attacker can forge a valid signature
+    for any data by simply providing (0,0) as the signature, completely bypassing signature-based
+    authentication and integrity checks across all Java applications on affected versions.
+  how: >-
+    The attacker creates an ECDSA signature with both components (r, s) set to zero. In correct
+    ECDSA implementations, r and s must be checked to be non-zero and within the valid range.
+    The Java 15+ implementation, rewritten in Java from the original C code, omitted this
+    validation. When the verification algorithm receives (0, 0), it computes values that
+    mathematically result in accepting the signature as valid for any message and any public key.
+    The attacker can forge JWTs, bypass TLS client certificate authentication, sign arbitrary
+    JAR files, and forge any ECDSA-signed data.
+  core_concepts:
+    - name: "Zero-Value Signature Acceptance"
+      value: "The ECDSA implementation accepts (r=0, s=0) as a valid signature for any message due to missing range validation"
+    - name: "Universal Signature Forgery"
+      value: "A single blank signature value works against any public key and any message, enabling trivial forgery"
+    - name: "Implementation Regression"
+      value: "Rewriting cryptographic code in Java 15 introduced the bug by omitting validation present in the original C implementation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "Psychic Signatures is an instance of cryptographic implementation vulnerability in ECDSA verification"
+  - type: "enables"
+    target: "VUL-CRYPTO-CVE20180114-001"
+    description: "Psychic Signatures enables JWT forgery similar to other JWT-targeting vulnerabilities"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1078"
+      tactic: ["Initial Access", "Defense Evasion", "Privilege Escalation"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2022-21449"
+    - "ForgeRock - Psychic Signatures in Java (Neil Madden)"
+    - "Oracle Critical Patch Update April 2022"
+  search_keywords:
+    - "CVE-2022-21449"
+    - "Psychic Signatures"
+    - "Java ECDSA blank signature"
+    - "Java signature bypass"
+    - "ECDSA zero value vulnerability"
+    - "Oracle Java cryptographic bug"
+    - "JWT signature forgery Java"
+    - "Java SE signature validation"
+  embedding_text: >-
+    CVE-2022-21449, dubbed Psychic Signatures, is a critical vulnerability in Oracle Java's ECDSA
+    implementation where a blank signature with r=0 and s=0 is accepted as valid for any message
+    and any public key. The bug was introduced in Java 15 when the EC signature code was rewritten
+    from C to Java, omitting the check that r and s must be non-zero. This allows trivial forgery
+    of any ECDSA-signed data including JWT authentication tokens, TLS client certificates, JAR
+    code signatures, and SAML assertions. An attacker simply provides a zero-value signature to
+    bypass all ECDSA-based authentication and integrity verification. CVSS score is 7.5, affecting
+    Java SE versions 15 through 18. The vulnerability is exceptionally easy to exploit as no
+    computation is needed to produce the forged signature. Oracle patched the issue in the April
+    2022 Critical Patch Update by adding proper range validation for ECDSA signature components.

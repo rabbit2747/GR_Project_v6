@@ -1,0 +1,111 @@
+# GR Atom: McAfee Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-MCAFEE-001"
+  name: "McAfee Framework"
+  normalized_name: "mcafee_framework"
+  aliases:
+    - "McAfee Agent"
+    - "McAfee ePO Agent"
+    - "Trellix Agent"
+    - "McAfee Framework Service"
+    - "maframeworkservice.exe"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - EDR
+    - WINDOWS
+    - MONITOR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z4"
+  function: "P3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    McAfee Framework (McAfee Agent) is the endpoint management agent that provides communication
+    between managed endpoints and the McAfee ePolicy Orchestrator (ePO) server. It handles
+    policy enforcement, product deployment, DAT and engine updates, event collection, and
+    reporting. The framework service is the foundation upon which McAfee endpoint products
+    (VirusScan Enterprise, Endpoint Security, McShield, Engine Service) operate.
+  why: >-
+    The McAfee Framework is the management backbone of enterprise McAfee/Trellix deployments.
+    Compromising the framework agent or ePO server can disable security across all managed
+    endpoints simultaneously. CVE-2021-31854 allowed command injection via the McAfee Agent,
+    and CVE-2019-3585 enabled privilege escalation. The agent-server communication channel
+    is a high-value target for lateral movement and security control manipulation.
+  how: >-
+    The framework agent communicates with ePO via HTTPS on port 443 or 8443 using agent-server
+    protocol. It pulls policies, pushes events, and downloads product updates. The agent
+    maintains a local policy cache for offline operation. Product modules register with the
+    framework for lifecycle management. Self-protection mechanisms prevent unauthorized
+    modification or termination. Tamper protection defends against agent disablement attempts.
+    Deployment via ePO push, login scripts, or manual installation.
+  core_concepts:
+    - key: "Centralized Management"
+      value: "McAfee Agent connects endpoints to ePO server for centralized policy distribution, event collection, and product lifecycle management"
+    - key: "Self-Protection"
+      value: "Tamper protection mechanisms prevent unauthorized modification, termination, or uninstallation of the agent and managed products"
+    - key: "Agent-Server Protocol"
+      value: "Secure HTTPS communication channel for policy enforcement, event reporting, and update distribution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-SEC-MCAFENGI-001"
+    description: "McAfee Framework manages deployment, updates, and policy for the McAfee Engine Service"
+  - type: "enables"
+    target: "INFRA-SEC-MCSHIELD-001"
+    description: "McAfee Framework manages deployment and configuration of the McShield on-access scanner"
+  - type: "is_a"
+    target: "INFRA-SEC-ENDPSENS-001"
+    description: "McAfee Framework functions as an endpoint management and security agent"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "McAfee/Trellix - ePolicy Orchestrator Administration Guide"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "CVE-2021-31854 - McAfee Agent Command Injection"
+  search_keywords:
+    - "McAfee Agent"
+    - "McAfee Framework"
+    - "McAfee ePO"
+    - "Trellix Agent"
+    - "maframeworkservice"
+    - "McAfee endpoint management"
+    - "McAfee vulnerability"
+    - "ePolicy Orchestrator"
+  embedding_text: >-
+    McAfee Framework (McAfee Agent) is the endpoint management agent connecting managed systems
+    to ePolicy Orchestrator (ePO) for centralized policy enforcement, product deployment, and
+    event collection. Foundation for McAfee endpoint products including Engine Service and
+    McShield. Communicates via HTTPS agent-server protocol. Self-protection mechanisms prevent
+    tampering. CVE-2021-31854 and CVE-2019-3585 enabled command injection and privilege
+    escalation. Now part of Trellix following FireEye-McAfee merger. High-value target for
+    enterprise-wide security control manipulation.

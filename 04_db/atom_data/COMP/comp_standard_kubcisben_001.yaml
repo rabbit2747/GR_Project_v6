@@ -1,0 +1,74 @@
+# GR Atom: Kubernetes CIS Benchmark
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-KUBCISBEN-001"
+  name: "Kubernetes CIS Benchmark"
+  normalized_name: "kubernetes_cis_benchmark"
+  aliases:
+    - "CIS Kubernetes Benchmark"
+    - "K8s CIS Benchmark"
+    - "CIS Benchmark for Kubernetes"
+    - "K8s Security Benchmark"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - K8S
+    - CONTAINER
+
+scope:
+  target_layers: ["L2", "L3", "L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "The Kubernetes CIS Benchmark is a set of security configuration recommendations published by the Center for Internet Security (CIS) for hardening Kubernetes clusters. The benchmark provides prescriptive guidance organized into sections covering control plane components (API server, controller manager, scheduler, etcd), worker node configuration (kubelet, kube-proxy), policies (RBAC, pod security, network policies, secrets management), and managed service-specific recommendations for EKS, AKS, and GKE. Each recommendation includes a description, rationale, audit procedure, remediation steps, and scoring status (scored or not scored)."
+  why: "Kubernetes clusters, when deployed with default configurations, expose significant attack surface including unauthenticated API access, unrestricted pod privileges, unencrypted etcd storage, and lack of network segmentation. The CIS Benchmark provides an industry-consensus security baseline that addresses these risks systematically. Compliance with the benchmark is increasingly required by security frameworks and is a prerequisite for many container security certifications."
+  how: "Organizations implement the CIS Kubernetes Benchmark by running automated assessment tools such as kube-bench against their clusters to identify deviations from the benchmark recommendations. Each finding is evaluated for applicability to the specific environment, and remediation is applied through configuration changes to control plane components, kubelet settings, RBAC policies, pod security standards, and network policies. Continuous compliance monitoring is achieved through integration with container security platforms that periodically scan cluster configurations and report drift from the benchmark baseline."
+  core_concepts:
+    - key: "Control Plane Hardening"
+      value: "Security configuration of API server, etcd, controller manager, and scheduler including authentication, authorization, and encryption settings"
+    - key: "Worker Node Security"
+      value: "Kubelet and kube-proxy configuration hardening including authentication, authorization, and resource protection"
+    - key: "Pod Security Standards"
+      value: "Policies restricting pod capabilities, privilege escalation, host namespace access, and volume types"
+    - key: "RBAC Configuration"
+      value: "Role-based access control settings ensuring least privilege for users, service accounts, and controllers"
+
+relations:
+  - type: is_a
+    target: "COMP-STANDARD-CONTCATA-001"
+    description: "The Kubernetes CIS Benchmark is a specialized control catalog for Kubernetes environments"
+  - type: applies_to
+    target: "COMP-STANDARD-SECCOMFRA-001"
+    description: "The benchmark applies security compliance frameworks to Kubernetes infrastructure"
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "CIS Benchmark checks enable automated audit compliance for Kubernetes clusters"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CIS Kubernetes Benchmark - https://www.cisecurity.org/benchmark/kubernetes"
+    - "kube-bench - https://github.com/aquasecurity/kube-bench"
+    - "Kubernetes Security Documentation - https://kubernetes.io/docs/concepts/security/"
+  search_keywords:
+    - "CIS Kubernetes Benchmark"
+    - "Kubernetes security"
+    - "K8s hardening"
+    - "kube-bench"
+    - "control plane security"
+    - "kubelet hardening"
+    - "pod security"
+    - "RBAC"
+    - "etcd encryption"
+    - "container security benchmark"
+  embedding_text: "The Kubernetes CIS Benchmark is a CIS-published set of security configuration recommendations for hardening Kubernetes clusters. It covers control plane components (API server, controller manager, scheduler, etcd), worker node configuration (kubelet, kube-proxy), and policies including RBAC, pod security, network policies, and secrets management. Each recommendation includes audit procedures and remediation steps. Organizations assess compliance using tools like kube-bench, remediate findings through configuration changes, and maintain continuous compliance through container security platform integration. The benchmark addresses default Kubernetes misconfigurations including unauthenticated API access, unrestricted pod privileges, and unencrypted etcd storage."

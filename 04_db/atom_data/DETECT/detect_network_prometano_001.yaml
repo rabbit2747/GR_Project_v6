@@ -1,0 +1,98 @@
+# GR Atom: Protocol Metadata Anomaly Detection
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-PROMETANO-001"
+  name: "Protocol Metadata Anomaly Detection"
+  normalized_name: "protocol_metadata_anomaly_detection"
+  aliases:
+    - "Protocol Header Anomaly Detection"
+    - "Metadata-Based Traffic Analysis"
+    - "Protocol Field Anomaly Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - IDS
+    - MONITOR
+    - TLS
+    - HTTP
+    - DNS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that identifies anomalies in protocol metadata fields and headers without requiring full payload inspection. This includes analysis of TLS handshake parameters, HTTP header values, DNS query characteristics, TCP/IP header anomalies, and other protocol metadata that can reveal malicious activity even in encrypted traffic. Protocol metadata anomaly detection is particularly valuable when full content inspection is not possible due to encryption or performance constraints."
+  why: "As encryption becomes ubiquitous, traditional payload inspection becomes increasingly limited. Protocol metadata analysis provides a critical detection capability that works regardless of encryption. Malware and attack tools often produce metadata patterns that differ from legitimate applications, including unusual TLS cipher suites, non-standard HTTP headers, abnormal DNS query patterns, and anomalous TCP/IP behavior. Detecting these metadata anomalies enables identification of threats that evade content-based inspection."
+  how: "Detection analyzes protocol metadata across multiple layers: at the TLS layer, JA3/JA3S fingerprints, cipher suite selections, extension ordering, and certificate properties are examined; at the HTTP layer, header ordering, user-agent consistency, and field value distributions are profiled; at the DNS layer, query entropy, record types, and response characteristics are analyzed; at the TCP/IP layer, TTL values, window sizes, and option configurations are examined. Machine learning models trained on labeled traffic classify metadata profiles as normal or anomalous. Baseline profiles are established per application and protocol for deviation detection."
+  core_concepts:
+    - key: "Metadata Fingerprinting"
+      value: "Creating unique fingerprints from protocol metadata fields to identify and classify network applications and tools."
+    - key: "Encrypted Traffic Intelligence"
+      value: "Extracting security intelligence from encrypted traffic through analysis of unencrypted protocol metadata."
+    - key: "Header Anomaly Detection"
+      value: "Identifying unusual or inconsistent protocol header values that deviate from legitimate application patterns."
+    - key: "Metadata Baseline Profiling"
+      value: "Building statistical profiles of normal protocol metadata characteristics for anomaly detection."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-PRBADESUNE-001"
+    description: "Metadata anomaly detection is a form of protocol-based suspicious traffic detection"
+  - type: enables
+    target: "DETECT-NETWORK-DEENBOTR-001"
+    description: "Protocol metadata analysis enables detection of encrypted botnet traffic"
+  - type: enables
+    target: "DETECT-NETWORK-APPRABPA-001"
+    description: "Metadata anomalies reveal application protocol abuse patterns"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow and session metadata for protocol analysis"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071"
+    tactic:
+      - "Command and Control"
+    sub_techniques:
+      - "T1071.001"
+  defense_context:
+    effectiveness: "medium"
+    d3fend_mapping: "D3-NTCD"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Application Layer Protocol T1071"
+    - "Salesforce - JA3: SSL/TLS Client Fingerprinting"
+    - "SANS Institute - Protocol Metadata Analysis for Threat Detection"
+  search_keywords:
+    - "protocol metadata"
+    - "metadata anomaly"
+    - "protocol header analysis"
+    - "TLS fingerprinting"
+    - "JA3 analysis"
+    - "header anomaly"
+    - "encrypted traffic metadata"
+    - "protocol fingerprint"
+    - "metadata detection"
+    - "protocol field analysis"
+  embedding_text: "Protocol metadata anomaly detection identifies anomalies in protocol metadata fields and headers without requiring full payload inspection. It analyzes TLS handshake parameters including JA3/JA3S fingerprints, HTTP header values and ordering, DNS query characteristics, and TCP/IP header properties. This pattern is particularly valuable for encrypted traffic where content inspection is not possible. Malware and attack tools produce metadata patterns distinct from legitimate applications, enabling detection through metadata fingerprinting, baseline profiling, and machine learning classification of protocol metadata as normal or anomalous."

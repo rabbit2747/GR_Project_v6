@@ -1,0 +1,100 @@
+# GR Atom: CVE-2022-47966
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202247966-001"
+  name: "CVE-2022-47966"
+  normalized_name: "cve_2022_47966"
+  aliases:
+    - "ManageEngine SAML Deserialization RCE"
+    - "Zoho ManageEngine XML Signature Wrapping"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - EXEC
+    - AUTHN
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Zoho ManageEngine ServiceDesk Plus"
+    - "Zoho ManageEngine ADSelfService Plus"
+    - "Multiple ManageEngine products"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-47966 is a pre-authentication remote code execution vulnerability in multiple
+    Zoho ManageEngine products that use the Apache Santuario library for SAML SSO processing.
+    The flaw exists in the SAML response handling logic where an outdated version of Apache
+    Santuario improperly processes XML signatures, enabling an attacker to inject malicious
+    SAML assertions that lead to Java deserialization and arbitrary code execution.
+    CVSS v3 base score: 9.8 (Critical).
+  why: >-
+    ManageEngine products are widely deployed in enterprise IT management including helpdesk,
+    identity management, and network monitoring. The vulnerability affects any instance with
+    SAML SSO enabled. Pre-authentication exploitation through SAML provides network access
+    without credentials. Mass exploitation campaigns were observed in January 2023.
+  how: >-
+    An attacker crafts a malicious SAML response containing an XML signature wrapping attack
+    payload. The Apache Santuario library's XML signature validation logic fails to properly
+    verify the signed elements, allowing injection of unsigned malicious assertions. The
+    crafted SAML response triggers deserialization of attacker-controlled data, leading to
+    arbitrary command execution on the ManageEngine server.
+  core_concepts:
+    - key: "SAML Processing Logic Flaw"
+      value: "XML signature validation fails to verify signed element identity, allowing injection of malicious unsigned assertions into SAML responses"
+    - key: "Deserialization Through SSO"
+      value: "SAML single sign-on processing becomes an attack vector when signature validation flaws enable injection of malicious serialized data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "SAML signature validation logic flaw enabling injection and deserialization attack"
+  - type: "supersedes"
+    target: "VUL-LOGIC-CVE20157450-001"
+    description: "Represents evolution of Java deserialization attacks from direct exposure to SSO protocol abuse"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2022-47966"
+    - "Zoho ManageEngine Security Advisory"
+    - "NIST NVD - CVE-2022-47966"
+    - "Horizon3.ai - ManageEngine RCE Research"
+  search_keywords:
+    - "CVE-2022-47966"
+    - "ManageEngine SAML RCE"
+    - "Zoho ManageEngine vulnerability"
+    - "Apache Santuario"
+    - "SAML deserialization"
+    - "ManageEngine ServiceDesk Plus"
+  embedding_text: >-
+    CVE-2022-47966 is a pre-authentication RCE in multiple Zoho ManageEngine products via SAML
+    SSO processing. Outdated Apache Santuario library fails XML signature validation, enabling
+    injection of malicious assertions triggering Java deserialization. CVSS v3 9.8 Critical.
+    Mass exploitation in January 2023. Affects ServiceDesk Plus, ADSelfService Plus, and
+    others. SAML processing logic flaw combined with deserialization. Year 2022.

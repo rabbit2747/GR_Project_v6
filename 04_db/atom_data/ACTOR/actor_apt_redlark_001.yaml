@@ -1,0 +1,96 @@
+# GR Atom: Red Lark
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDLARK-001"
+  name: "Red Lark"
+  normalized_name: "red_lark"
+  aliases:
+    - "APT15"
+    - "Vixen Panda"
+    - "Ke3chang"
+    - "Nickel"
+    - "Nylon Typhoon"
+    - "Playful Dragon"
+    - "Royal APT"
+    - "Mirage"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - PERSIST
+    - C2
+    - EXFIL
+    - WINDOWS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Lark, widely tracked as APT15 or Ke3chang, is a China-nexus advanced persistent threat group active since at least 2010. The group conducts long-running cyber-espionage campaigns primarily targeting ministries of foreign affairs, government entities, diplomatic missions, and international organizations in Europe, Latin America, Africa, and the Middle East. The group is assessed to operate in support of Chinese foreign intelligence collection."
+  why: "Red Lark is significant due to its sustained multi-year targeting of diplomatic and governmental institutions across numerous countries. The group's focus on foreign affairs ministries and international organizations indicates a mandate for collecting strategic diplomatic intelligence and supporting Chinese foreign policy objectives."
+  how: "Red Lark employs spear-phishing emails with malicious attachments to gain initial access. The group utilizes custom malware families including Ketrican, Okrum, BS2005, Ketrum, and RoyalCli. It establishes persistence through scheduled tasks and registry modifications, moves laterally using legitimate administrative tools, and exfiltrates data via encrypted channels. The group has also exploited vulnerable internet-facing web servers and used VPN infrastructure for operations."
+  core_concepts:
+    - key: "Diplomatic Espionage"
+      value: "Long-term targeting of foreign affairs ministries and diplomatic missions across multiple continents for strategic intelligence collection"
+    - key: "Custom Backdoor Families"
+      value: "Development and maintenance of multiple proprietary backdoor families including Ketrican, Okrum, BS2005, and RoyalCli for persistent access"
+    - key: "Long-Duration Campaigns"
+      value: "Multi-year intrusion campaigns maintaining persistent access within target networks for sustained intelligence collection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group specializing in diplomatic espionage"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses spear-phishing with malicious attachments for initial compromise of diplomatic targets"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Ke3chang / APT15"
+    - "ESET - Ke3chang / Okrum backdoor analysis"
+    - "Microsoft - Nickel threat actor report"
+    - "NCC Group - APT15 research"
+  search_keywords:
+    - "red lark"
+    - "apt15"
+    - "vixen panda"
+    - "ke3chang"
+    - "nickel"
+    - "nylon typhoon"
+    - "mirage"
+    - "ketrican"
+    - "okrum"
+    - "china apt"
+    - "diplomatic espionage"
+    - "foreign ministry targeting"
+  embedding_text: "Red Lark, also known as APT15, Ke3chang, Vixen Panda, and Nickel, is a China-nexus advanced persistent threat group conducting cyber-espionage operations since at least 2010. The group primarily targets ministries of foreign affairs, government entities, diplomatic missions, and international organizations across Europe, Latin America, Africa, and the Middle East. Red Lark utilizes spear-phishing for initial access and deploys custom backdoor families including Ketrican, Okrum, BS2005, and RoyalCli for persistent access and data exfiltration. The group's sustained multi-year campaigns against diplomatic institutions indicate a mandate for collecting strategic intelligence supporting Chinese foreign policy objectives."

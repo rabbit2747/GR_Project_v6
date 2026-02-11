@@ -1,0 +1,116 @@
+# GR Atom: DigiNotar Compromise
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-CRYPTO-DIGICOMP-001"
+  name: "DigiNotar Compromise"
+  normalized_name: "diginotar_compromise"
+  aliases:
+    - "DigiNotar CA Breach"
+    - "DigiNotar Certificate Authority Hack"
+    - "Operation Black Tulip"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CRYPTO
+    - AUTHN
+    - TLS
+    - SUPPLY_CHAIN
+    - INCIDENT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "DigiNotar Certificate Authority Infrastructure"
+    - "PKI Trust Chain"
+    - "Browser Certificate Trust Stores"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The DigiNotar Compromise was a 2011 security breach of the Dutch certificate authority DigiNotar
+    in which attackers gained control of the CA's signing infrastructure and issued over 500 fraudulent
+    SSL/TLS certificates for high-profile domains including google.com, microsoft.com, and intelligence
+    agencies. The breach was discovered when a fraudulent google.com certificate was detected being
+    used for man-in-the-middle surveillance of Iranian Gmail users. DigiNotar subsequently declared
+    bankruptcy after all major browsers revoked trust in its root certificates.
+  why: >-
+    The DigiNotar compromise exposed fundamental weaknesses in the PKI trust model, demonstrating
+    that the security of HTTPS depends on the weakest certificate authority in the browser trust
+    store. A single compromised CA could issue trusted certificates for any domain worldwide. The
+    incident catalyzed major improvements to PKI security including Certificate Transparency, CAA
+    DNS records, and stricter CA audit requirements. It also revealed state-sponsored surveillance
+    operations targeting dissidents.
+  how: >-
+    Attackers compromised DigiNotar's certificate signing infrastructure through a series of
+    intrusions exploiting unpatched servers and inadequate network segmentation. Once they gained
+    access to the signing systems, they generated fraudulent SSL certificates for hundreds of
+    domains. These certificates were then deployed for man-in-the-middle surveillance, particularly
+    targeting Iranian internet users accessing Google services. The attack was detected when
+    Chrome's certificate pinning for Google domains flagged the unexpected certificate. Investigation
+    revealed over 500 fraudulent certificates had been issued.
+  core_concepts:
+    - name: "CA Infrastructure Compromise"
+      value: "Complete takeover of a certificate authority's signing capabilities through intrusion into their infrastructure"
+    - name: "PKI Trust Model Weakness"
+      value: "Any trusted CA can issue certificates for any domain, making the entire system as weak as its least secure CA"
+    - name: "Fraudulent Certificate Issuance"
+      value: "Over 500 fake SSL certificates issued for high-profile domains enabling man-in-the-middle surveillance"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-CRYPTO-CRYPTOGRAP-001"
+    description: "DigiNotar is an instance of cryptographic trust infrastructure compromise affecting PKI"
+  - type: "applies_to"
+    target: "INFRA-CRYPTO-TLS-001"
+    description: "The compromise affected TLS certificate trust for all domains certified by DigiNotar"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1553.004"
+      tactic: ["Defense Evasion", "Initial Access", "Collection"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Fox-IT - Operation Black Tulip: DigiNotar Breach Analysis"
+    - "ENISA - Operation Black Tulip Analysis Report"
+    - "Mozilla Security Blog - DigiNotar Removal Follow Up"
+  search_keywords:
+    - "DigiNotar compromise"
+    - "DigiNotar breach"
+    - "certificate authority hack"
+    - "Operation Black Tulip"
+    - "fraudulent SSL certificate"
+    - "PKI trust model failure"
+    - "CA infrastructure compromise"
+    - "DigiNotar certificate forgery"
+  embedding_text: >-
+    The DigiNotar Compromise was a 2011 breach of the Dutch certificate authority DigiNotar where
+    attackers gained control of the CA signing infrastructure and issued over 500 fraudulent SSL
+    certificates for high-profile domains including google.com, microsoft.com, and intelligence
+    agencies. The fraudulent certificates were used for man-in-the-middle surveillance of Iranian
+    internet users accessing Gmail. The breach was detected through Chrome's certificate pinning
+    for Google domains. DigiNotar declared bankruptcy after all major browsers revoked trust in
+    its root certificates. The incident exposed fundamental weaknesses in the PKI trust model
+    where a single compromised CA threatens the entire certificate ecosystem. It catalyzed major
+    security improvements including Certificate Transparency logs, CAA DNS records, and stricter
+    CA audit requirements. The investigation by Fox-IT, published as Operation Black Tulip,
+    revealed extensive infrastructure compromise through unpatched servers and poor network
+    segmentation at the CA facility.

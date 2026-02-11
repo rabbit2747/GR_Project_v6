@@ -1,0 +1,73 @@
+# GR Atom: CVE-2021-44832
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202144832-001"
+  name: "CVE-2021-44832"
+  normalized_name: "cve_2021_44832"
+  aliases:
+    - "Log4j JDBC Appender RCE"
+    - "Log4j Configuration Injection"
+    - "Log4j Remote Configuration RCE"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - WEB
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Apache Log4j 2.x (2.0-beta7 through 2.17.0)"
+    - "Java Applications using Log4j with remote configuration loading"
+
+definition:
+  what: "CVE-2021-44832 is a moderate-severity remote code execution vulnerability in Apache Log4j 2 versions 2.0-beta7 through 2.17.0 (excluding security fix releases 2.3.2 and 2.12.4). The vulnerability exists in the JDBC Appender, which can be exploited when an attacker has write access to the Log4j configuration or when the configuration is loaded from a remote source that the attacker can control. A malicious JDBC Appender configuration can reference a JNDI URI that, when resolved, causes remote code execution. CVSS v3: 6.6 (Medium). Disclosed December 28, 2021."
+  why: "While less severe than the preceding Log4Shell CVEs due to the prerequisite of configuration access, CVE-2021-44832 was the fourth Log4j vulnerability disclosed within three weeks of the original Log4Shell disclosure. It completed the series of Log4j vulnerabilities that required organizations to upgrade to Log4j 2.17.1. The vulnerability is relevant in scenarios where Log4j configurations are loaded from remote sources such as configuration management servers, shared network locations, or when attackers have already achieved partial compromise and can modify application configuration files. It reinforced the lesson that defense-in-depth around configuration management is critical."
+  how: "Exploitation requires the attacker to either have write access to the Log4j configuration file or control a remote configuration source referenced by the application. The attacker modifies the Log4j configuration to include a JDBC Appender with a malicious JNDI data source URI. When Log4j initializes or reloads its configuration, the JDBC Appender processes the JNDI URI, connecting to an attacker-controlled server that returns a malicious serialized Java object for execution. The attack chain requires a higher level of access compared to CVE-2021-44228, making it primarily a post-compromise escalation vector or a supply chain risk through compromised configuration sources. Fixed in Log4j 2.17.1 by restricting JNDI data source names to the java protocol in JDBC Appender."
+  core_concepts:
+    - key: "JDBC Appender JNDI Abuse"
+      value: "The Log4j JDBC Appender allows JNDI URIs as data source references, enabling remote code execution when an attacker controls the configuration to inject a malicious JNDI data source"
+    - key: "Configuration-Dependent Exploitation"
+      value: "Unlike CVE-2021-44228 which requires only log message control, CVE-2021-44832 requires write access to Log4j configuration or control of a remote configuration source, making it primarily a post-compromise or supply chain vector"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2021-44832 is a JNDI injection vulnerability through Log4j JDBC Appender configuration"
+  - type: supersedes
+    target: "VUL-INJECT-CVE202145105-001"
+    description: "CVE-2021-44832 was found in Log4j 2.17.0, the version that fixed CVE-2021-45105"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access", "Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2021-44832 - NVD NIST"
+    - "Apache Log4j Security Advisory - CVE-2021-44832"
+    - "Apache Log4j 2.17.1 Release Notes"
+    - "Checkmarx - CVE-2021-44832 Analysis"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2021-44832"
+    - "Log4j JDBC Appender"
+    - "Log4j configuration RCE"
+    - "Log4j 2.17.0 vulnerability"
+    - "Log4j remote configuration"
+    - "Log4j JNDI JDBC"
+    - "Log4j fourth vulnerability"
+  embedding_text: "CVE-2021-44832 is a moderate-severity remote code execution vulnerability in Apache Log4j 2 versions through 2.17.0. The fourth Log4j CVE disclosed within three weeks of Log4Shell, it exploits the JDBC Appender which allows JNDI URIs as data source references. Exploitation requires attacker write access to the Log4j configuration or control of a remote configuration source. A malicious JDBC Appender configuration triggers JNDI resolution to an attacker-controlled server for code execution. CVSS v3 score is 6.6 Medium. Less severe than CVE-2021-44228 due to configuration access prerequisites, but relevant in post-compromise scenarios and supply chain attacks through compromised configuration management. Fixed in Log4j 2.17.1 by restricting JNDI data sources to the java protocol. Maps to MITRE ATT&CK T1190."

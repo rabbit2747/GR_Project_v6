@@ -1,0 +1,89 @@
+# GR Atom: WinDShift
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-WINDSHIFT-001"
+  name: "WinDShift"
+  normalized_name: "windshift"
+  aliases:
+    - "WindShift"
+    - "Bahamut"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - CRED
+    - C2
+    - MACOS
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "WindShift (also written as WinDShift) is a threat actor group identified by DarkMatter and later researched by Objective-See and others, known for conducting targeted cyber-espionage operations primarily against individuals in the Middle East. The group has also been linked to the broader Bahamut threat actor cluster. WindShift is notable for its rare capability to target macOS systems alongside mobile platforms, deploying custom macOS malware in espionage operations against government officials, activists, and journalists."
+  why: "WindShift is significant as one of the few APT groups demonstrating dedicated macOS targeting capabilities in espionage operations. The group's focus on individual targets in the Middle East, including government officials and human rights activists, highlights the use of cyber-surveillance in the region. WindShift's operations overlap with Bahamut, suggesting a broader network of Middle Eastern cyber-espionage activity."
+  how: "WindShift conducts credential phishing attacks using fake login pages for popular email and cloud services. The group deploys custom macOS malware including the WindTail backdoor family, which is delivered through phishing emails and malicious websites. For mobile targets, the group uses fake applications and MDM (Mobile Device Management) profiles for iOS surveillance. WindShift leverages DNS infrastructure for C2 communications and has demonstrated the ability to exploit macOS security features and Gatekeeper bypass techniques."
+  core_concepts:
+    - key: "macOS Espionage Capability"
+      value: "Rare APT capability to develop and deploy custom macOS malware including WindTail backdoor for espionage targeting Apple desktop users"
+    - key: "Middle East Individual Targeting"
+      value: "Focused operations against specific individuals including government officials, activists, and journalists in the Middle East"
+    - key: "Multi-Platform Coverage"
+      value: "Attack capabilities spanning macOS, iOS, and web-based credential phishing across multiple platforms used by targets"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Middle Eastern espionage group with rare macOS and mobile targeting capabilities"
+  - type: enables
+    target: "ATK-PHISH-CRED-001"
+    description: "Conducts credential phishing using fake login pages for email and cloud services"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.002"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "credential-access"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Objective-See - WindShift / WindTail macOS malware analysis"
+    - "DarkMatter - WindShift APT discovery"
+    - "BlackBerry - Bahamut threat report"
+  search_keywords:
+    - "windshift"
+    - "bahamut"
+    - "windtail"
+    - "macos malware"
+    - "macos apt"
+    - "middle east espionage"
+    - "credential phishing"
+    - "ios surveillance"
+    - "gatekeeper bypass"
+    - "apple targeting"
+    - "objective-see"
+    - "darkmatter"
+  embedding_text: "WindShift is a threat actor group conducting targeted cyber-espionage against individuals in the Middle East, notable for its rare macOS targeting capabilities alongside mobile platform operations. The group, linked to the broader Bahamut cluster, deploys custom macOS malware including the WindTail backdoor family, conducts credential phishing with fake login pages, and uses fake applications and MDM profiles for iOS surveillance. WindShift targets government officials, activists, and journalists, demonstrating multi-platform capabilities across macOS, iOS, and web-based attacks. The group's operations highlight the use of sophisticated cyber-surveillance in the Middle East and represent one of the few APT groups with dedicated Apple platform targeting."

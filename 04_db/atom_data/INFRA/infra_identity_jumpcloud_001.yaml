@@ -1,0 +1,121 @@
+# GR Atom: JumpCloud
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-JUMPCLOUD-001"
+  name: "JumpCloud"
+  normalized_name: "jumpcloud"
+  aliases:
+    - "JumpCloud Directory Platform"
+    - "JumpCloud DaaS"
+    - "JumpCloud Open Directory Platform"
+    - "JC Directory"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - AUTHN
+    - AUTHZ
+    - LDAP
+    - SAML
+    - MFA
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "S2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    JumpCloud is a cloud-based open directory platform that provides unified identity,
+    access, and device management across heterogeneous IT environments. It functions as a
+    Directory-as-a-Service (DaaS) alternative to traditional Active Directory, supporting
+    LDAP, SAML, RADIUS, and OAuth protocols for authentication across Windows, macOS, and
+    Linux systems. JumpCloud includes MDM capabilities, conditional access policies, and
+    cross-platform device management in a single cloud-native platform.
+  why: >-
+    JumpCloud is increasingly targeted as organizations adopt it as their primary identity
+    provider, replacing or supplementing Active Directory. The 2023 JumpCloud supply chain
+    compromise demonstrated the risk of cloud directory service attacks, where a nation-state
+    actor targeted JumpCloud to access downstream customer environments. Compromise of the
+    JumpCloud platform grants access to all managed identities, devices, and connected
+    applications. Weak API key management, insufficient admin MFA, and overly permissive
+    LDAP bind configurations create additional attack surface.
+  how: >-
+    JumpCloud operates as a multi-tenant cloud directory with agents deployed on managed
+    endpoints. It provides LDAP-as-a-Service for legacy application authentication, SAML
+    and OIDC SSO for web applications, RADIUS for network authentication, and system
+    management through the JumpCloud agent. The platform manages user lifecycles, group
+    memberships, conditional access policies, and device compliance. Administration occurs
+    through the JumpCloud admin console and API. The JumpCloud agent communicates with the
+    cloud service for policy enforcement, patch management, and remote command execution
+    on managed systems.
+  core_concepts:
+    - key: "Cloud Directory Platform"
+      value: "Multi-protocol cloud-native directory replacing traditional AD with LDAP, SAML, RADIUS, and OAuth support across all operating systems"
+    - key: "Supply Chain Risk"
+      value: "As a centralized identity provider, JumpCloud compromise enables cascading access to all managed identities, devices, and connected applications"
+    - key: "Agent-Based Management"
+      value: "JumpCloud agent on endpoints enables remote configuration, command execution, and compliance enforcement creating an administrative attack surface"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "JumpCloud is a cloud-native directory service alternative to traditional LDAP directories"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Provides multi-protocol authentication services for managed users and devices"
+  - type: "alternative_to"
+    target: "INFRA-IDENTITY-AZUACTDIR-001"
+    description: "JumpCloud serves as a cross-platform alternative to Azure AD for cloud directory services"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1199"
+    tactic:
+      - "Initial Access"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "JumpCloud Documentation - Platform Overview"
+    - "MITRE ATT&CK T1199 - Trusted Relationship"
+    - "CrowdStrike - JumpCloud Incident Analysis 2023"
+  search_keywords:
+    - "JumpCloud"
+    - "JumpCloud Directory Platform"
+    - "Directory-as-a-Service"
+    - "JumpCloud compromise"
+    - "cloud directory service"
+    - "JumpCloud agent"
+    - "LDAP-as-a-Service"
+    - "JumpCloud SSO"
+  embedding_text: >-
+    JumpCloud is a cloud-based open directory platform providing unified identity, access,
+    and device management across heterogeneous environments. It functions as a Directory-
+    as-a-Service alternative to Active Directory, supporting LDAP, SAML, RADIUS, and OAuth
+    protocols across Windows, macOS, and Linux. JumpCloud includes MDM, conditional access,
+    and cross-platform management. The 2023 supply chain compromise demonstrated nation-
+    state targeting of cloud directory services for downstream customer access. Compromise
+    of JumpCloud grants access to all managed identities and connected applications. The
+    JumpCloud agent enables remote command execution on managed endpoints. Security teams
+    must enforce strong admin MFA, restrict API key access, monitor agent communications,
+    audit administrative actions, implement conditional access policies, and maintain
+    incident response plans for cloud directory compromise scenarios.

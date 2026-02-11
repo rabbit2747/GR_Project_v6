@@ -1,0 +1,96 @@
+# GR Atom: Service Restart Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SERVREST-001"
+  name: "Service Restart Event"
+  normalized_name: "service_restart_event"
+  aliases:
+    - "Service Restarted Detection"
+    - "Service Bounce Event"
+    - "Service Recycle Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - AUDIT
+    - LOG
+    - MONITOR
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern that identifies when a system service is restarted on an endpoint, consisting of a stop event immediately followed by a start event for the same service. On Windows, this is observed as consecutive System Event ID 7036 entries showing the service entering stopped and then running states, or detected through SCM restart commands. On Linux, this corresponds to systemctl restart operations recorded in the systemd journal. The pattern correlates the stop-start sequence within a configurable time window and captures the restart initiator and context."
+  why: "Service restarts can indicate both legitimate maintenance and malicious activity. Adversaries restart services after modifying their binary path, configuration, or loaded DLLs to activate malicious changes. Repeated unexpected restarts may indicate exploitation attempts, DLL hijacking, or service instability caused by tampering. Monitoring restarts also ensures operational awareness of critical service availability and helps detect service disruption attacks."
+  how: "Detection correlates service stop and start events occurring within a defined time window for the same service name. On Windows, System Event ID 7036 state changes are paired, and Sysmon process termination and creation events for service host processes are correlated. Command-line auditing captures net stop/net start, sc.exe stop/start, and Restart-Service PowerShell sequences. On Linux, systemd journal entries for restart operations are monitored. EDR telemetry provides enriched context including the process tree that initiated the restart."
+  core_concepts:
+    - key: "stop_start_correlation"
+      value: "Pairing consecutive stop and start events for the same service within a time window to identify restart operations"
+    - key: "binary_modification_restart"
+      value: "Adversaries modify service binaries or configurations then restart the service to activate malicious changes"
+    - key: "dll_hijacking_reload"
+      value: "Restarting a service forces it to reload DLLs, potentially loading a malicious DLL placed in the search path"
+    - key: "service_availability_monitoring"
+      value: "Tracking restart frequency to detect instability, denial-of-service, or tampering with critical services"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-SERVICE-001"
+    description: "A service restart event is a specific type of service lifecycle event"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-SERVSTOP-001"
+    description: "A restart event requires a service stop event as the first phase"
+  - type: "requires"
+    target: "DETECT-ENDPOINT-SERVSTAR-001"
+    description: "A restart event requires a service start event as the second phase"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1543.003"
+    tactic:
+      - "persistence"
+      - "execution"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Service Control Manager Events"
+    - "MITRE ATT&CK T1543.003 - Create or Modify System Process: Windows Service"
+    - "Windows System Event Log Reference"
+    - "Systemd Documentation - Service Restart"
+  search_keywords:
+    - "service restart"
+    - "service restarted"
+    - "service bounce"
+    - "service recycle"
+    - "restart service detection"
+    - "service stop start"
+    - "net stop net start"
+    - "systemctl restart"
+    - "service recovery"
+    - "service availability"
+  embedding_text: "Service restart event detection pattern identifies when system services are restarted on endpoints by correlating consecutive stop and start events within a time window. On Windows this monitors System Event ID 7036 state transitions, command-line sequences for net stop/start and sc.exe operations, and Sysmon process events. On Linux it tracks systemctl restart operations via journal entries. Adversaries restart services after modifying binaries, configurations, or DLL search paths to activate malicious changes. The pattern detects DLL hijacking activation, binary substitution, configuration tampering, and service disruption attacks. Provides operational visibility into critical service availability and unexpected restart frequency."

@@ -1,0 +1,83 @@
+# GR Atom: Inky Squid
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-INKYSQUI-001"
+  name: "Inky Squid"
+  normalized_name: "inky_squid"
+  aliases:
+    - "ScarCruft"
+    - "APT37"
+    - "Reaper"
+    - "Group123"
+    - "TEMP.Reaper"
+    - "Ricochet Chollima"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "EVADE"
+    - "C2"
+    - "WINDOWS"
+    - "MOBILE"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "web browsers"
+    - "email clients"
+    - "mobile devices"
+    - "news media websites"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Inky Squid is the Volexity designation for the North Korean state-sponsored threat actor also tracked as ScarCruft, APT37, and Ricochet Chollima. Attributed to North Korea's Ministry of State Security (MSS), this group has been active since at least 2012 and primarily targets South Korean entities, defectors, journalists, and human rights organizations, as well as broader targets in Japan, Vietnam, and the Middle East."
+  why: "The group serves North Korean intelligence requirements focused on monitoring defectors, collecting intelligence on South Korean political and military affairs, and supporting the regime's broader geopolitical objectives. Their targeting of journalists and human rights organizations reflects efforts to suppress negative reporting and track regime critics abroad."
+  how: "Inky Squid is known for strategic web compromises (watering holes) injecting malicious JavaScript into legitimate Korean-language news websites, zero-day exploit usage including Internet Explorer and Flash Player vulnerabilities, and spear-phishing with weaponized documents. The group deploys custom malware families including BLUELIGHT, RokRAT, Dolphin, and Goldbackdoor, often leveraging legitimate cloud services like OneDrive, Google Drive, and Dropbox for C2 infrastructure."
+  core_concepts:
+    - "North Korean MSS operations"
+    - "watering hole attacks on news sites"
+    - "cloud-based C2 infrastructure"
+    - "defector and dissident targeting"
+    - "browser zero-day exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "ACTOR-APT-SCARCRUFT-001"
+    description: "Inky Squid is Volexity's name for the group also known as ScarCruft"
+  - type: "enables"
+    target: "ACTOR-APT-BLUENOROFF-001"
+    description: "Shares North Korean state sponsor with BlueNoroff but focuses on political intelligence rather than financial theft"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Volexity - InkySquid Threat Actor Profile"
+    - "MITRE ATT&CK - APT37 (G0067)"
+    - "FireEye - APT37 (Reaper): The Overlooked North Korean Actor"
+  search_keywords:
+    - "inky squid"
+    - "ScarCruft"
+    - "APT37"
+    - "reaper APT"
+    - "group123"
+    - "ricochet chollima"
+    - "north korea MSS"
+    - "BLUELIGHT malware"
+    - "RokRAT"
+  embedding_text: "Inky Squid is the Volexity designation for a North Korean state-sponsored threat actor also known as ScarCruft, APT37, Reaper, and Ricochet Chollima. Attributed to North Korea's Ministry of State Security, the group has operated since at least 2012 primarily targeting South Korean entities, defectors, journalists, and human rights organizations. Their techniques include strategic web compromises of Korean news websites with injected malicious JavaScript, zero-day exploitation of browser vulnerabilities, and spear-phishing with weaponized documents. The group deploys custom malware families including BLUELIGHT, RokRAT, Dolphin, and Goldbackdoor, frequently using legitimate cloud services such as OneDrive and Google Drive for command and control. Inky Squid also targets entities in Japan, Vietnam, and the Middle East to support broader North Korean intelligence collection. The group is distinguished from other North Korean actors by its focus on political intelligence and dissident monitoring rather than financial operations."

@@ -1,0 +1,113 @@
+# GR Atom: CVE-2024-20353
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE202420353-001"
+  name: "CVE-2024-20353"
+  normalized_name: "cve_2024_20353"
+  aliases:
+    - "Cisco ASA Denial of Service"
+    - "ArcaneDoor Web Services DoS"
+    - "Cisco ASA/FTD WebVPN DoS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - DOS
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Cisco Adaptive Security Appliance (ASA)"
+    - "Cisco Firepower Threat Defense (FTD)"
+    - "Cisco ASA WebVPN/AnyConnect services"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-20353 is a denial of service vulnerability in the management and VPN web servers of
+    Cisco Adaptive Security Appliance (ASA) and Firepower Threat Defense (FTD) software. A remote
+    unauthenticated attacker can send specially crafted HTTP requests to cause the device to reload
+    unexpectedly, resulting in a denial of service condition. This vulnerability was exploited as
+    part of the ArcaneDoor campaign by a sophisticated state-sponsored threat actor tracked as
+    UAT4356 (Storm-1849). CVSS v3.1 score is 8.6.
+  why: >-
+    Cisco ASA and FTD firewalls are deployed at the network perimeter of critical infrastructure,
+    government agencies, and enterprises worldwide. The ArcaneDoor campaign demonstrated that
+    state-sponsored actors specifically target network edge devices as initial access vectors
+    because they provide direct access to protected networks and are often less monitored than
+    endpoint systems. This DoS vulnerability was used alongside CVE-2024-20359 to establish
+    persistent access to compromised firewalls for espionage operations.
+  how: >-
+    The attacker sends specially crafted HTTP requests to the WebVPN or management interface of
+    the Cisco ASA/FTD device, triggering a crash and reload. In the ArcaneDoor campaign, this
+    vulnerability was used in combination with CVE-2024-20359 (persistent local code execution)
+    to deploy custom implants named Line Runner and Line Dancer on compromised firewalls.
+    Mitigation includes applying Cisco security patches, disabling unnecessary web services on
+    the management interface, limiting management access to trusted networks, monitoring for
+    unexpected device reloads, and checking for indicators of compromise from the ArcaneDoor
+    campaign.
+  core_concepts:
+    - key: "Network Edge Device Exploitation"
+      value: "Targeting firewall and VPN appliances at the network perimeter as initial access vectors for espionage campaigns"
+    - key: "ArcaneDoor Campaign"
+      value: "State-sponsored attack campaign using zero-day vulnerabilities in Cisco ASA/FTD to deploy persistent implants on network security devices"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-20353 targets network security appliance services accessible without authentication"
+  - type: "enables"
+    target: "VUL-AUTH-CVE202420359-001"
+    description: "Used in combination with CVE-2024-20359 in the ArcaneDoor campaign to achieve persistent access"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-20353"
+    - "NIST NVD CVE-2024-20353 (CVSS v3.1: 8.6)"
+    - "Cisco Security Advisory cisco-sa-asaftd-websrvs-dos-X8gNucA2"
+    - "Cisco Talos - ArcaneDoor Campaign Analysis"
+    - "CISA KEV Catalog - CVE-2024-20353"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2024-20353"
+    - "Cisco ASA vulnerability"
+    - "ArcaneDoor"
+    - "Cisco FTD denial of service"
+    - "Cisco firewall zero-day"
+    - "UAT4356"
+    - "Storm-1849"
+    - "Cisco WebVPN exploit"
+  embedding_text: >-
+    CVE-2024-20353 is a denial of service vulnerability in Cisco ASA and Firepower Threat Defense
+    web services with CVSS v3.1 score 8.6. A remote unauthenticated attacker sends crafted HTTP
+    requests to the WebVPN or management interface causing the device to crash and reload. Exploited
+    as part of the ArcaneDoor campaign by state-sponsored actor UAT4356/Storm-1849 to target
+    government and critical infrastructure firewalls. Used alongside CVE-2024-20359 to deploy
+    persistent implants named Line Runner and Line Dancer on compromised devices. Mitigation
+    includes Cisco patches, disabling unnecessary web services, restricting management access,
+    and monitoring for ArcaneDoor indicators of compromise.

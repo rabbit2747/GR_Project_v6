@@ -1,0 +1,75 @@
+# GR Atom: CVE-2019-0604
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE20190604-001"
+  name: "CVE-2019-0604"
+  normalized_name: "cve_2019_0604"
+  aliases:
+    - "SharePoint Remote Code Execution"
+    - "SharePoint Deserialization RCE"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EXEC
+    - DESER
+    - WINDOWS
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft SharePoint Server 2019"
+    - "Microsoft SharePoint Server 2016"
+    - "Microsoft SharePoint Foundation 2013 SP1"
+    - "Microsoft SharePoint Enterprise Server 2013 SP1"
+
+definition:
+  what: "CVE-2019-0604 is a critical remote code execution vulnerability in Microsoft SharePoint caused by unsafe deserialization of crafted data sent to the SharePoint application. An attacker who successfully exploits this vulnerability can run arbitrary code in the context of the SharePoint application pool and the SharePoint server farm account. CVSS v3: 9.8 (Critical). Disclosed in February 2019."
+  why: "Microsoft SharePoint is widely deployed in enterprise environments as a collaboration and document management platform, often containing sensitive corporate data. Exploitation of this vulnerability allows unauthenticated remote code execution on the SharePoint server, providing attackers with initial access to the internal network. The vulnerability was actively exploited in the wild by multiple threat actors including nation-state groups. CISA issued an alert regarding active exploitation."
+  how: "The vulnerability exists in the way SharePoint handles deserialization of specially crafted XML content submitted to the EntityInstanceIdEncoder endpoint or PickerDialogPage. An attacker sends a crafted request containing a malicious serialized object to a vulnerable SharePoint server. When the server deserializes this object, it executes arbitrary code under the SharePoint application pool identity. No authentication is required for certain exploitation paths. Microsoft released patches in February and March 2019."
+  core_concepts:
+    - key: "SharePoint Deserialization"
+      value: "Unsafe deserialization of XML input in SharePoint's EntityInstanceIdEncoder allows unauthenticated attackers to achieve remote code execution through crafted serialized objects"
+    - key: "Enterprise Collaboration Platform Compromise"
+      value: "Exploiting SharePoint provides access to sensitive corporate documents and a foothold within the internal enterprise network for lateral movement"
+
+relations:
+  - type: is_a
+    target: "VUL-DESER-DESERIALIZ-001"
+    description: "CVE-2019-0604 is a deserialization vulnerability in Microsoft SharePoint"
+  - type: enables
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "Unauthenticated RCE on SharePoint enables bypassing authentication controls to access internal resources"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2019-0604 - NVD NIST"
+    - "Microsoft Security Advisory - SharePoint RCE"
+    - "CISA Alert AA19-168A"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2019-0604"
+    - "SharePoint remote code execution"
+    - "SharePoint deserialization"
+    - "SharePoint RCE"
+    - "Microsoft SharePoint vulnerability"
+    - "SharePoint EntityInstanceIdEncoder"
+    - "SharePoint unauthenticated RCE"
+  embedding_text: "CVE-2019-0604 is a critical remote code execution vulnerability in Microsoft SharePoint Server caused by unsafe deserialization of crafted XML data. An unauthenticated attacker can send specially crafted requests to the EntityInstanceIdEncoder or PickerDialogPage endpoints, triggering deserialization of malicious objects that execute arbitrary code under the SharePoint application pool identity. CVSS v3 score is 9.8 Critical. Affects SharePoint 2019, 2016, and 2013 SP1. Actively exploited in the wild by nation-state threat actors. Microsoft released patches in February and March 2019. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application. Compromising SharePoint provides access to sensitive enterprise documents and a network foothold for lateral movement."

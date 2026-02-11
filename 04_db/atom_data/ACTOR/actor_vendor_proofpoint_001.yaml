@@ -1,0 +1,71 @@
+# GR Atom: Proofpoint
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-PROOFPOINT-001"
+  name: "Proofpoint"
+  normalized_name: "proofpoint"
+  aliases:
+    - "Proofpoint Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - DLP
+    - THREAT_INTEL
+    - BLUE_TEAM
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Proofpoint is a leading cybersecurity company specializing in email security, data loss prevention, security awareness training, and threat intelligence. The company's platform protects against phishing, business email compromise (BEC), malware delivery, and social engineering attacks targeting email as the primary attack vector. Proofpoint's threat research team tracks email-based threat actors (TA groups) and publishes detailed analysis of phishing campaigns, malware distribution, and initial access broker operations."
+  why: "Proofpoint is significant in cybersecurity because email remains the most common initial access vector for cyber attacks. Their threat research team maintains one of the most comprehensive tracking systems for email threat actors (designated as TA groups like TA505, TA577, etc.), providing critical intelligence on phishing campaigns, malware distribution networks, and initial access brokers. Proofpoint's visibility into global email traffic provides unique insights into the threat landscape."
+  how: "Proofpoint protects organizations through cloud-based email security gateways that analyze messages for malicious content, URLs, and attachments using sandboxing, URL rewriting, and behavioral analysis. Their DLP solutions monitor and control sensitive data across email, cloud, and endpoints. The threat intelligence team analyzes billions of email messages daily to track threat actor campaigns, identify new malware variants, and provide actionable intelligence through their blog and threat intelligence products."
+  core_concepts:
+    - key: "Email security"
+      value: "Advanced protection against phishing, BEC, and malware delivery through email"
+    - key: "Threat actor tracking"
+      value: "TA-numbered tracking system for email-based threat actors and campaigns"
+    - key: "Initial access intelligence"
+      value: "Visibility into email-based initial access vectors and malware distribution"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "Proofpoint produces threat intelligence on email-based threat actors and campaigns"
+  - type: "enables"
+    target: "SERVICE-EMAILSEC-001"
+    description: "Proofpoint provides email security gateway and anti-phishing protection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Proofpoint Official Website"
+    - "Proofpoint Threat Insight Blog"
+    - "Proofpoint Annual Human Factor Report"
+  search_keywords:
+    - "proofpoint"
+    - "proofpoint email security"
+    - "proofpoint threat intelligence"
+    - "proofpoint ta groups"
+    - "proofpoint phishing"
+    - "proofpoint dlp"
+    - "proofpoint bec"
+    - "email threat actors"
+  embedding_text: "Proofpoint is a leading cybersecurity company specializing in email security, data loss prevention, security awareness training, and threat intelligence. The company protects organizations against phishing, business email compromise, malware delivery, and social engineering attacks through cloud-based email security gateways that analyze messages using sandboxing, URL rewriting, and behavioral analysis. Proofpoint's threat research team maintains one of the most comprehensive tracking systems for email-based threat actors, designated using TA-numbered identifiers such as TA505, TA577, and others, providing critical intelligence on phishing campaigns, malware distribution networks, and initial access broker operations. The team analyzes billions of email messages daily across global traffic, providing unique visibility into the email threat landscape. Proofpoint's DLP solutions monitor and control sensitive data across email, cloud, and endpoints. Their annual Human Factor Report and regular threat intelligence publications are widely referenced by security operations teams and threat analysts worldwide."

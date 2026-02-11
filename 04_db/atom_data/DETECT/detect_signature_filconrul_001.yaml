@@ -1,0 +1,75 @@
+# GR Atom: File Content Rules
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-SIGNATURE-FILCONRUL-001"
+  name: "File Content Rules"
+  normalized_name: "file_content_rules"
+  aliases:
+    - "File Content Inspection Rules"
+    - "Content-Based File Detection"
+    - "File Content Signatures"
+    - "File Payload Rules"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - FORENSICS
+    - MONITOR
+    - EDR
+    - SANDBOX
+    - EVADE
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "File content rules are detection signatures that inspect the internal content of files to identify malicious payloads, embedded scripts, suspicious data patterns, and policy-violating material. Unlike file header or magic byte checks that examine only the initial bytes, content rules analyze the full file body using string matching, regular expressions, byte pattern scanning, and structural analysis. These rules detect embedded executables within documents, obfuscated scripts in seemingly benign files, shellcode patterns, encoded command-and-control URLs, exfiltration staging content, sensitive data patterns (credit card numbers, social security numbers), and known malware strings. Content rules are deployed in antivirus engines, DLP systems, email gateways, WAFs, sandbox detonation engines, and EDR file scanning modules."
+  why: "Attackers routinely disguise malicious content within legitimate-appearing file formats to bypass perimeter defenses. File content rules provide deep inspection capability that detects threats invisible to filename, extension, or header-only checks. Obfuscated macro code in Office documents, JavaScript embedded in PDFs, PowerShell encoded commands in script files, and shellcode hidden in image files all require content-level inspection for detection. Without content rules, organizations cannot detect fileless malware delivery, document-based exploits, or sensitive data exfiltration via file transfers."
+  how: "File content rules operate by defining patterns to match within file payloads. Rule engines read files into memory or stream them through pattern matching engines that apply string literals, byte sequences, regular expressions, and entropy calculations. YARA rules scan for byte patterns and string combinations. DLP engines apply content classifiers using regular expressions for structured data patterns and machine learning models for unstructured content. Antivirus engines use content signatures from malware sample analysis. Rules are organized by file type and optimized with conditions to limit scanning scope (e.g., only scan Office documents for VBA macro patterns, only scan PDFs for JavaScript). Performance optimization includes pre-filtering by file type and size, multi-pattern matching algorithms (Aho-Corasick), and parallel scanning."
+  core_concepts:
+    - key: "Pattern Matching Engine"
+      value: "Software component that efficiently matches multiple string and byte patterns against file content using algorithms like Aho-Corasick"
+    - key: "Content Classification"
+      value: "Categorization of file content as malicious, suspicious, policy-violating, or benign based on matched patterns"
+    - key: "Entropy Analysis"
+      value: "Measurement of content randomness to detect encrypted, compressed, or packed sections that may indicate obfuscation"
+    - key: "File Type Conditioning"
+      value: "Limiting content rule evaluation to specific file types to improve scanning performance and reduce false positives"
+
+relations:
+  - type: enables
+    target: "DETECT-SIGNATURE-YARARULE-001"
+    description: "File content rules enable YARA rule scanning by defining the patterns and conditions to evaluate"
+  - type: is_a
+    target: "DETECT-SIGNATURE-FILMAGBYT-001"
+    description: "File content rules are an extension of magic byte detection that inspects the full file body rather than just the header"
+  - type: effective_against
+    target: "ATK-EXEC-MALICFILE-001"
+    description: "File content rules are effective against malicious file execution by detecting embedded payloads"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "YARA Documentation - https://yara.readthedocs.io/"
+    - "NIST SP 800-83 - Guide to Malware Incident Prevention and Handling"
+    - "ClamAV Signatures Documentation - https://docs.clamav.net/manual/Signatures.html"
+  search_keywords:
+    - "file content rules"
+    - "file content inspection"
+    - "content-based detection"
+    - "file payload scanning"
+    - "malicious content detection"
+    - "DLP content rules"
+    - "file pattern matching"
+    - "content signature scanning"
+  embedding_text: "File content rules are detection signatures that inspect the internal content of files to identify malicious payloads, embedded scripts, suspicious data patterns, and policy-violating material. Unlike header-only checks, content rules analyze the full file body using string matching, regular expressions, byte pattern scanning, and structural analysis to detect embedded executables within documents, obfuscated scripts, shellcode patterns, encoded C2 URLs, and sensitive data patterns. These rules are deployed in antivirus engines, DLP systems, email gateways, sandboxes, and EDR modules. Rule engines use algorithms like Aho-Corasick for efficient multi-pattern matching, with file type conditioning to optimize scanning performance."

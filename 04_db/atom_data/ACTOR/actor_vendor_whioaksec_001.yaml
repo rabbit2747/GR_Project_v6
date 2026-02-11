@@ -1,0 +1,68 @@
+# GR Atom: White Oak Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-WHIOAKSEC-001"
+  name: "White Oak Security"
+  normalized_name: "white_oak_security"
+  aliases:
+    - "WhiteOak Security"
+    - "White Oak"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "White Oak Security is a cybersecurity consultancy specializing in penetration testing, vulnerability assessment, and security consulting services. The company provides network penetration testing, web application security assessment, wireless security testing, and social engineering engagements, along with security program advisory services that help organizations identify and remediate vulnerabilities across their technology environments."
+  why: "White Oak Security is significant in cybersecurity because it provides accessible, high-quality penetration testing services that help organizations understand their security posture. The company also contributes to the security community through published blog posts, vulnerability disclosures, and educational content that shares practical security testing knowledge and techniques."
+  how: "White Oak Security operates through expert-driven penetration testing engagements that combine automated scanning with manual exploitation techniques to thoroughly assess security posture. Services include internal and external network penetration testing, web and mobile application security assessment, wireless security evaluation, social engineering campaigns, and security program maturity assessments."
+  core_concepts:
+    - key: "Penetration Testing Services"
+      value: "Comprehensive manual and automated security assessment of networks, applications, and wireless environments"
+    - key: "Security Assessment"
+      value: "Thorough evaluation of organizational security posture through technical testing and program maturity review"
+    - key: "Security Community Contribution"
+      value: "Published research, vulnerability disclosures, and educational content sharing practical security knowledge"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECUINNO-001"
+    description: "Fellow penetration testing and security assessment consultancy"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.whiteoaksecurity.com"
+  search_keywords:
+    - "white oak security"
+    - "penetration testing"
+    - "vulnerability assessment"
+    - "security consulting"
+    - "web application testing"
+    - "network penetration test"
+    - "security assessment"
+  embedding_text: "White Oak Security is a cybersecurity consultancy specializing in penetration testing, vulnerability assessment, and security consulting services. The company provides network penetration testing, web application security assessment, wireless security testing, and social engineering engagements. White Oak Security contributes to the security community through published blog posts, vulnerability disclosures, and educational content sharing practical security testing knowledge and techniques."

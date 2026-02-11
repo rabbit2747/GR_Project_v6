@@ -1,0 +1,98 @@
+# GR Atom: HTTP Get
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTPGET-001"
+  name: "HTTP Get"
+  normalized_name: "http_get"
+  aliases:
+    - "HTTP GET Method"
+    - "GET Request"
+    - "REST GET"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 1
+  atom_tags:
+    - HTTP
+    - WEB
+    - API
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTP GET is the primary HTTP request method defined in RFC 9110 for retrieving a representation
+    of the target resource. GET requests transfer data from server to client and must be safe
+    (producing no side effects on the server) and idempotent (multiple identical requests yield
+    the same result). GET is the most frequently used HTTP method, accounting for the majority
+    of web traffic. Parameters are passed via the URL query string. GET responses are cacheable
+    by default and can include conditional request headers (If-Modified-Since, If-None-Match) for
+    cache validation.
+  why: >-
+    HTTP GET is the most commonly exploited HTTP method in web attacks. GET requests with
+    user-controlled query parameters are vectors for SQL injection, XSS (reflected), path
+    traversal, and server-side request forgery. GET request URLs with sensitive data are logged
+    in server logs, browser history, proxy logs, and referrer headers, creating data leakage
+    risks. C2 frameworks use GET requests for beacon check-ins. Web scraping and enumeration
+    rely on GET requests. Parameter tampering in GET URLs can bypass access controls. Security
+    controls must validate and sanitize all GET parameters.
+  how: >-
+    HTTP GET operates by sending a request line containing the method, target URI (including
+    query string parameters), and HTTP version, followed by request headers. The server processes
+    the request, retrieves the requested resource, and returns a response with status code,
+    headers, and response body. Cache control uses headers like Cache-Control, ETag, and
+    Last-Modified. Conditional requests use If-None-Match (ETag comparison) and If-Modified-Since
+    (date comparison) to avoid transferring unchanged resources. GET requests should never modify
+    server state and must not include a request body with semantic meaning per the specification.
+  core_concepts:
+    - key: "Safe Method"
+      value: "GET is defined as safe, meaning it should not cause side effects on the server — it retrieves data without modifying resources."
+    - key: "Cacheability"
+      value: "GET responses are cacheable by default, controlled by Cache-Control, ETag, and Expires headers for performance optimization."
+    - key: "Query String Parameters"
+      value: "Data passed in the URL after the ? delimiter as key=value pairs, visible in logs and history, creating data exposure risks for sensitive information."
+    - key: "Conditional GET"
+      value: "Cache validation mechanism using If-None-Match/If-Modified-Since headers to receive 304 Not Modified when resources are unchanged."
+
+relations:
+  - type: "part_of"
+    target: "PROTO-MSG-HTTPMETH-001"
+    description: "HTTP GET is the primary retrieval method within the HTTP methods specification"
+  - type: "part_of"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTP GET is a fundamental sub-component of the HTTP protocol for resource retrieval"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 9110 — HTTP Semantics, Section 9.3.1 GET"
+    - "OWASP — Testing for HTTP Methods"
+    - "MDN Web Docs — HTTP GET Method"
+  search_keywords:
+    - "HTTP GET"
+    - "GET method"
+    - "GET request"
+    - "HTTP retrieval"
+    - "query string"
+    - "REST GET"
+    - "safe method"
+    - "cacheable HTTP"
+    - "conditional GET"
+  embedding_text: >-
+    HTTP GET is the primary HTTP method for retrieving resource representations, defined in RFC
+    9110 as safe (no side effects) and idempotent. GET is the most frequently used HTTP method,
+    passing parameters via URL query strings. Responses are cacheable by default with conditional
+    request support via ETag and If-Modified-Since headers. GET is the most commonly exploited
+    HTTP method — query parameters are vectors for SQL injection, XSS, path traversal, and SSRF.
+    URLs with sensitive data leak through server logs, browser history, and referrer headers. C2
+    frameworks use GET for beacon check-ins. Security requires input validation and sanitization
+    of all GET parameters.

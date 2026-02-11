@@ -1,0 +1,101 @@
+# GR Atom: CVE-2014-9195
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20149195-001"
+  name: "CVE-2014-9195"
+  normalized_name: "cve_2014_9195"
+  aliases:
+    - "Siemens SIMATIC WinCC Logic Flaw"
+    - "WinCC Hardcoded Credentials"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - ICS
+    - AUTHN
+    - CONFIG
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z4", "Z5"]
+  target_components:
+    - "Siemens SIMATIC WinCC"
+    - "Siemens SIMATIC PCS 7"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2014-9195 is a vulnerability in Siemens SIMATIC WinCC and PCS 7 SCADA systems involving
+    multiple security issues including hardcoded credentials and insufficient access control
+    logic. The system contains default credentials that are not required to be changed during
+    installation, and certain web server components lack proper authentication enforcement.
+    This allows remote attackers to gain unauthorized access to the SCADA management interface.
+    CVSS v2 base score: 7.5 (High).
+  why: >-
+    SIMATIC WinCC is widely deployed in critical infrastructure including power plants, water
+    treatment facilities, and manufacturing. Unauthorized access to SCADA systems can lead to
+    manipulation of industrial processes, equipment damage, safety hazards, and disruption of
+    essential services. The Stuxnet worm previously targeted WinCC systems, demonstrating the
+    real-world consequences of ICS security failures.
+  how: >-
+    An attacker uses default or hardcoded credentials to authenticate to the WinCC web server
+    or database interfaces. The system's authentication logic fails to enforce credential
+    changes during initial setup and does not adequately restrict access to sensitive management
+    functions. Network-accessible interfaces allow remote exploitation without physical access
+    to the ICS environment.
+  core_concepts:
+    - key: "ICS Authentication Logic Failure"
+      value: "Default credentials and missing forced-change logic in SCADA systems allow unauthorized remote access to critical infrastructure controls"
+    - key: "Critical Infrastructure Exposure"
+      value: "Insufficient access control in industrial control systems creates risk of physical process manipulation and safety incidents"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Authentication enforcement logic flaw allowing bypass of intended access controls in ICS systems"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE20155374-001"
+    description: "Both affect Siemens industrial control systems with logic-based security flaws"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T0823"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2014-9195"
+    - "ICS-CERT Advisory ICSA-14-329-02"
+    - "Siemens ProductCERT Advisory SSA-134508"
+    - "NIST NVD - CVE-2014-9195"
+  search_keywords:
+    - "CVE-2014-9195"
+    - "Siemens WinCC"
+    - "SIMATIC vulnerability"
+    - "SCADA hardcoded credentials"
+    - "ICS authentication bypass"
+    - "PCS 7 vulnerability"
+  embedding_text: >-
+    CVE-2014-9195 is a vulnerability in Siemens SIMATIC WinCC and PCS 7 SCADA systems involving
+    hardcoded credentials and insufficient access control logic. Default credentials are not
+    required to be changed and web components lack proper authentication enforcement. Allows
+    remote unauthorized access to critical infrastructure management interfaces. CVSS v2 7.5
+    High. Affects power plants, water treatment, and manufacturing facilities. ICS authentication
+    logic failure. Siemens SIMATIC platform. Year 2014.

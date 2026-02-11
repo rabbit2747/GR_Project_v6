@@ -1,0 +1,115 @@
+# GR Atom: FaceTime
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-FACETIME-001"
+  name: "FaceTime"
+  normalized_name: "facetime"
+  aliases:
+    - "Apple FaceTime"
+    - "FaceTime Video"
+    - "FaceTime Audio"
+    - "Group FaceTime"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - MACOS
+    - IOS
+    - NETWORK
+    - PRIVACY
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    FaceTime is Apple's proprietary video and audio calling application integrated into
+    iOS, iPadOS, and macOS. It supports one-to-one and group calls with end-to-end encryption,
+    using Apple's Push Notification Service (APNs) for call signaling and peer-to-peer or
+    relay connections for media transport. FaceTime Links allow inviting non-Apple users
+    through web browsers. The application is deeply integrated with the Apple ecosystem
+    including Contacts, Messages, and Siri.
+  why: >-
+    FaceTime has had notable security vulnerabilities including a critical Group FaceTime
+    bug (CVE-2019-6223) that allowed callers to eavesdrop on recipients before they answered.
+    As a communication platform handling audio and video, FaceTime is a target for surveillance
+    and eavesdropping. Its integration with Apple's notification and identity systems means
+    compromising FaceTime can expose contact graphs and communication patterns. FaceTime's
+    end-to-end encryption makes it attractive for both legitimate privacy and potential misuse
+    as a covert communication channel.
+  how: >-
+    FaceTime establishes calls through Apple's infrastructure using APNs for signaling and
+    STUN/TURN for NAT traversal. Media streams use SRTP with end-to-end encryption, with
+    keys negotiated through Apple Identity Service (IDS). Call setup involves querying Apple
+    servers to resolve Apple IDs and phone numbers to device push tokens. Group FaceTime
+    uses a centralized relay architecture for multi-party calls. The application accesses
+    device cameras, microphones, and contacts, requiring iOS/macOS permission grants.
+    Exploitation targets the media processing stack, signaling protocol, or the underlying
+    WebRTC-like media engine.
+  core_concepts:
+    - key: "End-to-End Encrypted Communication"
+      value: "Apple video and audio calling application with SRTP end-to-end encryption using keys negotiated through Apple Identity Service"
+    - key: "Eavesdropping Vulnerability History"
+      value: "Critical Group FaceTime bug allowed eavesdropping before call answer, demonstrating risks in real-time communication protocol implementations"
+    - key: "Apple Ecosystem Integration"
+      value: "Deep integration with Apple Push Notifications, Contacts, and Identity Services exposes communication patterns and contact graphs"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "FaceTime is an application within the Apple platform ecosystem used in enterprise BYOD environments"
+  - type: "alternative_to"
+    target: "INFRA-APP-FACETIME-001"
+    description: "FaceTime competes with other video calling platforms like Zoom and WebEx in the enterprise communication space"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1123"
+    tactic:
+      - "Collection"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Apple FaceTime Security Documentation"
+    - "CVE-2019-6223 - Group FaceTime Eavesdropping Vulnerability"
+    - "Apple Platform Security Guide - FaceTime"
+  search_keywords:
+    - "FaceTime"
+    - "Apple FaceTime"
+    - "FaceTime vulnerability"
+    - "Group FaceTime bug"
+    - "CVE-2019-6223"
+    - "FaceTime eavesdropping"
+    - "FaceTime security"
+    - "Apple video calling"
+  embedding_text: >-
+    FaceTime is Apple's proprietary video and audio calling application for iOS, iPadOS, and
+    macOS, providing end-to-end encrypted communication using SRTP with keys negotiated through
+    Apple Identity Service. It uses Apple Push Notifications for call signaling and STUN/TURN
+    for NAT traversal. FaceTime had a critical Group FaceTime vulnerability (CVE-2019-6223)
+    allowing eavesdropping before call answer. As a communication platform, it is a target for
+    surveillance through media processing stack exploitation. Deep integration with Apple's
+    notification and identity systems means compromise exposes contact graphs and communication
+    patterns. FaceTime Links extend reach to non-Apple users through browsers. Security teams
+    should ensure iOS/macOS devices running FaceTime are updated promptly and monitor for
+    anomalous FaceTime usage patterns in enterprise environments.

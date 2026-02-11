@@ -1,0 +1,149 @@
+# GR Atom: MITRE ATT&CK Framework
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-MITRATT-001"
+  name: "MITRE ATT&CK Framework"
+  normalized_name: "mitre_att_ck_framework"
+  aliases:
+    - "ATT&CK"
+    - "MITRE ATT&CK"
+    - "Adversarial Tactics Techniques and Common Knowledge"
+    - "ATT&CK Matrix"
+    - "ATT&CK Enterprise"
+    - "ATT&CK for Enterprise"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - THREAT_INTEL
+    - RED_TEAM
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge) is a globally
+    accessible knowledge base of adversary tactics and techniques based on real-world
+    observations. Maintained by the MITRE Corporation and first published in 2015, ATT&CK
+    documents adversary behavior across the entire attack lifecycle organized into 14 tactics
+    (reconnaissance through impact) with over 200 techniques and 400 sub-techniques as of
+    version 15. The framework covers three technology domains: Enterprise (Windows, macOS,
+    Linux, Cloud, Network, Containers), Mobile (Android, iOS), and ICS (Industrial Control
+    Systems). Each technique entry includes descriptions, procedure examples from real threat
+    groups, detection guidance, and mitigation recommendations.
+  why: >-
+    Prior to ATT&CK, the cybersecurity community lacked a standardized, evidence-based
+    taxonomy for describing adversary behavior at the operational level. Existing models
+    like the Cyber Kill Chain provided high-level phases but lacked the granularity needed
+    for detection engineering, threat intelligence sharing, and security assessment. ATT&CK
+    provides a common language that enables defenders to describe threats consistently,
+    map detection capabilities to specific adversary behaviors, assess security product
+    coverage, conduct gap analysis, prioritize defensive investments based on real threat
+    intelligence, and perform adversary emulation for red team and purple team exercises.
+  how: >-
+    ATT&CK is structured as a matrix with tactics as columns and techniques as rows:
+    (1) Tactics represent the adversary's tactical objective (the why): Reconnaissance,
+    Resource Development, Initial Access, Execution, Persistence, Privilege Escalation,
+    Defense Evasion, Credential Access, Discovery, Lateral Movement, Collection, Command
+    and Control, Exfiltration, and Impact; (2) Techniques describe specific methods adversaries
+    use to achieve tactical objectives (the how), with sub-techniques providing additional
+    granularity; (3) Each technique links to documented threat groups that use it, software
+    tools associated with it, detection data sources, and recommended mitigations;
+    (4) Organizations use ATT&CK for threat intelligence enrichment, detection rule development,
+    red team planning, security assessment, and vendor evaluation through ATT&CK Evaluations.
+  core_concepts:
+    - key: "Tactics"
+      value: >-
+        The 14 high-level categories representing adversary objectives during an attack,
+        from initial Reconnaissance through Impact, providing the strategic context for why
+        an adversary performs specific techniques.
+    - key: "Techniques and Sub-Techniques"
+      value: >-
+        Over 200 techniques and 400 sub-techniques documenting specific methods adversaries
+        use to achieve tactical objectives, each backed by real-world observations and
+        linked to threat group usage, detection data sources, and mitigations.
+    - key: "Threat Group Profiles"
+      value: >-
+        Documentation of over 140 named threat groups with their associated techniques,
+        software tools, and target sectors, enabling organizations to understand which
+        adversary behaviors are most relevant to their threat landscape.
+    - key: "Data Sources and Detections"
+      value: >-
+        Structured mapping of the telemetry sources and detection logic required to identify
+        each technique, enabling security teams to build detection rules and assess monitoring
+        coverage systematically.
+    - key: "ATT&CK Matrix Domains"
+      value: >-
+        Three technology domain matrices covering Enterprise (Windows, macOS, Linux, Cloud,
+        Network, Containers), Mobile (Android, iOS), and ICS (Industrial Control Systems),
+        each tailored to the specific attack surface and adversary behaviors relevant to
+        that domain.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITRED3FEND-001"
+    description: "ATT&CK offensive technique taxonomy is the counterpart to D3FEND defensive technique taxonomy, with explicit cross-references between attack and defense"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITRENGA-001"
+    description: "ATT&CK adversary behavior knowledge informs MITRE Engage adversary engagement and denial operations planning"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MITATTEVA-001"
+    description: "ATT&CK provides the technique taxonomy and adversary profiles used in ATT&CK Evaluations for security product assessment"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-MIATCOHE-001"
+    description: "ATT&CK provides the standardized technique matrix against which organizations map detection coverage heatmaps"
+  - type: "applies_to"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "ATT&CK techniques map to NIST CSF Detect and Respond functions, providing granular adversary behavior context"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK. https://attack.mitre.org/"
+    - "Strom, B. et al. (2018). MITRE ATT&CK: Design and Philosophy. MITRE Technical Report MTR170208. https://attack.mitre.org/docs/ATTACK_Design_and_Philosophy_March_2020.pdf"
+    - "MITRE ATT&CK - Enterprise Matrix. https://attack.mitre.org/matrices/enterprise/"
+    - "MITRE ATT&CK - Groups. https://attack.mitre.org/groups/"
+  search_keywords:
+    - "MITRE ATT&CK"
+    - "ATT&CK framework"
+    - "adversary tactics techniques"
+    - "ATT&CK matrix"
+    - "threat intelligence framework"
+    - "ATT&CK Enterprise"
+    - "adversary behavior"
+    - "ATT&CK techniques"
+    - "cyber kill chain"
+    - "threat group TTPs"
+    - "MITRE ATT&CK ICS"
+    - "detection engineering"
+  embedding_text: >-
+    MITRE ATT&CK (Adversarial Tactics, Techniques, and Common Knowledge) is a globally
+    accessible knowledge base of adversary tactics and techniques based on real-world observations.
+    First published in 2015, ATT&CK documents adversary behavior across 14 tactics from
+    reconnaissance through impact, with over 200 techniques and 400 sub-techniques covering
+    Enterprise, Mobile, and ICS domains. Each technique includes real-world procedure examples
+    from over 140 documented threat groups, detection data sources, and mitigation recommendations.
+    ATT&CK provides the common language enabling threat intelligence sharing, detection rule
+    development, security product evaluation, red team planning, and defensive gap analysis.
+    The framework addresses the lack of standardized operational-level adversary behavior taxonomy
+    that existed prior to its creation. Organizations use ATT&CK to map detection capabilities,
+    assess coverage through heatmaps, conduct adversary emulation, evaluate security products
+    through ATT&CK Evaluations, and prioritize defensive investments based on real threat
+    intelligence about adversary groups targeting their sector.

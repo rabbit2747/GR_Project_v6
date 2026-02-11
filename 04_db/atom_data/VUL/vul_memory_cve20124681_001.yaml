@@ -1,0 +1,104 @@
+# GR Atom: CVE-2012-4681
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20124681-001"
+  name: "CVE-2012-4681"
+  normalized_name: "cve_2012_4681"
+  aliases:
+    - "Java Zero-Day Sandbox Bypass August 2012"
+    - "Java SE 7 sun.awt.SunToolkit Sandbox Escape"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Oracle Java SE 7 Update 6 and earlier"
+    - "Java browser plugin"
+    - "sun.awt.SunToolkit class"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2012-4681 is a critical sandbox bypass vulnerability (CVSS 10.0) in Oracle Java SE 7
+    that allows remote attackers to execute arbitrary code by exploiting flaws in the
+    sun.awt.SunToolkit class and java.beans.Statement class. The vulnerability enables
+    untrusted Java applets to escape the security sandbox and execute arbitrary system commands.
+    It was exploited as a zero-day in August 2012 before Oracle released an emergency patch.
+    The flaw affects Java SE 7 Update 6 and earlier versions.
+  why: >-
+    This was one of the most impactful Java zero-days, rapidly integrated into major exploit
+    kits including Blackhole, Sweet Orange, and Nuclear Pack within days of discovery. The
+    mass exploitation that followed drove emergency patching advisories from multiple security
+    organizations and governments. This vulnerability accelerated the industry movement to
+    disable Java browser plugins by default, as it demonstrated that Java's sandbox model was
+    fundamentally unreliable.
+  how: >-
+    The exploit chains two vulnerabilities: first using sun.awt.SunToolkit.getField() to
+    access restricted fields, then leveraging java.beans.Statement to invoke privileged
+    operations. This combination allows the attacker to disable the Java security manager from
+    within an untrusted applet. Once the security manager is disabled, the applet can execute
+    arbitrary system commands with the full privileges of the user running the browser.
+  core_concepts:
+    - key: "Chained Sandbox Escape"
+      value: "Combines SunToolkit.getField() for restricted field access with Statement class for privileged operation invocation to disable security manager"
+    - key: "Catalyst for Java Plugin Deprecation"
+      value: "Mass exploitation via exploit kits accelerated industry movement to disable Java browser plugins by default"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Java sandbox bypass vulnerability enabling arbitrary code execution through untrusted applets"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "NVD Entry CVE-2012-4681 - CVSS 10.0"
+    - "Oracle Java SE Critical Patch Update August 2012"
+    - "MITRE ATT&CK T1189 - Drive-by Compromise"
+  search_keywords:
+    - "CVE-2012-4681"
+    - "Java zero-day"
+    - "sandbox bypass"
+    - "SunToolkit"
+    - "Java applet"
+    - "exploit kit"
+    - "Blackhole"
+    - "Oracle Java SE 7"
+    - "drive-by download"
+  embedding_text: >-
+    CVE-2012-4681 is a critical Java sandbox bypass vulnerability with CVSS 10.0 in Oracle
+    Java SE 7 Update 6 and earlier. The flaw chains two weaknesses: sun.awt.SunToolkit.getField()
+    for restricted field access and java.beans.Statement for privileged operations, allowing
+    untrusted applets to disable the Java security manager and execute arbitrary commands.
+    Exploited as a zero-day in August 2012 and rapidly integrated into Blackhole, Sweet Orange,
+    and Nuclear Pack exploit kits, it caused mass infections globally. This vulnerability was
+    a major catalyst for the industry movement to disable Java browser plugins by default,
+    demonstrating fundamental weaknesses in Java's sandbox security model.

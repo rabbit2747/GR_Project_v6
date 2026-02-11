@@ -1,0 +1,114 @@
+# GR Atom: GDPR Data Transfer Mechanisms
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-GDDATRME-001"
+  name: "GDPR Data Transfer Mechanisms"
+  normalized_name: "gdpr_data_transfer_mechanisms"
+  aliases:
+    - "Cross-Border Data Transfer"
+    - "International Data Transfer GDPR"
+    - "GDPR Chapter V Transfer Mechanisms"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - PRIVACY
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L5", "L7"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    GDPR Data Transfer Mechanisms are the legally recognized instruments under GDPR Chapter V
+    (Articles 44-49) that permit the transfer of personal data from the EU/EEA to third countries
+    or international organizations. The primary mechanisms include adequacy decisions by the
+    European Commission (Article 45), Standard Contractual Clauses (SCCs) as adopted by the
+    Commission (Article 46(2)(c)), Binding Corporate Rules (BCRs) for intra-group transfers
+    (Article 47), codes of conduct and certification mechanisms (Article 46(2)(e-f)), and
+    derogations for specific situations such as explicit consent or contract necessity (Article 49).
+    Following the Schrems II ruling (2020), supplementary measures may be required to ensure
+    adequate protection in the recipient country.
+  why: >
+    International data transfers are fundamental to global business operations, cloud computing,
+    and modern IT architectures. Without a valid transfer mechanism, any transfer of personal data
+    outside the EU/EEA is unlawful under GDPR, exposing organizations to fines of up to 20 million
+    EUR or 4% of global annual turnover. The invalidation of the EU-US Privacy Shield by the Schrems
+    II ruling and the subsequent adoption of the EU-US Data Privacy Framework demonstrate the evolving
+    nature of cross-border data transfer compliance.
+  how: >
+    Organizations implement lawful data transfers by first mapping all data flows involving personal
+    data leaving the EU/EEA, then selecting an appropriate transfer mechanism for each flow. For
+    transfers to countries with adequacy decisions, no additional safeguards are needed. For transfers
+    relying on SCCs, organizations must conduct Transfer Impact Assessments (TIAs) to evaluate
+    whether the recipient country provides essentially equivalent protection, and implement
+    supplementary technical measures (encryption, pseudonymization, access controls) where gaps
+    are identified. BCRs require approval from supervisory authorities and establish group-wide
+    data protection policies.
+  core_concepts:
+    - key: "Adequacy Decision"
+      value: "European Commission determination that a third country provides an adequate level of data protection, enabling free data flows"
+    - key: "Standard Contractual Clauses (SCCs)"
+      value: "Pre-approved contractual terms between data exporter and importer that provide appropriate safeguards for international transfers"
+    - key: "Binding Corporate Rules (BCRs)"
+      value: "Internal data protection policies approved by supervisory authorities for intra-group international data transfers"
+    - key: "Transfer Impact Assessment (TIA)"
+      value: "Evaluation of whether the legal framework of the recipient country ensures essentially equivalent protection to GDPR"
+    - key: "Supplementary Measures"
+      value: "Additional technical, contractual, or organizational safeguards required when transfer mechanisms alone are insufficient"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "COMP-LAW-GDPR-001"
+    description: "Data transfer mechanisms are provisions within GDPR Chapter V"
+  - type: requires
+    target: "COMP-LAW-GDPART32-001"
+    description: "Data transfers require appropriate security measures as specified in Article 32"
+  - type: applies_to
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "Transfer mechanisms apply to privacy compliance programs dealing with cross-border data flows"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Regulation (EU) 2016/679, Chapter V — Transfers of personal data to third countries (Articles 44-49)"
+    - "EDPB Recommendations 01/2020 on measures supplementing transfer tools (Schrems II)"
+    - "European Commission Implementing Decision (EU) 2021/914 — Standard Contractual Clauses"
+    - "CJEU Case C-311/18 (Schrems II) Judgment, 16 July 2020"
+    - "EU-US Data Privacy Framework — European Commission Adequacy Decision, July 2023"
+  search_keywords:
+    - "GDPR data transfer"
+    - "cross-border data transfer"
+    - "standard contractual clauses SCC"
+    - "binding corporate rules BCR"
+    - "adequacy decision"
+    - "Schrems II"
+    - "transfer impact assessment"
+    - "international data transfer"
+    - "EU-US data privacy framework"
+  embedding_text: >
+    GDPR Data Transfer Mechanisms are the legally recognized instruments under GDPR Chapter V
+    (Articles 44-49) that authorize the transfer of personal data from the EU/EEA to third
+    countries. Key mechanisms include adequacy decisions, Standard Contractual Clauses (SCCs),
+    Binding Corporate Rules (BCRs), and derogations under Article 49. Following the Schrems II
+    ruling that invalidated the EU-US Privacy Shield, organizations must conduct Transfer Impact
+    Assessments and implement supplementary technical measures such as encryption and
+    pseudonymization. The EU-US Data Privacy Framework adopted in 2023 provides a new adequacy
+    basis for US transfers. Non-compliance with transfer requirements carries GDPR penalties
+    of up to 20 million EUR or 4% of global annual turnover.

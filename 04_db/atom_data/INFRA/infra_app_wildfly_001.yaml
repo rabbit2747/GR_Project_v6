@@ -1,0 +1,124 @@
+# GR Atom: WildFly
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-WILDFLY-001"
+  name: "WildFly"
+  normalized_name: "wildfly"
+  aliases:
+    - "JBoss WildFly"
+    - "Red Hat WildFly"
+    - "JBoss Application Server"
+    - "JBoss AS"
+    - "JBoss EAP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - API
+    - DESER
+    - HTTP
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    WildFly (formerly JBoss Application Server) is an open-source Java EE (Jakarta EE)
+    application server developed by Red Hat. It provides a full Java EE runtime environment
+    supporting EJB, CDI, JPA, JMS, JAX-RS, and other enterprise Java specifications. WildFly
+    serves as the upstream community project for Red Hat JBoss Enterprise Application Platform
+    (EAP), which is the commercially supported variant. The server supports standalone and
+    domain mode deployments with clustering, high availability, and centralized management
+    capabilities.
+  why: >-
+    WildFly and JBoss have been affected by critical deserialization vulnerabilities,
+    particularly through the JMXInvokerServlet and EJBInvokerServlet endpoints that accept
+    serialized Java objects. CVE-2017-12149 enabled unauthenticated RCE through the HTTP
+    Invoker readOnlyAccessFilter bypass. The JBoss administration console (port 9990) has
+    been targeted for default credential exploitation and brute-force attacks. JBoss/WildFly
+    deployments have been extensively targeted by cryptomining campaigns and ransomware
+    operators. The JMX console and web-console applications, if left exposed, provide
+    management interfaces that enable WAR file deployment for webshell installation.
+  how: >-
+    WildFly runs as a Java process with a modular architecture based on JBoss Modules.
+    In standalone mode, a single server instance operates independently. Domain mode enables
+    centralized management of multiple server instances across hosts through a Domain
+    Controller. The management interface operates on port 9990 (HTTP) and 9993 (HTTPS).
+    Applications are deployed as WAR/EAR archives through the management console, CLI, or
+    file system deployment scanner. The server uses Undertow as its web server subsystem,
+    Infinispan for caching, and HornetQ/ActiveMQ Artemis for JMS messaging. Configuration
+    is managed through XML files (standalone.xml, domain.xml) and the management API.
+  core_concepts:
+    - key: "JBoss Deserialization Vulnerabilities"
+      value: "JMXInvokerServlet and EJBInvokerServlet deserialization vulnerabilities enable unauthenticated RCE on exposed JBoss/WildFly deployments"
+    - key: "Management Console Exploitation"
+      value: "The administration console on port 9990 with default or weak credentials enables WAR deployment for webshell installation and server takeover"
+    - key: "Open-Source Enterprise Server"
+      value: "As the upstream project for JBoss EAP, WildFly vulnerabilities affect both community and commercial deployments across enterprise environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "WildFly is a Java EE application server that serves as web server application infrastructure"
+  - type: "alternative_to"
+    target: "INFRA-APP-WEBLOGIC-001"
+    description: "WildFly is an open-source alternative to Oracle WebLogic for Java EE application serving"
+  - type: "alternative_to"
+    target: "INFRA-APP-WEBSPHERE-001"
+    description: "WildFly is an open-source alternative to IBM WebSphere for enterprise Java applications"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Red Hat JBoss/WildFly Security Documentation"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+    - "CVE-2017-12149 - JBoss HTTP Invoker Deserialization RCE"
+    - "Red Hat Security Advisories for JBoss EAP"
+  search_keywords:
+    - "WildFly"
+    - "JBoss Application Server"
+    - "JBoss EAP"
+    - "WildFly vulnerability"
+    - "JBoss deserialization"
+    - "CVE-2017-12149"
+    - "JBoss RCE"
+    - "JMXInvokerServlet exploit"
+  embedding_text: >-
+    WildFly (formerly JBoss Application Server) is an open-source Java EE application server
+    by Red Hat, serving as the upstream for JBoss EAP. It has critical deserialization
+    vulnerabilities in JMXInvokerServlet and EJBInvokerServlet (CVE-2017-12149) enabling
+    unauthenticated RCE. The management console on port 9990 is targeted for default
+    credential exploitation and WAR deployment for webshell installation. JBoss/WildFly
+    deployments are extensively targeted by cryptominers and ransomware. Security teams
+    should remove or restrict JMX/EJB invoker servlets, secure the management console with
+    strong authentication, disable deployment scanner in production, apply Red Hat security
+    patches promptly, implement network segmentation, and monitor for deserialization exploit
+    attempts targeting JBoss infrastructure.

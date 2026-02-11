@@ -1,0 +1,135 @@
+# GR Atom: Purple Urchin
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-PURPURCH-001"
+  name: "Purple Urchin"
+  normalized_name: "purple_urchin"
+  aliases:
+    - "PurpleUrchin"
+    - "Automated Libra"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - CLOUD
+    - EXEC
+    - INITIAL
+    - NETWORK
+    - BLOCKCHAIN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Purple Urchin (also tracked as Automated Libra by Palo Alto Unit 42) is a South African-based
+    cybercriminal group that conducts large-scale freejacking and cryptojacking operations by
+    abusing free-tier and trial cloud service accounts on platforms including GitHub, Heroku,
+    Togglebox, and other cloud providers. The group uses automated account creation at massive
+    scale, registering thousands of accounts using stolen or fabricated identities and CAPTCHA
+    bypass services to deploy cryptocurrency mining workloads. Purple Urchin's operations were
+    documented creating over 130,000 accounts across multiple platforms between 2022 and 2023,
+    using the free compute resources to mine cryptocurrencies including Monero, Tidecoin, and
+    other proof-of-work coins. The group's operations represent one of the largest documented
+    freejacking campaigns in cloud platform history.
+  why: >-
+    Purple Urchin demonstrates a significant and growing threat to cloud service providers from
+    large-scale resource abuse. The group's automated exploitation of free-tier cloud services
+    imposes substantial financial costs on cloud providers who must absorb the compute costs of
+    fraudulent accounts. The scale of Purple Urchin's operations, with over 130,000 accounts,
+    highlights the inadequacy of current cloud platform identity verification and fraud detection
+    mechanisms. Their operations also demonstrate how cryptocurrency mining provides a direct
+    monetization path for stolen cloud compute resources without requiring victim interaction.
+    The group's use of automated CAPTCHA solving, disposable email addresses, and identity
+    fabrication at scale represents a template that other cybercriminal groups can replicate
+    for various cloud abuse scenarios beyond cryptomining.
+  how: >-
+    Purple Urchin employs a highly automated pipeline for cloud resource theft. The operation
+    begins with mass account creation using automated scripts that generate thousands of accounts
+    on cloud platforms, utilizing CAPTCHA bypass services, temporary email addresses, and sometimes
+    stolen identity documents for verification. Each account is configured with CI/CD pipelines
+    (GitHub Actions), containers (Heroku dynos), or virtual machines that execute cryptocurrency
+    mining software. The group uses custom orchestration tools to manage thousands of concurrent
+    mining instances, rotate accounts as they are detected and suspended, and aggregate mining
+    proceeds through cryptocurrency wallets. Mining operations primarily target Monero (XMR) using
+    XMRig and other mining software, as well as smaller proof-of-work cryptocurrencies. The group
+    uses proxy networks and VPN services to distribute account creation across multiple IP
+    addresses, evading platform-level fraud detection. Proceeds are laundered through privacy
+    coins and mixing services.
+  core_concepts:
+    - key: "Freejacking at Scale"
+      value: >-
+        Purple Urchin pioneered the large-scale abuse of free-tier cloud services for cryptocurrency
+        mining, creating over 130,000 accounts to exploit free compute resources, demonstrating
+        the vulnerability of cloud provider trial and free-tier programs to automated abuse.
+    - key: "Automated Cloud Account Farming"
+      value: >-
+        The group developed sophisticated automation for mass account creation across multiple
+        cloud platforms, utilizing CAPTCHA bypass services, disposable emails, and fabricated
+        identities to evade platform-level fraud detection.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "Purple Urchin is a financially motivated cybercriminal group conducting cloud resource theft"
+  - type: "applies_to"
+    target: "SECTOR-CLOUD"
+    description: "Purple Urchin specifically targets cloud service provider free-tier and trial programs"
+  - type: "enables"
+    target: "ATK-EXEC"
+    description: "Purple Urchin operations enable unauthorized code execution through cloud resource abuse"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1496"
+    tactic:
+      - "Impact"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Palo Alto Unit 42 - Automated Libra (Purple Urchin) Cloud Freejacking. https://unit42.paloaltonetworks.com/purpleurchin-steals-cloud-resources/"
+    - "Sysdig - Purple Urchin Cryptojacking Campaign Analysis. https://sysdig.com/blog/purpleurchin-cryptomining-cloud/"
+    - "Permiso - Cloud Account Abuse and Freejacking Research. https://permiso.io/blog/purple-urchin"
+    - "BleepingComputer - Purple Urchin Automated Cloud Mining Campaign. https://www.bleepingcomputer.com/news/security/purple-urchin-cryptojacking/"
+  search_keywords:
+    - "purple urchin"
+    - "automated libra"
+    - "freejacking"
+    - "cloud cryptojacking"
+    - "purple urchin github"
+    - "purple urchin heroku"
+    - "cloud account farming"
+    - "free tier abuse"
+    - "purple urchin mining"
+  embedding_text: >-
+    Purple Urchin (Automated Libra) is a South African-based cybercriminal group conducting
+    large-scale freejacking and cryptojacking operations by abusing free-tier cloud service
+    accounts. The group created over 130,000 accounts across platforms including GitHub, Heroku,
+    and Togglebox using automated scripts with CAPTCHA bypass services and fabricated identities.
+    Free compute resources are used to mine Monero and other cryptocurrencies through CI/CD
+    pipelines, containers, and VMs. The operation represents one of the largest documented
+    freejacking campaigns in cloud platform history. Purple Urchin demonstrates the vulnerability
+    of cloud provider trial programs to automated abuse at scale. Custom orchestration manages
+    thousands of concurrent mining instances, rotating accounts as they are detected. Proceeds
+    are laundered through privacy coins and mixing services. The group's techniques provide a
+    template for cloud abuse scenarios beyond cryptomining, highlighting inadequacies in cloud
+    platform identity verification and fraud detection mechanisms.

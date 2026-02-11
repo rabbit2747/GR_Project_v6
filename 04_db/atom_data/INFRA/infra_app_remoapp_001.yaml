@@ -1,0 +1,115 @@
+# GR Atom: Remote App
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-REMOAPP-001"
+  name: "Remote App"
+  normalized_name: "remote_app"
+  aliases:
+    - "RemoteApp"
+    - "Microsoft RemoteApp"
+    - "RDS RemoteApp"
+    - "Terminal Services RemoteApp"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - RDP
+    - LATERAL
+    - AUTHN
+    - EXEC
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    RemoteApp is a Microsoft Remote Desktop Services (RDS) feature that allows individual
+    applications hosted on a remote server to appear as if they are running locally on a
+    user's desktop. Rather than presenting a full remote desktop session, RemoteApp streams
+    only the application window, integrating seamlessly with the local desktop environment.
+    Applications are published through RD Web Access or distributed via .rdp files and can
+    be launched from the Start menu, taskbar, or web portal.
+  why: >-
+    RemoteApp leverages the RDP protocol and inherits its security considerations including
+    credential exposure, man-in-the-middle risks, and session hijacking vulnerabilities. Malicious
+    .rdp files can be weaponized for phishing attacks, connecting victims to attacker-controlled
+    servers. RemoteApp programs run with the privileges of the authenticated user on the RDS
+    host, so compromised credentials grant access to the remote application environment. Attackers
+    who gain access to RDS hosts can pivot to other applications and data accessible from that
+    server.
+  how: >-
+    RemoteApp operates through Remote Desktop Services on Windows Server. Administrators publish
+    specific applications through Server Manager or Group Policy. Clients connect using the Remote
+    Desktop client (mstsc.exe) which establishes an RDP session but only renders the published
+    application windows. Authentication occurs via NLA (Network Level Authentication) before the
+    full session is established. The RD Connection Broker manages session distribution across
+    multiple RDS hosts, while RD Gateway enables secure access through HTTPS tunneling.
+  core_concepts:
+    - key: "Application-Level Remote Access"
+      value: "Publishes individual applications over RDP rather than full desktop sessions, reducing visible attack surface but sharing underlying RDS infrastructure risks"
+    - key: "RDP File Weaponization"
+      value: "Malicious .rdp files distributed via phishing can redirect RemoteApp connections to attacker-controlled servers for credential harvesting"
+    - key: "RDS Host Pivot Point"
+      value: "Compromised RemoteApp sessions provide access to the RDS host environment with potential lateral movement to other hosted applications and data"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-APP-TERMSERV-001"
+    description: "RemoteApp is a feature component of Remote Desktop Services (Terminal Services)"
+  - type: "requires"
+    target: "INFRA-APP-REMCONMAN-001"
+    description: "RemoteApp depends on Remote Connection Manager for RDP session establishment and management"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1021.001"
+    tactic:
+      - "Lateral Movement"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Remote Desktop Services Documentation"
+    - "MITRE ATT&CK T1021.001 - Remote Desktop Protocol"
+    - "Microsoft Security Guidance for RDS Deployment"
+  search_keywords:
+    - "RemoteApp"
+    - "Microsoft RemoteApp"
+    - "RDS RemoteApp"
+    - "Remote Desktop Services application"
+    - "rdp file phishing"
+    - "RemoteApp vulnerability"
+    - "RDS application publishing"
+    - "remote application streaming"
+  embedding_text: >-
+    RemoteApp is a Microsoft Remote Desktop Services feature that streams individual
+    applications from RDS hosts to client desktops over the RDP protocol, appearing as
+    locally running programs. Administrators publish applications through Server Manager
+    or Group Policy, and users access them via RD Web Access portals or .rdp files.
+    Security concerns include RDP protocol vulnerabilities, malicious .rdp file distribution
+    through phishing campaigns, credential exposure through NLA authentication, and lateral
+    movement from compromised RDS hosts. RemoteApp inherits all underlying RDS and RDP
+    security considerations while presenting a narrower visible interface. Security teams
+    should enforce NLA, use RD Gateway for HTTPS tunneling, restrict published applications,
+    and monitor for unauthorized .rdp file distribution.

@@ -1,0 +1,125 @@
+# GR Atom: Password Database
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-PASSDATA-001"
+  name: "Password Database"
+  normalized_name: "password_database"
+  aliases:
+    - "Credential Database"
+    - "Password DB"
+    - "Authentication Database"
+    - "Credential Store"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - AUTHN
+    - ENCRYPT
+    - DATABASE
+    - CRYPTO
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z4"
+  function: "P2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Password Database is a data store that holds user credentials (usernames and passwords or
+    password hashes) used for authentication. This encompasses operating system credential stores
+    (SAM database on Windows, /etc/shadow on Linux, Directory Services database on macOS),
+    directory service credential stores (Active Directory NTDS.dit), application-level credential
+    databases, and dedicated password management databases (KeePass .kdbx files, 1Password vaults).
+    Password databases are the authoritative source for verifying user identities during
+    authentication.
+  why: >-
+    Password databases are the highest-value targets for credential access attacks. Compromise
+    of a password database enables attackers to authenticate as any user whose credentials are
+    stored, potentially achieving domain-wide compromise. Techniques include dumping SAM/NTDS.dit
+    hashes, extracting /etc/shadow, offline password cracking, pass-the-hash attacks, and
+    credential database theft. Password databases must implement strong hashing algorithms
+    (bcrypt, scrypt, Argon2), salting, and access controls to mitigate these risks.
+  how: >-
+    Password databases store credentials in hashed form using one-way cryptographic hash
+    functions. Modern implementations use adaptive hashing algorithms (bcrypt, scrypt, Argon2id)
+    with per-user salts to resist offline cracking attacks. The database is accessed by
+    authentication services that compare submitted credentials against stored hashes. Access
+    to the raw database is restricted to privileged system processes and administrators.
+    Operating system password databases (SAM, NTDS.dit, /etc/shadow) are protected by file
+    system permissions and in some cases encryption (SYSKEY, DPAPI). Password management
+    databases use master password encryption with key derivation functions.
+  core_concepts:
+    - key: "Password Hashing"
+      value: >-
+        Passwords are stored as one-way hashes using algorithms like bcrypt, scrypt, or Argon2id
+        with per-user salts, making offline cracking computationally expensive even if the
+        database is compromised.
+    - key: "Credential Dumping"
+      value: >-
+        Attackers target password databases using techniques like SAM dump, NTDS.dit extraction,
+        DCSync, and /etc/shadow access to obtain password hashes for offline cracking or
+        pass-the-hash attacks.
+    - key: "Operating System Credential Stores"
+      value: >-
+        Windows SAM database, Active Directory NTDS.dit, and Linux /etc/shadow are system-level
+        password databases protected by operating system security mechanisms and access controls.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A password database is a specialized data store for credential storage and authentication"
+  - type: "enables"
+    target: "INFRA-DATA-PASSSTOR-001"
+    description: "Password databases enable password stores by providing the underlying credential persistence mechanism"
+  - type: "enables"
+    target: "INFRA-DATA-PASSVAUL-001"
+    description: "Password databases enable password vaults by providing the encrypted credential storage backend"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1003"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1003 - OS Credential Dumping."
+    - "NIST SP 800-63B - Digital Identity Guidelines: Authentication and Lifecycle Management."
+    - "OWASP Password Storage Cheat Sheet. https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html"
+  search_keywords:
+    - "password database"
+    - "credential database"
+    - "SAM database"
+    - "NTDS.dit"
+    - "credential dumping"
+    - "password hashing"
+    - "shadow file"
+    - "authentication database"
+    - "password cracking"
+  embedding_text: >-
+    A Password Database stores user credentials (usernames and password hashes) used for
+    authentication. This includes OS credential stores (Windows SAM, NTDS.dit, Linux /etc/shadow),
+    directory service databases (Active Directory), application credential stores, and password
+    manager databases (KeePass, 1Password). Password databases are highest-value credential
+    access targets. Compromise enables attackers to authenticate as any stored user. Attack
+    techniques include SAM/NTDS.dit dumping, DCSync, /etc/shadow extraction, offline cracking,
+    and pass-the-hash. Security requires adaptive hashing (bcrypt, scrypt, Argon2id) with
+    per-user salts, restricted access to database files, and encryption. Password databases
+    map to MITRE ATT&CK T1003 (OS Credential Dumping) as primary targets for credential
+    harvesting enabling lateral movement and privilege escalation.

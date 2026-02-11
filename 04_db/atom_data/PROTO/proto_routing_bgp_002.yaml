@@ -1,0 +1,134 @@
+# GR Atom: BGP Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-ROUTING-BGP-002"
+  name: "BGP Protocol"
+  normalized_name: "bgp_protocol"
+  aliases:
+    - "BGP Protocol Family"
+    - "BGP Routing Protocol"
+    - "BGP Protocol Suite"
+    - "Border Gateway Protocol Suite"
+    - "BGP Extensions"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 3
+  atom_tags:
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    BGP Protocol refers to the complete protocol family and extension ecosystem built around the
+    Border Gateway Protocol, encompassing BGP-4 (RFC 4271), Multiprotocol BGP (MP-BGP, RFC 4760),
+    BGPsec (RFC 8205), BGP Large Communities (RFC 8092), BGP Flowspec (RFC 8955), and numerous
+    operational extensions. MP-BGP extends BGP to carry routing information for multiple address
+    families including IPv6, VPNv4 (MPLS L3VPN), EVPN, and multicast, making BGP the universal
+    control plane for modern service provider and data center networks beyond simple IPv4 unicast
+    routing.
+  why: >-
+    The BGP protocol family represents the most critical routing infrastructure on the Internet
+    and in enterprise networks. Understanding BGP as a protocol category is essential because
+    its extensions serve fundamentally different security-relevant functions: MP-BGP carries
+    VPN routing that must maintain tenant isolation, BGP Flowspec distributes traffic filtering
+    rules that can be weaponized, EVPN controls data center fabric connectivity, and BGPsec
+    provides the path validation mechanism. Each extension introduces distinct attack surfaces
+    and security considerations. Misconfiguration or compromise of BGP protocol extensions can
+    result in VPN leakage, unauthorized traffic filtering, data center segmentation bypass,
+    or widespread routing disruption.
+  how: >-
+    The BGP protocol family operates through a common session management framework with
+    extension-specific capabilities negotiated during session establishment via BGP OPEN message
+    capabilities: (1) MP-BGP (RFC 4760) uses Address Family Identifiers (AFI) and Subsequent
+    AFI (SAFI) to signal support for IPv6, VPN, EVPN, and multicast address families within a
+    single BGP session; (2) BGPsec (RFC 8205) adds cryptographic signatures to UPDATE messages
+    enabling receivers to validate the entire AS path, building on RPKI certificates; (3) BGP
+    Flowspec (RFC 8955) distributes traffic filtering rules as BGP NLRI, enabling real-time DDoS
+    mitigation across provider networks; (4) BGP Large Communities (RFC 8092) provides extended
+    policy signaling with 4-byte ASN support; (5) BGP Add-Paths (RFC 7911) allows advertisement
+    of multiple paths for the same prefix, improving convergence and path diversity. Security
+    considerations span all extensions, with each requiring appropriate filtering, validation,
+    and access control policies.
+  core_concepts:
+    - key: "Multiprotocol BGP (MP-BGP)"
+      value: >-
+        Extension defined in RFC 4760 that enables BGP to carry routing information for multiple
+        network layer protocols and address families, transforming BGP from an IPv4-only protocol
+        to a universal network control plane for VPNs, IPv6, EVPN, and multicast.
+    - key: "BGP Flowspec"
+      value: >-
+        A BGP extension (RFC 8955) that distributes traffic filtering and policing rules as BGP
+        route advertisements, enabling automated DDoS mitigation and traffic engineering across
+        networks without manual per-router configuration.
+    - key: "BGP EVPN"
+      value: >-
+        Ethernet VPN (RFC 7432) uses BGP as the control plane for Layer 2 and Layer 3 VPN
+        services in data center fabrics, enabling MAC address learning, multi-homing, and
+        optimal traffic forwarding across VXLAN or MPLS underlay networks.
+    - key: "BGP Session Security"
+      value: >-
+        The set of mechanisms protecting BGP peer sessions including TCP-AO (RFC 5925) for
+        session authentication, TTL Security (GTSM, RFC 5082) for preventing remote session
+        hijacking, and prefix limits to protect against resource exhaustion from excessive
+        route advertisements.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-ROUTING-BGP-001"
+    description: "BGP Protocol family encompasses the core BGP-4 protocol and all its extensions"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPTRAN-001"
+    description: "All BGP protocol variants operate over TCP for reliable session management"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-TCPAO-001"
+    description: "BGP session security relies on TCP-AO for authenticated peer connections replacing deprecated MD5 option"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4760 - Multiprotocol Extensions for BGP-4 (January 2007). IETF. https://datatracker.ietf.org/doc/html/rfc4760"
+    - "RFC 8205 - BGPsec Protocol Specification (September 2017). IETF. https://datatracker.ietf.org/doc/html/rfc8205"
+    - "RFC 8955 - Dissemination of Flow Specification Rules (December 2020). IETF. https://datatracker.ietf.org/doc/html/rfc8955"
+    - "RFC 7432 - BGP MPLS-Based Ethernet VPN (February 2015). IETF. https://datatracker.ietf.org/doc/html/rfc7432"
+  search_keywords:
+    - "BGP protocol family"
+    - "multiprotocol BGP"
+    - "MP-BGP"
+    - "BGP Flowspec"
+    - "BGP EVPN"
+    - "BGPsec"
+    - "BGP extensions"
+    - "address family identifier"
+    - "BGP session security"
+    - "BGP VPN"
+    - "RFC 4760"
+    - "BGP large communities"
+  embedding_text: >-
+    BGP Protocol refers to the complete protocol family built around the Border Gateway Protocol,
+    encompassing BGP-4, Multiprotocol BGP (MP-BGP), BGPsec, BGP Flowspec, BGP EVPN, and numerous
+    operational extensions. MP-BGP extends BGP to carry routing for multiple address families
+    including IPv6, VPN, EVPN, and multicast through Address Family Identifiers. BGPsec adds
+    cryptographic AS path validation building on RPKI. BGP Flowspec distributes traffic filtering
+    rules for DDoS mitigation. EVPN uses BGP as the control plane for data center Layer 2/3 VPN
+    services. Each extension introduces distinct security considerations including VPN tenant
+    isolation, Flowspec rule validation, EVPN segmentation integrity, and session authentication
+    via TCP-AO. The BGP protocol family serves as the universal control plane for Internet routing,
+    service provider networks, and modern data center fabrics.

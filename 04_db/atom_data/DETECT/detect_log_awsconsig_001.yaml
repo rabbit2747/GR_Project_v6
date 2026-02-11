@@ -1,0 +1,114 @@
+# GR Atom: AWS Console Sign-In
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-AWSCONSIG-001"
+  name: "AWS Console Sign-In"
+  normalized_name: "aws_console_sign_in"
+  aliases:
+    - "AWS Console Login Event"
+    - "AWS Management Console Sign-In"
+    - "CloudTrail Console Authentication"
+    - "AWS IAM Console Login"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - MONITOR
+    - AUDIT
+    - CLOUD
+    - AWS
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    AWS Console Sign-In is a detection log event pattern that captures authentication attempts
+    to the AWS Management Console, recorded in AWS CloudTrail as ConsoleLogin events under the
+    signin.amazonaws.com event source. Each event includes the IAM principal (root, IAM user,
+    federated user, or assumed role), source IP address, MFA usage status, login result
+    (Success or Failure), user agent, and geographic metadata. These events are distinct from
+    API-based authentication and specifically track interactive browser-based access to the AWS
+    Management Console. Root account console logins, logins without MFA, logins from unusual
+    geographic locations, and failed login attempts are high-priority security indicators.
+  why: >-
+    The AWS Management Console provides broad administrative access to cloud infrastructure,
+    making console sign-in events critical for security monitoring. Compromised console
+    credentials enable attackers to modify IAM policies, exfiltrate data from S3 buckets,
+    launch unauthorized compute resources, and disable security controls. Root account console
+    logins are particularly dangerous as they bypass IAM policies entirely. Monitoring console
+    sign-in events enables detection of credential compromise, unauthorized access attempts,
+    insider threats, and compliance violations. AWS shared responsibility model places console
+    access monitoring squarely in the customer's domain.
+  how: >-
+    AWS Console Sign-In detection operates through: (1) AWS CloudTrail automatically records
+    ConsoleLogin events in the management event trail with eventSource signin.amazonaws.com;
+    (2) Events are delivered to S3 buckets and optionally to CloudWatch Logs for real-time
+    processing; (3) Detection rules evaluate events for high-risk indicators including root
+    account logins, absence of MFA (additionalEventData.MFAUsed = No), failed attempts
+    (responseElements.ConsoleLogin = Failure), unusual source IPs, and impossible travel
+    patterns; (4) CloudWatch Alarms, EventBridge rules, or SIEM integrations trigger alerts
+    based on configured conditions; (5) GuardDuty provides additional machine learning-based
+    anomaly detection for console access patterns.
+  core_concepts:
+    - key: "CloudTrail ConsoleLogin Event"
+      value: "The specific CloudTrail event type that records AWS Management Console authentication attempts, including IAM principal, source IP, MFA status, and login result."
+    - key: "Root Account Console Access"
+      value: "Logins using the AWS root account credentials, which bypass all IAM policies and represent the highest-privilege access to an AWS account, requiring immediate investigation."
+    - key: "MFA Enforcement Monitoring"
+      value: "Detection of console logins where MFA was not used, indicating either policy non-compliance or potential credential compromise where the attacker lacks the MFA device."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "AWS Console Sign-In events are a specific type of security event in cloud environments"
+  - type: "applies_to"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "Console sign-in detection applies to AWS cloud infrastructure"
+  - type: "enables"
+    target: "DETECT-LOG-AUTEVETHR-001"
+    description: "Console sign-in events feed into authentication thresholding rules for brute force detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic: ["Initial Access", "Persistence", "Privilege Escalation", "Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS Documentation — Logging IAM and AWS STS API calls with AWS CloudTrail"
+    - "AWS CloudTrail — ConsoleLogin Event Reference"
+    - "MITRE ATT&CK — T1078.004: Valid Accounts: Cloud Accounts"
+    - "CIS AWS Foundations Benchmark — Section 3: Monitoring"
+  search_keywords:
+    - "AWS console login"
+    - "CloudTrail ConsoleLogin"
+    - "AWS sign-in event"
+    - "AWS root account login"
+    - "AWS MFA monitoring"
+    - "cloud authentication logging"
+    - "AWS IAM console access"
+    - "signin.amazonaws.com"
+    - "AWS console brute force"
+    - "cloud identity monitoring"
+  embedding_text: >-
+    AWS Console Sign-In detection captures authentication events to the AWS Management Console
+    via CloudTrail ConsoleLogin events from signin.amazonaws.com. Each event records IAM
+    principal identity, source IP, MFA usage, and login result. Critical detection indicators
+    include root account console logins, missing MFA authentication, failed login attempts,
+    unusual source IP addresses, and impossible travel patterns. These events are essential for
+    detecting credential compromise, unauthorized cloud access, and compliance violations in AWS
+    environments. Integration with CloudWatch, EventBridge, GuardDuty, and SIEM platforms
+    enables real-time alerting on suspicious console authentication activity.

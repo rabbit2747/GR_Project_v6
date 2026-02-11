@@ -1,0 +1,71 @@
+# GR Atom: Windows Subsystem for Linux
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-COMPUTE-WINSUBLIN-001"
+  name: "Windows Subsystem for Linux"
+  normalized_name: "windows_subsystem_for_linux"
+  aliases: ["WSL", "WSL2", "WSL 2", "Windows Linux Subsystem"]
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags: [WINDOWS, LINUX, OS, EXEC]
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "R1.1"
+definition:
+  what: >-
+    Windows Subsystem for Linux (WSL) is a compatibility layer enabling native Linux binary
+    execution on Windows. WSL 1 translates Linux syscalls to Windows NT kernel calls. WSL 2
+    runs a full Linux kernel in a lightweight Hyper-V virtual machine with a custom Linux
+    kernel maintained by Microsoft. WSL 2 provides full syscall compatibility, ext4 filesystem
+    support, Docker integration, and GPU compute access. WSL distributions (Ubuntu, Debian,
+    Kali, etc.) are installed from the Microsoft Store.
+  why: >-
+    WSL creates a significant security blind spot because many Windows security tools (EDR,
+    antivirus, DLP) have limited visibility into WSL filesystem and processes. Attackers use
+    WSL for defense evasion by running Linux-native attack tools, malware, and reverse shells
+    that Windows security products cannot detect. WSL 2's Linux kernel provides a separate
+    attack surface with its own vulnerabilities. Cross-OS file access between Windows and WSL
+    filesystems enables data exfiltration and persistence across both environments.
+  how: >-
+    WSL 2 runs a Microsoft-maintained Linux kernel inside a lightweight Hyper-V utility VM.
+    Linux distributions run as processes within this VM. The 9P protocol bridges Windows and
+    Linux filesystems (\\wsl$ from Windows, /mnt/c from Linux). Networking uses NAT by default
+    with the host acting as gateway. WSL distributions can be managed via wsl.exe CLI.
+    Security considerations include enabling Windows Defender integration for WSL, monitoring
+    WSL process creation via ETW events, restricting WSL installation via Group Policy,
+    and implementing network monitoring for WSL traffic that bypasses Windows firewall rules.
+  core_concepts:
+    - key: "Security Tool Blind Spot"
+      value: "Windows EDR, antivirus, and DLP tools have limited visibility into WSL, enabling attackers to run Linux-native tools undetected on Windows endpoints"
+    - key: "Cross-OS Attack Surface"
+      value: "Bidirectional filesystem access between Windows and WSL enables attacks that leverage both environments for persistence, evasion, and data exfiltration"
+    - key: "Defense Evasion via Linux Tools"
+      value: "Attackers execute Linux-native offensive tools, malware, and reverse shells within WSL to bypass Windows-focused security monitoring"
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-DESKCOMP-001"
+    description: "WSL is a Windows feature running on desktop and server computers"
+  - type: "requires"
+    target: "INFRA-COMPUTE-ARCHLINU-001"
+    description: "WSL runs Linux distributions including Arch Linux and others"
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources: ["Microsoft WSL Documentation", "MITRE ATT&CK T1202 - Indirect Command Execution", "Black Hat WSL Attack Research"]
+  search_keywords: ["WSL", "windows subsystem for linux", "WSL2", "WSL security", "WSL evasion", "linux on windows", "WSL malware", "WSL blind spot"]
+  embedding_text: >-
+    Windows Subsystem for Linux (WSL) enables native Linux binary execution on Windows, with
+    WSL 2 running a full Linux kernel in a Hyper-V VM. Creates a significant security blind
+    spot because Windows EDR and antivirus have limited WSL visibility. Attackers use WSL for
+    defense evasion running Linux-native attack tools undetected. Cross-OS filesystem access
+    via 9P protocol enables persistence and exfiltration across environments. WSL 2 provides
+    a separate Linux kernel attack surface. Security requires Defender WSL integration, ETW
+    monitoring, Group Policy restrictions, and WSL network traffic monitoring.

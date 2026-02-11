@@ -1,0 +1,118 @@
+# GR Atom: Security Event Log Cleared
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-SEEVLOCL-001"
+  name: "Security Event Log Cleared"
+  normalized_name: "security_event_log_cleared"
+  aliases:
+    - "Security Log Cleared"
+    - "Windows Security Log Wiped"
+    - "Event ID 1102"
+    - "Audit Log Cleared Alert"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - EVADE
+    - AUDIT
+    - FORENSICS
+    - WINDOWS
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    Security Event Log Cleared is a specific, high-fidelity detection pattern for Windows Event
+    ID 1102, which is generated exclusively when the Windows Security event log is cleared. This
+    event is unique in that it survives the clearing operation — it is written as the first entry
+    in the newly emptied Security log, ensuring that evidence of the clearing action is always
+    preserved. The event records the Subject Security ID, Account Name, Account Domain, and Logon
+    ID of the user who performed the clearing. This is distinct from the generic Event Log Clear
+    Event (Event ID 104) which covers clearing of any event log channel. Event ID 1102 specifically
+    targets the Security log, which contains the most critical security telemetry including
+    authentication events, privilege use, object access, and policy changes.
+  why: >-
+    The Security event log is the primary audit trail for Windows systems and the most valuable
+    target for attackers seeking to destroy evidence. Clearing the Security log eliminates records
+    of failed logons, privilege escalation, lateral movement, credential access, and policy
+    modifications. Event ID 1102 is classified as one of the highest-confidence indicators of
+    compromise in Windows security monitoring because there are very few legitimate operational
+    reasons to clear the Security log. MITRE ATT&CK maps this to T1070.001 (Indicator Removal:
+    Clear Windows Event Logs). Security frameworks including CIS Benchmarks, PCI DSS, and SOX
+    require alerting on Security log clearing events. This event should trigger immediate
+    incident response investigation.
+  how: >-
+    Security Event Log Cleared detection operates through: (1) Direct monitoring of Event ID
+    1102 in the Windows Security log, which provides the user identity who cleared the log;
+    (2) Immediate SIEM alerting configured as a critical/high severity rule with no suppression
+    or aggregation delay; (3) Correlation with preceding events to identify what evidence may
+    have been destroyed — including the last known Security log events before clearing; (4)
+    Investigation of the Subject account to determine if it was compromised; (5) Windows Event
+    Forwarding (WEF) ensuring that Event ID 1102 is forwarded in real-time to central
+    collection; (6) Validation that backup copies of the Security log exist in SIEM or archive
+    storage prior to the clearing; (7) Automated incident response workflows that isolate the
+    affected system and escalate to the SOC.
+  core_concepts:
+    - key: "Self-Documenting Clear Event"
+      value: "Event ID 1102 is uniquely designed to survive Security log clearing, ensuring that the act of clearing is always recorded even when all other Security log events are destroyed."
+    - key: "Subject Attribution"
+      value: "The event records the Security ID, Account Name, and Logon ID of the user who cleared the log, enabling attribution of the clearing action to a specific identity."
+    - key: "Evidence Destruction Scope"
+      value: "Clearing the Security log destroys authentication records, privilege use events, object access logs, and policy change records — the most forensically valuable Windows telemetry."
+
+relations:
+  - type: "instance_of"
+    target: "DETECT-LOG-EVELOGCLE-001"
+    description: "Security Event Log Cleared is a specific instance of the general event log clear pattern targeting the Windows Security log"
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Security log clearing is itself a critical security event"
+  - type: "applies_to"
+    target: "DETECT-LOG-WINEVENTLO-001"
+    description: "This detection specifically applies to the Windows Event Log system"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1070.001"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft — Event ID 1102: The audit log was cleared"
+    - "MITRE ATT&CK — T1070.001: Indicator Removal: Clear Windows Event Logs"
+    - "CIS Microsoft Windows Server Benchmark — Audit Log Clearing"
+    - "SANS — Critical Windows Security Event IDs"
+  search_keywords:
+    - "Event ID 1102"
+    - "Security log cleared"
+    - "audit log cleared"
+    - "Windows Security log wiped"
+    - "T1070.001"
+    - "security event log clear"
+    - "indicator removal Windows"
+    - "Security log tampering"
+    - "anti-forensics Windows"
+    - "critical security event"
+  embedding_text: >-
+    Security Event Log Cleared is a high-fidelity detection pattern for Windows Event ID 1102,
+    generated exclusively when the Security event log is cleared. This self-documenting event
+    survives the clearing operation and records the Subject Security ID, Account Name, and Logon
+    ID of the responsible user. Clearing the Security log destroys authentication records,
+    privilege use events, and policy change logs — the most forensically valuable Windows
+    telemetry. Mapped to MITRE ATT&CK T1070.001, this is one of the highest-confidence
+    indicators of compromise with very few legitimate operational justifications. Detection
+    requires immediate critical-severity SIEM alerting with no suppression, real-time WEF
+    forwarding, and automated incident response escalation.

@@ -1,0 +1,114 @@
+# GR Atom: SandBlast
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-SANDBLAST-001"
+  name: "SandBlast"
+  normalized_name: "sandblast"
+  aliases:
+    - "Check Point SandBlast"
+    - "SandBlast Threat Emulation"
+    - "SandBlast Threat Extraction"
+    - "Check Point Threat Prevention"
+    - "SandBlast Agent"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - SANDBOX
+    - SANDBOX
+    - SMTP
+    - EDR
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z1"
+  function: "S1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Check Point SandBlast is an advanced threat prevention suite combining sandboxing (Threat
+    Emulation), content disarm and reconstruction (Threat Extraction), anti-ransomware, anti-bot,
+    and zero-day protection. Available as network appliance (SandBlast Network), endpoint agent
+    (SandBlast Agent/Harmony Endpoint), cloud service (SandBlast Cloud), and email security
+    gateway (SandBlast for Office 365/Google Workspace). Part of the Check Point Infinity
+    architecture.
+  why: >-
+    Traditional signature-based detection cannot identify zero-day malware and advanced persistent
+    threats. SandBlast addresses this by detonating suspicious files in sandbox environments
+    and delivering sanitized content via Threat Extraction. Check Point gateways have also
+    been targeted: CVE-2024-24919 (information disclosure in Security Gateways) was actively
+    exploited to extract VPN credentials and enable network intrusion. SandBlast provides
+    defense-in-depth against evasive malware that bypasses perimeter controls.
+  how: >-
+    Threat Emulation detonates suspicious files in CPU-level sandboxes that detect evasion
+    techniques by monitoring at the CPU instruction level rather than OS API level. Threat
+    Extraction strips active content (macros, JavaScript, embedded objects) from documents
+    and delivers sanitized versions immediately while sandbox analysis continues. SandBlast
+    Agent provides endpoint-level protection with anti-ransomware behavioral detection,
+    forensic analysis, and automated incident response. ThreatCloud intelligence feeds
+    provide real-time threat indicators across all deployment modes.
+  core_concepts:
+    - key: "CPU-Level Emulation"
+      value: "Sandbox detection at CPU instruction level detects evasion techniques that OS-level monitoring misses"
+    - key: "Threat Extraction CDR"
+      value: "Content Disarm and Reconstruction strips active content from documents delivering safe versions while sandbox analysis continues"
+    - key: "ThreatCloud Intelligence"
+      value: "Collaborative cloud-based threat intelligence sharing real-time indicators across all Check Point deployments globally"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-SEC-FIREPROD-001"
+    description: "SandBlast is a threat prevention component of the Check Point firewall ecosystem"
+  - type: "alternative_to"
+    target: "INFRA-SEC-FORTIWEB-001"
+    description: "SandBlast provides application-layer threat prevention as an alternative to FortiWeb WAF capabilities"
+  - type: "effective_against"
+    target: "ATK-EXECUTION-MALWARE-001"
+    description: "SandBlast Threat Emulation detects zero-day malware through behavioral analysis in sandbox environments"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1204"
+    tactic:
+      - "Execution"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Check Point - SandBlast Threat Prevention Documentation"
+    - "MITRE ATT&CK - Sandbox Evasion Techniques"
+    - "CISA - CVE-2024-24919 Check Point Security Gateway Advisory"
+  search_keywords:
+    - "SandBlast"
+    - "Check Point SandBlast"
+    - "Threat Emulation"
+    - "Threat Extraction"
+    - "Check Point sandbox"
+    - "Harmony Endpoint"
+    - "Check Point CDR"
+    - "ThreatCloud"
+  embedding_text: >-
+    Check Point SandBlast is an advanced threat prevention suite combining CPU-level sandboxing
+    (Threat Emulation), content disarm and reconstruction (Threat Extraction), anti-ransomware,
+    and anti-bot protection. Available as network appliance, endpoint agent (Harmony Endpoint),
+    cloud service, and email gateway. CPU-level emulation detects sandbox evasion techniques.
+    Threat Extraction delivers sanitized documents immediately. Part of Check Point Infinity
+    architecture. CVE-2024-24919 actively exploited in Check Point gateways. ThreatCloud
+    provides real-time collaborative threat intelligence.

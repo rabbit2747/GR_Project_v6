@@ -1,0 +1,131 @@
+# GR Atom: DNS HTTPS Record
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-NAMING-DNSHTTREC-001"
+  name: "DNS HTTPS Record"
+  normalized_name: "dns_https_record"
+  aliases:
+    - "HTTPS RR"
+    - "HTTPS DNS Record"
+    - "SVCB Record"
+    - "Service Binding Record"
+    - "RFC 9460"
+    - "Type 65 Record"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - DNS
+    - HTTP
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The DNS HTTPS record (HTTPS RR, type 65) is a DNS resource record type defined in RFC 9460
+    that provides clients with essential connection parameters for HTTPS services, including
+    supported ALPN protocols (HTTP/2, HTTP/3), IP address hints, Encrypted Client Hello (ECH)
+    keys, and port numbers. It is a specialized form of the Service Binding (SVCB) record
+    designed specifically for HTTPS services. The HTTPS record enables browsers to establish
+    optimized, encrypted connections to web servers without additional round trips, and signals
+    that a domain supports HTTPS, effectively replacing the need for HTTP-to-HTTPS redirects.
+  why: >-
+    The HTTPS record addresses several security and performance gaps in traditional DNS-based
+    web connection establishment. Without HTTPS records, browsers must first attempt HTTP
+    connections before being redirected to HTTPS, creating a window for SSL stripping attacks.
+    HSTS (HTTP Strict Transport Security) mitigates this but requires an initial unencrypted
+    connection to receive the header. HTTPS records provide HTTPS-first behavior directly from
+    DNS, eliminating the initial plaintext connection. They also distribute Encrypted Client Hello
+    (ECH) keys enabling encryption of the SNI field in TLS handshakes, which is one of the last
+    remaining sources of website identity leakage in encrypted connections. Additionally, HTTPS
+    records signal HTTP/3 (QUIC) support, enabling faster connection establishment.
+  how: >-
+    The HTTPS record operates as a service discovery mechanism in DNS: (1) when a client needs
+    to connect to a domain, it queries for the HTTPS record type alongside standard A/AAAA
+    records; (2) the HTTPS record response contains SvcParams including: alpn (supported ALPN
+    protocol identifiers like h2, h3), ipv4hint/ipv6hint (IP addresses for the service),
+    ech (Encrypted Client Hello configuration), port (non-standard port numbers), and
+    mandatory (parameters the client must understand); (3) the client uses these parameters to
+    establish an optimized connection - selecting HTTP/3 over QUIC if supported, using ECH keys
+    for encrypted handshakes, and connecting directly to the indicated IP addresses; (4) the
+    AliasMode (priority 0) enables CNAME-like aliasing at the zone apex, solving the long-standing
+    limitation of CNAME records at zone roots; (5) ServiceMode entries (priority 1+) provide
+    connection parameters with preference ordering for load balancing and failover.
+  core_concepts:
+    - key: "Encrypted Client Hello (ECH) Distribution"
+      value: >-
+        HTTPS records carry ECH configuration keys enabling clients to encrypt the TLS Client
+        Hello message including the SNI field, preventing network observers from determining
+        which website a user is connecting to even when the connection is otherwise encrypted.
+    - key: "HTTPS-First Behavior"
+      value: >-
+        HTTPS records signal that a domain supports HTTPS, allowing clients to connect over
+        HTTPS by default without first attempting HTTP, eliminating the SSL stripping attack
+        window that exists with traditional HTTP-to-HTTPS redirects.
+    - key: "ALPN Protocol Negotiation"
+      value: >-
+        The alpn SvcParam in HTTPS records advertises supported Application-Layer Protocol
+        Negotiation values (h2 for HTTP/2, h3 for HTTP/3), enabling clients to select the
+        optimal protocol version before connection establishment.
+    - key: "Zone Apex Aliasing"
+      value: >-
+        The AliasMode of HTTPS records (priority 0) provides CNAME-like functionality at the
+        zone apex where traditional CNAME records are prohibited by DNS standards, enabling
+        CDN and cloud service configurations that previously required workarounds.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "PROTO-NAMING-DNSDOMNAM-001"
+    description: "HTTPS records are a DNS resource record type within the DNS protocol providing service binding for HTTPS"
+  - type: "enables"
+    target: "PROTO-NAMING-HTTPS-001"
+    description: "HTTPS records complement DNS over HTTPS by distributing ECH keys and signaling HTTPS-first connection behavior"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "HTTPS record queries are transported over standard DNS protocols including UDP port 53"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 9460 - Service Binding and Parameter Specification via the DNS (SVCB and HTTPS RRs) (November 2023). IETF. https://datatracker.ietf.org/doc/html/rfc9460"
+    - "RFC 9461 - Service Binding Mapping for DNS Servers (November 2023). IETF. https://datatracker.ietf.org/doc/html/rfc9461"
+    - "Encrypted Client Hello - IETF TLS Working Group. https://datatracker.ietf.org/doc/draft-ietf-tls-esni/"
+  search_keywords:
+    - "HTTPS record"
+    - "HTTPS RR"
+    - "SVCB record"
+    - "RFC 9460"
+    - "encrypted client hello"
+    - "ECH DNS"
+    - "DNS HTTPS"
+    - "service binding"
+    - "ALPN DNS"
+    - "zone apex aliasing"
+    - "HTTPS-first"
+    - "DNS type 65"
+  embedding_text: >-
+    The DNS HTTPS record (type 65, RFC 9460) provides clients with connection parameters for
+    HTTPS services including ALPN protocol support, IP hints, Encrypted Client Hello keys, and
+    port numbers. It enables HTTPS-first behavior eliminating the SSL stripping window, distributes
+    ECH keys to encrypt TLS Client Hello SNI fields preventing website identity leakage, signals
+    HTTP/3 support for faster connections, and provides zone apex aliasing via AliasMode. HTTPS
+    records represent a significant improvement in web security by integrating encrypted connection
+    parameters directly into DNS, reducing round trips and attack surfaces. They complement DNS
+    over HTTPS/TLS and DNSSEC to provide a comprehensive DNS security ecosystem for modern web
+    connection establishment.

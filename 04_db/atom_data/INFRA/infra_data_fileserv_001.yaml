@@ -1,0 +1,122 @@
+# GR Atom: File Server
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-FILESERV-001"
+  name: "File Server"
+  normalized_name: "file_server"
+  aliases:
+    - "Network File Server"
+    - "NAS"
+    - "Network Attached Storage"
+    - "File Storage Server"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 1
+  atom_tags:
+    - DATABASE
+    - SMB
+    - NETWORK
+    - LATERAL
+    - COLLECT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A File Server is a dedicated computing system that provides centralized file storage and
+    access to networked clients using file-sharing protocols such as SMB/CIFS (Windows), NFS
+    (Unix/Linux), AFP (macOS), and FTP/SFTP. File servers store data on local disk arrays, SAN,
+    or NAS storage and manage concurrent multi-user access with file locking, permissions, and
+    quota management. They range from dedicated NAS appliances (Synology, QNAP, NetApp) to
+    Windows Server with File Services role, Linux servers with Samba, and cloud-based file
+    storage services (Azure Files, Amazon EFS, Google Filestore).
+  why: >-
+    File servers are critical infrastructure components and prime targets for cyberattacks
+    because they centralize organizational data accessible to many users. They are frequently
+    targeted for data collection and exfiltration, ransomware encryption, lateral movement
+    (discovering and accessing sensitive files on network shares), and credential harvesting
+    (through NTLM relay attacks on SMB). Misconfigured permissions on file servers are a
+    leading cause of unauthorized data access, and open file shares have been exploited in
+    numerous high-profile breaches.
+  how: >-
+    File servers expose shared directories over network protocols. SMB/CIFS provides Windows
+    file sharing with NTLM or Kerberos authentication and NTFS ACL-based permissions. NFS
+    provides Unix file sharing with host-based or Kerberos authentication. Access control is
+    managed through share-level permissions and file system ACLs. File servers typically
+    integrate with Active Directory or LDAP for centralized authentication. Data protection
+    includes RAID storage, snapshots, backup agents, and encryption. Auditing tracks file
+    access, modification, and deletion for compliance and forensic purposes.
+  core_concepts:
+    - key: "Network File Sharing Protocols"
+      value: >-
+        SMB/CIFS, NFS, AFP, and FTP/SFTP provide network-accessible file storage with varying
+        authentication, encryption, and access control capabilities.
+    - key: "Permission Management"
+      value: >-
+        File servers enforce access through share-level permissions and file system ACLs,
+        with misconfigured permissions being a leading cause of unauthorized data access.
+    - key: "Ransomware Target"
+      value: >-
+        Centralized file servers are primary ransomware targets where encryption of shared
+        data can impact all connected users and business operations simultaneously.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "A file server is a type of data store providing network-accessible file storage services"
+  - type: "enables"
+    target: "INFRA-DATA-FILESHAR-001"
+    description: "File servers enable file shares by providing the storage infrastructure and sharing protocols"
+  - type: "enables"
+    target: "INFRA-DATA-SMBFILSHA-001"
+    description: "File servers enable SMB file shares through the SMB/CIFS protocol service"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1039"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CIS Benchmark for Windows Server - File Server Role. https://www.cisecurity.org/cis-benchmarks"
+    - "NIST SP 800-123 - Guide to General Server Security."
+    - "MITRE ATT&CK T1039 - Data from Network Shared Drive."
+  search_keywords:
+    - "file server"
+    - "network file server"
+    - "NAS"
+    - "network attached storage"
+    - "file server security"
+    - "SMB server"
+    - "NFS server"
+    - "file server ransomware"
+  embedding_text: >-
+    A File Server is a dedicated system providing centralized file storage and access to
+    networked clients using SMB/CIFS, NFS, AFP, or FTP/SFTP protocols. File servers range from
+    NAS appliances (Synology, QNAP, NetApp) to Windows/Linux servers and cloud services (Azure
+    Files, Amazon EFS). They are prime cyberattack targets for data collection, ransomware,
+    lateral movement, and credential harvesting through NTLM relay attacks. Access control
+    through share permissions and file system ACLs is critical, with misconfigured permissions
+    being a leading cause of unauthorized data access. File servers integrate with Active
+    Directory for authentication and provide audit logging for compliance. They map to MITRE
+    ATT&CK T1039 (Data from Network Shared Drive) as adversaries target centralized network
+    file storage for collection and exfiltration.

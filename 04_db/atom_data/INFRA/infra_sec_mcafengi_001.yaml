@@ -1,0 +1,105 @@
+# GR Atom: McAfee Engine Service
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-MCAFENGI-001"
+  name: "McAfee Engine Service"
+  normalized_name: "mcafee_engine_service"
+  aliases:
+    - "McAfee Scan Engine"
+    - "mcscript_inuse.exe"
+    - "McAfee Anti-Malware Engine"
+    - "Trellix Engine Service"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SANDBOX
+    - EDR
+    - WINDOWS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "S1.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    McAfee Engine Service is the core anti-malware scanning engine within McAfee/Trellix
+    endpoint protection products. It performs signature-based detection, heuristic analysis,
+    and behavioral monitoring of files, processes, and memory. The engine service processes
+    scan requests from McShield (on-access scanner) and scheduled scan tasks, matching content
+    against DAT signature files updated via McAfee ePO or direct update channels.
+  why: >-
+    The scan engine is the detection core of McAfee endpoint protection. Vulnerabilities in the
+    engine can disable malware detection entirely or be exploited for privilege escalation since
+    the engine runs with SYSTEM privileges. CVE-2017-3897 allowed remote code execution via
+    crafted files processed by the engine. Engine bypass techniques are actively researched by
+    malware authors to evade detection.
+  how: >-
+    The engine loads DAT signature files containing virus definitions, heuristic rules, and
+    behavioral patterns. Files are scanned using multi-layer analysis: signature matching,
+    generic detection, heuristic emulation, and behavioral analysis. The engine exposes an API
+    consumed by McShield for on-access scanning and by the on-demand scanner. Content is
+    unpacked through archive handlers supporting ZIP, RAR, CAB, and executable packers.
+    Engine updates are distributed separately from DAT updates.
+  core_concepts:
+    - key: "Multi-Layer Detection"
+      value: "Combines signature matching, heuristic emulation, and behavioral analysis for comprehensive malware detection"
+    - key: "DAT Signature Files"
+      value: "Regularly updated virus definition files containing signatures, generic detections, and heuristic rules"
+    - key: "SYSTEM Privilege Execution"
+      value: "Engine runs with highest OS privileges enabling full system access but creating privilege escalation risk if compromised"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-SEC-MCAFEE-001"
+    description: "McAfee Engine Service is a core component of the McAfee Framework endpoint protection suite"
+  - type: "enables"
+    target: "INFRA-SEC-MCSHIELD-001"
+    description: "McAfee Engine Service provides the scanning engine that McShield uses for real-time on-access file scanning"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "McAfee/Trellix - Endpoint Security Product Documentation"
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "CVE-2017-3897 - McAfee Scan Engine Remote Code Execution"
+  search_keywords:
+    - "McAfee engine"
+    - "McAfee scan engine"
+    - "mcscript_inuse"
+    - "Trellix engine"
+    - "McAfee DAT"
+    - "antivirus engine"
+    - "McAfee vulnerability"
+  embedding_text: >-
+    McAfee Engine Service is the core anti-malware scanning engine in McAfee/Trellix endpoint
+    protection. Performs signature-based detection, heuristic analysis, and behavioral monitoring
+    using DAT signature files. Processes scan requests from McShield on-access scanner. Runs with
+    SYSTEM privileges creating privilege escalation risk. Supports multi-layer analysis including
+    archive unpacking. CVE-2017-3897 allowed remote code execution. Engine bypass techniques are
+    actively researched by malware authors. Part of McAfee Framework managed via ePO.

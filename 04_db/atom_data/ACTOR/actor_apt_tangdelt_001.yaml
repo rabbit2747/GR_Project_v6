@@ -1,0 +1,99 @@
+# GR Atom: Tango Delta
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-TANGDELT-001"
+  name: "Tango Delta"
+  normalized_name: "tango_delta"
+  aliases:
+    - "Transparent Tribe"
+    - "APT36"
+    - "Mythic Leopard"
+    - "ProjectM"
+    - "COPPER FIELDSTONE"
+    - "Earth Karkaddan"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - WINDOWS
+    - MOBILE
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Tango Delta, most widely tracked as Transparent Tribe or APT36, is a Pakistan-nexus advanced persistent threat group active since at least 2013. The group primarily conducts cyber-espionage operations against Indian military and government entities, defense contractors, and educational institutions. Transparent Tribe has also targeted Afghan government officials and activists. The group is assessed to operate in support of Pakistani military intelligence objectives."
+  why: "Tango Delta is one of the most persistent Pakistan-linked threat groups, representing a continuous espionage threat to Indian defense and government organizations. The group's operations directly support military intelligence collection regarding Indian military deployments, defense technologies, and strategic planning. Its expanding capabilities across Windows, Linux, and Android platforms demonstrate continuous investment in offensive operations."
+  how: "Tango Delta delivers weaponized documents and malicious executables via spear-phishing emails themed around Indian military and government topics. The group's primary tool is CrimsonRAT, a custom .NET-based remote access trojan with extensive capabilities for keylogging, file exfiltration, and screen capture. It also deploys ObliqueRAT for Windows targets and CapraRAT for Android mobile surveillance. The group has used trojanized installers for legitimate applications and honey trap operations using fake social media personas to target military personnel."
+  core_concepts:
+    - key: "CrimsonRAT"
+      value: "Signature custom .NET remote access trojan with extensive surveillance capabilities used as the group's primary implant"
+    - key: "Mobile Surveillance"
+      value: "Android-targeting CapraRAT malware for mobile device surveillance of military and government personnel"
+    - key: "Honey Trap Operations"
+      value: "Use of fake social media personas and romantic lures to target Indian military personnel for malware delivery and intelligence collection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Pakistan-nexus APT group conducting military espionage against Indian defense targets"
+  - type: enables
+    target: "ATK-PHISH-SPEAR-001"
+    description: "Uses military-themed spear-phishing and honey trap operations for initial access"
+  - type: enables
+    target: "ATK-MOBILE-RAT-001"
+    description: "Deploys CapraRAT for Android mobile device surveillance of military personnel"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566.001"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "collection"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Transparent Tribe"
+    - "Kaspersky Lab - Transparent Tribe analysis"
+    - "Cisco Talos - APT36 campaign research"
+    - "SentinelOne - CapraRAT mobile analysis"
+  search_keywords:
+    - "tango delta"
+    - "transparent tribe"
+    - "apt36"
+    - "mythic leopard"
+    - "projectm"
+    - "crimsonrat"
+    - "caprarat"
+    - "pakistan apt"
+    - "indian military targeting"
+    - "honey trap"
+    - "mobile surveillance"
+    - "south asia cyber espionage"
+  embedding_text: "Tango Delta, most widely tracked as Transparent Tribe or APT36, is a Pakistan-nexus advanced persistent threat group active since at least 2013 conducting cyber-espionage against Indian military and government entities. The group's primary tool is CrimsonRAT, a custom .NET remote access trojan, complemented by ObliqueRAT for Windows and CapraRAT for Android mobile surveillance. Tango Delta uses military-themed spear-phishing, trojanized application installers, and honey trap operations with fake social media personas to target military personnel. Its operations support Pakistani military intelligence collection regarding Indian defense deployments, technologies, and strategic planning across Windows, Linux, and Android platforms."

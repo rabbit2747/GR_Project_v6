@@ -1,0 +1,92 @@
+# GR Atom: Sysmon DNS ETW Session
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-SYDNETSE-001"
+  name: "Sysmon DNS ETW Session"
+  normalized_name: "sysmon_dns_etw_session"
+  aliases:
+    - "Sysmon DNS Query Logging"
+    - "ETW DNS Trace Session"
+    - "Sysmon Event ID 22"
+    - "DNS Client ETW Provider"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - SIEM
+    - LOG
+    - MONITOR
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection pattern based on Sysmon leveraging Event Tracing for Windows (ETW) to capture DNS query events from the Microsoft-Windows-DNS-Client ETW provider. Sysmon Event ID 22 (DNSEvent) records all DNS queries made by processes on the endpoint, including the queried hostname, query type, query status, and query results. This ETW session provides process-level DNS visibility that is not available through standard DNS server logs, enabling attribution of DNS queries to specific processes and users."
+  why: "DNS query monitoring at the endpoint level is essential for detecting command-and-control (C2) communications, DNS tunneling, domain generation algorithm (DGA) activity, and data exfiltration over DNS. By correlating DNS queries with the originating process, defenders can identify malicious processes communicating with known-bad domains, detect beaconing patterns, and uncover covert channels. Endpoint DNS logging fills the visibility gap when network-level DNS monitoring is bypassed through DNS-over-HTTPS or encrypted DNS."
+  how: "Sysmon subscribes to the Microsoft-Windows-DNS-Client ETW provider to capture DNS resolution events. When configured with the DnsQuery rule in the Sysmon configuration XML, it generates Event ID 22 entries in the Microsoft-Windows-Sysmon/Operational log. Each event contains the process ID, image path, query name, query type (A, AAAA, CNAME, MX, TXT, etc.), query status, and resolved IP addresses. SIEM rules analyze these events for indicators such as high-frequency queries, queries to newly registered domains, DGA patterns, unusually long hostnames (potential DNS tunneling), and queries to known malicious domains."
+  core_concepts:
+    - key: "etw_dns_provider"
+      value: "The Microsoft-Windows-DNS-Client ETW provider that Sysmon subscribes to for capturing DNS resolution activity at the process level"
+    - key: "process_dns_attribution"
+      value: "Linking DNS queries to specific processes and users, enabling identification of which application initiated suspicious DNS activity"
+    - key: "dns_tunneling_detection"
+      value: "Identifying DNS tunneling through analysis of query patterns including unusually long hostnames, high query frequency, and TXT record abuse"
+    - key: "encrypted_dns_bypass"
+      value: "Endpoint DNS logging captures queries even when network DNS monitoring is bypassed by DNS-over-HTTPS or DNS-over-TLS"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "DETECT-ENDPOINT-ID-001"
+    description: "Sysmon DNS ETW session is a specific Sysmon event type (Event ID 22)"
+  - type: "enables"
+    target: "DETECT-NETWORK-DNSBEAC-001"
+    description: "DNS ETW session data enables detection of DNS beaconing patterns"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.004"
+    tactic:
+      - "command-and-control"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Sysmon Documentation - Event ID 22 DNSEvent"
+    - "Microsoft ETW Documentation - DNS Client Provider"
+    - "MITRE ATT&CK T1071.004 - Application Layer Protocol: DNS"
+    - "SANS - Sysmon DNS Monitoring Guide"
+  search_keywords:
+    - "Sysmon DNS"
+    - "ETW DNS session"
+    - "Event ID 22"
+    - "DNS query logging"
+    - "DNS client ETW"
+    - "process DNS monitoring"
+    - "DNS tunneling detection"
+    - "Sysmon DNSEvent"
+    - "endpoint DNS visibility"
+    - "C2 DNS detection"
+  embedding_text: "Sysmon DNS ETW session detection pattern captures DNS queries via Event Tracing for Windows using the Microsoft-Windows-DNS-Client ETW provider. Sysmon Event ID 22 records DNS queries with process attribution including queried hostname, query type, status, and resolved addresses. This enables detection of command-and-control communications, DNS tunneling, domain generation algorithms, and data exfiltration over DNS. Endpoint-level DNS logging provides visibility even when network DNS monitoring is bypassed by encrypted DNS protocols. Maps to MITRE ATT&CK T1071.004. Analysis identifies high-frequency queries, DGA patterns, long hostnames indicating tunneling, and queries to known malicious domains."

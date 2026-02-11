@@ -1,0 +1,79 @@
+# GR Atom: CVE-2022-41082
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-AUTH-CVE202241082-001"
+  name: "CVE-2022-41082"
+  normalized_name: "cve_2022_41082"
+  aliases:
+    - "ProxyNotShell - RCE Component"
+    - "Exchange Server PowerShell Remote Code Execution"
+    - "ProxyNotShell Stage 2"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - AUTHN
+    - DESER
+    - WINDOWS
+    - WEB
+
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Microsoft Exchange Server 2013"
+    - "Microsoft Exchange Server 2016"
+    - "Microsoft Exchange Server 2019"
+    - "Exchange PowerShell Remoting"
+
+definition:
+  what: "CVE-2022-41082 is a remote code execution vulnerability in Microsoft Exchange Server's PowerShell remoting endpoint. When chained with CVE-2022-41040 (ProxyNotShell SSRF), an authenticated attacker can execute arbitrary code on the Exchange server through insecure deserialization in the PowerShell backend. CVSS v3: 8.8 (High). Disclosed in September 2022."
+  why: "This vulnerability provides the code execution component of the ProxyNotShell exploit chain. While requiring authentication, it enables full server compromise from any user with valid Exchange credentials. The vulnerability was actively exploited in the wild before patches were available. Exchange servers process and store all organizational email, making them high-value targets. The continued discovery of RCE vulnerabilities in Exchange PowerShell remoting reflects a deep architectural issue in Exchange Server's proxy and remoting infrastructure."
+  how: "After reaching the Exchange PowerShell backend via CVE-2022-41040 SSRF, the attacker exploits an insecure deserialization vulnerability in the PowerShell remoting endpoint. The attacker sends specially crafted serialized objects through the PowerShell remoting protocol that, when deserialized by the Exchange server, execute arbitrary code in the context of the Exchange server process (SYSTEM). The attack flow involves: (1) authenticate to Exchange, (2) exploit CVE-2022-41040 to reach PowerShell backend, (3) send malicious serialized payload via PowerShell remoting, (4) achieve code execution as SYSTEM. Ransomware groups including Play leveraged OWASSRF variant. Microsoft patched this in November 2022."
+  core_concepts:
+    - key: "PowerShell Remoting Deserialization"
+      value: "Exchange Server's PowerShell remoting endpoint insecurely deserializes attacker-controlled objects, enabling arbitrary code execution when the backend is reached through SSRF"
+    - key: "ProxyNotShell Code Execution Stage"
+      value: "Second and final stage of the ProxyNotShell chain that converts authenticated SSRF access into full SYSTEM-level remote code execution on the Exchange server"
+
+relations:
+  - type: part_of
+    target: "VUL-AUTH-CVE202241040-001"
+    description: "CVE-2022-41082 is the RCE component of the ProxyNotShell exploit chain"
+  - type: requires
+    target: "VUL-AUTH-CVE202241040-001"
+    description: "Exploitation requires prior SSRF access to PowerShell backend via CVE-2022-41040"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1059.001"
+    tactic: ["Execution"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2022-41082 - NVD NIST"
+    - "GTSC - ProxyNotShell Discovery"
+    - "Microsoft Security Advisory - Exchange Server RCE"
+    - "CrowdStrike - Play Ransomware OWASSRF"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1059.001 - Command and Scripting Interpreter: PowerShell"
+  search_keywords:
+    - "CVE-2022-41082"
+    - "ProxyNotShell RCE"
+    - "Exchange PowerShell RCE"
+    - "Exchange deserialization RCE"
+    - "OWASSRF"
+    - "ProxyNotShell code execution"
+    - "Exchange Server RCE 2022"
+    - "Play ransomware Exchange"
+  embedding_text: "CVE-2022-41082 is a remote code execution vulnerability in Microsoft Exchange Server PowerShell remoting endpoint through insecure deserialization. The RCE component of the ProxyNotShell exploit chain, it requires CVE-2022-41040 SSRF for backend access. CVSS v3 score is 8.8 High. An authenticated attacker sends crafted serialized objects through PowerShell remoting to execute arbitrary code as SYSTEM. Actively exploited in the wild before patches. Play ransomware group used OWASSRF variant. Affects Exchange Server 2013, 2016, and 2019. Patched November 2022. Maps to MITRE ATT&CK T1059.001 PowerShell execution. Demonstrates systemic architectural weaknesses in Exchange Server proxy and remoting infrastructure."

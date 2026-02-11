@@ -1,0 +1,73 @@
+# GR Atom: Remote Registry
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-REMOREGI-001"
+  name: "Remote Registry"
+  normalized_name: "remote_registry"
+  aliases:
+    - "Windows Remote Registry"
+    - "Remote Registry Service"
+    - "RemoteRegistry"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - LATERAL
+    - DISC
+    - CONFIG
+
+gr_coordinates:
+  layer: "L4"
+  zone: "Z2"
+  function: "P3.1"
+
+definition:
+  what: "Remote Registry is a Windows service (RemoteRegistry) that enables remote access to the Windows Registry on networked computers. It allows authorized users and administrators to read, modify, and manage registry keys and values on remote systems over the network using tools such as regedit, reg.exe, PowerShell, and WMI. The service listens for incoming connections and mediates registry access based on the caller's authentication credentials and permissions."
+  why: "Remote Registry is a significant attack surface because it provides network-accessible read and write access to critical system configuration data. Attackers leverage Remote Registry for reconnaissance (reading installed software, security settings, startup programs), persistence (writing Run keys, service configurations), privilege escalation (modifying security policies), and lateral movement. The service is frequently abused using valid credentials obtained through credential dumping. Disabling Remote Registry on systems where it is not operationally required is a recommended security hardening measure."
+  how: "The Remote Registry service operates over named pipes (winreg) via SMB (TCP 445) and requires authentication. Access is controlled by registry key security descriptors and the Remote Registry service permissions. Administrators have full access by default. The service must be running on the target system for remote access. Tools connect using the RegConnectRegistry API. Group Policy can disable the service across domains. Windows Event Logs record registry access when auditing is enabled. PowerShell remoting provides an alternative mechanism for remote registry operations."
+  core_concepts:
+    - key: "Windows Registry"
+      value: "Hierarchical database storing configuration data for the operating system, applications, services, and user settings"
+    - key: "Named Pipe Access"
+      value: "Remote Registry uses the winreg named pipe over SMB for authenticated remote access to registry hives"
+    - key: "Registry Security Descriptors"
+      value: "ACLs on registry keys controlling which principals can read, write, or take ownership of registry entries"
+
+relations:
+  - type: enables
+    target: "INFRA-DEVOPS-SOFTDIST-001"
+    description: "Remote Registry enables remote software configuration management as part of software distribution workflows"
+  - type: requires
+    target: "INFRA-DEVOPS-ORCHSERV-001"
+    description: "Orchestration servers may use Remote Registry for configuration management of Windows build agents"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1012"
+    tactic: ["Discovery"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft Remote Registry Service - https://learn.microsoft.com/en-us/windows/win32/sysinfo/remote-registry"
+    - "MITRE ATT&CK T1012 - Query Registry"
+    - "CIS Microsoft Windows Benchmarks - Remote Registry Hardening"
+  search_keywords:
+    - "Remote Registry"
+    - "Windows Remote Registry"
+    - "RemoteRegistry service"
+    - "winreg named pipe"
+    - "remote registry access"
+    - "registry lateral movement"
+    - "Windows registry security"
+    - "remote registry hardening"
+  embedding_text: "Remote Registry is a Windows service enabling remote network access to the Windows Registry for reading, modifying, and managing registry keys on remote systems. It operates over named pipes (winreg) via SMB (TCP 445) with authenticated access. Security significance includes reconnaissance (reading installed software and security settings), persistence (writing Run keys), privilege escalation (modifying security policies), and lateral movement using valid credentials. Attackers frequently abuse Remote Registry after credential dumping. Disabling the service on non-essential systems is a recommended hardening measure. Access controlled by registry key security descriptors and service permissions."

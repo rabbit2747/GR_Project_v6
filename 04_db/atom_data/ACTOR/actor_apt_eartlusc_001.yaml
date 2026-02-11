@@ -1,0 +1,90 @@
+# GR Atom: Earth Lusca
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-EARTLUSC-001"
+  name: "Earth Lusca"
+  normalized_name: "earth_lusca"
+  aliases:
+    - "TAG-22"
+    - "Charcoal Typhoon"
+    - "CHROMIUM"
+    - "ControlX"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXFIL
+    - WEB
+    - CLOUD
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Earth Lusca is a Chinese APT group identified by Trend Micro, believed to be linked to the Winnti cluster. The group conducts both espionage and financially motivated operations, targeting government agencies, educational institutions, media organizations, religious groups, pro-democracy organizations, human rights groups, and cryptocurrency platforms. Earth Lusca has been active since at least 2019 and operates globally, with particular focus on Southeast Asia, Central Asia, and targets of Chinese political interest."
+  why: "Earth Lusca is significant because it combines state-sponsored espionage objectives with financially motivated cybercrime, demonstrating the blurring line between APT and criminal operations in some Chinese threat groups. Their targeting of pro-democracy organizations, religious groups, and human rights entities alongside government targets highlights the use of cyber operations for political repression. The group's use of cloud infrastructure for C2 and data staging represents modern operational tradecraft."
+  how: "The group uses spearphishing, watering hole attacks, and exploitation of internet-facing servers (ProxyShell, Log4Shell) for initial access. They deploy Cobalt Strike extensively alongside custom malware including SprySOCKS (a Linux backdoor) and ShadowPad. C2 infrastructure leverages cloud services and content delivery networks. The group also uses VPS-hosted infrastructure and DNS tunneling. Financially motivated operations involve cryptocurrency exchange targeting and theft. Post-exploitation uses a combination of open-source and custom tools for lateral movement and data exfiltration."
+  core_concepts:
+    - key: "Dual Motivation"
+      value: "Combines state-sponsored espionage with financially motivated cryptocurrency theft"
+    - key: "Broad Targeting"
+      value: "Targets government, religious, human rights, and pro-democracy organizations alongside financial entities"
+    - key: "SprySOCKS Linux Backdoor"
+      value: "Custom Linux backdoor based on the Trochilus RAT for persistent access on Linux servers"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing, watering holes, and server exploitation for initial access"
+  - type: is_a
+    target: "ACTOR-APT-EARTLUSC-001"
+    description: "Chinese APT group with dual espionage and financial motivations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Command and Control"
+      - "Collection"
+      - "Exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Trend Micro - Earth Lusca Campaign Report"
+    - "Recorded Future - TAG-22 Analysis"
+    - "Trend Micro - SprySOCKS Linux Backdoor"
+  search_keywords:
+    - "earth lusca"
+    - "tag-22"
+    - "charcoal typhoon"
+    - "chromium apt"
+    - "sprysocks backdoor"
+    - "chinese apt human rights"
+    - "winnti cluster"
+    - "cobalt strike china"
+    - "proxyshell exploitation"
+    - "chinese espionage dual motivation"
+  embedding_text: "Earth Lusca is a Chinese APT group identified by Trend Micro, linked to the Winnti cluster, conducting both espionage and financially motivated operations since at least 2019. The group targets government agencies, educational institutions, media, religious groups, pro-democracy organizations, human rights entities, and cryptocurrency platforms, primarily in Southeast Asia and Central Asia. Initial access uses spearphishing, watering holes, and exploitation of internet-facing servers via ProxyShell and Log4Shell. They deploy Cobalt Strike alongside custom malware including SprySOCKS (Linux backdoor) and ShadowPad. C2 infrastructure leverages cloud services and DNS tunneling. The group's dual espionage and financial motivation demonstrates the blurring line between APT and criminal operations in some Chinese threat groups."

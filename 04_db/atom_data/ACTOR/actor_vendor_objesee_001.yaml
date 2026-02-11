@@ -1,0 +1,71 @@
+# GR Atom: Objective-See
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-OBJESEE-001"
+  name: "Objective-See"
+  normalized_name: "objective_see"
+  aliases:
+    - "Objective-See Foundation"
+    - "Patrick Wardle"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - MACOS
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Objective-See is a nonprofit cybersecurity organization founded by macOS security researcher Patrick Wardle, dedicated to developing free, open-source macOS security tools and conducting macOS malware research. Tools include BlockBlock (persistence monitoring), LuLu (firewall), KnockKnock (persistence scanner), OverSight (mic/camera monitoring), and RansomWhere? (ransomware detection). Objective-See also organizes the Objective by the Sea macOS security conference."
+  why: "Objective-See is significant in cybersecurity because macOS security has historically received less attention than Windows despite growing enterprise adoption. Objective-See fills a critical gap by providing free security tools and publishing detailed macOS malware analysis that helps defenders understand and detect threats targeting Apple platforms. Patrick Wardle's research has uncovered numerous macOS vulnerabilities and documented the evolution of macOS-targeted malware families."
+  how: "Objective-See tools monitor macOS systems for security-relevant events using Apple's Endpoint Security Framework and other system APIs. BlockBlock alerts on persistence mechanism installations, LuLu provides application-level firewall controls, KnockKnock scans for installed persistence items, and OverSight monitors microphone and camera access. The organization publishes detailed macOS malware analysis on its blog and presents research at security conferences worldwide."
+  core_concepts:
+    - key: "macOS security tools"
+      value: "Free open-source tools for detecting and preventing threats on Apple macOS systems"
+    - key: "macOS malware research"
+      value: "Detailed analysis of malware targeting Apple platforms including persistence and evasion techniques"
+    - key: "Endpoint Security Framework"
+      value: "Leveraging Apple native APIs for security monitoring and threat detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "TOOL-MACOSSEC-OBJSEE-001"
+    description: "Objective-See produces free macOS security tools including BlockBlock, LuLu, and KnockKnock"
+  - type: enables
+    target: "TECHNIQUE-MACOSDEFENSE-001"
+    description: "Objective-See enables macOS threat detection through open-source security tools and research"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Objective-See Official Website"
+    - "Objective-See Blog - macOS Malware Analysis"
+    - "Objective by the Sea Conference"
+  search_keywords:
+    - "objective-see"
+    - "objective see"
+    - "patrick wardle"
+    - "blockblock"
+    - "lulu firewall"
+    - "knockknock"
+    - "macos security tools"
+    - "objective by the sea"
+  embedding_text: "Objective-See is a nonprofit cybersecurity organization founded by renowned macOS security researcher Patrick Wardle, dedicated to developing free, open-source security tools for macOS and conducting detailed macOS malware research. The organization produces widely used tools including BlockBlock for persistence monitoring, LuLu for application firewall controls, KnockKnock for persistence scanning, OverSight for microphone and camera monitoring, and RansomWhere? for ransomware detection. These tools leverage Apple's Endpoint Security Framework and native system APIs to provide security monitoring capabilities on macOS platforms. Objective-See fills a critical gap in the cybersecurity ecosystem as macOS security has historically received less attention than Windows despite growing enterprise adoption of Apple platforms. Patrick Wardle's research has uncovered numerous macOS vulnerabilities and documented the evolution of macOS-targeted malware families, contributing essential knowledge to the security community. The organization also hosts the Objective by the Sea macOS security conference."

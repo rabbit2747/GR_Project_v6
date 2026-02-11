@@ -1,0 +1,71 @@
+# GR Atom: Hardware Device Unbind Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-HARDEVUNB-001"
+  name: "Hardware Device Unbind Event"
+  normalized_name: "hardware_device_unbind_event"
+  aliases:
+    - "Device Driver Unbind Event"
+    - "Driver Detach Detection"
+    - "Device-Driver Disassociation"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "Hardware Device Unbind Event is an endpoint detection pattern that captures when a hardware device is disassociated from its driver in the operating system kernel. The unbind operation occurs when the driver is detached from the device, either as part of device removal, driver update, manual driver management, or exploitation. The event records the device identifier, the driver being unbound, the reason for unbinding, the process initiating the unbind, and the timestamp. On Linux this corresponds to the driver unbind operation via sysfs, on Windows to driver unload during device removal or reconfiguration."
+  why: "Monitoring device unbind events is important for detecting driver manipulation attacks where adversaries force-unbind legitimate drivers to replace them with malicious ones, rootkit installation techniques that unbind and rebind devices with compromised drivers, and defense evasion where security-relevant drivers are unbound to disable monitoring capabilities. Unexpected unbind events for security drivers such as EDR kernel components, TPM drivers, or firewall filter drivers are high-priority security indicators."
+  how: "Detection systems capture unbind events through Linux kernel tracepoints for driver unbind operations and sysfs monitoring, Windows ETW providers for driver unload events and Plug and Play reconfiguration, and macOS IOKit driver matching termination notifications. Endpoint agents maintain inventories of critical drivers that should not be unbound during normal operation and flag unauthorized unbind attempts. Detection rules identify unbinding of security-critical drivers, unbind operations initiated by unexpected processes, unbind-rebind sequences suggesting driver replacement, and forced unbind operations that bypass normal device removal procedures."
+  core_concepts:
+    - key: "Driver Disassociation"
+      value: "The kernel operation that detaches a driver from its associated hardware device, halting the driver's control over the device"
+    - key: "Security Driver Protection"
+      value: "Monitoring and preventing unauthorized unbinding of security-critical kernel drivers such as EDR components and firewall filter drivers"
+    - key: "Driver Replacement Attack"
+      value: "Attack technique where a legitimate driver is unbound and replaced with a malicious driver to gain kernel-level access"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-HARDDEVI-001"
+    description: "Device unbind events are a specific lifecycle event within the broader hardware device event category"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-HARDEVBIN-001"
+    description: "Device unbind is the inverse of device bind, tracking driver disassociation rather than association"
+  - type: effective_against
+    target: "ATK-EVASION-ROOTKIT-001"
+    description: "Detects rootkit deployment through monitoring of driver unbind-rebind sequences"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Driver Unload and Removal - https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/"
+    - "Linux Kernel - Driver Binding and Unbinding - https://www.kernel.org/doc/Documentation/driver-api/"
+    - "MITRE ATT&CK T1014 - Rootkit"
+  search_keywords:
+    - "device unbind event"
+    - "driver unbind detection"
+    - "driver detach monitoring"
+    - "device driver disassociation"
+    - "security driver removal"
+    - "driver replacement attack"
+    - "kernel driver unload"
+    - "EDR driver protection"
+  embedding_text: "Hardware Device Unbind Event detection captures when hardware devices are disassociated from their drivers in the OS kernel. Monitored through Linux kernel tracepoints and sysfs, Windows ETW driver unload providers, and macOS IOKit driver termination notifications, this telemetry records device identifiers, unbound drivers, reasons, and initiating processes. Detection flags unauthorized unbinding of security-critical drivers like EDR components and firewall filters, unexpected processes initiating unbinds, unbind-rebind sequences suggesting driver replacement attacks, and forced unbind operations bypassing normal removal procedures."

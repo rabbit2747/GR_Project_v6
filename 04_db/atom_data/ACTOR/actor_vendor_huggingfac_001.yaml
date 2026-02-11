@@ -1,0 +1,72 @@
+# GR Atom: HuggingFace
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-HUGGINGFAC-001"
+  name: "HuggingFace"
+  normalized_name: "huggingface"
+  aliases:
+    - "Hugging Face"
+    - "Hugging Face Inc."
+    - "HF"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - AI
+    - CLOUD
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Hugging Face is an AI and machine learning platform company that provides an open-source model hub, dataset repository, and collaboration tools for the ML community. The platform hosts hundreds of thousands of pre-trained models, datasets, and ML applications. In the cybersecurity context, Hugging Face is relevant as a distribution platform for AI/ML models used in security applications including malware classification, phishing detection, and threat intelligence automation, while also being a potential supply chain attack vector for malicious model distribution."
+  why: "Hugging Face is significant in cybersecurity because it serves as the primary distribution platform for open-source AI models that are increasingly integrated into security tools and pipelines. The platform presents both opportunity and risk: security teams leverage hosted models for threat detection and analysis, while adversaries may distribute poisoned models, exploit model deserialization vulnerabilities, or use the platform to host malicious payloads disguised as legitimate ML artifacts."
+  how: "Hugging Face operates a model hub where users upload, share, and download pre-trained models using the Transformers library and related frameworks. The platform provides inference APIs, model evaluation tools, Spaces for hosting ML demos, and enterprise deployment options. Security researchers use Hugging Face to share threat detection models, while the company implements scanning for malicious content, supports safe serialization formats like safetensors, and maintains trust and safety policies for hosted content."
+  core_concepts:
+    - key: "ML model hub"
+      value: "Central repository for sharing and distributing pre-trained machine learning models"
+    - key: "AI supply chain security"
+      value: "Risks and controls around distribution of ML models including poisoning and deserialization attacks"
+    - key: "Security AI applications"
+      value: "ML models for malware detection, phishing classification, and threat intelligence"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "TECHNIQUE-AI-MLSEC-001"
+    description: "Hugging Face enables AI/ML security applications through model distribution and inference"
+  - type: is_a
+    target: "PLATFORM-CLOUD-001"
+    description: "Hugging Face is a cloud platform for ML model hosting and distribution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Hugging Face Official Website and Documentation"
+    - "Hugging Face Security Advisories"
+    - "JFrog Research - Malicious ML Models on Hugging Face"
+  search_keywords:
+    - "hugging face"
+    - "huggingface"
+    - "huggingface security"
+    - "ml model hub"
+    - "huggingface supply chain"
+    - "transformers library"
+    - "safetensors"
+    - "ai model security"
+  embedding_text: "Hugging Face is the leading open-source AI and machine learning platform providing a model hub, dataset repository, and collaboration tools for the global ML community. The platform hosts hundreds of thousands of pre-trained models across natural language processing, computer vision, and other domains, accessible through the popular Transformers library. In cybersecurity, Hugging Face serves dual significance: as a distribution platform for AI models used in security applications such as malware classification, phishing detection, and threat intelligence automation, and as a potential attack surface for supply chain threats including malicious model distribution, model poisoning, and deserialization vulnerabilities. The company has implemented security measures including content scanning, safetensors format for safe model serialization, and trust and safety policies. Security researchers and defenders increasingly rely on Hugging Face hosted models for threat detection workflows, making the platform a critical component of the emerging AI-driven cybersecurity ecosystem."

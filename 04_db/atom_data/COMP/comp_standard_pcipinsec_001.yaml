@@ -1,0 +1,73 @@
+# GR Atom: PCI PIN Security
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCIPINSEC-001"
+  name: "PCI PIN Security"
+  normalized_name: "pci_pin_security"
+  aliases:
+    - "PCI PIN Security Requirements"
+    - "PCI PIN"
+    - "PIN Security Standard"
+    - "PCI PTS PIN Security"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - ENCRYPT
+
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "PCI PIN Security Requirements is a PCI SSC standard that defines the security requirements for the management, processing, and transmission of personal identification number (PIN) data during online and offline payment card transactions. The standard specifies requirements for PIN processing, PIN encryption at the point of entry, secure PIN transmission across payment networks, PIN block format and encryption algorithms, key management for PIN encryption keys, and physical and logical security of devices and systems that process PIN data. It applies to all entities involved in PIN-based debit and credit card transactions."
+  why: "PIN data is the most sensitive cardholder verification method, providing direct access to debit account funds. Compromise of PIN data combined with card data enables immediate financial fraud through ATM withdrawals and unauthorized purchases. The PIN Security standard ensures that PIN data is encrypted from the point of entry and remains protected throughout the transaction lifecycle, preventing interception, replay, and brute-force attacks against PIN values."
+  how: "Organizations comply with PCI PIN Security by implementing hardware security modules (HSMs) for PIN encryption and translation operations, using approved PIN block formats (ISO 9564), establishing secure key management procedures including dual control and split knowledge for PIN encryption keys, implementing tamper-resistant PIN entry devices, maintaining physical security of PIN processing environments, and undergoing assessment by PIN Security Assessors. Key management includes key generation in secure environments, distribution through encrypted channels, and key rotation procedures."
+  core_concepts:
+    - key: "PIN Block"
+      value: "Standardized format for encrypting PIN values using approved algorithms, ensuring consistent secure PIN representation across the payment network"
+    - key: "Hardware Security Module"
+      value: "Tamper-resistant hardware device that performs PIN encryption, decryption, and translation operations within a secure boundary"
+    - key: "Key Management"
+      value: "Procedures for generating, distributing, storing, and rotating PIN encryption keys using dual control and split knowledge"
+    - key: "PIN Entry Device"
+      value: "Tamper-resistant terminal component that captures and immediately encrypts the cardholder PIN at the point of entry"
+
+relations:
+  - type: part_of
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "PCI PIN Security is part of the PCI security standards family"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "PIN encryption requires FIPS 140-2 validated HSMs and cryptographic modules"
+  - type: enables
+    target: "COMP-STANDARD-PCIDSSCOM-001"
+    description: "PIN security compliance is part of comprehensive PCI compliance for PIN-processing entities"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI SSC PIN Security Requirements - https://www.pcisecuritystandards.org/document_library/?category=pin_security"
+    - "ISO 9564 - Financial Services - PIN Management and Security"
+    - "PCI PTS Device Security Requirements"
+  search_keywords:
+    - "PCI PIN security"
+    - "PIN encryption"
+    - "PIN block"
+    - "HSM"
+    - "hardware security module"
+    - "PIN management"
+    - "PIN entry device"
+    - "debit card security"
+    - "key management"
+    - "PIN transaction security"
+  embedding_text: "PCI PIN Security Requirements define security controls for managing, processing, and transmitting PIN data during payment card transactions. The standard covers PIN encryption at point of entry, secure transmission across payment networks, PIN block formats per ISO 9564, key management with dual control and split knowledge, and physical security of PIN processing systems. Compliance requires hardware security modules for cryptographic operations, tamper-resistant PIN entry devices, and assessment by PIN Security Assessors. The standard protects the most sensitive cardholder verification method from interception, replay, and brute-force attacks across the entire transaction lifecycle."

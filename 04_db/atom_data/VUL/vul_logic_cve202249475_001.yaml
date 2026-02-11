@@ -1,0 +1,93 @@
+# GR Atom: CVE-2022-49475
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE202249475-001"
+  name: "CVE-2022-49475"
+  normalized_name: "cve_2022_49475"
+  aliases:
+    - "Linux Kernel mt76 Logic Flaw"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - OS
+    - LINUX
+    - NETWORK
+    - RACE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Linux kernel mt76 WiFi driver"
+    - "MediaTek WiFi chipsets"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2022-49475 is a logic flaw in the Linux kernel mt76 WiFi driver (MediaTek chipset
+    driver) involving improper handling of concurrent operations. The vulnerability exists
+    in the driver's state management logic where race conditions between firmware operations
+    and driver state transitions can lead to use-after-free conditions or null pointer
+    dereferences, potentially causing kernel crashes or enabling privilege escalation.
+  why: >-
+    MediaTek WiFi chipsets are widely used in consumer and enterprise wireless devices. A
+    kernel driver vulnerability can be exploited for local privilege escalation on any Linux
+    system using the affected WiFi hardware. The flaw affects the stability and security of
+    wireless networking on Linux systems with MediaTek WiFi adapters.
+  how: >-
+    The vulnerability is triggered through specific sequences of WiFi operations that expose
+    a race condition in the mt76 driver's state management logic. Concurrent access to driver
+    state during firmware operations causes improper resource handling, leading to memory
+    corruption. An attacker with local access can trigger the condition through crafted
+    WiFi operations.
+  core_concepts:
+    - key: "Driver State Race Condition"
+      value: "Concurrent firmware operations and driver state transitions create race conditions leading to memory corruption"
+    - key: "Kernel WiFi Driver Logic"
+      value: "Improper synchronization in MediaTek WiFi driver state management enables local attacks through crafted wireless operations"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-RACECOND-001"
+    description: "Race condition in kernel WiFi driver state management logic"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2022-49475"
+    - "Linux kernel git log"
+    - "NIST NVD - CVE-2022-49475"
+  search_keywords:
+    - "CVE-2022-49475"
+    - "Linux kernel mt76"
+    - "MediaTek WiFi driver"
+    - "kernel race condition"
+    - "mt76 vulnerability"
+    - "Linux WiFi driver bug"
+  embedding_text: >-
+    CVE-2022-49475 is a logic flaw in the Linux kernel mt76 WiFi driver for MediaTek chipsets.
+    Race conditions between firmware operations and driver state transitions cause memory
+    corruption through use-after-free or null pointer dereferences. Can cause kernel crashes
+    or enable local privilege escalation. Affects Linux systems with MediaTek WiFi hardware.
+    Improper synchronization in driver state management. Kernel driver logic flaw. Year 2022.

@@ -1,0 +1,121 @@
+# GR Atom: AD Certificate Template
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-IDENTITY-ADCERTEM-001"
+  name: "AD Certificate Template"
+  normalized_name: "ad_certificate_template"
+  aliases:
+    - "Active Directory Certificate Template"
+    - "AD CS Certificate Template"
+    - "PKI Certificate Template"
+    - "Enterprise Certificate Template"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WINDOWS
+    - CRYPTO
+    - AUTHN
+    - AUTHZ
+    - PRIV
+    - CONFIG
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "P2.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AD Certificate Templates are pre-configured blueprints stored within Active Directory
+    Certificate Services (AD CS) that define the properties, policies, and constraints for
+    X.509 digital certificates issued by an enterprise Certificate Authority. Each template
+    specifies the certificate purpose (authentication, encryption, signing), key usage,
+    validity period, enrollment permissions, and cryptographic settings that govern how
+    certificates are generated and distributed to domain entities.
+  why: >-
+    Misconfigured AD Certificate Templates represent one of the most critical privilege
+    escalation vectors in Active Directory environments. Vulnerabilities such as ESC1 through
+    ESC8 (documented by SpecterOps) allow attackers to abuse overly permissive templates to
+    request certificates for privileged accounts, impersonate domain administrators, or
+    establish persistent domain access. Template misconfigurations including excessive
+    enrollment rights, client authentication EKU combined with ENROLLEE_SUPPLIES_SUBJECT
+    flags, and weak manager approval settings are actively exploited in real-world attacks.
+  how: >-
+    Certificate templates are defined as objects in the Active Directory Configuration
+    partition under CN=Certificate Templates,CN=Public Key Services,CN=Services. Enterprise
+    CAs publish available templates, and authorized users or machines enroll for certificates
+    through the certificate enrollment protocol (CEP/CES) or auto-enrollment via Group Policy.
+    Templates control the Subject Alternative Name (SAN) handling, key usage extensions,
+    Enhanced Key Usage (EKU) purposes, and security descriptor ACLs that determine who can
+    enroll. Tools like Certify and Certipy are used to audit and exploit template weaknesses.
+  core_concepts:
+    - key: "Template Misconfiguration Attacks"
+      value: "ESC1-ESC8 attack vectors exploit permissive enrollment rights, SAN misconfigurations, and weak approval settings to escalate privileges"
+    - key: "Enrollment Permissions"
+      value: "Security descriptors on templates control which principals can request certificates, and overly broad permissions enable unauthorized enrollment"
+    - key: "Certificate-Based Authentication"
+      value: "Certificates issued from templates can be used for Kerberos PKINIT authentication, enabling domain authentication as any templated principal"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-IDENTITY-CERTAUTH-001"
+    description: "Certificate templates are managed by and issued through the enterprise Certificate Authority"
+  - type: "enables"
+    target: "INFRA-IDENTITY-AUTHENTICA-001"
+    description: "Certificates issued from templates enable certificate-based authentication services"
+  - type: "requires"
+    target: "INFRA-IDENTITY-DIRECTORY-001"
+    description: "Templates are stored in Active Directory and require directory services for management and enrollment"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1649"
+    tactic:
+      - "Credential Access"
+      - "Privilege Escalation"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft Documentation - Active Directory Certificate Services Overview"
+    - "SpecterOps - Certified Pre-Owned: Abusing Active Directory Certificate Services"
+    - "MITRE ATT&CK T1649 - Steal or Forge Authentication Certificates"
+  search_keywords:
+    - "AD Certificate Template"
+    - "AD CS template misconfiguration"
+    - "ESC1 ESC2 certificate attack"
+    - "Active Directory Certificate Services"
+    - "ENROLLEE_SUPPLIES_SUBJECT"
+    - "certificate enrollment permissions"
+    - "Certify Certipy"
+    - "PKINIT certificate authentication"
+  embedding_text: >-
+    AD Certificate Templates are Active Directory Certificate Services objects that define
+    the policies, permissions, and cryptographic properties for X.509 certificates issued
+    by enterprise Certificate Authorities. Templates specify enrollment permissions, key
+    usage, EKU purposes, and Subject Alternative Name handling. Misconfigured templates
+    are a critical privilege escalation vector documented as ESC1 through ESC8 by
+    SpecterOps. Attackers exploit overly permissive enrollment rights, SAN configurations
+    allowing enrollee-supplied subjects, and weak approval workflows to request certificates
+    for privileged accounts. These certificates enable Kerberos PKINIT authentication as
+    domain administrators. Security teams must audit template permissions, restrict enrollment
+    rights, require manager approval for sensitive templates, and disable unnecessary
+    ENROLLEE_SUPPLIES_SUBJECT flags to prevent certificate-based privilege escalation.

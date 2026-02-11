@@ -1,0 +1,114 @@
+# GR Atom: RealNetworks
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-REALNETWOR-001"
+  name: "RealNetworks"
+  normalized_name: "realnetworks"
+  aliases:
+    - "RealPlayer"
+    - "RealMedia"
+    - "RealOne Player"
+    - "Helix Server"
+    - "RealNetworks Media Software"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - EXEC
+    - OVERFLOW
+    - WINDOWS
+    - HTTP
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z0A"
+  function: "A1.5"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    RealNetworks products include RealPlayer (a cross-platform media player) and Helix Server
+    (a streaming media server platform). RealPlayer supports various media formats including
+    RealMedia (.rm, .rmvb), MP3, and streaming protocols like RTSP. Helix Server provides
+    enterprise-grade media streaming infrastructure. The software suite has historically been
+    widely deployed for streaming audio and video content across corporate and consumer
+    environments, though its market presence has declined significantly.
+  why: >-
+    RealNetworks products have a long history of critical security vulnerabilities including
+    buffer overflows, heap corruption, and remote code execution flaws in media file parsing.
+    Malicious media files (.rm, .rmvb, .smil) have been weaponized to exploit RealPlayer
+    vulnerabilities for drive-by downloads and targeted attacks. The ActiveX controls used by
+    RealPlayer in Internet Explorer introduced additional browser-based attack vectors. Legacy
+    installations of RealPlayer and Helix Server that remain unpatched represent persistent
+    vulnerabilities in many environments.
+  how: >-
+    RealPlayer operates as a client-side media player that parses and renders media files
+    in various formats, using codec libraries for decoding. Helix Server handles streaming
+    distribution via RTSP, HTTP, and proprietary protocols. RealPlayer integrates with web
+    browsers through plugins and ActiveX controls to enable in-page media playback. The
+    software registers as a handler for multiple media file types and streaming URL protocols,
+    creating attack surface through file association and protocol handler exploitation.
+  core_concepts:
+    - key: "Media Parser Vulnerabilities"
+      value: "History of buffer overflows and heap corruption in RealPlayer media file parsers exploitable through malicious .rm, .rmvb, and .smil files"
+    - key: "Browser Integration Attack Surface"
+      value: "ActiveX controls and browser plugins extend RealPlayer attack surface into web browsing contexts for drive-by exploitation"
+    - key: "Legacy Streaming Infrastructure"
+      value: "Helix Server deployments may persist in enterprise environments with known vulnerabilities if not properly decommissioned"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-WEBSERAPP-001"
+    description: "Helix Server component functions as a web-based media streaming application server"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "low"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RealNetworks Security Advisories Archive"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "NIST NVD - RealPlayer CVE Entries"
+  search_keywords:
+    - "RealNetworks"
+    - "RealPlayer"
+    - "Helix Server"
+    - "RealMedia vulnerability"
+    - "RealPlayer buffer overflow"
+    - "RTSP streaming server"
+    - "RealPlayer ActiveX exploit"
+    - "rmvb malicious file"
+  embedding_text: >-
+    RealNetworks products include RealPlayer media player and Helix streaming media server.
+    RealPlayer supports RealMedia formats and streaming protocols like RTSP, while Helix
+    Server provides enterprise streaming infrastructure. The software has an extensive history
+    of critical vulnerabilities including buffer overflows and heap corruption in media file
+    parsers, exploitable through malicious .rm, .rmvb, and .smil files. Browser integration
+    via ActiveX controls created additional drive-by download attack vectors. Legacy
+    installations remain security concerns in enterprise environments. Attack scenarios
+    include weaponized media files for code execution, browser plugin exploitation, and
+    targeting unpatched Helix Server instances. Security teams should identify and
+    decommission legacy RealNetworks installations and block associated file types at
+    network boundaries.

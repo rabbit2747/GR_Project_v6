@@ -1,0 +1,86 @@
+# GR Atom: Vice Leaker
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-VICELEAK-001"
+  name: "Vice Leaker"
+  normalized_name: "vice_leaker"
+  aliases:
+    - "ViceLeaker"
+    - "APT-C-37"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - MOBILE
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Vice Leaker is a threat actor group identified by Kaspersky Lab in 2018, conducting targeted mobile surveillance campaigns against individuals in the Middle East, particularly in Israel and Palestine. The group develops and deploys trojanized Android applications designed to conduct comprehensive surveillance of targeted individuals' mobile devices. Vice Leaker has been linked to broader Middle Eastern cyber-espionage operations with possible Iranian connections."
+  why: "Vice Leaker demonstrates the growing threat of mobile-focused espionage operations in the Middle East, where mobile devices are primary communication tools. The group's ability to create convincing trojanized versions of legitimate messaging applications highlights the risk of mobile supply chain attacks and the challenge of defending mobile devices against sophisticated surveillance operations."
+  how: "Vice Leaker creates trojanized versions of popular messaging applications such as Telegram, WhatsApp, and other legitimate apps, injecting surveillance capabilities into functional application code using Baksmali/Smali injection techniques. These modified applications retain full legitimate functionality while secretly recording calls, capturing SMS messages, harvesting contacts, tracking location, and exfiltrating files. Distribution occurs through targeted spear-phishing messages and potentially through third-party app stores. The group has also used custom Android backdoors with comprehensive surveillance capabilities."
+  core_concepts:
+    - key: "Trojanized Mobile Applications"
+      value: "Injection of surveillance code into legitimate messaging applications using Smali injection while preserving original functionality"
+    - key: "Mobile-First Espionage"
+      value: "Operations primarily focused on mobile device compromise for comprehensive surveillance including call recording, SMS interception, and location tracking"
+    - key: "Middle East Targeting"
+      value: "Focused surveillance operations against individuals in Israel and Palestine, likely for intelligence collection related to regional security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "Mobile-focused threat group conducting surveillance operations in the Middle East"
+  - type: enables
+    target: "ATK-MOBILE-TROJAN-001"
+    description: "Creates trojanized versions of legitimate messaging applications for mobile surveillance"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1444"
+    tactic:
+      - "initial-access"
+      - "collection"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Kaspersky Lab - ViceLeaker mobile surveillance campaign (2018)"
+    - "Kaspersky Lab - ViceLeaker technical analysis"
+  search_keywords:
+    - "vice leaker"
+    - "viceleaker"
+    - "apt-c-37"
+    - "mobile surveillance"
+    - "trojanized android apps"
+    - "smali injection"
+    - "middle east espionage"
+    - "telegram trojan"
+    - "android spyware"
+    - "mobile espionage"
+    - "israel targeting"
+  embedding_text: "Vice Leaker is a threat actor identified by Kaspersky Lab in 2018 conducting targeted mobile surveillance campaigns in the Middle East, particularly against individuals in Israel and Palestine. The group creates trojanized versions of legitimate messaging applications including Telegram and WhatsApp using Baksmali/Smali injection techniques, preserving original functionality while adding surveillance capabilities for call recording, SMS interception, contact harvesting, and location tracking. Vice Leaker distributes these modified applications through targeted spear-phishing and deploys custom Android backdoors for comprehensive mobile surveillance, demonstrating the growing threat of mobile-focused espionage operations in the Middle East."

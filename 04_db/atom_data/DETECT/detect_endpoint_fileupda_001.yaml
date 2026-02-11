@@ -1,0 +1,72 @@
+# GR Atom: File Update Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-FILEUPDA-001"
+  name: "File Update Event"
+  normalized_name: "file_update_event"
+  aliases:
+    - "File Modification Event"
+    - "File Write Detection"
+    - "File Content Change Monitoring"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - AUDIT
+    - OS
+
+scope:
+  target_layers: ["L2", "L6"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: "File Update Event is an endpoint detection pattern that captures instances when the content of an existing file is modified, including writes that alter data, truncation operations, and in-place content replacement. The event records the target file path, the process performing the modification, the user context, the offset and size of the write operation, and pre/post modification timestamps. This pattern specifically focuses on modifications to existing files as distinct from file creation, deletion, or rename operations, providing granular visibility into content changes across the file system."
+  why: "Monitoring file update events is critical for detecting a wide range of adversary activities including malware payload drops that overwrite legitimate files, configuration tampering to weaken security controls, webshell deployment through modification of web server files, ransomware encryption that writes encrypted content back to original files, and living-off-the-land techniques that modify script files or scheduled task definitions. File modification monitoring also supports integrity monitoring for compliance and change management."
+  how: "Endpoint agents capture file update events through kernel-level file system filter drivers intercepting write operations, operating system audit mechanisms such as Windows Security Event IDs for object access, Linux inotify IN_MODIFY events or auditd rules on write syscalls, and macOS FSEvents or Endpoint Security Framework notifications. Detection logic identifies suspicious modifications by comparing against file integrity baselines, monitoring writes to protected system directories, flagging modification of executable files by non-installer processes, and correlating write operations with process reputation and behavioral analysis."
+  core_concepts:
+    - key: "File Integrity Monitoring"
+      value: "Continuous comparison of file content and attributes against known-good baselines to detect unauthorized modifications"
+    - key: "Write Operation Telemetry"
+      value: "Detailed capture of file write parameters including offset, size, and process context for forensic analysis of modifications"
+    - key: "Protected File Modification"
+      value: "Detection of write operations targeting system files, security configurations, and other protected resources that should only change through authorized processes"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File update events are a core component of the broader file event detection category"
+  - type: effective_against
+    target: "ATK-PERSIST-WEBSHELL-001"
+    description: "Detects webshell deployment through monitoring of web server file modifications"
+  - type: enables
+    target: "DETECT-ENDPOINT-FILSYSMET-001"
+    description: "File update events trigger metadata changes that file system metadata monitoring can capture"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1565.001 - Data Manipulation: Stored Data Manipulation"
+    - "Microsoft - Windows File System Auditing - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/audit-file-system"
+    - "CIS Benchmarks - File Integrity Monitoring Requirements"
+  search_keywords:
+    - "file update event"
+    - "file modification detection"
+    - "file write monitoring"
+    - "file integrity monitoring"
+    - "content change detection"
+    - "file tampering detection"
+    - "file system audit"
+    - "write operation telemetry"
+  embedding_text: "File Update Event detection captures modifications to existing file content on endpoints, recording target file path, process context, user identity, write parameters, and timestamps. Endpoint agents use kernel-level file system filter drivers, OS audit mechanisms including Windows object access events, Linux inotify and auditd, and macOS FSEvents to monitor write operations. Detection logic compares against file integrity baselines, monitors writes to protected directories, flags executable modification by non-installer processes, and correlates writes with process reputation. This enables detection of malware payload drops, configuration tampering, webshell deployment, and ransomware encryption activity."

@@ -1,0 +1,77 @@
+# GR Atom: Extension Mismatch
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-EXTEMISM-001"
+  name: "Extension Mismatch"
+  normalized_name: "extension_mismatch"
+  aliases:
+    - "File Extension Mismatch Detection"
+    - "MIME Type Mismatch"
+    - "File Type Masquerading Detection"
+    - "Double Extension Detection"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EVADE
+    - EDR
+    - MONITOR
+    - EXEC
+
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+definition:
+  what: "Extension Mismatch detection identifies files where the file extension does not match the actual file type as determined by magic bytes, file headers, or MIME type analysis. Attackers frequently rename malicious executables with benign file extensions such as .txt, .jpg, or .pdf to bypass security controls and deceive users. This detection compares the declared file extension against the true file type determined by examining the file header magic bytes, internal structure, and content characteristics. Common mismatches flagged include executables with document extensions, scripts with image extensions, and archives with non-archive extensions."
+  why: "File extension masquerading is a fundamental evasion technique used across the entire threat landscape from commodity malware to advanced persistent threats. Users and many security tools rely on file extensions to determine file types and handling, making extension manipulation an effective method to bypass email attachment filters, web upload restrictions, endpoint protection rules, and user suspicion. The technique is particularly dangerous when combined with right-to-left override characters or double extensions that exploit how operating systems display filenames, causing users to believe they are opening safe document types when actually executing malicious code."
+  how: "Detection systems read the first bytes of each file to identify magic bytes that indicate the true file type. For example, PE executables begin with MZ (0x4D5A), PDF files begin with %PDF, ZIP archives begin with PK (0x504B), and JPEG images begin with 0xFFD8FF. The detected true type is compared against the file extension. A mismatch triggers an alert with severity based on the risk level of the true file type. Additional checks include detection of double extensions like .pdf.exe, right-to-left override Unicode characters in filenames, and MIME type headers that conflict with file content in email attachments and web uploads. EDR solutions perform this analysis at file creation, download, and execution events. Web application firewalls and email gateways perform it on inbound files."
+  core_concepts:
+    - key: "Magic Bytes"
+      value: "Fixed byte sequences at the beginning of files that identify the true file format regardless of the file extension"
+    - key: "Double Extension"
+      value: "A technique using multiple extensions like document.pdf.exe to disguise executable files as safe document types"
+    - key: "Right-to-Left Override"
+      value: "A Unicode control character (U+202E) that reverses text display direction, used to disguise file extensions in filenames"
+
+relations:
+  - type: part_of
+    target: "DETECT-BEHAVIOR-FILRISSCO-001"
+    description: "Extension mismatch is a component factor in file risk scoring"
+  - type: effective_against
+    target: "ATK-EVADE-MASQ-001"
+    description: "Directly detects file masquerading evasion techniques"
+  - type: enables
+    target: "DETECT-BEHAVIOR-FILNAMANO-001"
+    description: "Extension mismatch analysis contributes to broader file name anomaly detection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036.007"
+    tactic: ["Defense Evasion"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1036.007 - Masquerading: Double File Extension - https://attack.mitre.org/techniques/T1036/007/"
+    - "SANS - File Type Analysis for Malware Detection - https://www.sans.org/white-papers/"
+    - "Gary Kessler - File Signatures Table - https://www.garykessler.net/library/file_sigs.html"
+  search_keywords:
+    - "file extension mismatch"
+    - "MIME type mismatch"
+    - "magic bytes analysis"
+    - "file masquerading detection"
+    - "double extension attack"
+    - "file type verification"
+    - "extension spoofing"
+    - "file header analysis"
+  embedding_text: "Extension Mismatch detection identifies files where the file extension does not match the actual file type determined by magic bytes and file header analysis. Attackers rename malicious executables with benign extensions like .txt, .jpg, or .pdf to bypass security controls and deceive users. Detection reads initial file bytes to identify magic bytes indicating the true type, comparing against the declared extension. Additional checks detect double extensions like .pdf.exe and right-to-left override Unicode characters. This pattern is critical for defending against file masquerading across email attachments, web uploads, and endpoint file operations, catching both commodity malware and advanced threats using extension manipulation."

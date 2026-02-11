@@ -1,0 +1,109 @@
+# GR Atom: CVE-2024-1708
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20241708-001"
+  name: "CVE-2024-1708"
+  normalized_name: "cve_2024_1708"
+  aliases:
+    - "ConnectWise ScreenConnect Path Traversal"
+    - "ScreenConnect Directory Traversal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - PATH
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "ConnectWise ScreenConnect (versions prior to 23.9.8)"
+    - "ScreenConnect Server web application"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2024-1708 is a path traversal vulnerability in ConnectWise ScreenConnect server versions
+    prior to 23.9.8 that allows an authenticated attacker to execute remote code by uploading
+    files to unintended directories on the server. The vulnerability exists in the file upload
+    functionality and enables arbitrary file writes outside the intended upload directory. When
+    combined with CVE-2024-1709 (authentication bypass), it allows unauthenticated remote code
+    execution. CVSS v3.1 score is 8.4.
+  why: >-
+    ConnectWise ScreenConnect is a widely deployed remote management and monitoring (RMM) tool
+    used by managed service providers (MSPs) and IT departments worldwide, managing millions of
+    endpoints. The combination of this path traversal with the authentication bypass
+    (CVE-2024-1709) created a devastating pre-authentication RCE chain that was rapidly exploited
+    by ransomware operators including LockBit affiliates. Compromise of an RMM tool grants
+    attackers privileged access to all managed endpoints, enabling supply-chain-style attacks
+    against MSP customer networks.
+  how: >-
+    An attacker exploits the path traversal by manipulating file upload paths to write arbitrary
+    files outside the intended directory. Combined with CVE-2024-1709 for initial access without
+    credentials, the attacker uploads malicious extensions or executables to achieve code execution
+    on the ScreenConnect server. From the compromised server, the attacker can deploy malware or
+    ransomware to all managed endpoints. Mitigation includes upgrading to ScreenConnect version
+    23.9.8 or later, monitoring for unauthorized administrative accounts, and auditing ScreenConnect
+    extensions and file system changes.
+  core_concepts:
+    - key: "RMM Tool Path Traversal"
+      value: "File upload path manipulation in remote management software enabling arbitrary file write and code execution on the server"
+    - key: "Supply Chain Risk via RMM"
+      value: "Compromising a remote management tool provides cascading access to all managed client endpoints and networks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2024-1708 exploits improper access control in file upload functionality"
+  - type: "requires"
+    target: "VUL-AUTH-CVE20241709-001"
+    description: "In the full exploit chain, CVE-2024-1709 authentication bypass is required first to enable unauthenticated exploitation of this path traversal"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2024-1708"
+    - "NIST NVD CVE-2024-1708 (CVSS v3.1: 8.4)"
+    - "ConnectWise Security Advisory February 2024"
+    - "CISA KEV Catalog - CVE-2024-1708"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "CVE-2024-1708"
+    - "ConnectWise ScreenConnect path traversal"
+    - "ScreenConnect vulnerability"
+    - "ScreenConnect RCE"
+    - "RMM tool vulnerability"
+    - "ConnectWise exploit 2024"
+  embedding_text: >-
+    CVE-2024-1708 is a path traversal vulnerability in ConnectWise ScreenConnect server versions
+    prior to 23.9.8 with CVSS v3.1 score 8.4. An attacker manipulates file upload paths to write
+    arbitrary files outside the intended directory, enabling remote code execution. When combined
+    with CVE-2024-1709 authentication bypass, it creates a pre-authentication RCE chain. Rapidly
+    exploited by ransomware operators including LockBit affiliates, compromising managed service
+    providers and their client networks. ScreenConnect is a widely deployed RMM tool, making
+    compromise especially impactful as a supply chain attack vector. Mitigation requires upgrading
+    to version 23.9.8 or later and auditing for unauthorized accounts and file system changes.

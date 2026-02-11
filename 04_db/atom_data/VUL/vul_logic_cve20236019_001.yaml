@@ -1,0 +1,98 @@
+# GR Atom: CVE-2023-6019
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE20236019-001"
+  name: "CVE-2023-6019"
+  normalized_name: "cve_2023_6019"
+  aliases:
+    - "Ray AI Framework Command Injection"
+    - "Anyscale Ray RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - AI
+    - API
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Anyscale Ray"
+    - "Ray AI/ML framework"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-6019 is a critical command injection vulnerability in Anyscale Ray, an open-source
+    AI/ML framework used for distributed computing. The vulnerability exists in the Ray
+    dashboard's job submission API where user-supplied input is passed to system commands
+    without proper sanitization, enabling remote code execution. The Ray dashboard API is
+    exposed without authentication by default. CVSS v3 base score: 9.8 (Critical).
+  why: >-
+    Ray is widely adopted for AI/ML workloads at major technology companies and research
+    institutions. The framework runs on GPU clusters processing sensitive training data and
+    models. Unauthenticated RCE on Ray clusters enables theft of AI models, training data,
+    and computational resources. The lack of default authentication on the dashboard API
+    makes internet-exposed instances immediately exploitable.
+  how: >-
+    An attacker sends a crafted job submission request to the Ray dashboard API containing
+    shell metacharacters in the job parameters. The API processing logic passes these
+    parameters to system commands without sanitization. Since the Ray dashboard lacks
+    authentication by default, the attack requires no credentials and can be executed
+    against any network-accessible Ray instance.
+  core_concepts:
+    - key: "AI Framework Input Validation Failure"
+      value: "Job submission API passes unsanitized user input to system commands, enabling command injection on AI/ML compute clusters"
+    - key: "Default No-Auth Exposure"
+      value: "Ray dashboard API lacks authentication by default, making any network-accessible instance immediately exploitable"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Input validation logic failure in AI framework API enabling command injection"
+  - type: "precedes"
+    target: "VUL-LOGIC-CVE20236020-001"
+    description: "Part of a series of Ray framework vulnerabilities discovered in the same research"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2023-6019"
+    - "NIST NVD - CVE-2023-6019"
+    - "Protect AI - Ray Vulnerability Research"
+  search_keywords:
+    - "CVE-2023-6019"
+    - "Anyscale Ray vulnerability"
+    - "Ray AI framework"
+    - "AI command injection"
+    - "ML framework RCE"
+    - "Ray dashboard exploit"
+  embedding_text: >-
+    CVE-2023-6019 is a command injection vulnerability in Anyscale Ray AI/ML framework. Job
+    submission API passes unsanitized input to system commands. Dashboard API lacks authentication
+    by default. CVSS v3 9.8 Critical. Enables theft of AI models, training data, and GPU
+    compute resources. Widely adopted at major tech companies. Input validation logic failure
+    in AI framework. Part of a series of Ray vulnerabilities. Year 2023.

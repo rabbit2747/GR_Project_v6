@@ -1,0 +1,67 @@
+# GR Atom: JumpSec Labs
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-JUMPLABS-001"
+  name: "JumpSec Labs"
+  normalized_name: "jumpsec_labs"
+  aliases:
+    - "JumpSec"
+    - "JUMPSEC Ltd"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "JumpSec is a UK-based cybersecurity consultancy specializing in penetration testing, red teaming, and security advisory services. JumpSec Labs is the company's research division that publishes vulnerability research, security advisories, and open-source tools. The company has gained recognition for discovering and disclosing significant vulnerabilities in enterprise products including Microsoft Teams external tenant bypass and various web application security issues."
+  why: "JumpSec Labs is relevant to cybersecurity as a source of vulnerability research and responsible disclosure that directly impacts defensive security postures. Their discovery of the Microsoft Teams external access vulnerability demonstrated how common collaboration tools can be exploited to deliver malware, prompting organizations to reassess their messaging security configurations and external tenant access policies."
+  how: "JumpSec conducts penetration testing and red team engagements across enterprise environments, discovering vulnerabilities through manual testing and creative attack path analysis. JumpSec Labs publishes research through their blog, releases proof-of-concept tools on GitHub, and follows responsible disclosure processes with affected vendors. The company provides advisory services helping organizations understand and remediate identified security weaknesses."
+  core_concepts:
+    - key: "Vulnerability research"
+      value: "Discovery and responsible disclosure of security vulnerabilities in enterprise products"
+    - key: "Red team consultancy"
+      value: "Offensive security services including penetration testing and adversary simulation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-VULNRPT-001"
+    description: "JumpSec Labs produces vulnerability research and security advisories"
+  - type: enables
+    target: "TECHNIQUE-PENTEST-001"
+    description: "JumpSec enables penetration testing through offensive security services and tool development"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "JumpSec Labs Official Blog"
+    - "GitHub - JumpSec Repositories"
+    - "BleepingComputer - JumpSec Microsoft Teams Vulnerability Disclosure"
+  search_keywords:
+    - "jumpsec"
+    - "jumpsec labs"
+    - "jumpsec penetration testing"
+    - "jumpsec vulnerability research"
+    - "jumpsec red team"
+    - "jumpsec microsoft teams"
+  embedding_text: "JumpSec is a UK-based cybersecurity consultancy specializing in penetration testing, red teaming, and security advisory services, with JumpSec Labs serving as its dedicated research division. The company has gained recognition for discovering and responsibly disclosing significant vulnerabilities in enterprise products, most notably a Microsoft Teams external tenant access bypass that allowed malware delivery through external messaging. JumpSec Labs publishes vulnerability research, security advisories, and open-source offensive security tools through their blog and GitHub repositories. The company conducts penetration testing and red team engagements across enterprise environments, providing organizations with realistic assessments of their security posture. Their research contributions help the broader security community understand emerging attack vectors in enterprise collaboration tools and web applications."

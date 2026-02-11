@@ -1,0 +1,104 @@
+# GR Atom: CVE-2025-53770
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202553770-001"
+  name: "CVE-2025-53770"
+  normalized_name: "cve_2025_53770"
+  aliases:
+    - "Kubernetes API Server Authorization Bypass"
+    - "K8s RBAC Escalation Vulnerability"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - AUTHZ
+    - K8S
+    - PRIV
+    - CLOUD
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Kubernetes API Server"
+    - "Kubernetes RBAC"
+
+definition:
+  what: >-
+    CVE-2025-53770 is a privilege escalation vulnerability in the Kubernetes API Server's authorization
+    subsystem. The vulnerability allows authenticated users with limited RBAC permissions to escalate
+    their privileges by exploiting a flaw in how the API server evaluates role bindings during
+    authorization decisions. Specifically, crafted API requests can bypass namespace-scoped role
+    restrictions and gain cluster-level administrative access. CVSS v3: 8.8 (High).
+  why: >-
+    Kubernetes is the dominant container orchestration platform powering modern cloud-native
+    infrastructure. The API Server is the central control plane component through which all cluster
+    operations are authorized. A privilege escalation vulnerability in the authorization subsystem
+    undermines the entire RBAC security model, potentially allowing any authenticated user (including
+    service accounts from compromised pods) to gain full cluster-admin privileges. This enables
+    access to all secrets, workloads, and resources across the entire cluster.
+  how: >-
+    An authenticated user sends specially crafted API requests that exploit a logic flaw in how the
+    API server resolves role bindings across namespaces. The attack involves creating specific
+    resource requests that cause the authorization evaluator to incorrectly apply cluster-scoped
+    permissions instead of namespace-scoped ones. Once cluster-admin access is obtained, the attacker
+    can read all secrets, deploy privileged containers, modify workloads, and access the underlying
+    node infrastructure. Kubernetes released patched versions and recommended upgrading immediately.
+    Temporary mitigation includes enabling audit logging for authorization decisions and monitoring
+    for unusual RBAC escalation patterns.
+  core_concepts:
+    - key: "RBAC Authorization Bypass"
+      value: "Logic flaw in Kubernetes API server authorization allowing namespace-scoped users to gain cluster-level administrative access"
+    - key: "Container Orchestration Control Plane Compromise"
+      value: "Compromising the central Kubernetes control plane component to gain unrestricted access to all cluster resources and workloads"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-53770 is a vulnerability in a critical Kubernetes control plane component"
+  - type: enables
+    target: "ATK-PRIV-CONTAINER-001"
+    description: "RBAC bypass enables privilege escalation from limited pod access to full cluster-admin"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1078.004"
+    tactic: ["Privilege Escalation", "Defense Evasion"]
+  cve_mapping:
+    cve_id: "CVE-2025-53770"
+    cvss_score: 8.8
+    cwe_id: "CWE-863"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-53770 - NVD NIST"
+    - "Kubernetes Security Advisory"
+    - "CWE-863 - Incorrect Authorization"
+    - "MITRE ATT&CK T1078.004 - Cloud Accounts"
+  search_keywords:
+    - "CVE-2025-53770"
+    - "Kubernetes API server vulnerability"
+    - "K8s RBAC bypass"
+    - "Kubernetes privilege escalation"
+    - "Kubernetes authorization bypass"
+    - "K8s cluster admin escalation"
+    - "Kubernetes control plane vulnerability"
+  embedding_text: >-
+    CVE-2025-53770 is a privilege escalation vulnerability in the Kubernetes API Server's authorization
+    subsystem that allows authenticated users with limited RBAC permissions to escalate to cluster-admin
+    access. CVSS v3 score is 8.8 High. The vulnerability exploits a logic flaw in how the API server
+    evaluates role bindings, allowing namespace-scoped users to gain cluster-level privileges. Kubernetes
+    is the dominant container orchestration platform. API Server compromise undermines the entire RBAC
+    security model and enables access to all secrets, workloads, and cluster resources. Mitigation
+    includes upgrading Kubernetes, audit logging for authorization decisions, and monitoring RBAC
+    escalation patterns. Maps to MITRE ATT&CK T1078.004 Valid Accounts: Cloud Accounts.

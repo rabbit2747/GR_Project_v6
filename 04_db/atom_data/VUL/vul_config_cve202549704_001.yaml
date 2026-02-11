@@ -1,0 +1,104 @@
+# GR Atom: CVE-2025-49704
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-CONFIG-CVE202549704-001"
+  name: "CVE-2025-49704"
+  normalized_name: "cve_2025_49704"
+  aliases:
+    - "Fortinet FortiOS Configuration Exposure"
+    - "FortiGate Management Interface Vulnerability 2025"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - CONFIG
+    - AUTHN
+    - NETWORK
+    - INITIAL
+
+scope:
+  target_layers: ["L4", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Fortinet FortiOS"
+    - "FortiGate Firewalls"
+    - "FortiProxy"
+
+definition:
+  what: >-
+    CVE-2025-49704 is a critical authentication bypass vulnerability in Fortinet FortiOS and
+    FortiProxy products. The vulnerability allows unauthenticated remote attackers to bypass
+    authentication on the administrative management interface through crafted HTTP or HTTPS requests.
+    Successful exploitation grants access to device configuration, including the ability to modify
+    firewall rules, VPN settings, and administrative credentials. CVSS v3: 9.6 (Critical).
+    Disclosed in early 2025 and confirmed to have been exploited in the wild.
+  why: >-
+    Fortinet FortiGate firewalls are among the most widely deployed network security appliances
+    globally, protecting perimeter networks for enterprises, government agencies, and critical
+    infrastructure. Administrative access to a FortiGate allows attackers to disable security
+    controls, modify routing, exfiltrate VPN credentials, and create persistent backdoor access.
+    This vulnerability follows a pattern of critical Fortinet authentication bypass CVEs that have
+    been actively exploited by nation-state actors and ransomware groups. The management interface
+    exposure on internet-facing appliances makes this particularly dangerous.
+  how: >-
+    The attacker sends specially crafted HTTP or HTTPS requests to the FortiOS management interface
+    that bypass the authentication mechanism. The crafted requests exploit a flaw in how FortiOS
+    validates session tokens for administrative API endpoints. Once authentication is bypassed, the
+    attacker can access all administrative functions including configuration backup and modification,
+    user creation, firewall policy changes, and VPN configuration extraction. Fortinet released
+    emergency patches and recommended disabling HTTP/HTTPS administrative access from the internet,
+    using trusted host restrictions, and monitoring for unauthorized configuration changes.
+  core_concepts:
+    - key: "Perimeter Firewall Auth Bypass"
+      value: "Unauthenticated administrative access to network perimeter firewalls enabling complete security control takeover"
+    - key: "Recurring Fortinet Vulnerability Pattern"
+      value: "Continues a pattern of critical authentication bypass vulnerabilities in Fortinet products actively exploited by advanced threat actors"
+
+relations:
+  - type: is_a
+    target: "VUL-CONFIG-VULNCOMP-001"
+    description: "CVE-2025-49704 is a vulnerability in a widely deployed network security component"
+  - type: enables
+    target: "ATK-INITIAL-EXPLOIT-001"
+    description: "Authentication bypass enables initial access to protected networks through compromised firewall"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+  cve_mapping:
+    cve_id: "CVE-2025-49704"
+    cvss_score: 9.6
+    cwe_id: "CWE-287"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "CVE-2025-49704 - NVD NIST"
+    - "Fortinet PSIRT Advisory"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+  search_keywords:
+    - "CVE-2025-49704"
+    - "FortiOS authentication bypass"
+    - "Fortinet critical vulnerability 2025"
+    - "FortiGate management exploit"
+    - "FortiProxy auth bypass"
+    - "Fortinet firewall compromise"
+    - "FortiOS unauthenticated access"
+  embedding_text: >-
+    CVE-2025-49704 is a critical authentication bypass vulnerability in Fortinet FortiOS and FortiProxy
+    products allowing unauthenticated remote attackers to access the administrative management interface.
+    CVSS v3 score is 9.6 Critical. Successful exploitation grants access to device configuration
+    including firewall rules, VPN settings, and administrative credentials. Fortinet FortiGate firewalls
+    are among the most widely deployed network security appliances globally. Continues a pattern of
+    critical Fortinet authentication bypass vulnerabilities exploited by nation-state actors and
+    ransomware groups. Mitigation includes disabling internet-facing management access and applying
+    emergency patches. Maps to MITRE ATT&CK T1190 Exploit Public-Facing Application.

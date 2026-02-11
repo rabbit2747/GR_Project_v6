@@ -1,0 +1,77 @@
+# GR Atom: Amazon Technologies
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-AMAZTECH-001"
+  name: "Amazon Technologies"
+  normalized_name: "amazon_technologies"
+  aliases:
+    - "Amazon Web Services"
+    - "AWS"
+    - "AWS Security"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - CLOUD
+    - AWS
+    - MONITOR
+    - FIREWALL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0B", "Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Amazon Technologies, primarily through Amazon Web Services (AWS), is the world's largest cloud computing platform provider, offering over 200 services spanning compute, storage, networking, databases, AI/ML, and security. AWS provides foundational cloud infrastructure used by millions of organizations and includes a comprehensive suite of security services such as GuardDuty (threat detection), Security Hub (security posture management), WAF, Shield (DDoS protection), IAM, KMS, and CloudTrail (audit logging)."
+  why: "Amazon Technologies through AWS is a critical actor in the cybersecurity landscape because it serves as the infrastructure backbone for a significant portion of the internet. AWS security services set industry standards for cloud security, and AWS infrastructure is both a target for threat actors and a platform upon which defensive capabilities are built. Understanding AWS security is essential for any modern security program."
+  how: "AWS delivers security through a shared responsibility model where AWS secures the cloud infrastructure while customers secure their workloads within it. AWS provides native security services including threat detection (GuardDuty), security posture management (Security Hub), identity management (IAM), encryption (KMS), network security (Security Groups, NACLs, WAF), DDoS protection (Shield), and comprehensive audit logging (CloudTrail). AWS also publishes security bulletins and threat research."
+  core_concepts:
+    - key: "Shared Responsibility Model"
+      value: "AWS secures the underlying cloud infrastructure while customers are responsible for securing their configurations and workloads"
+    - key: "Cloud Security Services"
+      value: "Comprehensive native security tooling including GuardDuty, Security Hub, WAF, Shield, IAM, KMS, and CloudTrail"
+    - key: "Cloud Infrastructure Dominance"
+      value: "Largest cloud provider globally, making AWS security posture critical to the broader internet ecosystem"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-CLOUD-SECURITY-001"
+    description: "Produces comprehensive cloud security services including GuardDuty, Security Hub, and Shield"
+  - type: enables
+    target: "INFRA-CLOUD-PLATFORM-001"
+    description: "Provides foundational cloud computing infrastructure used by security vendors and enterprises"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for cloud provider vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://aws.amazon.com/security"
+    - "https://docs.aws.amazon.com/security"
+  search_keywords:
+    - "amazon web services"
+    - "aws security"
+    - "aws guardduty"
+    - "aws security hub"
+    - "cloud security"
+    - "aws waf"
+    - "aws shield"
+    - "aws iam"
+    - "amazon technologies"
+    - "cloudtrail"
+  embedding_text: "Amazon Technologies, primarily through Amazon Web Services (AWS), is the world's largest cloud computing platform provider offering over 200 services across compute, storage, networking, databases, AI/ML, and security. AWS provides comprehensive native security services including GuardDuty for threat detection, Security Hub for security posture management, WAF for web application protection, Shield for DDoS mitigation, IAM for identity and access management, KMS for encryption key management, and CloudTrail for audit logging. AWS operates under a shared responsibility model where the platform secures underlying cloud infrastructure while customers secure their configurations and workloads. As the dominant cloud provider, AWS infrastructure is both a critical target for threat actors and the foundational platform upon which many security vendors and enterprises build their defensive capabilities. AWS security standards and practices significantly influence the broader cybersecurity industry."

@@ -1,0 +1,103 @@
+# GR Atom: AWS VPC
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AWSVPC-001"
+  name: "AWS VPC"
+  normalized_name: "aws_vpc"
+  aliases:
+    - "Amazon Virtual Private Cloud"
+    - "AWS Virtual Private Cloud"
+    - "Amazon VPC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - NETWORK
+    - FIREWALL
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L2"
+  zone: "Z2"
+  function: "N1.2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS Virtual Private Cloud (VPC) is a logically isolated virtual network within the AWS
+    cloud that provides complete control over IP address ranges, subnets, route tables, and
+    network gateways. VPCs serve as the foundational network boundary for AWS resources,
+    enabling organizations to define public and private subnets, configure security groups
+    and network ACLs, establish VPN connections, and implement network segmentation strategies
+    that mirror traditional on-premises network architectures.
+  why: >-
+    VPC is the fundamental network isolation mechanism in AWS, controlling which resources
+    can communicate with each other and the internet. Misconfigured VPCs are a leading cause
+    of cloud security incidents, including overly permissive security groups, public subnet
+    exposure, and inadequate network segmentation. Understanding VPC architecture is essential
+    for implementing defense-in-depth network security in AWS environments.
+  how: >-
+    VPCs are created with a specified CIDR block and divided into subnets across availability
+    zones. Route tables control traffic flow between subnets and gateways. Security groups
+    provide stateful instance-level firewall rules, while network ACLs provide stateless
+    subnet-level filtering. Internet gateways enable public internet access, NAT gateways
+    provide outbound-only connectivity, and VPC endpoints enable private AWS service access
+    without traversing the internet. VPC Flow Logs capture network traffic metadata for
+    monitoring and forensics.
+  core_concepts:
+    - key: "Network Isolation"
+      value: "VPCs provide logically isolated network environments with customer-controlled IP addressing, routing, and security policies"
+    - key: "Security Groups and NACLs"
+      value: "Layered network security with stateful instance-level security groups and stateless subnet-level network access control lists"
+    - key: "VPC Flow Logs"
+      value: "Network traffic metadata capture for security monitoring, troubleshooting, and forensic analysis of accepted and rejected traffic"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "VPC is a core networking service within the AWS cloud platform"
+  - type: "enables"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "VPC provides the network environment required for EC2 instances to operate"
+  - type: "enables"
+    target: "INFRA-COMPUTE-AWSVPCLAT-001"
+    description: "VPC Lattice builds on VPC networking to provide application-layer service connectivity"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS VPC Documentation - docs.aws.amazon.com"
+    - "CIS Amazon Web Services Foundations Benchmark - VPC Controls"
+    - "MITRE ATT&CK Cloud Matrix - Network Service Discovery"
+  search_keywords:
+    - "aws vpc"
+    - "virtual private cloud"
+    - "aws network isolation"
+    - "security groups"
+    - "network ACL"
+    - "vpc flow logs"
+    - "aws subnet"
+  embedding_text: >-
+    AWS Virtual Private Cloud (VPC) is a logically isolated virtual network within the AWS cloud
+    providing complete control over IP addressing, subnets, route tables, and network gateways.
+    VPCs are the foundational network boundary for AWS resources, enabling public and private
+    subnet configuration, security groups for stateful instance-level firewalling, and network
+    ACLs for stateless subnet-level filtering. Key components include internet gateways for
+    public access, NAT gateways for outbound-only connectivity, VPC endpoints for private
+    service access, and VPC Flow Logs for network traffic monitoring and forensics. VPC
+    misconfiguration is a leading cause of cloud security incidents including unauthorized
+    access and data exposure.

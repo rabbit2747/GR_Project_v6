@@ -1,0 +1,153 @@
+# GR Atom: LDAP Lightweight Directory Access Protocol
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-AUTH-LDLIDIAC-001"
+  name: "LDAP Lightweight Directory Access Protocol"
+  normalized_name: "ldap_lightweight_directory_access_protocol"
+  aliases:
+    - "LDAP"
+    - "LDAP Protocol"
+    - "RFC 4511"
+    - "LDAPv3"
+    - "Lightweight Directory Access Protocol"
+    - "Directory Services Protocol"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - LDAP
+    - AUTHN
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    LDAP (Lightweight Directory Access Protocol) is an open, vendor-neutral application-layer
+    protocol defined in RFC 4511 for accessing and maintaining distributed directory information
+    services over an IP network. LDAP provides a hierarchical data model organized as a Directory
+    Information Tree (DIT) with entries identified by Distinguished Names (DNs). It supports
+    operations including bind (authentication), search, compare, add, delete, modify, and
+    extended operations. LDAPv3 is the current version, supporting SASL authentication, TLS
+    encryption via StartTLS, and extensible schema through object classes and attribute types.
+    LDAP is the primary protocol for querying Active Directory, OpenLDAP, and other directory
+    services that store identity, organizational, and resource information.
+  why: >-
+    Centralized directory services are essential for managing identity, authentication, and
+    authorization across enterprise networks. LDAP provides the standardized protocol for
+    querying these directories, enabling applications to authenticate users, retrieve group
+    memberships, resolve organizational hierarchies, and enforce access policies. From a security
+    perspective, LDAP is a critical attack surface. LDAP injection attacks manipulate search
+    filters to bypass authentication or extract unauthorized data. Unauthenticated LDAP binds
+    and cleartext LDAP (port 389) expose credentials and directory content to network sniffing.
+    LDAP enumeration enables attackers to map domain users, groups, organizational units, and
+    service accounts. Pass-the-hash and credential relay attacks frequently target LDAP for
+    Active Directory reconnaissance and privilege escalation. Securing LDAP with TLS encryption,
+    channel binding, and LDAP signing is critical for enterprise network defense.
+  how: >-
+    LDAP operates over TCP port 389 (cleartext) or port 636 (LDAPS over TLS) using a
+    client-server model: (1) Connection - the client establishes a TCP connection to the LDAP
+    server, optionally upgrading to TLS via StartTLS on port 389 or connecting directly to
+    LDAPS on port 636; (2) Bind - the client authenticates using simple bind (DN and password),
+    SASL bind (supporting Kerberos, DIGEST-MD5, EXTERNAL), or anonymous bind; (3) Operations -
+    the client performs search operations using base DN, scope (base, one-level, subtree), and
+    LDAP search filters with Boolean operators; modify operations alter entry attributes; add
+    and delete manage directory entries; (4) Unbind - the client terminates the session. LDAP
+    search filters use a prefix notation syntax (e.g., (&(objectClass=user)(sAMAccountName=admin)))
+    and support wildcards and extensible matching. The directory schema defines allowed object
+    classes and attributes, enforcing data structure consistency. Referrals enable distributed
+    directory topologies where queries are redirected across directory partitions.
+  core_concepts:
+    - key: "Distinguished Name (DN)"
+      value: >-
+        The unique hierarchical identifier for each entry in the LDAP directory tree, composed
+        of Relative Distinguished Names from the entry to the root. Example:
+        CN=John Smith,OU=Users,DC=example,DC=com. DNs are used for binding, searching, and
+        referencing entries across the directory.
+    - key: "LDAP Bind Authentication"
+      value: >-
+        The authentication mechanism where a client establishes identity with the directory
+        server. Simple bind transmits the DN and password (requiring TLS for security). SASL
+        bind supports stronger mechanisms including Kerberos GSSAPI, providing mutual
+        authentication and channel binding.
+    - key: "LDAP Search Filter"
+      value: >-
+        The query syntax used to locate entries matching specified criteria. Filters use prefix
+        notation with operators including equality (=), presence (*), substring matching, and
+        Boolean combinators (&, |, !). Improper input sanitization of filter components enables
+        LDAP injection attacks.
+    - key: "LDAP Injection"
+      value: >-
+        An attack technique where malicious input is inserted into LDAP queries to manipulate
+        search filters, bypass authentication checks, or extract unauthorized directory data.
+        Similar to SQL injection, LDAP injection exploits insufficient input validation in
+        applications that construct LDAP queries from user-supplied data.
+    - key: "Directory Information Tree (DIT)"
+      value: >-
+        The hierarchical tree structure organizing LDAP entries from the root DSE through
+        domain components, organizational units, and leaf entries. The DIT structure defines
+        the namespace and delegation model for the directory.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-AUTH-001"
+    description: "LDAP is an application-layer authentication and directory access protocol"
+  - type: "requires"
+    target: "PROTO-AUTH-KERBEROS-001"
+    description: "LDAP in Active Directory environments requires Kerberos for SASL GSSAPI authentication providing mutual authentication and channel binding"
+  - type: "enables"
+    target: "PROTO-AUTH-LDAPS-001"
+    description: "LDAP is the base protocol that LDAPS extends with TLS encryption for secure directory access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 4511 - Lightweight Directory Access Protocol (LDAP): The Protocol (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4511"
+    - "RFC 4513 - LDAP Authentication Methods and Security Mechanisms (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4513"
+    - "RFC 4510 - LDAP Technical Specification Road Map (June 2006). IETF. https://datatracker.ietf.org/doc/html/rfc4510"
+    - "MITRE ATT&CK T1087.002 - Account Discovery: Domain Account. https://attack.mitre.org/techniques/T1087/002/"
+    - "Microsoft Active Directory LDAP Reference. Microsoft. https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/"
+  search_keywords:
+    - "LDAP"
+    - "Lightweight Directory Access Protocol"
+    - "LDAPv3"
+    - "RFC 4511"
+    - "LDAP injection"
+    - "LDAP bind"
+    - "distinguished name"
+    - "LDAP search filter"
+    - "Active Directory LDAP"
+    - "directory services"
+    - "LDAP enumeration"
+    - "SASL LDAP"
+    - "LDAP port 389"
+  embedding_text: >-
+    LDAP (Lightweight Directory Access Protocol) is an application-layer protocol defined in
+    RFC 4511 for accessing and managing distributed directory information services. LDAP uses a
+    hierarchical Directory Information Tree with entries identified by Distinguished Names. The
+    protocol supports bind authentication (simple, SASL, anonymous), search operations with
+    Boolean filter syntax, and modify operations for directory management. LDAPv3 operates on
+    TCP port 389 for cleartext and port 636 for LDAPS with TLS encryption. LDAP is the primary
+    protocol for querying Active Directory, OpenLDAP, and enterprise directory services for
+    identity management, authentication, and authorization. Key security concerns include LDAP
+    injection attacks that manipulate search filters, credential exposure over unencrypted
+    connections, LDAP enumeration for domain reconnaissance, and insufficient input validation
+    in applications constructing LDAP queries. Securing LDAP requires TLS encryption, SASL
+    authentication with Kerberos GSSAPI, LDAP signing, and channel binding to prevent relay
+    attacks and credential interception.

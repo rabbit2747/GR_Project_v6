@@ -1,0 +1,107 @@
+# GR Atom: CVE-2015-2387
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20152387-001"
+  name: "CVE-2015-2387"
+  normalized_name: "cve_2015_2387"
+  aliases:
+    - "ATMFD.DLL Privilege Escalation"
+    - "Adobe Type Manager Font Driver Vulnerability"
+    - "Hacking Team Kernel Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Adobe Type Manager Font Driver (ATMFD.DLL)"
+    - "Windows Vista through Windows 8.1"
+    - "Windows Server 2003 through 2012 R2"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-2387 is a privilege escalation vulnerability in the Adobe Type Manager Font Driver
+    (ATMFD.DLL) in Windows that allows an attacker to execute arbitrary code in kernel mode.
+    The vulnerability exists due to improper handling of objects in memory by the font driver
+    when processing specially crafted OpenType fonts. It was discovered in the Hacking Team
+    data breach of July 2015 and was being actively exploited as a zero-day. CVSS v2 score
+    is 7.2.
+  why: >-
+    This vulnerability was part of the Hacking Team arsenal, used in their surveillance
+    operations worldwide. The font driver runs in kernel mode, making any vulnerability in it
+    a direct path to SYSTEM-level access. After the Hacking Team breach, the exploit code
+    became publicly available, increasing the risk of widespread exploitation. Font parsing
+    vulnerabilities are particularly dangerous as they can be triggered by rendering documents.
+  how: >-
+    Exploitation involves loading a specially crafted OpenType font that triggers a memory
+    corruption in ATMFD.DLL kernel-mode processing. The corrupted memory state is leveraged
+    to achieve arbitrary kernel-mode code execution. The exploit can be delivered through
+    documents containing embedded fonts. Mitigation requires applying MS15-077, disabling
+    the ATMFD driver in the registry, and implementing exploit mitigation technologies such
+    as EMET or Windows Defender Exploit Guard.
+  core_concepts:
+    - key: "Font Driver Exploitation"
+      value: "Exploiting the kernel-mode font rendering driver through specially crafted fonts to achieve SYSTEM-level code execution"
+    - key: "Hacking Team Zero-Day"
+      value: "Originally developed and used by Hacking Team for surveillance operations before being exposed in their 2015 data breach"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2015-2387 is a privilege escalation vulnerability bypassing security boundaries through kernel font driver exploitation"
+  - type: "precedes"
+    target: "VUL-AUTH-CVE20151701-001"
+    description: "Both are 2015-era Windows kernel privilege escalation vulnerabilities used by advanced threat actors"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2015-2387"
+    - "NIST NVD CVE-2015-2387 (CVSS v2: 7.2)"
+    - "Microsoft Security Bulletin MS15-077"
+    - "Hacking Team Data Breach Analysis"
+  search_keywords:
+    - "CVE-2015-2387"
+    - "ATMFD.DLL vulnerability"
+    - "Adobe Type Manager Font Driver"
+    - "Hacking Team exploit"
+    - "font driver privilege escalation"
+    - "MS15-077"
+    - "OpenType font exploit"
+  embedding_text: >-
+    CVE-2015-2387 is a privilege escalation vulnerability in the Windows Adobe Type Manager
+    Font Driver (ATMFD.DLL) with CVSS v2 score 7.2. Improper handling of objects during
+    OpenType font processing allows kernel-mode code execution. Discovered in the 2015
+    Hacking Team data breach, this zero-day was used in surveillance operations. The font
+    driver runs in kernel mode, providing direct SYSTEM access. Exploitation delivers crafted
+    fonts through documents triggering memory corruption. Mitigation requires MS15-077,
+    disabling ATMFD in the registry, and exploit mitigation technologies. Affects Windows
+    Vista through 8.1 and Server 2003 through 2012 R2.

@@ -1,0 +1,115 @@
+# GR Atom: Vulnerability Disclosure Policy
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-VULNDISC-002"
+  name: "Vulnerability Disclosure Policy"
+  normalized_name: "vulnerability_disclosure_policy"
+  aliases:
+    - "VDP"
+    - "Security Vulnerability Policy"
+    - "Responsible Disclosure Policy"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - WEB
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    A Vulnerability Disclosure Policy (VDP) is a formal organizational document that establishes
+    the rules, scope, and procedures for external security researchers to report security
+    vulnerabilities. It defines which systems and services are in scope for testing, what testing
+    methods are authorized, the communication channels for submitting vulnerability reports
+    (typically security@domain, security.txt, or web forms), expected response timelines,
+    safe harbor commitments protecting researchers from legal action, and the organization's
+    commitment to acknowledge, triage, and remediate reported vulnerabilities. VDPs are
+    distinguished from bug bounty programs in that they do not necessarily offer financial
+    rewards but provide a clear, legally safe channel for vulnerability reporting.
+  why: >
+    VDPs are increasingly mandated by law and regulation. CISA Binding Operational Directive 20-01
+    requires all US federal agencies to maintain VDPs. The EU Cyber Resilience Act requires
+    manufacturers to establish coordinated vulnerability disclosure processes. The NIS2 Directive
+    mandates vulnerability handling policies for essential and important entities. Without a VDP,
+    organizations lack a sanctioned channel for researchers to report findings, potentially
+    leading to public disclosure without warning, legal disputes with well-intentioned researchers,
+    or researchers selling vulnerabilities to malicious actors instead of reporting them.
+  how: >
+    Organizations create VDPs by defining the scope of authorized testing (in-scope systems,
+    excluded systems, allowed testing methods), establishing reporting channels (security.txt
+    per RFC 9116, dedicated email, web submission forms), committing to response timelines
+    (acknowledgment within 3-5 business days, triage within 10 days, status updates at 30-day
+    intervals), drafting safe harbor language with legal counsel, publishing the VDP on the
+    organization's website, registering with CISA's VDP platform where applicable, training
+    internal security teams on vulnerability triage and response, and establishing escalation
+    procedures for critical vulnerabilities.
+  core_concepts:
+    - key: "Policy Scope"
+      value: "Clear definition of which systems, services, and testing methods are authorized under the VDP"
+    - key: "Safe Harbor Provisions"
+      value: "Legal commitments protecting researchers who act in good faith and within policy scope from prosecution or civil action"
+    - key: "Reporting Channels"
+      value: "Designated communication methods for vulnerability submission including security.txt, email, web forms, and coordinated platforms"
+    - key: "Response Commitments"
+      value: "Defined timelines for acknowledging reports, triaging vulnerabilities, providing status updates, and remediating findings"
+    - key: "Exclusions and Limitations"
+      value: "Clearly defined out-of-scope systems, prohibited testing methods (DoS, social engineering, physical testing), and data handling requirements"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "COMP-LAW-VULNDISC-001"
+    description: "A VDP is a key component of the broader vulnerability disclosure process"
+  - type: implements
+    target: "COMP-LAW-COMPLIANCE-001"
+    description: "A VDP implements compliance requirements for vulnerability handling"
+  - type: applies_to
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "VDP requirements apply to multiple industry compliance frameworks including government, critical infrastructure, and technology sectors"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "CISA Binding Operational Directive 20-01 — Develop and Publish a Vulnerability Disclosure Policy"
+    - "NTIA Safety Working Group — Early Stage Coordinated Vulnerability Disclosure Template"
+    - "RFC 9116 — A File Format to Aid in Security Vulnerability Disclosure (security.txt)"
+    - "DoJ Framework for a Vulnerability Disclosure Program for Online Systems"
+    - "EU Cyber Resilience Act — Coordinated vulnerability disclosure requirements"
+  search_keywords:
+    - "vulnerability disclosure policy VDP"
+    - "responsible disclosure policy"
+    - "security.txt"
+    - "safe harbor vulnerability"
+    - "CISA BOD 20-01"
+    - "vulnerability reporting channel"
+    - "security researcher policy"
+    - "coordinated disclosure policy"
+    - "bug reporting policy"
+  embedding_text: >
+    A Vulnerability Disclosure Policy (VDP) is a formal organizational document establishing
+    rules, scope, and procedures for external security researchers to report vulnerabilities.
+    It defines in-scope systems, authorized testing methods, reporting channels (security.txt
+    per RFC 9116, email, web forms), response timelines, and safe harbor protections for
+    researchers. VDPs are mandated by CISA BOD 20-01 for US federal agencies, the EU Cyber
+    Resilience Act for manufacturers, and the NIS2 Directive for essential entities. Unlike
+    bug bounty programs, VDPs focus on providing a legally safe reporting channel rather than
+    financial incentives. Key elements include scope definition, safe harbor language, response
+    commitments, exclusions, and escalation procedures for critical findings.

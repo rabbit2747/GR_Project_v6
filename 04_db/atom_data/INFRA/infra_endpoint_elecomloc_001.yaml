@@ -1,0 +1,107 @@
+# GR Atom: Electronic Combination Lock
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-ENDPOINT-ELECOMLOC-001"
+  name: "Electronic Combination Lock"
+  normalized_name: "electronic_combination_lock"
+  aliases:
+    - "Electronic Lock"
+    - "Digital Combination Lock"
+    - "Smart Lock"
+    - "Electronic Access Control Lock"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 3
+  atom_tags:
+    - IOT
+    - AUTHN
+    - FIRMWARE
+    - ENCRYPT
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "S2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    An electronic combination lock is a physical access control device that uses electronic
+    circuitry to validate numeric, alphanumeric, or biometric credentials before releasing a
+    locking mechanism. Modern electronic combination locks may include keypads, touchscreens,
+    Bluetooth/Wi-Fi connectivity, RFID/NFC readers, and integration with centralized access
+    control systems. They are deployed on server room doors, network closets, data center
+    cabinets, and sensitive facility entry points. Common enterprise-grade products include
+    locks from Kaba, ASSA ABLOY, Dormakaba, and Allegion.
+  why: >-
+    Electronic combination locks are the physical security boundary protecting IT infrastructure
+    from unauthorized physical access. Compromise of these locks through brute force, default
+    codes, firmware vulnerabilities, or protocol weaknesses enables physical access to servers,
+    network equipment, and sensitive areas. Physical access typically bypasses all logical
+    security controls. Networked smart locks introduce additional attack vectors including
+    Bluetooth replay attacks, Wi-Fi credential theft, API vulnerabilities, and cloud service
+    compromise that can unlock doors remotely.
+  how: >-
+    Electronic combination locks operate by accepting credential input (keypad entry, RFID card,
+    Bluetooth signal, or biometric scan), comparing it against stored authorized credentials in
+    local memory or querying a centralized access control server, and actuating an electromechanical
+    locking mechanism upon successful authentication. Audit trails record access attempts with
+    timestamps and user IDs. Enterprise locks communicate with access control systems via
+    Wiegand protocol, OSDP (Open Supervised Device Protocol), RS-485, or IP networking. Power
+    is supplied via batteries, PoE, or hardwired connections with battery backup.
+  core_concepts:
+    - key: "Physical-Cyber Security Boundary"
+      value: "Electronic locks bridge physical and cybersecurity domains; their compromise enables bypassing all logical security controls through direct physical access"
+    - key: "Access Control Integration"
+      value: "Enterprise electronic locks integrate with centralized access control systems using Wiegand or OSDP protocols for unified identity and access management"
+    - key: "Smart Lock Attack Surface"
+      value: "Network-connected smart locks introduce Bluetooth, Wi-Fi, API, and cloud-based attack vectors beyond traditional lock bypass techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-ENDPOINT-FISCINDE-001"
+    description: "Electronic locks may integrate with fingerprint scanners as a multi-factor physical access credential"
+  - type: "implements"
+    target: "DEF-PHYSICAL-ACCESS-001"
+    description: "Electronic combination locks implement physical access control for securing sensitive infrastructure areas"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "NIST SP 800-116 Rev. 1 - PIV Card/Reader for Physical Access Control"
+    - "ASIS International - Physical Security Standards"
+    - "OWASP IoT Top 10 - Smart Lock Vulnerabilities"
+  search_keywords:
+    - "electronic lock"
+    - "combination lock"
+    - "smart lock security"
+    - "physical access control"
+    - "electronic access control"
+    - "smart lock vulnerability"
+    - "Wiegand protocol"
+    - "OSDP protocol"
+    - "server room lock"
+  embedding_text: >-
+    Electronic Combination Lock is a physical access control device using electronic circuitry
+    to validate credentials before releasing a locking mechanism. Modern locks include keypads,
+    Bluetooth/Wi-Fi connectivity, RFID/NFC readers, and integration with centralized access
+    control systems. Deployed on server rooms, network closets, and data center cabinets, they
+    use Wiegand or OSDP protocols to communicate with access control systems. From a security
+    perspective, electronic locks are the physical boundary protecting IT infrastructure from
+    unauthorized access. Compromise enables bypassing all logical security controls. Networked
+    smart locks introduce Bluetooth replay attacks, Wi-Fi credential theft, API vulnerabilities,
+    and cloud service compromise as additional attack vectors. Enterprise locks from manufacturers
+    like ASSA ABLOY and Dormakaba maintain audit trails and support multi-factor authentication.

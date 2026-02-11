@@ -1,0 +1,130 @@
+# GR Atom: Stagefright
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-STAGEFRIGH-001"
+  name: "Stagefright"
+  normalized_name: "stagefright"
+  aliases:
+    - "CVE-2015-1538"
+    - "CVE-2015-1539"
+    - "CVE-2015-3824"
+    - "CVE-2015-3826"
+    - "CVE-2015-3827"
+    - "CVE-2015-3828"
+    - "CVE-2015-3829"
+    - "Android Media Framework RCE"
+    - "libstagefright Vulnerabilities"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - OVERFLOW
+    - ANDROID
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Android libstagefright media framework"
+    - "Android 2.2 through 5.1.1 (approximately 95% of devices)"
+    - "Android media processing (MP3, MP4, 3GPP)"
+    - "MMS message handler"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Stagefright refers to a collection of critical remote code execution vulnerabilities
+    (multiple CVEs, CVSS up to 10.0) in Android's libstagefright media processing
+    library that affected approximately 950 million Android devices (95% of all Android
+    devices at the time). Discovered by Joshua Drake of Zimperium in 2015, the
+    vulnerabilities include multiple integer overflows, heap buffer overflows, and
+    out-of-bounds access flaws in the parsing of MP3, MP4, and 3GPP media files. The
+    most dangerous aspect was that exploitation could be triggered remotely by sending
+    a specially crafted MMS message, which Android would automatically process without
+    user interaction on many devices and carriers.
+  why: >-
+    Stagefright was a watershed moment for Android security, exposing fundamental problems
+    in Android's media processing architecture and the Android update ecosystem. With 950
+    million vulnerable devices and a potential zero-click MMS attack vector, it was one of
+    the largest vulnerability disclosures in mobile security history. The Stagefright
+    disclosure directly led to Google establishing monthly Android security bulletins,
+    Samsung and LG committing to monthly security updates, and a fundamental rethinking
+    of Android's media framework security. It demonstrated that mobile devices were
+    vulnerable to the same classes of memory corruption that affected desktop systems.
+  how: >-
+    The exploits target integer overflow and heap buffer overflow vulnerabilities in
+    libstagefright's media file parsers. When processing crafted MP4 or 3GPP files,
+    integer overflows in size calculations lead to undersized buffer allocations. Subsequent
+    media data writes overflow these buffers, corrupting adjacent heap memory. The MMS
+    attack vector was particularly dangerous: on many Android configurations, the default
+    messaging app automatically downloads and processes MMS attachments, triggering the
+    vulnerability without user interaction. The attacker sends a crafted MMS containing a
+    malicious media file, and the libstagefright library processes it during thumbnail
+    generation or media preview, achieving code execution within the mediaserver process.
+  core_concepts:
+    - key: "Mass Mobile Vulnerability"
+      value: "Affected approximately 950 million Android devices (95% of all devices), one of the largest mobile vulnerability disclosures"
+    - key: "Zero-Click MMS Exploitation"
+      value: "Automatic MMS processing on many Android configurations enabled remote code execution without user interaction"
+    - key: "Android Security Catalyst"
+      value: "Directly led to monthly Android security bulletins, OEM update commitments, and media framework redesign"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "Stagefright comprises multiple heap buffer overflow and integer overflow memory corruption vulnerabilities"
+  - type: "instance_of"
+    target: "VUL-MEMORY-INTEOVER-001"
+    description: "Multiple Stagefright CVEs are caused by integer overflows in media file size calculations"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Zimperium - Stagefright: Scary Code in the Heart of Android"
+    - "NVD Entries CVE-2015-1538, CVE-2015-3824 through CVE-2015-3829"
+    - "Google Android Security Bulletins"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+    - "Black Hat USA 2015 - Stagefright Presentation"
+  search_keywords:
+    - "Stagefright"
+    - "libstagefright"
+    - "Android"
+    - "MMS"
+    - "CVE-2015-1538"
+    - "media processing"
+    - "integer overflow"
+    - "mobile security"
+    - "remote code execution"
+  embedding_text: >-
+    Stagefright is a collection of critical remote code execution vulnerabilities in
+    Android's libstagefright media framework affecting approximately 950 million devices.
+    Multiple integer overflow and heap buffer overflow flaws in MP4/3GPP parsing enable
+    code execution via crafted media files. The zero-click MMS attack vector allowed
+    remote exploitation without user interaction on many Android configurations. Discovered
+    by Zimperium in 2015, Stagefright was a watershed moment for Android security, directly
+    leading to monthly security bulletins, OEM update commitments, and fundamental media
+    framework redesign. One of the largest mobile vulnerability disclosures in history.

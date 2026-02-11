@@ -1,0 +1,128 @@
+# GR Atom: EAP-TLS
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-SECURITY-EAPTLS-001"
+  name: "EAP-TLS"
+  normalized_name: "eap_tls"
+  aliases:
+    - "Extensible Authentication Protocol - Transport Layer Security"
+    - "EAP-TLS v1.3"
+    - "EAP Type 13"
+    - "802.1X EAP-TLS"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - TLS
+    - NETWORK
+    - ENCRYPT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L5", "L6"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    EAP-TLS (Extensible Authentication Protocol - Transport Layer Security) is a certificate-based
+    authentication protocol defined in RFC 5216 (and updated by RFC 9190 for TLS 1.3) that uses
+    mutual TLS authentication within the EAP framework. Designated as EAP Type 13, it requires
+    both the client (supplicant) and the authentication server to present X.509 digital
+    certificates, providing the strongest form of EAP authentication. EAP-TLS is the mandatory
+    EAP method for WPA2-Enterprise and WPA3-Enterprise wireless networks as specified in IEEE
+    802.1X and is widely deployed in enterprise network access control for both wired and
+    wireless environments.
+  why: >-
+    EAP-TLS addresses the fundamental weakness of password-based network authentication by
+    requiring cryptographic proof of identity through digital certificates on both sides of the
+    connection. Unlike EAP-PEAP or EAP-TTLS which only authenticate the server with a certificate
+    and rely on passwords for client authentication, EAP-TLS eliminates credential theft risks
+    including phishing, brute force, and credential replay attacks. The protocol provides mutual
+    authentication ensuring both the client and the network infrastructure verify each other's
+    identity, preventing rogue access point attacks. Enterprise environments use EAP-TLS to
+    enforce device-level authentication through machine certificates, ensuring only managed
+    devices can connect to the network.
+  how: >-
+    EAP-TLS operates within the IEEE 802.1X port-based access control framework. The supplicant
+    (client) initiates the EAP exchange with the authenticator (switch or access point), which
+    relays EAP messages to the authentication server (RADIUS). Inside the EAP tunnel, a full
+    TLS handshake occurs: the server presents its certificate, the client validates it against
+    trusted CAs, then the client presents its own certificate for server validation. Upon
+    successful mutual authentication, the TLS master secret is used to derive session keys
+    (Master Session Key and Extended Master Session Key) that are passed to the authenticator
+    for encrypting the data link. RFC 9190 updated EAP-TLS for TLS 1.3, leveraging its
+    improved handshake with zero round-trip resumption, removing the need for explicit
+    ChangeCipherSpec messages, and adding post-handshake authentication support.
+  core_concepts:
+    - key: "Mutual Certificate Authentication"
+      value: >-
+        Both client and server must present valid X.509 certificates, eliminating reliance on
+        passwords and providing cryptographic proof of identity for both endpoints.
+    - key: "802.1X Integration"
+      value: >-
+        EAP-TLS operates within the IEEE 802.1X framework with three roles: supplicant (client),
+        authenticator (network device), and authentication server (RADIUS), enabling port-based
+        network access control.
+    - key: "Session Key Derivation"
+      value: >-
+        The TLS handshake produces a Master Session Key (MSK) and Extended MSK that are exported
+        to the authenticator to encrypt the subsequent data link layer communication.
+    - key: "PKI Dependency"
+      value: >-
+        Deployment requires a Public Key Infrastructure to issue, distribute, and manage client
+        and server certificates, including certificate revocation checking via CRL or OCSP.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "EAP-TLS performs a full TLS handshake within the EAP tunnel for mutual authentication"
+  - type: "is_a"
+    target: "PROTO-SECURITY-TLTRLASE-001"
+    description: "EAP-TLS is a TLS-based authentication protocol specialized for network access control"
+  - type: "alternative_to"
+    target: "PROTO-SECURITY-MTLS-001"
+    description: "EAP-TLS provides mutual certificate authentication at the network access layer as mTLS does at the application layer"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 5216 - The EAP-TLS Authentication Protocol. IETF. https://datatracker.ietf.org/doc/html/rfc5216"
+    - "RFC 9190 - EAP-TLS 1.3: Using the Extensible Authentication Protocol with TLS 1.3. IETF. https://datatracker.ietf.org/doc/html/rfc9190"
+    - "IEEE 802.1X-2020 - Port-Based Network Access Control. IEEE Standards Association."
+  search_keywords:
+    - "EAP-TLS"
+    - "EAP type 13"
+    - "802.1X certificate authentication"
+    - "WPA2 Enterprise"
+    - "WPA3 Enterprise"
+    - "mutual TLS authentication"
+    - "RADIUS EAP"
+    - "certificate-based network access"
+    - "RFC 5216"
+    - "RFC 9190"
+  embedding_text: >-
+    EAP-TLS is a certificate-based network authentication protocol defined in RFC 5216 that
+    performs mutual TLS authentication within the Extensible Authentication Protocol framework.
+    As EAP Type 13, it requires both client and server to present X.509 digital certificates,
+    providing the strongest EAP authentication method and eliminating password-based credential
+    risks. Operating within IEEE 802.1X port-based access control, EAP-TLS involves three
+    roles: the supplicant client, the authenticator network device, and the RADIUS authentication
+    server. A full TLS handshake occurs inside the EAP tunnel, producing session keys that
+    encrypt the data link. EAP-TLS is mandatory for WPA2-Enterprise and WPA3-Enterprise
+    wireless security. RFC 9190 updated the protocol for TLS 1.3, adding zero round-trip
+    resumption and post-handshake authentication. Deployment requires Public Key Infrastructure
+    for certificate lifecycle management including issuance, distribution, and revocation
+    checking via CRL or OCSP.

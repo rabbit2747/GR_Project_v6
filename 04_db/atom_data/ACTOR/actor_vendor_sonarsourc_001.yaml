@@ -1,0 +1,72 @@
+# GR Atom: SonarSource
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SONARSOURC-001"
+  name: "SonarSource"
+  normalized_name: "sonarsource"
+  aliases:
+    - "SonarQube"
+    - "SonarCloud"
+    - "SonarLint"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - MONITOR
+    - WEB
+    - CLOUD
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "SonarSource is a code quality and security analysis vendor providing static application security testing (SAST) tools through its SonarQube, SonarCloud, and SonarLint products. The company's platforms analyze source code to detect bugs, code smells, and security vulnerabilities across over 30 programming languages, enabling development teams to maintain code quality and identify security issues early in the software development lifecycle."
+  why: "SonarSource is significant in cybersecurity because static code analysis is a critical component of secure software development, enabling the detection of security vulnerabilities before code reaches production. SonarQube has become one of the most widely adopted code quality platforms in the industry, integrated into CI/CD pipelines across thousands of organizations to enforce code quality gates and security standards."
+  how: "SonarSource operates through static analysis engines that parse source code, build abstract syntax trees, and apply hundreds of security and quality rules to detect issues. SonarQube provides self-hosted analysis, SonarCloud offers cloud-based scanning integrated with code repositories, and SonarLint provides real-time IDE feedback. The platform integrates with CI/CD pipelines to enforce quality gates that prevent vulnerable code from being merged or deployed."
+  core_concepts:
+    - key: "Static Application Security Testing"
+      value: "Automated analysis of source code to identify security vulnerabilities, bugs, and code quality issues before deployment"
+    - key: "Quality Gates"
+      value: "Configurable thresholds that enforce minimum code quality and security standards within CI/CD pipelines"
+    - key: "Continuous Code Inspection"
+      value: "Ongoing automated analysis integrated into development workflows for real-time feedback on code quality"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SECUINNO-001"
+    description: "Fellow application security vendor focused on identifying software vulnerabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.sonarsource.com"
+    - "https://en.wikipedia.org/wiki/SonarQube"
+  search_keywords:
+    - "sonarsource"
+    - "sonarqube"
+    - "sonarcloud"
+    - "sonarlint"
+    - "static analysis"
+    - "code quality"
+    - "SAST"
+    - "security scanning"
+    - "code inspection"
+  embedding_text: "SonarSource is a code quality and security analysis vendor providing static application security testing tools through its SonarQube, SonarCloud, and SonarLint products. The platforms analyze source code to detect bugs, code smells, and security vulnerabilities across over 30 programming languages, enabling development teams to maintain code quality and identify security issues early in the software development lifecycle. SonarQube has become one of the most widely adopted code quality platforms, integrated into CI/CD pipelines across thousands of organizations to enforce quality gates and security standards."

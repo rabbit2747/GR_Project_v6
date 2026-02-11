@@ -1,0 +1,97 @@
+# GR Atom: Red Hotel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-REDHOTE-001"
+  name: "Red Hotel"
+  normalized_name: "red_hotel"
+  aliases:
+    - "TAG-22"
+    - "Earth Lusca"
+    - "Charcoal Typhoon"
+    - "CHROMIUM"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - EXEC
+    - C2
+    - EXFIL
+    - WINDOWS
+    - LINUX
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L4", "L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Red Hotel, also tracked as TAG-22 and Earth Lusca, is a China-nexus advanced persistent threat group that conducts both cyber-espionage and financially motivated intrusions. The group targets government organizations, academic institutions, telecommunications providers, technology companies, and gambling operations across Southeast Asia, Central Asia, and other regions. Red Hotel has been active since at least 2019 and demonstrates sophisticated capabilities spanning both Windows and Linux environments."
+  why: "Red Hotel poses a dual threat through its combination of state-sponsored espionage and financially motivated criminal activity. The group's targeting of government, telecom, and technology sectors provides strategic intelligence value, while its parallel financially motivated operations against gambling and cryptocurrency entities indicate a broader mandate or independent revenue generation for the group."
+  how: "Red Hotel exploits public-facing web applications and servers using known vulnerabilities including Log4Shell, ProxyShell, and other n-day exploits. The group deploys a diverse malware arsenal including Cobalt Strike, ShadowPad, Winnti, FunnySwitch, and SprySOCKS (a Linux backdoor). They leverage virtual private servers for C2 operations and employ credential harvesting, lateral movement, and data exfiltration techniques. The group also conducts watering hole attacks and spear-phishing campaigns."
+  core_concepts:
+    - key: "Dual Motivation"
+      value: "Unique combination of state-sponsored espionage against government and technology targets alongside financially motivated intrusions against gambling and cryptocurrency operations"
+    - key: "N-Day Exploitation"
+      value: "Rapid exploitation of recently disclosed vulnerabilities in public-facing applications including Log4Shell, ProxyShell, and Oracle WebLogic flaws"
+    - key: "Cross-Platform Arsenal"
+      value: "Diverse toolset spanning Windows and Linux including Cobalt Strike, ShadowPad, Winnti, and the Linux-specific SprySOCKS backdoor"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group with dual espionage and financial motivations"
+  - type: enables
+    target: "ATK-EXPLOIT-WEBAPP-001"
+    description: "Exploits public-facing web applications using n-day vulnerabilities for initial access"
+  - type: enables
+    target: "ATK-EXEC-COBSTRIKE-001"
+    description: "Deploys Cobalt Strike and ShadowPad for post-exploitation operations"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "initial-access"
+      - "execution"
+      - "persistence"
+      - "command-and-control"
+      - "exfiltration"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Recorded Future Insikt Group - Red Hotel threat profile"
+    - "Trend Micro - Earth Lusca analysis"
+    - "MITRE ATT&CK - Earth Lusca"
+    - "Microsoft - Charcoal Typhoon threat intelligence"
+  search_keywords:
+    - "red hotel"
+    - "tag-22"
+    - "earth lusca"
+    - "charcoal typhoon"
+    - "chromium apt"
+    - "china apt"
+    - "shadowpad"
+    - "sprySOCKS"
+    - "winnti"
+    - "cobalt strike"
+    - "log4shell exploitation"
+    - "dual motivation apt"
+  embedding_text: "Red Hotel, also known as TAG-22, Earth Lusca, and Charcoal Typhoon, is a China-nexus advanced persistent threat group conducting both cyber-espionage and financially motivated intrusions since at least 2019. The group targets government organizations, academic institutions, telecommunications providers, and technology companies, as well as gambling and cryptocurrency entities. Red Hotel exploits public-facing web applications using n-day vulnerabilities such as Log4Shell and ProxyShell, deploying a cross-platform malware arsenal including Cobalt Strike, ShadowPad, Winnti, and the Linux-specific SprySOCKS backdoor. The group represents a dual threat combining state-sponsored intelligence collection with financially motivated criminal operations."

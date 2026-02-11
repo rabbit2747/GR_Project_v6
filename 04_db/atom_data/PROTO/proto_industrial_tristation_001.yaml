@@ -1,0 +1,145 @@
+# GR Atom: TriStation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-INDUSTRIAL-TRISTATION-001"
+  name: "TriStation"
+  normalized_name: "tristation"
+  aliases:
+    - "TriStation Protocol"
+    - "Triconex TriStation"
+    - "TriStation 1131"
+    - "TRITON Protocol"
+    - "Trisis Protocol"
+    - "Schneider Triconex Protocol"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - ICS
+    - NETWORK
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z0A", "Z0B", "Z1"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    TriStation is a proprietary communication protocol used by Schneider Electric's Triconex
+    Safety Instrumented System (SIS) controllers for engineering workstation communication,
+    program download, diagnostics, and configuration. TriStation operates over UDP port 1502
+    using a custom binary protocol for communication between the TriStation 1131 engineering
+    software and Triconex safety controllers (Tricon, Trident, Tri-GP). The protocol enables
+    uploading and downloading safety logic programs, reading and writing safety controller
+    memory, changing controller operating modes (run, program, halt), and performing diagnostics.
+    TriStation is an undocumented, proprietary protocol not intended for third-party
+    implementation.
+  why: >-
+    TriStation gained global attention as the target of the TRITON/TRISIS malware (December 2017),
+    the first known cyberattack specifically designed to target Safety Instrumented Systems.
+    TRITON exploited the unauthenticated TriStation protocol to reprogram Triconex safety
+    controllers at a Saudi Arabian petrochemical facility, attempting to disable safety logic
+    that protects human life and physical assets from hazardous conditions (explosions, toxic
+    releases, equipment destruction). The attack was attributed to a Russian government research
+    institution (CNIIHM/TsNIIKhM). TriStation's lack of authentication means any device with
+    network access can send commands to safety controllers, including downloading modified safety
+    programs, changing operating modes, and reading proprietary safety logic. Compromising a SIS
+    can enable physical destruction of industrial processes by disabling the safety interlocks
+    designed to prevent catastrophic events.
+  how: >-
+    TriStation communicates using a proprietary binary protocol over UDP port 1502: (1) the
+    engineering workstation initiates a session with the safety controller; (2) commands are
+    sent as binary-encoded function requests including program download, memory read/write,
+    mode change, and diagnostics; (3) the controller executes commands without verifying the
+    source's identity or authorization; (4) the TRITON attack chain involved: gaining IT network
+    access, pivoting to the OT/SIS network, reverse-engineering the TriStation protocol from
+    TriStation 1131 software libraries, crafting custom TriStation messages to download
+    malicious safety logic replacement programs to the Triconex controller, and attempting to
+    disable safety functions while maintaining the appearance of normal operation. Security
+    controls include: strict network isolation of SIS networks from both IT and basic process
+    control networks, hardware key switches on Triconex controllers set to RUN mode (preventing
+    remote program downloads), physical access controls for engineering workstations, monitoring
+    for TriStation protocol traffic on SIS network segments, applying Schneider Electric's
+    firmware updates enabling TriStation protocol authentication, and implementing IEC 62443
+    zone/conduit architecture for SIS.
+  core_concepts:
+    - key: "TRITON/TRISIS Malware"
+      value: >-
+        The first known malware targeting a Safety Instrumented System, discovered in December
+        2017 at a Saudi petrochemical facility. TRITON reverse-engineered the proprietary
+        TriStation protocol to reprogram Triconex safety controllers, attempting to disable
+        safety logic protecting against catastrophic industrial events.
+    - key: "Safety Instrumented System (SIS)"
+      value: >-
+        An independent safety system designed to bring a process to a safe state when
+        predetermined hazardous conditions are detected. SIS controllers (like Triconex) are
+        the last line of defense preventing industrial catastrophes and are designed to
+        operate independently of basic process control systems.
+    - key: "Hardware Key Switch"
+      value: >-
+        A physical switch on Triconex controllers that controls the operating mode. When set
+        to RUN, the controller rejects remote program download requests over TriStation,
+        providing a hardware-enforced security control against unauthorized logic modification.
+    - key: "SIS Network Isolation"
+      value: >-
+        The critical security architecture requirement to physically or logically isolate
+        Safety Instrumented System networks from both IT networks and basic process control
+        networks, ensuring that compromise of control systems does not provide a path to
+        safety system manipulation.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-INDUSTRIAL-001"
+    description: "TriStation is a safety-critical proprietary ICS protocol within the industrial control systems protocol family"
+  - type: "requires"
+    target: "PROTO-TRANSPORT-UDP-001"
+    description: "TriStation operates over UDP port 1502 for communication between engineering workstations and safety controllers"
+  - type: "applies_to"
+    target: "PROTO-INDUSTRIAL-MODBUS-001"
+    description: "Triconex controllers use Modbus for process data exchange while TriStation handles engineering and safety logic operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Dragos - TRISIS Malware Analysis of Safety System Targeted Malware (December 2017). Dragos Inc."
+    - "FireEye - Attackers Deploy New ICS Attack Framework TRITON (December 2017). Mandiant/FireEye."
+    - "CISA ICS-CERT Advisory ICSA-18-107-02 - Schneider Electric Triconex Tricon. https://www.cisa.gov/news-events/ics-advisories/icsa-18-107-02"
+    - "NIST SP 800-82 Rev. 3 - Guide to Operational Technology (OT) Security (September 2023). https://csrc.nist.gov/publications/detail/sp/800-82/rev-3/final"
+  search_keywords:
+    - "TriStation"
+    - "TRITON malware"
+    - "TRISIS"
+    - "Triconex"
+    - "safety instrumented system"
+    - "SIS attack"
+    - "TriStation protocol"
+    - "Schneider Electric Triconex"
+    - "safety controller security"
+    - "ICS safety system"
+    - "TRITON attack"
+    - "SIS network isolation"
+  embedding_text: >-
+    TriStation is a proprietary protocol used by Schneider Electric Triconex Safety Instrumented
+    System controllers for engineering communication over UDP port 1502. It gained global attention
+    as the target of TRITON/TRISIS malware (2017), the first cyberattack specifically targeting
+    safety systems protecting human life in industrial environments. The attack exploited
+    TriStation's unauthenticated protocol to reprogram safety logic at a Saudi petrochemical
+    facility. TriStation lacks authentication, allowing any network-accessible device to download
+    programs, change operating modes, and read safety logic. Security controls include strict SIS
+    network isolation, hardware key switches preventing remote program downloads, physical access
+    controls, monitoring for TriStation traffic, firmware updates enabling authentication, and
+    IEC 62443 zone/conduit architecture. Compromise of SIS can enable physical destruction by
+    disabling safety interlocks.

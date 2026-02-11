@@ -1,0 +1,130 @@
+# GR Atom: NIST SP 800-53
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NISTSP80053-001"
+  name: "NIST SP 800-53"
+  normalized_name: "nist_sp_800_53"
+  aliases:
+    - "SP 800-53"
+    - "Security and Privacy Controls"
+    - "NIST Security Controls"
+    - "NIST 800-53"
+    - "SP 800-53 Rev. 5"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    NIST SP 800-53 (Security and Privacy Controls for Information Systems and Organizations)
+    is the comprehensive catalog of security and privacy controls used to protect federal
+    information systems and organizations. Revision 5, published in September 2020, contains
+    over 1,000 controls organized into 20 control families. The catalog provides the security
+    control baselines (Low, Moderate, High) used in the NIST Risk Management Framework and
+    serves as the authoritative source for security requirements referenced by the NIST
+    Cybersecurity Framework, FedRAMP, CMMC, and numerous other compliance programs. SP 800-53
+    is the most comprehensive and widely referenced security controls catalog globally.
+  why: >-
+    Organizations need a comprehensive, organized catalog of security controls to select
+    from when designing and implementing information security programs. SP 800-53 provides
+    this by cataloging controls across all security domains with sufficient detail for
+    implementation, assessment, and audit. The three baselines (Low, Moderate, High) enable
+    proportional security based on system impact levels determined through FIPS 199
+    categorization. Without such a catalog, organizations would need to independently develop
+    security requirements, leading to inconsistent coverage and gaps.
+  how: >-
+    SP 800-53 Rev. 5 organizes controls into 20 families: Access Control (AC), Awareness and
+    Training (AT), Audit and Accountability (AU), Assessment Authorization and Monitoring (CA),
+    Configuration Management (CM), Contingency Planning (CP), Identification and Authentication
+    (IA), Incident Response (IR), Maintenance (MA), Media Protection (MP), Physical and
+    Environmental Protection (PE), Planning (PL), Program Management (PM), Personnel Security
+    (PS), PII Processing and Transparency (PT), Risk Assessment (RA), System and Services
+    Acquisition (SA), System and Communications Protection (SC), System and Information
+    Integrity (SI), and Supply Chain Risk Management (SR). Organizations use the RMF to
+    select controls from appropriate baselines and tailor them to specific system requirements.
+  core_concepts:
+    - key: "20 Control Families"
+      value: >-
+        Comprehensive organization of over 1,000 security and privacy controls into 20
+        domain-specific families covering access control, audit, configuration management,
+        incident response, and all other security disciplines.
+    - key: "Control Baselines"
+      value: >-
+        Three predefined sets of controls (Low, Moderate, High) tailored to system impact
+        levels, providing proportional security starting points that organizations further
+        customize based on specific risk assessments.
+    - key: "Control Enhancements"
+      value: >-
+        Additional functionality added to base controls to provide increased protection
+        capability, enabling organizations to strengthen controls in areas of higher risk
+        or sensitivity.
+    - key: "Privacy Controls Integration"
+      value: >-
+        Rev. 5 integrates privacy controls alongside security controls, recognizing the
+        convergence of security and privacy requirements and adding the PII Processing
+        and Transparency family.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "COMP-FRAMEWORK-NIST-001"
+    description: "SP 800-53 is a NIST Special Publication and the primary security controls catalog"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-RMF-001"
+    description: "SP 800-53 provides the control catalog from which the RMF Select step draws security controls"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-NISTSP800171-001"
+    description: "SP 800-53 moderate baseline controls are the source from which SP 800-171 CUI requirements are derived"
+  - type: "implements"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "SP 800-53 controls implement the outcomes described in CSF functions, categories, and subcategories"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls for Information Systems and Organizations (September 2020). https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final"
+    - "NIST SP 800-53B - Control Baselines for Information Systems and Organizations. https://csrc.nist.gov/publications/detail/sp/800-53b/final"
+    - "NIST SP 800-53A Rev. 5 - Assessing Security and Privacy Controls. https://csrc.nist.gov/publications/detail/sp/800-53a/rev-5/final"
+  search_keywords:
+    - "NIST SP 800-53"
+    - "security controls"
+    - "privacy controls"
+    - "SP 800-53 Rev 5"
+    - "control families"
+    - "control baselines"
+    - "federal security controls"
+    - "access control AC"
+    - "NIST security catalog"
+    - "FedRAMP controls"
+  embedding_text: >-
+    NIST SP 800-53 is the comprehensive catalog of security and privacy controls for federal
+    information systems. Revision 5 contains over 1,000 controls organized into 20 control
+    families covering access control, audit, configuration management, incident response,
+    and all security disciplines. Three baselines (Low, Moderate, High) enable proportional
+    security based on FIPS 199 system impact levels. The catalog is the authoritative source
+    referenced by the NIST Cybersecurity Framework, RMF, FedRAMP, CMMC, and numerous compliance
+    programs globally. Rev 5 integrates privacy controls alongside security controls with
+    the new PII Processing and Transparency family. Control enhancements provide increased
+    protection capability for higher-risk areas. SP 800-53 is the most comprehensive security
+    controls catalog globally, enabling organizations to select, implement, and assess
+    controls proportional to their risk through the Risk Management Framework methodology.

@@ -1,0 +1,91 @@
+# GR Atom: Firewall Product
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-SEC-FIREPROD-001"
+  name: "Firewall Product"
+  normalized_name: "firewall_product"
+  aliases:
+    - "Network Firewall"
+    - "Firewall Appliance"
+    - "Firewall System"
+    - "NGFW"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_control"
+  abstraction_level: 4
+  atom_tags:
+    - FIREWALL
+    - NETWORK
+    - IDS
+    - IPS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "S1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Firewall Product is a network security system implemented as hardware, software, or cloud
+    service that monitors and controls network traffic based on security rules. Modern NGFWs
+    combine packet filtering with deep packet inspection, application awareness, IPS, TLS
+    inspection, URL filtering, and threat intelligence. Major vendors include Palo Alto, Fortinet,
+    Check Point, Cisco, and Juniper Networks.
+  why: >-
+    Firewalls are the fundamental network security control between zones of different trust
+    levels. They are also high-value attack targets: recent critical vulnerabilities in PAN-OS,
+    FortiOS, and Cisco ASA have been actively exploited by threat actors for initial access.
+  how: >-
+    Firewalls inspect packets against rule bases defining allowed and denied traffic. Stateful
+    firewalls track connection state. NGFWs add App-ID, user identity, TLS decryption, IPS,
+    URL categorization, and sandboxing. Deployed at perimeters and between zones with HA
+    clustering. Management uses centralized platforms with change tracking.
+  core_concepts:
+    - key: "Network Security Boundary"
+      value: "Firewalls enforce access control between network segments with different trust levels"
+    - key: "Next-Generation Features"
+      value: "NGFWs extend traditional filtering with application awareness, user identity, TLS inspection, and IPS"
+    - key: "Firewall as Attack Target"
+      value: "Critical vulnerabilities in firewall OS enable complete security perimeter bypass"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "abstracts"
+    target: "INFRA-SEC-FORTIGATE-001"
+    description: "Firewall Product is the general category that FortiGate is a specific instance of"
+  - type: "abstracts"
+    target: "INFRA-SEC-CLONETFIR-001"
+    description: "Firewall Product is the general category that cloud network firewalls belong to"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NIST SP 800-41 Rev. 1 - Guidelines on Firewalls and Firewall Policy"
+    - "Gartner - Magic Quadrant for Network Firewalls"
+    - "CISA - Known Exploited Vulnerabilities in Firewall Products"
+  search_keywords:
+    - "firewall"
+    - "NGFW"
+    - "network firewall"
+    - "firewall appliance"
+    - "next-generation firewall"
+    - "firewall vulnerability"
+    - "stateful firewall"
+  embedding_text: >-
+    Firewall Product is a network security system that monitors and controls traffic based on
+    security rules. Modern NGFWs combine packet filtering with DPI, application awareness, IPS,
+    TLS inspection, and threat intelligence. Major vendors include Palo Alto, Fortinet, Check
+    Point, and Cisco. Firewalls are both fundamental security controls and high-value attack
+    targets with actively exploited vulnerabilities in PAN-OS, FortiOS, and Cisco ASA.

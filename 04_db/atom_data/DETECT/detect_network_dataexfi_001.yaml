@@ -1,0 +1,102 @@
+# GR Atom: Data Exfiltration Detection
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-DATAEXFI-001"
+  name: "Data Exfiltration Detection"
+  normalized_name: "data_exfiltration_detection"
+  aliases:
+    - "Data Theft Detection"
+    - "Exfil Detection"
+    - "Data Loss Prevention Network Detection"
+    - "Network DLP"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - DLP
+    - MONITOR
+    - EXFIL
+    - SIEM
+    - IDS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A detection strategy focused on identifying unauthorized transfer of sensitive data from the organization's network to external destinations. Data exfiltration detection monitors outbound network traffic for indicators of data theft including unusually large transfers, transfers to uncommon destinations, use of covert channels, encoded or encrypted data streams to non-standard endpoints, and protocol abuse designed to bypass data loss prevention controls."
+  why: "Data exfiltration is the ultimate objective of many cyberattacks including espionage, ransomware, and insider threats. Detecting exfiltration attempts is critical because it represents the point at which organizational damage becomes irreversible. Early detection of exfiltration activity can prevent or minimize data loss, contain the breach scope, and provide forensic evidence for incident response and regulatory compliance."
+  how: "Detection combines multiple analytical approaches: volumetric analysis tracks aggregate and per-host outbound data volumes against baselines; destination analysis flags transfers to uncategorized, newly registered, or threat-intelligence-flagged domains; protocol analysis identifies data hidden within DNS queries, ICMP payloads, or steganographic HTTP content; timing analysis detects off-hours bulk transfers or slow trickle exfiltration; and content inspection examines payloads for patterns matching sensitive data types including PII, financial records, and intellectual property markers."
+  core_concepts:
+    - key: "Volumetric Anomaly Detection"
+      value: "Identifying unusual spikes or sustained increases in outbound data volume compared to historical baselines."
+    - key: "Destination Reputation Analysis"
+      value: "Evaluating the trustworthiness and categorization of external endpoints receiving data from the network."
+    - key: "Covert Channel Identification"
+      value: "Detecting data hidden within legitimate protocols such as DNS tunneling, ICMP covert channels, or steganography."
+    - key: "Data Classification Correlation"
+      value: "Correlating network transfers with data classification tags to identify movement of sensitive or restricted information."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: effective_against
+    target: "ATK-EXFIL-DATA-001"
+    description: "Directly detects data exfiltration attack techniques"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires flow logs for volumetric and destination analysis"
+  - type: requires
+    target: "DETECT-NETWORK-EGREHEUR-001"
+    description: "Leverages egress heuristics for outbound traffic analysis"
+  - type: is_a
+    target: "DETECT-NETWORK-PRBADESUNE-001"
+    description: "Data exfiltration detection is a form of protocol-based suspicious traffic detection"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1041"
+    tactic:
+      - "Exfiltration"
+    sub_techniques:
+      - "T1048.001"
+      - "T1048.002"
+      - "T1048.003"
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTA"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Exfiltration Over C2 Channel T1041"
+    - "MITRE ATT&CK - Exfiltration Over Alternative Protocol T1048"
+    - "NIST SP 800-53 Rev 5 - SI-4 System Monitoring"
+    - "SANS Institute - Detecting Data Exfiltration"
+  search_keywords:
+    - "data exfiltration"
+    - "data theft detection"
+    - "network DLP"
+    - "outbound data loss"
+    - "exfiltration detection"
+    - "covert channel exfil"
+    - "DNS exfiltration"
+    - "data leakage"
+    - "sensitive data transfer"
+    - "unauthorized data movement"
+  embedding_text: "Data exfiltration detection is a network security strategy focused on identifying unauthorized transfer of sensitive data from organizational networks to external destinations. It combines volumetric anomaly analysis, destination reputation evaluation, covert channel identification across protocols like DNS and ICMP, timing analysis for off-hours or slow-trickle transfers, and content inspection for sensitive data patterns. This detection capability is essential for preventing data loss from espionage, ransomware, and insider threat operations, representing the critical last line of defense before organizational damage becomes irreversible."

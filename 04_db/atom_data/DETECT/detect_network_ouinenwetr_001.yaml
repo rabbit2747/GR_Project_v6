@@ -1,0 +1,94 @@
+# GR Atom: Outbound Internet Encrypted Web Traffic
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-OUINENWETR-001"
+  name: "Outbound Internet Encrypted Web Traffic"
+  normalized_name: "outbound_internet_encrypted_web_traffic"
+  aliases:
+    - "Outbound HTTPS Web Traffic"
+    - "Encrypted Web Browsing Detection"
+    - "HTTPS Egress Monitoring"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - HTTP
+    - TLS
+    - MONITOR
+    - DLP
+    - C2
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern targeting outbound HTTPS web traffic from internal hosts to internet destinations on ports 443 and 8443. This pattern analyzes encrypted web browsing and API communication for indicators of C2 over HTTPS, data exfiltration through web uploads, connections to malicious or unauthorized web services, and web-based covert channels that hide within the high volume of legitimate encrypted web traffic."
+  why: "HTTPS web traffic constitutes the majority of outbound network traffic in most organizations, making it the ideal cover for adversary activity. C2 frameworks commonly use HTTPS to blend with legitimate browsing. Data exfiltration through web uploads to cloud storage or paste sites is a frequent technique. Monitoring outbound encrypted web traffic is essential for detecting threats that abuse the ubiquity of HTTPS to remain undetected."
+  how: "Detection analyzes outbound HTTPS connections using TLS metadata including SNI values, JA3 fingerprints, and certificate properties to categorize and assess destinations. Behavioral analysis examines browsing patterns, connection frequency, data volumes uploaded versus downloaded, and session characteristics. Where TLS inspection proxies are deployed, full content analysis detects C2 communication patterns, sensitive data in web uploads, and connections to known malicious URLs. URL categorization and domain reputation enrich connection metadata for risk scoring."
+  core_concepts:
+    - key: "HTTPS C2 Detection"
+      value: "Identifying command-and-control communications disguised as legitimate HTTPS web traffic through behavioral analysis."
+    - key: "Web Upload Monitoring"
+      value: "Detecting data exfiltration through web-based file uploads, cloud storage services, and paste sites."
+    - key: "TLS Proxy Inspection"
+      value: "Full content inspection of outbound HTTPS through TLS interception proxies for deep threat detection."
+    - key: "URL Categorization"
+      value: "Classifying destination URLs to identify connections to unauthorized, suspicious, or malicious web services."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-NETWORK-OUINENTR-001"
+    description: "Outbound encrypted web traffic is a specific type of outbound encrypted traffic"
+  - type: is_a
+    target: "DETECT-NETWORK-OUINWETR-001"
+    description: "Encrypted outbound web traffic is a subset of all outbound web traffic"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Monitoring encrypted web uploads enables detection of web-based data exfiltration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071.001"
+    tactic:
+      - "Command and Control"
+      - "Exfiltration"
+    sub_techniques: []
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Web Protocols T1071.001"
+    - "MITRE ATT&CK - Encrypted Channel T1573"
+    - "SANS Institute - Monitoring Outbound HTTPS"
+  search_keywords:
+    - "outbound HTTPS"
+    - "encrypted web traffic"
+    - "HTTPS egress"
+    - "outbound web monitoring"
+    - "HTTPS C2"
+    - "web exfiltration"
+    - "TLS proxy"
+    - "outbound web detection"
+    - "encrypted browsing"
+    - "HTTPS upload detection"
+  embedding_text: "Outbound internet encrypted web traffic detection targets HTTPS connections from internal hosts to internet destinations. It analyzes TLS metadata including SNI, JA3 fingerprints, and certificate properties to assess destinations, and examines behavioral patterns to detect C2 communications disguised as web browsing, data exfiltration through web uploads, and connections to malicious web services. Where TLS inspection is deployed, full content analysis provides deep threat detection. This is essential for identifying adversary activity hidden within the high volume of legitimate encrypted web traffic."

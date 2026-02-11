@@ -1,0 +1,107 @@
+# GR Atom: CVE-2010-0232
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20100232-001"
+  name: "CVE-2010-0232"
+  normalized_name: "cve_2010_0232"
+  aliases:
+    - "Windows Kernel VDM Privilege Escalation"
+    - "Windows NTVDM Privilege Escalation"
+    - "KiTrap0D"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PRIV
+    - OS
+    - WINDOWS
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z4"]
+  target_components:
+    - "Windows Kernel (ntoskrnl.exe)"
+    - "Windows NT Virtual DOS Machine (NTVDM)"
+    - "Windows XP, Vista, Server 2003, Server 2008"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2010-0232 is a local privilege escalation vulnerability in the Windows kernel affecting
+    Windows XP, Vista, Server 2003, and Server 2008. The vulnerability exists in the way the
+    Windows kernel handles Virtual 8086 mode exceptions through the NTVDM (NT Virtual DOS
+    Machine) subsystem. Also known as KiTrap0D, it allows a local attacker to execute arbitrary
+    code in kernel mode by running a specially crafted application that triggers an improper
+    handling of the #GP trap handler. CVSS v2 score is 7.2.
+  why: >-
+    This vulnerability provides reliable local privilege escalation from any user account to
+    SYSTEM level on affected Windows systems. The exploit was publicly disclosed with working
+    proof-of-concept code, making it immediately actionable by attackers. It affected all 32-bit
+    Windows systems in widespread enterprise deployment, representing a significant post-compromise
+    escalation vector.
+  how: >-
+    The exploit works by creating a specially crafted 16-bit executable that triggers a fault in
+    the Virtual 8086 mode exception handling. The kernel trap handler (KiTrap0D) improperly
+    validates the trap frame, allowing the attacker to redirect execution to arbitrary kernel-mode
+    code. Mitigation includes applying Microsoft Security Bulletin MS10-015, disabling the NTVDM
+    subsystem via Group Policy where 16-bit application support is not required, and upgrading to
+    64-bit Windows versions which are not affected.
+  core_concepts:
+    - key: "Kernel Trap Handler Exploit"
+      value: "Exploiting improper validation in the Windows kernel trap handler to redirect execution from user mode to kernel mode"
+    - key: "VDM Privilege Escalation"
+      value: "Leveraging the Virtual DOS Machine subsystem to trigger kernel-mode code execution from an unprivileged user context"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2010-0232 exploits authentication and privilege boundaries in the Windows kernel"
+  - type: "enables"
+    target: "VUL-AUTH-CVE20151701-001"
+    description: "Both are Windows kernel privilege escalation vulnerabilities targeting similar privilege boundary mechanisms"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1068"
+    tactic:
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2010-0232"
+    - "NIST NVD CVE-2010-0232 (CVSS v2: 7.2)"
+    - "Microsoft Security Bulletin MS10-015"
+    - "MITRE ATT&CK T1068 - Exploitation for Privilege Escalation"
+  search_keywords:
+    - "CVE-2010-0232"
+    - "KiTrap0D"
+    - "Windows kernel privilege escalation"
+    - "NTVDM vulnerability"
+    - "Virtual DOS Machine exploit"
+    - "MS10-015"
+    - "Windows VDM privilege escalation"
+  embedding_text: >-
+    CVE-2010-0232, known as KiTrap0D, is a local privilege escalation vulnerability in the
+    Windows kernel with CVSS v2 score 7.2. It affects Windows XP, Vista, Server 2003, and
+    Server 2008 through improper handling of Virtual 8086 mode exceptions in the NTVDM
+    subsystem. A local attacker runs a crafted 16-bit executable that triggers a fault in the
+    kernel trap handler, allowing redirection to arbitrary kernel-mode code execution as SYSTEM.
+    Mitigation includes applying MS10-015, disabling NTVDM via Group Policy, or upgrading to
+    64-bit Windows. The vulnerability was publicly disclosed with working exploit code and
+    represented a reliable post-compromise escalation vector on 32-bit Windows.

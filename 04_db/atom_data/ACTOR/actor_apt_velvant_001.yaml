@@ -1,0 +1,86 @@
+# GR Atom: Velvet Ant
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-VELVANT-001"
+  name: "Velvet Ant"
+  normalized_name: "velvet_ant"
+  aliases:
+    - "Velvet Ant APT"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - PERSIST
+    - EVADE
+    - LATERAL
+    - C2
+    - NETWORK
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L2", "L3", "L4", "L5"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Velvet Ant is a China-nexus advanced persistent threat group identified by Sygnia in 2024, notable for maintaining persistent access within a large organization's network for approximately three years. The group is distinguished by its exploitation of legacy F5 BIG-IP appliances as internal C2 nodes and its abuse of outdated network infrastructure to evade modern security controls. Velvet Ant demonstrated extreme patience and sophistication in maintaining long-term undetected access."
+  why: "Velvet Ant highlights the critical security risk posed by legacy and end-of-life network appliances within enterprise environments. The group's ability to maintain persistent access for years by living within network infrastructure rather than endpoints demonstrates a significant blind spot in many organizations' security monitoring. The case underscores the danger of unmanaged or poorly monitored network devices as potential pivot points."
+  how: "Velvet Ant exploited and maintained access to legacy F5 BIG-IP load balancer appliances that lacked endpoint detection capabilities, using them as internal C2 relay points. The group deployed the PlugX malware with a sophisticated multi-hop proxy chain through internal network devices, making C2 traffic appear as legitimate internal communications. They leveraged outdated Windows Server systems for lateral movement and deployed custom tools for credential harvesting. The group maintained multiple redundant persistence mechanisms to survive partial remediation attempts."
+  core_concepts:
+    - key: "Legacy Infrastructure Abuse"
+      value: "Exploitation of end-of-life F5 BIG-IP appliances and outdated network devices that lack modern security monitoring capabilities"
+    - key: "Internal C2 Relay"
+      value: "Use of compromised internal network appliances as C2 relay points, making malicious traffic appear as legitimate internal network communications"
+    - key: "Long-Term Persistent Access"
+      value: "Maintained undetected access for approximately three years through multiple redundant persistence mechanisms and patient operational tempo"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-APT-CATEGORY-001"
+    description: "China-nexus APT group specializing in long-term persistent access through network infrastructure abuse"
+  - type: enables
+    target: "ATK-PERSIST-IMPLANT-001"
+    description: "Deploys PlugX with multi-hop proxy chains through internal network devices for covert persistent access"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1584.004"
+    tactic:
+      - "persistence"
+      - "defense-evasion"
+      - "lateral-movement"
+      - "command-and-control"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Sygnia - Velvet Ant threat investigation report (2024)"
+    - "Sygnia - Velvet Ant F5 BIG-IP exploitation analysis"
+  search_keywords:
+    - "velvet ant"
+    - "china apt"
+    - "f5 big-ip exploitation"
+    - "legacy infrastructure"
+    - "internal c2 relay"
+    - "plugx"
+    - "network appliance abuse"
+    - "long-term persistence"
+    - "sygnia"
+    - "load balancer exploitation"
+    - "endpoint blind spot"
+  embedding_text: "Velvet Ant is a China-nexus advanced persistent threat group identified by Sygnia in 2024, notable for maintaining undetected access within an organization's network for approximately three years. The group exploited legacy F5 BIG-IP load balancer appliances as internal C2 relay points, making malicious traffic appear as legitimate internal communications. Velvet Ant deployed PlugX malware with multi-hop proxy chains through internal network devices, leveraged outdated systems for lateral movement, and maintained multiple redundant persistence mechanisms. The case highlights critical security risks from end-of-life network appliances and demonstrates a significant monitoring blind spot in enterprise environments."

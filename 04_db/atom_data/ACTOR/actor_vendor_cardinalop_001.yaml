@@ -1,0 +1,70 @@
+# GR Atom: CardinalOps
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-CARDINALOP-001"
+  name: "CardinalOps"
+  normalized_name: "cardinalops"
+  aliases:
+    - "CardinalOps Inc."
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - SIEM
+    - BLUE_TEAM
+    - MONITOR
+    - AI
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["Cross"]
+  target_zones: ["Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CardinalOps is a cybersecurity vendor specializing in detection engineering and SIEM optimization, using AI to automatically generate, test, and manage detection rules for security information and event management platforms. The company analyzes an organization's SIEM configuration against the MITRE ATT&CK framework to identify detection coverage gaps and automatically creates optimized detection rules to close those gaps across platforms like Splunk, Microsoft Sentinel, and CrowdStrike."
+  why: "CardinalOps addresses a critical problem in security operations: most organizations have significant detection coverage gaps in their SIEM deployments because creating and maintaining detection rules is manual, time-consuming, and requires specialized expertise. By automating detection engineering and mapping coverage against ATT&CK, CardinalOps helps SOC teams maximize the value of their existing SIEM investments and reduce mean time to detect threats."
+  how: "CardinalOps works by connecting to an organization's SIEM platform, analyzing the existing detection rules and data sources, mapping coverage against the MITRE ATT&CK framework, identifying gaps in technique coverage, and automatically generating optimized detection rules tailored to the organization's specific environment, log sources, and threat profile. The platform continuously monitors and validates detection effectiveness."
+  core_concepts:
+    - key: "Detection Engineering Automation"
+      value: "AI-driven automatic generation of SIEM detection rules mapped to MITRE ATT&CK technique coverage"
+    - key: "SIEM Optimization"
+      value: "Analysis and enhancement of existing SIEM deployments to maximize detection coverage and reduce blind spots"
+    - key: "ATT&CK Coverage Mapping"
+      value: "Continuous assessment of detection rule coverage against MITRE ATT&CK framework techniques and tactics"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-SIEM-PLATFORM-001"
+    description: "Enhances SIEM platforms by automatically generating and optimizing detection rules for coverage gaps"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for detection engineering vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.cardinalops.com"
+    - "https://www.cardinalops.com/blog"
+  search_keywords:
+    - "cardinalops"
+    - "detection engineering"
+    - "siem optimization"
+    - "detection coverage gaps"
+    - "mitre attack mapping"
+    - "automated detection rules"
+    - "siem detection"
+    - "soc optimization"
+  embedding_text: "CardinalOps is a cybersecurity vendor specializing in detection engineering and SIEM optimization, using AI to automatically generate, test, and manage detection rules for security information and event management platforms. The company analyzes SIEM configurations against the MITRE ATT&CK framework to identify detection coverage gaps and automatically creates optimized detection rules to close those gaps across platforms like Splunk, Microsoft Sentinel, and CrowdStrike. CardinalOps addresses the critical problem that most organizations have significant detection coverage gaps because creating and maintaining SIEM detection rules is manual and requires specialized expertise. By automating detection engineering and mapping coverage against ATT&CK techniques, CardinalOps helps SOC teams maximize their existing SIEM investments and reduce mean time to detect threats. The platform continuously monitors and validates detection effectiveness."

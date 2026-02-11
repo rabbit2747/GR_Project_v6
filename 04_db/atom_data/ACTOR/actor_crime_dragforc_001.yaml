@@ -1,0 +1,134 @@
+# GR Atom: Dragon Force
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-DRAGFORC-001"
+  name: "Dragon Force"
+  normalized_name: "dragon_force"
+  aliases:
+    - "DragonForce"
+    - "DragonForce Malaysia"
+    - "DragonForce Ransomware"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - EXFIL
+    - INITIAL
+    - EXEC
+    - NETWORK
+    - WEB
+    - WINDOWS
+    - LINUX
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    DragonForce is a cybercriminal and hacktivist threat group that originated in Malaysia and has
+    evolved from primarily hacktivist operations into a ransomware-as-a-service (RaaS) operation.
+    Initially known for pro-Palestinian hacktivism and defacement campaigns, the group expanded its
+    operations in 2023-2024 to include ransomware attacks and data extortion against organizations
+    globally. DragonForce developed custom ransomware based on leaked LockBit 3.0 (LockBit Black)
+    source code and a variant based on leaked Conti source code, operating a double-extortion model
+    with a Tor-based leak site. The group has targeted organizations in the United States, United
+    Kingdom, Australia, Israel, India, and Singapore across sectors including retail, manufacturing,
+    healthcare, and government.
+  why: >-
+    DragonForce exemplifies the convergence of hacktivism and financially motivated cybercrime,
+    demonstrating how hacktivist groups can leverage leaked ransomware source code to pivot into
+    profitable extortion operations. Their use of leaked LockBit 3.0 and Conti source code to
+    develop custom ransomware variants highlights the ongoing impact of ransomware source code
+    leaks on the threat landscape. The group's 2025 attacks on major UK retailers including Marks
+    and Spencer, Harrods, and the Co-operative Group demonstrated their capability to disrupt
+    significant commercial operations. DragonForce also launched a RaaS affiliate program,
+    expanding the potential reach of their ransomware through criminal partnerships.
+  how: >-
+    DragonForce gains initial access through exploitation of internet-facing vulnerabilities,
+    compromised credentials, and phishing campaigns. The group exploits known vulnerabilities
+    including Log4Shell (CVE-2021-44228), Fortinet FortiOS vulnerabilities, and Microsoft
+    Exchange flaws. Post-compromise, the group uses Cobalt Strike, SystemBC, and legitimate
+    remote access tools for command and control. Data exfiltration is performed using custom
+    tools and cloud storage services before ransomware deployment. The ransomware variants,
+    based on leaked LockBit Black and Conti code, encrypt files across Windows and Linux systems
+    including VMware ESXi. Earlier hacktivist operations included web defacement, DDoS attacks,
+    and database dumping against Israeli and Indian targets. The group operates a Tor-based
+    leak site for publishing stolen data and manages a RaaS affiliate program.
+  core_concepts:
+    - key: "Hacktivist to RaaS Evolution"
+      value: >-
+        DragonForce evolved from a primarily hacktivist group conducting defacement and DDoS
+        attacks into a full ransomware-as-a-service operation, demonstrating the pipeline from
+        ideologically motivated hacking to financially motivated cybercrime.
+    - key: "Leaked Source Code Weaponization"
+      value: >-
+        The group built custom ransomware variants from leaked LockBit 3.0 and Conti source code,
+        demonstrating how ransomware source code leaks enable new threat actors to rapidly develop
+        sophisticated encryption tools.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "DragonForce is a cybercriminal group operating ransomware and extortion campaigns"
+  - type: "enables"
+    target: "ATK-IMPACT"
+    description: "DragonForce ransomware operations enable destructive impact on victim organizations"
+  - type: "requires"
+    target: "ACTOR-CRIME-CONTLEAK-001"
+    description: "DragonForce ransomware variants are built on leaked Conti source code"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1486"
+    tactic:
+      - "Impact"
+      - "Initial Access"
+      - "Exfiltration"
+      - "Execution"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Group-IB - DragonForce Ransomware Analysis. https://www.group-ib.com/blog/dragonforce-ransomware/"
+    - "SentinelOne - DragonForce RaaS and LockBit Code Reuse. https://www.sentinelone.com/labs/dragonforce-ransomware/"
+    - "BleepingComputer - DragonForce UK Retail Attacks (2025). https://www.bleepingcomputer.com/news/security/dragonforce-ransomware-gang/"
+    - "Cyble - DragonForce Hacktivism to Ransomware Evolution. https://cyble.com/blog/dragonforce/"
+  search_keywords:
+    - "dragonforce ransomware"
+    - "dragonforce malaysia"
+    - "dragonforce lockbit code"
+    - "dragonforce conti code"
+    - "dragonforce RaaS"
+    - "dragonforce UK retail"
+    - "dragonforce marks spencer"
+    - "dragonforce hacktivist"
+  embedding_text: >-
+    DragonForce is a cybercriminal and hacktivist group originating from Malaysia that evolved from
+    pro-Palestinian hacktivism into a ransomware-as-a-service operation. The group developed custom
+    ransomware using leaked LockBit 3.0 (LockBit Black) and Conti source code, operating
+    double-extortion campaigns against organizations globally. DragonForce targets retail,
+    manufacturing, healthcare, and government sectors in the US, UK, Australia, and other countries.
+    Notable 2025 attacks disrupted major UK retailers including Marks and Spencer, Harrods, and the
+    Co-operative Group. Initial access leverages vulnerability exploitation including Log4Shell,
+    compromised credentials, and phishing. Post-compromise tools include Cobalt Strike and SystemBC.
+    The group maintains a Tor-based leak site and manages a RaaS affiliate program. DragonForce
+    exemplifies the convergence of hacktivism and financially motivated cybercrime, demonstrating how
+    leaked ransomware source code enables new threat actors to rapidly develop sophisticated tools.

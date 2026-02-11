@@ -1,0 +1,130 @@
+# GR Atom: Arcane Door
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-ACCESS-ARCADOOR-001"
+  name: "Arcane Door"
+  normalized_name: "arcane_door"
+  aliases:
+    - "ArcaneDoor"
+    - "CVE-2024-20353"
+    - "CVE-2024-20359"
+    - "Line Dancer"
+    - "Line Runner"
+    - "UAT4356"
+    - "STORM-1849"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INITIAL
+    - PERSIST
+    - EVADE
+    - NETWORK
+    - FIRMWARE
+    - VPN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Cisco Adaptive Security Appliance (ASA)"
+    - "Cisco Firepower Threat Defense (FTD)"
+    - "Network perimeter firewalls"
+    - "VPN concentrators"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Arcane Door is a sophisticated espionage campaign discovered in April 2024 by Cisco Talos
+    that exploited two zero-day vulnerabilities in Cisco ASA and FTD devices. CVE-2024-20353
+    (CVSS 8.6) is a denial-of-service vulnerability in the management and VPN web servers that
+    was weaponized to force device reboots enabling persistent implant deployment. CVE-2024-20359
+    (CVSS 6.0) is a persistent local code execution vulnerability that allows pre-loading VPN
+    clients and plug-ins enabling the Line Runner persistent backdoor. The campaign was attributed
+    to a state-sponsored actor tracked as UAT4356 (Cisco Talos) and STORM-1849 (Microsoft),
+    targeting government networks and critical infrastructure worldwide.
+  why: >-
+    Arcane Door demonstrates the critical risk of perimeter network device exploitation by
+    advanced persistent threat actors. Network security appliances like ASA firewalls sit at
+    trust boundaries and process all traffic, making them high-value targets. Compromise of
+    these devices provides attackers with network-level access, traffic interception capabilities,
+    and persistence that is extremely difficult to detect using traditional endpoint security
+    tools. The campaign affected government and critical infrastructure targets across multiple
+    countries.
+  how: >-
+    The attack chain used CVE-2024-20353 to crash the ASA web management interface, triggering
+    a device reboot. During the reboot process, CVE-2024-20359 was exploited to execute the
+    Line Runner persistent implant by abusing a legacy VPN client pre-loading capability.
+    The Line Dancer in-memory implant provided initial access and command execution without
+    touching disk. Line Runner achieved persistence through the VPN client pre-loading
+    mechanism, surviving reboots and firmware upgrades. Indicators included unexpected reboots,
+    unauthorized configuration changes, and anomalous authentication events. Cisco released
+    patches and integrity verification tools to detect compromise.
+  core_concepts:
+    - key: "Perimeter Device Zero-Day"
+      value: "Exploitation of previously unknown vulnerabilities in network perimeter security appliances that defend organizational boundaries"
+    - key: "Line Runner Persistence"
+      value: "Persistent backdoor implant that abuses Cisco ASA VPN client pre-loading to survive reboots and even firmware upgrades"
+    - key: "State-Sponsored Espionage"
+      value: "Campaign attributed to nation-state actor UAT4356/STORM-1849 targeting government and critical infrastructure globally"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-ACCESS-ACCESS-001"
+    description: "Arcane Door exploits access control weaknesses in Cisco ASA management and VPN interfaces"
+  - type: "enables"
+    target: "VUL-ACCESS-CVE201813379-001"
+    description: "Both represent VPN appliance compromise patterns where perimeter device exploitation enables network-level access"
+  - type: "causes"
+    target: "VUL-ACCESS-CVE202334362-001"
+    description: "Similar pattern of zero-day exploitation of enterprise network appliances for espionage and data exfiltration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+      - "Persistence"
+      - "Defense Evasion"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Cisco Talos - ArcaneDoor Campaign Advisory (April 2024)"
+    - "CVE-2024-20353 - Cisco ASA/FTD Web Services DoS"
+    - "CVE-2024-20359 - Cisco ASA/FTD Persistent Local Code Execution"
+    - "MITRE ATT&CK T1190 - Exploit Public-Facing Application"
+  search_keywords:
+    - "ArcaneDoor"
+    - "Arcane Door"
+    - "CVE-2024-20353"
+    - "CVE-2024-20359"
+    - "Line Dancer"
+    - "Line Runner"
+    - "UAT4356"
+    - "Cisco ASA zero-day"
+    - "STORM-1849"
+  embedding_text: >-
+    Arcane Door is a state-sponsored espionage campaign exploiting two Cisco ASA and FTD
+    zero-day vulnerabilities discovered in April 2024. CVE-2024-20353 (CVSS 8.6) causes
+    denial of service in web management servers enabling reboot-based exploitation.
+    CVE-2024-20359 (CVSS 6.0) enables persistent local code execution via VPN client
+    pre-loading. The Line Dancer in-memory implant provides initial access while Line Runner
+    achieves disk-persistent backdoor surviving reboots and firmware upgrades. Attributed
+    to UAT4356/STORM-1849, the campaign targeted government networks and critical infrastructure
+    worldwide. Demonstrates critical risk of perimeter network device exploitation by
+    advanced persistent threat actors.

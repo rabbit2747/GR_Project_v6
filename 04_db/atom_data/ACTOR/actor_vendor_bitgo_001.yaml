@@ -1,0 +1,70 @@
+# GR Atom: BitGo
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-BITGO-001"
+  name: "BitGo"
+  normalized_name: "bitgo"
+  aliases:
+    - "BitGo Inc."
+    - "BitGo Trust"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - WEB
+    - CLOUD
+    - MFA
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "BitGo is a digital asset infrastructure provider founded in 2013, specializing in institutional-grade cryptocurrency custody, wallet services, and security. The company pioneered multi-signature wallet technology for Bitcoin and provides custodial services, key management, and trading infrastructure for institutional investors and cryptocurrency exchanges. BitGo holds regulatory qualifications as a qualified custodian and trust company."
+  why: "BitGo is relevant to cybersecurity because cryptocurrency infrastructure is a high-value target for threat actors, and the security of digital asset custody directly impacts the broader cryptocurrency ecosystem. BitGo's multi-signature technology and institutional custody solutions represent critical security infrastructure for protecting billions of dollars in digital assets from theft and compromise."
+  how: "BitGo secures digital assets through multi-signature wallet technology requiring multiple private key holders to authorize transactions, hardware security modules (HSMs) for key storage, configurable spending policies, and institutional-grade custody with insurance coverage. The platform provides APIs for programmatic wallet management and integrates with exchanges and financial institutions."
+  core_concepts:
+    - key: "Multi-Signature Wallets"
+      value: "Cryptocurrency wallet technology requiring multiple private key signatures to authorize transactions, preventing single-point compromise"
+    - key: "Institutional Custody"
+      value: "Regulated custodial services for institutional investors providing secure storage of digital assets with insurance"
+    - key: "Key Management"
+      value: "Hardware security module-backed cryptographic key management for digital asset protection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "DEF-CRYPTO-CUSTODY-001"
+    description: "Produces institutional-grade cryptocurrency custody and multi-signature wallet security solutions"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for digital asset security vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.bitgo.com"
+    - "https://www.bitgo.com/resources"
+  search_keywords:
+    - "bitgo"
+    - "cryptocurrency custody"
+    - "multi-signature wallet"
+    - "digital asset security"
+    - "institutional custody"
+    - "bitcoin wallet security"
+    - "crypto key management"
+    - "bitgo trust"
+  embedding_text: "BitGo is a digital asset infrastructure provider founded in 2013, specializing in institutional-grade cryptocurrency custody, wallet services, and security. The company pioneered multi-signature wallet technology for Bitcoin, requiring multiple private key holders to authorize transactions and preventing single-point-of-compromise scenarios. BitGo provides custodial services, key management using hardware security modules, and trading infrastructure for institutional investors and cryptocurrency exchanges. As a qualified custodian and trust company, BitGo secures billions of dollars in digital assets through multi-signature technology, configurable spending policies, and insurance-backed custody. The company is relevant to cybersecurity because cryptocurrency infrastructure is a high-value target for threat actors, and BitGo's security solutions represent critical infrastructure for protecting institutional digital asset holdings from theft and compromise."

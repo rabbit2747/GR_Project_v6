@@ -1,0 +1,97 @@
+# GR Atom: CVE-2019-19871
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-LOGIC-CVE201919871-001"
+  name: "CVE-2019-19871"
+  normalized_name: "cve_2019_19871"
+  aliases:
+    - "Citrix ADC Path Traversal"
+    - "Citrix NetScaler Directory Traversal"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - PATH
+    - EXEC
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Citrix ADC (NetScaler ADC)"
+    - "Citrix Gateway (NetScaler Gateway)"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2019-19871 is a directory traversal vulnerability in Citrix Application Delivery
+    Controller (ADC) and Citrix Gateway that allows unauthenticated remote attackers to
+    perform arbitrary code execution. The flaw exists in the VPN handler logic that processes
+    directory traversal sequences, enabling attackers to write arbitrary files to the server
+    and achieve remote code execution. This is closely related to CVE-2019-19781 (Shitrix).
+    CVSS v3 base score: 9.8 (Critical).
+  why: >-
+    Citrix ADC and Gateway appliances are deployed at the network perimeter of thousands of
+    organizations worldwide for load balancing, VPN access, and application delivery. Pre-
+    authentication exploitation provides immediate network access bypassing perimeter defenses.
+    This vulnerability was massively exploited in early 2020 with automated scanning and
+    exploitation tools widely distributed.
+  how: >-
+    An attacker sends crafted HTTP requests with directory traversal sequences to the Citrix
+    ADC VPN handler. The path processing logic fails to sanitize traversal sequences before
+    file operations, allowing the attacker to write files to arbitrary locations on the
+    appliance. By writing a specially crafted template file to a web-accessible directory,
+    the attacker achieves server-side template injection leading to command execution.
+  core_concepts:
+    - key: "VPN Handler Path Logic"
+      value: "Directory traversal in VPN request processing enables arbitrary file write to the appliance filesystem"
+    - key: "Template Injection Chain"
+      value: "File write capability combined with template engine evaluation creates a code execution chain from a path traversal"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-LOGIC-BUSILOGI-001"
+    description: "Path validation logic flaw in VPN handler enabling arbitrary file write and code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "primary"
+  sources:
+    - "MITRE CVE - CVE-2019-19871"
+    - "Citrix Security Advisory CTX267027"
+    - "NIST NVD - CVE-2019-19871"
+  search_keywords:
+    - "CVE-2019-19871"
+    - "Citrix ADC vulnerability"
+    - "Citrix Gateway path traversal"
+    - "NetScaler vulnerability"
+    - "Citrix directory traversal"
+    - "Shitrix"
+  embedding_text: >-
+    CVE-2019-19871 is a directory traversal vulnerability in Citrix ADC and Citrix Gateway
+    enabling unauthenticated remote code execution. VPN handler logic fails to sanitize path
+    traversal sequences, allowing arbitrary file write. Combined with template injection for
+    command execution. Related to CVE-2019-19781 (Shitrix). CVSS v3 9.8 Critical. Massively
+    exploited in early 2020. Affects network perimeter appliances. Path validation logic
+    flaw in VPN request processing. Year 2019.

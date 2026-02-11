@@ -1,0 +1,75 @@
+# GR Atom: Username Enumeration Pattern
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-BEHAVIOR-USEENUPAT-001"
+  name: "Username Enumeration Pattern"
+  normalized_name: "username_enumeration_pattern"
+  aliases:
+    - "Account Enumeration Detection"
+    - "User Discovery Pattern"
+    - "Username Harvesting Detection"
+    - "Identity Enumeration Analysis"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - RECON
+    - DISC
+    - AUTHN
+    - MONITOR
+    - WEB
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "Username Enumeration Pattern detection identifies reconnaissance activity where an attacker systematically probes an authentication system to determine which usernames or email addresses are valid accounts. This detection monitors for patterns including rapid sequential authentication attempts with different usernames from the same source, differential response analysis where different error messages or response times distinguish valid from invalid accounts, password reset and registration endpoint probing, and LDAP or Active Directory enumeration queries. The technique tracks both the volume and pattern of failed authentication attempts to distinguish enumeration from legitimate typos or forgotten credentials."
+  why: "Username enumeration is a critical reconnaissance phase that precedes credential attacks including brute force, credential stuffing, password spraying, and targeted phishing. Once an attacker identifies valid usernames, they can focus password-guessing resources on confirmed accounts rather than wasting attempts on non-existent users. Valid usernames also enable targeted spearphishing campaigns using the correct email format and naming convention. Detecting enumeration activity early provides an opportunity to block attackers before they progress to credential attacks, implement additional protections for targeted accounts, and identify vulnerabilities in authentication interfaces that leak account existence information."
+  how: "Detection systems monitor authentication endpoints and identity management interfaces for enumeration patterns. Rate-based detection flags sources generating failed authentication attempts across many different usernames within short time windows, distinguishing from single-account lockout attempts. Response analysis detection identifies systems that return different HTTP status codes, error messages, or response latencies for valid versus invalid usernames, alerting administrators to fix these information leaks. Behavioral analysis identifies systematic username generation patterns including sequential variations, common name dictionaries, and organization-specific email format probing. LDAP query monitoring detects Active Directory enumeration through queries for user objects, group memberships, and organizational unit enumeration. Correlation with threat intelligence identifies source IPs associated with known credential attack infrastructure. Automated response can rate-limit or block sources exhibiting enumeration patterns while implementing consistent error responses to prevent information leakage."
+  core_concepts:
+    - key: "Differential Response"
+      value: "Variations in authentication system responses (error messages, timing, HTTP codes) that reveal whether a username exists in the system"
+    - key: "Username Generation Pattern"
+      value: "Systematic creation of candidate usernames using common name dictionaries, sequential variations, or organization-specific email formats"
+    - key: "Rate-Based Detection"
+      value: "Identification of enumeration through the volume and velocity of authentication attempts across multiple usernames from a single source"
+
+relations:
+  - type: precedes
+    target: "DETECT-BEHAVIOR-PRIACCPAT-001"
+    description: "Username enumeration typically precedes attacks against privileged accounts identified through the enumeration"
+  - type: effective_against
+    target: "ATK-CRED-BRUTFORC-001"
+    description: "Detects the reconnaissance phase that precedes brute force credential attacks"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1589.001"
+    tactic: ["Reconnaissance"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK T1589.001 - Gather Victim Identity Information: Credentials - https://attack.mitre.org/techniques/T1589/001/"
+    - "OWASP - Testing for User Enumeration - https://owasp.org/www-project-web-security-testing-guide/"
+    - "NIST SP 800-63B - Digital Identity Guidelines"
+  search_keywords:
+    - "username enumeration detection"
+    - "account enumeration pattern"
+    - "user discovery attack"
+    - "username harvesting"
+    - "identity enumeration"
+    - "authentication enumeration"
+    - "account probing detection"
+    - "credential reconnaissance"
+  embedding_text: "Username Enumeration Pattern detection identifies reconnaissance activity where attackers systematically probe authentication systems to discover valid accounts. It monitors rapid sequential authentication attempts with different usernames, differential response analysis revealing account existence through error messages or timing, password reset endpoint probing, and LDAP enumeration queries. Rate-based detection flags sources attempting many usernames in short windows. Response analysis identifies information leakage through inconsistent error handling. Behavioral analysis detects systematic username generation patterns. Early detection enables blocking before credential attacks begin and identifies authentication interface vulnerabilities. This technique addresses the critical reconnaissance phase preceding brute force, credential stuffing, and targeted phishing."

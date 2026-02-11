@@ -1,0 +1,122 @@
+# GR Atom: Broken Object Level Authorization (BOLA)
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-BROBLEAU-001"
+  name: "Broken Object Level Authorization (BOLA)"
+  normalized_name: "broken_object_level_authorization_bola"
+  aliases:
+    - "BOLA"
+    - "Insecure Direct Object Reference"
+    - "IDOR"
+    - "OWASP API1"
+    - "Horizontal Privilege Escalation"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 2
+  atom_tags:
+    - AUTHZ
+    - API
+    - WEB
+    - INFO_LEAK
+    - PRIV
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "API endpoints"
+    - "REST API resources"
+    - "GraphQL queries"
+    - "Database access layers"
+    - "Object storage systems"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Broken Object Level Authorization (BOLA) is the most critical API security vulnerability
+    ranked OWASP API Security Top 10 API1:2023. It occurs when an API endpoint receives an
+    object identifier from a client and fails to validate that the authenticated user has
+    authorization to access the target object. This allows attackers to access or modify
+    other users' data by manipulating object identifiers in API requests. Previously known
+    as Insecure Direct Object References (IDOR), BOLA is extremely prevalent because server-side
+    components often rely on client-supplied parameters to determine which objects to access.
+  why: >-
+    BOLA is the most common and most impactful API vulnerability. It allows unauthorized
+    access to other users' data through simple parameter manipulation, requiring no special
+    tools or advanced skills. Exploitation can lead to massive data breaches, unauthorized
+    modification of records, and violation of data privacy regulations. The simplicity of
+    exploitation combined with the severity of impact makes BOLA the top priority for API
+    security programs.
+  how: >-
+    Exploitation involves intercepting API requests and modifying object identifiers such as
+    user IDs, record numbers, or UUIDs to access resources belonging to other users. Attackers
+    enumerate sequential or predictable identifiers, swap identifiers between API calls, or
+    use automated tools to harvest data across accounts. Mitigation requires implementing
+    object-level authorization checks for every function that accesses a data source using
+    input from the user, using random non-guessable identifiers like UUIDs, and writing tests
+    to evaluate authorization logic for every API endpoint.
+  core_concepts:
+    - key: "Object-Level Authorization"
+      value: "Verifying that the authenticated user has permission to access the specific data object referenced in each API request"
+    - key: "Identifier Manipulation"
+      value: "Modifying object identifiers in API requests to access resources belonging to other users or outside authorized scope"
+    - key: "Horizontal Escalation"
+      value: "Accessing resources belonging to other users at the same privilege level by exploiting missing object ownership checks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "BOLA is a category of authentication and authorization vulnerability focused on object-level access"
+  - type: "enables"
+    target: "VUL-AUTH-BROBPRLEAU-001"
+    description: "Broken object-level authorization enables broken object property level authorization when object access is uncontrolled"
+  - type: "applies_to"
+    target: "VUL-AUTH-BRFULEAU-001"
+    description: "BOLA and BFLA are complementary API authorization vulnerabilities often found together"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "OWASP API Security Top 10 2023 - API1 Broken Object Level Authorization"
+    - "CWE-639 Authorization Bypass Through User-Controlled Key"
+    - "CWE-284 Improper Access Control"
+    - "MITRE ATT&CK T1530 - Data from Cloud Storage"
+  search_keywords:
+    - "broken object level authorization"
+    - "BOLA"
+    - "insecure direct object reference"
+    - "IDOR"
+    - "horizontal privilege escalation"
+    - "API authorization bypass"
+    - "OWASP API1"
+    - "parameter manipulation"
+  embedding_text: >-
+    Broken Object Level Authorization (BOLA) is the most critical API vulnerability ranked
+    OWASP API Security API1:2023, previously known as Insecure Direct Object References
+    (IDOR). It occurs when API endpoints fail to validate that authenticated users have
+    authorization to access target objects identified in requests. Attackers manipulate
+    object identifiers to access other users data through simple parameter changes. This
+    enables horizontal privilege escalation and mass data harvesting. Mitigation requires
+    object-level authorization checks on every data-accessing function, random non-guessable
+    identifiers, and comprehensive authorization testing. Impacts include data breaches,
+    unauthorized data modification, and privacy regulation violations.

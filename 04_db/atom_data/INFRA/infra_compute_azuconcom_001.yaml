@@ -1,0 +1,101 @@
+# GR Atom: Azure Confidential Computing
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-AZUCONCOM-001"
+  name: "Azure Confidential Computing"
+  normalized_name: "azure_confidential_computing"
+  aliases:
+    - "ACC"
+    - "Azure TEE"
+    - "Azure Confidential VMs"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - AZURE
+    - CLOUD
+    - ENCRYPT
+    - PRIVACY
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L1"
+  zone: "Z3"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Azure Confidential Computing is a set of Azure services that enable data processing within
+    hardware-based Trusted Execution Environments (TEEs) such as Intel SGX enclaves and AMD
+    SEV-SNP confidential VMs. These TEEs protect data in use by encrypting memory and isolating
+    computations from the host operating system, hypervisor, and other tenants. Azure offers
+    confidential VMs, confidential containers on AKS, and application enclaves for different
+    levels of confidential computing capability.
+  why: >-
+    Traditional cloud security protects data at rest and in transit but leaves data unprotected
+    during processing in memory. Confidential computing addresses this gap by ensuring data
+    remains encrypted even while being processed, preventing access by cloud operators, other
+    tenants, or compromised hypervisors. This is critical for regulated industries processing
+    sensitive financial, healthcare, or government data in multi-tenant cloud environments.
+  how: >-
+    Azure Confidential Computing leverages hardware TEEs from Intel (SGX) and AMD (SEV-SNP).
+    Confidential VMs use AMD SEV-SNP to encrypt the entire VM memory with per-VM keys managed
+    by the hardware. Application enclaves use Intel SGX to isolate specific application code
+    and data. Attestation services verify the integrity of TEE environments before secrets are
+    released. The Open Enclave SDK and Intel SGX SDK enable enclave application development.
+    Azure Attestation service provides remote attestation verification.
+  core_concepts:
+    - key: "Trusted Execution Environments"
+      value: "Hardware-enforced isolation using Intel SGX or AMD SEV-SNP that protects data in use from the host OS, hypervisor, and other tenants"
+    - key: "Remote Attestation"
+      value: "Cryptographic verification that code is running in a genuine TEE with expected configuration before releasing secrets"
+    - key: "Data-in-Use Protection"
+      value: "Memory encryption preventing unauthorized access to data during processing, closing the gap between at-rest and in-transit encryption"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "requires"
+    target: "INFRA-COMPUTE-MICRAZUR-001"
+    description: "Azure Confidential Computing runs exclusively on the Microsoft Azure cloud platform"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-AWSNITENC-001"
+    description: "Azure Confidential Computing competes with AWS Nitro Enclaves for trusted execution environments"
+  - type: "alternative_to"
+    target: "INFRA-COMPUTE-GCPCONVMS-001"
+    description: "Azure Confidential Computing competes with GCP Confidential VMs for data-in-use protection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "Microsoft Azure Confidential Computing Documentation"
+    - "Confidential Computing Consortium - Technical Standards"
+    - "NIST SP 800-215 - Guide to a Secure Enterprise Network Landscape"
+  search_keywords:
+    - "azure confidential computing"
+    - "confidential VMs"
+    - "trusted execution environment"
+    - "intel SGX azure"
+    - "AMD SEV-SNP"
+    - "data in use protection"
+    - "azure attestation"
+  embedding_text: >-
+    Azure Confidential Computing enables data processing within hardware-based Trusted Execution
+    Environments (TEEs) using Intel SGX enclaves and AMD SEV-SNP confidential VMs on the Azure
+    cloud platform. TEEs protect data in use by encrypting memory and isolating computations
+    from the host operating system, hypervisor, and other tenants. Azure offers confidential VMs
+    with full VM memory encryption, application enclaves for code-level isolation, and confidential
+    containers on AKS. Remote attestation verifies TEE integrity before secrets are released.
+    This addresses the data-in-use protection gap for regulated industries processing sensitive
+    financial, healthcare, or government data in multi-tenant cloud environments.

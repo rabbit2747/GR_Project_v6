@@ -1,0 +1,77 @@
+# GR Atom: MirrorFace
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-MIRRORFACE-001"
+  name: "MirrorFace"
+  normalized_name: "mirrorface"
+  aliases:
+    - "Earth Kasha"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EXEC"
+    - "CRED"
+    - "EXFIL"
+    - "WINDOWS"
+    - "NETWORK"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3"]
+  target_components:
+    - "email systems"
+    - "government networks"
+    - "political party systems"
+    - "research institutions"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "MirrorFace (also tracked as Earth Kasha) is a Chinese-linked APT group that has been active since at least 2019, primarily targeting Japanese organizations including government agencies, political entities, media organizations, think tanks, and semiconductor manufacturers. The group has strong operational and tooling connections to APT10/MenuPass and is believed to be either a subgroup or closely affiliated operation."
+  why: "MirrorFace operations focus on collecting political intelligence from Japanese government entities, monitoring Japanese policy decisions regarding China, and acquiring technology and research information from Japanese semiconductor and technology companies. The targeting of Japanese political parties and politicians suggests interest in understanding Japanese political dynamics and policy formation related to China."
+  how: "The group uses spear-phishing emails with carefully crafted Japanese-language lures targeting specific individuals in government and political organizations. MirrorFace deploys custom malware including LODEINFO (a fileless backdoor), MirrorStealer (credential harvester), and NOOPDOOR. Attack chains typically involve weaponized document attachments or links to malicious archives. The group has exploited vulnerabilities in network edge devices including Fortinet, Citrix, and Array Networks products. Post-compromise activities include credential harvesting, internal reconnaissance, and selective document exfiltration."
+  core_concepts:
+    - "Japan-focused political espionage"
+    - "LODEINFO fileless backdoor"
+    - "APT10 operational connections"
+    - "semiconductor industry targeting"
+    - "network edge device exploitation"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "ACTOR-APT-MENUPASS-001"
+    description: "MirrorFace shares tooling and infrastructure with APT10/MenuPass operations"
+  - type: "applies_to"
+    target: "ACTOR-APT-BLACKTECH-001"
+    description: "Both groups target Japanese organizations with overlapping interest in technology sector"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "ESET - MirrorFace: Unmasking the Connection to APT10"
+    - "Japan NPA/NCSC - MirrorFace Attribution Advisory (2024)"
+    - "Trend Micro - Earth Kasha APT Campaign Analysis"
+  search_keywords:
+    - "mirrorface"
+    - "earth kasha"
+    - "LODEINFO malware"
+    - "japan APT"
+    - "MirrorStealer"
+    - "NOOPDOOR backdoor"
+    - "japanese government hacking"
+    - "APT10 subgroup"
+  embedding_text: "MirrorFace is a Chinese-linked APT group also tracked as Earth Kasha, active since at least 2019 primarily targeting Japanese organizations. The group focuses on government agencies, political entities, media, think tanks, and semiconductor manufacturers in Japan. MirrorFace has strong operational connections to APT10/MenuPass and deploys custom malware including LODEINFO fileless backdoor, MirrorStealer credential harvester, and NOOPDOOR. Attack techniques include spear-phishing with Japanese-language lures, exploitation of network edge devices from vendors like Fortinet and Citrix, credential harvesting, and selective document exfiltration. Japan's National Police Agency formally attributed MirrorFace operations to China. The group's targeting patterns reflect Chinese intelligence interests in Japanese political dynamics, policy formation regarding China, and semiconductor technology acquisition. MirrorFace represents a focused component of Chinese cyber espionage specifically dedicated to Japanese intelligence collection."

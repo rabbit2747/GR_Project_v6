@@ -1,0 +1,116 @@
+# GR Atom: CVE-2017-0199
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-MEMORY-CVE20170199-001"
+  name: "CVE-2017-0199"
+  normalized_name: "cve_2017_0199"
+  aliases:
+    - "Microsoft Office OLE2Link RCE"
+    - "RTF HTA Code Execution"
+    - "Office OLE Remote Code Execution"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - EXEC
+    - INITIAL
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4"]
+  target_components:
+    - "Microsoft Office 2007-2016"
+    - "Microsoft WordPad"
+    - "Windows OLE/COM subsystem"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2017-0199 is a remote code execution vulnerability (CVSS 7.8) in Microsoft Office
+    and WordPad that allows attackers to execute arbitrary code when a user opens a
+    specially crafted document containing an embedded OLE2Link object. The vulnerability
+    leverages the Windows OLE (Object Linking and Embedding) mechanism to download and
+    execute a malicious HTA (HTML Application) file from a remote server when the
+    document is opened. Discovered being exploited in the wild in early 2017, it was
+    patched by Microsoft in April 2017. The vulnerability became one of the most widely
+    exploited Office vulnerabilities, used by APT groups and cybercriminals alike for
+    phishing campaigns and malware delivery.
+  why: >-
+    CVE-2017-0199 was exceptionally impactful because it was simple to exploit, worked
+    across multiple Office versions, and was exploited as a zero-day by both APT groups
+    (APT28, Dridex operators) and cybercriminals simultaneously. Unlike many Office
+    exploits that required memory corruption, this vulnerability used legitimate Windows
+    features (OLE and HTA processing) in an unexpected way, making detection more
+    challenging. It became a staple in phishing kits and was one of the most commonly
+    exploited vulnerabilities for years after its disclosure.
+  how: >-
+    The exploit crafts a Microsoft Office document (typically RTF) containing an
+    OLE2Link object that specifies a URL to a remote HTA file. When the victim opens
+    the document, Office processes the OLE object and contacts the remote server to
+    retrieve the linked content. The server responds with an HTA file containing
+    malicious script code. Windows processes the HTA through mshta.exe, which executes
+    the embedded script with full user privileges, bypassing Office security sandboxing.
+    The attack requires minimal user interaction beyond opening the document.
+  core_concepts:
+    - key: "OLE2Link Remote Execution"
+      value: "Embedded OLE objects in Office documents trigger remote HTA download and execution via mshta.exe"
+    - key: "Phishing Attack Enabler"
+      value: "Simple, reliable exploitation made it one of the most widely used Office vulnerabilities for phishing campaigns"
+    - key: "Logic Flaw Over Memory Corruption"
+      value: "Abuses legitimate Windows OLE/HTA features rather than memory corruption, complicating detection"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-MEMORY-MEMORY-001"
+    description: "CVE-2017-0199 exploits logical memory handling in OLE subsystem for code execution"
+  - type: "enables"
+    target: "VUL-MEMORY-CVE20170262-001"
+    description: "Both are 2017 Office vulnerabilities used by APT groups for document-based code execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "Microsoft Security Update CVE-2017-0199"
+    - "NVD Entry CVE-2017-0199 - CVSS 7.8"
+    - "FireEye - CVE-2017-0199 Zero-Day Analysis"
+    - "MITRE ATT&CK T1203 - Exploitation for Client Execution"
+  search_keywords:
+    - "CVE-2017-0199"
+    - "OLE2Link"
+    - "Microsoft Office"
+    - "RTF"
+    - "HTA"
+    - "remote code execution"
+    - "phishing"
+    - "mshta.exe"
+    - "document exploit"
+  embedding_text: >-
+    CVE-2017-0199 is a remote code execution vulnerability in Microsoft Office and
+    WordPad with CVSS 7.8, exploiting the OLE2Link mechanism to download and execute
+    malicious HTA files when users open crafted documents. Rather than memory corruption,
+    it abuses legitimate Windows OLE and HTA processing features. Exploited as a zero-day
+    by both APT groups and cybercriminals in 2017, it became one of the most widely used
+    Office vulnerabilities for phishing campaigns. Its simplicity and reliability across
+    Office versions made it a persistent threat for malware delivery operations.

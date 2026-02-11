@@ -1,0 +1,83 @@
+# GR Atom: Copy Kitten
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-COPYKITT-001"
+  name: "Copy Kitten"
+  normalized_name: "copy_kitten"
+  aliases:
+    - "CopyKittens"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - INITIAL
+    - C2
+    - EXFIL
+    - WEB
+    - WINDOWS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "CopyKittens is an Iranian APT group active since at least 2013, targeting government agencies, defense organizations, academic institutions, and IT companies primarily in Israel, Saudi Arabia, Turkey, Germany, and the United States. The group is characterized by its use of publicly available offensive tools and custom malware, notably the Matryoshka RAT, rather than sophisticated zero-day exploits. Despite their relatively lower technical sophistication, the group has maintained persistent and effective espionage operations."
+  why: "CopyKittens demonstrates that effective cyber-espionage does not require advanced technical capabilities. The group's ability to compromise targets using mostly public tools and basic custom malware highlights the threat from persistent, motivated actors who leverage strategic web compromise and social engineering. Their targeting of Israeli defense and government entities aligns with Iranian intelligence collection priorities."
+  how: "The group relies on strategic web compromises (watering holes), spearphishing emails with malicious attachments, and fake social media profiles for initial access. They deploy the Matryoshka RAT framework, which provides multi-stage backdoor access with modular capabilities. The group also uses publicly available tools including Metasploit, Mimikatz, and Empire for post-exploitation. Web shells on compromised servers provide persistent access, and data exfiltration occurs over HTTP/HTTPS channels to attacker-controlled infrastructure."
+  core_concepts:
+    - key: "Matryoshka RAT"
+      value: "Custom multi-stage remote access trojan with modular architecture for espionage operations"
+    - key: "Strategic Web Compromise"
+      value: "Uses watering hole attacks targeting websites visited by intended victims"
+    - key: "Public Tool Reliance"
+      value: "Heavily leverages publicly available offensive tools rather than custom exploit development"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "ATK-INITIAL-SPEARPHISH-001"
+    description: "Uses spearphishing and watering hole attacks for initial compromise"
+  - type: is_a
+    target: "ACTOR-APT-COPYKITT-001"
+    description: "Iranian APT group conducting espionage with publicly available tools"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+      - "Command and Control"
+      - "Collection"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "ClearSky - Operation Wilted Tulip Report"
+    - "Trend Micro - CopyKittens Campaign Analysis"
+  search_keywords:
+    - "copykittens"
+    - "copy kitten"
+    - "matryoshka rat"
+    - "iranian apt israel"
+    - "operation wilted tulip"
+    - "iranian cyber espionage"
+    - "watering hole iran"
+    - "strategic web compromise"
+    - "iranian government targeting"
+    - "middle east cyber espionage"
+  embedding_text: "CopyKittens is an Iranian APT group active since at least 2013, targeting government agencies, defense organizations, academic institutions, and IT companies in Israel, Saudi Arabia, Turkey, Germany, and the United States. The group deploys the custom Matryoshka RAT framework for multi-stage backdoor access alongside publicly available offensive tools including Metasploit, Mimikatz, and Empire. Initial access relies on strategic web compromises (watering holes), spearphishing emails, and fake social media profiles. Despite relatively lower technical sophistication compared to other Iranian groups, CopyKittens has maintained persistent espionage operations through effective social engineering and the strategic use of web shells for persistent server access. Their targeting aligns with Iranian intelligence priorities."

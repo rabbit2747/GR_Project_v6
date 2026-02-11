@@ -1,0 +1,69 @@
+# GR Atom: Security Joes
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-SECUJOES-001"
+  name: "Security Joes"
+  normalized_name: "security_joes"
+  aliases:
+    - "SecurityJoes"
+    - "Security Joes Ltd"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - FORENSICS
+    - BLUE_TEAM
+    - THREAT_INTEL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Security Joes is an Israeli cybersecurity vendor specializing in incident response, digital forensics, and threat hunting services. The company provides 24/7 incident response retainer services, malware analysis, compromise assessments, and proactive threat hunting, operating as a follow-the-sun incident response provider with global coverage for organizations experiencing active cyber attacks."
+  why: "Security Joes is significant in cybersecurity because rapid incident response is critical for minimizing the impact of breaches and containing active threats. The company has published notable research on novel attack techniques and malware families, contributing to the threat intelligence community while providing hands-on response capabilities to organizations during their most critical security events."
+  how: "Security Joes operates through a global follow-the-sun incident response model that provides continuous coverage across time zones. Their teams perform digital forensics and incident response (DFIR), malware reverse engineering, threat hunting across enterprise environments, and post-incident remediation guidance. The company publishes technical research and threat advisories based on findings from real-world incident engagements."
+  core_concepts:
+    - key: "Incident Response Services"
+      value: "24/7 follow-the-sun incident response with global coverage for active breach containment and remediation"
+    - key: "Digital Forensics"
+      value: "Evidence collection, analysis, and preservation for cyber incident investigation and legal proceedings"
+    - key: "Threat Hunting"
+      value: "Proactive search for hidden threats and indicators of compromise within enterprise environments"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-FIREEYE-001"
+    description: "Fellow incident response and threat intelligence vendor providing DFIR services"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.securityjoes.com"
+  search_keywords:
+    - "security joes"
+    - "incident response"
+    - "digital forensics"
+    - "threat hunting"
+    - "DFIR"
+    - "malware analysis"
+    - "breach response"
+    - "compromise assessment"
+  embedding_text: "Security Joes is an Israeli cybersecurity vendor specializing in incident response, digital forensics, and threat hunting services. The company provides 24/7 incident response retainer services, malware analysis, compromise assessments, and proactive threat hunting, operating as a follow-the-sun incident response provider with global coverage. Security Joes performs digital forensics and incident response, malware reverse engineering, and threat hunting across enterprise environments, publishing technical research and threat advisories based on findings from real-world incident engagements."

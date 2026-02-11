@@ -1,0 +1,135 @@
+# GR Atom: OSPF
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "PROTO-ROUTING-OSPF-001"
+  name: "OSPF"
+  normalized_name: "ospf"
+  aliases:
+    - "Open Shortest Path First"
+    - "OSPFv2"
+    - "OSPFv3"
+    - "OSPF Protocol"
+    - "OSPF Routing Protocol"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - TLS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3"]
+  target_zones: ["Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    OSPF (Open Shortest Path First) is a link-state interior gateway protocol (IGP) defined in
+    RFC 2328 (OSPFv2 for IPv4) and RFC 5340 (OSPFv3 for IPv6) used for routing within a single
+    autonomous system. OSPF routers exchange Link State Advertisements (LSAs) to build a complete
+    topological map of the network, then compute shortest paths using Dijkstra's algorithm. The
+    protocol uses IP protocol number 89 and organizes networks into areas with Area 0 (backbone)
+    required for inter-area routing. OSPF is the most widely deployed IGP in enterprise and
+    service provider networks.
+  why: >-
+    OSPF is a primary target for internal network attacks because compromising the routing
+    infrastructure enables traffic redirection, black-holing, and man-in-the-middle attacks
+    within enterprise networks. An attacker who can inject forged LSAs into an OSPF domain
+    can manipulate routing tables across the entire autonomous system, redirecting sensitive
+    traffic through attacker-controlled paths. OSPF authentication weaknesses (plaintext
+    passwords in Type 0/1, MD5 in Type 2) have been exploited in penetration tests and real
+    attacks. Rogue OSPF router injection on shared network segments allows an adversary to
+    become a transit point for all traffic. OSPF security is critical for maintaining internal
+    network integrity and preventing lateral movement after initial compromise.
+  how: >-
+    OSPF operates through five packet types exchanged between adjacent routers: (1) Hello
+    packets discover neighbors and maintain adjacencies, sent at configurable intervals
+    (default 10s on broadcast, 30s on NBMA networks); (2) Database Description (DBD) packets
+    exchange LSA headers during adjacency formation; (3) Link State Request (LSR) packets
+    request specific LSAs; (4) Link State Update (LSU) packets carry full LSAs; (5) Link State
+    Acknowledgment (LSAck) confirms receipt. Security mechanisms include: OSPF authentication
+    Type 2 (HMAC-MD5, RFC 2328), OSPFv3 IPsec-based authentication and encryption (RFC 4552),
+    OSPFv3 Authentication Trailer (RFC 7166) as a modern alternative, passive interfaces to
+    prevent OSPF on untrusted segments, route filtering with distribute-lists and prefix-lists,
+    and stub/NSSA area types to limit LSA propagation. Area segmentation provides security
+    boundaries by confining LSA flooding domains.
+  core_concepts:
+    - key: "Link State Advertisement (LSA)"
+      value: >-
+        The fundamental data unit in OSPF describing a router's local topology, including
+        connected networks, neighbor relationships, and link costs. LSAs are flooded throughout
+        an OSPF area and collectively build the Link State Database (LSDB) from which each
+        router independently computes shortest paths.
+    - key: "OSPF Area Design"
+      value: >-
+        Hierarchical network segmentation using OSPF areas to control LSA flooding scope,
+        reduce computational overhead, and create security boundaries. Area 0 (backbone)
+        connects all non-backbone areas, while stub and NSSA area types restrict external
+        route propagation.
+    - key: "OSPF Authentication"
+      value: >-
+        Mechanisms to validate OSPF packet authenticity including Type 0 (null), Type 1
+        (plaintext password), Type 2 (HMAC-MD5 cryptographic), and OSPFv3 IPsec/Authentication
+        Trailer options. Cryptographic authentication prevents unauthorized routers from
+        injecting forged routing information.
+    - key: "Designated Router (DR)"
+      value: >-
+        A router elected on multi-access network segments to reduce OSPF adjacency overhead.
+        The DR and Backup DR (BDR) serve as central points for LSA exchange, reducing the
+        number of adjacencies from O(n^2) to O(n) on broadcast and NBMA segments.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "PROTO-ROUTING-001"
+    description: "OSPF is an interior gateway routing protocol within the routing protocol family"
+  - type: "requires"
+    target: "PROTO-ROUTING-ARP-001"
+    description: "OSPF on broadcast segments requires ARP for resolving next-hop IP addresses to MAC addresses for LSA delivery"
+  - type: "enables"
+    target: "PROTO-ROUTING-BGP-001"
+    description: "OSPF provides the internal reachability required for iBGP next-hop resolution in networks running both protocols"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "RFC 2328 - OSPF Version 2 (April 1998). IETF. https://datatracker.ietf.org/doc/html/rfc2328"
+    - "RFC 5340 - OSPF for IPv6 (July 2008). IETF. https://datatracker.ietf.org/doc/html/rfc5340"
+    - "RFC 7166 - Supporting Authentication Trailer for OSPFv3 (March 2014). IETF. https://datatracker.ietf.org/doc/html/rfc7166"
+    - "NIST SP 800-189 - Resilient Interdomain Traffic Exchange (March 2019). https://csrc.nist.gov/publications/detail/sp/800-189/final"
+  search_keywords:
+    - "OSPF"
+    - "open shortest path first"
+    - "link state protocol"
+    - "OSPF authentication"
+    - "OSPF area"
+    - "link state advertisement"
+    - "LSA injection"
+    - "OSPF security"
+    - "interior gateway protocol"
+    - "RFC 2328"
+    - "Dijkstra routing"
+    - "rogue OSPF router"
+  embedding_text: >-
+    OSPF (Open Shortest Path First) is a link-state interior gateway protocol defined in RFC 2328
+    for IPv4 and RFC 5340 for IPv6, used for routing within autonomous systems. Routers exchange
+    Link State Advertisements to build complete topological maps and compute shortest paths via
+    Dijkstra's algorithm. OSPF organizes networks into areas with Area 0 as the backbone. Security
+    concerns include LSA injection attacks that manipulate routing tables, rogue router insertion on
+    shared segments, and authentication weaknesses in plaintext and MD5 modes. Modern security uses
+    OSPFv3 IPsec or Authentication Trailer (RFC 7166), passive interfaces on untrusted segments,
+    route filtering, and area segmentation to limit attack surfaces. OSPF is the most widely
+    deployed IGP in enterprise networks and its compromise enables traffic redirection, black-holing,
+    and lateral movement within internal networks.

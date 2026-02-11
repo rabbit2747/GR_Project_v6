@@ -1,0 +1,80 @@
+# GR Atom: Pointer Authentication Project Zero
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-RESEARCH-POAUPRZE-001"
+  name: "Pointer Authentication Project Zero"
+  normalized_name: "pointer_authentication_project_zero"
+  aliases:
+    - "PAC Project Zero Research"
+    - "ARM PAC Bypass Research"
+    - "Pointer Authentication Codes Research"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - OVERFLOW
+    - OS
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2"]
+  target_zones: ["Z0A", "Z0B", "Z1"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Pointer Authentication Project Zero refers to the security research conducted by Google Project Zero into ARM Pointer Authentication Codes (PAC), a hardware-based exploit mitigation feature in ARM processors used in Apple devices and other ARM-based platforms. The research examined the security guarantees and limitations of pointer authentication, identified bypass techniques, and analyzed how PAC implementations can be circumvented through various attack vectors including speculative execution, signing gadgets, and implementation weaknesses. This research is critical to understanding the security of modern ARM-based devices including iPhones, iPads, and Apple Silicon Macs."
+  why: "This research is significant because pointer authentication is a fundamental hardware-level security mitigation against memory corruption exploits on ARM platforms, particularly Apple's A-series and M-series chips. Understanding PAC bypasses is essential for evaluating the real-world security of billions of devices and for developing more robust exploit mitigations. The findings inform both offensive exploit development and defensive security engineering for ARM platforms."
+  how: "Project Zero researchers analyzed the ARM PAC specification and its implementations, developed proof-of-concept bypass techniques, studied the interaction between PAC and other exploit mitigations, and documented the conditions under which pointer authentication can be defeated. The research involved reverse engineering of PAC implementations, analysis of signing and verification gadgets, and evaluation of PAC's effectiveness against various classes of memory corruption vulnerabilities."
+  core_concepts:
+    - key: "Pointer Authentication Codes"
+      value: "ARM hardware feature that cryptographically signs pointers to prevent memory corruption exploitation"
+    - key: "PAC Bypass Techniques"
+      value: "Methods to circumvent pointer authentication through signing gadgets, speculative execution, and implementation weaknesses"
+    - key: "Hardware Security Mitigations"
+      value: "Analysis of hardware-level exploit mitigations and their effectiveness against advanced attack techniques"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "ACTOR-RESEARCH-PROJZERO-001"
+    description: "Research conducted as part of Google Project Zero's vulnerability research program"
+  - type: part_of
+    target: "ACTOR-RESEARCH-GOOPROZER-001"
+    description: "Research output from Google Project Zero team"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1203"
+    tactic:
+      - "Execution"
+      - "Privilege Escalation"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://googleprojectzero.blogspot.com"
+    - "https://developer.arm.com/documentation/ddi0487/latest"
+  search_keywords:
+    - "pointer authentication"
+    - "PAC bypass"
+    - "ARM security"
+    - "Project Zero"
+    - "memory corruption"
+    - "exploit mitigation"
+    - "Apple silicon"
+    - "hardware security"
+    - "signing gadgets"
+  embedding_text: "Pointer Authentication Project Zero refers to the security research conducted by Google Project Zero into ARM Pointer Authentication Codes (PAC), a hardware-based exploit mitigation feature in ARM processors used in Apple devices and other ARM-based platforms. The research examined the security guarantees and limitations of pointer authentication, identified bypass techniques including speculative execution attacks, signing gadgets, and implementation weaknesses, and analyzed how PAC implementations can be circumvented. This research is critical to understanding the security of modern ARM-based devices including iPhones, iPads, and Apple Silicon Macs, as pointer authentication is a fundamental hardware-level security mitigation against memory corruption exploits. The findings inform both offensive exploit development and defensive security engineering for ARM platforms."

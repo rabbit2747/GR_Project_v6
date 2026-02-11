@@ -1,0 +1,72 @@
+# GR Atom: DevTunnel
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "INFRA-DEVOPS-DEVTUNNEL-001"
+  name: "DevTunnel"
+  normalized_name: "devtunnel"
+  aliases:
+    - "Dev Tunnel"
+    - "Microsoft Dev Tunnels"
+    - "Development Tunnel"
+
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - CLOUD
+    - HTTP
+    - AZURE
+
+gr_coordinates:
+  layer: "L2"
+  zone: "Z1"
+  function: "N1.2"
+
+definition:
+  what: "DevTunnel (Microsoft Dev Tunnels) is a development networking service that creates secure tunnels exposing local development services to the internet through Microsoft-hosted relay infrastructure. It enables developers to share locally running web applications, APIs, and webhooks with external collaborators or services without configuring firewalls, NAT traversal, or public DNS. Dev Tunnels support both temporary and persistent tunnel configurations with authentication options."
+  why: "DevTunnels create security risks by exposing internal development environments to external networks, potentially bypassing corporate firewalls and network segmentation. Attackers abuse dev tunnel services for command-and-control (C2) communications because tunnel traffic appears as legitimate HTTPS to Microsoft domains, evading network security controls. Misconfigured tunnels without authentication can expose sensitive development APIs and internal services to the internet. Organizations must monitor for unauthorized tunnel usage as an indicator of compromise or data exfiltration."
+  how: "Dev Tunnels operate through a Microsoft-hosted relay service where a local tunnel client establishes an outbound HTTPS connection to the relay, which then accepts inbound connections from external clients and forwards traffic through the tunnel. Tunnels are created through the devtunnel CLI, VS Code extension, or Visual Studio integration. Authentication can be configured as anonymous, GitHub, Microsoft account, or Azure AD. Tunnels support HTTP, HTTPS, and TCP protocols. Persistent tunnels survive client restarts and maintain stable URLs."
+  core_concepts:
+    - key: "Tunnel Relay"
+      value: "Microsoft-hosted service that bridges external client connections to locally running development services through outbound HTTPS connections"
+    - key: "Tunnel Authentication"
+      value: "Access control for tunnel endpoints supporting anonymous, GitHub, Microsoft account, or Azure AD authentication methods"
+    - key: "Port Forwarding"
+      value: "Mapping of local service ports to tunnel endpoints, enabling external access to specific development services"
+
+relations:
+  - type: enables
+    target: "INFRA-DEVOPS-CODEBUILD-001"
+    description: "Dev tunnels can expose local services for webhook-based CI/CD integration testing"
+  - type: requires
+    target: "INFRA-DEVOPS-AZUKEYVAU-001"
+    description: "Dev tunnel authentication can integrate with Azure AD for enterprise access control"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1572"
+    tactic: ["Command and Control"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft Dev Tunnels Documentation - https://learn.microsoft.com/en-us/azure/developer/dev-tunnels/"
+    - "MITRE ATT&CK T1572 - Protocol Tunneling"
+    - "Microsoft Security Blog - Dev Tunnels Abuse Detection"
+  search_keywords:
+    - "Dev Tunnel"
+    - "Microsoft Dev Tunnels"
+    - "development tunnel"
+    - "devtunnel CLI"
+    - "tunnel C2 abuse"
+    - "local development exposure"
+    - "tunnel relay service"
+  embedding_text: "DevTunnel (Microsoft Dev Tunnels) is a development networking service creating secure tunnels that expose local development services to the internet through Microsoft-hosted relay infrastructure. It enables sharing locally running web applications and APIs without firewall configuration. Security significance includes risks of exposing internal environments to external networks, bypassing corporate firewalls and network segmentation. Attackers abuse dev tunnels for C2 communications as traffic appears as legitimate HTTPS to Microsoft domains, evading network controls. Misconfigured tunnels without authentication expose sensitive internal services. Organizations must monitor for unauthorized tunnel usage as indicators of compromise."

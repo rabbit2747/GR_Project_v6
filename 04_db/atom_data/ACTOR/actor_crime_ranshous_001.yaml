@@ -1,0 +1,136 @@
+# GR Atom: Ransom House
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-CRIME-RANSHOUS-001"
+  name: "Ransom House"
+  normalized_name: "ransom_house"
+  aliases:
+    - "RansomHouse"
+    - "Ransom House Group"
+    - "RansomHouse Extortion"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - THREAT_INTEL
+    - IMPACT
+    - EXFIL
+    - INITIAL
+    - NETWORK
+    - WEB
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    RansomHouse is a data extortion group that emerged in late 2021 and publicly distinguishes
+    itself from traditional ransomware operations by claiming not to develop or deploy file
+    encryption malware. Instead, RansomHouse positions itself as a "mediators" group that acquires
+    stolen data, either through its own network intrusions or by purchasing data from other threat
+    actors, and then extorts victim organizations by threatening to publish the stolen data. The
+    group operates a Tor-based leak site where they list victims and progressively release data.
+    RansomHouse has targeted organizations across healthcare, government, manufacturing, and
+    technology sectors, with notable attacks including the Hospital Clinic de Barcelona in Spain
+    (March 2023) and Semiconductor manufacturer AMD. The group maintains a public-facing persona
+    that frames their activities as exposing poor security practices.
+  why: >-
+    RansomHouse represents the evolution of the extortion threat model beyond traditional ransomware,
+    demonstrating that threat actors can successfully monetize data theft without developing or
+    deploying encryption malware. This lower-complexity operational model reduces the technical
+    barrier to entry for extortion operations while still generating significant revenue. The
+    group's public narrative of "helping" organizations by exposing security failures is a social
+    engineering technique designed to shift blame to victims and normalize their criminal activity.
+    RansomHouse's targeting of healthcare organizations, exemplified by the Barcelona hospital
+    attack, demonstrates the real-world consequences of data extortion on critical services. The
+    group also acts as a data marketplace, purchasing and reselling stolen data from other
+    criminals, further blurring the lines between data brokers and extortionists.
+  how: >-
+    RansomHouse gains access to victim data through multiple methods. Direct network intrusions
+    exploit known vulnerabilities in internet-facing systems, VPN appliances, and web applications.
+    The group also acquires stolen data by purchasing breached databases and credentials from
+    initial access brokers and other cybercriminal groups on dark web forums. In some cases,
+    RansomHouse has been observed deploying legitimate penetration testing tools for network
+    reconnaissance and data collection. Data exfiltration targets sensitive business information,
+    intellectual property, personal data, and financial records. The extortion process begins with
+    private communication to victims through Telegram or email, demanding payment to prevent
+    publication. If negotiations fail, data is progressively published on the RansomHouse Tor
+    leak site. Despite claims of not using encryption, some RansomHouse-affiliated attacks have
+    involved ransomware variants including MarioLocker, suggesting the group may use encryption
+    when operationally advantageous.
+  core_concepts:
+    - key: "Encryption-Free Extortion"
+      value: >-
+        RansomHouse publicly distances itself from ransomware encryption, focusing on data theft
+        and extortion as a standalone business model, though some affiliated operations have
+        deployed encryption tools when opportunistic.
+    - key: "Data Broker-Extortionist Hybrid"
+      value: >-
+        The group operates as both a direct threat actor conducting network intrusions and as a
+        data marketplace, purchasing stolen data from other criminals and monetizing it through
+        extortion, creating a hybrid criminal model.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "ACTOR-CRIME"
+    description: "RansomHouse is a financially motivated data extortion cybercriminal group"
+  - type: "enables"
+    target: "ATK-EXFIL"
+    description: "RansomHouse operations enable data exfiltration and extortion without traditional ransomware encryption"
+  - type: "applies_to"
+    target: "SECTOR-HEALTHCARE"
+    description: "RansomHouse has targeted healthcare organizations including the Hospital Clinic de Barcelona"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1530"
+    tactic:
+      - "Collection"
+      - "Exfiltration"
+      - "Impact"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "medium"
+  trust_source: "derived"
+  sources:
+    - "Cyberint - RansomHouse Threat Group Analysis. https://cyberint.com/blog/research/ransomhouse/"
+    - "BleepingComputer - RansomHouse Data Extortion Group Profile. https://www.bleepingcomputer.com/news/security/ransomhouse-extortion-group/"
+    - "SOCRadar - RansomHouse Group Intelligence. https://socradar.io/dark-web-profile-ransomhouse/"
+    - "Trend Micro - RansomHouse Barcelona Hospital Attack Analysis. https://www.trendmicro.com/vinfo/us/security/news/ransomware-spotlight/"
+  search_keywords:
+    - "ransomhouse"
+    - "ransom house extortion"
+    - "ransomhouse data theft"
+    - "ransomhouse barcelona hospital"
+    - "ransomhouse AMD"
+    - "ransomhouse leak site"
+    - "data extortion group"
+    - "ransomhouse mediators"
+  embedding_text: >-
+    RansomHouse is a data extortion group that emerged in late 2021, distinguishing itself from
+    traditional ransomware by claiming not to deploy file encryption, instead focusing on data
+    theft and extortion. The group acquires stolen data through direct network intrusions and
+    purchases from other threat actors, then extorts victims by threatening publication on their
+    Tor-based leak site. RansomHouse targets healthcare, government, manufacturing, and technology
+    sectors, with notable attacks on Hospital Clinic de Barcelona and AMD. The group positions
+    itself as "mediators" exposing poor security practices, a social engineering narrative designed
+    to normalize criminal activity. RansomHouse operates as both a direct threat actor and data
+    marketplace, purchasing and reselling stolen databases from other criminals. Despite claims
+    of not using encryption, some affiliated attacks have deployed MarioLocker ransomware. The
+    group represents the evolution of extortion beyond traditional ransomware, demonstrating that
+    data theft alone can sustain profitable criminal operations.

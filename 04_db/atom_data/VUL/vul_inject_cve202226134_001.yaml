@@ -1,0 +1,79 @@
+# GR Atom: CVE-2022-26134
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "VUL-INJECT-CVE202226134-001"
+  name: "CVE-2022-26134"
+  normalized_name: "cve_2022_26134"
+  aliases:
+    - "Confluence OGNL Injection"
+    - "Confluence Server RCE"
+    - "Atlassian Confluence OGNL Expression Injection"
+
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - INJ
+    - EXEC
+    - INITIAL
+    - WEB
+    - HTTP
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "Atlassian Confluence Server (all versions before 7.4.17)"
+    - "Atlassian Confluence Data Center (all versions before 7.4.17)"
+    - "Confluence Server 7.13.x before 7.13.7"
+    - "Confluence Server 7.14.x through 7.18.x before 7.18.1"
+
+definition:
+  what: "CVE-2022-26134 is a critical unauthenticated remote code execution vulnerability in Atlassian Confluence Server and Data Center caused by an OGNL (Object-Graph Navigation Language) injection flaw. The vulnerability exists in the way Confluence processes URI requests, allowing an attacker to inject arbitrary OGNL expressions through specially crafted HTTP requests. These expressions are evaluated server-side, enabling the attacker to execute arbitrary code on the Confluence server without any authentication. CVSS v3: 9.8 (Critical). Disclosed June 2, 2022, as an actively exploited zero-day."
+  why: "Atlassian Confluence is one of the most widely deployed enterprise collaboration and knowledge management platforms, used by tens of thousands of organizations globally. The vulnerability was disclosed as an active zero-day exploitation, discovered by Volexity during incident response. Unauthenticated RCE on Confluence provides immediate access to sensitive corporate knowledge bases, internal documentation, credentials stored in pages, and a pivot point into corporate networks. CISA issued Emergency Directive 22-03 requiring federal agencies to immediately block all internet traffic to and from Confluence instances. The vulnerability was rapidly weaponized by multiple threat actors including nation-state groups and ransomware operators."
+  how: "The vulnerability is exploited by sending an HTTP request to the Confluence server with a specially crafted URI containing an OGNL expression. The attacker places the malicious OGNL payload in the request URI path, which Confluence's action mapping mechanism processes and evaluates. The OGNL expression can invoke arbitrary Java methods, enabling command execution, file operations, and reverse shell deployment. A typical exploit sends a GET request with the OGNL payload URL-encoded in the URI, and the Confluence server returns the result of the expression evaluation in the HTTP response. No authentication is required. Exploitation provides code execution with the privileges of the Confluence process user. Mitigation requires upgrading to patched Confluence versions or applying the vendor-provided WAF rules to block OGNL injection patterns in request URIs."
+  core_concepts:
+    - key: "OGNL Expression Injection"
+      value: "Confluence's URI processing evaluates OGNL expressions embedded in request paths, allowing unauthenticated attackers to invoke arbitrary Java methods for remote code execution through crafted HTTP requests"
+    - key: "Zero-Day Active Exploitation"
+      value: "Discovered by Volexity during incident response as an actively exploited zero-day, the vulnerability was weaponized before any patch was available, prompting CISA Emergency Directive 22-03"
+
+relations:
+  - type: is_a
+    target: "VUL-INJECT-INJECTION-001"
+    description: "CVE-2022-26134 is an OGNL expression injection vulnerability in Atlassian Confluence"
+  - type: enables
+    target: "VUL-INJECT-INJECTION-001"
+    description: "Confluence OGNL injection enables arbitrary code execution through expression language injection"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1190"
+    tactic: ["Initial Access"]
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "CVE-2022-26134 - NVD NIST"
+    - "Atlassian Security Advisory - Confluence OGNL Injection"
+    - "CISA Emergency Directive 22-03"
+    - "Volexity - Zero-Day Exploitation of Confluence"
+    - "CISA Known Exploited Vulnerabilities Catalog"
+    - "MITRE ATT&CK T1190"
+  search_keywords:
+    - "CVE-2022-26134"
+    - "Confluence OGNL injection"
+    - "Confluence RCE"
+    - "Atlassian Confluence vulnerability"
+    - "Confluence zero-day"
+    - "Confluence unauthenticated RCE"
+    - "OGNL expression injection"
+    - "Confluence Server exploit"
+  embedding_text: "CVE-2022-26134 is a critical CVSS 9.8 unauthenticated remote code execution vulnerability in Atlassian Confluence Server and Data Center. Disclosed June 2022 as an actively exploited zero-day discovered by Volexity, it exploits OGNL expression injection through specially crafted HTTP request URIs. Confluence processes and evaluates OGNL expressions embedded in request paths, allowing attackers to invoke arbitrary Java methods without authentication. Atlassian Confluence is a widely deployed enterprise collaboration platform. CISA issued Emergency Directive 22-03 requiring federal agencies to block internet traffic to Confluence instances. The vulnerability was rapidly weaponized by nation-state groups and ransomware operators. Mitigation requires upgrading to patched versions or applying WAF rules. Maps to MITRE ATT&CK T1190 Initial Access."

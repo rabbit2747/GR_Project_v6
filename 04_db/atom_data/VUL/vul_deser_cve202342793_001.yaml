@@ -1,0 +1,113 @@
+# GR Atom: CVE-2023-42793
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-DESER-CVE202342793-001"
+  name: "CVE-2023-42793"
+  normalized_name: "cve_2023_42793"
+  aliases:
+    - "JetBrains TeamCity Authentication Bypass"
+    - "TeamCity RCE"
+    - "JetBrains TeamCity Pre-Auth RCE"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - DESER
+    - AUTHN
+    - EXEC
+    - CICD
+    - SUPPLY_CHAIN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3"]
+  target_components:
+    - "JetBrains TeamCity Server"
+    - "TeamCity REST API"
+    - "CI/CD Pipeline Infrastructure"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2023-42793 is a critical authentication bypass vulnerability in JetBrains TeamCity CI/CD
+    server that allows unauthenticated remote code execution. The vulnerability exists in the
+    TeamCity REST API where an unauthenticated attacker can create an admin user account and then
+    leverage administrative access to execute arbitrary code on the server. CVSS score is 9.8.
+    Affects TeamCity versions prior to 2023.05.4. Actively exploited by multiple threat actors
+    including North Korean (Lazarus, Andariel) and Russian (APT29) groups.
+  why: >-
+    TeamCity is a widely used CI/CD server that stores source code, build artifacts, deployment
+    credentials, and has access to production deployment pipelines. Compromising TeamCity enables
+    supply chain attacks by modifying build pipelines to inject malicious code into software
+    releases. Multiple nation-state APT groups exploited this vulnerability, with CISA, FBI, and
+    NSA issuing joint advisories about Diamond Sleet and Onyx Sleet (North Korean) exploitation.
+  how: >-
+    The attacker sends a crafted HTTP request to the TeamCity REST API endpoint that bypasses
+    authentication and creates a new administrator account. With admin access, the attacker can
+    execute arbitrary code through build configurations, install plugins, or manipulate build
+    pipelines. The authentication bypass requires a single HTTP request, and the subsequent
+    admin account creation takes one additional request, making the entire attack chain trivially
+    executable.
+  core_concepts:
+    - name: "CI/CD Server Compromise"
+      value: "Compromising the CI/CD server provides access to source code, credentials, and the ability to modify build pipelines"
+    - name: "Supply Chain Attack Vector"
+      value: "Administrative access to TeamCity enables injection of malicious code into software build and deployment processes"
+    - name: "Nation-State APT Exploitation"
+      value: "Exploited by multiple nation-state groups including North Korean and Russian APT actors for supply chain attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "TeamCity authentication bypass enables code execution through insecure API processing"
+  - type: "enables"
+    target: "VUL-DESER-INSEDESE-001"
+    description: "CI/CD compromise enables supply chain attacks through build pipeline manipulation"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  attack_context:
+    mitre_mapping:
+      technique_id: "T1195.002"
+      tactic: ["Initial Access", "Execution", "Persistence"]
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-11"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "NVD CVE-2023-42793"
+    - "CISA Advisory AA23-347A - North Korean APT TeamCity Exploitation"
+    - "JetBrains Security Advisory"
+  search_keywords:
+    - "CVE-2023-42793"
+    - "TeamCity authentication bypass"
+    - "JetBrains TeamCity RCE"
+    - "TeamCity supply chain attack"
+    - "CI/CD server vulnerability"
+    - "TeamCity admin creation bypass"
+    - "Lazarus TeamCity exploitation"
+    - "APT29 TeamCity"
+  embedding_text: >-
+    CVE-2023-42793 is a critical authentication bypass vulnerability in JetBrains TeamCity CI/CD
+    server enabling unauthenticated remote code execution. An attacker can create an admin account
+    through a crafted REST API request that bypasses authentication, then leverage administrative
+    access for arbitrary code execution. CVSS score is 9.8, affecting versions prior to 2023.05.4.
+    TeamCity stores source code, build artifacts, and deployment credentials, making compromise
+    an enabler for supply chain attacks. Actively exploited by multiple nation-state APT groups
+    including North Korean (Lazarus, Andariel) and Russian (APT29) actors. CISA, FBI, and NSA
+    issued joint advisories warning about active exploitation. The entire attack chain requires
+    only two HTTP requests. Mitigation requires immediate patching, auditing admin accounts,
+    reviewing build pipeline integrity, and implementing network segmentation for CI/CD
+    infrastructure. Listed in CISA's Known Exploited Vulnerabilities catalog.

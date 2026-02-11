@@ -1,0 +1,74 @@
+# GR Atom: McAfee
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-MCAFEE-001"
+  name: "McAfee"
+  normalized_name: "mcafee"
+  aliases:
+    - "McAfee Corp."
+    - "McAfee Enterprise"
+    - "Trellix"
+    - "McAfee LLC"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - DLP
+    - THREAT_INTEL
+    - FIREWALL
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "McAfee is a historic cybersecurity company founded in 1987 that has undergone multiple corporate transformations. The enterprise security division was acquired by Symphony Technology Group in 2021 and merged with FireEye to form Trellix, while the consumer business continued as McAfee Corp. McAfee's legacy includes antivirus, endpoint protection, data loss prevention, network security, SIEM (formerly Nitro Security), and threat intelligence through the McAfee Advanced Threat Research team (now Trellix)."
+  why: "McAfee is significant in cybersecurity as one of the founding antivirus companies whose products and threat research have shaped the security industry for decades. The McAfee Advanced Threat Research team has produced extensive malware analysis and campaign tracking. The corporate evolution from McAfee to Trellix represents a major industry consolidation event. McAfee's consumer brand remains one of the most recognized names in cybersecurity."
+  how: "McAfee/Trellix provides security through endpoint protection agents using signature and behavioral detection, network intrusion prevention systems, data loss prevention enforcement across endpoints, networks, and cloud, SIEM and security analytics platforms, and threat intelligence feeds. The consumer McAfee product provides antivirus, identity protection, and VPN services. The Advanced Threat Research team publishes malware analysis and threat campaign reports."
+  core_concepts:
+    - key: "Legacy antivirus vendor"
+      value: "One of the founding cybersecurity companies with decades of malware detection heritage"
+    - key: "Enterprise to Trellix transition"
+      value: "Enterprise division merged with FireEye to form Trellix under Symphony Technology Group"
+    - key: "Advanced Threat Research"
+      value: "Dedicated research team producing malware analysis and threat intelligence"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "ARTIFACT-THREATRPT-001"
+    description: "McAfee Advanced Threat Research produces malware analysis and threat intelligence reports"
+  - type: "enables"
+    target: "SERVICE-EDR-001"
+    description: "McAfee provides endpoint protection and detection across consumer and enterprise markets"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "McAfee Official Website"
+    - "Trellix (formerly McAfee Enterprise) Website"
+    - "McAfee Advanced Threat Research Blog"
+  search_keywords:
+    - "mcafee"
+    - "mcafee antivirus"
+    - "mcafee enterprise"
+    - "trellix"
+    - "mcafee threat research"
+    - "mcafee edr"
+    - "mcafee dlp"
+    - "mcafee endpoint protection"
+  embedding_text: "McAfee is one of the foundational cybersecurity companies, established in 1987, whose products and threat research have significantly shaped the security industry. The company underwent major corporate restructuring when its enterprise division was acquired by Symphony Technology Group in 2021 and merged with FireEye's product division to form Trellix, while the consumer business continued as McAfee Corp. McAfee's enterprise legacy includes endpoint protection, data loss prevention, network intrusion prevention, SIEM, and the Advanced Threat Research team that produces malware analysis and threat intelligence. The consumer McAfee product provides antivirus, identity protection, and VPN services to millions of users worldwide. McAfee's threat intelligence and malware signature databases built over decades continue to inform detection capabilities across the security ecosystem, and the brand remains one of the most recognized names in cybersecurity for both consumer and enterprise audiences."

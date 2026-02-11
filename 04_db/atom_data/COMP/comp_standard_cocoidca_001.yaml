@@ -1,0 +1,73 @@
+# GR Atom: Control Correlation Identifier Catalog
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-COCOIDCA-001"
+  name: "Control Correlation Identifier Catalog"
+  normalized_name: "control_correlation_identifier_catalog"
+  aliases:
+    - "CCI"
+    - "DISA CCI"
+    - "Control Correlation Identifier"
+    - "CCI List"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+scope:
+  target_layers: ["L5", "L6", "L7", "Cross"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "The Control Correlation Identifier (CCI) catalog is a standardized reference maintained by the Defense Information Systems Agency (DISA) that provides a unique identifier for each actionable statement derived from NIST SP 800-53 security controls. CCIs decompose high-level controls into granular, single-action security requirements that can be directly assessed. The CCI catalog serves as the bridge between policy-level controls in NIST SP 800-53 and the technical implementation checks in Security Technical Implementation Guides (STIGs) and Security Requirements Guides (SRGs)."
+  why: "Security controls as written in frameworks like NIST SP 800-53 are often too broad for direct technical assessment. The CCI catalog solves this by breaking each control into discrete, testable requirements. This enables automated compliance checking, consistent assessment across different systems and platforms, and traceable mapping from policy requirements to technical configurations. It is essential for DoD and federal compliance programs."
+  how: "Each CCI maps a single actionable statement from a NIST SP 800-53 control to one or more technical implementation checks in STIGs. Organizations use the CCI catalog to trace compliance from high-level policy through control objectives to specific technical configurations. Automated STIG compliance scanners reference CCIs to report findings, enabling aggregation of technical results back to control-level compliance status. The CCI catalog is distributed as an XML dataset by DISA and integrated into compliance assessment tools."
+  core_concepts:
+    - key: "CCI Entry"
+      value: "A unique identifier mapping a single actionable security requirement derived from a NIST SP 800-53 control"
+    - key: "STIG Mapping"
+      value: "Linkage between CCI requirements and specific technical checks in Security Technical Implementation Guides"
+    - key: "SRG Mapping"
+      value: "Linkage between CCIs and Security Requirements Guides for technology-agnostic compliance requirements"
+    - key: "Control Decomposition"
+      value: "Breaking high-level security controls into discrete, individually assessable requirements"
+
+relations:
+  - type: implements
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "CCI decomposes NIST SP 800-53 controls into assessable statements"
+  - type: part_of
+    target: "COMP-STANDARD-CONTCATA-001"
+    description: "CCI catalog is a specialized component of the broader control catalog ecosystem"
+  - type: enables
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "CCIs enable granular, automated compliance auditing"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "DISA Control Correlation Identifier (CCI) - https://public.cyber.mil/stigs/cci/"
+    - "NIST SP 800-53 Rev. 5 - Security and Privacy Controls"
+    - "DISA Security Technical Implementation Guides (STIGs) - https://public.cyber.mil/stigs/"
+  search_keywords:
+    - "control correlation identifier"
+    - "CCI"
+    - "DISA CCI"
+    - "STIG mapping"
+    - "NIST control decomposition"
+    - "security requirements guide"
+    - "SRG"
+    - "compliance automation"
+    - "control traceability"
+    - "DoD compliance"
+  embedding_text: "The Control Correlation Identifier (CCI) catalog is a DISA-maintained reference that decomposes NIST SP 800-53 security controls into granular, individually assessable requirements. Each CCI provides a unique identifier for a single actionable security statement, bridging the gap between policy-level controls and technical implementation checks in STIGs and SRGs. The CCI catalog enables automated compliance checking, consistent assessment across platforms, and traceable mapping from regulatory requirements to specific technical configurations. It is essential for DoD and federal compliance programs using NIST-based security frameworks."

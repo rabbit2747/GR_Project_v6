@@ -1,0 +1,107 @@
+# GR Atom: HTTPS HTTP Secure
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "PROTO-MSG-HTTHTTSEC-001"
+  name: "HTTPS HTTP Secure"
+  normalized_name: "https_http_secure"
+  aliases:
+    - "HTTPS"
+    - "HTTP over TLS"
+    - "HTTP Secure"
+    - "RFC 2818"
+    - "Port 443"
+
+classification:
+  is_infrastructure: false
+  type: "protocol"
+  abstraction_level: 2
+  atom_tags:
+    - HTTP
+    - WEB
+    - NETWORK
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: >-
+    HTTPS (HTTP Secure) is the encrypted version of HTTP that uses Transport Layer Security (TLS)
+    to provide confidentiality, integrity, and authentication for web communications. Defined in
+    RFC 2818, HTTPS operates on TCP port 443 and wraps standard HTTP messages within a TLS
+    session. The protocol ensures that data exchanged between client and server cannot be
+    eavesdropped, tampered with, or forged. HTTPS uses X.509 digital certificates issued by
+    Certificate Authorities (CAs) to authenticate server identity, and optionally supports
+    mutual TLS (mTLS) for client authentication. HTTPS is now the default for all major web
+    browsers and is required for features like HTTP/2, Service Workers, and modern web APIs.
+  why: >-
+    HTTPS is the primary defense against network-level attacks on web communications. Without
+    HTTPS, all HTTP traffic — including credentials, session tokens, personal data, and API
+    payloads — is transmitted in plaintext, vulnerable to eavesdropping, credential theft, session
+    hijacking, and man-in-the-middle modification. HTTPS adoption is enforced by browsers (mixed
+    content blocking, security warnings), search engines (ranking signals), and regulatory
+    frameworks (PCI DSS, GDPR). However, HTTPS does not protect against application-layer
+    attacks (XSS, SQLi, CSRF). Certificate management, HSTS configuration, and TLS version
+    enforcement are ongoing security requirements.
+  how: >-
+    HTTPS operates by: (1) Client initiates TCP connection to server port 443; (2) TLS handshake
+    establishes encrypted session — server presents X.509 certificate, client validates against
+    trusted CA store, key exchange establishes session keys; (3) All HTTP messages are encrypted
+    within the TLS tunnel; (4) Data integrity is verified via TLS record MAC. HSTS (HTTP Strict
+    Transport Security) prevents protocol downgrade by instructing browsers to only use HTTPS.
+    Certificate Transparency (CT) logs enable public monitoring of certificate issuance. Let's
+    Encrypt and ACME protocol have automated certificate provisioning.
+  core_concepts:
+    - key: "TLS Handshake"
+      value: "Protocol negotiation establishing encrypted session — includes certificate presentation, key exchange, cipher suite selection, and session key derivation."
+    - key: "X.509 Certificates"
+      value: "Digital certificates binding a public key to a domain identity, issued by Certificate Authorities and validated by clients through the certificate chain."
+    - key: "HSTS (HTTP Strict Transport Security)"
+      value: "Response header (Strict-Transport-Security) instructing browsers to always use HTTPS for the domain, preventing protocol downgrade attacks."
+    - key: "Certificate Transparency"
+      value: "Public logging framework (RFC 6962) enabling monitoring of certificate issuance to detect misissued or fraudulent certificates."
+
+relations:
+  - type: "requires"
+    target: "PROTO-MSG-HTTHYPTRA-001"
+    description: "HTTPS provides TLS encryption for HTTP protocol communications"
+  - type: "is_a"
+    target: "PROTO-MSG-APPLLAYE-001"
+    description: "HTTPS is an encrypted application layer protocol for secure web communication"
+  - type: "enables"
+    target: "PROTO-MSG-HTTP2-001"
+    description: "HTTP/2 is primarily deployed over HTTPS using TLS ALPN negotiation"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "IETF RFC 2818 — HTTP Over TLS"
+    - "IETF RFC 6797 — HTTP Strict Transport Security (HSTS)"
+    - "IETF RFC 6962 — Certificate Transparency"
+    - "Let's Encrypt — ACME Protocol and Free TLS Certificates"
+  search_keywords:
+    - "HTTPS"
+    - "HTTP secure"
+    - "HTTP over TLS"
+    - "port 443"
+    - "TLS encryption"
+    - "SSL"
+    - "HSTS"
+    - "certificate"
+    - "encrypted web"
+    - "RFC 2818"
+  embedding_text: >-
+    HTTPS (HTTP Secure) is the encrypted version of HTTP using TLS to provide confidentiality,
+    integrity, and server authentication for web communications. Operating on TCP port 443, HTTPS
+    wraps HTTP messages within TLS sessions using X.509 certificates for identity verification.
+    HTTPS is the primary defense against network eavesdropping, credential theft, and MITM
+    attacks. HSTS prevents protocol downgrade. Certificate Transparency enables monitoring of
+    certificate issuance. HTTPS is now the default web transport, required by browsers, search
+    engines, and regulations. However, HTTPS does not protect against application-layer attacks
+    like XSS, SQLi, or CSRF.

@@ -1,0 +1,88 @@
+# GR Atom: Endpoint Health Beacon
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-ENDHEABEA-001"
+  name: "Endpoint Health Beacon"
+  normalized_name: "endpoint_health_beacon"
+  aliases:
+    - "Agent Health Check"
+    - "Endpoint Heartbeat"
+    - "Sensor Health Beacon"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - EDR
+    - MONITOR
+    - BLUE_TEAM
+    - LOG
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection pattern for monitoring periodic health beacon signals transmitted by endpoint security agents to their management console. Health beacons report agent operational status, policy version, signature update state, sensor health metrics, and connectivity status. The absence, delay, or anomalous change in beacon patterns serves as a critical indicator that an endpoint agent may have been tampered with, disabled, or that the endpoint has been compromised."
+  why: "Attackers commonly attempt to disable or degrade endpoint security agents as part of defense evasion. Monitoring health beacons provides an independent verification channel that security controls remain active and functional. Beacon cessation or anomaly detection enables rapid identification of compromised endpoints before attacker activity can proceed undetected."
+  how: "Track beacon intervals and expected check-in schedules for all managed endpoints. Generate alerts when an endpoint misses consecutive beacon windows or when beacon metadata indicates degraded sensor health. Correlate beacon gaps with known maintenance windows to reduce false positives. Monitor for sudden changes in reported agent version, policy compliance status, or sensor capability flags."
+  core_concepts:
+    - key: "Heartbeat Interval"
+      value: "The configured periodic interval at which an endpoint agent sends health status to its management server, typically ranging from 30 seconds to 15 minutes"
+    - key: "Agent Tamper Protection"
+      value: "Security mechanisms that prevent unauthorized modification or termination of endpoint security agents"
+    - key: "Dead Endpoint Detection"
+      value: "The process of identifying endpoints that have stopped communicating with the management console, indicating potential compromise or failure"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Health beacons are a component of the broader EDR telemetry pipeline"
+  - type: effective_against
+    target: "ATK-EVASION-DISAUDIT-001"
+    description: "Detects when attackers disable or tamper with endpoint security agents"
+  - type: requires
+    target: "DETECT-ENDPOINT-EDRTELE-001"
+    description: "Requires an active EDR deployment to generate and monitor health beacons"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1562.001"
+    tactic:
+      - "Defense Evasion"
+    sub_techniques:
+      - "T1562.001"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1562.001 - Impair Defenses: Disable or Modify Tools"
+    - "CrowdStrike Falcon Sensor Health Monitoring"
+    - "Microsoft Defender for Endpoint Health Reporting"
+  search_keywords:
+    - "endpoint health beacon"
+    - "agent heartbeat"
+    - "sensor health"
+    - "agent tamper detection"
+    - "endpoint check-in"
+    - "dead endpoint"
+    - "beacon monitoring"
+    - "EDR health"
+  embedding_text: "Endpoint Health Beacon is a detection pattern for monitoring periodic health signals transmitted by endpoint security agents to their management consoles. Health beacons report agent operational status, policy versions, signature currency, and sensor metrics at configured intervals. Missing beacons, delayed check-ins, or anomalous changes in beacon metadata indicate potential agent tampering, endpoint compromise, or infrastructure failure. This detection enables independent verification that security controls remain active and functional across the managed endpoint fleet, providing early warning when attackers attempt to disable or degrade endpoint protection as part of defense evasion."

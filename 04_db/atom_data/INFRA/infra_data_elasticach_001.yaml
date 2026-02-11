@@ -1,0 +1,123 @@
+# GR Atom: ElastiCache
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-DATA-ELASTICACH-001"
+  name: "ElastiCache"
+  normalized_name: "elasticache"
+  aliases:
+    - "Amazon ElastiCache"
+    - "AWS ElastiCache"
+    - "ElastiCache for Redis"
+    - "ElastiCache for Memcached"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CACHE
+    - CLOUD
+    - AWS
+    - REDIS
+    - DATABASE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L5"
+  zone: "Z2"
+  function: "D2.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Amazon ElastiCache is a fully managed in-memory caching service provided by AWS that supports
+    two open-source in-memory engines: Redis and Memcached. ElastiCache provides sub-millisecond
+    latency for read-heavy application workloads by storing frequently accessed data in memory
+    rather than on disk. It handles cache node provisioning, patching, monitoring, failure
+    detection, and recovery. ElastiCache for Redis supports data structures, persistence,
+    replication, clustering, and pub/sub messaging. ElastiCache for Memcached provides simple
+    key-value caching with multi-threaded performance.
+  why: >-
+    ElastiCache is security-relevant because in-memory caches often store sensitive data
+    including session tokens, authentication credentials, API responses, and user data.
+    Historically, Redis and Memcached instances have been frequent targets due to default
+    configurations lacking authentication. Exposed caching services have been exploited for
+    data theft, session hijacking, and as amplification vectors for DDoS attacks. AWS ElastiCache
+    mitigates some risks through VPC isolation and managed security features, but misconfiguration
+    remains a primary concern.
+  how: >-
+    ElastiCache deploys cache clusters within an AWS VPC, accessible only from authorized
+    resources within the same VPC or through VPC peering. Authentication is enforced through
+    Redis AUTH tokens or IAM-based authentication (Redis 7+). Encryption in transit uses TLS
+    and encryption at rest uses AWS KMS. Access is further controlled through security groups
+    and subnet groups. Replication groups provide high availability with automatic failover.
+    Monitoring is provided through CloudWatch metrics and ElastiCache events. Backup and
+    restore is available for Redis clusters through automated snapshots.
+  core_concepts:
+    - key: "In-Memory Caching"
+      value: >-
+        ElastiCache stores data entirely in RAM for sub-millisecond access latency, serving as
+        a performance acceleration layer between applications and backend databases or APIs.
+    - key: "VPC Isolation"
+      value: >-
+        ElastiCache clusters are deployed within VPCs and are not publicly accessible by default,
+        requiring explicit network configuration for access from authorized resources only.
+    - key: "Redis AUTH and IAM Authentication"
+      value: >-
+        ElastiCache for Redis supports token-based authentication (AUTH) and IAM-based
+        authentication to prevent unauthorized access to cached data.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-DATA-DATASTOR-001"
+    description: "ElastiCache is a managed in-memory data store providing caching services"
+  - type: "enables"
+    target: "INFRA-DATA-DATAAPPL-001"
+    description: "ElastiCache enables database applications by providing high-speed caching to reduce backend database load"
+  - type: "instance_of"
+    target: "INFRA-DATA-DATABASE-001"
+    description: "ElastiCache is a specific AWS instance of a managed database service specializing in in-memory caching"
+
+# ==== Section 7: Security Profile (optional) ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1552.004"
+    tactic:
+      - "Credential Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "AWS ElastiCache documentation. https://docs.aws.amazon.com/elasticache/"
+    - "AWS ElastiCache Security Best Practices. https://docs.aws.amazon.com/elasticache/latest/red-ug/security.html"
+    - "CIS Amazon Web Services Foundations Benchmark."
+  search_keywords:
+    - "ElastiCache"
+    - "Amazon ElastiCache"
+    - "AWS ElastiCache"
+    - "ElastiCache Redis"
+    - "ElastiCache Memcached"
+    - "managed Redis"
+    - "in-memory cache AWS"
+    - "ElastiCache security"
+  embedding_text: >-
+    Amazon ElastiCache is a fully managed AWS in-memory caching service supporting Redis and
+    Memcached engines. It provides sub-millisecond latency for read-heavy workloads by storing
+    frequently accessed data in memory. ElastiCache handles node provisioning, patching,
+    monitoring, and failure recovery. Security features include VPC isolation, Redis AUTH token
+    and IAM-based authentication, TLS encryption in transit, KMS encryption at rest, security
+    groups, and automated snapshots for backup. ElastiCache is security-relevant because
+    in-memory caches often store sensitive data including session tokens and credentials.
+    Historically, Redis and Memcached instances have been targeted due to default configurations
+    lacking authentication. Exposed caching services have been exploited for data theft, session
+    hijacking, and DDoS amplification. Misconfiguration of network access and authentication
+    remains the primary security concern.

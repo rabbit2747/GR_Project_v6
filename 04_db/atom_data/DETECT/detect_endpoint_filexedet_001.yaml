@@ -1,0 +1,90 @@
+# GR Atom: File Executable Detected
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-ENDPOINT-FILEXEDET-001"
+  name: "File Executable Detected"
+  normalized_name: "file_executable_detected"
+  aliases:
+    - "Executable File Detection"
+    - "PE File Detection"
+    - "Binary Detection Event"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - EXEC
+    - FORENSICS
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Detection event generated when an executable file is identified on an endpoint through content analysis rather than extension matching. This detection examines file headers, magic bytes, and internal structure to identify PE (Portable Executable) files, ELF binaries, Mach-O executables, scripts with execution permissions, and other executable formats regardless of their file extension. The event captures the file path, detected format, file hash, signing status, and the process that created or modified the file."
+  why: "Attackers frequently disguise executables with misleading file extensions to bypass security controls and deceive users. Detecting executables through content analysis rather than extension matching identifies renamed malware, executable content hidden in data files, and double-extension social engineering techniques. This content-based approach provides reliable detection of executable content regardless of obfuscation attempts."
+  how: "Scan newly created and modified files for executable magic bytes (MZ for PE, ELF header for Linux, Mach-O for macOS) using file system mini-filter callbacks. Analyze file internal structure for executable characteristics including import tables, section headers, and entry points. Compare detected file type against the file extension to identify mismatches. Compute file hashes for reputation lookup and integrate with threat intelligence feeds for known malware identification."
+  core_concepts:
+    - key: "Magic Byte Analysis"
+      value: "Identification of file types through their binary header signatures (magic numbers) rather than file extensions, providing reliable format detection"
+    - key: "Extension Mismatch Detection"
+      value: "Identifying files where the detected content type differs from the file extension, indicating potential obfuscation or social engineering"
+    - key: "PE Structure Analysis"
+      value: "Examination of Portable Executable internal structure including headers, sections, imports, and resources to classify and assess executable files"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "Executable detection is a specific type of file event focused on binary content"
+  - type: enables
+    target: "DETECT-ENDPOINT-EMBCONIND-001"
+    description: "Executable detection identifies embedded executable content within container files"
+  - type: effective_against
+    target: "ATK-EXEC-MALWARE-001"
+    description: "Detects malicious executables through content analysis regardless of file extension"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1036.007"
+    tactic:
+      - "Defense Evasion"
+      - "Execution"
+    sub_techniques:
+      - "T1036.007"
+  defense_context:
+    effectiveness: "high"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "MITRE ATT&CK T1036.007 - Masquerading: Double File Extension"
+    - "Microsoft PE Format Specification"
+    - "OCSF File Activity Event Schema"
+  search_keywords:
+    - "executable detected"
+    - "PE file detection"
+    - "magic bytes"
+    - "binary detection"
+    - "extension mismatch"
+    - "file type analysis"
+    - "executable content"
+    - "malware detection"
+  embedding_text: "File Executable Detected is an endpoint detection event generated when an executable file is identified through content analysis rather than extension matching. Detection examines file headers, magic bytes, and internal structure to identify PE files, ELF binaries, Mach-O executables, and scripts regardless of file extension. This content-based approach identifies renamed malware, executable content hidden in data files, and double-extension social engineering. Events capture file path, format, hash, signing status, and creating process. Analysis includes extension mismatch detection, PE structure examination, and hash-based reputation lookup through threat intelligence feeds for known malware identification."

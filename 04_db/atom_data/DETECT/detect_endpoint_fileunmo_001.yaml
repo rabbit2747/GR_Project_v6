@@ -1,0 +1,71 @@
+# GR Atom: File Unmount Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-ENDPOINT-FILEUNMO-001"
+  name: "File Unmount Event"
+  normalized_name: "file_unmount_event"
+  aliases:
+    - "Volume Unmount Detection"
+    - "Filesystem Unmount Monitoring"
+    - "Disk Dismount Event"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - EDR
+    - MONITOR
+    - LOG
+    - OS
+    - FORENSICS
+
+scope:
+  target_layers: ["L1", "L2"]
+  target_zones: ["Z1", "Z2"]
+  target_components: []
+
+definition:
+  what: "File Unmount Event is an endpoint detection pattern that captures instances when a file system volume or mount point is detached from the operating system. This includes unmounting of local partitions, removable media, network shares, encrypted volumes, and virtual disk images. The event records the volume identifier, mount point path, file system type, the process or user initiating the unmount, and the timestamp of the operation. On Windows this corresponds to volume dismount operations, on Linux to umount syscalls, and on macOS to diskutil or system-initiated unmount events."
+  why: "Monitoring file system unmount events is important for detecting data exfiltration via removable media, anti-forensics activities such as unmounting encrypted containers after data staging, and unauthorized removal of storage devices. Adversaries may mount encrypted volumes to stage stolen data, then unmount them before removal to avoid detection. Unexpected unmount events on production systems can also indicate hardware tampering or denial-of-service attempts against critical storage infrastructure."
+  how: "Detection systems monitor unmount events through operating system audit logs such as Windows Event ID related to volume operations, Linux auditd rules on umount and umount2 syscalls, and macOS Unified Log entries for disk arbitration events. Endpoint agents may also use kernel-level hooks on file system mount tables. Detection logic flags unmount operations of encrypted volumes by non-standard processes, rapid mount-unmount cycles suggesting data staging, unmounts of critical system volumes, and unmount events correlated with removable device disconnection during off-hours."
+  core_concepts:
+    - key: "Volume Dismount"
+      value: "The operating system operation that detaches a file system from its mount point, making the volume inaccessible to the system"
+    - key: "Encrypted Container Unmount"
+      value: "Detection of unmount operations on encrypted volumes like VeraCrypt or BitLocker containers that may indicate data staging and exfiltration preparation"
+    - key: "Mount Table Monitoring"
+      value: "Tracking changes to the operating system mount table to detect unauthorized file system attachment and detachment"
+
+relations:
+  - type: part_of
+    target: "DETECT-ENDPOINT-FILE-001"
+    description: "File unmount events are a specific category within the broader file event detection framework"
+  - type: alternative_to
+    target: "DETECT-ENDPOINT-FILEMOUN-001"
+    description: "Unmount events complement mount events as the inverse operation for tracking volume lifecycle"
+  - type: enables
+    target: "DETECT-ENDPOINT-HARDEVDIS-002"
+    description: "Volume unmount often precedes or accompanies hardware device disconnection events"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft - Volume Management Events - https://learn.microsoft.com/en-us/windows/win32/fileio/volume-management"
+    - "Linux man pages - umount(2) - https://man7.org/linux/man-pages/man2/umount.2.html"
+    - "MITRE ATT&CK T1052.001 - Exfiltration over Physical Medium: Exfiltration over USB"
+  search_keywords:
+    - "file unmount event"
+    - "volume dismount detection"
+    - "filesystem unmount monitoring"
+    - "removable media unmount"
+    - "encrypted volume unmount"
+    - "storage device removal"
+    - "mount table change"
+  embedding_text: "File Unmount Event detection captures instances when file system volumes or mount points are detached from the operating system, including local partitions, removable media, network shares, and encrypted containers. Monitored through OS audit logs, auditd rules on umount syscalls, and kernel-level mount table hooks, this telemetry records volume identifiers, mount paths, initiating processes, and timestamps. Detection logic flags encrypted volume unmounts by non-standard processes, rapid mount-unmount cycles suggesting data staging, critical volume unmounts, and off-hours removable media operations, supporting exfiltration detection and anti-forensics identification."

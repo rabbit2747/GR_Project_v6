@@ -1,0 +1,92 @@
+# GR Atom: Noble Baron
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-APT-NOBLBARO-001"
+  name: "Noble Baron"
+  normalized_name: "noble_baron"
+  aliases:
+    - "Nobelium"
+    - "APT29"
+    - "Cozy Bear"
+    - "Midnight Blizzard"
+    - "The Dukes"
+    - "YTTRIUM"
+    - "Dark Halo"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - "THREAT_INTEL"
+    - "INITIAL"
+    - "EVADE"
+    - "PERSIST"
+    - "C2"
+    - "EXFIL"
+    - "WINDOWS"
+    - "CLOUD"
+    - "SUPPLY_CHAIN"
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components:
+    - "cloud infrastructure"
+    - "identity providers"
+    - "email systems"
+    - "software supply chains"
+    - "Active Directory"
+
+# ==== Section 5: Definition ====
+definition:
+  what: "Noble Baron is a designation associated with APT29/Cozy Bear/Midnight Blizzard, the Russian SVR (Foreign Intelligence Service) cyber espionage group. Active since at least 2008, this is one of the most sophisticated state-sponsored threat actors globally, responsible for the SolarWinds supply chain compromise (2020), persistent targeting of cloud environments, and long-running espionage campaigns against government, diplomatic, think tank, and technology sector targets worldwide."
+  why: "The group serves Russian SVR foreign intelligence collection requirements, targeting diplomatic communications, foreign policy deliberations, COVID-19 vaccine research, technology sector intellectual property, and strategic political intelligence. Their operations support Russia's understanding of adversary policies and decision-making processes, with particular focus on NATO member states and organizations involved in Russia-related policy."
+  how: "Noble Baron/APT29 is distinguished by exceptional operational security and technical sophistication. Notable techniques include supply chain compromise (SolarWinds Orion), abuse of cloud service trust relationships and OAuth applications, residential proxy networks for C2, custom malware families (WellMess, WellMail, EnvyScout, SUNBURST), living-off-the-land techniques in cloud environments, and patient long-term access maintenance. The group has pioneered techniques for abusing Microsoft 365 and Azure AD trust relationships."
+  core_concepts:
+    - "SVR foreign intelligence operations"
+    - "SolarWinds supply chain compromise"
+    - "cloud environment exploitation"
+    - "OAuth and trust relationship abuse"
+    - "exceptional operational security"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "instance_of"
+    target: "ACTOR-APT-COZYBEAR-001"
+    description: "Noble Baron is an alternate designation for APT29/Cozy Bear"
+  - type: "instance_of"
+    target: "ACTOR-APT-DARKHALO-001"
+    description: "Dark Halo was the initial designation for the SolarWinds compromise actor, later attributed to APT29"
+  - type: "part_of"
+    target: "ACTOR-APT-GRIZSTEP-001"
+    description: "APT29 was one of two groups in the Grizzly Steppe joint operations"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "MITRE ATT&CK - APT29 (G0016)"
+    - "Microsoft Threat Intelligence - Midnight Blizzard Profile"
+    - "Mandiant - SolarWinds Supply Chain Attack"
+    - "NCSC UK - APT29 Targets COVID-19 Vaccine Development"
+  search_keywords:
+    - "noble baron"
+    - "nobelium"
+    - "APT29"
+    - "cozy bear"
+    - "midnight blizzard"
+    - "the dukes"
+    - "SolarWinds hack"
+    - "russian SVR"
+    - "SUNBURST malware"
+    - "dark halo"
+  embedding_text: "Noble Baron is a designation associated with APT29, also known as Cozy Bear, Midnight Blizzard, Nobelium, and The Dukes, the Russian SVR foreign intelligence service cyber espionage group. Active since at least 2008, the group is responsible for the SolarWinds Orion supply chain compromise in 2020 which affected thousands of organizations including US government agencies. APT29 demonstrates exceptional operational security and technical sophistication, pioneering techniques for cloud environment exploitation including OAuth application abuse, Microsoft 365 trust relationship manipulation, and residential proxy C2 networks. Custom malware includes WellMess, WellMail, EnvyScout, and SUNBURST. The group targets diplomatic communications, foreign policy organizations, vaccine research, technology companies, and NATO member state institutions. Noble Baron represents one of the most capable and persistent state-sponsored threat actors globally, with operations supporting Russian SVR foreign intelligence collection priorities."

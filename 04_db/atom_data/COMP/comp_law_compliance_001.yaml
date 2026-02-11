@@ -1,0 +1,103 @@
+# GR Atom: Compliance
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-LAW-COMPLIANCE-001"
+  name: "Compliance"
+  normalized_name: "compliance"
+  aliases:
+    - "Regulatory Compliance"
+    - "Legal Compliance"
+    - "Corporate Compliance"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 4
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >
+    Compliance is the broad discipline of ensuring that an organization adheres to applicable laws,
+    regulations, industry standards, and internal policies governing its operations, data handling,
+    and security practices. It encompasses the systematic identification of legal obligations,
+    implementation of controls to satisfy those obligations, continuous monitoring for adherence,
+    and remediation of gaps. Compliance programs span multiple regulatory domains including data
+    privacy (GDPR, CCPA), financial reporting (SOX), healthcare (HIPAA), payment card handling
+    (PCI DSS), and sector-specific requirements.
+  why: >
+    Non-compliance exposes organizations to significant legal penalties, financial losses, reputational
+    damage, and operational disruption. Regulatory fines can reach billions of dollars under frameworks
+    such as GDPR. A mature compliance posture also strengthens security by mandating baseline controls,
+    audit trails, and accountability structures that reduce the likelihood and impact of breaches.
+  how: >
+    Organizations establish compliance programs by mapping applicable regulations to their operations,
+    performing gap analyses against required controls, implementing technical and administrative
+    safeguards, conducting regular internal and external audits, training personnel on obligations,
+    and maintaining evidence of adherence through documentation, logs, and reports. GRC (Governance,
+    Risk, and Compliance) platforms are often used to automate tracking and reporting.
+  core_concepts:
+    - key: "Regulatory Mapping"
+      value: "Identifying which laws and standards apply based on jurisdiction, industry, and data types processed"
+    - key: "Control Implementation"
+      value: "Deploying technical, administrative, and physical safeguards to meet regulatory requirements"
+    - key: "Audit Trail"
+      value: "Maintaining verifiable records of compliance activities, decisions, and control effectiveness"
+    - key: "Continuous Monitoring"
+      value: "Ongoing assessment of compliance posture through automated checks and periodic reviews"
+    - key: "Remediation"
+      value: "Correcting identified compliance gaps within required timeframes"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: enables
+    target: "COMP-LAW-PRIVCOMP-001"
+    description: "Compliance as a discipline enables privacy compliance programs"
+  - type: enables
+    target: "COMP-LAW-INDUCOMP-001"
+    description: "Compliance as a discipline enables industry-specific compliance programs"
+  - type: requires
+    target: "COMP-STANDARD-AUDICOMP-001"
+    description: "Compliance programs require audit and compliance verification mechanisms"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "ISO 19600:2014 Compliance Management Systems"
+    - "COSO Internal Control — Integrated Framework (2013)"
+    - "US Federal Sentencing Guidelines, Chapter 8 — Effective Compliance Programs"
+  search_keywords:
+    - "compliance"
+    - "regulatory compliance"
+    - "legal compliance"
+    - "compliance program"
+    - "GRC governance risk compliance"
+    - "compliance management"
+    - "regulatory requirements"
+    - "compliance audit"
+    - "compliance framework"
+  embedding_text: >
+    Compliance is the overarching discipline of ensuring organizational adherence to applicable
+    laws, regulations, industry standards, and internal policies. It covers data privacy regulations
+    such as GDPR and CCPA, financial reporting mandates like SOX, healthcare rules including HIPAA,
+    and payment standards like PCI DSS. A compliance program involves regulatory mapping, gap
+    analysis, control implementation, continuous monitoring, auditing, training, and remediation.
+    Non-compliance risks include financial penalties, legal liability, reputational harm, and
+    operational disruption. Organizations typically use GRC platforms to automate compliance
+    tracking, evidence collection, and reporting across multiple regulatory domains.

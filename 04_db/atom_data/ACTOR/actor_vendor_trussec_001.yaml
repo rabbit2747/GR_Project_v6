@@ -1,0 +1,71 @@
+# GR Atom: Trusted Sec
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-TRUSSEC-001"
+  name: "Trusted Sec"
+  normalized_name: "trusted_sec"
+  aliases:
+    - "TrustedSec"
+    - "TrustedSec LLC"
+    - "Dave Kennedy"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - PENTEST
+    - RED_TEAM
+    - BLUE_TEAM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "TrustedSec is a prominent offensive and defensive security consultancy founded by Dave Kennedy, known for providing penetration testing, red team operations, social engineering assessments, and incident response services. The company is recognized for developing the Social-Engineer Toolkit (SET), one of the most widely-used social engineering frameworks in the security industry, and for its contributions to the broader cybersecurity community through tool development and education."
+  why: "TrustedSec is significant because it has been a major contributor to the offensive security community through tool development, conference presentations, and training. The Social-Engineer Toolkit democratized social engineering testing, and Dave Kennedy's public advocacy for ethical hacking and responsible security testing has helped shape industry practices. The company's dual offensive-defensive expertise provides holistic security assessments."
+  how: "TrustedSec operates through comprehensive security consulting services including penetration testing, red team engagements, social engineering campaigns, incident response, and security program development. The company develops and maintains open-source security tools, provides training courses, and actively contributes to the security community through conference presentations, published research, and community engagement."
+  core_concepts:
+    - key: "Social Engineering Assessment"
+      value: "Comprehensive testing of human-factor security through phishing, vishing, physical access, and pretexting campaigns"
+    - key: "Social-Engineer Toolkit"
+      value: "Open-source framework for automating social engineering attacks used widely in penetration testing and red team operations"
+    - key: "Holistic Security Consulting"
+      value: "Combined offensive and defensive security services providing comprehensive security program assessment and improvement"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: is_a
+    target: "ACTOR-VENDOR-SPECTEROPS-001"
+    description: "Fellow offensive security consultancy specializing in red team operations and security tool development"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "https://www.trustedsec.com"
+    - "https://github.com/trustedsec"
+  search_keywords:
+    - "trustedsec"
+    - "dave kennedy"
+    - "social engineer toolkit"
+    - "SET"
+    - "penetration testing"
+    - "red team"
+    - "social engineering"
+    - "security consulting"
+  embedding_text: "TrustedSec is a prominent offensive and defensive security consultancy founded by Dave Kennedy, known for providing penetration testing, red team operations, social engineering assessments, and incident response services. The company developed the Social-Engineer Toolkit (SET), one of the most widely-used social engineering frameworks in the security industry. TrustedSec's dual offensive-defensive expertise and active contributions to the security community through tool development, training, and conference presentations have made it a significant force in the cybersecurity industry."

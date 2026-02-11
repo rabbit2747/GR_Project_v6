@@ -1,0 +1,99 @@
+# GR Atom: Cloud Region
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOUREGI-001"
+  name: "Cloud Region"
+  normalized_name: "cloud_region"
+  aliases:
+    - "AWS Region"
+    - "Azure Region"
+    - "GCP Region"
+    - "Availability Region"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - CLOUD
+    - HA
+    - DR
+    - COMPLIANCE
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L0"
+  zone: "Z2"
+  function: "R1.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    A Cloud Region is a geographically distinct cluster of data centers operated by a cloud
+    service provider, designed to deliver cloud services with low latency to nearby users.
+    Each region contains multiple isolated availability zones with independent power, cooling,
+    and networking. Major providers operate dozens of regions globally (AWS 30+, Azure 60+,
+    GCP 35+). Regions are identified by location-based names (e.g., us-east-1, westeurope,
+    us-central1) and serve as the primary unit for data residency and service deployment.
+  why: >-
+    Cloud regions are fundamental to data sovereignty, compliance, disaster recovery, and
+    latency optimization. Regulatory requirements such as GDPR mandate that certain data
+    remains within specific geographic boundaries. Region selection impacts security posture
+    because different regions may have different service availability, compliance certifications,
+    and data protection laws. Multi-region architectures provide resilience against regional
+    outages and enable geographic failover.
+  how: >-
+    Cloud regions are selected during resource provisioning based on latency requirements,
+    compliance obligations, cost considerations, and service availability. Resources are
+    deployed within a region and can span availability zones for high availability. Cross-region
+    replication enables disaster recovery. VPC peering and transit gateways connect resources
+    across regions. Regional endpoints serve API requests for services deployed in that region.
+  core_concepts:
+    - key: "Availability Zones"
+      value: "Isolated data center clusters within a region with independent infrastructure, providing fault isolation and high availability"
+    - key: "Data Residency"
+      value: "Geographic containment of data within specific regions to comply with sovereignty laws and regulatory requirements like GDPR"
+    - key: "Multi-Region Architecture"
+      value: "Deploying workloads across multiple regions for disaster recovery, latency optimization, and resilience against regional failures"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-CLOUINFR-001"
+    description: "Cloud regions are the geographic organizational unit of cloud infrastructure"
+  - type: "enables"
+    target: "INFRA-COMPUTE-CLOSERPRO-001"
+    description: "Regions enable cloud service providers to deliver geographically distributed services"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS Global Infrastructure Documentation"
+    - "Microsoft Azure Regions Documentation"
+    - "Google Cloud Locations Documentation"
+  search_keywords:
+    - "cloud region"
+    - "availability zone"
+    - "data residency"
+    - "cloud geography"
+    - "multi-region"
+    - "cloud data center"
+    - "region selection"
+  embedding_text: >-
+    A Cloud Region is a geographically distinct cluster of data centers operated by cloud
+    providers, containing multiple isolated availability zones with independent power, cooling,
+    and networking. Regions are the primary unit for data residency and service deployment,
+    with major providers operating dozens globally. Region selection impacts compliance (GDPR
+    data sovereignty), latency, disaster recovery, and security posture. Multi-region
+    architectures provide resilience against regional outages. Cross-region replication enables
+    geographic failover. Each availability zone within a region provides fault isolation for
+    high-availability deployments.

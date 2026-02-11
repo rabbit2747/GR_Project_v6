@@ -1,0 +1,100 @@
+# GR Atom: Beaconing
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "DETECT-NETWORK-BEACONING-001"
+  name: "Beaconing"
+  normalized_name: "beaconing"
+  aliases:
+    - "Beacon Detection"
+    - "C2 Beaconing"
+    - "Callback Detection"
+    - "Periodic Communication Detection"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 2
+  atom_tags:
+    - NETWORK
+    - MONITOR
+    - IDS
+    - C2
+    - THREAT_INTEL
+    - SIEM
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L3", "L4", "L7"]
+  target_zones: ["Z2", "Z3", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "A network detection pattern that identifies periodic or quasi-periodic outbound communication from compromised hosts to command-and-control infrastructure. Beaconing is characterized by regular intervals between connection attempts, consistent payload sizes, and persistent communication with specific external endpoints. Modern malware implements jitter (randomized timing variation) to evade simple periodicity checks, requiring advanced statistical analysis to detect."
+  why: "Beaconing is the primary mechanism through which malware and implants maintain communication with command-and-control servers. Detecting beaconing behavior is one of the most effective methods for identifying active compromises, as it reveals persistent adversary presence regardless of the specific malware family or C2 framework in use. Without beaconing detection, compromised hosts can remain under adversary control for extended periods without detection."
+  how: "Detection employs statistical analysis of connection timing intervals to identify periodicity, including Fourier transform analysis, standard deviation of inter-arrival times, and entropy calculations. Additional indicators include consistent destination IPs or domains, uniform packet sizes, low data volume per session, connections during off-hours, and communication with uncategorized or newly registered domains. Advanced approaches apply machine learning models trained on known beacon patterns and use jitter-aware algorithms that detect periodicity even with randomized timing."
+  core_concepts:
+    - key: "Periodicity Analysis"
+      value: "Statistical methods to identify regular timing patterns in outbound connections, including jitter-tolerant algorithms."
+    - key: "Jitter Detection"
+      value: "Identifying randomized timing variations that malware introduces to evade simple interval-based detection."
+    - key: "Session Profiling"
+      value: "Analyzing connection characteristics including payload size consistency, session duration, and data transfer ratios."
+    - key: "Long-Tail Analysis"
+      value: "Examining persistent low-volume connections over extended time periods to identify slow beaconing behavior."
+
+# ==== Section 6: Relations ====
+relations:
+  - type: abstracts
+    target: "DETECT-NETWORK-DNSBEAC-001"
+    description: "General beaconing detection abstracts the specific case of DNS-based beaconing"
+  - type: effective_against
+    target: "ATK-C2-BEACON-001"
+    description: "Directly detects C2 beaconing behavior from compromised hosts"
+  - type: requires
+    target: "DETECT-NETWORK-FLOWLOGS-001"
+    description: "Requires network flow data for statistical timing analysis"
+  - type: enables
+    target: "DETECT-NETWORK-DATAEXFI-001"
+    description: "Beacon detection can reveal channels also used for data exfiltration"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1071"
+    tactic:
+      - "Command and Control"
+    sub_techniques:
+      - "T1071.001"
+      - "T1071.004"
+  defense_context:
+    effectiveness: "high"
+    d3fend_mapping: "D3-NTCD"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "MITRE ATT&CK - Application Layer Protocol T1071"
+    - "SANS Institute - Finding Beacons in the Dark"
+    - "Mandiant - Detecting C2 Beaconing with Network Traffic Analysis"
+  search_keywords:
+    - "beaconing"
+    - "beacon detection"
+    - "C2 callback"
+    - "periodic communication"
+    - "command and control"
+    - "jitter analysis"
+    - "interval analysis"
+    - "network periodicity"
+    - "malware callback"
+    - "outbound beacon"
+  embedding_text: "Beaconing detection is a network analysis pattern for identifying periodic or quasi-periodic outbound communications from compromised hosts to command-and-control infrastructure. It uses statistical analysis of connection timing intervals, Fourier transforms, standard deviation calculations, and jitter-aware algorithms to detect regular callback patterns even when malware introduces timing randomization. Key indicators include consistent destination endpoints, uniform payload sizes, low data volume per session, and persistent off-hours communication. Beaconing detection is fundamental to identifying active compromises and revealing adversary persistence within the network."

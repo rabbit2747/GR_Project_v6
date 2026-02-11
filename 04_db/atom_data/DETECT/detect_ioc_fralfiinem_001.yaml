@@ -1,0 +1,83 @@
+# GR Atom: Fraud Alert Financial Institution Employee Credentials Targeted
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-IOC-FRALFIINEM-001"
+  name: "Fraud Alert Financial Institution Employee Credentials Targeted"
+  normalized_name: "fraud_alert_financial_institution_employee_credentials_targeted"
+  aliases:
+    - "Financial Sector Credential Targeting Alert"
+    - "Banking Employee Credential Theft IOC"
+    - "FinServ Employee Credential Compromise Indicator"
+    - "Financial Institution Spear Phishing Alert"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - CRED
+    - INITIAL
+    - THREAT_INTEL
+    - INCIDENT
+    - MONITOR
+
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "A fraud alert indicator of compromise that identifies active campaigns specifically targeting employee credentials at financial institutions. This IOC encompasses threat intelligence signals such as discovery of financial employee credentials on dark web marketplaces, identification of spear-phishing campaigns crafted to impersonate banking systems (e.g., internal portals, SWIFT interfaces, treasury management platforms), detection of credential stuffing attacks against financial institution employee login portals, and reports from FS-ISAC or similar industry sharing organizations about active targeting of banking personnel. The indicator captures the specific threat pattern where adversaries target financial institution employees as a pathway to access high-value financial systems and customer data."
+  why: "Financial institution employees hold privileged access to systems that process monetary transactions, hold customer PII, and interface with interbank transfer networks such as SWIFT. Compromised employee credentials at financial institutions represent an exceptionally high-impact risk because they can enable unauthorized wire transfers, account manipulation, regulatory data breaches, and systemic financial fraud. Industry threat intelligence consistently shows that financially motivated threat actors and nation-state groups prioritize targeting bank employee credentials as a primary attack vector. Early detection of these targeting campaigns enables proactive credential rotation, enhanced authentication enforcement, and employee awareness."
+  how: "Detection is implemented through multi-source threat intelligence correlation. Dark web monitoring services scan underground forums, paste sites, and credential marketplaces for employee email domains associated with financial institutions. Email security gateways analyze inbound messages for spear-phishing indicators targeting financial employees, including impersonation of banking-specific systems and urgency-themed lures referencing wire transfers or compliance deadlines. FS-ISAC threat feeds and STIX/TAXII sharing provide industry-specific indicators. Authentication monitoring systems detect credential stuffing patterns against employee portals using velocity checks, geographic anomalies, and known-bad IP correlation. SIEM correlation rules aggregate these signals to generate fraud alerts when multiple indicators converge."
+  core_concepts:
+    - key: "Credential Marketplace Monitoring"
+      value: "Continuous monitoring of dark web forums and credential dumps for financial institution employee email addresses and credentials"
+    - key: "FS-ISAC Sharing"
+      value: "Industry-specific threat intelligence sharing through the Financial Services Information Sharing and Analysis Center"
+    - key: "Spear-Phishing Targeting"
+      value: "Identification of phishing campaigns specifically crafted to target financial institution employees using banking-specific lures"
+
+relations:
+  - type: is_a
+    target: "DETECT-IOC-PHISINDI-001"
+    description: "Financial institution credential targeting is a specific instance of phishing indicators focused on the financial sector"
+  - type: effective_against
+    target: "ATK-CRED-CREDACCE-001"
+    description: "This fraud alert is effective against credential access attacks targeting financial employees"
+  - type: enables
+    target: "DETECT-BEHAVIOR-EMAIPATT-001"
+    description: "Financial credential targeting alerts enable detection of suspicious email patterns"
+
+security_profile:
+  mitre_mapping:
+    technique_id: "T1566"
+    tactic:
+      - "Initial Access"
+      - "Credential Access"
+    sub_techniques:
+      - "T1566.001"
+      - "T1566.002"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "FS-ISAC - Financial Services Information Sharing and Analysis Center - https://www.fsisac.com/"
+    - "MITRE ATT&CK - Phishing (T1566) - https://attack.mitre.org/techniques/T1566/"
+    - "FBI IC3 - Business Email Compromise and Financial Fraud Alerts"
+  search_keywords:
+    - "financial institution credential theft"
+    - "banking employee phishing"
+    - "FS-ISAC fraud alert"
+    - "financial sector spear phishing"
+    - "bank employee credential compromise"
+    - "SWIFT credential targeting"
+    - "financial fraud indicator"
+    - "dark web credential monitoring banking"
+  embedding_text: "Fraud alert indicator identifying active campaigns targeting employee credentials at financial institutions. This IOC encompasses dark web credential marketplace monitoring for banking employee emails, spear-phishing campaigns impersonating financial systems like SWIFT and treasury platforms, credential stuffing against bank employee portals, and FS-ISAC threat intelligence sharing. Financial institution employees hold privileged access to monetary transaction systems, customer PII, and interbank transfer networks, making their credentials exceptionally high-value targets for financially motivated threat actors and nation-state groups. Detection combines dark web monitoring, email security gateway analysis, authentication anomaly detection, and industry threat feed correlation."

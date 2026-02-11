@@ -1,0 +1,74 @@
+# GR Atom: PCI DSS v4.0
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "COMP-STANDARD-PCDSV40-001"
+  name: "PCI DSS v4.0"
+  normalized_name: "pci_dss_v4_0"
+  aliases:
+    - "PCI DSS Version 4.0"
+    - "PCI v4"
+    - "PCI DSS 4.0"
+
+classification:
+  is_infrastructure: false
+  type: "control_policy"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - NETWORK
+    - ENCRYPT
+    - WEB
+
+scope:
+  target_layers: ["L2", "L3", "L4", "L5", "L6", "L7"]
+  target_zones: ["Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+definition:
+  what: "PCI DSS v4.0 is the latest major revision of the Payment Card Industry Data Security Standard, released in March 2022 with mandatory compliance beginning March 2025. Version 4.0 introduces significant changes including the customized approach as an alternative to the traditional defined approach for meeting requirements, enhanced authentication requirements including multi-factor authentication for all CDE access, expanded encryption requirements including deprecation of SSL/early TLS, targeted risk analysis for flexible implementation, and new requirements for e-commerce including client-side script management and payment page integrity. The standard maintains the 12 requirement structure while adding 64 new requirements."
+  why: "PCI DSS v4.0 addresses the evolving threat landscape including sophisticated e-commerce attacks (Magecart-style skimming), increased cloud adoption in payment processing, and the need for more flexible compliance approaches. The customized approach enables organizations to implement innovative security controls while meeting the security intent of each requirement. New requirements for payment page script management directly address the growing threat of client-side payment data theft."
+  how: "Organizations transition to PCI DSS v4.0 by conducting a gap analysis against the new requirements, implementing new controls (particularly MFA expansion, payment page script management, and enhanced logging), selecting either the defined approach or customized approach for compliance validation, updating documentation and policies to reflect v4.0 requirements, and engaging QSAs trained on v4.0 assessment procedures. The customized approach requires organizations to document their control implementation, perform a targeted risk analysis, and demonstrate the control meets the security objective of the requirement."
+  core_concepts:
+    - key: "Customized Approach"
+      value: "Alternative compliance method allowing organizations to implement controls that meet the security objective through means different from the defined requirement"
+    - key: "Targeted Risk Analysis"
+      value: "Risk assessment methodology for determining appropriate implementation of flexible requirements based on organizational context"
+    - key: "Client-Side Script Management"
+      value: "New requirements for managing and monitoring JavaScript and other scripts on payment pages to prevent skimming attacks"
+    - key: "Enhanced Authentication"
+      value: "Expanded MFA requirements for all access to the cardholder data environment, not just remote access"
+
+relations:
+  - type: supersedes
+    target: "COMP-STANDARD-PCIDSS-001"
+    description: "PCI DSS v4.0 supersedes previous versions as the current mandatory standard"
+  - type: part_of
+    target: "COMP-STANDARD-PCIDSSCOM-001"
+    description: "PCI DSS v4.0 is the current version within the PCI DSS compliance framework"
+  - type: requires
+    target: "COMP-STANDARD-FIPS1402-001"
+    description: "PCI DSS v4.0 requires validated cryptographic modules for strong cryptography"
+
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "PCI DSS v4.0 Standard - https://www.pcisecuritystandards.org/document_library/?category=pcidss"
+    - "PCI DSS v4.0 Summary of Changes - https://www.pcisecuritystandards.org/document_library/"
+    - "PCI SSC PCI DSS v4.0 At a Glance"
+  search_keywords:
+    - "PCI DSS v4.0"
+    - "PCI DSS version 4"
+    - "customized approach"
+    - "PCI v4 requirements"
+    - "payment page security"
+    - "client-side script management"
+    - "targeted risk analysis"
+    - "PCI MFA requirements"
+    - "PCI DSS migration"
+    - "Magecart protection"
+  embedding_text: "PCI DSS v4.0 is the latest major revision of the Payment Card Industry Data Security Standard, mandatory from March 2025. It introduces the customized approach as an alternative compliance method, enhanced MFA requirements for all CDE access, client-side script management for payment pages to counter Magecart-style attacks, targeted risk analysis for flexible implementation, and 64 new requirements. Organizations transition by performing gap analysis, implementing new controls, selecting defined or customized approach, and engaging v4.0-trained QSAs. The customized approach requires documented controls, risk analysis, and demonstration that security objectives are met."

@@ -1,0 +1,109 @@
+# GR Atom: Event Log Rotate Event
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+identity:
+  id: "DETECT-LOG-EVELOGROT-001"
+  name: "Event Log Rotate Event"
+  normalized_name: "event_log_rotate_event"
+  aliases:
+    - "Log Rotation Event"
+    - "Event Log Rollover"
+    - "Log File Rotation"
+    - "Automatic Log Rotation"
+
+classification:
+  is_infrastructure: false
+  type: "pattern"
+  abstraction_level: 1
+  atom_tags:
+    - LOG
+    - AUDIT
+    - MONITOR
+
+scope:
+  target_layers: ["L5", "L6"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3"]
+  target_components: []
+
+definition:
+  what: >-
+    An Event Log Rotate Event is a detection pattern for log entries generated when event log
+    files undergo rotation — the process of closing the current active log file and creating a
+    new one to continue recording events. On Windows, log rotation is managed by the Event Log
+    service based on channel configurations (maximum log size and retention policy: overwrite
+    events as needed, archive the log when full, or do not overwrite events). When the maximum
+    size is reached, Windows either overwrites the oldest events, archives the log (generating
+    Event ID 1105), or stops logging. On Linux, the logrotate utility manages rotation based on
+    cron schedules, file size thresholds, or age criteria, compressing and renaming old log files
+    with numeric or date-based suffixes. Log rotation is essential for storage management but
+    creates transition points where event continuity must be verified.
+  why: >-
+    Log rotation monitoring is critical because rotation events represent transition points
+    where log data integrity can be compromised. Attackers may manipulate rotation policies to
+    force premature rotation, causing important evidence to be overwritten or archived before
+    SIEM collection. Excessive log generation by attackers (log flooding) can trigger rotation
+    that pushes legitimate events out of the active log. Misconfigured rotation policies can
+    result in log data loss if archives are not properly preserved or if the retention period
+    is too short. Monitoring rotation events ensures that log lifecycle management operates
+    correctly, storage is sufficient, and no gaps exist in the event record.
+  how: >-
+    Event log rotation detection operates through: (1) Monitoring Windows Event Log for
+    channel-specific events indicating log full or rotation conditions, including Event ID 1105
+    (log archived when full); (2) Tracking Windows Event Log channel configuration changes that
+    modify maximum log size or retention policy; (3) On Linux, monitoring logrotate execution
+    via cron logs and logrotate status files (/var/lib/logrotate/status); (4) Verifying that
+    rotated log files are properly compressed, renamed, and stored in expected locations;
+    (5) Alerting on rotation frequency anomalies that may indicate log flooding attacks;
+    (6) SIEM rules that verify event continuity across rotation boundaries by checking
+    timestamp gaps; (7) Monitoring disk space utilization on log storage volumes.
+  core_concepts:
+    - key: "Rotation Policy"
+      value: "Configuration that determines when and how logs rotate, including maximum file size, retention period, number of archived files, and behavior when limits are reached."
+    - key: "Log Flooding Attack"
+      value: "An attack that generates excessive log events to force premature rotation, causing legitimate security events to be overwritten or pushed out of the active monitoring window."
+    - key: "Event Continuity Verification"
+      value: "The process of validating that no events are lost during rotation transitions by checking timestamp continuity and event sequence integrity across rotation boundaries."
+
+relations:
+  - type: "is_a"
+    target: "DETECT-LOG-SECURITY-001"
+    description: "Log rotation events are security-relevant for maintaining audit trail integrity"
+  - type: "enables"
+    target: "DETECT-LOG-EVELOGARC-001"
+    description: "Log rotation can trigger archival of the rotated log file"
+  - type: "precedes"
+    target: "DETECT-LOG-EVELOGSTA-001"
+    description: "After rotation, a new log file is started for continued event recording"
+
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "Microsoft — Event Log Channel Configuration Reference"
+    - "Linux man pages — logrotate(8)"
+    - "NIST SP 800-92 — Guide to Computer Security Log Management"
+    - "CIS Controls v8 — Control 8: Audit Log Management"
+  search_keywords:
+    - "event log rotation"
+    - "log rotate event"
+    - "log rollover"
+    - "logrotate"
+    - "log file rotation"
+    - "log size limit"
+    - "log retention policy"
+    - "log flooding"
+    - "log lifecycle"
+    - "event log full"
+  embedding_text: >-
+    Event Log Rotate Event is a detection pattern for log entries generated during log file
+    rotation, where the active log is closed and a new one created. On Windows, rotation is
+    managed by Event Log service channel configurations (maximum size, retention policy); on
+    Linux, by the logrotate utility. Rotation events are critical monitoring points because they
+    represent transitions where log integrity can be compromised through premature rotation,
+    log flooding attacks that push evidence out of active logs, or misconfigured retention
+    policies. Detection relies on monitoring rotation-related event IDs, logrotate execution,
+    rotation frequency anomalies, and event continuity verification across rotation boundaries.

@@ -1,0 +1,74 @@
+# GR Atom: DrayTek
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "ACTOR-VENDOR-DRAYTEK-001"
+  name: "DrayTek"
+  normalized_name: "draytek"
+  aliases:
+    - "DrayTek Corporation"
+    - "DrayTek Vigor"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 1
+  atom_tags:
+    - NETWORK
+    - FIREWALL
+    - VPN
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L1", "L2", "L3"]
+  target_zones: ["Z1", "Z2", "Z4"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: "DrayTek is a Taiwanese networking equipment manufacturer specializing in routers, firewalls, VPN concentrators, switches, and wireless access points primarily for small-to-medium business (SMB) and enterprise branch office deployments. The Vigor product line includes multi-WAN routers with integrated firewall, VPN, and content filtering capabilities. DrayTek devices are widely deployed in Europe and Asia-Pacific markets."
+  why: "DrayTek is significant in cybersecurity because its networking equipment serves as critical perimeter infrastructure for thousands of organizations. Vulnerabilities in DrayTek Vigor routers and firewalls have been actively exploited by threat actors for initial access, including remote code execution flaws and zero-day exploits targeting the web management interface. DrayTek devices have been targets in multiple botnet campaigns and APT operations due to their internet-facing deployment."
+  how: "DrayTek provides network security through integrated firewall, VPN (IPsec, SSL VPN, WireGuard), content filtering, and access control features in its Vigor router product line. The devices offer centralized management through VigorACS, web-based administration, and SNMP monitoring. DrayTek publishes firmware updates to address security vulnerabilities and provides security advisories through their support portal."
+  core_concepts:
+    - key: "SMB Network Infrastructure"
+      value: "Vigor router and firewall product line providing multi-WAN routing, VPN, and integrated security for SMB deployments"
+    - key: "Perimeter Security Appliance"
+      value: "Internet-facing network devices that serve as critical perimeter defense infrastructure and frequent attack targets"
+    - key: "VPN Gateway"
+      value: "IPsec, SSL VPN, and WireGuard VPN concentrator capabilities for remote access and site-to-site connectivity"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "INFRA-NETWORK-ROUTER-001"
+    description: "Produces Vigor series routers, firewalls, and VPN appliances for SMB network infrastructure"
+  - type: enables
+    target: "DEF-FIREWALL-NETWORK-001"
+    description: "Enables network perimeter defense through integrated firewall and content filtering capabilities"
+
+# ==== Section 7: Security Profile (optional) ====
+# Not applicable for networking equipment vendor
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "secondary"
+  sources:
+    - "https://www.draytek.com"
+    - "https://www.draytek.com/support/security-advisories"
+  search_keywords:
+    - "draytek"
+    - "draytek vigor"
+    - "draytek vulnerability"
+    - "vigor router exploit"
+    - "draytek firewall"
+    - "draytek vpn"
+    - "smb router security"
+    - "draytek firmware update"
+    - "vigor remote code execution"
+  embedding_text: "DrayTek is a Taiwanese networking equipment manufacturer specializing in routers, firewalls, VPN concentrators, switches, and wireless access points primarily for small-to-medium business and enterprise branch office deployments. The Vigor product line includes multi-WAN routers with integrated firewall, VPN, and content filtering capabilities, widely deployed in Europe and Asia-Pacific markets. DrayTek is significant in cybersecurity because vulnerabilities in Vigor routers and firewalls have been actively exploited by threat actors for initial access, including remote code execution flaws and zero-day exploits targeting web management interfaces. DrayTek devices have been targets in multiple botnet campaigns and APT operations due to their internet-facing deployment. The company provides network security through integrated firewall, VPN (IPsec, SSL VPN, WireGuard), content filtering, and centralized management through VigorACS."

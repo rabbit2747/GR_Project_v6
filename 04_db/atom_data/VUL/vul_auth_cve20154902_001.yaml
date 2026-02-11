@@ -1,0 +1,103 @@
+# GR Atom: CVE-2015-4902
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "VUL-AUTH-CVE20154902-001"
+  name: "CVE-2015-4902"
+  normalized_name: "cve_2015_4902"
+  aliases:
+    - "Java Click-to-Play Bypass"
+    - "Java Security Warning Bypass"
+    - "Pawn Storm Java Exploit"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "vulnerability"
+  abstraction_level: 1
+  atom_tags:
+    - AUTHN
+    - EVADE
+    - WEB
+    - EXEC
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L6", "L7"]
+  target_zones: ["Z1", "Z2"]
+  target_components:
+    - "Oracle Java SE"
+    - "Java Runtime Environment (JRE)"
+    - "Java browser plugin"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    CVE-2015-4902 is a security feature bypass vulnerability in Oracle Java SE that allows
+    attackers to bypass the Click-to-Play security mechanism designed to prevent automatic
+    execution of Java applets. The vulnerability was used by APT28 (Pawn Storm) in targeted
+    attacks to silently execute malicious Java applets without displaying the security warning
+    dialog to the user. This effectively negates the primary user-consent security control for
+    Java applet execution in web browsers. CVSS v2 score is 5.0.
+  why: >-
+    The Click-to-Play mechanism was Oracle's primary defense against drive-by Java applet
+    attacks. Bypassing this control allows silent execution of malicious Java code when users
+    visit compromised or malicious websites. APT28 combined this bypass with other Java
+    vulnerabilities to achieve remote code execution without any user interaction beyond
+    visiting a web page, making it a powerful initial access vector.
+  how: >-
+    Attackers craft a web page with a specially structured Java applet deployment that
+    circumvents the Click-to-Play dialog. The vulnerability allows the applet to execute
+    without the user seeing or clicking the security warning. Combined with a code execution
+    vulnerability, this enables full remote compromise through browser-based attacks.
+    Mitigation requires updating Java SE to the October 2015 Critical Patch Update, disabling
+    Java browser plugins, or removing Java from systems where it is not required.
+  core_concepts:
+    - key: "Security Feature Bypass"
+      value: "Circumventing the Java Click-to-Play mechanism that requires user consent before executing applets in browsers"
+    - key: "Silent Applet Execution"
+      value: "Executing malicious Java applets without displaying security warnings, enabling drive-by attacks"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "VUL-AUTH-AUTHENTICA-001"
+    description: "CVE-2015-4902 bypasses the Java authentication/consent mechanism for applet execution"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1189"
+    tactic:
+      - "Initial Access"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "authoritative"
+  sources:
+    - "MITRE CVE-2015-4902"
+    - "NIST NVD CVE-2015-4902 (CVSS v2: 5.0)"
+    - "Oracle Critical Patch Update October 2015"
+    - "Trend Micro Pawn Storm Analysis"
+  search_keywords:
+    - "CVE-2015-4902"
+    - "Java Click-to-Play bypass"
+    - "Java security warning bypass"
+    - "Pawn Storm"
+    - "APT28 Java exploit"
+    - "Java applet bypass"
+  embedding_text: >-
+    CVE-2015-4902 is a security feature bypass in Oracle Java SE with CVSS v2 score 5.0
+    that allows attackers to bypass the Click-to-Play security mechanism. Used by APT28
+    (Pawn Storm) in targeted attacks, it enables silent execution of malicious Java applets
+    without displaying security warning dialogs. This negates the primary user-consent
+    defense against drive-by Java attacks. Combined with code execution vulnerabilities,
+    it provides full remote compromise through browser visits. Mitigation requires Java
+    October 2015 CPU, disabling Java browser plugins, or removing Java entirely. Demonstrates
+    the danger of security feature bypass vulnerabilities in widely deployed software.

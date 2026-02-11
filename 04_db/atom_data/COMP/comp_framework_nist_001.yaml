@@ -1,0 +1,131 @@
+# GR Atom: NIST
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "COMP-FRAMEWORK-NIST-001"
+  name: "NIST"
+  normalized_name: "nist"
+  aliases:
+    - "National Institute of Standards and Technology"
+    - "NIST Cybersecurity"
+    - "NIST Information Security"
+    - "NIST Computer Security Division"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: false
+  type: "concept"
+  abstraction_level: 3
+  atom_tags:
+    - COMPLIANCE
+    - AUDIT
+
+# ==== Section 4: Scope (non-INFRA only) ====
+scope:
+  target_layers: ["L0", "L1", "L2", "L3", "L4", "L5", "L6", "L7", "Cross"]
+  target_zones: ["Z0A", "Z0B", "Z1", "Z2", "Z3", "Z4", "Z5"]
+  target_components: []
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    The National Institute of Standards and Technology (NIST) is a non-regulatory agency of the
+    United States Department of Commerce that develops cybersecurity standards, guidelines,
+    best practices, and frameworks used globally. NIST's Information Technology Laboratory (ITL)
+    and Computer Security Division (CSD) produce the Special Publication (SP) 800 series,
+    Federal Information Processing Standards (FIPS), and cybersecurity frameworks that serve
+    as the authoritative baseline for information security in federal agencies and are widely
+    adopted by private sector organizations worldwide. Key publications include the Cybersecurity
+    Framework (CSF), Risk Management Framework (RMF), and the SP 800-53 security controls catalog.
+  why: >-
+    Organizations need authoritative, evidence-based cybersecurity guidance developed through
+    rigorous research and public-private collaboration. NIST fills this role by providing
+    technology-neutral, risk-based frameworks that organizations can adapt to their specific
+    environments. Federal agencies are required to comply with NIST standards under FISMA and
+    executive orders, while private sector organizations adopt NIST frameworks as industry best
+    practice. NIST standards provide the common foundation that enables consistent security
+    posture assessment, regulatory compliance, supply chain assurance, and international
+    cybersecurity cooperation.
+  how: >-
+    NIST cybersecurity guidance is organized into several publication series: (1) NIST
+    Cybersecurity Framework (CSF) - voluntary framework for managing cybersecurity risk
+    organized into six functions; (2) SP 800 Series - detailed technical guidelines covering
+    specific security domains including risk management (SP 800-37 RMF), security controls
+    (SP 800-53), incident response (SP 800-61), zero trust (SP 800-207), and authentication
+    (SP 800-63); (3) FIPS Standards - mandatory standards for federal systems including
+    cryptographic requirements (FIPS 140-3, FIPS 197); (4) NIST develops standards through
+    open, collaborative processes involving public comment periods, workshops, and partnership
+    with industry, academia, and international standards bodies.
+  core_concepts:
+    - key: "SP 800 Series"
+      value: >-
+        The comprehensive series of Special Publications providing detailed cybersecurity
+        guidelines covering risk management, security controls, incident response, identity
+        management, cryptography, cloud security, zero trust, and numerous other domains.
+    - key: "Risk-Based Approach"
+      value: >-
+        NIST frameworks emphasize risk management rather than compliance checklists, enabling
+        organizations to prioritize security investments based on their specific threat
+        landscape, business requirements, and risk appetite.
+    - key: "Open Standards Development"
+      value: >-
+        NIST develops cybersecurity standards through transparent, collaborative processes
+        involving public comment periods, industry workshops, and partnership with academia
+        and international standards organizations.
+    - key: "Federal Mandate and Global Adoption"
+      value: >-
+        While mandatory for U.S. federal agencies under FISMA, NIST frameworks are voluntarily
+        adopted worldwide as industry best practice, referenced by regulations, and used as
+        the basis for international cybersecurity standards.
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "enables"
+    target: "COMP-FRAMEWORK-NISTCYBE-001"
+    description: "NIST is the parent organization that develops and maintains the NIST Cybersecurity Framework"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-NISTSP80053-001"
+    description: "NIST publishes SP 800-53 as the comprehensive security and privacy controls catalog"
+  - type: "enables"
+    target: "COMP-FRAMEWORK-RMF-001"
+    description: "NIST develops and maintains the Risk Management Framework for federal information systems"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "National Institute of Standards and Technology - Computer Security Resource Center. https://csrc.nist.gov/"
+    - "NIST Information Technology Laboratory. https://www.nist.gov/itl"
+    - "NIST Cybersecurity. https://www.nist.gov/cybersecurity"
+    - "Federal Information Security Modernization Act (FISMA). https://csrc.nist.gov/topics/laws-and-regulations/laws/fisma"
+  search_keywords:
+    - "NIST"
+    - "National Institute of Standards and Technology"
+    - "NIST cybersecurity"
+    - "NIST SP 800"
+    - "NIST standards"
+    - "FISMA"
+    - "federal cybersecurity standards"
+    - "NIST guidelines"
+    - "NIST CSRC"
+    - "information security standards"
+  embedding_text: >-
+    The National Institute of Standards and Technology (NIST) is a non-regulatory agency of the
+    U.S. Department of Commerce that develops cybersecurity standards, guidelines, and frameworks
+    used globally. NIST's Information Technology Laboratory produces the SP 800 series, FIPS
+    standards, and cybersecurity frameworks serving as the authoritative baseline for federal
+    information security. Key publications include the Cybersecurity Framework (CSF), Risk
+    Management Framework (RMF), SP 800-53 security controls, SP 800-61 incident response,
+    SP 800-207 zero trust architecture, and SP 800-63 digital identity guidelines. Federal
+    agencies are required to comply under FISMA while private sector organizations adopt NIST
+    frameworks as industry best practice. NIST develops standards through open collaborative
+    processes with public comment, industry workshops, and international partnership. The
+    risk-based approach enables organizations to prioritize security investments based on
+    specific threat landscapes rather than compliance checklists, providing the common
+    foundation for consistent security assessment, regulatory compliance, and international
+    cybersecurity cooperation.

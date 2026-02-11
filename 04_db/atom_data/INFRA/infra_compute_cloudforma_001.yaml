@@ -1,0 +1,102 @@
+# GR Atom: CloudFormation
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-COMPUTE-CLOUDFORMA-001"
+  name: "CloudFormation"
+  normalized_name: "cloudformation"
+  aliases:
+    - "AWS CloudFormation"
+    - "CFN"
+    - "CloudFormation Stacks"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component_tool"
+  abstraction_level: 2
+  atom_tags:
+    - AWS
+    - CLOUD
+    - IAC
+    - CICD
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L6"
+  zone: "Z4"
+  function: "P3.1"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    AWS CloudFormation is an Infrastructure-as-Code (IaC) service that enables users to define
+    and provision AWS infrastructure resources using declarative JSON or YAML templates. Templates
+    describe the desired state of AWS resources (EC2 instances, VPCs, IAM roles, S3 buckets,
+    etc.) and CloudFormation automatically creates, updates, and deletes resources in the correct
+    order based on dependency resolution. Resources are organized into stacks that can be managed
+    as a single unit.
+  why: >-
+    Infrastructure-as-Code is fundamental to security because it enables version-controlled,
+    repeatable, and auditable infrastructure deployments. CloudFormation eliminates manual
+    configuration drift, enforces consistent security baselines through templates, and enables
+    automated compliance checking via tools like cfn-nag and AWS Config rules. However, insecure
+    CloudFormation templates are a significant attack vector, as they can programmatically deploy
+    misconfigured resources at scale.
+  how: >-
+    CloudFormation templates define resources with their properties and dependencies. Users
+    create stacks from templates via the console, CLI, or API. CloudFormation resolves
+    dependencies, creates a change set showing planned modifications, and orchestrates resource
+    creation/updates in the correct order. Stack policies can prevent accidental updates to
+    critical resources. StackSets enable multi-account and multi-region deployments. Drift
+    detection identifies resources modified outside CloudFormation control.
+  core_concepts:
+    - key: "Declarative Templates"
+      value: "JSON or YAML templates declaring desired infrastructure state, with CloudFormation handling dependency resolution and resource orchestration"
+    - key: "Stack Management"
+      value: "Resources grouped into stacks as a single management unit with lifecycle operations including create, update, delete, and drift detection"
+    - key: "Change Sets"
+      value: "Preview mechanism showing proposed infrastructure changes before execution, enabling review and approval workflows"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "part_of"
+    target: "INFRA-COMPUTE-AWS-001"
+    description: "CloudFormation is a native AWS infrastructure management service"
+  - type: "enables"
+    target: "INFRA-COMPUTE-EC2-001"
+    description: "CloudFormation templates can provision and configure EC2 compute instances"
+  - type: "enables"
+    target: "INFRA-COMPUTE-AWSVPC-001"
+    description: "CloudFormation templates can provision VPC network infrastructure"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "derived"
+  sources:
+    - "AWS CloudFormation Documentation - docs.aws.amazon.com"
+    - "AWS Well-Architected Framework - Infrastructure as Code"
+    - "CIS AWS Foundations Benchmark - CloudFormation Controls"
+  search_keywords:
+    - "cloudformation"
+    - "aws cloudformation"
+    - "infrastructure as code aws"
+    - "cfn templates"
+    - "cloudformation stacks"
+    - "aws iac"
+    - "declarative infrastructure"
+  embedding_text: >-
+    AWS CloudFormation is an Infrastructure-as-Code service that provisions AWS resources using
+    declarative JSON or YAML templates. Templates describe the desired state of resources such
+    as EC2 instances, VPCs, IAM roles, and S3 buckets, and CloudFormation handles dependency
+    resolution and orchestration. Resources are organized into stacks managed as single units
+    with create, update, delete, and drift detection operations. CloudFormation is critical
+    for security because it enables version-controlled, repeatable, and auditable infrastructure
+    deployments while enforcing consistent security baselines. Insecure templates can deploy
+    misconfigured resources at scale, making template security scanning essential.

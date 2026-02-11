@@ -1,0 +1,115 @@
+# GR Atom: SharePoint
+# Schema: atom_schema.yaml v5.1
+# Status: enriched
+
+# ==== Section 1: Identity ====
+identity:
+  id: "INFRA-APP-SHAREPOINT-001"
+  name: "SharePoint"
+  normalized_name: "sharepoint"
+  aliases:
+    - "Microsoft SharePoint"
+    - "SharePoint Online"
+    - "SharePoint Server"
+    - "SharePoint On-Premises"
+    - "SPO"
+
+# ==== Section 2: Classification ====
+classification:
+  is_infrastructure: true
+  type: "component"
+  abstraction_level: 2
+  atom_tags:
+    - WEB
+    - CLOUD
+    - AUTHN
+    - INFO_LEAK
+    - WINDOWS
+
+# ==== Section 3: GR Coordinates (INFRA only) ====
+gr_coordinates:
+  layer: "L7"
+  zone: "Z2"
+  function: "D4.3"
+
+# ==== Section 5: Definition ====
+definition:
+  what: >-
+    Microsoft SharePoint is a web-based collaboration and document management platform providing
+    intranet portals, document libraries, content management, workflow automation, and team
+    collaboration capabilities. Available as SharePoint Online (part of Microsoft 365) and
+    SharePoint Server (on-premises), it serves as a central repository for organizational
+    documents, knowledge bases, and internal communications. The platform supports custom
+    applications through SharePoint Framework (SPFx) and Power Platform integration.
+  why: >-
+    SharePoint is a prime target for data collection and exfiltration due to its role as an
+    organizational knowledge repository containing sensitive documents, financial reports,
+    HR records, and strategic plans. Attackers who compromise SharePoint credentials gain
+    access to vast document libraries. SharePoint Server has a history of critical
+    vulnerabilities including remote code execution flaws (CVE-2019-0604, CVE-2020-16952).
+    Misconfigured sharing settings in SharePoint Online can expose internal documents to
+    external users or the public internet. Malicious SPFx webparts can execute code in the
+    context of visiting users.
+  how: >-
+    SharePoint Online runs on Microsoft 365 infrastructure with Azure Active Directory
+    authentication. SharePoint Server runs on IIS with SQL Server backend. Both versions
+    use site collections, sites, libraries, and lists as content organization structures.
+    Access control uses SharePoint groups, permission levels, and sharing links. The REST
+    API and CSOM (Client-Side Object Model) enable programmatic access. Search service
+    indexes content across all accessible sites. SharePoint Framework (SPFx) allows custom
+    webpart development using JavaScript/TypeScript running in the browser context.
+  core_concepts:
+    - key: "Document Repository Target"
+      value: "SharePoint consolidates organizational documents, financial data, and strategic information making it a high-value target for data collection and exfiltration"
+    - key: "Sharing Misconfiguration"
+      value: "Overly permissive sharing settings in SharePoint Online can expose sensitive documents to external users or public access without administrator awareness"
+    - key: "Server-Side Vulnerabilities"
+      value: "SharePoint Server has a history of critical RCE vulnerabilities in deserialization and web part handling that enable remote compromise"
+
+# ==== Section 6: Relations ====
+relations:
+  - type: "is_a"
+    target: "INFRA-APP-ENTEAPPS-001"
+    description: "SharePoint is a major enterprise collaboration and document management application"
+
+# ==== Section 7: Security Profile ====
+security_profile:
+  mitre_mapping:
+    technique_id: "T1213.002"
+    tactic:
+      - "Collection"
+      - "Initial Access"
+  defense_context:
+    effectiveness: "medium"
+
+# ==== Section 8: Metadata ====
+metadata:
+  created: "2026-02-06"
+  updated: "2026-02-10"
+  version: "1.0"
+  confidence: "high"
+  trust_source: "primary"
+  sources:
+    - "Microsoft SharePoint Security Documentation"
+    - "MITRE ATT&CK T1213.002 - Sharepoint"
+    - "CISA Advisory on SharePoint Server Vulnerabilities"
+  search_keywords:
+    - "SharePoint"
+    - "Microsoft SharePoint"
+    - "SharePoint Online"
+    - "SharePoint vulnerability"
+    - "SharePoint RCE"
+    - "SharePoint data exposure"
+    - "SPFx security"
+    - "SharePoint sharing misconfiguration"
+  embedding_text: >-
+    Microsoft SharePoint is a web-based collaboration and document management platform
+    available as SharePoint Online (Microsoft 365) and SharePoint Server (on-premises).
+    It serves as a central repository for organizational documents, knowledge bases, and
+    intranet content. SharePoint is heavily targeted for data collection due to its
+    consolidation of sensitive documents. SharePoint Server has critical RCE vulnerability
+    history (CVE-2019-0604, CVE-2020-16952). Sharing misconfigurations in SharePoint Online
+    expose internal documents externally. Malicious SPFx webparts can execute code in user
+    browsers. Security teams should audit sharing settings, patch SharePoint Server promptly,
+    restrict SPFx deployment, monitor document access patterns, and enforce least-privilege
+    permissions on site collections and document libraries.
